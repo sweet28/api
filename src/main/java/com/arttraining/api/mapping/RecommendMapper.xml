@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.RecommendMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.Recommend" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="rec_person_id" property="recPersonId" jdbcType="INTEGER" />
+    <result column="rec_person_type" property="recPersonType" jdbcType="VARCHAR" />
+    <result column="occur_time" property="occurTime" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="contact_way" property="contactWay" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    rec_person_id, rec_person_type, occur_time, content, contact_way
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_recommend
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_recommend
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.Recommend" >
+    insert into t_yp_recommend (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, rec_person_id, 
+      rec_person_type, occur_time, content, 
+      contact_way)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{recPersonId,jdbcType=INTEGER}, 
+      #{recPersonType,jdbcType=VARCHAR}, #{occurTime,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{contactWay,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Recommend" >
+    insert into t_yp_recommend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="recPersonId != null" >
+        rec_person_id,
+      </if>
+      <if test="recPersonType != null" >
+        rec_person_type,
+      </if>
+      <if test="occurTime != null" >
+        occur_time,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="contactWay != null" >
+        contact_way,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="recPersonId != null" >
+        #{recPersonId,jdbcType=INTEGER},
+      </if>
+      <if test="recPersonType != null" >
+        #{recPersonType,jdbcType=VARCHAR},
+      </if>
+      <if test="occurTime != null" >
+        #{occurTime,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null" >
+        #{contactWay,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.Recommend" >
+    update t_yp_recommend
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="recPersonId != null" >
+        rec_person_id = #{recPersonId,jdbcType=INTEGER},
+      </if>
+      <if test="recPersonType != null" >
+        rec_person_type = #{recPersonType,jdbcType=VARCHAR},
+      </if>
+      <if test="occurTime != null" >
+        occur_time = #{occurTime,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="contactWay != null" >
+        contact_way = #{contactWay,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.Recommend" >
+    update t_yp_recommend
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      rec_person_id = #{recPersonId,jdbcType=INTEGER},
+      rec_person_type = #{recPersonType,jdbcType=VARCHAR},
+      occur_time = #{occurTime,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      contact_way = #{contactWay,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

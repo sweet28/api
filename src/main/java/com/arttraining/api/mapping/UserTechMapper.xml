@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.UserTechMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.UserTech" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="user_mobile" property="userMobile" jdbcType="VARCHAR" />
+    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+    <result column="head_pic" property="headPic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="specialty" property="specialty" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="INTEGER" />
+    <result column="identity" property="identity" jdbcType="INTEGER" />
+    <result column="authentication" property="authentication" jdbcType="VARCHAR" />
+    <result column="school" property="school" jdbcType="VARCHAR" />
+    <result column="org" property="org" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="rank" property="rank" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="work_num" property="workNum" jdbcType="INTEGER" />
+    <result column="comment_num" property="commentNum" jdbcType="INTEGER" />
+    <result column="fans_num" property="fansNum" jdbcType="INTEGER" />
+    <result column="follow_num" property="followNum" jdbcType="INTEGER" />
+    <result column="group_num" property="groupNum" jdbcType="INTEGER" />
+    <result column="role" property="role" jdbcType="INTEGER" />
+    <result column="power" property="power" jdbcType="INTEGER" />
+    <result column="is_lock" property="isLock" jdbcType="INTEGER" />
+    <result column="locked_time" property="lockedTime" jdbcType="TIMESTAMP" />
+    <result column="works" property="works" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="continue_count" property="continueCount" jdbcType="INTEGER" />
+    <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="ip" property="ip" jdbcType="VARCHAR" />
+    <result column="mac" property="mac" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    user_code, user_mobile, pwd, head_pic, name, sex, specialty, city, identity, authentication, 
+    school, org, score, rank, email, work_num, comment_num, fans_num, follow_num, group_num, 
+    role, power, is_lock, locked_time, works, title, continue_count, last_login_time, 
+    ip, mac
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_user_tech
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_user_tech
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.UserTech" >
+    insert into t_yp_user_tech (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, user_code, 
+      user_mobile, pwd, head_pic, 
+      name, sex, specialty, 
+      city, identity, authentication, 
+      school, org, score, 
+      rank, email, work_num, 
+      comment_num, fans_num, follow_num, 
+      group_num, role, power, 
+      is_lock, locked_time, works, 
+      title, continue_count, last_login_time, 
+      ip, mac)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, 
+      #{userMobile,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{headPic,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, 
+      #{city,jdbcType=INTEGER}, #{identity,jdbcType=INTEGER}, #{authentication,jdbcType=VARCHAR}, 
+      #{school,jdbcType=VARCHAR}, #{org,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
+      #{rank,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{workNum,jdbcType=INTEGER}, 
+      #{commentNum,jdbcType=INTEGER}, #{fansNum,jdbcType=INTEGER}, #{followNum,jdbcType=INTEGER}, 
+      #{groupNum,jdbcType=INTEGER}, #{role,jdbcType=INTEGER}, #{power,jdbcType=INTEGER}, 
+      #{isLock,jdbcType=INTEGER}, #{lockedTime,jdbcType=TIMESTAMP}, #{works,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{continueCount,jdbcType=INTEGER}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
+      #{ip,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.UserTech" >
+    insert into t_yp_user_tech
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="userCode != null" >
+        user_code,
+      </if>
+      <if test="userMobile != null" >
+        user_mobile,
+      </if>
+      <if test="pwd != null" >
+        pwd,
+      </if>
+      <if test="headPic != null" >
+        head_pic,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="specialty != null" >
+        specialty,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="identity != null" >
+        identity,
+      </if>
+      <if test="authentication != null" >
+        authentication,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="org != null" >
+        org,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+      <if test="rank != null" >
+        rank,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="workNum != null" >
+        work_num,
+      </if>
+      <if test="commentNum != null" >
+        comment_num,
+      </if>
+      <if test="fansNum != null" >
+        fans_num,
+      </if>
+      <if test="followNum != null" >
+        follow_num,
+      </if>
+      <if test="groupNum != null" >
+        group_num,
+      </if>
+      <if test="role != null" >
+        role,
+      </if>
+      <if test="power != null" >
+        power,
+      </if>
+      <if test="isLock != null" >
+        is_lock,
+      </if>
+      <if test="lockedTime != null" >
+        locked_time,
+      </if>
+      <if test="works != null" >
+        works,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="continueCount != null" >
+        continue_count,
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time,
+      </if>
+      <if test="ip != null" >
+        ip,
+      </if>
+      <if test="mac != null" >
+        mac,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userMobile != null" >
+        #{userMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="headPic != null" >
+        #{headPic,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null" >
+        #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=INTEGER},
+      </if>
+      <if test="identity != null" >
+        #{identity,jdbcType=INTEGER},
+      </if>
+      <if test="authentication != null" >
+        #{authentication,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="org != null" >
+        #{org,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=INTEGER},
+      </if>
+      <if test="rank != null" >
+        #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="workNum != null" >
+        #{workNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="fansNum != null" >
+        #{fansNum,jdbcType=INTEGER},
+      </if>
+      <if test="followNum != null" >
+        #{followNum,jdbcType=INTEGER},
+      </if>
+      <if test="groupNum != null" >
+        #{groupNum,jdbcType=INTEGER},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=INTEGER},
+      </if>
+      <if test="power != null" >
+        #{power,jdbcType=INTEGER},
+      </if>
+      <if test="isLock != null" >
+        #{isLock,jdbcType=INTEGER},
+      </if>
+      <if test="lockedTime != null" >
+        #{lockedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="works != null" >
+        #{works,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="continueCount != null" >
+        #{continueCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastLoginTime != null" >
+        #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        #{mac,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.UserTech" >
+    update t_yp_user_tech
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null" >
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userMobile != null" >
+        user_mobile = #{userMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="headPic != null" >
+        head_pic = #{headPic,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null" >
+        specialty = #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=INTEGER},
+      </if>
+      <if test="identity != null" >
+        identity = #{identity,jdbcType=INTEGER},
+      </if>
+      <if test="authentication != null" >
+        authentication = #{authentication,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="org != null" >
+        org = #{org,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="rank != null" >
+        rank = #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="workNum != null" >
+        work_num = #{workNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        comment_num = #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="fansNum != null" >
+        fans_num = #{fansNum,jdbcType=INTEGER},
+      </if>
+      <if test="followNum != null" >
+        follow_num = #{followNum,jdbcType=INTEGER},
+      </if>
+      <if test="groupNum != null" >
+        group_num = #{groupNum,jdbcType=INTEGER},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="power != null" >
+        power = #{power,jdbcType=INTEGER},
+      </if>
+      <if test="isLock != null" >
+        is_lock = #{isLock,jdbcType=INTEGER},
+      </if>
+      <if test="lockedTime != null" >
+        locked_time = #{lockedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="works != null" >
+        works = #{works,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="continueCount != null" >
+        continue_count = #{continueCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.UserTech" >
+    update t_yp_user_tech
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      user_code = #{userCode,jdbcType=VARCHAR},
+      user_mobile = #{userMobile,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      head_pic = #{headPic,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      specialty = #{specialty,jdbcType=VARCHAR},
+      city = #{city,jdbcType=INTEGER},
+      identity = #{identity,jdbcType=INTEGER},
+      authentication = #{authentication,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      org = #{org,jdbcType=VARCHAR},
+      score = #{score,jdbcType=INTEGER},
+      rank = #{rank,jdbcType=INTEGER},
+      email = #{email,jdbcType=VARCHAR},
+      work_num = #{workNum,jdbcType=INTEGER},
+      comment_num = #{commentNum,jdbcType=INTEGER},
+      fans_num = #{fansNum,jdbcType=INTEGER},
+      follow_num = #{followNum,jdbcType=INTEGER},
+      group_num = #{groupNum,jdbcType=INTEGER},
+      role = #{role,jdbcType=INTEGER},
+      power = #{power,jdbcType=INTEGER},
+      is_lock = #{isLock,jdbcType=INTEGER},
+      locked_time = #{lockedTime,jdbcType=TIMESTAMP},
+      works = #{works,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      continue_count = #{continueCount,jdbcType=INTEGER},
+      last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      ip = #{ip,jdbcType=VARCHAR},
+      mac = #{mac,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

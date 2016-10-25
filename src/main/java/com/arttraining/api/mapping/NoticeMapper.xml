@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.NoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.Notice" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="code_number" property="codeNumber" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="is_cancel" property="isCancel" jdbcType="INTEGER" />
+    <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
+    <result column="priority" property="priority" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="is_read" property="isRead" jdbcType="INTEGER" />
+    <result column="read_time" property="readTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    code_number, title, content, is_cancel, cancel_time, priority, user_id, user_type, 
+    is_read, read_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_notice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_notice
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.Notice" >
+    insert into t_yp_notice (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, code_number, 
+      title, content, is_cancel, 
+      cancel_time, priority, user_id, 
+      user_type, is_read, read_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{codeNumber,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{isCancel,jdbcType=INTEGER}, 
+      #{cancelTime,jdbcType=TIMESTAMP}, #{priority,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{userType,jdbcType=VARCHAR}, #{isRead,jdbcType=INTEGER}, #{readTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Notice" >
+    insert into t_yp_notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="codeNumber != null" >
+        code_number,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="isCancel != null" >
+        is_cancel,
+      </if>
+      <if test="cancelTime != null" >
+        cancel_time,
+      </if>
+      <if test="priority != null" >
+        priority,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="isRead != null" >
+        is_read,
+      </if>
+      <if test="readTime != null" >
+        read_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="codeNumber != null" >
+        #{codeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isCancel != null" >
+        #{isCancel,jdbcType=INTEGER},
+      </if>
+      <if test="cancelTime != null" >
+        #{cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="isRead != null" >
+        #{isRead,jdbcType=INTEGER},
+      </if>
+      <if test="readTime != null" >
+        #{readTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.Notice" >
+    update t_yp_notice
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="codeNumber != null" >
+        code_number = #{codeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="isCancel != null" >
+        is_cancel = #{isCancel,jdbcType=INTEGER},
+      </if>
+      <if test="cancelTime != null" >
+        cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="priority != null" >
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="isRead != null" >
+        is_read = #{isRead,jdbcType=INTEGER},
+      </if>
+      <if test="readTime != null" >
+        read_time = #{readTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.Notice" >
+    update t_yp_notice
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      code_number = #{codeNumber,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      is_cancel = #{isCancel,jdbcType=INTEGER},
+      cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+      priority = #{priority,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_type = #{userType,jdbcType=VARCHAR},
+      is_read = #{isRead,jdbcType=INTEGER},
+      read_time = #{readTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
