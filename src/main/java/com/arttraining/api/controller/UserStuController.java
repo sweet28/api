@@ -5,7 +5,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.IUserStuService;
@@ -17,11 +19,10 @@ public class UserStuController {
 	@Resource
 	private IUserStuService userService;
 
-	@RequestMapping("/show")
-	public String toIndex(HttpServletRequest request, Model model) {
-		int userId = Integer.parseInt(request.getParameter("id"));
-		UserStu user = this.userService.getUserStuById(userId);
-		model.addAttribute("user", user);
-		return "User";
+	@RequestMapping("/show/{id}")
+	public @ResponseBody UserStu toIndex(@PathVariable("id") Integer id) {
+		UserStu user = this.userService.getUserStuById(id);
+
+		return user;
 	}
 }
