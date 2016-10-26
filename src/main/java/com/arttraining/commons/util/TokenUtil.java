@@ -11,6 +11,12 @@ public class TokenUtil {
 		
 		return token;
 	}
+	
+	public static boolean checkToken(String token){
+		boolean flag = false;
+		
+		return flag;
+	}
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
