@@ -14,7 +14,9 @@ public class TokenUtil {
 	
 	public static boolean checkToken(String token){
 		boolean flag = false;
-		
+		//coffee add
+	    flag = true;
+	    
 		return flag;
 	}
 
