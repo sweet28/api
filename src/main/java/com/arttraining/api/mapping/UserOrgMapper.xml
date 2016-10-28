@@ -35,6 +35,19 @@
     from t_yp_org
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <!-- coffee add 1027  select name-->
+  <sql id="Name_Column" >
+   name
+  </sql>
+  <select id="selectNameByPrimaryKey" resultType="java.lang.String" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Name_Column" />
+    from t_yp_org
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <!-- end -->
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_org
     where id = #{id,jdbcType=INTEGER}

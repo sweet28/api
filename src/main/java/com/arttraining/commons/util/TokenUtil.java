@@ -16,7 +16,9 @@ public class TokenUtil {
 	//todo:验证token是否有效
 	public static boolean checkToken(String token){
 		boolean flag = false;
-		
+		//coffee add
+	    flag = true;
+	    
 		return flag;
 	}
 	

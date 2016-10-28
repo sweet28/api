@@ -12,6 +12,7 @@
     <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="INTEGER" />
     <result column="identity" property="identity" jdbcType="INTEGER" />
+    <result column="org" property="org" jdbcType="INTEGER" />
     <result column="specialty" property="specialty" jdbcType="VARCHAR" />
     <result column="school" property="school" jdbcType="VARCHAR" />
     <result column="intentional_college" property="intentionalCollege" jdbcType="VARCHAR" />
@@ -40,7 +41,7 @@
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, uid, user_code, user_mobile, pwd, head_pic, name, sex, city, identity, specialty, 
+    id, uid, user_code, user_mobile, pwd, head_pic, name, sex, city, identity, org, specialty, 
     school, intentional_college, email, score, rank, work_num, comment_num, fans_num, 
     follow_num, role, power, is_lock, locked_time, works, title, continue_count, last_login_time, 
     ip, mac, is_deleted, create_time, order_code, delete_time, remarks, attachment
@@ -58,7 +59,7 @@
   <insert id="insert" parameterType="com.arttraining.api.pojo.UserStu" >
     insert into t_yp_user_stu (id, uid, user_code, 
       user_mobile, pwd, head_pic, 
-      name, sex, city, identity, 
+      name, sex, city, identity, org,
       specialty, school, intentional_college, 
       email, score, rank, 
       work_num, comment_num, fans_num, 
@@ -71,7 +72,7 @@
     values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, 
       #{userMobile,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{headPic,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{city,jdbcType=INTEGER}, #{identity,jdbcType=INTEGER}, 
-      #{specialty,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{intentionalCollege,jdbcType=VARCHAR}, 
+      #{org,jdbcType=INTEGER}, #{specialty,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, #{intentionalCollege,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, #{rank,jdbcType=INTEGER}, 
       #{workNum,jdbcType=INTEGER}, #{commentNum,jdbcType=INTEGER}, #{fansNum,jdbcType=INTEGER}, 
       #{followNum,jdbcType=INTEGER}, #{role,jdbcType=INTEGER}, #{power,jdbcType=INTEGER}, 
@@ -113,6 +114,9 @@
       </if>
       <if test="identity != null" >
         identity,
+      </if>
+      <if test="org != null" >
+        org,
       </if>
       <if test="specialty != null" >
         specialty,
@@ -224,6 +228,9 @@
       <if test="identity != null" >
         #{identity,jdbcType=INTEGER},
       </if>
+      <if test="org != null" >
+        #{org,jdbcType=INTEGER},
+      </if>
       <if test="specialty != null" >
         #{specialty,jdbcType=VARCHAR},
       </if>
@@ -334,6 +341,9 @@
       <if test="identity != null" >
         identity = #{identity,jdbcType=INTEGER},
       </if>
+      <if test="org != null" >
+        org = #{org,jdbcType=INTEGER},
+      </if>
       <if test="specialty != null" >
         specialty = #{specialty,jdbcType=VARCHAR},
       </if>
@@ -426,6 +436,7 @@
       sex = #{sex,jdbcType=VARCHAR},
       city = #{city,jdbcType=INTEGER},
       identity = #{identity,jdbcType=INTEGER},
+      org = #{org,jdbcType=INTEGER},
       specialty = #{specialty,jdbcType=VARCHAR},
       school = #{school,jdbcType=VARCHAR},
       intentional_college = #{intentionalCollege,jdbcType=VARCHAR},

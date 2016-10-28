@@ -22,6 +22,8 @@ public class UserStu {
     private Integer city;
 
     private Integer identity;
+    
+    private Integer org;
 
     private String specialty;
 
@@ -155,7 +157,15 @@ public class UserStu {
         this.identity = identity;
     }
 
-    public String getSpecialty() {
+    public Integer getOrg() {
+		return org;
+	}
+
+	public void setOrg(Integer org) {
+		this.org = org;
+	}
+
+	public String getSpecialty() {
         return specialty;
     }
 
