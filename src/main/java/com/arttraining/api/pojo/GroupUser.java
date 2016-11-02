@@ -9,6 +9,8 @@ public class GroupUser {
 
     private String headPic;
 
+    private Integer userId;
+
     private String userType;
 
     private Integer groupId;
@@ -49,6 +51,14 @@ public class GroupUser {
 
     public void setHeadPic(String headPic) {
         this.headPic = headPic == null ? null : headPic.trim();
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
     public String getUserType() {

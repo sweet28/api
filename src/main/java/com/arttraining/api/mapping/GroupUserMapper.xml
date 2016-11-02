@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="uuid" property="uuid" jdbcType="VARCHAR" />
     <result column="head_pic" property="headPic" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="user_type" property="userType" jdbcType="VARCHAR" />
     <result column="group_id" property="groupId" jdbcType="INTEGER" />
     <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
@@ -16,8 +17,8 @@
     <result column="identity" property="identity" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, uuid, head_pic, user_type, group_id, is_deleted, create_time, order_code, delete_time, 
-    remarks, attachment, identity
+    id, uuid, head_pic, user_id, user_type, group_id, is_deleted, create_time, order_code, 
+    delete_time, remarks, attachment, identity
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -31,15 +32,15 @@
   </delete>
   <insert id="insert" parameterType="com.arttraining.api.pojo.GroupUser" >
     insert into t_yp_group_user (id, uuid, head_pic, 
-      user_type, group_id, is_deleted, 
-      create_time, order_code, delete_time, 
-      remarks, attachment, identity
-      )
+      user_id, user_type, group_id, 
+      is_deleted, create_time, order_code, 
+      delete_time, remarks, attachment, 
+      identity)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{headPic,jdbcType=VARCHAR}, 
-      #{userType,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
-      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{identity,jdbcType=VARCHAR}
-      )
+      #{userId,jdbcType=INTEGER}, #{userType,jdbcType=VARCHAR}, #{groupId,jdbcType=INTEGER}, 
+      #{isDeleted,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, 
+      #{deleteTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, 
+      #{identity,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.GroupUser" >
     insert into t_yp_group_user
@@ -52,6 +53,9 @@
       </if>
       <if test="headPic != null" >
         head_pic,
+      </if>
+      <if test="userId != null" >
+        user_id,
       </if>
       <if test="userType != null" >
         user_type,
@@ -91,6 +95,9 @@
       <if test="headPic != null" >
         #{headPic,jdbcType=VARCHAR},
       </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
       <if test="userType != null" >
         #{userType,jdbcType=VARCHAR},
       </if>
@@ -129,6 +136,9 @@
       <if test="headPic != null" >
         head_pic = #{headPic,jdbcType=VARCHAR},
       </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
       <if test="userType != null" >
         user_type = #{userType,jdbcType=VARCHAR},
       </if>
@@ -163,6 +173,7 @@
     update t_yp_group_user
     set uuid = #{uuid,jdbcType=VARCHAR},
       head_pic = #{headPic,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
       user_type = #{userType,jdbcType=VARCHAR},
       group_id = #{groupId,jdbcType=INTEGER},
       is_deleted = #{isDeleted,jdbcType=INTEGER},
