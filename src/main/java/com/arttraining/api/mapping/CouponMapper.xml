@@ -13,7 +13,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="describe" property="describe" jdbcType="VARCHAR" />
     <result column="expiry_date" property="expiryDate" jdbcType="TIMESTAMP" />
-    <result column="face_value" property="faceValue" jdbcType="VARCHAR" />
+    <result column="face_value" property="faceValue" jdbcType="DOUBLE" />
     <result column="face_value_type" property="faceValueType" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="is_used" property="isUsed" jdbcType="INTEGER" />
@@ -42,7 +42,7 @@
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{describe,jdbcType=VARCHAR}, #{expiryDate,jdbcType=TIMESTAMP}, #{faceValue,jdbcType=VARCHAR}, 
+      #{describe,jdbcType=VARCHAR}, #{expiryDate,jdbcType=TIMESTAMP}, #{faceValue,jdbcType=DOUBLE}, 
       #{faceValueType,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{isUsed,jdbcType=INTEGER}
       )
   </insert>
@@ -130,7 +130,7 @@
         #{expiryDate,jdbcType=TIMESTAMP},
       </if>
       <if test="faceValue != null" >
-        #{faceValue,jdbcType=VARCHAR},
+        #{faceValue,jdbcType=DOUBLE},
       </if>
       <if test="faceValueType != null" >
         #{faceValueType,jdbcType=VARCHAR},
@@ -177,7 +177,7 @@
         expiry_date = #{expiryDate,jdbcType=TIMESTAMP},
       </if>
       <if test="faceValue != null" >
-        face_value = #{faceValue,jdbcType=VARCHAR},
+        face_value = #{faceValue,jdbcType=DOUBLE},
       </if>
       <if test="faceValueType != null" >
         face_value_type = #{faceValueType,jdbcType=VARCHAR},
@@ -203,7 +203,7 @@
       name = #{name,jdbcType=VARCHAR},
       describe = #{describe,jdbcType=VARCHAR},
       expiry_date = #{expiryDate,jdbcType=TIMESTAMP},
-      face_value = #{faceValue,jdbcType=VARCHAR},
+      face_value = #{faceValue,jdbcType=DOUBLE},
       face_value_type = #{faceValueType,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       is_used = #{isUsed,jdbcType=INTEGER}

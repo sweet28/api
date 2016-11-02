@@ -19,17 +19,19 @@ public class UserStu {
 
     private String sex;
 
-    private Integer city;
+    private Integer cityId;
 
-    private Integer identity;
-    
-    private Integer org;
+    private String cityName;
 
-    private String specialty;
+    private Integer identityId;
 
-    private String school;
+    private String specialtyId;
 
-    private String intentionalCollege;
+    private String schoolName;
+
+    private String intentionalCollegeName;
+
+    private Integer intentionalCollegeId;
 
     private String email;
 
@@ -44,6 +46,8 @@ public class UserStu {
     private Integer fansNum;
 
     private Integer followNum;
+
+    private Integer groupNum;
 
     private Integer role;
 
@@ -76,6 +80,16 @@ public class UserStu {
     private String remarks;
 
     private String attachment;
+
+    private String identityName;
+
+    private String specialtyName;
+
+    private Integer schoolId;
+
+    private Integer orgId;
+
+    private String orgName;
 
     public Integer getId() {
         return id;
@@ -141,52 +155,60 @@ public class UserStu {
         this.sex = sex == null ? null : sex.trim();
     }
 
-    public Integer getCity() {
-        return city;
+    public Integer getCityId() {
+        return cityId;
     }
 
-    public void setCity(Integer city) {
-        this.city = city;
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
     }
 
-    public Integer getIdentity() {
-        return identity;
+    public String getCityName() {
+        return cityName;
     }
 
-    public void setIdentity(Integer identity) {
-        this.identity = identity;
+    public void setCityName(String cityName) {
+        this.cityName = cityName == null ? null : cityName.trim();
     }
 
-    public Integer getOrg() {
-		return org;
-	}
-
-	public void setOrg(Integer org) {
-		this.org = org;
-	}
-
-	public String getSpecialty() {
-        return specialty;
+    public Integer getIdentityId() {
+        return identityId;
     }
 
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty == null ? null : specialty.trim();
+    public void setIdentityId(Integer identityId) {
+        this.identityId = identityId;
     }
 
-    public String getSchool() {
-        return school;
+    public String getSpecialtyId() {
+        return specialtyId;
     }
 
-    public void setSchool(String school) {
-        this.school = school == null ? null : school.trim();
+    public void setSpecialtyId(String specialtyId) {
+        this.specialtyId = specialtyId == null ? null : specialtyId.trim();
     }
 
-    public String getIntentionalCollege() {
-        return intentionalCollege;
+    public String getSchoolName() {
+        return schoolName;
     }
 
-    public void setIntentionalCollege(String intentionalCollege) {
-        this.intentionalCollege = intentionalCollege == null ? null : intentionalCollege.trim();
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName == null ? null : schoolName.trim();
+    }
+
+    public String getIntentionalCollegeName() {
+        return intentionalCollegeName;
+    }
+
+    public void setIntentionalCollegeName(String intentionalCollegeName) {
+        this.intentionalCollegeName = intentionalCollegeName == null ? null : intentionalCollegeName.trim();
+    }
+
+    public Integer getIntentionalCollegeId() {
+        return intentionalCollegeId;
+    }
+
+    public void setIntentionalCollegeId(Integer intentionalCollegeId) {
+        this.intentionalCollegeId = intentionalCollegeId;
     }
 
     public String getEmail() {
@@ -243,6 +265,14 @@ public class UserStu {
 
     public void setFollowNum(Integer followNum) {
         this.followNum = followNum;
+    }
+
+    public Integer getGroupNum() {
+        return groupNum;
+    }
+
+    public void setGroupNum(Integer groupNum) {
+        this.groupNum = groupNum;
     }
 
     public Integer getRole() {
@@ -371,5 +401,45 @@ public class UserStu {
 
     public void setAttachment(String attachment) {
         this.attachment = attachment == null ? null : attachment.trim();
+    }
+
+    public String getIdentityName() {
+        return identityName;
+    }
+
+    public void setIdentityName(String identityName) {
+        this.identityName = identityName == null ? null : identityName.trim();
+    }
+
+    public String getSpecialtyName() {
+        return specialtyName;
+    }
+
+    public void setSpecialtyName(String specialtyName) {
+        this.specialtyName = specialtyName == null ? null : specialtyName.trim();
+    }
+
+    public Integer getSchoolId() {
+        return schoolId;
+    }
+
+    public void setSchoolId(Integer schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public Integer getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Integer orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName == null ? null : orgName.trim();
     }
 }

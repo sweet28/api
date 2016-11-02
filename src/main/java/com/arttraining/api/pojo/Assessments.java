@@ -43,6 +43,12 @@ public class Assessments {
 
     private Integer workId;
 
+    private String stuName;
+
+    private String tecName;
+
+    private String assType;
+
     public Integer getId() {
         return id;
     }
@@ -201,5 +207,29 @@ public class Assessments {
 
     public void setWorkId(Integer workId) {
         this.workId = workId;
+    }
+
+    public String getStuName() {
+        return stuName;
+    }
+
+    public void setStuName(String stuName) {
+        this.stuName = stuName == null ? null : stuName.trim();
+    }
+
+    public String getTecName() {
+        return tecName;
+    }
+
+    public void setTecName(String tecName) {
+        this.tecName = tecName == null ? null : tecName.trim();
+    }
+
+    public String getAssType() {
+        return assType;
+    }
+
+    public void setAssType(String assType) {
+        this.assType = assType == null ? null : assType.trim();
     }
 }

@@ -18,10 +18,14 @@
     <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
     <result column="money" property="money" jdbcType="VARCHAR" />
     <result column="auditor" property="auditor" jdbcType="VARCHAR" />
+    <result column="coupon_pay" property="couponPay" jdbcType="DOUBLE" />
+    <result column="final_pay" property="finalPay" jdbcType="DOUBLE" />
+    <result column="pay_type" property="payType" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    code_number, user_id, type, status, pay_time, cancel_time, money, auditor
+    code_number, user_id, type, status, pay_time, cancel_time, money, auditor, coupon_pay, 
+    final_pay, pay_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -39,13 +43,15 @@
       remarks, attachment, code_number, 
       user_id, type, status, 
       pay_time, cancel_time, money, 
-      auditor)
+      auditor, coupon_pay, final_pay, 
+      pay_type)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{codeNumber,jdbcType=VARCHAR}, 
       #{userId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{payTime,jdbcType=TIMESTAMP}, #{cancelTime,jdbcType=TIMESTAMP}, #{money,jdbcType=VARCHAR}, 
-      #{auditor,jdbcType=VARCHAR})
+      #{auditor,jdbcType=VARCHAR}, #{couponPay,jdbcType=DOUBLE}, #{finalPay,jdbcType=DOUBLE}, 
+      #{payType,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Order" >
     insert into t_yp_order
@@ -98,6 +104,15 @@
       <if test="auditor != null" >
         auditor,
       </if>
+      <if test="couponPay != null" >
+        coupon_pay,
+      </if>
+      <if test="finalPay != null" >
+        final_pay,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -147,6 +162,15 @@
       </if>
       <if test="auditor != null" >
         #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="couponPay != null" >
+        #{couponPay,jdbcType=DOUBLE},
+      </if>
+      <if test="finalPay != null" >
+        #{finalPay,jdbcType=DOUBLE},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
@@ -198,6 +222,15 @@
       <if test="auditor != null" >
         auditor = #{auditor,jdbcType=VARCHAR},
       </if>
+      <if test="couponPay != null" >
+        coupon_pay = #{couponPay,jdbcType=DOUBLE},
+      </if>
+      <if test="finalPay != null" >
+        final_pay = #{finalPay,jdbcType=DOUBLE},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=DOUBLE},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -217,7 +250,10 @@
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
       money = #{money,jdbcType=VARCHAR},
-      auditor = #{auditor,jdbcType=VARCHAR}
+      auditor = #{auditor,jdbcType=VARCHAR},
+      coupon_pay = #{couponPay,jdbcType=DOUBLE},
+      final_pay = #{finalPay,jdbcType=DOUBLE},
+      pay_type = #{payType,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

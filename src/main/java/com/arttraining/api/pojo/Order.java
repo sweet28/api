@@ -35,6 +35,12 @@ public class Order {
 
     private String auditor;
 
+    private Double couponPay;
+
+    private Double finalPay;
+
+    private Double payType;
+
     public Integer getId() {
         return id;
     }
@@ -161,5 +167,29 @@ public class Order {
 
     public void setAuditor(String auditor) {
         this.auditor = auditor == null ? null : auditor.trim();
+    }
+
+    public Double getCouponPay() {
+        return couponPay;
+    }
+
+    public void setCouponPay(Double couponPay) {
+        this.couponPay = couponPay;
+    }
+
+    public Double getFinalPay() {
+        return finalPay;
+    }
+
+    public void setFinalPay(Double finalPay) {
+        this.finalPay = finalPay;
+    }
+
+    public Double getPayType() {
+        return payType;
+    }
+
+    public void setPayType(Double payType) {
+        this.payType = payType;
     }
 }

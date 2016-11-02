@@ -25,6 +25,8 @@ public class GroupUser {
 
     private String attachment;
 
+    private String identity;
+
     public Integer getId() {
         return id;
     }
@@ -111,5 +113,13 @@ public class GroupUser {
 
     public void setAttachment(String attachment) {
         this.attachment = attachment == null ? null : attachment.trim();
+    }
+
+    public String getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(String identity) {
+        this.identity = identity == null ? null : identity.trim();
     }
 }

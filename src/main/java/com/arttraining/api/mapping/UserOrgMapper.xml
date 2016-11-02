@@ -17,17 +17,24 @@
     <result column="introduction" property="introduction" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
-    <result column="city" property="city" jdbcType="INTEGER" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="city_father" property="cityFather" jdbcType="VARCHAR" />
+    <result column="org_type" property="orgType" jdbcType="VARCHAR" />
+    <result column="skill" property="skill" jdbcType="VARCHAR" />
     <result column="authentication" property="authentication" jdbcType="VARCHAR" />
     <result column="comment_num" property="commentNum" jdbcType="INTEGER" />
     <result column="fans_num" property="fansNum" jdbcType="INTEGER" />
     <result column="follow_num" property="followNum" jdbcType="INTEGER" />
     <result column="browse_num" property="browseNum" jdbcType="INTEGER" />
+    <result column="group_num" property="groupNum" jdbcType="INTEGER" />
+    <result column="evaluate_num" property="evaluateNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    login_name, pwd, pic, name, introduction, email, phone, city, authentication, comment_num, 
-    fans_num, follow_num, browse_num
+    login_name, pwd, pic, name, introduction, email, phone, city_id, city_name, city_father, 
+    org_type, skill, authentication, comment_num, fans_num, follow_num, browse_num, group_num, 
+    evaluate_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -35,19 +42,6 @@
     from t_yp_org
     where id = #{id,jdbcType=INTEGER}
   </select>
-  
-  <!-- coffee add 1027  select name-->
-  <sql id="Name_Column" >
-   name
-  </sql>
-  <select id="selectNameByPrimaryKey" resultType="java.lang.String" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Name_Column" />
-    from t_yp_org
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <!-- end -->
-  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_org
     where id = #{id,jdbcType=INTEGER}
@@ -57,16 +51,20 @@
       create_time, order_code, delete_time, 
       remarks, attachment, login_name, 
       pwd, pic, name, introduction, 
-      email, phone, city, 
-      authentication, comment_num, fans_num, 
-      follow_num, browse_num)
+      email, phone, city_id, 
+      city_name, city_father, org_type, 
+      skill, authentication, comment_num, 
+      fans_num, follow_num, browse_num, 
+      group_num, evaluate_num)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
       #{pwd,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{city,jdbcType=INTEGER}, 
-      #{authentication,jdbcType=VARCHAR}, #{commentNum,jdbcType=INTEGER}, #{fansNum,jdbcType=INTEGER}, 
-      #{followNum,jdbcType=INTEGER}, #{browseNum,jdbcType=INTEGER})
+      #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, 
+      #{cityName,jdbcType=VARCHAR}, #{cityFather,jdbcType=VARCHAR}, #{orgType,jdbcType=VARCHAR}, 
+      #{skill,jdbcType=VARCHAR}, #{authentication,jdbcType=VARCHAR}, #{commentNum,jdbcType=INTEGER}, 
+      #{fansNum,jdbcType=INTEGER}, #{followNum,jdbcType=INTEGER}, #{browseNum,jdbcType=INTEGER}, 
+      #{groupNum,jdbcType=INTEGER}, #{evaluateNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.UserOrg" >
     insert into t_yp_org
@@ -116,8 +114,20 @@
       <if test="phone != null" >
         phone,
       </if>
-      <if test="city != null" >
-        city,
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="cityName != null" >
+        city_name,
+      </if>
+      <if test="cityFather != null" >
+        city_father,
+      </if>
+      <if test="orgType != null" >
+        org_type,
+      </if>
+      <if test="skill != null" >
+        skill,
       </if>
       <if test="authentication != null" >
         authentication,
@@ -133,6 +143,12 @@
       </if>
       <if test="browseNum != null" >
         browse_num,
+      </if>
+      <if test="groupNum != null" >
+        group_num,
+      </if>
+      <if test="evaluateNum != null" >
+        evaluate_num,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -181,8 +197,20 @@
       <if test="phone != null" >
         #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="city != null" >
-        #{city,jdbcType=INTEGER},
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityFather != null" >
+        #{cityFather,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null" >
+        #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="skill != null" >
+        #{skill,jdbcType=VARCHAR},
       </if>
       <if test="authentication != null" >
         #{authentication,jdbcType=VARCHAR},
@@ -198,6 +226,12 @@
       </if>
       <if test="browseNum != null" >
         #{browseNum,jdbcType=INTEGER},
+      </if>
+      <if test="groupNum != null" >
+        #{groupNum,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateNum != null" >
+        #{evaluateNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -246,8 +280,20 @@
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
       </if>
-      <if test="city != null" >
-        city = #{city,jdbcType=INTEGER},
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityFather != null" >
+        city_father = #{cityFather,jdbcType=VARCHAR},
+      </if>
+      <if test="orgType != null" >
+        org_type = #{orgType,jdbcType=VARCHAR},
+      </if>
+      <if test="skill != null" >
+        skill = #{skill,jdbcType=VARCHAR},
       </if>
       <if test="authentication != null" >
         authentication = #{authentication,jdbcType=VARCHAR},
@@ -263,6 +309,12 @@
       </if>
       <if test="browseNum != null" >
         browse_num = #{browseNum,jdbcType=INTEGER},
+      </if>
+      <if test="groupNum != null" >
+        group_num = #{groupNum,jdbcType=INTEGER},
+      </if>
+      <if test="evaluateNum != null" >
+        evaluate_num = #{evaluateNum,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -283,12 +335,18 @@
       introduction = #{introduction,jdbcType=VARCHAR},
       email = #{email,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
-      city = #{city,jdbcType=INTEGER},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      city_father = #{cityFather,jdbcType=VARCHAR},
+      org_type = #{orgType,jdbcType=VARCHAR},
+      skill = #{skill,jdbcType=VARCHAR},
       authentication = #{authentication,jdbcType=VARCHAR},
       comment_num = #{commentNum,jdbcType=INTEGER},
       fans_num = #{fansNum,jdbcType=INTEGER},
       follow_num = #{followNum,jdbcType=INTEGER},
-      browse_num = #{browseNum,jdbcType=INTEGER}
+      browse_num = #{browseNum,jdbcType=INTEGER},
+      group_num = #{groupNum,jdbcType=INTEGER},
+      evaluate_num = #{evaluateNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

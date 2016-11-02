@@ -25,7 +25,7 @@ public class Coupon {
 
     private Date expiryDate;
 
-    private String faceValue;
+    private Double faceValue;
 
     private String faceValueType;
 
@@ -121,12 +121,12 @@ public class Coupon {
         this.expiryDate = expiryDate;
     }
 
-    public String getFaceValue() {
+    public Double getFaceValue() {
         return faceValue;
     }
 
-    public void setFaceValue(String faceValue) {
-        this.faceValue = faceValue == null ? null : faceValue.trim();
+    public void setFaceValue(Double faceValue) {
+        this.faceValue = faceValue;
     }
 
     public String getFaceValueType() {

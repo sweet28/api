@@ -16,12 +16,18 @@
     <result column="head_pic" property="headPic" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="VARCHAR" />
-    <result column="specialty" property="specialty" jdbcType="VARCHAR" />
-    <result column="city" property="city" jdbcType="INTEGER" />
-    <result column="identity" property="identity" jdbcType="INTEGER" />
+    <result column="specialty_id" property="specialtyId" jdbcType="INTEGER" />
+    <result column="specialty_name" property="specialtyName" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="city_father" property="cityFather" jdbcType="VARCHAR" />
+    <result column="identity_id" property="identityId" jdbcType="INTEGER" />
+    <result column="identity_name" property="identityName" jdbcType="VARCHAR" />
     <result column="authentication" property="authentication" jdbcType="VARCHAR" />
-    <result column="school" property="school" jdbcType="VARCHAR" />
-    <result column="org" property="org" jdbcType="VARCHAR" />
+    <result column="school_id" property="schoolId" jdbcType="INTEGER" />
+    <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
     <result column="score" property="score" jdbcType="INTEGER" />
     <result column="rank" property="rank" jdbcType="INTEGER" />
     <result column="email" property="email" jdbcType="VARCHAR" />
@@ -40,13 +46,17 @@
     <result column="last_login_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="mac" property="mac" jdbcType="VARCHAR" />
+    <result column="ass_pay" property="assPay" jdbcType="DOUBLE" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="skill" property="skill" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    user_code, user_mobile, pwd, head_pic, name, sex, specialty, city, identity, authentication, 
-    school, org, score, rank, email, work_num, comment_num, fans_num, follow_num, group_num, 
-    role, power, is_lock, locked_time, works, title, continue_count, last_login_time, 
-    ip, mac
+    user_code, user_mobile, pwd, head_pic, name, sex, specialty_id, specialty_name, city_id, 
+    city_name, city_father, identity_id, identity_name, authentication, school_id, school_name, 
+    org_id, org_name, score, rank, email, work_num, comment_num, fans_num, follow_num, 
+    group_num, role, power, is_lock, locked_time, works, title, continue_count, last_login_time, 
+    ip, mac, ass_pay, introduction, skill
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -63,28 +73,34 @@
       create_time, order_code, delete_time, 
       remarks, attachment, user_code, 
       user_mobile, pwd, head_pic, 
-      name, sex, specialty, 
-      city, identity, authentication, 
-      school, org, score, 
+      name, sex, specialty_id, 
+      specialty_name, city_id, city_name, 
+      city_father, identity_id, identity_name, 
+      authentication, school_id, school_name, 
+      org_id, org_name, score, 
       rank, email, work_num, 
       comment_num, fans_num, follow_num, 
       group_num, role, power, 
       is_lock, locked_time, works, 
       title, continue_count, last_login_time, 
-      ip, mac)
+      ip, mac, ass_pay, introduction, 
+      skill)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, 
       #{userMobile,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{headPic,jdbcType=VARCHAR}, 
-      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, 
-      #{city,jdbcType=INTEGER}, #{identity,jdbcType=INTEGER}, #{authentication,jdbcType=VARCHAR}, 
-      #{school,jdbcType=VARCHAR}, #{org,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{specialtyId,jdbcType=INTEGER}, 
+      #{specialtyName,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
+      #{cityFather,jdbcType=VARCHAR}, #{identityId,jdbcType=INTEGER}, #{identityName,jdbcType=VARCHAR}, 
+      #{authentication,jdbcType=VARCHAR}, #{schoolId,jdbcType=INTEGER}, #{schoolName,jdbcType=VARCHAR}, 
+      #{orgId,jdbcType=INTEGER}, #{orgName,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, 
       #{rank,jdbcType=INTEGER}, #{email,jdbcType=VARCHAR}, #{workNum,jdbcType=INTEGER}, 
       #{commentNum,jdbcType=INTEGER}, #{fansNum,jdbcType=INTEGER}, #{followNum,jdbcType=INTEGER}, 
       #{groupNum,jdbcType=INTEGER}, #{role,jdbcType=INTEGER}, #{power,jdbcType=INTEGER}, 
       #{isLock,jdbcType=INTEGER}, #{lockedTime,jdbcType=TIMESTAMP}, #{works,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{continueCount,jdbcType=INTEGER}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR})
+      #{ip,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, #{assPay,jdbcType=DOUBLE}, #{introduction,jdbcType=VARCHAR}, 
+      #{skill,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.UserTech" >
     insert into t_yp_user_tech
@@ -131,23 +147,41 @@
       <if test="sex != null" >
         sex,
       </if>
-      <if test="specialty != null" >
-        specialty,
+      <if test="specialtyId != null" >
+        specialty_id,
       </if>
-      <if test="city != null" >
-        city,
+      <if test="specialtyName != null" >
+        specialty_name,
       </if>
-      <if test="identity != null" >
-        identity,
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="cityName != null" >
+        city_name,
+      </if>
+      <if test="cityFather != null" >
+        city_father,
+      </if>
+      <if test="identityId != null" >
+        identity_id,
+      </if>
+      <if test="identityName != null" >
+        identity_name,
       </if>
       <if test="authentication != null" >
         authentication,
       </if>
-      <if test="school != null" >
-        school,
+      <if test="schoolId != null" >
+        school_id,
       </if>
-      <if test="org != null" >
-        org,
+      <if test="schoolName != null" >
+        school_name,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
       </if>
       <if test="score != null" >
         score,
@@ -203,6 +237,15 @@
       <if test="mac != null" >
         mac,
       </if>
+      <if test="assPay != null" >
+        ass_pay,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="skill != null" >
+        skill,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -247,23 +290,41 @@
       <if test="sex != null" >
         #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="specialty != null" >
-        #{specialty,jdbcType=VARCHAR},
+      <if test="specialtyId != null" >
+        #{specialtyId,jdbcType=INTEGER},
       </if>
-      <if test="city != null" >
-        #{city,jdbcType=INTEGER},
+      <if test="specialtyName != null" >
+        #{specialtyName,jdbcType=VARCHAR},
       </if>
-      <if test="identity != null" >
-        #{identity,jdbcType=INTEGER},
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityFather != null" >
+        #{cityFather,jdbcType=VARCHAR},
+      </if>
+      <if test="identityId != null" >
+        #{identityId,jdbcType=INTEGER},
+      </if>
+      <if test="identityName != null" >
+        #{identityName,jdbcType=VARCHAR},
       </if>
       <if test="authentication != null" >
         #{authentication,jdbcType=VARCHAR},
       </if>
-      <if test="school != null" >
-        #{school,jdbcType=VARCHAR},
+      <if test="schoolId != null" >
+        #{schoolId,jdbcType=INTEGER},
       </if>
-      <if test="org != null" >
-        #{org,jdbcType=VARCHAR},
+      <if test="schoolName != null" >
+        #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
       </if>
       <if test="score != null" >
         #{score,jdbcType=INTEGER},
@@ -319,6 +380,15 @@
       <if test="mac != null" >
         #{mac,jdbcType=VARCHAR},
       </if>
+      <if test="assPay != null" >
+        #{assPay,jdbcType=DOUBLE},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="skill != null" >
+        #{skill,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.UserTech" >
@@ -363,23 +433,41 @@
       <if test="sex != null" >
         sex = #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="specialty != null" >
-        specialty = #{specialty,jdbcType=VARCHAR},
+      <if test="specialtyId != null" >
+        specialty_id = #{specialtyId,jdbcType=INTEGER},
       </if>
-      <if test="city != null" >
-        city = #{city,jdbcType=INTEGER},
+      <if test="specialtyName != null" >
+        specialty_name = #{specialtyName,jdbcType=VARCHAR},
       </if>
-      <if test="identity != null" >
-        identity = #{identity,jdbcType=INTEGER},
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityFather != null" >
+        city_father = #{cityFather,jdbcType=VARCHAR},
+      </if>
+      <if test="identityId != null" >
+        identity_id = #{identityId,jdbcType=INTEGER},
+      </if>
+      <if test="identityName != null" >
+        identity_name = #{identityName,jdbcType=VARCHAR},
       </if>
       <if test="authentication != null" >
         authentication = #{authentication,jdbcType=VARCHAR},
       </if>
-      <if test="school != null" >
-        school = #{school,jdbcType=VARCHAR},
+      <if test="schoolId != null" >
+        school_id = #{schoolId,jdbcType=INTEGER},
       </if>
-      <if test="org != null" >
-        org = #{org,jdbcType=VARCHAR},
+      <if test="schoolName != null" >
+        school_name = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
       </if>
       <if test="score != null" >
         score = #{score,jdbcType=INTEGER},
@@ -435,6 +523,15 @@
       <if test="mac != null" >
         mac = #{mac,jdbcType=VARCHAR},
       </if>
+      <if test="assPay != null" >
+        ass_pay = #{assPay,jdbcType=DOUBLE},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
+      <if test="skill != null" >
+        skill = #{skill,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -453,12 +550,18 @@
       head_pic = #{headPic,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
-      specialty = #{specialty,jdbcType=VARCHAR},
-      city = #{city,jdbcType=INTEGER},
-      identity = #{identity,jdbcType=INTEGER},
+      specialty_id = #{specialtyId,jdbcType=INTEGER},
+      specialty_name = #{specialtyName,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      city_father = #{cityFather,jdbcType=VARCHAR},
+      identity_id = #{identityId,jdbcType=INTEGER},
+      identity_name = #{identityName,jdbcType=VARCHAR},
       authentication = #{authentication,jdbcType=VARCHAR},
-      school = #{school,jdbcType=VARCHAR},
-      org = #{org,jdbcType=VARCHAR},
+      school_id = #{schoolId,jdbcType=INTEGER},
+      school_name = #{schoolName,jdbcType=VARCHAR},
+      org_id = #{orgId,jdbcType=INTEGER},
+      org_name = #{orgName,jdbcType=VARCHAR},
       score = #{score,jdbcType=INTEGER},
       rank = #{rank,jdbcType=INTEGER},
       email = #{email,jdbcType=VARCHAR},
@@ -476,7 +579,10 @@
       continue_count = #{continueCount,jdbcType=INTEGER},
       last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
       ip = #{ip,jdbcType=VARCHAR},
-      mac = #{mac,jdbcType=VARCHAR}
+      mac = #{mac,jdbcType=VARCHAR},
+      ass_pay = #{assPay,jdbcType=DOUBLE},
+      introduction = #{introduction,jdbcType=VARCHAR},
+      skill = #{skill,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

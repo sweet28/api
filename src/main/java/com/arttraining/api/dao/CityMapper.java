@@ -14,7 +14,4 @@ public interface CityMapper {
     int updateByPrimaryKeySelective(City record);
 
     int updateByPrimaryKey(City record);
-    
-    //coffee add 1027 依据城市地域ID获取相应的城市地域名称
-    String selectNameByPrimaryKey(Integer id);
 }

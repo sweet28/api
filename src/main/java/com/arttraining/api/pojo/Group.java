@@ -37,6 +37,10 @@ public class Group {
 
     private String attachment;
 
+    private Integer peopleNum;
+
+    private Integer statusNum;
+
     public Integer getId() {
         return id;
     }
@@ -171,5 +175,21 @@ public class Group {
 
     public void setAttachment(String attachment) {
         this.attachment = attachment == null ? null : attachment.trim();
+    }
+
+    public Integer getPeopleNum() {
+        return peopleNum;
+    }
+
+    public void setPeopleNum(Integer peopleNum) {
+        this.peopleNum = peopleNum;
+    }
+
+    public Integer getStatusNum() {
+        return statusNum;
+    }
+
+    public void setStatusNum(Integer statusNum) {
+        this.statusNum = statusNum;
     }
 }

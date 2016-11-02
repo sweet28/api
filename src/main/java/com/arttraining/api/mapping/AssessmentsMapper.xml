@@ -22,11 +22,14 @@
     <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
     <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
     <result column="work_id" property="workId" jdbcType="INTEGER" />
+    <result column="stu_name" property="stuName" jdbcType="VARCHAR" />
+    <result column="tec_name" property="tecName" jdbcType="VARCHAR" />
+    <result column="ass_type" property="assType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     order_number, order_id, codes, stu_id, tec_id, status, ass_time, money, is_pay, pay_time, 
-    cancel_time, work_id
+    cancel_time, work_id, stu_name, tec_name, ass_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -45,14 +48,16 @@
       order_id, codes, stu_id, 
       tec_id, status, ass_time, 
       money, is_pay, pay_time, 
-      cancel_time, work_id)
+      cancel_time, work_id, stu_name, 
+      tec_name, ass_type)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, 
       #{orderId,jdbcType=INTEGER}, #{codes,jdbcType=VARCHAR}, #{stuId,jdbcType=INTEGER}, 
       #{tecId,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{assTime,jdbcType=TIMESTAMP}, 
       #{money,jdbcType=VARCHAR}, #{isPay,jdbcType=INTEGER}, #{payTime,jdbcType=TIMESTAMP}, 
-      #{cancelTime,jdbcType=TIMESTAMP}, #{workId,jdbcType=INTEGER})
+      #{cancelTime,jdbcType=TIMESTAMP}, #{workId,jdbcType=INTEGER}, #{stuName,jdbcType=VARCHAR}, 
+      #{tecName,jdbcType=VARCHAR}, #{assType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Assessments" >
     insert into t_yp_assessments
@@ -117,6 +122,15 @@
       <if test="workId != null" >
         work_id,
       </if>
+      <if test="stuName != null" >
+        stu_name,
+      </if>
+      <if test="tecName != null" >
+        tec_name,
+      </if>
+      <if test="assType != null" >
+        ass_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -178,6 +192,15 @@
       </if>
       <if test="workId != null" >
         #{workId,jdbcType=INTEGER},
+      </if>
+      <if test="stuName != null" >
+        #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="tecName != null" >
+        #{tecName,jdbcType=VARCHAR},
+      </if>
+      <if test="assType != null" >
+        #{assType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -241,6 +264,15 @@
       <if test="workId != null" >
         work_id = #{workId,jdbcType=INTEGER},
       </if>
+      <if test="stuName != null" >
+        stu_name = #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="tecName != null" >
+        tec_name = #{tecName,jdbcType=VARCHAR},
+      </if>
+      <if test="assType != null" >
+        ass_type = #{assType,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -264,7 +296,10 @@
       is_pay = #{isPay,jdbcType=INTEGER},
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
-      work_id = #{workId,jdbcType=INTEGER}
+      work_id = #{workId,jdbcType=INTEGER},
+      stu_name = #{stuName,jdbcType=VARCHAR},
+      tec_name = #{tecName,jdbcType=VARCHAR},
+      ass_type = #{assType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

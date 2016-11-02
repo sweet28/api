@@ -14,7 +14,4 @@ public interface IdentityMapper {
     int updateByPrimaryKeySelective(Identity record);
 
     int updateByPrimaryKey(Identity record);
-    //coffee 1027 select name by primary key
-    String selectNameByPrimaryKey(Integer id);
-    //end
 }

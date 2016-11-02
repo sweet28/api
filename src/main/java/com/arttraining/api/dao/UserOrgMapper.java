@@ -14,7 +14,4 @@ public interface UserOrgMapper {
     int updateByPrimaryKeySelective(UserOrg record);
 
     int updateByPrimaryKey(UserOrg record);
-    
-    //coffee add 新增依据orgId 查询对应的name
-    String selectNameByPrimaryKey(Integer id);
 }

@@ -31,17 +31,29 @@ public class UserTech {
 
     private String sex;
 
-    private String specialty;
+    private Integer specialtyId;
 
-    private Integer city;
+    private String specialtyName;
 
-    private Integer identity;
+    private Integer cityId;
+
+    private String cityName;
+
+    private String cityFather;
+
+    private Integer identityId;
+
+    private String identityName;
 
     private String authentication;
 
-    private String school;
+    private Integer schoolId;
 
-    private String org;
+    private String schoolName;
+
+    private Integer orgId;
+
+    private String orgName;
 
     private Integer score;
 
@@ -78,6 +90,12 @@ public class UserTech {
     private String ip;
 
     private String mac;
+
+    private Double assPay;
+
+    private String introduction;
+
+    private String skill;
 
     public Integer getId() {
         return id;
@@ -191,28 +209,60 @@ public class UserTech {
         this.sex = sex == null ? null : sex.trim();
     }
 
-    public String getSpecialty() {
-        return specialty;
+    public Integer getSpecialtyId() {
+        return specialtyId;
     }
 
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty == null ? null : specialty.trim();
+    public void setSpecialtyId(Integer specialtyId) {
+        this.specialtyId = specialtyId;
     }
 
-    public Integer getCity() {
-        return city;
+    public String getSpecialtyName() {
+        return specialtyName;
     }
 
-    public void setCity(Integer city) {
-        this.city = city;
+    public void setSpecialtyName(String specialtyName) {
+        this.specialtyName = specialtyName == null ? null : specialtyName.trim();
     }
 
-    public Integer getIdentity() {
-        return identity;
+    public Integer getCityId() {
+        return cityId;
     }
 
-    public void setIdentity(Integer identity) {
-        this.identity = identity;
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName == null ? null : cityName.trim();
+    }
+
+    public String getCityFather() {
+        return cityFather;
+    }
+
+    public void setCityFather(String cityFather) {
+        this.cityFather = cityFather == null ? null : cityFather.trim();
+    }
+
+    public Integer getIdentityId() {
+        return identityId;
+    }
+
+    public void setIdentityId(Integer identityId) {
+        this.identityId = identityId;
+    }
+
+    public String getIdentityName() {
+        return identityName;
+    }
+
+    public void setIdentityName(String identityName) {
+        this.identityName = identityName == null ? null : identityName.trim();
     }
 
     public String getAuthentication() {
@@ -223,20 +273,36 @@ public class UserTech {
         this.authentication = authentication == null ? null : authentication.trim();
     }
 
-    public String getSchool() {
-        return school;
+    public Integer getSchoolId() {
+        return schoolId;
     }
 
-    public void setSchool(String school) {
-        this.school = school == null ? null : school.trim();
+    public void setSchoolId(Integer schoolId) {
+        this.schoolId = schoolId;
     }
 
-    public String getOrg() {
-        return org;
+    public String getSchoolName() {
+        return schoolName;
     }
 
-    public void setOrg(String org) {
-        this.org = org == null ? null : org.trim();
+    public void setSchoolName(String schoolName) {
+        this.schoolName = schoolName == null ? null : schoolName.trim();
+    }
+
+    public Integer getOrgId() {
+        return orgId;
+    }
+
+    public void setOrgId(Integer orgId) {
+        this.orgId = orgId;
+    }
+
+    public String getOrgName() {
+        return orgName;
+    }
+
+    public void setOrgName(String orgName) {
+        this.orgName = orgName == null ? null : orgName.trim();
     }
 
     public Integer getScore() {
@@ -381,5 +447,29 @@ public class UserTech {
 
     public void setMac(String mac) {
         this.mac = mac == null ? null : mac.trim();
+    }
+
+    public Double getAssPay() {
+        return assPay;
+    }
+
+    public void setAssPay(Double assPay) {
+        this.assPay = assPay;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction == null ? null : introduction.trim();
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill == null ? null : skill.trim();
     }
 }

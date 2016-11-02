@@ -33,7 +33,15 @@ public class UserOrg {
 
     private String phone;
 
-    private Integer city;
+    private Integer cityId;
+
+    private String cityName;
+
+    private String cityFather;
+
+    private String orgType;
+
+    private String skill;
 
     private String authentication;
 
@@ -44,6 +52,10 @@ public class UserOrg {
     private Integer followNum;
 
     private Integer browseNum;
+
+    private Integer groupNum;
+
+    private Integer evaluateNum;
 
     public Integer getId() {
         return id;
@@ -165,12 +177,44 @@ public class UserOrg {
         this.phone = phone == null ? null : phone.trim();
     }
 
-    public Integer getCity() {
-        return city;
+    public Integer getCityId() {
+        return cityId;
     }
 
-    public void setCity(Integer city) {
-        this.city = city;
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName == null ? null : cityName.trim();
+    }
+
+    public String getCityFather() {
+        return cityFather;
+    }
+
+    public void setCityFather(String cityFather) {
+        this.cityFather = cityFather == null ? null : cityFather.trim();
+    }
+
+    public String getOrgType() {
+        return orgType;
+    }
+
+    public void setOrgType(String orgType) {
+        this.orgType = orgType == null ? null : orgType.trim();
+    }
+
+    public String getSkill() {
+        return skill;
+    }
+
+    public void setSkill(String skill) {
+        this.skill = skill == null ? null : skill.trim();
     }
 
     public String getAuthentication() {
@@ -211,5 +255,21 @@ public class UserOrg {
 
     public void setBrowseNum(Integer browseNum) {
         this.browseNum = browseNum;
+    }
+
+    public Integer getGroupNum() {
+        return groupNum;
+    }
+
+    public void setGroupNum(Integer groupNum) {
+        this.groupNum = groupNum;
+    }
+
+    public Integer getEvaluateNum() {
+        return evaluateNum;
+    }
+
+    public void setEvaluateNum(Integer evaluateNum) {
+        this.evaluateNum = evaluateNum;
     }
 }
