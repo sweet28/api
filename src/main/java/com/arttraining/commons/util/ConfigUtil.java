@@ -11,10 +11,13 @@ public class ConfigUtil {
 	public static long QINIU_EXPIRES = 86400;//有效时长，单位秒
 	public static boolean STRICT = true; 
 	public static StringMap QINIU_POLICY = null;
-	public static String QINIU_COM_URL = "oflkt0ank.bkt.clouddn.com";
+	public static String QINIU_BUCKET_COM_URL = "oflkt0ank.bkt.clouddn.com";
 	
 	public static String PARAMETER_ERROR_CODE = "error_code";
 	public static String PARAMETER_ERROR_MSG = "error_msg";
 	public static String PARAMETER_QINIU_TOKEN = "qiniu_token";
+	public static String PARAMETER_UID = "uid";
+	public static String PARAMETER_USER_CODE = "user_code";
+	public static String PARAMETER_NAME = "name";
 
 }
