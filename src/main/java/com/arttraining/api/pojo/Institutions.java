@@ -35,6 +35,16 @@ public class Institutions {
 
     private String officialWebsite;
 
+    private Integer cityId;
+
+    private String cityName;
+
+    private String cityFather;
+
+    private Integer followNum;
+
+    private String schoolType;
+
     public Integer getId() {
         return id;
     }
@@ -161,5 +171,45 @@ public class Institutions {
 
     public void setOfficialWebsite(String officialWebsite) {
         this.officialWebsite = officialWebsite == null ? null : officialWebsite.trim();
+    }
+
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName == null ? null : cityName.trim();
+    }
+
+    public String getCityFather() {
+        return cityFather;
+    }
+
+    public void setCityFather(String cityFather) {
+        this.cityFather = cityFather == null ? null : cityFather.trim();
+    }
+
+    public Integer getFollowNum() {
+        return followNum;
+    }
+
+    public void setFollowNum(Integer followNum) {
+        this.followNum = followNum;
+    }
+
+    public String getSchoolType() {
+        return schoolType;
+    }
+
+    public void setSchoolType(String schoolType) {
+        this.schoolType = schoolType == null ? null : schoolType.trim();
     }
 }

@@ -18,11 +18,16 @@
     <result column="admission_line" property="admissionLine" jdbcType="VARCHAR" />
     <result column="enrollment_plan" property="enrollmentPlan" jdbcType="VARCHAR" />
     <result column="official_website" property="officialWebsite" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="INTEGER" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="city_father" property="cityFather" jdbcType="VARCHAR" />
+    <result column="follow_num" property="followNum" jdbcType="INTEGER" />
+    <result column="school_type" property="schoolType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     name, video, pic, introduction, admissions_guide, admission_line, enrollment_plan, 
-    official_website
+    official_website, city_id, city_name, city_father, follow_num, school_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -40,13 +45,17 @@
       remarks, attachment, name, 
       video, pic, introduction, 
       admissions_guide, admission_line, enrollment_plan, 
-      official_website)
+      official_website, city_id, city_name, 
+      city_father, follow_num, school_type
+      )
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{video,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
       #{admissionsGuide,jdbcType=VARCHAR}, #{admissionLine,jdbcType=VARCHAR}, #{enrollmentPlan,jdbcType=VARCHAR}, 
-      #{officialWebsite,jdbcType=VARCHAR})
+      #{officialWebsite,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
+      #{cityFather,jdbcType=VARCHAR}, #{followNum,jdbcType=INTEGER}, #{schoolType,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Institutions" >
     insert into t_yp_institutions
@@ -99,6 +108,21 @@
       <if test="officialWebsite != null" >
         official_website,
       </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="cityName != null" >
+        city_name,
+      </if>
+      <if test="cityFather != null" >
+        city_father,
+      </if>
+      <if test="followNum != null" >
+        follow_num,
+      </if>
+      <if test="schoolType != null" >
+        school_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -148,6 +172,21 @@
       </if>
       <if test="officialWebsite != null" >
         #{officialWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityFather != null" >
+        #{cityFather,jdbcType=VARCHAR},
+      </if>
+      <if test="followNum != null" >
+        #{followNum,jdbcType=INTEGER},
+      </if>
+      <if test="schoolType != null" >
+        #{schoolType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -199,6 +238,21 @@
       <if test="officialWebsite != null" >
         official_website = #{officialWebsite,jdbcType=VARCHAR},
       </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+      </if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityFather != null" >
+        city_father = #{cityFather,jdbcType=VARCHAR},
+      </if>
+      <if test="followNum != null" >
+        follow_num = #{followNum,jdbcType=INTEGER},
+      </if>
+      <if test="schoolType != null" >
+        school_type = #{schoolType,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -218,7 +272,12 @@
       admissions_guide = #{admissionsGuide,jdbcType=VARCHAR},
       admission_line = #{admissionLine,jdbcType=VARCHAR},
       enrollment_plan = #{enrollmentPlan,jdbcType=VARCHAR},
-      official_website = #{officialWebsite,jdbcType=VARCHAR}
+      official_website = #{officialWebsite,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=INTEGER},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      city_father = #{cityFather,jdbcType=VARCHAR},
+      follow_num = #{followNum,jdbcType=INTEGER},
+      school_type = #{schoolType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
