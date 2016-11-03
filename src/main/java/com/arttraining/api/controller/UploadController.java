@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.arttraining.commons.util.ConfigUtil;
+import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.qiniu.util.Auth;
 
@@ -30,12 +31,12 @@ public class UploadController {
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
 		if(accessToken == null || uid == null){
-			errorCode = "20043";
-			errorMessage = "数据参数为空，请检查网络是否畅通";
+			errorCode = "20032";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}else{
 			if(accessToken.equals("") || uid.equals("")){
-				errorCode = "20043";
-				errorMessage = "数据参数为空，请检查网络是否畅通";
+				errorCode = "20032";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			}else{
 				// todo:判断token是否有效
 				boolean tokenFlag = TokenUtil.checkToken(accessToken);
@@ -45,8 +46,8 @@ public class UploadController {
 					QNToken = auth.uploadToken(ConfigUtil.QINIU_BUCKET, null,
 							ConfigUtil.QINIU_EXPIRES, ConfigUtil.QINIU_POLICY);
 					if (QNToken.equals("") || QNToken == null) {
-						errorCode = "20042";
-						errorMessage = "获取上传口令失败";
+						errorCode = "20031";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20031;
 						QNToken = "";
 					} else {
 						errorCode = "0";
@@ -54,8 +55,8 @@ public class UploadController {
 					}
 					System.out.println("银子来了2");
 				} else {
-					errorCode = "20039";
-					errorMessage = "登录失效，请重新登录";
+					errorCode = "20028";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 				}
 			}
 		}
@@ -83,12 +84,12 @@ public class UploadController {
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
 		if(accessToken == null || uid == null){
-			errorCode = "20043";
-			errorMessage = "数据参数为空，请检查网络是否畅通";
+			errorCode = "20032";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}else{
 			if(accessToken.equals("") || uid.equals("")){
-				errorCode = "20043";
-				errorMessage = "数据参数为空，请检查网络是否畅通";
+				errorCode = "20032";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			}else{
 				// todo:判断token是否有效
 				boolean tokenFlag = TokenUtil.checkToken(accessToken);
@@ -97,8 +98,8 @@ public class UploadController {
 					System.out.println(attType + ":type:::url:" + attUrl);
 					System.out.println("灰灰来了B");
 				} else {
-					errorCode = "20039";
-					errorMessage = "登录失效，请重新登录";
+					errorCode = "20028";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 				}
 			}
 		}
