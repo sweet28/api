@@ -81,6 +81,12 @@ public final class MD5 {
             return md5.digest(data);
         }
     }
+    
+    public static final String encodeStringDouble(String string) throws RuntimeException {
+    	String nowTime = "yunhuyi_arttraining_ychzzhglqh";
+		
+		return MD5.encodeString(MD5.encodeString(string+nowTime));
+    }
 
     public static void main(String[] args) {
     	
