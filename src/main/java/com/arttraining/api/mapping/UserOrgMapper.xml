@@ -36,11 +36,17 @@
     org_type, skill, authentication, comment_num, fans_num, follow_num, browse_num, group_num, 
     evaluate_num
   </sql>
+  <!-- coffee add 1103 where sql -->
+  <sql id="select_org_where">
+  	and is_deleted=0
+  </sql>
+  <!-- end -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_yp_org
     where id = #{id,jdbcType=INTEGER}
+    <include refid="select_org_where"></include>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_org

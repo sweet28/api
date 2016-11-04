@@ -1,6 +1,6 @@
 package com.arttraining.api.bean;
 
-public class UserStuReBean {
+public class UserStuShowBean {
 	private String error_code;
 	private String error_msg;
 	private Integer uid;
@@ -19,6 +19,23 @@ public class UserStuReBean {
 	private Integer score;
 	private Integer rank;
 	
+	public UserStuShowBean(){
+		this.uid = 0;
+		this.user_code = "";
+		this.name = "";
+		this.mobile = "";
+		this.head_pic = "";
+		this.sex = "";
+		this.city = "";
+		this.identity = "";
+		this.org = "";
+		this.intentional_college = "";
+		this.specialty = "";
+		this.school = "";
+		this.email = "";
+		this.score = 0;
+		this.rank = 0;
+	}
 	
 	public String getError_code() {
 		return error_code;

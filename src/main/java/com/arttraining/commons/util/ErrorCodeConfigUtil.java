@@ -56,6 +56,9 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20029 = "已经收藏了";
 	public static String ERROR_MSG_ZH_20030 = "已经点赞了";
 	public static String ERROR_MSG_ZH_20031 = "获取上传口令失败";
-	public static String ERROR_MSG_ZH_20032 = "数据参数为空，请检查网络是否畅通";
-
+	public static String ERROR_MSG_ZH_20032 = "数据参数为空,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20033 = "传递ID不为数值字符串";
+	public static String ERROR_MSG_ZH_20034 = "点赞失败";
+	public static String ERROR_MSG_ZH_20035 = "取消点赞失败";
+	public static String ERROR_MSG_ZH_20036 = "修改用户信息失败";
 }

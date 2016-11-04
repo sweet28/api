@@ -60,11 +60,17 @@
     group_num, role, power, is_lock, locked_time, works, title, continue_count, last_login_time, 
     ip, mac, ass_pay, introduction, skill, like_num, browse_num
   </sql>
+  <!-- coffee add 1103 where sql -->
+  <sql id="select_tec_where">
+  	and is_deleted=0
+  </sql>
+  <!-- end -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_yp_user_tech
     where id = #{id,jdbcType=INTEGER}
+    <include refid="select_tec_where"></include>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_user_tech

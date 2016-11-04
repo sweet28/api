@@ -32,11 +32,17 @@
     owner, owner_type, title, content, art_type, theme, tag, is_public, assessments_code, 
     assessments_id, group_id, comment_num, like_num, tec_comment_num, browse_num, reward_num
   </sql>
+   <!-- coffee add 1103 where sql -->
+  <sql id="select_statuses_where" >
+       and is_deleted=0
+  </sql>
+  <!-- end -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_yp_statuses
     where id = #{id,jdbcType=INTEGER}
+    <include refid="select_statuses_where"></include>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_statuses

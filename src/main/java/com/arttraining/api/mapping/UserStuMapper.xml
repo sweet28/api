@@ -13,7 +13,7 @@
     <result column="city_id" property="cityId" jdbcType="INTEGER" />
     <result column="city_name" property="cityName" jdbcType="VARCHAR" />
     <result column="identity_id" property="identityId" jdbcType="INTEGER" />
-    <result column="specialty_id" property="specialtyId" jdbcType="VARCHAR" />
+    <result column="specialty_id" property="specialtyId" jdbcType="INTEGER" />
     <result column="school_name" property="schoolName" jdbcType="VARCHAR" />
     <result column="intentional_college_name" property="intentionalCollegeName" jdbcType="VARCHAR" />
     <result column="intentional_college_id" property="intentionalCollegeId" jdbcType="INTEGER" />
@@ -47,6 +47,42 @@
     <result column="org_id" property="orgId" jdbcType="INTEGER" />
     <result column="org_name" property="orgName" jdbcType="VARCHAR" />
   </resultMap>
+  
+  
+  <resultMap id="ShowResultMap" type="com.arttraining.api.bean.UserStuShowBean" >
+    <id column="id" property="uid" jdbcType="INTEGER" />
+    <result column="user_code" property="user_code" jdbcType="VARCHAR" />
+    <result column="user_mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+    <result column="school_name" property="school" jdbcType="VARCHAR" />
+    <result column="intentional_college_name" property="intentional_college" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="INTEGER" />
+    <result column="rank" property="rank" jdbcType="INTEGER" />
+    <result column="identity_name" property="identity" jdbcType="VARCHAR" />
+    <result column="specialty_name" property="specialty" jdbcType="VARCHAR" />
+    <result column="org_name" property="org" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <resultMap id="LikeResultMap" type="com.arttraining.api.bean.LikeUserBean" >
+    <id column="id" property="uid" jdbcType="INTEGER" />
+    <id column="user_type" property="user_type" jdbcType="INTEGER" />
+    <result column="head_pic" property="pic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+    <result column="identity_name" property="identity" jdbcType="VARCHAR" />
+    <result column="create_time" property="time" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="LikePicResultMap" type="com.arttraining.api.bean.LikeUserPicBean" >
+    <id column="id" property="uid" jdbcType="INTEGER" />
+    <id column="user_type" property="user_type" jdbcType="INTEGER" />
+    <result column="head_pic" property="pic" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, uid, user_code, user_mobile, pwd, head_pic, name, sex, city_id, city_name, identity_id, 
     specialty_id, school_name, intentional_college_name, intentional_college_id, email, 
@@ -55,12 +91,136 @@
     create_time, order_code, delete_time, remarks, attachment, identity_name, specialty_name, 
     school_id, org_id, org_name
   </sql>
+  <!-- coffee add 1103 where sql -->
+  <sql id="select_userstu_where">
+  	and is_deleted=0 and is_lock=0
+  </sql>
+  <select id="selectBBSLikeUserByFid" resultMap="LikeResultMap">
+    select u.id,b.visitor_type as user_type,b.create_time,u.head_pic,
+    u.name,u.identity_name,u.city_name
+    from (select visitor,visitor_type,create_time
+    from t_yp_bbs_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset ==-1" >
+        and id &lt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time desc
+    limit #{limit}) b,
+    (select id, head_pic,name,
+    city_name,identity_name
+    t_yp_user_stu
+    where is_deleted=0 ) u
+    where b.visitor=u.id
+  </select>
+  
+  <select id="selectBBSLikeUserPicByFid" resultMap="LikePicResultMap">
+    select u.id,b.visitor_type as user_type,u.head_pic
+    from (select visitor,visitor_type
+    from t_yp_bbs_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset ==-1" >
+        and id &lt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time desc
+    limit #{limit}) b,
+    (select id, head_pic,name,
+    city_name,identity_name
+    t_yp_user_stu
+    where is_deleted=0 ) u
+    where b.visitor=u.id
+  </select>
+  
+   <select id="selectWorksLikeUserByFid" resultMap="LikeResultMap">
+    select u.id,w.visitor_type as user_type,w.create_time,u.head_pic,
+    u.name,u.identity_name,u.city_name
+    from (select visitor,visitor_type,create_time
+    from t_yp_works_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset ==-1" >
+        and id &lt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time desc
+    limit #{limit}) w,
+    (select id, head_pic,name,
+    city_name,identity_name
+    t_yp_user_stu
+    where is_deleted=0 ) u
+    where w.visitor=u.id
+  </select>
+  
+   <select id="selectWorksLikeUserPicByFid" resultMap="LikePicResultMap">
+     select u.id,w.visitor_type as user_type,w.create_time,u.head_pic,
+    u.name,u.identity_name,u.city_name
+    from (select visitor,visitor_type
+    from t_yp_works_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset ==-1" >
+        and id &lt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time desc
+    limit #{limit}) w,
+    (select id, head_pic,name,
+    city_name,identity_name
+    t_yp_user_stu
+    where is_deleted=0 ) u
+    where w.visitor=u.id
+  </select>
+  
+  <select id="selectStatusesLikeUserByFid" resultMap="LikeResultMap">
+    select u.id,s.visitor_type as user_type,s.create_time,u.head_pic,
+    u.name,u.identity_name,u.city_name
+    from (select visitor,visitor_type,create_time
+    from t_yp_statuses_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset ==-1" >
+        and id &lt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time desc
+    limit #{limit}) s,
+    (select id, head_pic,name,
+    city_name,identity_name
+    t_yp_user_stu
+    where is_deleted=0 ) u
+    where s.visitor=u.id
+  </select>
+  
+  <select id="selectStatusesLikeUserPicByFid" resultMap="LikePicResultMap">
+    select u.id,s.visitor_type as user_type,s.create_time,u.head_pic,
+    u.name,u.identity_name,u.city_name
+    from (select visitor,visitor_type
+    from t_yp_statuses_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset ==-1" >
+        and id &lt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time desc
+    limit #{limit}) s,
+    (select id, head_pic,name,
+    city_name,identity_name
+    t_yp_user_stu
+    where is_deleted=0 ) u
+    where s.visitor=u.id
+  </select>
+  
+  <select id="selectUserByUid" resultMap="ShowResultMap" parameterType="java.lang.Integer" >
+    select 
+    id, user_code, user_mobile, head_pic, name, sex, city_name, 
+    school_name, intentional_college_name, email, 
+    score, rank, identity_name, specialty_name, org_name
+    from t_yp_user_stu
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_userstu_where"></include>
+  </select>
+  <!-- end -->
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_yp_user_stu
     where id = #{id,jdbcType=INTEGER}
+    <include refid="select_userstu_where"></include>
   </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_user_stu
     where id = #{id,jdbcType=INTEGER}
@@ -84,7 +244,7 @@
     values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, 
       #{userMobile,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{headPic,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, 
-      #{cityName,jdbcType=VARCHAR}, #{identityId,jdbcType=INTEGER}, #{specialtyId,jdbcType=VARCHAR}, 
+      #{cityName,jdbcType=VARCHAR}, #{identityId,jdbcType=INTEGER}, #{specialtyId,jdbcType=INTEGER}, 
       #{schoolName,jdbcType=VARCHAR}, #{intentionalCollegeName,jdbcType=VARCHAR}, #{intentionalCollegeId,jdbcType=INTEGER}, 
       #{email,jdbcType=VARCHAR}, #{score,jdbcType=INTEGER}, #{rank,jdbcType=INTEGER}, 
       #{workNum,jdbcType=INTEGER}, #{commentNum,jdbcType=INTEGER}, #{fansNum,jdbcType=INTEGER}, 
@@ -268,7 +428,7 @@
         #{identityId,jdbcType=INTEGER},
       </if>
       <if test="specialtyId != null" >
-        #{specialtyId,jdbcType=VARCHAR},
+        #{specialtyId,jdbcType=INTEGER},
       </if>
       <if test="schoolName != null" >
         #{schoolName,jdbcType=VARCHAR},
@@ -368,6 +528,134 @@
       </if>
     </trim>
   </insert>
+  <!-- coffee add 1104 -->
+  <update id="setUserStuInfo" parameterType="com.arttraining.api.pojo.UserStu" >
+    update t_yp_user_stu
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null" >
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userMobile != null" >
+        user_mobile = #{userMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="headPic != null" >
+        head_pic = #{headPic,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null and cityName != null" >
+        city_id = #{cityId,jdbcType=INTEGER},
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="schoolId != null and schoolName != null" >
+        school_id = #{schoolId,jdbcType=INTEGER},
+        school_name = #{schoolName,jdbcType=VARCHAR},
+      </if>
+      <if test="identityId != null and identityName != null" >
+        identity_id = #{identityId,jdbcType=INTEGER},
+        identity_name = #{identityName,jdbcType=VARCHAR},
+      </if>
+      <if test="specialtyId != null and specialtyName != null" >
+        specialty_id = #{specialtyId,jdbcType=INTEGER},
+        specialty_name = #{specialtyName,jdbcType=VARCHAR},
+      </if>
+      <if test="intentionalCollegeId != null and intentionalCollegeName != null" >
+        intentional_college_name = #{intentionalCollegeName,jdbcType=VARCHAR},
+        intentional_college_id = #{intentionalCollegeId,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null and orgName != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=INTEGER},
+      </if>
+      <if test="rank != null" >
+        rank = #{rank,jdbcType=INTEGER},
+      </if>
+      <if test="workNum != null" >
+        work_num = #{workNum,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        comment_num = #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="fansNum != null" >
+        fans_num = #{fansNum,jdbcType=INTEGER},
+      </if>
+      <if test="followNum != null" >
+        follow_num = #{followNum,jdbcType=INTEGER},
+      </if>
+      <if test="groupNum != null" >
+        group_num = #{groupNum,jdbcType=INTEGER},
+      </if>
+      <if test="role != null" >
+        role = #{role,jdbcType=INTEGER},
+      </if>
+      <if test="power != null" >
+        power = #{power,jdbcType=INTEGER},
+      </if>
+      <if test="isLock != null" >
+        is_lock = #{isLock,jdbcType=INTEGER},
+      </if>
+      <if test="lockedTime != null" >
+        locked_time = #{lockedTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="works != null" >
+        works = #{works,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="continueCount != null" >
+        continue_count = #{continueCount,jdbcType=INTEGER},
+      </if>
+      <if test="lastLoginTime != null" >
+        last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ip != null" >
+        ip = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="mac != null" >
+        mac = #{mac,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_userstu_where"></include>
+  </update>
+  
+  <!-- end -->
+  
   <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.UserStu" >
     update t_yp_user_stu
     <set >
@@ -402,7 +690,7 @@
         identity_id = #{identityId,jdbcType=INTEGER},
       </if>
       <if test="specialtyId != null" >
-        specialty_id = #{specialtyId,jdbcType=VARCHAR},
+        specialty_id = #{specialtyId,jdbcType=INTEGER},
       </if>
       <if test="schoolName != null" >
         school_name = #{schoolName,jdbcType=VARCHAR},
@@ -502,7 +790,9 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
+    <include refid="select_userstu_where"></include>
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.UserStu" >
     update t_yp_user_stu
     set uid = #{uid,jdbcType=VARCHAR},
@@ -515,7 +805,7 @@
       city_id = #{cityId,jdbcType=INTEGER},
       city_name = #{cityName,jdbcType=VARCHAR},
       identity_id = #{identityId,jdbcType=INTEGER},
-      specialty_id = #{specialtyId,jdbcType=VARCHAR},
+      specialty_id = #{specialtyId,jdbcType=INTEGER},
       school_name = #{schoolName,jdbcType=VARCHAR},
       intentional_college_name = #{intentionalCollegeName,jdbcType=VARCHAR},
       intentional_college_id = #{intentionalCollegeId,jdbcType=INTEGER},

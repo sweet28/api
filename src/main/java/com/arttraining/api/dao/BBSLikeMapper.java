@@ -1,5 +1,7 @@
 package com.arttraining.api.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.arttraining.api.pojo.BBSLike;
 
 public interface BBSLikeMapper {
@@ -14,4 +16,6 @@ public interface BBSLikeMapper {
     int updateByPrimaryKeySelective(BBSLike record);
 
     int updateByPrimaryKey(BBSLike record);
+    //判断用户uid是否重复对帖子进行点赞
+    BBSLike selectSelectiveByUidAndFid(@Param("fid") Integer fid,@Param("uid") Integer uid);
 }
