@@ -45,6 +45,8 @@ public class Institutions {
 
     private String schoolType;
 
+    private Integer browseNum;
+
     public Integer getId() {
         return id;
     }
@@ -211,5 +213,13 @@ public class Institutions {
 
     public void setSchoolType(String schoolType) {
         this.schoolType = schoolType == null ? null : schoolType.trim();
+    }
+
+    public Integer getBrowseNum() {
+        return browseNum;
+    }
+
+    public void setBrowseNum(Integer browseNum) {
+        this.browseNum = browseNum;
     }
 }
