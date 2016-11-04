@@ -29,24 +29,19 @@
     <result column="browse_num" property="browseNum" jdbcType="INTEGER" />
     <result column="group_num" property="groupNum" jdbcType="INTEGER" />
     <result column="evaluate_num" property="evaluateNum" jdbcType="INTEGER" />
+    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     login_name, pwd, pic, name, introduction, email, phone, city_id, city_name, city_father, 
     org_type, skill, authentication, comment_num, fans_num, follow_num, browse_num, group_num, 
-    evaluate_num
+    evaluate_num, like_num
   </sql>
-  <!-- coffee add 1103 where sql -->
-  <sql id="select_org_where">
-  	and is_deleted=0
-  </sql>
-  <!-- end -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_yp_org
     where id = #{id,jdbcType=INTEGER}
-    <include refid="select_org_where"></include>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_org
@@ -61,7 +56,8 @@
       city_name, city_father, org_type, 
       skill, authentication, comment_num, 
       fans_num, follow_num, browse_num, 
-      group_num, evaluate_num)
+      group_num, evaluate_num, like_num
+      )
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
@@ -70,7 +66,8 @@
       #{cityName,jdbcType=VARCHAR}, #{cityFather,jdbcType=VARCHAR}, #{orgType,jdbcType=VARCHAR}, 
       #{skill,jdbcType=VARCHAR}, #{authentication,jdbcType=VARCHAR}, #{commentNum,jdbcType=INTEGER}, 
       #{fansNum,jdbcType=INTEGER}, #{followNum,jdbcType=INTEGER}, #{browseNum,jdbcType=INTEGER}, 
-      #{groupNum,jdbcType=INTEGER}, #{evaluateNum,jdbcType=INTEGER})
+      #{groupNum,jdbcType=INTEGER}, #{evaluateNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.UserOrg" >
     insert into t_yp_org
@@ -156,6 +153,9 @@
       <if test="evaluateNum != null" >
         evaluate_num,
       </if>
+      <if test="likeNum != null" >
+        like_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -238,6 +238,9 @@
       </if>
       <if test="evaluateNum != null" >
         #{evaluateNum,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        #{likeNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -322,6 +325,9 @@
       <if test="evaluateNum != null" >
         evaluate_num = #{evaluateNum,jdbcType=INTEGER},
       </if>
+      <if test="likeNum != null" >
+        like_num = #{likeNum,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -352,7 +358,8 @@
       follow_num = #{followNum,jdbcType=INTEGER},
       browse_num = #{browseNum,jdbcType=INTEGER},
       group_num = #{groupNum,jdbcType=INTEGER},
-      evaluate_num = #{evaluateNum,jdbcType=INTEGER}
+      evaluate_num = #{evaluateNum,jdbcType=INTEGER},
+      like_num = #{likeNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -24,13 +24,11 @@
     <result column="follow_num" property="followNum" jdbcType="INTEGER" />
     <result column="school_type" property="schoolType" jdbcType="VARCHAR" />
     <result column="browse_num" property="browseNum" jdbcType="INTEGER" />
-    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     name, video, pic, introduction, admissions_guide, admission_line, enrollment_plan, 
-    official_website, city_id, city_name, city_father, follow_num, school_type, browse_num, 
-    like_num
+    official_website, city_id, city_name, city_father, follow_num, school_type, browse_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -50,7 +48,7 @@
       admissions_guide, admission_line, enrollment_plan, 
       official_website, city_id, city_name, 
       city_father, follow_num, school_type, 
-      browse_num, like_num)
+      browse_num)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
@@ -58,7 +56,7 @@
       #{admissionsGuide,jdbcType=VARCHAR}, #{admissionLine,jdbcType=VARCHAR}, #{enrollmentPlan,jdbcType=VARCHAR}, 
       #{officialWebsite,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, 
       #{cityFather,jdbcType=VARCHAR}, #{followNum,jdbcType=INTEGER}, #{schoolType,jdbcType=VARCHAR}, 
-      #{browseNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER})
+      #{browseNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Institutions" >
     insert into t_yp_institutions
@@ -129,9 +127,6 @@
       <if test="browseNum != null" >
         browse_num,
       </if>
-      <if test="likeNum != null" >
-        like_num,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -199,9 +194,6 @@
       </if>
       <if test="browseNum != null" >
         #{browseNum,jdbcType=INTEGER},
-      </if>
-      <if test="likeNum != null" >
-        #{likeNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -271,9 +263,6 @@
       <if test="browseNum != null" >
         browse_num = #{browseNum,jdbcType=INTEGER},
       </if>
-      <if test="likeNum != null" >
-        like_num = #{likeNum,jdbcType=INTEGER},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -299,8 +288,7 @@
       city_father = #{cityFather,jdbcType=VARCHAR},
       follow_num = #{followNum,jdbcType=INTEGER},
       school_type = #{schoolType,jdbcType=VARCHAR},
-      browse_num = #{browseNum,jdbcType=INTEGER},
-      like_num = #{likeNum,jdbcType=INTEGER}
+      browse_num = #{browseNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -57,6 +57,8 @@ public class UserOrg {
 
     private Integer evaluateNum;
 
+    private Integer likeNum;
+
     public Integer getId() {
         return id;
     }
@@ -271,5 +273,13 @@ public class UserOrg {
 
     public void setEvaluateNum(Integer evaluateNum) {
         this.evaluateNum = evaluateNum;
+    }
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
     }
 }
