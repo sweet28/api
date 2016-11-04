@@ -25,7 +25,7 @@ public class UserStu {
 
     private Integer identityId;
 
-    private String specialtyId;
+    private Integer specialtyId;
 
     private String schoolName;
 
@@ -179,15 +179,15 @@ public class UserStu {
         this.identityId = identityId;
     }
 
-    public String getSpecialtyId() {
-        return specialtyId;
-    }
+    public Integer getSpecialtyId() {
+		return specialtyId;
+	}
 
-    public void setSpecialtyId(String specialtyId) {
-        this.specialtyId = specialtyId == null ? null : specialtyId.trim();
-    }
+	public void setSpecialtyId(Integer specialtyId) {
+		this.specialtyId = specialtyId;
+	}
 
-    public String getSchoolName() {
+	public String getSchoolName() {
         return schoolName;
     }
 

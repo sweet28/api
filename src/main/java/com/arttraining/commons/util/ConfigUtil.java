@@ -19,5 +19,8 @@ public class ConfigUtil {
 	public static String PARAMETER_UID = "uid";
 	public static String PARAMETER_USER_CODE = "user_code";
 	public static String PARAMETER_NAME = "name";
+	
+	//分页时 默认显示记录条数
+	public static Integer PAGESIZE=10;
 
 }

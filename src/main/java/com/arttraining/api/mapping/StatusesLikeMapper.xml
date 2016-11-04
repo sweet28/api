@@ -20,11 +20,25 @@
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     visitor, visitor_type, host, host_type, foreign_key
   </sql>
+  <!-- coffee add 1103 where sql -->
+  <sql id="select_statuseslike_where" >
+       and is_deleted=0
+  </sql>
+  <!-- end -->
+  <select id="selectSelectiveByUidAndFid" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_statuses_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and visitor = #{uid,jdbcType=INTEGER}
+    <include refid="select_statuseslike_where"></include>
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_yp_statuses_like
     where id = #{id,jdbcType=INTEGER}
+    <include refid="select_statuseslike_where"></include>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_statuses_like
