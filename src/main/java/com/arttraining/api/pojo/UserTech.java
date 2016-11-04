@@ -97,6 +97,10 @@ public class UserTech {
 
     private String skill;
 
+    private Integer likeNum;
+
+    private Integer browseNum;
+
     public Integer getId() {
         return id;
     }
@@ -471,5 +475,21 @@ public class UserTech {
 
     public void setSkill(String skill) {
         this.skill = skill == null ? null : skill.trim();
+    }
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
+    }
+
+    public Integer getBrowseNum() {
+        return browseNum;
+    }
+
+    public void setBrowseNum(Integer browseNum) {
+        this.browseNum = browseNum;
     }
 }

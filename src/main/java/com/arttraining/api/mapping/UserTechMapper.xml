@@ -49,6 +49,8 @@
     <result column="ass_pay" property="assPay" jdbcType="DOUBLE" />
     <result column="introduction" property="introduction" jdbcType="VARCHAR" />
     <result column="skill" property="skill" jdbcType="VARCHAR" />
+    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="browse_num" property="browseNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
@@ -56,7 +58,7 @@
     city_name, city_father, identity_id, identity_name, authentication, school_id, school_name, 
     org_id, org_name, score, rank, email, work_num, comment_num, fans_num, follow_num, 
     group_num, role, power, is_lock, locked_time, works, title, continue_count, last_login_time, 
-    ip, mac, ass_pay, introduction, skill
+    ip, mac, ass_pay, introduction, skill, like_num, browse_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -84,7 +86,8 @@
       is_lock, locked_time, works, 
       title, continue_count, last_login_time, 
       ip, mac, ass_pay, introduction, 
-      skill)
+      skill, like_num, browse_num
+      )
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, 
@@ -100,7 +103,8 @@
       #{isLock,jdbcType=INTEGER}, #{lockedTime,jdbcType=TIMESTAMP}, #{works,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{continueCount,jdbcType=INTEGER}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
       #{ip,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, #{assPay,jdbcType=DOUBLE}, #{introduction,jdbcType=VARCHAR}, 
-      #{skill,jdbcType=VARCHAR})
+      #{skill,jdbcType=VARCHAR}, #{likeNum,jdbcType=INTEGER}, #{browseNum,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.UserTech" >
     insert into t_yp_user_tech
@@ -246,6 +250,12 @@
       <if test="skill != null" >
         skill,
       </if>
+      <if test="likeNum != null" >
+        like_num,
+      </if>
+      <if test="browseNum != null" >
+        browse_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -388,6 +398,12 @@
       </if>
       <if test="skill != null" >
         #{skill,jdbcType=VARCHAR},
+      </if>
+      <if test="likeNum != null" >
+        #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="browseNum != null" >
+        #{browseNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -532,6 +548,12 @@
       <if test="skill != null" >
         skill = #{skill,jdbcType=VARCHAR},
       </if>
+      <if test="likeNum != null" >
+        like_num = #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="browseNum != null" >
+        browse_num = #{browseNum,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -582,7 +604,9 @@
       mac = #{mac,jdbcType=VARCHAR},
       ass_pay = #{assPay,jdbcType=DOUBLE},
       introduction = #{introduction,jdbcType=VARCHAR},
-      skill = #{skill,jdbcType=VARCHAR}
+      skill = #{skill,jdbcType=VARCHAR},
+      like_num = #{likeNum,jdbcType=INTEGER},
+      browse_num = #{browseNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

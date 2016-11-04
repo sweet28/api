@@ -47,6 +47,8 @@ public class Institutions {
 
     private Integer browseNum;
 
+    private Integer likeNum;
+
     public Integer getId() {
         return id;
     }
@@ -221,5 +223,13 @@ public class Institutions {
 
     public void setBrowseNum(Integer browseNum) {
         this.browseNum = browseNum;
+    }
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
     }
 }
