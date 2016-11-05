@@ -20,6 +20,9 @@ public class ConfigUtil {
 	public static String PARAMETER_USER_CODE = "user_code";
 	public static String PARAMETER_NAME = "name";
 	
+	//todo:token配置
+	public static int EXPIRE_TIME = 7*24*60*60;//单位秒
+	
 	//分页时 默认显示记录条数
 	public static Integer PAGESIZE=10;
 

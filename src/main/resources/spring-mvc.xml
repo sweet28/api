@@ -73,4 +73,20 @@
 			</list>
 		</property>
 	</bean>
+	
+	<!-- redis
+	<context:property-placeholder location="classpath:redis.properties" />    
+    <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">    
+        <property name="maxIdle" value="${redis.maxIdle}" />    
+        <property name="maxActive" value="${redis.maxActive}" />    
+        <property name="maxWait" value="${redis.maxWait}" />    
+        <property name="testOnBorrow" value="${redis.testOnBorrow}" />    
+    </bean>    
+        
+    <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"    
+        p:host-name="${redis.host}" p:port="${redis.port}" p:password="${redis.pass}"  p:pool-config-ref="poolConfig"/>    
+        
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">    
+        <property name="connectionFactory"   ref="connectionFactory" />    
+    </bean>-->
 </beans>
