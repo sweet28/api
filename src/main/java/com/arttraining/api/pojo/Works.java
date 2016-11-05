@@ -39,6 +39,16 @@ public class Works {
 
     private Integer assessmentsId;
 
+    private Integer commentNum;
+
+    private Integer likeNum;
+
+    private Integer tecCommentNum;
+
+    private Integer browseNum;
+
+    private Integer rewardNum;
+
     public Integer getId() {
         return id;
     }
@@ -181,5 +191,45 @@ public class Works {
 
     public void setAssessmentsId(Integer assessmentsId) {
         this.assessmentsId = assessmentsId;
+    }
+
+    public Integer getCommentNum() {
+        return commentNum;
+    }
+
+    public void setCommentNum(Integer commentNum) {
+        this.commentNum = commentNum;
+    }
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
+    }
+
+    public Integer getTecCommentNum() {
+        return tecCommentNum;
+    }
+
+    public void setTecCommentNum(Integer tecCommentNum) {
+        this.tecCommentNum = tecCommentNum;
+    }
+
+    public Integer getBrowseNum() {
+        return browseNum;
+    }
+
+    public void setBrowseNum(Integer browseNum) {
+        this.browseNum = browseNum;
+    }
+
+    public Integer getRewardNum() {
+        return rewardNum;
+    }
+
+    public void setRewardNum(Integer rewardNum) {
+        this.rewardNum = rewardNum;
     }
 }

@@ -20,23 +20,22 @@
     <result column="is_public" property="isPublic" jdbcType="INTEGER" />
     <result column="assessments_code" property="assessmentsCode" jdbcType="VARCHAR" />
     <result column="assessments_id" property="assessmentsId" jdbcType="INTEGER" />
+    <result column="comment_num" property="commentNum" jdbcType="INTEGER" />
+    <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="tec_comment_num" property="tecCommentNum" jdbcType="INTEGER" />
+    <result column="browse_num" property="browseNum" jdbcType="INTEGER" />
+    <result column="reward_num" property="rewardNum" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     owner, owner_type, title, content, art_type, theme, tag, is_public, assessments_code, 
-    assessments_id
+    assessments_id, comment_num, like_num, tec_comment_num, browse_num, reward_num
   </sql>
-  <!-- coffee add 1103 where sql -->
-  <sql id="select_work_where" >
-       and is_deleted=0
-  </sql>
-  <!-- end -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_yp_works
     where id = #{id,jdbcType=INTEGER}
-    <include refid="select_work_where"></include>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_works
@@ -48,15 +47,17 @@
       remarks, attachment, owner, 
       owner_type, title, content, 
       art_type, theme, tag, 
-      is_public, assessments_code, assessments_id
-      )
+      is_public, assessments_code, assessments_id, 
+      comment_num, like_num, tec_comment_num, 
+      browse_num, reward_num)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{owner,jdbcType=INTEGER}, 
       #{ownerType,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
       #{artType,jdbcType=VARCHAR}, #{theme,jdbcType=INTEGER}, #{tag,jdbcType=VARCHAR}, 
-      #{isPublic,jdbcType=INTEGER}, #{assessmentsCode,jdbcType=VARCHAR}, #{assessmentsId,jdbcType=INTEGER}
-      )
+      #{isPublic,jdbcType=INTEGER}, #{assessmentsCode,jdbcType=VARCHAR}, #{assessmentsId,jdbcType=INTEGER}, 
+      #{commentNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}, #{tecCommentNum,jdbcType=INTEGER}, 
+      #{browseNum,jdbcType=INTEGER}, #{rewardNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Works" >
     insert into t_yp_works
@@ -115,6 +116,21 @@
       <if test="assessmentsId != null" >
         assessments_id,
       </if>
+      <if test="commentNum != null" >
+        comment_num,
+      </if>
+      <if test="likeNum != null" >
+        like_num,
+      </if>
+      <if test="tecCommentNum != null" >
+        tec_comment_num,
+      </if>
+      <if test="browseNum != null" >
+        browse_num,
+      </if>
+      <if test="rewardNum != null" >
+        reward_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -170,6 +186,21 @@
       </if>
       <if test="assessmentsId != null" >
         #{assessmentsId,jdbcType=INTEGER},
+      </if>
+      <if test="commentNum != null" >
+        #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="tecCommentNum != null" >
+        #{tecCommentNum,jdbcType=INTEGER},
+      </if>
+      <if test="browseNum != null" >
+        #{browseNum,jdbcType=INTEGER},
+      </if>
+      <if test="rewardNum != null" >
+        #{rewardNum,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -227,6 +258,21 @@
       <if test="assessmentsId != null" >
         assessments_id = #{assessmentsId,jdbcType=INTEGER},
       </if>
+      <if test="commentNum != null" >
+        comment_num = #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="likeNum != null" >
+        like_num = #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="tecCommentNum != null" >
+        tec_comment_num = #{tecCommentNum,jdbcType=INTEGER},
+      </if>
+      <if test="browseNum != null" >
+        browse_num = #{browseNum,jdbcType=INTEGER},
+      </if>
+      <if test="rewardNum != null" >
+        reward_num = #{rewardNum,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -248,7 +294,12 @@
       tag = #{tag,jdbcType=VARCHAR},
       is_public = #{isPublic,jdbcType=INTEGER},
       assessments_code = #{assessmentsCode,jdbcType=VARCHAR},
-      assessments_id = #{assessmentsId,jdbcType=INTEGER}
+      assessments_id = #{assessmentsId,jdbcType=INTEGER},
+      comment_num = #{commentNum,jdbcType=INTEGER},
+      like_num = #{likeNum,jdbcType=INTEGER},
+      tec_comment_num = #{tecCommentNum,jdbcType=INTEGER},
+      browse_num = #{browseNum,jdbcType=INTEGER},
+      reward_num = #{rewardNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
