@@ -30,12 +30,13 @@
     <result column="group_num" property="groupNum" jdbcType="INTEGER" />
     <result column="evaluate_num" property="evaluateNum" jdbcType="INTEGER" />
     <result column="like_num" property="likeNum" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     login_name, pwd, pic, name, introduction, email, phone, city_id, city_name, city_father, 
     org_type, skill, authentication, comment_num, fans_num, follow_num, browse_num, group_num, 
-    evaluate_num, like_num
+    evaluate_num, like_num, address
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -56,8 +57,8 @@
       city_name, city_father, org_type, 
       skill, authentication, comment_num, 
       fans_num, follow_num, browse_num, 
-      group_num, evaluate_num, like_num
-      )
+      group_num, evaluate_num, like_num, 
+      address)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
@@ -66,8 +67,8 @@
       #{cityName,jdbcType=VARCHAR}, #{cityFather,jdbcType=VARCHAR}, #{orgType,jdbcType=VARCHAR}, 
       #{skill,jdbcType=VARCHAR}, #{authentication,jdbcType=VARCHAR}, #{commentNum,jdbcType=INTEGER}, 
       #{fansNum,jdbcType=INTEGER}, #{followNum,jdbcType=INTEGER}, #{browseNum,jdbcType=INTEGER}, 
-      #{groupNum,jdbcType=INTEGER}, #{evaluateNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}
-      )
+      #{groupNum,jdbcType=INTEGER}, #{evaluateNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}, 
+      #{address,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.UserOrg" >
     insert into t_yp_org
@@ -156,6 +157,9 @@
       <if test="likeNum != null" >
         like_num,
       </if>
+      <if test="address != null" >
+        address,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -241,6 +245,9 @@
       </if>
       <if test="likeNum != null" >
         #{likeNum,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -328,6 +335,9 @@
       <if test="likeNum != null" >
         like_num = #{likeNum,jdbcType=INTEGER},
       </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -359,7 +369,8 @@
       browse_num = #{browseNum,jdbcType=INTEGER},
       group_num = #{groupNum,jdbcType=INTEGER},
       evaluate_num = #{evaluateNum,jdbcType=INTEGER},
-      like_num = #{likeNum,jdbcType=INTEGER}
+      like_num = #{likeNum,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -59,6 +59,8 @@ public class UserOrg {
 
     private Integer likeNum;
 
+    private String address;
+
     public Integer getId() {
         return id;
     }
@@ -281,5 +283,13 @@ public class UserOrg {
 
     public void setLikeNum(Integer likeNum) {
         this.likeNum = likeNum;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address == null ? null : address.trim();
     }
 }

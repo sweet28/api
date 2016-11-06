@@ -22,6 +22,8 @@ public class ConfigUtil {
 	
 	//todo:token配置
 	public static int EXPIRE_TIME = 7*24*60*60;//单位秒
+	//todo:pwd md5字符
+	public static String MD5_PWD_STR = "YUNHUYI_YZL_@)!^";
 	
 	//分页时 默认显示记录条数
 	public static Integer PAGESIZE=10;
