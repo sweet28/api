@@ -23,6 +23,11 @@ public class UserStuService implements IUserStuService{
 	public UserStu getUserStuByAccount(String account){
 		return this.userStuDao.selectUserByAccount(account);
 	}
+	
+	@Override
+	public int insert(UserStu userStu){
+		return this.userStuDao.insert(userStu);
+	}
 
 	@Override
 	public UserStu getUserStuById(Integer userStuId) {

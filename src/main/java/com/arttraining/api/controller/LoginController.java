@@ -58,7 +58,9 @@ public class LoginController {
 				}else{
 					String pwdData = userStu.getPwd();
 					
-					if(!MD5.check(pwd+ConfigUtil.MD5_PWD_STR, pwdData)){
+					if (!MD5.check(
+							MD5.encodeString(pwd + ConfigUtil.MD5_PWD_STR)
+									+ ConfigUtil.MD5_PWD_STR, pwdData)) {
 						errorCode = "20023";
 						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20023;
 					}else{

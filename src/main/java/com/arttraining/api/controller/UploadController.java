@@ -30,6 +30,7 @@ public class UploadController {
 		
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
+		System.out.println(accessToken+":"+uid);
 		if(accessToken == null || uid == null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;

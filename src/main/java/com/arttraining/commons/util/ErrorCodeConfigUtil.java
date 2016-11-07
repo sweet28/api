@@ -61,4 +61,6 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20034 = "点赞失败";
 	public static String ERROR_MSG_ZH_20035 = "取消点赞失败";
 	public static String ERROR_MSG_ZH_20036 = "修改用户信息失败";
+	
+	public static String ERROR_MSG_ZH_20037 = "注册失败，请检查网络是否通畅。";
 }

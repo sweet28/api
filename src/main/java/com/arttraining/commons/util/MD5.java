@@ -90,13 +90,14 @@ public final class MD5 {
 
     public static void main(String[] args) {
     	
-        String str1 = "a12345";
+        String str1 = "a12345" + ConfigUtil.MD5_PWD_STR;
         String pwd = MD5.encodeString(str1);
-        String pwd2 = MD5.encodeString("yhy_yp_datebase_token");
-        String enStr = "af8f9dffa5d420fbc249141645b962ee";
+        String enStr = "62d67707752f3bac090e0ea6bf09e138";
         System.out.println(enStr.length());
         System.out.println(pwd);
         System.out.println(MD5.check(str1, enStr));
-        System.out.println(pwd2);
+        
+        String enStr11 = "41b17bcc1b6dc0ff601a68d878bb2f12";
+        System.out.println(MD5.check((MD5.encodeString(str1)+ConfigUtil.MD5_PWD_STR), enStr11));
     }
 }
