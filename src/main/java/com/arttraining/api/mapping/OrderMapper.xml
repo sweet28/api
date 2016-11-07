@@ -16,11 +16,11 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
     <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
-    <result column="money" property="money" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
     <result column="auditor" property="auditor" jdbcType="VARCHAR" />
     <result column="coupon_pay" property="couponPay" jdbcType="DOUBLE" />
     <result column="final_pay" property="finalPay" jdbcType="DOUBLE" />
-    <result column="pay_type" property="payType" jdbcType="DOUBLE" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
@@ -49,9 +49,9 @@
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{codeNumber,jdbcType=VARCHAR}, 
       #{userId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{payTime,jdbcType=TIMESTAMP}, #{cancelTime,jdbcType=TIMESTAMP}, #{money,jdbcType=VARCHAR}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{cancelTime,jdbcType=TIMESTAMP}, #{money,jdbcType=DOUBLE}, 
       #{auditor,jdbcType=VARCHAR}, #{couponPay,jdbcType=DOUBLE}, #{finalPay,jdbcType=DOUBLE}, 
-      #{payType,jdbcType=DOUBLE})
+      #{payType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Order" >
     insert into t_yp_order
@@ -158,7 +158,7 @@
         #{cancelTime,jdbcType=TIMESTAMP},
       </if>
       <if test="money != null" >
-        #{money,jdbcType=VARCHAR},
+        #{money,jdbcType=DOUBLE},
       </if>
       <if test="auditor != null" >
         #{auditor,jdbcType=VARCHAR},
@@ -170,7 +170,7 @@
         #{finalPay,jdbcType=DOUBLE},
       </if>
       <if test="payType != null" >
-        #{payType,jdbcType=DOUBLE},
+        #{payType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -217,7 +217,7 @@
         cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
       </if>
       <if test="money != null" >
-        money = #{money,jdbcType=VARCHAR},
+        money = #{money,jdbcType=DOUBLE},
       </if>
       <if test="auditor != null" >
         auditor = #{auditor,jdbcType=VARCHAR},
@@ -229,7 +229,7 @@
         final_pay = #{finalPay,jdbcType=DOUBLE},
       </if>
       <if test="payType != null" >
-        pay_type = #{payType,jdbcType=DOUBLE},
+        pay_type = #{payType,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -249,11 +249,11 @@
       status = #{status,jdbcType=INTEGER},
       pay_time = #{payTime,jdbcType=TIMESTAMP},
       cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
-      money = #{money,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DOUBLE},
       auditor = #{auditor,jdbcType=VARCHAR},
       coupon_pay = #{couponPay,jdbcType=DOUBLE},
       final_pay = #{finalPay,jdbcType=DOUBLE},
-      pay_type = #{payType,jdbcType=DOUBLE}
+      pay_type = #{payType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

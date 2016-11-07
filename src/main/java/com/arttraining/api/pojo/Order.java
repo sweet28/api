@@ -31,7 +31,7 @@ public class Order {
 
     private Date cancelTime;
 
-    private String money;
+    private Double money;
 
     private String auditor;
 
@@ -39,7 +39,7 @@ public class Order {
 
     private Double finalPay;
 
-    private Double payType;
+    private String payType;
 
     public Integer getId() {
         return id;
@@ -153,12 +153,12 @@ public class Order {
         this.cancelTime = cancelTime;
     }
 
-    public String getMoney() {
+    public Double getMoney() {
         return money;
     }
 
-    public void setMoney(String money) {
-        this.money = money == null ? null : money.trim();
+    public void setMoney(Double money) {
+        this.money = money;
     }
 
     public String getAuditor() {
@@ -185,11 +185,11 @@ public class Order {
         this.finalPay = finalPay;
     }
 
-    public Double getPayType() {
+    public String getPayType() {
         return payType;
     }
 
-    public void setPayType(Double payType) {
-        this.payType = payType;
+    public void setPayType(String payType) {
+        this.payType = payType == null ? null : payType.trim();
     }
 }
