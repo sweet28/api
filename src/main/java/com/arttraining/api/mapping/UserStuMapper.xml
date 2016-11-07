@@ -213,6 +213,14 @@
   </select>
   <!-- end -->
   
+  <select id="selectUserByAccount" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_user_stu
+    where user_mobile = #{user_mobile,jdbcType=VARCHAR}
+    <include refid="select_userstu_where"></include>
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

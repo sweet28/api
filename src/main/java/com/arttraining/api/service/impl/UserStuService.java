@@ -18,6 +18,11 @@ import com.arttraining.api.service.IUserStuService;
 public class UserStuService implements IUserStuService{
 	@Resource
 	private UserStuMapper userStuDao;
+	
+	@Override
+	public UserStu getUserStuByAccount(String account){
+		return this.userStuDao.selectUserByAccount(account);
+	}
 
 	@Override
 	public UserStu getUserStuById(Integer userStuId) {

@@ -39,5 +39,7 @@ public interface IUserStuService {
     //查询被点赞信息id下对应的用户头像信息  ---小组动态
     List<LikeUserPicBean> listStatusesLikeUserPicByFid(Integer fid,
     		Integer offset,Integer limit);
+    //根据登录账号查询用户
+	UserStu getUserStuByAccount(String account);
 
 }

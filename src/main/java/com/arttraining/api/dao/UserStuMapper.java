@@ -22,6 +22,9 @@ public interface UserStuMapper {
 
     int updateByPrimaryKey(UserStu record);
     
+    //todo:根据账户获取用户信息
+    UserStu selectUserByAccount(String account);
+    
     //依据uid查询相应的用户信息--show
     UserStuShowBean selectUserByUid(Integer id);
     //设置用户信息--set_info
