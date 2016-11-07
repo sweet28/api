@@ -7,10 +7,6 @@ public class Advertising {
 
     private String uuid;
 
-    private String name;
-
-    private String describe;
-
     private Integer isDeleted;
 
     private Date createTime;
@@ -22,6 +18,18 @@ public class Advertising {
     private String remarks;
 
     private String attachment;
+
+    private String title;
+
+    private String content;
+
+    private String pic;
+
+    private String url;
+
+    private String priority;
+
+    private Integer isPublish;
 
     public Integer getId() {
         return id;
@@ -37,22 +45,6 @@ public class Advertising {
 
     public void setUuid(String uuid) {
         this.uuid = uuid == null ? null : uuid.trim();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name == null ? null : name.trim();
-    }
-
-    public String getDescribe() {
-        return describe;
-    }
-
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
     }
 
     public Integer getIsDeleted() {
@@ -101,5 +93,53 @@ public class Advertising {
 
     public void setAttachment(String attachment) {
         this.attachment = attachment == null ? null : attachment.trim();
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic == null ? null : pic.trim();
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url == null ? null : url.trim();
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority == null ? null : priority.trim();
+    }
+
+    public Integer getIsPublish() {
+        return isPublish;
+    }
+
+    public void setIsPublish(Integer isPublish) {
+        this.isPublish = isPublish;
     }
 }
