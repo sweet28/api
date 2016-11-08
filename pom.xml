@@ -209,6 +209,15 @@
 			<artifactId>spring-data-redis</artifactId>
 			<version>1.4.2.RELEASE</version>
 		</dependency>
+		
+		<!-- 阿里云 短信 依赖 -->
+        <dependency>
+            <groupId>taobao</groupId>
+            <artifactId>taobao</artifactId>
+            <version>1.0</version>
+            <scope>system</scope> 
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/taobao-sdk-java-auto_1455552377940-20160607.jar</systemPath>
+        </dependency>
 	</dependencies>
 	<build>
 		<finalName>api</finalName>
@@ -222,6 +231,9 @@
 					<source>1.7</source>
 					<target>1.7</target>
 					<encoding>UTF-8</encoding>
+					<compilerArguments>
+						<extdirs>src\main\webapp\WEB-INF\lib</extdirs>
+					</compilerArguments>
 				</configuration>
 			</plugin>
 		</plugins>

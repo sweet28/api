@@ -24,6 +24,8 @@ public class ConfigUtil {
 	public static int EXPIRE_TIME = 7*24*60*60;//单位秒
 	//todo:pwd md5字符
 	public static String MD5_PWD_STR = "YUNHUYI_YZL_@)!^";
+	//todo:sms验证码长度
+	public static int SMS_CHECK_CODE_LENGTH = 4;
 	
 	//分页时 默认显示记录条数
 	public static Integer PAGESIZE=10;
