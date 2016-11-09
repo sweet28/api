@@ -11,7 +11,9 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
     <result column="visitor" property="visitor" jdbcType="INTEGER" />
+    <result column="visitor_type" property="visitorType" jdbcType="VARCHAR" />
     <result column="host" property="host" jdbcType="INTEGER" />
+    <result column="host_type" property="hostType" jdbcType="VARCHAR" />
     <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="score" property="score" jdbcType="VARCHAR" />
@@ -20,7 +22,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    visitor, host, foreign_key, content, score, type, content_type
+    visitor, visitor_type, host, host_type, foreign_key, content, score, type, content_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -36,15 +38,15 @@
     insert into t_yp_statuses_tec_comment (id, uuid, is_deleted, 
       create_time, order_code, delete_time, 
       remarks, attachment, visitor, 
-      host, foreign_key, content, 
-      score, type, content_type
-      )
+      visitor_type, host, host_type, 
+      foreign_key, content, score, 
+      type, content_type)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{visitor,jdbcType=INTEGER}, 
-      #{host,jdbcType=INTEGER}, #{foreignKey,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{score,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}
-      )
+      #{visitorType,jdbcType=VARCHAR}, #{host,jdbcType=INTEGER}, #{hostType,jdbcType=VARCHAR}, 
+      #{foreignKey,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{score,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.StatusesTecComment" >
     insert into t_yp_statuses_tec_comment
@@ -76,8 +78,14 @@
       <if test="visitor != null" >
         visitor,
       </if>
+      <if test="visitorType != null" >
+        visitor_type,
+      </if>
       <if test="host != null" >
         host,
+      </if>
+      <if test="hostType != null" >
+        host_type,
       </if>
       <if test="foreignKey != null" >
         foreign_key,
@@ -123,8 +131,14 @@
       <if test="visitor != null" >
         #{visitor,jdbcType=INTEGER},
       </if>
+      <if test="visitorType != null" >
+        #{visitorType,jdbcType=VARCHAR},
+      </if>
       <if test="host != null" >
         #{host,jdbcType=INTEGER},
+      </if>
+      <if test="hostType != null" >
+        #{hostType,jdbcType=VARCHAR},
       </if>
       <if test="foreignKey != null" >
         #{foreignKey,jdbcType=INTEGER},
@@ -170,8 +184,14 @@
       <if test="visitor != null" >
         visitor = #{visitor,jdbcType=INTEGER},
       </if>
+      <if test="visitorType != null" >
+        visitor_type = #{visitorType,jdbcType=VARCHAR},
+      </if>
       <if test="host != null" >
         host = #{host,jdbcType=INTEGER},
+      </if>
+      <if test="hostType != null" >
+        host_type = #{hostType,jdbcType=VARCHAR},
       </if>
       <if test="foreignKey != null" >
         foreign_key = #{foreignKey,jdbcType=INTEGER},
@@ -201,7 +221,9 @@
       remarks = #{remarks,jdbcType=VARCHAR},
       attachment = #{attachment,jdbcType=VARCHAR},
       visitor = #{visitor,jdbcType=INTEGER},
+      visitor_type = #{visitorType,jdbcType=VARCHAR},
       host = #{host,jdbcType=INTEGER},
+      host_type = #{hostType,jdbcType=VARCHAR},
       foreign_key = #{foreignKey,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
       score = #{score,jdbcType=VARCHAR},

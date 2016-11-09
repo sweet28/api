@@ -42,6 +42,7 @@ public class UploadController {
 				// todo:判断token是否有效
 				boolean tokenFlag = TokenUtil.checkToken(accessToken);
 				if (tokenFlag) {
+					TokenUtil.delayTokenDeadline(accessToken);//延期token
 					Auth auth = Auth.create(ConfigUtil.QINIU_AK,
 							ConfigUtil.QINIU_SK);
 					QNToken = auth.uploadToken(ConfigUtil.QINIU_BUCKET, null,

@@ -94,6 +94,6 @@ public class Random {
    	}
    	
    	public static void main(String[] args){
-   		System.out.println(randomCommonStr(ConfigUtil.SMS_CHECK_CODE_LENGTH).toString());
+   		System.out.println(randomCommonStr(ConfigUtil.ALIDAYU_SMS_CHECK_CODE_LENGTH).toString());
    	}
 }
