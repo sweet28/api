@@ -10,6 +10,8 @@ public interface SMSCheckCodeMapper {
     int insertSelective(SMSCheckCode record);
 
     SMSCheckCode selectByPrimaryKey(Integer id);
+    
+    SMSCheckCode selectByPrimaryKey(String mobile, String codeType);
 
     int updateByPrimaryKeySelective(SMSCheckCode record);
 
