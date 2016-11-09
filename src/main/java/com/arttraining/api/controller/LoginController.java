@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.LoginBean;
+import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.bean.UserStuShowBean;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.UserStuService;
@@ -27,7 +28,7 @@ public class LoginController {
 	private UserStuService userStuService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public @ResponseBody Object getQiniuUploadUrl(HttpServletRequest request, HttpServletResponse response) {
+	public @ResponseBody Object loginYHY(HttpServletRequest request, HttpServletResponse response) {
 		String name = "";
 		String pwd = "";
 		
@@ -58,7 +59,9 @@ public class LoginController {
 				}else{
 					String pwdData = userStu.getPwd();
 					
-					if(!MD5.check(pwd+ConfigUtil.MD5_PWD_STR, pwdData)){
+					if (!MD5.check(
+							MD5.encodeString(pwd + ConfigUtil.MD5_PWD_STR)
+									+ ConfigUtil.MD5_PWD_STR, pwdData)) {
 						errorCode = "20023";
 						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20023;
 					}else{
@@ -90,6 +93,43 @@ public class LoginController {
 		loginBean.setError_msg(errorMessage);
 		
 		return gson.toJson(loginBean);
+
+	}
+	
+	@RequestMapping(value = "/exit", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object exitYHY(HttpServletRequest request, HttpServletResponse response) {
+		SimpleReBean reBean = new SimpleReBean();
+		Gson gson = new Gson();
+		UserStu userStu = null;
+		
+		String errorCode = "";
+		String errorMessage = "";
+		String accessToken = "";
+		
+		accessToken = request.getParameter("access_token");
+		
+		if(accessToken == null){
+			errorCode = "20032";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		}else{
+			if(accessToken.equals("")){
+				errorCode = "20032";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+			}else{
+				if(TokenUtil.deleteToken(accessToken)){
+					errorCode = "0";
+					errorMessage = "ok";
+				}else{
+					errorCode = "20032";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+				}
+			}
+		}
+
+		reBean.setError_code(errorCode);
+		reBean.setError_msg(errorMessage);
+		
+		return gson.toJson(reBean);
 
 	}
 

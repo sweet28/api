@@ -21,7 +21,11 @@ public class StatusesTecComment {
 
     private Integer visitor;
 
+    private String visitorType;
+
     private Integer host;
+
+    private String hostType;
 
     private Integer foreignKey;
 
@@ -105,12 +109,28 @@ public class StatusesTecComment {
         this.visitor = visitor;
     }
 
+    public String getVisitorType() {
+        return visitorType;
+    }
+
+    public void setVisitorType(String visitorType) {
+        this.visitorType = visitorType == null ? null : visitorType.trim();
+    }
+
     public Integer getHost() {
         return host;
     }
 
     public void setHost(Integer host) {
         this.host = host;
+    }
+
+    public String getHostType() {
+        return hostType;
+    }
+
+    public void setHostType(String hostType) {
+        this.hostType = hostType == null ? null : hostType.trim();
     }
 
     public Integer getForeignKey() {
