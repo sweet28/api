@@ -47,7 +47,13 @@ public class ConfigUtil {
 	public static int ALIDAYU_SMS_SEND_INTERVAL = 60;//发送验证码的间隔
 	public static int ALIDAYU_SMS_EXPIRE_TIME = 5;//发送的验证码有效时间，分钟
 	
-	//分页时 默认显示记录条数
-	public static Integer PAGESIZE=10;
+	// 分页时 默认显示记录条数
+	public static Integer PAGESIZE = 10;
+	// 广告 默认显示的记录条数
+	public static Integer ADVERTISE_PAGESIZE = 2;
+	// 首页名师 默认显示记录条数
+	public static Integer HOMEPAGE_PAGESIZE = 2;
+	// 首页作品 默认显示2条记录数
+	public static Integer HOMEWORK_PAGESIZE = 2;
 
 }
