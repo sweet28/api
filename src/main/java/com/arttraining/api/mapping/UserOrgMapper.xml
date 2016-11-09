@@ -32,6 +32,83 @@
     <result column="like_num" property="likeNum" jdbcType="INTEGER" />
     <result column="address" property="address" jdbcType="VARCHAR" />
   </resultMap>
+   <!-- coffee add 1104 where sql -->
+  <sql id="select_org_where">
+  	and is_deleted=0
+  </sql>
+  <!-- coffee add 查询名师下所属的机构信息 -->
+   <resultMap id="TecShowOrgResultMap" type="com.arttraining.api.bean.TecherShowOrgBean" >
+    <id column="id" property="org_id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="authentication" property="auth" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <select id="selectOneOrgByTecShow" resultMap="TecShowOrgResultMap" parameterType="java.lang.Integer" >
+    select id,name,authentication
+    from t_yp_org
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_org_where"></include>
+  </select>
+  
+  <!-- coffee add 返回机构列表信息 -->
+  <resultMap id="OrgListResultMap" type="com.arttraining.api.bean.OrgListBean" >
+    <id column="id" property="org_id" jdbcType="INTEGER" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+    <result column="city_father" property="province" jdbcType="VARCHAR" /> 
+    <result column="authentication" property="auth" jdbcType="VARCHAR" />
+    <result column="comment_num" property="comment" jdbcType="INTEGER" />
+    <result column="fans_num" property="fans_num" jdbcType="INTEGER" />
+  </resultMap>
+ 
+  <select id="selectOrgListPrimaryKey" resultMap="OrgListResultMap">
+    select id,name,authentication,pic,
+    city_name,city_father,comment_num,fans_num
+    from t_yp_org
+    where 1=1 
+    <include refid="select_org_where"></include>
+    <if test="offset != -1">
+    	and order_code &lt; (select order_code 
+    	from t_yp_org where id=#{offset,jdbcType=INTEGER}
+    	<include refid="select_org_where"></include>)
+    </if>
+    <if test="city != null"> and city_name like '%${city}%'</if>
+    <if test="province != null"> and city_father like '%${province}%'</if>
+    <if test="type != null"> and org_type like '%${type}%'</if>
+    order by order_code
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+   <!-- coffee add 依据机构Id查询具体的机构详情信息 -->
+  <resultMap id="OrgShowResultMap" type="com.arttraining.api.bean.OrgShowBean" >
+    <id column="id" property="org_id" jdbcType="INTEGER" />
+    <result column="pic" property="head_pic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+    <result column="city_father" property="province" jdbcType="VARCHAR" /> 
+    <result column="authentication" property="auth" jdbcType="VARCHAR" />
+    <result column="comment_num" property="comment" jdbcType="INTEGER" />
+    <result column="fans_num" property="fans_num" jdbcType="INTEGER" />
+    <result column="skill" property="skill" jdbcType="VARCHAR" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="address" property="contact_address" jdbcType="VARCHAR" />
+    <result column="phone" property="contact_phone" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>      
+  
+  <select id="selectOneOrgByOrgShow" resultMap="OrgShowResultMap" parameterType="java.lang.Integer" >
+    select id,remarks,introduction,phone,
+    address,browse_num,skill,fans_num,comment_num,
+    authentication,city_father,city_name,name,pic
+    from t_yp_org
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_org_where"></include>
+  </select>
+  
+  <!-- end -->
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     login_name, pwd, pic, name, introduction, email, phone, city_id, city_name, city_father, 

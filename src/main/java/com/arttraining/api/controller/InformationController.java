@@ -18,6 +18,7 @@ import com.arttraining.api.service.impl.InformationService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("/information")
@@ -51,10 +52,8 @@ public class InformationController {
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
-		
-		if(informationList.size()>0) {
-			jsonObject.put("informations", informationList);
-		}
+		jsonObject.put("informations", informationList);
+
 		return jsonObject;
 	}
 	/***
@@ -66,9 +65,8 @@ public class InformationController {
 	public @ResponseBody Object show(HttpServletRequest request, HttpServletResponse response) {
 		String errorCode = "";
 		String errorMessage = "";
-		
-		JSONObject jsonObject = new JSONObject();
-		
+
+		InformationShowBean informationShow = new InformationShowBean();
 		//获取传递的info_id参数,判断传递的参数是否不存在或者是否为空
 		String info_id=request.getParameter("info_id");
 		if(info_id==null || info_id.equals("")) {
@@ -82,25 +80,21 @@ public class InformationController {
 		}
 		else {
 			Integer i_info_id = Integer.valueOf(info_id);
-			InformationShowBean informationShow = this.informationService.getOneInformation(i_info_id);
+			informationShow = this.informationService.getOneInformation(i_info_id);
 			if(informationShow==null) {
+				informationShow = new InformationShowBean();
 				errorCode="20007";
 				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 			}
 			else {
 				errorCode="0";
 				errorMessage="ok";
-				jsonObject.put("info_id",informationShow.getInfo_id() );
-				jsonObject.put("title",informationShow.getTitle());
-				jsonObject.put("create_time",informationShow.getCreate_time());
-				jsonObject.put("content",informationShow.getContent());
-				jsonObject.put("pic",informationShow.getPic());
-				jsonObject.put("url",informationShow.getUrl());
 			}
 		}
-		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
-		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
+		informationShow.setError_code(errorCode);
+		informationShow.setError_msg(errorMessage);
 		
-		return jsonObject;
+		Gson gson = new Gson();
+		return gson.toJson(informationShow);
 	}
 }

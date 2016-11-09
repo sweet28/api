@@ -1,5 +1,9 @@
 package com.arttraining.api.dao;
 
+import java.util.List;
+
+import com.arttraining.api.bean.BannerListBean;
+import com.arttraining.api.bean.BannerShowBean;
 import com.arttraining.api.pojo.Banner;
 
 public interface BannerMapper {
@@ -14,4 +18,9 @@ public interface BannerMapper {
     int updateByPrimaryKeySelective(Banner record);
 
     int updateByPrimaryKey(Banner record);
+    
+    //获取轮播信息列表
+    List<BannerListBean> selectBannerList();
+    //依据广告ID查询某一个轮播信息
+    BannerShowBean selectOneBanner(Integer id);
 }
