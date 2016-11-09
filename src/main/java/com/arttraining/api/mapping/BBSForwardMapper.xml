@@ -16,6 +16,12 @@
     <result column="host_type" property="hostType" jdbcType="VARCHAR" />
     <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
   </resultMap>
+  <!-- coffee add sql where -->
+  	<sql id="select_bbsforward_where">
+  		and is_deleted=0
+  	</sql>
+  	
+  <!-- end -->
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     visitor, visitor_type, host, host_type, foreign_key

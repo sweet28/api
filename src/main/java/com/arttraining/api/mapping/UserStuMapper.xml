@@ -48,7 +48,7 @@
     <result column="org_name" property="orgName" jdbcType="VARCHAR" />
   </resultMap>
   
-  
+  <!-- coffee add 爱好者用户show接口 -->
   <resultMap id="ShowResultMap" type="com.arttraining.api.bean.UserStuShowBean" >
     <id column="id" property="uid" jdbcType="INTEGER" />
     <result column="user_code" property="user_code" jdbcType="VARCHAR" />
@@ -66,7 +66,7 @@
     <result column="specialty_name" property="specialty" jdbcType="VARCHAR" />
     <result column="org_name" property="org" jdbcType="VARCHAR" />
   </resultMap>
-  
+  <!-- coffee add 点赞列表接口 -->
    <resultMap id="LikeResultMap" type="com.arttraining.api.bean.LikeUserBean" >
     <id column="id" property="uid" jdbcType="INTEGER" />
     <id column="user_type" property="user_type" jdbcType="INTEGER" />
@@ -76,7 +76,7 @@
     <result column="identity_name" property="identity" jdbcType="VARCHAR" />
     <result column="create_time" property="time" jdbcType="VARCHAR" />
   </resultMap>
-  
+  <!-- coffee add 获取点赞头像列表信息 -->
   <resultMap id="LikePicResultMap" type="com.arttraining.api.bean.LikeUserPicBean" >
     <id column="id" property="uid" jdbcType="INTEGER" />
     <id column="user_type" property="user_type" jdbcType="INTEGER" />
@@ -92,7 +92,7 @@
     school_id, org_id, org_name
   </sql>
   <!-- coffee add 1103 where sql -->
-  <sql id="select_userstu_where">
+   <sql id="select_userstu_where">
   	and is_deleted=0 and is_lock=0
   </sql>
   <select id="selectBBSLikeUserByFid" resultMap="LikeResultMap">
@@ -101,15 +101,14 @@
     from (select visitor,visitor_type,create_time
     from t_yp_bbs_like
     where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset ==-1" >
-        and id &lt; #{offset,jdbcType=INTEGER}
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
     </if> 
-    order by create_time desc
-    limit #{limit}) b,
-    (select id, head_pic,name,
-    city_name,identity_name
-    t_yp_user_stu
-    where is_deleted=0 ) u
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) b,
+    (select id, head_pic, name, city_name,identity_name
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include>) u
     where b.visitor=u.id
   </select>
   
@@ -118,15 +117,14 @@
     from (select visitor,visitor_type
     from t_yp_bbs_like
     where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset ==-1" >
-        and id &lt; #{offset,jdbcType=INTEGER}
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
     </if> 
-    order by create_time desc
+    order by create_time
     limit #{limit}) b,
-    (select id, head_pic,name,
-    city_name,identity_name
-    t_yp_user_stu
-    where is_deleted=0 ) u
+    (select id, head_pic
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include> ) u
     where b.visitor=u.id
   </select>
   
@@ -136,33 +134,31 @@
     from (select visitor,visitor_type,create_time
     from t_yp_works_like
     where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset ==-1" >
-        and id &lt; #{offset,jdbcType=INTEGER}
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
     </if> 
-    order by create_time desc
-    limit #{limit}) w,
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) w,
     (select id, head_pic,name,
     city_name,identity_name
-    t_yp_user_stu
-    where is_deleted=0 ) u
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include> ) u
     where w.visitor=u.id
   </select>
   
    <select id="selectWorksLikeUserPicByFid" resultMap="LikePicResultMap">
-     select u.id,w.visitor_type as user_type,w.create_time,u.head_pic,
-    u.name,u.identity_name,u.city_name
+     select u.id,w.visitor_type as user_type,u.head_pic
     from (select visitor,visitor_type
     from t_yp_works_like
     where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset ==-1" >
-        and id &lt; #{offset,jdbcType=INTEGER}
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
     </if> 
-    order by create_time desc
-    limit #{limit}) w,
-    (select id, head_pic,name,
-    city_name,identity_name
-    t_yp_user_stu
-    where is_deleted=0 ) u
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) w,
+    (select id, head_pic
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include> ) u
     where w.visitor=u.id
   </select>
   
@@ -172,33 +168,31 @@
     from (select visitor,visitor_type,create_time
     from t_yp_statuses_like
     where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset ==-1" >
-        and id &lt; #{offset,jdbcType=INTEGER}
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
     </if> 
-    order by create_time desc
-    limit #{limit}) s,
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) s,
     (select id, head_pic,name,
     city_name,identity_name
-    t_yp_user_stu
-    where is_deleted=0 ) u
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include> ) u
     where s.visitor=u.id
   </select>
   
   <select id="selectStatusesLikeUserPicByFid" resultMap="LikePicResultMap">
-    select u.id,s.visitor_type as user_type,s.create_time,u.head_pic,
-    u.name,u.identity_name,u.city_name
+    select u.id,s.visitor_type as user_type,u.head_pic
     from (select visitor,visitor_type
     from t_yp_statuses_like
     where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset ==-1" >
-        and id &lt; #{offset,jdbcType=INTEGER}
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
     </if> 
-    order by create_time desc
-    limit #{limit}) s,
-    (select id, head_pic,name,
-    city_name,identity_name
-    t_yp_user_stu
-    where is_deleted=0 ) u
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) s,
+    (select id, head_pic
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include>) u
     where s.visitor=u.id
   </select>
   

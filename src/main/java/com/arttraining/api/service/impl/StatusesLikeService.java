@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.arttraining.api.dao.StatusesLikeMapper;
+import com.arttraining.api.dao.StatusesMapper;
 import com.arttraining.api.pojo.StatusesLike;
 import com.arttraining.api.service.IStatusesLikeService;
 
@@ -12,6 +13,8 @@ import com.arttraining.api.service.IStatusesLikeService;
 public class StatusesLikeService implements IStatusesLikeService {
 	@Resource
 	private StatusesLikeMapper statusesLikeDao;
+	@Resource
+	private StatusesMapper statusesDao;
 	
 	@Override
 	public StatusesLike selectStatusesLikeByUidAndFid(Integer fid, Integer uid) {
@@ -29,6 +32,13 @@ public class StatusesLikeService implements IStatusesLikeService {
 	public int updateStatusesLikeSelective(StatusesLike record) {
 		// TODO Auto-generated method stub
 		return this.statusesLikeDao.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public void insertAndUpdateStatus(StatusesLike record, Integer id) {
+		// TODO Auto-generated method stub
+		this.statusesLikeDao.insertSelective(record);
+		this.statusesDao.updateStatusLikeNumByPrimaryKey(id);
 	}
 
 }

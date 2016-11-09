@@ -24,6 +24,27 @@ import com.google.gson.Gson;
 public class UserStuController {
 	@Resource
 	private UserStuService userStuService;
+	
+	/*@RequestMapping(value = "/test", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object test(HttpServletRequest request, HttpServletResponse response) {
+		 	try {
+		 		//修改
+		 		 UserStu useStu = new UserStu();
+			     useStu.setName("33");
+			     useStu.setId(5);
+			        //插入
+			      UserStu useStu1 = new UserStu();
+			      useStu1.setName("654");
+			      useStu1.setId(7);
+			       
+			      this.userStuService.delAndUpdate(useStu, useStu1);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		  
+	        return true;
+	}*/
+	
 	/***
 	 * 根据用户ID获取用户信息
 	 * 传递的参数:uid 用户id
@@ -107,15 +128,26 @@ public class UserStuController {
 				UserStu userStu = new UserStu();
 				userStu.setId(i_uid);
 				userStu.setHeadPic(head_pic);
-				Integer rtn = this.userStuService.updateUserStuBySelective(userStu);
-				if(rtn>0) {
+				
+				try {
+					//Integer rtn = this.userStuService.updateUserStuBySelective(userStu);
+					this.userStuService.updateUserStuBySelective(userStu);
+					errorCode = "0";
+					errorMessage = "ok";
+					
+				}catch(Exception e) {
+					errorCode = "20036";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
+				}
+				
+				/*if(rtn>0) {
 					errorCode = "0";
 					errorMessage = "ok";
 				}
 				else {
 					errorCode = "20036";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
-				}
+				}*/
 			}
 			else {
 				errorCode = "20028";
@@ -169,7 +201,17 @@ public class UserStuController {
 				UserStu userStu = new UserStu();
 				userStu.setId(i_uid);
 				userStu.setPwd(new_pwd);
-				Integer rtn = this.userStuService.updateUserStuBySelective(userStu);
+				
+				try {
+					this.userStuService.updateUserStuBySelective(userStu);
+					errorCode = "0";
+					errorMessage = "ok";
+					
+				}catch(Exception e) {
+					errorCode = "20036";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
+				}
+				/*Integer rtn = this.userStuService.updateUserStuBySelective(userStu);
 				if(rtn>0) {
 					errorCode = "0";
 					errorMessage = "ok";
@@ -177,7 +219,7 @@ public class UserStuController {
 				else {
 					errorCode = "20036";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
-				}
+				}*/
 			}
 			else {
 				errorCode = "20028";
@@ -231,7 +273,18 @@ public class UserStuController {
 				UserStu userStu = new UserStu();
 				userStu.setId(i_uid);
 				userStu.setUserMobile(mobile);
-				Integer rtn = this.userStuService.updateUserStuBySelective(userStu);
+				
+				try {
+					this.userStuService.updateUserStuBySelective(userStu);
+					errorCode = "0";
+					errorMessage = "ok";
+					
+				}catch(Exception e) {
+					errorCode = "20036";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
+				}
+				
+				/*Integer rtn = this.userStuService.updateUserStuBySelective(userStu);
 				if(rtn>0) {
 					errorCode = "0";
 					errorMessage = "ok";
@@ -239,7 +292,7 @@ public class UserStuController {
 				else {
 					errorCode = "20036";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
-				}
+				}*/
 			}
 			else {
 				errorCode = "20028";
@@ -355,7 +408,17 @@ public class UserStuController {
 				userStu.setIntentionalCollegeName(intentional_college);
 				userStu.setEmail(email);
 				
-				Integer rtn = this.userStuService.setUserStuInfoBySelective(userStu);
+				try {
+					this.userStuService.setUserStuInfoBySelective(userStu);
+					errorCode = "0";
+					errorMessage = "ok";
+					
+				}catch(Exception e) {
+					errorCode = "20036";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
+				}
+				
+				/*Integer rtn = this.userStuService.setUserStuInfoBySelective(userStu);
 				if(rtn>0) {
 					errorCode = "0";
 					errorMessage = "ok";
@@ -363,7 +426,7 @@ public class UserStuController {
 				else {
 					errorCode = "20036";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
-				}
+				}*/
 			}
 			else {
 				errorCode = "20028";

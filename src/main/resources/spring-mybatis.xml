@@ -3,12 +3,18 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans  
                         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd  
                         http://www.springframework.org/schema/context  
                         http://www.springframework.org/schema/context/spring-context-4.0.xsd  
                         http://www.springframework.org/schema/mvc  
-                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/tx
+        				http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+        				http://www.springframework.org/schema/aop
+        				http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
 	<!-- 自动扫描 -->
 	<context:component-scan base-package="com.arttraining.api" />
 
@@ -54,4 +60,38 @@
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	
+	<!-- 配置事务异常封装 -->
+   <bean id="persistenceExceptionTranslationPostProcessor" 
+       class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+   
+   <!--  声明式容器事务管理 ,transaction-manager指定事务管理器为transactionManager -->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <!-- 读取数据方法，一般采用只读事务-->  
+            <tx:method name="get*" read-only="true"/>  
+            <tx:method name="query*" read-only="true"/>  
+            <tx:method name="find*" read-only="true"/>  
+            <tx:method name="load*" read-only="true"/>  
+              
+            <!--以下方法，如save，update，insert等对数据库进行写入操作的方法，当产生Exception时进行回滚 -->  
+            <tx:method name="insert*"   />  
+            <tx:method name="update*"  />  
+            <tx:method name="save*"  />  
+            <tx:method name="add*"  />  
+            <tx:method name="create*"  />  
+            <tx:method name="del*"  />  
+            <tx:method name="remove*"  />  
+            <tx:method name="batchCommit*"  />  
+            <!--2015-03-11，修改为抛出异常都进行回滚 -->  
+            <tx:method name="*" rollback-for="Exception"/>   
+        </tx:attributes>
+    </tx:advice>
+        
+    <aop:config expose-proxy="true">
+        <!-- 只对业务逻辑层实施事务 -->
+        <aop:pointcut id="txPointcut" expression="execution(* com.arttraining.api.controller.*.*(..))" />
+        <!-- Advisor定义，切入点和通知分别为txPointcut、txAdvice -->
+        <aop:advisor pointcut-ref="txPointcut" advice-ref="txAdvice"/>
+    </aop:config>
 </beans>

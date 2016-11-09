@@ -5,6 +5,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.arttraining.api.dao.WorksLikeMapper;
+import com.arttraining.api.dao.WorksMapper;
 import com.arttraining.api.pojo.WorksLike;
 import com.arttraining.api.service.IWorksLikeService;
 
@@ -12,6 +13,8 @@ import com.arttraining.api.service.IWorksLikeService;
 public class WorksLikeService implements IWorksLikeService {
 	@Resource
 	private WorksLikeMapper workLikeDao;
+	@Resource
+	private WorksMapper workDao;
 	
 	@Override
 	public WorksLike selectWorksLikeByUidAndFid(Integer fid, Integer uid) {
@@ -29,6 +32,13 @@ public class WorksLikeService implements IWorksLikeService {
 	public int updateWorksLikeSelective(WorksLike record) {
 		// TODO Auto-generated method stub
 		return this.workLikeDao.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public void insertAndUpdateWork(WorksLike record, Integer id) {
+		// TODO Auto-generated method stub
+		this.workLikeDao.insertSelective(record);
+		this.workDao.updateWorkLikeNumByPrimaryKey(id);
 	}
 
 }

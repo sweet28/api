@@ -17,6 +17,59 @@
     <result column="priority" property="priority" jdbcType="VARCHAR" />
     <result column="is_publish" property="isPublish" jdbcType="INTEGER" />
   </resultMap>
+   
+  <!-- coffee add sql where -->
+  <sql id="select_ad_where">
+  	and is_deleted=0 and is_publish=1
+  </sql>
+  
+  <!-- coffee add 获取广告列表信息 -->
+  <resultMap id="ListResultMap" type="com.arttraining.api.bean.AdvertiseListBean" >
+    <id column="id" property="ad_id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectAdList" resultMap="ListResultMap">
+    select id,title,pic,url
+    from t_yp_advertising
+    where 1=1
+    <include refid="select_ad_where"></include>
+    order by order_code
+    limit 0,2
+  </select>
+  
+  <!-- coffee add 依据广告id 获取广告的详情信息 -->
+  <resultMap id="ShowResultMap" type="com.arttraining.api.bean.AdvertiseShowBean" >
+    <id column="id" property="ad_id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectAdShowByPrimaryKey" resultMap="ShowResultMap" parameterType="java.lang.Integer">
+    select id,title,pic,url,content,create_time
+    from t_yp_advertising
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_ad_where"></include>
+  </select>
+  
+  <!-- coffee add 获取首页一条广告信息 -->
+  <resultMap id="HomepageOneAdResultMap" type="com.arttraining.api.bean.HomePageAdvertiseBean" >
+    <id column="id" property="ad_id" jdbcType="INTEGER" />
+    <result column="pic" property="ad_pic" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectOneAdByHomepage" resultMap="HomepageOneAdResultMap">
+    select id,pic
+    from t_yp_advertising
+    where 1=1
+    <include refid="select_ad_where"></include>
+    order by order_code
+    limit 0,1
+  </select>
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     title, content, pic, url, priority, is_publish

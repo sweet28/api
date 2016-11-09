@@ -35,7 +35,10 @@
 		location="/css/" /> -->
 
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
-	<context:component-scan base-package="com.arttraining.api.controller" />
+	<context:component-scan base-package="com.arttraining.api">  
+    	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>   
+	</context:component-scan> 
+	<!--  <context:component-scan base-package="com.arttraining.api.controller" />-->
 
 	<!-- 添加注解驱动 -->
 	<mvc:annotation-driven enable-matrix-variables="true" />
