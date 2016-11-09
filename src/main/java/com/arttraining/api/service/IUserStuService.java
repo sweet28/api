@@ -41,5 +41,8 @@ public interface IUserStuService {
     		Integer offset,Integer limit);
     //根据登录账号查询用户
 	UserStu getUserStuByAccount(String account);
+	
+	//注册用户
+	int insert(UserStu userStu);
 
 }
