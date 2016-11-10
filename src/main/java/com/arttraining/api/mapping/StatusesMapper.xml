@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.arttraining.api.dao.StatusesMapper" >
-<!-- 因为冲突，加几句话，哎 -->
   <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.Statuses" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="uuid" property="uuid" jdbcType="VARCHAR" />
@@ -262,28 +261,56 @@
 		 and id=#{uid,jdbcType=INTEGER}) s
 	where b.owner = s.id
   </select>
+  <!-- coffee add 1110 获取某一个小组动态小组信息 -->
+    <resultMap id="ShowOneStatusResultMap" type="com.arttraining.api.bean.StatusesShowBean" >
+    <result column="stus_id" property="stus_id" jdbcType="INTEGER" />
+    <result column="stus_type" property="stus_type" jdbcType="VARCHAR" />   
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="owner_type" jdbcType="VARCHAR" />
+    <result column="owner_name" property="owner_name" jdbcType="VARCHAR" />
+    <result column="owner_head_pic" property="owner_head_pic" jdbcType="VARCHAR" />
+   	<result column="identity" property="identity" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+  	<result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="comment_num" property="comment_num" jdbcType="INTEGER" />
+    <result column="like_num" property="like_num" jdbcType="INTEGER" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectOneStatusByid" resultMap="ShowOneStatusResultMap">
+    select b.id as stus_id,'status' as stus_type,b.comment_num,
+    b.owner_type,b.like_num,b.browse_num,b.content,
+	b.title,b.tag,b.create_time,b.remarks,
+	s.identity_name as identity,
+	s.id as owner,s.name as owner_name,s.city_name as city,
+	s.head_pic as owner_head_pic
+	from (select id,comment_num,like_num,browse_num,content,title,
+		  tag,create_time,owner,owner_type,remarks
+		  from t_yp_statuses
+	      where is_deleted=0 and owner_type='stu' and id=#{id,jdbcType=INTEGER}) b, 
+		(select identity_name,city_name,head_pic,name,id
+		from t_yp_user_stu
+		where <include refid="select_userstu_where"></include>) s
+	where b.owner = s.id
+  </select>
   
   <!-- coffee add 1107 查询是否点赞和点评 -->
    <resultMap id="LikeOrCommentResultMap" type="com.arttraining.api.bean.HomeLikeOrCommentBean" >
-    <result column="is_like" property="is_like" jdbcType="VARCHAR" />   
-    <result column="is_comment" property="is_comment" jdbcType="VARCHAR" />
     <result column="att_id" property="att_id" jdbcType="INTEGER" />
     <result column="duration" property="duration" jdbcType="VARCHAR" />
     <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
     <result column="store_path" property="store_path" jdbcType="VARCHAR" />
    	<result column="att_type" property="att_type" jdbcType="VARCHAR" />
   </resultMap>
-   <select id="selectIsLikeOrCommentOrAtt" parameterType="java.util.Map" resultMap="LikeOrCommentResultMap" statementType="CALLABLE">
-  		<![CDATA[{CALL p_yp_homepage_status(
+  <select id="selectIsLikeOrCommentOrAtt" parameterType="java.util.Map" resultMap="LikeOrCommentResultMap" statementType="CALLABLE">
+  		<![CDATA[{CALL p_yp_homepage_bbs(
 	  		#{s_id,mode=IN,jdbcType=INTEGER},  
 	  	    #{u_id,mode=IN,jdbcType=INTEGER},
 	  	    #{is_like,mode=OUT,jdbcType=VARCHAR},
-	  	    #{is_comment,mode=OUT,jdbcType=VARCHAR},
-	  	    #{att_id,mode=OUT,jdbcType=INTEGER},
-	  	    #{duration,mode=OUT,jdbcType=VARCHAR},
-	  	    #{att_type,mode=OUT,jdbcType=VARCHAR},
-	  	    #{thumbnail,mode=OUT,jdbcType=VARCHAR},
-	  	    #{store_path,mode=OUT,jdbcType=VARCHAR}
+	  	    #{is_comment,mode=OUT,jdbcType=VARCHAR}
   	    )}]]> 
    </select>
    
