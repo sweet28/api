@@ -3,9 +3,9 @@ package com.arttraining.api.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
-
+import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
+import com.arttraining.api.bean.StatusesShowBean;
 import com.arttraining.api.pojo.BBS;
 import com.arttraining.api.pojo.BBSAttachment;
 
@@ -19,7 +19,10 @@ public interface IBBSService {
 	List<HomePageStatusesBean> getBBSListByHomepage(Integer limit);
 	//当前用户是否点赞或者名师是否点评
 	//HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Integer u_id, Integer s_id);
-	void getIsLikeOrCommentOrAtt(Map<String, Object> map);
+	//void getIsLikeOrCommentOrAtt(Map<String, Object> map);
+	HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Map<String, Object> map);
 	//获取指定用户发布的帖子列表信息 默认显示10条
     List<HomePageStatusesBean> getBBSListByUid(Integer uid, Integer limit);
+    //依据帖子ID查询某一个帖子信息
+    StatusesShowBean getOneBBSById(Integer id);
 }

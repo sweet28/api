@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
+import com.arttraining.api.bean.StatusesShowBean;
 import com.arttraining.api.pojo.BBS;
 
 public interface BBSMapper {
@@ -36,4 +37,9 @@ public interface BBSMapper {
     //获取指定用户发布的帖子列表信息 默认显示10条
     List<HomePageStatusesBean> selectBBSListByUid(@Param("uid")Integer uid,
     		@Param("limit")Integer limit);
+    
+    //显示指定某一个用户发布的帖子信息
+    StatusesShowBean selectOneBBSByid(Integer id);
+    
+    
 }

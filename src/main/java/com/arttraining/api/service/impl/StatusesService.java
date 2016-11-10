@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
+import com.arttraining.api.bean.StatusesShowBean;
 import com.arttraining.api.dao.StatusesAttachmentMapper;
 import com.arttraining.api.dao.StatusesMapper;
 import com.arttraining.api.pojo.Statuses;
@@ -59,6 +60,12 @@ public class StatusesService implements IStatusesService {
 			Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return this.statusesDao.selectIsLikeOrCommentOrAtt(map);
+	}
+
+	@Override
+	public StatusesShowBean getOneStatusByid(Integer id) {
+		// TODO Auto-generated method stub
+		return this.statusesDao.selectOneStatusByid(id);
 	}
 
 }

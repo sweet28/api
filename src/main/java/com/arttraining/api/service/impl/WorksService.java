@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
 import com.arttraining.api.dao.WorksMapper;
 import com.arttraining.api.pojo.Works;
@@ -28,9 +29,9 @@ public class WorksService implements IWorksService {
 		return this.worksDao.selectWorkListByHomepage(limit);
 	}
 	@Override
-	public void getIsLikeOrCommentOrAtt(Map<String, Object> map) {
+	public HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		this.worksDao.selectIsLikeOrCommentOrAtt(map);
+		return this.worksDao.selectIsLikeOrCommentOrAtt(map);
 	}
 	@Override
 	public List<HomePageStatusesBean> selectWorkListByUid(Integer uid,

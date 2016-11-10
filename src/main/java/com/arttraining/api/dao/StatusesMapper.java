@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
+import com.arttraining.api.bean.StatusesShowBean;
 import com.arttraining.api.pojo.Statuses;
 
 public interface StatusesMapper {
@@ -37,4 +38,6 @@ public interface StatusesMapper {
     List<HomePageStatusesBean> selectStatusesListByUidAndGid(@Param("uid")Integer uid,
     		@Param("gid")Integer gid, @Param("limit")Integer limit);
     
+    //显示指定某一个用户发布的小组动态信息
+    StatusesShowBean selectOneStatusByid(Integer id);
 }

@@ -7,7 +7,7 @@ public class StatusesShowBean {
 	private String error_code;
 	private String error_msg;
 	private Integer stus_id;
-	private String type;
+	private String stus_type;
 	private Integer owner;
 	private String owner_type;
 	private String owner_name;
@@ -27,6 +27,7 @@ public class StatusesShowBean {
     
     private List<HomePageAttBean> att;
     private List<CommentsBean> comments;
+    private HomePageAdvertiseBean ad;
     
     
 	public StatusesShowBean() {
@@ -52,12 +53,15 @@ public class StatusesShowBean {
 	public void setStus_id(Integer stus_id) {
 		this.stus_id = stus_id;
 	}
-	public String getType() {
-		return type;
+	
+	public String getStus_type() {
+		return stus_type;
 	}
-	public void setType(String type) {
-		this.type = type;
+
+	public void setStus_type(String stus_type) {
+		this.stus_type = stus_type;
 	}
+
 	public Integer getOwner() {
 		return owner;
 	}
@@ -165,6 +169,14 @@ public class StatusesShowBean {
 	}
 	public void setComments(List<CommentsBean> comments) {
 		this.comments = comments;
+	}
+
+	public HomePageAdvertiseBean getAd() {
+		return ad;
+	}
+
+	public void setAd(HomePageAdvertiseBean ad) {
+		this.ad = ad;
 	}
  
     

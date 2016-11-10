@@ -10,7 +10,7 @@ public class CommentsBean {
 	private String identity;
 	private String content;
 	private String comm_type;
-	private CommentsReplayBean reply;
+	private CommentsHostBean reply;
 	
 	public Integer getUser_id() {
 		return user_id;
@@ -60,11 +60,11 @@ public class CommentsBean {
 	public void setComm_type(String comm_type) {
 		this.comm_type = comm_type;
 	}
-	public CommentsReplayBean getReply() {
+	public CommentsHostBean getReply() {
 		return reply;
 	}
-	public void setReply(CommentsReplayBean reply) {
+	public void setReply(CommentsHostBean reply) {
 		this.reply = reply;
 	}
-
+	
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
+import com.arttraining.api.bean.StatusesShowBean;
 import com.arttraining.api.pojo.Statuses;
 import com.arttraining.api.pojo.StatusesAttachment;
 
@@ -23,4 +24,6 @@ public interface IStatusesService {
     //获取指定用户在某个小组发布的动态列表信息 默认显示10条
     List<HomePageStatusesBean> selectStatusesListByUidAndGid(Integer uid,
     		Integer gid, Integer limit);
+    //获取某一条小组动态信息
+    StatusesShowBean getOneStatusByid(Integer id);
 }

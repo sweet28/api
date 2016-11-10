@@ -34,4 +34,10 @@ public class UserTecService implements IUserTecService {
 		return this.userTecDao.selectTecherListIndexBySelective(offset,limit);
 	}
 
+	@Override
+	public int countTecherNumer() {
+		// TODO Auto-generated method stub
+		return this.userTecDao.selectTecherNumer();
+	}
+
 }

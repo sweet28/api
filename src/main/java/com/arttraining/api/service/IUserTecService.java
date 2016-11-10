@@ -14,4 +14,6 @@ public interface IUserTecService {
 			Integer offset, Integer limit);
 	//首页默认显示2个名师信息
 	List<TecherListBean> getTecherListIndexBySelective(Integer offset, Integer limit);
+	//查询名师数量
+    int countTecherNumer();
 }

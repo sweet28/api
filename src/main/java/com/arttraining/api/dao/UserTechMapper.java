@@ -29,4 +29,7 @@ public interface UserTechMapper {
     //首页默认显示2个名师信息
     List<TecherListBean> selectTecherListIndexBySelective(@Param("offset") Integer offset,
     		@Param("limit") Integer limit);
+    
+    //查询名师数量
+    int selectTecherNumer();
 }

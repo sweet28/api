@@ -106,14 +106,14 @@
   </select>
   
   <!-- coffee add 1107 查询是否点赞和点评 -->
-   <resultMap id="LikeOrCommentResultMap" type="com.arttraining.api.bean.HomeLikeOrCommentBean" >
-    <result column="is_like" property="is_like" jdbcType="VARCHAR" />   
-    <result column="is_comment" property="is_comment" jdbcType="VARCHAR" />
-    <result column="att_id" property="att_id" jdbcType="INTEGER" />
+  <resultMap id="LikeOrCommentResultMap" type="com.arttraining.api.bean.HomeLikeOrCommentBean" >
+    <!--<result column="is_like" property="is_like" jdbcType="VARCHAR" />   
+    <result column="is_comment" property="is_comment" jdbcType="VARCHAR" /> -->
+    <result column="id" property="att_id" jdbcType="INTEGER" />
     <result column="duration" property="duration" jdbcType="VARCHAR" />
     <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
     <result column="store_path" property="store_path" jdbcType="VARCHAR" />
-   	<result column="att_type" property="att_type" jdbcType="VARCHAR" />
+   	<result column="type" property="att_type" jdbcType="VARCHAR" />
   </resultMap>
    <select id="selectIsLikeOrCommentOrAtt" resultMap="LikeOrCommentResultMap" 
    		statementType="CALLABLE">
@@ -121,12 +121,7 @@
 	  		#{s_id,jdbcType=INTEGER,mode=IN},  
 	  	    #{u_id,jdbcType=INTEGER,mode=IN},
 	  	    #{is_like,jdbcType=VARCHAR,mode=OUT},
-	  	    #{is_comment,jdbcType=VARCHAR,mode=OUT},
-	  	    #{att_id,jdbcType=INTEGER,mode=OUT},
-	  	    #{duration,jdbcType=VARCHAR,mode=OUT},
-	  	    #{att_type,jdbcType=VARCHAR,mode=OUT},
-	  	    #{thumbnail,jdbcType=VARCHAR,mode=OUT},
-	  	    #{store_path,jdbcType=VARCHAR,mode=OUT}
+	  	    #{is_comment,jdbcType=VARCHAR,mode=OUT}
   	    )}  
    </select>
  

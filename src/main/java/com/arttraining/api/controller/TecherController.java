@@ -113,7 +113,20 @@ public class TecherController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 		}
 		else {
-			offset=(Integer.valueOf(self)-1)*limit;
+			//在这里查询总的名师个数
+			Integer tecNum = this.userTecService.countTecherNumer();
+			Integer page=tecNum/2;
+			
+			/*if(tecNum%2==0) {
+				page=tecNum/2;
+			}
+			else
+				page=tecNum/2+1;*/
+			
+			offset=Integer.valueOf(self)-1;
+			//如果当前页>=名师数量
+			offset = (offset+page)%page*limit;
+			
 			teacherList = this.userTecService.getTecherListIndexBySelective(offset,limit);
 			if(teacherList.size()>0) {
 				errorCode = "0";

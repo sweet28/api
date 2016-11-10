@@ -12,7 +12,17 @@ public class TimeUtil {
 		Timestamp time = new Timestamp(date.getTime());
 		return time;
 	}
-	
+	/**
+     * 将date类型的时间 转换成字符串类型
+     * 
+     * **/
+	public static String getTimeByDate(Date date) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time = format.format(date);
+		return time;
+	}
+    
+    
 	public static long diffSeconds(long nowTime, long oldTime){
 		long result = 0;
 		
@@ -60,4 +70,5 @@ public class TimeUtil {
         return time;
 
     }
+    
 }

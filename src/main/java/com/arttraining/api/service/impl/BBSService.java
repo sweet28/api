@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
+import com.arttraining.api.bean.StatusesShowBean;
 import com.arttraining.api.dao.BBSAttachmentMapper;
 import com.arttraining.api.dao.BBSMapper;
 import com.arttraining.api.pojo.BBS;
@@ -45,15 +47,21 @@ public class BBSService implements IBBSService {
 	}
 
 	@Override
-	public void getIsLikeOrCommentOrAtt(Map<String, Object> map) {
+	public HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		this.bbsDao.selectIsLikeOrCommentOrAtt(map);
+		return this.bbsDao.selectIsLikeOrCommentOrAtt(map);
 	}
 
 	@Override
 	public List<HomePageStatusesBean> getBBSListByUid(Integer uid, Integer limit) {
 		// TODO Auto-generated method stub
 		return this.bbsDao.selectBBSListByUid(uid, limit);
+	}
+
+	@Override
+	public StatusesShowBean getOneBBSById(Integer id) {
+		// TODO Auto-generated method stub
+		return this.bbsDao.selectOneBBSByid(id);
 	}
 
 	

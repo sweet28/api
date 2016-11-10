@@ -105,6 +105,15 @@
     order by order_code
     limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
   </select>
+  
+  <!-- coffee add 1110 查询名师数量 -->
+   <select id="selectTecherNumer" resultType="java.lang.Integer">
+    select count(id)
+    from t_yp_user_tech
+    where 1=1 
+    <include refid="select_tec_where"></include>
+  </select>
+  
   <!-- end -->
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
