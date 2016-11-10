@@ -41,6 +41,8 @@ public class Group {
 
     private Integer statusNum;
 
+    private String pic;
+
     public Integer getId() {
         return id;
     }
@@ -191,5 +193,13 @@ public class Group {
 
     public void setStatusNum(Integer statusNum) {
         this.statusNum = statusNum;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic == null ? null : pic.trim();
     }
 }

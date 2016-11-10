@@ -21,11 +21,12 @@
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
     <result column="people_num" property="peopleNum" jdbcType="INTEGER" />
     <result column="status_num" property="statusNum" jdbcType="INTEGER" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, name, number, owner_type, owner, introduce, tag, classify, grade, verify_status, 
     is_deleted, create_time, order_code, delete_time, remarks, attachment, people_num, 
-    status_num
+    status_num, pic
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -44,14 +45,14 @@
       grade, verify_status, is_deleted, 
       create_time, order_code, delete_time, 
       remarks, attachment, people_num, 
-      status_num)
+      status_num, pic)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{number,jdbcType=INTEGER}, #{ownerType,jdbcType=VARCHAR}, #{owner,jdbcType=INTEGER}, 
       #{introduce,jdbcType=VARCHAR}, #{tag,jdbcType=VARCHAR}, #{classify,jdbcType=VARCHAR}, 
       #{grade,jdbcType=INTEGER}, #{verifyStatus,jdbcType=INTEGER}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{peopleNum,jdbcType=INTEGER}, 
-      #{statusNum,jdbcType=INTEGER})
+      #{statusNum,jdbcType=INTEGER}, #{pic,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Group" >
     insert into t_yp_group
@@ -113,6 +114,9 @@
       <if test="statusNum != null" >
         status_num,
       </if>
+      <if test="pic != null" >
+        pic,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -171,6 +175,9 @@
       </if>
       <if test="statusNum != null" >
         #{statusNum,jdbcType=INTEGER},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,6 +238,9 @@
       <if test="statusNum != null" >
         status_num = #{statusNum,jdbcType=INTEGER},
       </if>
+      <if test="pic != null" >
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -253,7 +263,8 @@
       remarks = #{remarks,jdbcType=VARCHAR},
       attachment = #{attachment,jdbcType=VARCHAR},
       people_num = #{peopleNum,jdbcType=INTEGER},
-      status_num = #{statusNum,jdbcType=INTEGER}
+      status_num = #{statusNum,jdbcType=INTEGER},
+      pic = #{pic,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

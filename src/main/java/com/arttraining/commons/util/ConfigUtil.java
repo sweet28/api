@@ -47,6 +47,12 @@ public class ConfigUtil {
 	public static int ALIDAYU_SMS_SEND_INTERVAL = 60;//发送验证码的间隔
 	public static int ALIDAYU_SMS_EXPIRE_TIME = 5;//发送的验证码有效时间，分钟
 	
+	public static String ALIDAYU_SMS_CODE_TYPE_REG = "reg_code";//发送注册类型的验证码
+	public static String ALIDAYU_SMS_CODE_TYPE_LOGIN = "login_code";//发送登录验证码
+	public static String ALIDAYU_SMS_CODE_TYPE_CHANGE = "change_code";//发送变更身份的验证码
+	public static String ALIDAYU_SMS_CODE_TYPE_IDENTITY = "identity_code";//发送身份验证的验证码
+	public static String ALIDAYU_SMS_CODE_TYPE_ACTIVITY = "activity_code";//发送活动验证的验证码
+	
 	// 分页时 默认显示记录条数
 	public static Integer PAGESIZE = 10;
 	// 广告 默认显示的记录条数
