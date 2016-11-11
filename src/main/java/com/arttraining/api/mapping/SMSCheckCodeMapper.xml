@@ -26,19 +26,20 @@
     from t_yp_sms_check_code
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByMobileAndType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByMobileAndType" resultMap="BaseResultMap" parameterType="com.arttraining.api.pojo.SMSCheckCode" >
     select 
     <include refid="Base_Column_List" />
     from t_yp_sms_check_code
-    where remarks = #{codeType,jdbcType=VARCHAR} 
+    where remarks = #{remarks,jdbcType=VARCHAR} 
     and mobile = #{mobile,jdbcType=VARCHAR} 
+    and check_code = #{checkCode,jdbcType=VARCHAR} 
     and is_used = 0 and is_deleted = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_sms_check_code
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.arttraining.api.pojo.SMSCheckCode" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.arttraining.api.pojo.SMSCheckCode" >
     insert into t_yp_sms_check_code (id, uuid, is_deleted, 
       create_time, order_code, delete_time, 
       remarks, attachment, mobile, 
