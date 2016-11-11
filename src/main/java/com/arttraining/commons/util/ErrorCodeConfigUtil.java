@@ -66,4 +66,7 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20039 = "转发动态失败";
 	
 	public static String ERROR_MSG_ZH_20040 = "注册失败，请检查网络是否通畅。";
+	public static String ERROR_MSG_ZH_20041 = "创建小组失败,请检查网络是否畅通。";
+	public static String ERROR_MSG_ZH_20042 = "已经创建该小组";
+	public static String ERROR_MSG_ZH_20043 = "加入小组失败,请检查网络是否畅通。";
 }
