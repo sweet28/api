@@ -23,6 +23,256 @@
     <result column="status_num" property="statusNum" jdbcType="INTEGER" />
     <result column="pic" property="pic" jdbcType="VARCHAR" />
   </resultMap>
+  <!-- coffee add sql where -->
+  <sql id="select_group_where">
+  	and is_deleted=0
+  </sql>
+  <!-- coffee add 1110 创建小组时新增的小组信息 -->
+   <insert id="insertOneGroup" useGeneratedKeys="true" keyProperty="id"
+    parameterType="com.arttraining.api.pojo.Group" >
+    insert into t_yp_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="ownerType != null" >
+        owner_type,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="introduce != null" >
+        introduce,
+      </if>
+      <if test="tag != null" >
+        tag,
+      </if>
+      <if test="classify != null" >
+        classify,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="verifyStatus != null" >
+        verify_status,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="peopleNum != null" >
+        people_num,
+      </if>
+      <if test="statusNum != null" >
+        status_num,
+      </if>
+      <if test="pic != null" >
+        pic,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerType != null" >
+        #{ownerType,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="introduce != null" >
+        #{introduce,jdbcType=VARCHAR},
+      </if>
+      <if test="tag != null" >
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="classify != null" >
+        #{classify,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="verifyStatus != null" >
+        #{verifyStatus,jdbcType=INTEGER},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="peopleNum != null" >
+        #{peopleNum,jdbcType=INTEGER},
+      </if>
+      <if test="statusNum != null" >
+        #{statusNum,jdbcType=INTEGER},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <!-- coffee add 1110 判断是否重复创建小组 -->
+  <select id="selectIsRepeatGroup" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_group
+    where owner_type=#{utype,jdbcType=VARCHAR} and
+     name=#{name,jdbcType=VARCHAR} and owner=#{uid,jdbcType=INTEGER}
+     <include refid="select_group_where"></include>
+  </select>
+  
+  <!-- coffee add 1110 新增查询用户头像的存储过程 -->
+  <select id="selectUerPicByIdAndType" parameterType="java.util.Map" statementType="CALLABLE">
+  		<![CDATA[{CALL p_yp_show_userpic(
+	  	    #{utype,mode=IN,jdbcType=VARCHAR},
+	  	    #{uid,mode=IN,jdbcType=INTEGER},  
+	  	    #{pic,mode=OUT,jdbcType=VARCHAR}
+  	    )}]]> 
+   </select>
+   
+   <!-- coffee add 1110 加入小组时 修改小组成员数 -->
+   <update id="updatePeopleNumByCreate" parameterType="com.arttraining.api.pojo.Group">
+   	update t_yp_group
+   	set people_num=people_num+1
+   	where id=#{id,jdbcType=INTEGER}
+   	<include refid="select_group_where"></include>
+   </update>
+   <!-- coffee add 1110 退出小组时 修改小组成员数 -->
+   <update id="updatePeopleNumByExit" parameterType="com.arttraining.api.pojo.Group">
+   	update t_yp_group
+   	set people_num=people_num-1
+   	where id=#{id,jdbcType=INTEGER}
+   	<include refid="select_group_where"></include>
+   </update>
+   
+   <!-- coffee add 1110 获取小组列表信息 -->
+  <resultMap id="ListResultMap" type="com.arttraining.api.bean.GroupListBean" >
+    <id column="id" property="group_id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="order_code" property="order_code" jdbcType="VARCHAR" />
+    <result column="people_num" property="users_num" jdbcType="INTEGER" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <select id="selectGroupList" resultMap="ListResultMap" >
+   select id,name,pic,introduce,grade,people_num,order_code
+    from t_yp_group
+    where verify_status=1 and is_deleted=0
+    <if test="offset != -1">
+    	and order_code &lt;(select order_code from t_yp_group where id=#{offset,jdbcType=INTEGER})
+    </if>
+    order by order_code, create_time desc
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+  <!--coffee add 1110 根据用户ID获取用户小组信息  -->
+  <resultMap id="ListMyResultMap" type="com.arttraining.api.bean.GroupListMyBean" >
+    <id column="id" property="group_id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="order_code" property="order_code" jdbcType="VARCHAR" />
+    <result column="people_num" property="users_num" jdbcType="INTEGER" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectGroupListMy" resultMap="ListMyResultMap" parameterType="java.util.Map">
+    select id,name,pic,introduce,grade,people_num,verify_status
+    from v_yp_listmy_group
+    where user_id=#{uid,jdbcType=INTEGER} 
+    and user_type=#{utype,jdbcType=VARCHAR}
+    <if test="offset != -1">
+    	and order_code &lt;(select order_code from v_yp_listmy_group where id=#{offset,jdbcType=INTEGER})
+    </if>
+    order by order_code, create_time desc
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+  <!-- coffee add 1111 查询指定小组ID的信息 -->
+  <resultMap id="GroupResultMap" type="com.arttraining.api.bean.GroupShowBean" >
+    <id column="id" property="group_id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="owner_type" jdbcType="VARCHAR" />
+    <result column="introduce" property="introduce" jdbcType="VARCHAR" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="people_num" property="users_num" jdbcType="INTEGER" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+  	<collection property="users" ofType="com.arttraining.api.bean.GroupShowUserBean">
+    	<id column="group_user_id" property="group_user_id" jdbcType="INTEGER" />
+    	<result column="user_id" property="uid" jdbcType="INTEGER" />
+   		<result column="user_type" property="utype" jdbcType="VARCHAR" />
+	</collection>
+  </resultMap>
+  <select id="selectGroupShowById" resultMap="GroupResultMap">
+   select g.id,g.name,g.pic,g.introduce,g.grade,g.people_num,
+   g.create_time,g.owner,g.owner_type,g.number,u.user_id,u.user_type,
+   u.id as group_user_id
+   (select id,name,pic,introduce,grade,people_num,
+   create_time,owner,owner_type,number
+   from t_yp_group
+   where id=#{id,jdbcType=INTEGER} 
+   <include refid="select_group_where"></include>) g
+   left join 
+   (select id,userid,user_type,group_id from t_yp_group_user 
+   where group_id=#{id,jdbcType=INTEGER} and identity='host'
+   <include refid="select_group_where"></include>
+   order by create_time
+   limit #{limit,jdbcType=INTEGER} 
+   ) u
+   on g.id = u.group_id
+  </select>
+  <!-- end -->
+  
+  
   <sql id="Base_Column_List" >
     id, uuid, name, number, owner_type, owner, introduce, tag, classify, grade, verify_status, 
     is_deleted, create_time, order_code, delete_time, remarks, attachment, people_num, 

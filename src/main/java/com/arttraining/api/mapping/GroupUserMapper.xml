@@ -16,6 +16,54 @@
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
     <result column="identity" property="identity" jdbcType="VARCHAR" />
   </resultMap>
+  <!-- coffee add 1110 sql where -->
+  <sql id="select_groupuser_where">
+  	and is_deleted=0
+  </sql>
+  <!-- coffee add 1110 退出小组时 执行的操作 -->
+  <update id="updateGroupUserByExit" parameterType="com.arttraining.api.pojo.GroupUser" >
+    update t_yp_group_user
+    set delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+        is_deleted = #{isDeleted,jdbcType=INTEGER}
+    where group_id = #{groupId,jdbcType=INTEGER}
+    and user_id = #{userId,jdbcType=INTEGER}
+    and user_type=#{userType,jdbcType=VARCHAR}
+    <include refid="select_groupuser_where"></include>
+  </update>
+
+
+  <!-- coffee add 1111 获取小组成员列表信息 -->
+  <select id="selectGroupUserListByGid" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_group_user
+    where group_id = #{gid,jdbcType=INTEGER}
+    <include refid="select_groupuser_where"></include>
+    <if test="offset !=-1 ">
+    	and order_code &gt; (select order_code from t_yp_group_user 
+    	where id=#{offset,jdbcType=INTEGER} and group_id = #{gid,jdbcType=INTEGER}
+    	<include refid="select_groupuser_where"></include>)
+    </if>
+    order by order_code,create_time
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+  <!-- coffee add 1111 依据小组成员id type查询对应的用户信息 -->
+  <resultMap id="UserResultMap" type="com.arttraining.api.bean.GroupUserBean" >
+    <result column="id" property="uid" jdbcType="INTEGER" />
+    <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectGroupUserInfoByUid" parameterType="java.util.Map" 
+        resultMap="UserResultMap" statementType="CALLABLE">
+  		<![CDATA[{CALL p_yp_show_userinfo(
+	  		#{utype,mode=IN,jdbcType=VARCHAR},  
+	  	    #{uid,mode=IN,jdbcType=INTEGER}
+  	    )}]]> 
+   </select>
+  
+  <!-- end -->
   <sql id="Base_Column_List" >
     id, uuid, head_pic, user_id, user_type, group_id, is_deleted, create_time, order_code, 
     delete_time, remarks, attachment, identity
