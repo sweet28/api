@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.InviteCodeMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.InviteCode" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="host_id" property="hostId" jdbcType="INTEGER" />
+    <result column="host_name" property="hostName" jdbcType="VARCHAR" />
+    <result column="visitor_id" property="visitorId" jdbcType="INTEGER" />
+    <result column="visitor_name" property="visitorName" jdbcType="VARCHAR" />
+    <result column="host_type" property="hostType" jdbcType="VARCHAR" />
+    <result column="host_mobile" property="hostMobile" jdbcType="VARCHAR" />
+    <result column="visitor_type" property="visitorType" jdbcType="VARCHAR" />
+    <result column="visitor_moblie" property="visitorMoblie" jdbcType="VARCHAR" />
+    <result column="invite_code" property="inviteCode" jdbcType="VARCHAR" />
+    <result column="invite_type" property="inviteType" jdbcType="VARCHAR" />
+    <result column="is_used" property="isUsed" jdbcType="INTEGER" />
+    <result column="use_time" property="useTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    host_id, host_name, visitor_id, visitor_name, host_type, host_mobile, visitor_type, 
+    visitor_moblie, invite_code, invite_type, is_used, use_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_invite_code
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectByInviteCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_invite_code
+    where invite_code = #{inviteCode,jdbcType=VARCHAR}
+    and is_used = 0 and is_deleted = 0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_invite_code
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.InviteCode" >
+    insert into t_yp_invite_code (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, host_id, 
+      host_name, visitor_id, visitor_name, 
+      host_type, host_mobile, visitor_type, 
+      visitor_moblie, invite_code, invite_type, 
+      is_used, use_time)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{hostId,jdbcType=INTEGER}, 
+      #{hostName,jdbcType=VARCHAR}, #{visitorId,jdbcType=INTEGER}, #{visitorName,jdbcType=VARCHAR}, 
+      #{hostType,jdbcType=VARCHAR}, #{hostMobile,jdbcType=VARCHAR}, #{visitorType,jdbcType=VARCHAR}, 
+      #{visitorMoblie,jdbcType=VARCHAR}, #{inviteCode,jdbcType=VARCHAR}, #{inviteType,jdbcType=VARCHAR}, 
+      #{isUsed,jdbcType=INTEGER}, #{useTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.InviteCode" >
+    insert into t_yp_invite_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="hostId != null" >
+        host_id,
+      </if>
+      <if test="hostName != null" >
+        host_name,
+      </if>
+      <if test="visitorId != null" >
+        visitor_id,
+      </if>
+      <if test="visitorName != null" >
+        visitor_name,
+      </if>
+      <if test="hostType != null" >
+        host_type,
+      </if>
+      <if test="hostMobile != null" >
+        host_mobile,
+      </if>
+      <if test="visitorType != null" >
+        visitor_type,
+      </if>
+      <if test="visitorMoblie != null" >
+        visitor_moblie,
+      </if>
+      <if test="inviteCode != null" >
+        invite_code,
+      </if>
+      <if test="inviteType != null" >
+        invite_type,
+      </if>
+      <if test="isUsed != null" >
+        is_used,
+      </if>
+      <if test="useTime != null" >
+        use_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="hostId != null" >
+        #{hostId,jdbcType=INTEGER},
+      </if>
+      <if test="hostName != null" >
+        #{hostName,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorId != null" >
+        #{visitorId,jdbcType=INTEGER},
+      </if>
+      <if test="visitorName != null" >
+        #{visitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="hostType != null" >
+        #{hostType,jdbcType=VARCHAR},
+      </if>
+      <if test="hostMobile != null" >
+        #{hostMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorType != null" >
+        #{visitorType,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorMoblie != null" >
+        #{visitorMoblie,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteCode != null" >
+        #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteType != null" >
+        #{inviteType,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsed != null" >
+        #{isUsed,jdbcType=INTEGER},
+      </if>
+      <if test="useTime != null" >
+        #{useTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.InviteCode" >
+    update t_yp_invite_code
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="hostId != null" >
+        host_id = #{hostId,jdbcType=INTEGER},
+      </if>
+      <if test="hostName != null" >
+        host_name = #{hostName,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorId != null" >
+        visitor_id = #{visitorId,jdbcType=INTEGER},
+      </if>
+      <if test="visitorName != null" >
+        visitor_name = #{visitorName,jdbcType=VARCHAR},
+      </if>
+      <if test="hostType != null" >
+        host_type = #{hostType,jdbcType=VARCHAR},
+      </if>
+      <if test="hostMobile != null" >
+        host_mobile = #{hostMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorType != null" >
+        visitor_type = #{visitorType,jdbcType=VARCHAR},
+      </if>
+      <if test="visitorMoblie != null" >
+        visitor_moblie = #{visitorMoblie,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteCode != null" >
+        invite_code = #{inviteCode,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteType != null" >
+        invite_type = #{inviteType,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsed != null" >
+        is_used = #{isUsed,jdbcType=INTEGER},
+      </if>
+      <if test="useTime != null" >
+        use_time = #{useTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.InviteCode" >
+    update t_yp_invite_code
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      host_id = #{hostId,jdbcType=INTEGER},
+      host_name = #{hostName,jdbcType=VARCHAR},
+      visitor_id = #{visitorId,jdbcType=INTEGER},
+      visitor_name = #{visitorName,jdbcType=VARCHAR},
+      host_type = #{hostType,jdbcType=VARCHAR},
+      host_mobile = #{hostMobile,jdbcType=VARCHAR},
+      visitor_type = #{visitorType,jdbcType=VARCHAR},
+      visitor_moblie = #{visitorMoblie,jdbcType=VARCHAR},
+      invite_code = #{inviteCode,jdbcType=VARCHAR},
+      invite_type = #{inviteType,jdbcType=VARCHAR},
+      is_used = #{isUsed,jdbcType=INTEGER},
+      use_time = #{useTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

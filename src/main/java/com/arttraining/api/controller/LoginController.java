@@ -18,6 +18,7 @@ import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.MD5;
+import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
 
@@ -42,30 +43,38 @@ public class LoginController {
 		
 		name = request.getParameter("name");
 		pwd = request.getParameter("pwd");
-		
+		System.out.println("登录："+name+"-"+pwd+"-"+TimeUtil.getTimeStamp());
 		if(name == null || pwd == null){
+			System.out.println("登录1"+"-"+TimeUtil.getTimeStamp());
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}else{
+			System.out.println("登录2"+"-"+TimeUtil.getTimeStamp());
 			if(name.equals("") || pwd.equals("")){
+				System.out.println("登录3"+"-"+TimeUtil.getTimeStamp());
 				errorCode = "20032";
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			}else{
+				System.out.println("登录4"+"-"+TimeUtil.getTimeStamp());
 				userStu = this.userStuService.getUserStuByAccount(name);
 				if(userStu==null) {
+					System.out.println("登录5"+"-"+TimeUtil.getTimeStamp());
 					//如果查询不存在uid 则重新赋值一个对象
 					errorCode = "20022";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20022;		
 				}else{
+					System.out.println("登录6"+"-"+TimeUtil.getTimeStamp());
 					String pwdData = userStu.getPwd();
 					
 					if (!MD5.check(
 							MD5.encodeString(pwd + ConfigUtil.MD5_PWD_STR)
 									+ ConfigUtil.MD5_PWD_STR, pwdData)) {
+						System.out.println("登录7"+"-"+TimeUtil.getTimeStamp());
 						errorCode = "20023";
 						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20023;
 					}else{
-						TokenUtil.generateToken(name);
+						System.out.println("登录8"+"-"+TimeUtil.getTimeStamp());
+						accessToken = TokenUtil.generateToken(name);
 						errorCode = "0";
 						errorMessage = "ok";
 						loginBean.setCity(userStu.getCityName());
@@ -91,7 +100,7 @@ public class LoginController {
 		loginBean.setAccess_token(accessToken);
 		loginBean.setError_code(errorCode);
 		loginBean.setError_msg(errorMessage);
-		
+		System.out.println(gson.toJson(loginBean)+"-"+TimeUtil.getTimeStamp());
 		return gson.toJson(loginBean);
 
 	}

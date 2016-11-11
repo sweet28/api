@@ -11,7 +11,7 @@ public interface SMSCheckCodeMapper {
 
     SMSCheckCode selectByPrimaryKey(Integer id);
     
-    SMSCheckCode selectByPrimaryKey(String mobile, String codeType);
+    SMSCheckCode selectByMobileAndType(SMSCheckCode smsCheckCode);
 
     int updateByPrimaryKeySelective(SMSCheckCode record);
 

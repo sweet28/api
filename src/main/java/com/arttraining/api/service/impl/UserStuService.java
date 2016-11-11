@@ -26,7 +26,7 @@ public class UserStuService implements IUserStuService{
 	
 	@Override
 	public int insert(UserStu userStu){
-		return this.userStuDao.insert(userStu);
+		return this.userStuDao.insertSelective(userStu);
 	}
 
 	@Override
