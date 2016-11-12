@@ -92,6 +92,7 @@ public class LoginController {
 						loginBean.setSpecialty(userStu.getSpecialtyName());
 						loginBean.setUid(userStu.getId());
 						loginBean.setUser_code(userStu.getUserCode());
+						loginBean.setTitle(userStu.getTitle());
 					}
 				}
 			}

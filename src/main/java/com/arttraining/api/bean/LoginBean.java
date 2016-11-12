@@ -19,6 +19,7 @@ public class LoginBean {
 	private String email;
 	private Integer score;
 	private Integer rank;
+	private String title;
 	
 	public String getError_code() {
 		return error_code;
@@ -127,6 +128,12 @@ public class LoginBean {
 	}
 	public void setRank(Integer rank) {
 		this.rank = rank;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 }

@@ -33,6 +33,10 @@ public class Coupon {
 
     private Integer isUsed;
 
+    private Integer userId;
+
+    private String userType;
+
     public Integer getId() {
         return id;
     }
@@ -151,5 +155,21 @@ public class Coupon {
 
     public void setIsUsed(Integer isUsed) {
         this.isUsed = isUsed;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType == null ? null : userType.trim();
     }
 }

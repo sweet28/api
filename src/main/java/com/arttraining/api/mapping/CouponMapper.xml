@@ -17,10 +17,13 @@
     <result column="face_value_type" property="faceValueType" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="is_used" property="isUsed" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    name, describe, expiry_date, face_value, face_value_type, type, is_used
+    name, describe, expiry_date, face_value, face_value_type, type, is_used, user_id, 
+    user_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -37,14 +40,14 @@
       create_time, order_code, delete_time, 
       remarks, attachment, name, 
       describe, expiry_date, face_value, 
-      face_value_type, type, is_used
-      )
+      face_value_type, type, is_used, 
+      user_id, user_type)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{describe,jdbcType=VARCHAR}, #{expiryDate,jdbcType=TIMESTAMP}, #{faceValue,jdbcType=DOUBLE}, 
-      #{faceValueType,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{isUsed,jdbcType=INTEGER}
-      )
+      #{faceValueType,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{isUsed,jdbcType=INTEGER}, 
+      #{userId,jdbcType=INTEGER}, #{userType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Coupon" >
     insert into t_yp_coupon
@@ -94,6 +97,12 @@
       <if test="isUsed != null" >
         is_used,
       </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -140,6 +149,12 @@
       </if>
       <if test="isUsed != null" >
         #{isUsed,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,6 +203,12 @@
       <if test="isUsed != null" >
         is_used = #{isUsed,jdbcType=INTEGER},
       </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -206,7 +227,9 @@
       face_value = #{faceValue,jdbcType=DOUBLE},
       face_value_type = #{faceValueType,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      is_used = #{isUsed,jdbcType=INTEGER}
+      is_used = #{isUsed,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      user_type = #{userType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

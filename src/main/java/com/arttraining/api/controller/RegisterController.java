@@ -120,6 +120,9 @@ public class RegisterController {
 						+ ConfigUtil.MD5_PWD_STR);
 				userStu2.setUserMobile(moblie);
 				userStu2.setPwd(pwd);
+				
+				
+				userStu2.setTitle("nomal");//master：达人、brother：师哥师姐、nomal：一般等
 				if (name != null && !("").equals(userStu2)) {
 					userStu2.setName(name);
 				}else{
@@ -151,6 +154,7 @@ public class RegisterController {
 					loginBean.setSpecialty(userBean.getSpecialtyName());
 					loginBean.setUid(userBean.getId());
 					loginBean.setUser_code(userBean.getUserCode());
+					loginBean.setTitle(userBean.getTitle());
 					
 					loginBean.setAccess_token(accessToken);
 					loginBean.setError_code(errorCode);
