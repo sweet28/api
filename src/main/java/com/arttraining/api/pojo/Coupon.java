@@ -21,7 +21,7 @@ public class Coupon {
 
     private String name;
 
-    private String describe;
+    private String describel;
 
     private Date expiryDate;
 
@@ -109,12 +109,12 @@ public class Coupon {
         this.name = name == null ? null : name.trim();
     }
 
-    public String getDescribe() {
-        return describe;
+    public String getDescribel() {
+        return describel;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe == null ? null : describe.trim();
+    public void setDescribel(String describel) {
+        this.describel = describel == null ? null : describel.trim();
     }
 
     public Date getExpiryDate() {
