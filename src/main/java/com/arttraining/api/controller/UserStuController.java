@@ -15,6 +15,7 @@ import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
@@ -190,6 +191,11 @@ public class UserStuController {
 				Integer i_uid = Integer.valueOf(uid);
 				UserStu userStu = new UserStu();
 				userStu.setId(i_uid);
+				
+				new_pwd = MD5.encodeString(MD5.encodeString(new_pwd
+						+ ConfigUtil.MD5_PWD_STR)
+						+ ConfigUtil.MD5_PWD_STR);
+				
 				userStu.setPwd(new_pwd);
 				
 				try {
