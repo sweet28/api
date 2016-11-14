@@ -76,6 +76,7 @@ public class AdvertiseController {
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
+			//广告ID
 			Integer i_ad_id = Integer.valueOf(ad_id);
 			adShow = this.advertiseService.getAdShowByPrimaryKey(i_ad_id);
 			if(adShow==null) {

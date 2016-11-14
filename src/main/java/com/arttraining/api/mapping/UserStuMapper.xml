@@ -47,7 +47,157 @@
     <result column="org_id" property="orgId" jdbcType="INTEGER" />
     <result column="org_name" property="orgName" jdbcType="VARCHAR" />
   </resultMap>
+ 
+  <!-- coffee add 点赞列表接口 -->
+   <resultMap id="LikeResultMap" type="com.arttraining.api.bean.LikeUserBean" >
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="b_like_id" property="b_like_id" jdbcType="INTEGER" />
+    <result column="user_type" property="user_type" jdbcType="VARCHAR" />
+    <result column="head_pic" property="pic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+    <result column="identity_name" property="identity" jdbcType="VARCHAR" />
+    <result column="create_time" property="time" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- coffee add 获取点赞头像列表信息 -->
+  <resultMap id="LikePicResultMap" type="com.arttraining.api.bean.LikeUserPicBean" >
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="b_like_id" property="b_like_id" jdbcType="INTEGER" />
+    <result column="user_type" property="user_type" jdbcType="VARCHAR" />
+    <result column="head_pic" property="pic" jdbcType="VARCHAR" />
+  </resultMap>
   
+  <sql id="Base_Column_List" >
+    id, uid, user_code, user_mobile, pwd, head_pic, name, sex, city_id, city_name, identity_id, 
+    specialty_id, school_name, intentional_college_name, intentional_college_id, email, 
+    score, rank, work_num, comment_num, fans_num, follow_num, group_num, role, power, 
+    is_lock, locked_time, works, title, continue_count, last_login_time, ip, mac, is_deleted, 
+    create_time, order_code, delete_time, remarks, attachment, identity_name, specialty_name, 
+    school_id, org_id, org_name
+  </sql>
+  <!-- coffee add 1103 where sql -->
+   <sql id="select_userstu_where">
+  	and is_deleted=0 and is_lock=0
+  </sql>
+  <!-- coffee add 1113 查询小组动态/帖子/作品回复的名称 statuses/show/bbs g_stus work接口调用  -->
+  <select id="selectUserNameById" resultType="java.lang.String"
+ 	  parameterType="java.lang.Integer">
+	  select name
+	  from t_yp_user_stu
+	  where id=#{id,jdbcType=INTEGER}
+	  <include refid="select_userstu_where"></include>
+  </select>
+ 
+  <!-- coffee add 1112 获取首页帖子点赞列表信息 like/list/bbs接口调用 -->
+  <select id="selectBBSLikeUserByFid" resultMap="LikeResultMap">
+    select u.id as uid,'stu' as user_type,b.create_time,u.head_pic,
+    u.name,u.identity_name,u.city_name,b.id as b_like_id
+    from (select id,visitor,visitor_type,create_time
+    from t_yp_bbs_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) b,
+    (select id, head_pic, name, city_name,identity_name
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include>) u
+    where b.visitor=u.id
+    order by b.create_time
+  </select>
+  <!-- coffee add 1112 获取首页帖子点赞头像列表信息 like/list/pic/bbs接口调用 -->
+  <select id="selectBBSLikeUserPicByFid" resultMap="LikePicResultMap">
+    select u.id as uid,'stu' as user_type,u.head_pic,b.id as b_like_id
+    from (select id,visitor,visitor_type,create_time
+    from t_yp_bbs_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) b,
+    (select id, head_pic
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include> ) u
+    where b.visitor=u.id
+    order by b.create_time
+  </select>
+   <!-- coffee add 1112 获取作品点赞列表信息 like/list/work接口调用 -->
+   <select id="selectWorksLikeUserByFid" resultMap="LikeResultMap">
+    select u.id as uid,'stu' as user_type,w.create_time,u.head_pic,
+    u.name,u.identity_name,u.city_name,w.id as b_like_id
+    from (select id,visitor,visitor_type,create_time
+    from t_yp_works_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) w,
+    (select id, head_pic,name,
+    city_name,identity_name
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include> ) u
+    where w.visitor=u.id
+    order by w.create_time
+  </select>
+   <!-- coffee add 1112 获取作品点赞头像列表信息 like/list/pic/work接口调用 -->
+   <select id="selectWorksLikeUserPicByFid" resultMap="LikePicResultMap">
+     select u.id as uid,'stu' as user_type,u.head_pic,w.id as b_like_id
+    from (select id,visitor,visitor_type,create_time
+    from t_yp_works_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) w,
+    (select id, head_pic
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include> ) u
+    where w.visitor=u.id
+    order by w.create_time
+  </select>
+  <!-- coffee add 1112 获取小组动态点赞列表信息 like/list/g_stus接口调用 -->
+  <select id="selectStatusesLikeUserByFid" resultMap="LikeResultMap">
+    select u.id as uid,'stu' as user_type,s.create_time,u.head_pic,
+    u.name,u.identity_name,u.city_name,s.id as b_like_id
+    from (select id,visitor,visitor_type,create_time
+    from t_yp_statuses_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) s,
+    (select id, head_pic,name,
+    city_name,identity_name
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include> ) u
+    where s.visitor=u.id
+    order by s.create_time
+  </select>
+   <!-- coffee add 1112 获取小组动态点赞头像列表信息 like/list/pic/g_stus接口调用 -->
+  <select id="selectStatusesLikeUserPicByFid" resultMap="LikePicResultMap">
+    select u.id as uid,'stu' as user_type,u.head_pic,
+    s.id as b_like_id
+    from (select id,visitor,visitor_type, create_time
+    from t_yp_statuses_like
+    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
+    <if test="offset !=-1" >
+        and id &gt; #{offset,jdbcType=INTEGER}
+    </if> 
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}) s,
+    (select id, head_pic
+    from t_yp_user_stu
+    where 1=1 <include refid="select_userstu_where"></include>) u
+    where s.visitor=u.id
+    order by s.create_time
+  </select>
+  
+  <!-- coffee add 1112 users/show接口下 查询某个用户的信息(验证成功) -->
   <!-- coffee add 爱好者用户show接口 -->
   <resultMap id="ShowResultMap" type="com.arttraining.api.bean.UserStuShowBean" >
     <id column="id" property="uid" jdbcType="INTEGER" />
@@ -65,142 +215,13 @@
     <result column="identity_name" property="identity" jdbcType="VARCHAR" />
     <result column="specialty_name" property="specialty" jdbcType="VARCHAR" />
     <result column="org_name" property="org" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
   </resultMap>
-  <!-- coffee add 点赞列表接口 -->
-   <resultMap id="LikeResultMap" type="com.arttraining.api.bean.LikeUserBean" >
-    <id column="id" property="uid" jdbcType="INTEGER" />
-    <id column="user_type" property="user_type" jdbcType="INTEGER" />
-    <result column="head_pic" property="pic" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="city_name" property="city" jdbcType="VARCHAR" />
-    <result column="identity_name" property="identity" jdbcType="VARCHAR" />
-    <result column="create_time" property="time" jdbcType="VARCHAR" />
-  </resultMap>
-  <!-- coffee add 获取点赞头像列表信息 -->
-  <resultMap id="LikePicResultMap" type="com.arttraining.api.bean.LikeUserPicBean" >
-    <id column="id" property="uid" jdbcType="INTEGER" />
-    <id column="user_type" property="user_type" jdbcType="INTEGER" />
-    <result column="head_pic" property="pic" jdbcType="VARCHAR" />
-  </resultMap>
-  
-  <sql id="Base_Column_List" >
-    id, uid, user_code, user_mobile, pwd, head_pic, name, sex, city_id, city_name, identity_id, 
-    specialty_id, school_name, intentional_college_name, intentional_college_id, email, 
-    score, rank, work_num, comment_num, fans_num, follow_num, group_num, role, power, 
-    is_lock, locked_time, works, title, continue_count, last_login_time, ip, mac, is_deleted, 
-    create_time, order_code, delete_time, remarks, attachment, identity_name, specialty_name, 
-    school_id, org_id, org_name
-  </sql>
-  <!-- coffee add 1103 where sql -->
-   <sql id="select_userstu_where">
-  	and is_deleted=0 and is_lock=0
-  </sql>
-  <select id="selectBBSLikeUserByFid" resultMap="LikeResultMap">
-    select u.id,b.visitor_type as user_type,b.create_time,u.head_pic,
-    u.name,u.identity_name,u.city_name
-    from (select visitor,visitor_type,create_time
-    from t_yp_bbs_like
-    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset !=-1" >
-        and id &gt; #{offset,jdbcType=INTEGER}
-    </if> 
-    order by create_time
-    limit #{limit,jdbcType=INTEGER}) b,
-    (select id, head_pic, name, city_name,identity_name
-    from t_yp_user_stu
-    where 1=1 <include refid="select_userstu_where"></include>) u
-    where b.visitor=u.id
-  </select>
-  
-  <select id="selectBBSLikeUserPicByFid" resultMap="LikePicResultMap">
-    select u.id,b.visitor_type as user_type,u.head_pic
-    from (select visitor,visitor_type
-    from t_yp_bbs_like
-    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset !=-1" >
-        and id &gt; #{offset,jdbcType=INTEGER}
-    </if> 
-    order by create_time
-    limit #{limit}) b,
-    (select id, head_pic
-    from t_yp_user_stu
-    where 1=1 <include refid="select_userstu_where"></include> ) u
-    where b.visitor=u.id
-  </select>
-  
-   <select id="selectWorksLikeUserByFid" resultMap="LikeResultMap">
-    select u.id,w.visitor_type as user_type,w.create_time,u.head_pic,
-    u.name,u.identity_name,u.city_name
-    from (select visitor,visitor_type,create_time
-    from t_yp_works_like
-    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset !=-1" >
-        and id &gt; #{offset,jdbcType=INTEGER}
-    </if> 
-    order by create_time
-    limit #{limit,jdbcType=INTEGER}) w,
-    (select id, head_pic,name,
-    city_name,identity_name
-    from t_yp_user_stu
-    where 1=1 <include refid="select_userstu_where"></include> ) u
-    where w.visitor=u.id
-  </select>
-  
-   <select id="selectWorksLikeUserPicByFid" resultMap="LikePicResultMap">
-     select u.id,w.visitor_type as user_type,u.head_pic
-    from (select visitor,visitor_type
-    from t_yp_works_like
-    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset !=-1" >
-        and id &gt; #{offset,jdbcType=INTEGER}
-    </if> 
-    order by create_time
-    limit #{limit,jdbcType=INTEGER}) w,
-    (select id, head_pic
-    from t_yp_user_stu
-    where 1=1 <include refid="select_userstu_where"></include> ) u
-    where w.visitor=u.id
-  </select>
-  
-  <select id="selectStatusesLikeUserByFid" resultMap="LikeResultMap">
-    select u.id,s.visitor_type as user_type,s.create_time,u.head_pic,
-    u.name,u.identity_name,u.city_name
-    from (select visitor,visitor_type,create_time
-    from t_yp_statuses_like
-    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset !=-1" >
-        and id &gt; #{offset,jdbcType=INTEGER}
-    </if> 
-    order by create_time
-    limit #{limit,jdbcType=INTEGER}) s,
-    (select id, head_pic,name,
-    city_name,identity_name
-    from t_yp_user_stu
-    where 1=1 <include refid="select_userstu_where"></include> ) u
-    where s.visitor=u.id
-  </select>
-  
-  <select id="selectStatusesLikeUserPicByFid" resultMap="LikePicResultMap">
-    select u.id,s.visitor_type as user_type,u.head_pic
-    from (select visitor,visitor_type
-    from t_yp_statuses_like
-    where foreign_key = #{fid,jdbcType=INTEGER} and is_deleted=0
-    <if test="offset !=-1" >
-        and id &gt; #{offset,jdbcType=INTEGER}
-    </if> 
-    order by create_time
-    limit #{limit,jdbcType=INTEGER}) s,
-    (select id, head_pic
-    from t_yp_user_stu
-    where 1=1 <include refid="select_userstu_where"></include>) u
-    where s.visitor=u.id
-  </select>
-  
   <select id="selectUserByUid" resultMap="ShowResultMap" parameterType="java.lang.Integer" >
     select 
     id, user_code, user_mobile, head_pic, name, sex, city_name, 
     school_name, intentional_college_name, email, 
-    score, rank, identity_name, specialty_name, org_name
+    score, rank, identity_name, specialty_name, org_name,title
     from t_yp_user_stu
     where id = #{id,jdbcType=INTEGER}
     <include refid="select_userstu_where"></include>
@@ -530,7 +551,7 @@
       </if>
     </trim>
   </insert>
-  <!-- coffee add 1104 -->
+  <!-- coffee add 1104 设置个人资料set_info接口-->
   <update id="setUserStuInfo" parameterType="com.arttraining.api.pojo.UserStu" >
     update t_yp_user_stu
     <set >

@@ -18,8 +18,8 @@ public interface InformationMapper {
     int updateByPrimaryKeySelective(Information record);
 
     int updateByPrimaryKey(Information record);
-    //获取头条信息列表
+    //获取头条信息列表--information/list
     List<InformationListBean> selectInformationList();
-    //依据头条ID查询某一个头条信息
+    //依据头条ID查询某一个头条信息--information/show
     InformationShowBean selectOneInformation(Integer id);
 }

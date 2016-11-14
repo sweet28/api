@@ -16,6 +16,7 @@ public class UserStuShowBean {
 	private String specialty;
 	private String school;
 	private String email;
+	private String title;
 	private Integer score;
 	private Integer rank;
 	
@@ -33,6 +34,7 @@ public class UserStuShowBean {
 		this.specialty = "";
 		this.school = "";
 		this.email = "";
+		this.title="";
 		this.score = 0;
 		this.rank = 0;
 	}
@@ -127,6 +129,13 @@ public class UserStuShowBean {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public Integer getScore() {
 		return score;
 	}
@@ -139,4 +148,6 @@ public class UserStuShowBean {
 	public void setRank(Integer rank) {
 		this.rank = rank;
 	}
+
+	
 }

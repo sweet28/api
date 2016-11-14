@@ -17,13 +17,18 @@ public interface IStatusesService {
 	void insertStatusAndUpdateAttr(Statuses status,StatusesAttachment statusAttr);
 	
 	 //获取小组动态列表信息 默认显示10条记录
-    List<HomePageStatusesBean> selectStatusesListByGid(Integer gid,Integer limit);
+    List<HomePageStatusesBean> getStatusesListByGid(Integer gid,Integer offset,Integer limit);
     //是否点评或点赞信息
-    HomeLikeOrCommentBean selectIsLikeOrCommentOrAtt(Map<String,Object> map);
+    HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Map<String,Object> map);
     
     //获取指定用户在某个小组发布的动态列表信息 默认显示10条
-    List<HomePageStatusesBean> selectStatusesListByUidAndGid(Integer uid,
-    		Integer gid, Integer limit);
+    List<HomePageStatusesBean> getStatusesListByUidAndGid(Integer uid,
+    		Integer gid,Integer offset, Integer limit);
     //获取某一条小组动态信息
     StatusesShowBean getOneStatusByid(Integer id);
+    
+    //获取指定小组下的成员列表所发的动态信息--group/show接口调用
+    List<HomePageStatusesBean> getGroupStatusesByGid(Integer gid, Integer limit);
+    //判断是否对其进行点赞  --group/show接口调用
+    HomeLikeOrCommentBean getIsLikeOrAtt(Map<String,Object> map);
 }

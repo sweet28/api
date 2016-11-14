@@ -1,12 +1,12 @@
 package com.arttraining.api.service.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.arttraining.api.bean.GroupShowUserBean;
 import com.arttraining.api.bean.GroupUserBean;
 import com.arttraining.api.dao.GroupMapper;
 import com.arttraining.api.dao.GroupUserMapper;
@@ -34,17 +34,19 @@ public class GroupUserService implements IGroupUserService {
 		this.groupDao.updatePeopleNumByExit(group);
 		this.groupUserDao.updateGroupUserByExit(groupUser);
 	}
-
+	
 	@Override
-	public GroupUserBean getGroupUserInfoByUid(Map<String, Object> map) {
+	public List<GroupShowUserBean> getGroupUserListByGroupShow(Integer gid,
+			Integer limit) {
 		// TODO Auto-generated method stub
-		return this.groupUserDao.selectGroupUserInfoByUid(map);
+		return this.groupUserDao.selectGroupUserListByGroupShow(gid, limit);
 	}
 
 	@Override
-	public List<GroupUser> getGroupUserListByGid(Integer gid, Integer offset,
-			Integer limit) {
+	public List<GroupUserBean> getGroupUserListByGid(Integer gid,
+			Integer offset, Integer limit) {
 		// TODO Auto-generated method stub
 		return this.groupUserDao.selectGroupUserListByGid(gid, offset, limit);
 	}
+	
 }

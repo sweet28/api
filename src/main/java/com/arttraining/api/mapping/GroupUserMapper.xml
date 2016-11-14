@@ -20,7 +20,7 @@
   <sql id="select_groupuser_where">
   	and is_deleted=0
   </sql>
-  <!-- coffee add 1110 退出小组时 执行的操作 -->
+  <!-- coffee add 1110 退出小组时 执行的操作 group/exit接口调用 -->
   <update id="updateGroupUserByExit" parameterType="com.arttraining.api.pojo.GroupUser" >
     update t_yp_group_user
     set delete_time = #{deleteTime,jdbcType=TIMESTAMP},
@@ -31,11 +31,21 @@
     <include refid="select_groupuser_where"></include>
   </update>
 
-
-  <!-- coffee add 1111 获取小组成员列表信息 -->
-  <select id="selectGroupUserListByGid" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+  <!-- coffee add 1111 获取小组成员列表信息 group/list接口调用-->
+   <resultMap id="GroupUserListResultMap" type="com.arttraining.api.bean.GroupUserBean" >
+    <result column="group_user_id" property="group_user_id" jdbcType="INTEGER" />
+    <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
+    <result column="user_id" property="uid" jdbcType="INTEGER" />
+    <result column="user_type" property="user_type" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+    <result column="identity" property="identity" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectGroupUserListByGid" resultMap="GroupUserListResultMap">
+    select g.id as group_user_id,
+    g.head_pic,g.identity,g.user_id,g.user_type,
+    u.name,u.city_name
+    (select id,user_id,user_type,identity,head_pic
     from t_yp_group_user
     where group_id = #{gid,jdbcType=INTEGER}
     <include refid="select_groupuser_where"></include>
@@ -45,25 +55,32 @@
     	<include refid="select_groupuser_where"></include>)
     </if>
     order by order_code,create_time
+    limit #{limit,jdbcType=INTEGER}) g
+    join 
+    (select id,city_name,name from t_yp_user_stu 
+    where is_lock=0 and is_deleted=0) u
+    where u.id = g.user_id
+    order by order_code,create_time
+  </select>
+    
+  <!-- coffee add 1113 依据小组ID查询对应的所有小组成员列表信息 group/show接口调用 -->
+  <resultMap id="GroupUserResultMap" type="com.arttraining.api.bean.GroupShowUserBean" >
+    <id column="id" property="group_user_id" jdbcType="INTEGER" />
+    <result column="user_id" property="uid" jdbcType="INTEGER" />
+    <result column="user_type" property="utype" jdbcType="VARCHAR" />
+    <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectGroupUserListByGroupShow" resultMap="GroupUserResultMap">
+    select id,user_id,user_type,head_pic
+    from t_yp_group_user
+    where group_id = #{gid,jdbcType=INTEGER}
+    <include refid="select_groupuser_where"></include>
+    order by create_time
     limit #{limit,jdbcType=INTEGER}
   </select>
-  
-  <!-- coffee add 1111 依据小组成员id type查询对应的用户信息 -->
-  <resultMap id="UserResultMap" type="com.arttraining.api.bean.GroupUserBean" >
-    <result column="id" property="uid" jdbcType="INTEGER" />
-    <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="city_name" property="city" jdbcType="VARCHAR" />
-  </resultMap>
-   <select id="selectGroupUserInfoByUid" parameterType="java.util.Map" 
-        resultMap="UserResultMap" statementType="CALLABLE">
-  		<![CDATA[{CALL p_yp_show_userinfo(
-	  		#{utype,mode=IN,jdbcType=VARCHAR},  
-	  	    #{uid,mode=IN,jdbcType=INTEGER}
-  	    )}]]> 
-   </select>
-  
+ 
   <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, head_pic, user_id, user_type, group_id, is_deleted, create_time, order_code, 
     delete_time, remarks, attachment, identity

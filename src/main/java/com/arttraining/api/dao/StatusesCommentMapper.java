@@ -20,8 +20,8 @@ public interface StatusesCommentMapper {
     int updateByPrimaryKeySelective(StatusesComment record);
 
     int updateByPrimaryKey(StatusesComment record);
-    //查询小组动态相关的名师点评评论回复列表信息
-    List<StatusesComment> selectStatusCommentByShow(@Param("fid") Integer fid,
+    //查询小组动态相关的名师点评评论回复列表信息--statuses/show/g_stus接口调用
+    List<CommentsVisitorBean> selectStatusCommentByShow(@Param("fid") Integer fid,
     		@Param("limit") Integer limit);
     //依据帖子查询某一条评论用户和回复信息
     CommentsVisitorBean selectVisitorOrHostInfo(Map<String,Object> map);

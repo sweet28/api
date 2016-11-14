@@ -24,46 +24,6 @@
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     visitor, visitor_type, host, host_type, foreign_key, content, score, type, content_type
   </sql>
-  <!-- coffee add sql where -->
-  <sql id="select_comment_where">
-  	  and is_deleted=0
-  </sql>
-  <!-- coffee add 获取帖子详情(哪些人评论了 哪些人回复了) -->
-  <select id="selectBBSTecCommentByShow" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from t_yp_bbs_tec_comment
-    where foreign_key = #{fid,jdbcType=INTEGER}
-    <include refid="select_comment_where"></include>
-    order by order_code,create_time desc
-    limit #{limit,jdbcType=INTEGER}
-  </select>
-  
-  <!-- coffee add 依据帖子ID 来获取帖子名师点评用户信息 -->
-  <!-- coffee add 调用存储过程 用于获取评论/回复人的名师点评用户信息 -->
-   <resultMap id="VisitorInfoResultMap" type="com.arttraining.api.bean.CommentsVisitorBean" >
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="city_name" property="city" jdbcType="VARCHAR" />
-    <result column="identity_name" property="identity" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="HostInfoResultMap" type="com.arttraining.api.bean.CommentsHostBean" >
-    <id column="id" property="user_id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="user_type" property="user_type" jdbcType="VARCHAR" />
-  </resultMap>
-  <select id="selectVisitorOrHostInfo" parameterType="java.util.Map" 
-  	resultMap="VisitorInfoResultMap" statementType="CALLABLE">
-  		<![CDATA[{CALL p_yp_show_status(
-  			#{type,mode=IN,jdbcType=VARCHAR}, 
-	  		#{v_type,mode=IN,jdbcType=VARCHAR},  
-	  	    #{v_id,mode=IN,jdbcType=INTEGER},
-	  	    #{h_type,mode=IN,jdbcType=VARCHAR},
-	  	    #{h_id,mode=IN,jdbcType=INTEGER},
-	  	    #{user_name,mode=OUT,jdbcType=VARCHAR}
-  	    )}]]> 
-   </select>
-  <!-- end -->
-  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

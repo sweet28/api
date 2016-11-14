@@ -19,8 +19,8 @@ public interface BannerMapper {
 
     int updateByPrimaryKey(Banner record);
     
-    //获取轮播信息列表
+    //获取轮播信息列表--banner/list接口调用
     List<BannerListBean> selectBannerList();
-    //依据广告ID查询某一个轮播信息
+    //依据广告ID查询某一个轮播信息--banner/show接口调用
     BannerShowBean selectOneBanner(Integer id);
 }

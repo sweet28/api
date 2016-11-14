@@ -1,7 +1,9 @@
 package com.arttraining.api.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +39,8 @@ public class TecherController {
 	 * 默认显示10条记录
 	 * 传递的参数是当前位置的ID
 	 * self
-	 * hot--热度 college--院校 spec--专业 city--城市
+	 * college--院校 spec--专业 city--城市
+	 * provinces --身份
 	 * 
 	 * **/
 	@RequestMapping(value = "/list", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -49,6 +52,7 @@ public class TecherController {
 		String college=request.getParameter("college");
 		String spec=request.getParameter("spec");
 		String city=request.getParameter("city");
+		String provinces = request.getParameter("provinces");
 		
 		List<TecherListBean> teacherList = new ArrayList<TecherListBean>();
 		Integer offset=-1;
@@ -70,7 +74,16 @@ public class TecherController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 		}
 		else {
-			teacherList = this.userTecService.getTecherListBySelective(spec, city, college, offset, limit);
+			//传递多个参数 查询名师信息
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("spec", spec);
+			map.put("city", city);
+			map.put("college", college);
+			map.put("provinces", provinces);
+			map.put("offset", offset);
+			map.put("limit", limit);
+			
+			teacherList = this.userTecService.getTecherListBySelective(map);
 			if(teacherList.size()>0) {
 				errorCode="0";
 				errorMessage="ok";
@@ -115,14 +128,7 @@ public class TecherController {
 		else {
 			//在这里查询总的名师个数
 			Integer tecNum = this.userTecService.countTecherNumer();
-			Integer page=tecNum/2;
-			
-			/*if(tecNum%2==0) {
-				page=tecNum/2;
-			}
-			else
-				page=tecNum/2+1;*/
-			
+			Integer page=tecNum/limit;
 			offset=Integer.valueOf(self)-1;
 			//如果当前页>=名师数量
 			offset = (offset+page)%page*limit;

@@ -45,7 +45,7 @@
     where id = #{id,jdbcType=INTEGER}
     <include refid="select_works_where"></include>
   </update>
-  <!-- coffee add 获取首页默认2条作品列表信息 -->
+  <!-- coffee add 获取首页默认2条作品列表信息 statuses/public_timeline/bbs接口调用 -->
   <resultMap id="HomepageListResultMap" type="com.arttraining.api.bean.HomePageStatusesBean" >
     <result column="stus_id" property="stus_id" jdbcType="INTEGER" />
     <result column="stus_type" property="stus_type" jdbcType="VARCHAR" />   
@@ -73,7 +73,7 @@
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from (select id,comment_num,like_num,browse_num,content,title,
-		  tag,create_time,owner,owner_type,remarks
+		  tag,create_time,owner,owner_type,remarks,order_code
 		  from t_yp_works
 	      where is_deleted=0
 		  order by order_code,create_time desc
@@ -82,6 +82,7 @@
 		from t_yp_user_stu
 		where <include refid="select_userstu_where"></include>) s
 	where w.owner = s.id
+	order by w.order_code,w.create_time desc
   </select>
   
   <!-- coffee add 1108 查询指定用户发帖详情 默认10条记录 -->
@@ -93,9 +94,14 @@
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from (select id,comment_num,like_num,browse_num,content,title,
-		  tag,create_time,owner,owner_type,remarks
+		  tag,create_time,owner,owner_type,remarks,order_code
 		  from t_yp_works
-	      where is_deleted=0 and owner_type='stu' and owner=#{uid,jdbcType=INTEGER} 
+	      where is_deleted=0 and owner_type='stu' and owner=#{uid,jdbcType=INTEGER}
+	      <if test="offset !=-1">
+	      	 and order_code &gt;(select order_code
+	      	 from t_yp_works
+	      	 where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+	      </if> 
 		  order by order_code,create_time desc
 	      limit #{limit,jdbcType=INTEGER}) w, 
 		(select identity_name,city_name,head_pic,name,id
@@ -103,12 +109,11 @@
 		where <include refid="select_userstu_where"></include>
 		and id=#{uid,jdbcType=INTEGER}) s
 	where w.owner = s.id
+	order by w.order_code,w.create_time desc
   </select>
   
-  <!-- coffee add 1107 查询是否点赞和点评 -->
+  <!-- coffee add 1107 查询是否点赞和点评 statuses/user_timeline/work接口调用 -->
   <resultMap id="LikeOrCommentResultMap" type="com.arttraining.api.bean.HomeLikeOrCommentBean" >
-    <!--<result column="is_like" property="is_like" jdbcType="VARCHAR" />   
-    <result column="is_comment" property="is_comment" jdbcType="VARCHAR" /> -->
     <result column="id" property="att_id" jdbcType="INTEGER" />
     <result column="duration" property="duration" jdbcType="VARCHAR" />
     <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
@@ -118,13 +123,50 @@
    <select id="selectIsLikeOrCommentOrAtt" resultMap="LikeOrCommentResultMap" 
    		statementType="CALLABLE">
   		{CALL p_yp_homepage_works(
-	  		#{s_id,jdbcType=INTEGER,mode=IN},  
+	  		#{s_id,jdbcType=INTEGER,mode=IN},
+	  		#{u_type,jdbcType=VARCHAR,mode=IN},  
 	  	    #{u_id,jdbcType=INTEGER,mode=IN},
 	  	    #{is_like,jdbcType=VARCHAR,mode=OUT},
 	  	    #{is_comment,jdbcType=VARCHAR,mode=OUT}
   	    )}  
    </select>
  
+  <!-- coffee add 1108 查询某一个用户作品信息 -->
+  <resultMap id="ShowOneWorkResultMap" type="com.arttraining.api.bean.WorkShowBean" >
+    <result column="stus_id" property="stus_id" jdbcType="INTEGER" />
+    <result column="stus_type" property="stus_type" jdbcType="VARCHAR" />   
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="owner_type" jdbcType="VARCHAR" />
+    <result column="owner_name" property="owner_name" jdbcType="VARCHAR" />
+    <result column="owner_head_pic" property="owner_head_pic" jdbcType="VARCHAR" />
+   	<result column="identity" property="identity" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+  	<result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="comment_num" property="comment_num" jdbcType="INTEGER" />
+    <result column="like_num" property="like_num" jdbcType="INTEGER" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectOneWorkByid" resultMap="ShowOneWorkResultMap">
+    select w.id as stus_id,'work' as stus_type,w.comment_num,
+    w.owner_type,w.like_num,w.browse_num,w.content,
+	w.title,w.tag,w.create_time,w.remarks,
+	s.identity_name as identity,
+	s.id as owner,s.name as owner_name,s.city_name as city,
+	s.head_pic as owner_head_pic
+	from (select id,comment_num,like_num,browse_num,content,title,
+		  tag,create_time,owner,owner_type,remarks
+		  from t_yp_works
+	      where is_deleted=0 and owner_type='stu' and id=#{id,jdbcType=INTEGER}) w, 
+		(select identity_name,city_name,head_pic,name,id
+		from t_yp_user_stu
+		where <include refid="select_userstu_where"></include>) s
+	where w.owner = s.id
+  </select>
+  
   <!-- end -->
   
   

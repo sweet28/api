@@ -1,7 +1,6 @@
 package com.arttraining.api.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -27,26 +26,28 @@ import com.arttraining.api.bean.HomePageAttBean;
 import com.arttraining.api.bean.HomePageBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
 import com.arttraining.api.bean.StatusesShowBean;
+import com.arttraining.api.bean.WorkCommentDetailBean;
+import com.arttraining.api.bean.WorkCommentTecInfoBean;
+import com.arttraining.api.bean.WorkShowBean;
+import com.arttraining.api.bean.WorkTecCommentBean;
+import com.arttraining.api.bean.WorkTecCommentsListBean;
 import com.arttraining.api.pojo.BBS;
 import com.arttraining.api.pojo.BBSAttachment;
-import com.arttraining.api.pojo.BBSComment;
 import com.arttraining.api.pojo.BBSForward;
-import com.arttraining.api.pojo.BBSTecComment;
 import com.arttraining.api.pojo.Statuses;
 import com.arttraining.api.pojo.StatusesAttachment;
-import com.arttraining.api.pojo.StatusesComment;
 import com.arttraining.api.pojo.StatusesForward;
-import com.arttraining.api.pojo.StatusesTecComment;
 import com.arttraining.api.service.impl.AdvertiseService;
 import com.arttraining.api.service.impl.BBSCommentService;
 import com.arttraining.api.service.impl.BBSForwardService;
 import com.arttraining.api.service.impl.BBSService;
-import com.arttraining.api.service.impl.BBSTecCommentService;
 import com.arttraining.api.service.impl.StatusCommentService;
-import com.arttraining.api.service.impl.StatusTecCommentService;
 import com.arttraining.api.service.impl.StatusesForwardService;
 import com.arttraining.api.service.impl.StatusesService;
+import com.arttraining.api.service.impl.UserStuService;
+import com.arttraining.api.service.impl.WorksCommentService;
 import com.arttraining.api.service.impl.WorksService;
+import com.arttraining.api.service.impl.WorksTecCommentService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
@@ -70,13 +71,15 @@ public class StatusesController {
 	@Resource
 	private StatusesForwardService statusForwardService;
 	@Resource
-	private BBSTecCommentService bbsTecCommentService;
-	@Resource
 	private BBSCommentService bbsCommentService;
 	@Resource
 	private StatusCommentService statusCommentService;
 	@Resource
-	private StatusTecCommentService statusTecCommentService;
+	private UserStuService userStuService;
+	@Resource
+	private WorksCommentService workCommentService;
+	@Resource
+	private WorksTecCommentService workTecCommentService;
 	
 	/**
 	 * 发布帖子
@@ -101,11 +104,11 @@ public class StatusesController {
 		String attr = request.getParameter("attr");
 		String attr_type=request.getParameter("attr_type");
 		
-		if(access_token==null || uid==null || utype==null || content==null) {
+		if(access_token==null || uid==null || utype==null) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
-		else if(access_token.equals("") || uid.equals("") || utype.equals("") || content.equals("")) {
+		else if(access_token.equals("") || uid.equals("") || utype.equals("")) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -258,49 +261,76 @@ public class StatusesController {
 		
 		//定义一个首页列表对象
 		List<Object> statusesList = new ArrayList<Object>();
+		//分页时 最后一个位置ID(当前首页帖子的ID)
+		String self = request.getParameter("self");
 		
 		String uid = request.getParameter("uid");
+		String utype = request.getParameter("utype");
+		
+		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
+		if(self==null || self.equals("")) {
+			offset=-1;
+		}
+		else if(!NumberUtil.isInteger(self)) {
+			offset=-10;
+		}
+		else
+			offset=Integer.valueOf(self);
+		
+		if(offset==-10) {
+			errorCode = "20033";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		}
+		else {
 		//如果用户id 默认查询uid=0 即尚未登录的用户
 		if(uid==null || uid.equals("") || !NumberUtil.isInteger(uid)) {
 			uid="0";
 		}
+		if(utype==null) {
+			utype="";
+		}
+		//用户ID
 		Integer i_uid = Integer.valueOf(uid);
 		//2. 查询2条测评动态详情
-		Integer worksLimit = ConfigUtil.HOMEWORK_PAGESIZE;	
-		List<HomePageStatusesBean> worksList = this.worksService.getWorksListByHomepage(worksLimit);
-		if(worksList.size()==0) {
-			worksList = new ArrayList<HomePageStatusesBean>();
-		}
-		else {
-			//填充作品详情信息
-			for (HomePageStatusesBean work : worksList) {
-				Integer s_id = work.getStus_id();
-				Map<String, Object> map = new HashMap<String, Object>();  
-				map.put("s_id", s_id);  
-				map.put("i_uid", i_uid);
-					     
-				HomeLikeOrCommentBean isExistLike = this.worksService.getIsLikeOrCommentOrAtt(map);
-				work.setIs_like((String)map.get("is_like"));
-				work.setIs_comment((String)map.get("is_comment"));
-					   
-				if(isExistLike!=null) {
-					String att_type = isExistLike.getAtt_type();
-					if(att_type!=null && !att_type.equals("")) {
-						Integer att_id = isExistLike.getAtt_id();
-						String duration= isExistLike.getDuration();
-						String thumbnail=isExistLike.getThumbnail();
-						String store_path=isExistLike.getStore_path();
-						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
-						work.setAtt(attList);
-					}
+		if(offset==-1) {
+			Integer worksLimit = ConfigUtil.HOMEWORK_PAGESIZE;	
+			List<HomePageStatusesBean> worksList = this.worksService.getWorksListByHomepage(worksLimit);
+			if(worksList.size()==0) {
+				worksList = new ArrayList<HomePageStatusesBean>();
+			}
+			else {
+				//填充作品详情信息
+				for (HomePageStatusesBean work : worksList) {
+					Integer s_id = work.getStus_id();
+					
+					//判断是否点赞或点评--(传递当前用户的ID和类型)
+					Map<String, Object> map = new HashMap<String, Object>();  
+					map.put("s_id", s_id);  
+					map.put("u_id", i_uid);
+					map.put("u_type", utype);
+					
+					HomeLikeOrCommentBean isExistLike = this.worksService.getIsLikeOrCommentOrAtt(map);   
+					if(isExistLike!=null) {
+						work.setIs_like((String)map.get("is_like"));
+						work.setIs_comment((String)map.get("is_comment"));
+						
+						String att_type = isExistLike.getAtt_type();
+						if(att_type!=null && !att_type.equals("")) {
+							Integer att_id = isExistLike.getAtt_id();
+							String duration= isExistLike.getDuration();
+							String thumbnail=isExistLike.getThumbnail();
+							String store_path=isExistLike.getStore_path();
+							List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+							work.setAtt(attList);
+						}
+				   }
+					statusesList.add(work);
 			   }
-				statusesList.add(work);
-		  }
-		}
-				
+			}
+		}		
 		//2. 查询10条帖子详情
-		List<HomePageStatusesBean> bbsList = this.bbsService.getBBSListByHomepage(limit);
+		List<HomePageStatusesBean> bbsList = this.bbsService.getBBSListByHomepage(offset, limit);
 		if(bbsList.size()==0) {
 			bbsList = new ArrayList<HomePageStatusesBean>();
 		}
@@ -309,15 +339,16 @@ public class StatusesController {
 			for (HomePageStatusesBean bbs : bbsList) {
 			   Integer s_id = bbs.getStus_id();
 			
+			   //判断是否点赞或点评--(传递当前用户的ID和类型)
 			   Map<String, Object> map = new HashMap<String, Object>();  
-		       map.put("s_id", s_id);  
-		       map.put("i_uid", i_uid);
+			   map.put("s_id", s_id);  
+			   map.put("u_id", i_uid);
+			   map.put("u_type", utype);
 			     
 		       HomeLikeOrCommentBean isExistLike = this.bbsService.getIsLikeOrCommentOrAtt(map);
-		       
-		       bbs.setIs_like((String)map.get("is_like"));
-			   bbs.setIs_comment((String)map.get("is_comment"));
 			   if(isExistLike!=null) {
+				   bbs.setIs_like((String)map.get("is_like"));
+				   bbs.setIs_comment((String)map.get("is_comment"));
 				   String att_type = isExistLike.getAtt_type();
 				   if(att_type!=null && !att_type.equals("")) {
 					   Integer att_id = isExistLike.getAtt_id();
@@ -331,32 +362,43 @@ public class StatusesController {
 			   statusesList.add(bbs);
 			}
 		}
-		
 		//3.查询广告信息
-		HomePageAdvertiseBean ad = this.adService.selectOneAdByHomepage();
-		boolean isExistAd = false;
-		if(ad!=null) {
-			isExistAd=true;
-		}
-		//4.查询话题信息
-		//HomePageThemeBean theme = new HomePageThemeBean();
-		
-		if(statusesList.size()>0) {
-			if(isExistAd) {
-				if(statusesList.size()>4) {
-					statusesList.add(3,ad);
-				}
-				else
-					statusesList.add(ad);
+		if(offset==-1) {
+			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
+			boolean isExistAd = false;
+			if(ad!=null) {
+				isExistAd=true;
 			}
-			errorCode="0";
-			errorMessage="ok";
+			//4.查询话题信息
+			//HomePageThemeBean theme = new HomePageThemeBean();
+			if(statusesList.size()>0) {
+				if(isExistAd) {
+					if(statusesList.size()>4) {
+						statusesList.add(3,ad);
+					}
+					else
+						statusesList.add(ad);
+				}
+				errorCode="0";
+				errorMessage="ok";
+			}
+			else {
+				errorCode="20007";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+			 }
+		  }
+		 else {
+			if(statusesList.size()>0) {
+				errorCode="0";
+				errorMessage="ok";
+			}
+			else {
+				errorCode="20007";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+			 }
+		  }
 		}
-		else {
-			errorCode="20007";
-			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
-		}
-		
+	
 		HomePageBean homepage = new HomePageBean();
 		homepage.setError_code(errorCode);
 		homepage.setError_msg(errorMessage);
@@ -378,11 +420,20 @@ public class StatusesController {
 		
 		//定义一个首页列表对象
 		List<Object> statusesList = new ArrayList<Object>();
-		
+		//以下参数是必选参数
 		String uid = request.getParameter("uid");
+		String utype = request.getParameter("utype");
+		//以下参数用于分页
+		String self = request.getParameter("self");
+		
+		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
 		//如果用户id 默认查询uid=0 即尚未登录的用户
-		if(uid==null || uid.equals("")) {
+		if(uid==null || utype==null) {
+			errorCode="20032";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		}
+		else if(uid.equals("") || utype.equals("")) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -391,9 +442,23 @@ public class StatusesController {
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
+			if(self==null || self.equals("")) {
+				offset=-1;
+			}
+			else if(!NumberUtil.isInteger(uid)) {
+				offset=-10;
+			}
+			else 
+				offset=Integer.valueOf(self);
+			
+			if(offset==-10) {
+				errorCode="20033";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+			}
+			else {
 			Integer i_uid = Integer.valueOf(uid);	
 			//1. 查询该用户10条帖子详情
-			List<HomePageStatusesBean> bbsList = this.bbsService.getBBSListByUid(i_uid, limit);
+			List<HomePageStatusesBean> bbsList = this.bbsService.getBBSListByUid(i_uid, offset, limit);
 			if(bbsList.size()==0) {
 				bbsList = new ArrayList<HomePageStatusesBean>();
 			}
@@ -401,11 +466,13 @@ public class StatusesController {
 			//填充帖子详情信息
 			for (HomePageStatusesBean bbs : bbsList) {
 			   Integer s_id = bbs.getStus_id();
-				
+			   
+			   //这里传递的是当前登录用户的ID和类型
 			   Map<String, Object> map = new HashMap<String, Object>();  
 		       map.put("s_id", s_id);  
-		       map.put("i_uid", i_uid);
-			     
+		       map.put("u_id", i_uid);
+		       map.put("u_type", utype);
+		       
 		       HomeLikeOrCommentBean isExistLike= this.bbsService.getIsLikeOrCommentOrAtt(map);
 		       bbs.setIs_like((String)map.get("is_like"));
 			   bbs.setIs_comment((String)map.get("is_comment"));
@@ -425,23 +492,23 @@ public class StatusesController {
 			}
 		  }
 			//2.查询广告信息
-			HomePageAdvertiseBean ad = this.adService.selectOneAdByHomepage();
-			boolean isExistAd = false;
-			if(ad!=null) {
-				isExistAd=true;
-			}
+//			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
+//			boolean isExistAd = false;
+//			if(ad!=null) {
+//				isExistAd=true;
+//			}
 			//3.查询主题信息
 			//HomePageThemeBean theme = new HomePageThemeBean();
 			
 			if(statusesList.size()>0) {
-				if(isExistAd) {
-					if(statusesList.size()>4) {
-						statusesList.add(3,ad);
-					}
-					else {
-						statusesList.add(ad);					
-					}
-				}
+//				if(isExistAd) {
+//					if(statusesList.size()>4) {
+//						statusesList.add(3,ad);
+//					}
+//					else {
+//						statusesList.add(ad);					
+//					}
+//				}
 				errorCode="0";
 				errorMessage="ok";
 			}
@@ -449,6 +516,7 @@ public class StatusesController {
 				errorCode="20007";
 				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 			}
+		  }
 		}
 
 		HomePageBean homepage = new HomePageBean();
@@ -472,10 +540,20 @@ public class StatusesController {
 		//定义一个首页列表对象
 		List<Object> statusesList = new ArrayList<Object>();
 		
+		//以下参数是必选参数
 		String uid = request.getParameter("uid");
+		String utype = request.getParameter("utype");
+		//以下参数用于分页
+		String self = request.getParameter("self");
+		
+		Integer offset = -1;		
 		Integer limit = ConfigUtil.PAGESIZE;
 		//如果用户id 默认查询uid=0 即尚未登录的用户
-		if(uid==null || uid.equals("")) {
+		if(uid==null || utype==null) {
+			errorCode="20032";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		}
+		else if(uid.equals("") || utype.equals("")) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -484,8 +562,22 @@ public class StatusesController {
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
+			if(self==null || self.equals("")) {
+				offset=-1;
+			}
+			else if(!NumberUtil.isInteger(uid)) {
+				offset=-10;
+			}
+			else 
+				offset=Integer.valueOf(self);
+			
+			if(offset==-10) {
+				errorCode="20033";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+			}
+			else {
 			Integer i_uid = Integer.valueOf(uid);	
-			List<HomePageStatusesBean> worksList = this.worksService.selectWorkListByUid(i_uid, limit);
+			List<HomePageStatusesBean> worksList = this.worksService.getWorkListByUid(i_uid, offset, limit);
 			if(worksList.size()==0) {
 				worksList = new ArrayList<HomePageStatusesBean>();
 			}
@@ -493,15 +585,18 @@ public class StatusesController {
 				//填充作品详情信息
 				for (HomePageStatusesBean work : worksList) {		
 					Integer s_id = work.getStus_id();
+					
+					//传递的是当前登录用户的ID和类型
 					Map<String, Object> map = new HashMap<String, Object>();  
 					map.put("s_id", s_id);  
-					map.put("i_uid", i_uid);
-						     
+					map.put("u_id", i_uid);
+					map.put("u_type", utype);
+					
 					HomeLikeOrCommentBean isExistLike = this.worksService.getIsLikeOrCommentOrAtt(map);
-					work.setIs_like((String)map.get("is_like"));
-					work.setIs_comment((String)map.get("is_comment"));
 						   
 					if(isExistLike!=null) {
+						work.setIs_like((String)map.get("is_like"));
+						work.setIs_comment((String)map.get("is_comment"));
 						String att_type = isExistLike.getAtt_type();
 						if(att_type!=null && !att_type.equals("")) {
 							Integer att_id = isExistLike.getAtt_id();
@@ -516,7 +611,7 @@ public class StatusesController {
 				}
 			  }
 			//2.查询广告信息
-			HomePageAdvertiseBean ad = this.adService.selectOneAdByHomepage();
+			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
 			boolean isExistAd = false;
 			if(ad!=null) {
 				isExistAd=true;
@@ -540,6 +635,7 @@ public class StatusesController {
 				errorCode="20007";
 				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 			}
+		  }
 		}
 		HomePageBean homepage = new HomePageBean();
 		homepage.setError_code(errorCode);
@@ -564,13 +660,13 @@ public class StatusesController {
 		String access_token = request.getParameter("access_token");
 		String uid = request.getParameter("uid");
 		String status_id = request.getParameter("status_id");
-		String type=request.getParameter("type");
+		String utype=request.getParameter("utype");
 		
-		if(access_token==null || uid==null || status_id==null || type==null) {
+		if(access_token==null || uid==null || status_id==null || utype==null) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
-		else if(access_token.equals("") || uid.equals("") || status_id.equals("") || type.equals("")) {
+		else if(access_token.equals("") || uid.equals("") || status_id.equals("") || utype.equals("")) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -596,14 +692,14 @@ public class StatusesController {
 					BBSForward bbsForward = new BBSForward();
 					bbsForward.setCreateTime(TimeUtil.getTimeStamp());
 					bbsForward.setVisitor(i_uid);
-					bbsForward.setVisitorType(type);
+					bbsForward.setVisitorType(utype);
 					bbsForward.setHost(bbs.getOwner());
 					bbsForward.setHostType(bbs.getOwnerType());
 
 					//新增一条帖子信息
 					BBS bbsNew = new BBS();
 					bbsNew.setOwner(i_uid);
-					bbsNew.setOwnerType(type);
+					bbsNew.setOwnerType(utype);
 					bbsNew.setTitle(bbs.getTitle());
 					bbsNew.setContent(bbs.getContent());
 					bbsNew.setAttachment(bbs.getAttachment());
@@ -652,12 +748,12 @@ public class StatusesController {
 		String errorMessage = "";
 		
 		String status_id = request.getParameter("status_id");
+		//以下不是必选参数
+		String uid = request.getParameter("uid");
+		String utype = request.getParameter("utype");
+		
 		//默认10条记录
 		Integer limit = ConfigUtil.PAGESIZE;
-		//定义名师点评数量 最多2条
-		Integer tecLimit = ConfigUtil.DIANPING_PAGESIZE;
-		//定义帖子评论数量
-		Integer commentLimit = 0;
 		StatusesShowBean bbs = new StatusesShowBean();
 		
 		//如果用户id 默认查询uid=0 即尚未登录的用户
@@ -670,6 +766,14 @@ public class StatusesController {
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
+			if(uid==null || uid.equals("") || !NumberUtil.isInteger(uid)) {
+				uid="0";
+			}
+			if(utype==null) {
+				utype="";
+			}
+			//用户ID
+			Integer i_uid = Integer.valueOf(uid);
 			//动态ID
 			Integer i_status_id = Integer.valueOf(status_id);
 			//获取帖子详情
@@ -680,17 +784,17 @@ public class StatusesController {
 				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 			}
 			else {
-				//判断是否点赞 或点评 
-				Integer i_uid = bbs.getOwner();
+				//传递当前用户的ID和类型
 				Map<String, Object> map = new HashMap<String, Object>();  
 			    map.put("s_id", i_status_id);  
-			    map.put("i_uid", i_uid);
-				     
+			    map.put("u_id", i_uid);
+			    map.put("u_type", utype);
+			    //判断是否点赞 或点评
 			    HomeLikeOrCommentBean isExistLike= this.bbsService.getIsLikeOrCommentOrAtt(map);
-			    bbs.setIs_like((String)map.get("is_like"));
-				bbs.setIs_comment((String)map.get("is_comment"));
 				   
 				if(isExistLike!=null) {
+					bbs.setIs_like((String)map.get("is_like"));
+					bbs.setIs_comment((String)map.get("is_comment"));
 					String att_type = isExistLike.getAtt_type();
 					if(att_type!=null && !att_type.equals("")) {
 						Integer att_id = isExistLike.getAtt_id();
@@ -701,91 +805,40 @@ public class StatusesController {
 						bbs.setAtt(attList);
 					}
 				}
-				//1.查询帖子评论信息 先是名师点评信息
-				List<BBSTecComment> bbsTecCommentList = this.bbsTecCommentService.getBBSTecCommentByShow(i_status_id, tecLimit);
-				//名师点评信息列表大小
-				tecLimit = bbsTecCommentList.size();
-				//2.查询其他人点评信息
-				commentLimit = limit-tecLimit;
-				List<BBSComment> bbsCommentList = this.bbsCommentService.getBBSCommentByShow(i_status_id, commentLimit);
-				//3.组装评论信息
+				//1.查询评论信息
+				List<CommentsVisitorBean> bbsCommentList = this.bbsCommentService.getBBSCommentByShow(i_status_id, limit);
+				//2.组装评论信息
 				List<CommentsBean> commentList = new ArrayList<CommentsBean>();
-				//组装名师点评信息
-				for(BBSTecComment bbsTec:bbsTecCommentList) {
-					CommentsBean comment = new CommentsBean();
-					Integer visitor = bbsTec.getVisitor();
-					String visitor_type = bbsTec.getVisitorType();
-					Integer host = bbsTec.getHost();
-					String host_type = bbsTec.getHostType();
-					String type = bbsTec.getType();
-					Date time = bbsTec.getCreateTime();
-					comment.setComm_type(type);
-					comment.setUser_id(visitor);
-					comment.setUser_type(visitor_type);
-					comment.setTime(TimeUtil.getTimeByDate(time));
-					comment.setContent(bbsTec.getContent());
-					
-					Map<String, Object> infoMap = new HashMap<String, Object>();  
-					infoMap.put("type", type);  
-					infoMap.put("v_type", visitor_type);  
-					infoMap.put("v_id", visitor);
-					infoMap.put("h_type", host_type);  
-					infoMap.put("h_id", host);
-					
-					CommentsVisitorBean vb = this.bbsTecCommentService.getVisitorOrHostInfo(infoMap);
-					CommentsHostBean hb = new CommentsHostBean();
-					if(type.equals("reply")) {
-						String name = (String)infoMap.get("user_name");
-						hb.setName(name);
-						hb.setUser_id(host);
-						hb.setUser_type(host_type);
-					}
-					comment.setCity(vb.getCity());
-					comment.setIdentity(vb.getIdentity());
-					comment.setName(vb.getName());
-					comment.setReply(hb);
-					commentList.add(comment);
-				}
 				//组装其他人评论列表
-				for(BBSComment bbsComment:bbsCommentList) {
+				for(CommentsVisitorBean bbsComment:bbsCommentList) {
 					CommentsBean comment = new CommentsBean();
-					Integer visitor = bbsComment.getVisitor();
-					String visitor_type = bbsComment.getVisitorType();
-					Integer host = bbsComment.getHost();
-					String host_type = bbsComment.getHostType();
-					String type = bbsComment.getType();
-					Date time = bbsComment.getCreateTime();
-					
-					comment.setComm_type(type);
-					comment.setUser_id(visitor);
-					comment.setUser_type(visitor_type);
-					comment.setTime(TimeUtil.getTimeByDate(time));
+					String comm_type = bbsComment.getComm_type();
+					Integer host_id = bbsComment.getHost_id();
+			
+					comment.setCity(bbsComment.getCity());
+					comment.setComm_type(comm_type);
+					comment.setComment_id(bbsComment.getComment_id());
 					comment.setContent(bbsComment.getContent());
+					comment.setIdentity(bbsComment.getIdentity());
+					comment.setName(bbsComment.getName());
+					comment.setTime(bbsComment.getTime());
+					comment.setUser_id(bbsComment.getUser_id());
+					comment.setUser_type(bbsComment.getUser_type());
+					comment.setUser_pic(bbsComment.getUser_pic());
 					
-					Map<String, Object> infoMap = new HashMap<String, Object>();  
-					infoMap.put("type", type);  
-					infoMap.put("v_type", visitor_type);  
-					infoMap.put("v_id", visitor);
-					infoMap.put("h_type", host_type);  
-					infoMap.put("h_id", host);
-					
-					CommentsVisitorBean vb = this.bbsCommentService.getVisitorOrHostInfo(infoMap);
 					CommentsHostBean hb = new CommentsHostBean();
-					if(type.equals("reply")) {
-						String name = (String)infoMap.get("user_name");
+					if(comm_type.equals("reply")) {
+						String name = this.userStuService.getUserNameById(host_id);
 						hb.setName(name);
-						hb.setUser_id(host);
-						hb.setUser_type(host_type);
+						hb.setUser_id(host_id);
+						hb.setUser_type(bbsComment.getHost_type());
 					}
-					comment.setCity(vb.getCity());
-					comment.setIdentity(vb.getIdentity());
-					comment.setName(vb.getName());
 					comment.setReply(hb);
 					commentList.add(comment);
 				}
 				bbs.setComments(commentList);
 				//4.查询广告信息
-				HomePageAdvertiseBean ad = this.adService.selectOneAdByHomepage();
+				HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
 				if(ad!=null) {
 					bbs.setAd(ad);
 				}
@@ -810,12 +863,12 @@ public class StatusesController {
 		String errorMessage = "";
 		
 		String status_id = request.getParameter("status_id");
+		//以下不是必选参数
+		String uid = request.getParameter("uid");
+		String utype = request.getParameter("utype");
+				
 		//默认10条记录
 		Integer limit = ConfigUtil.PAGESIZE;
-		//定义名师点评数量 最多2条
-		Integer tecLimit = ConfigUtil.DIANPING_PAGESIZE;
-		//定义帖子评论数量
-		Integer commentLimit = 0;
 		StatusesShowBean status = new StatusesShowBean();
 		
 		//如果用户id 默认查询uid=0 即尚未登录的用户
@@ -828,6 +881,13 @@ public class StatusesController {
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
+			if(uid==null || uid.equals("") || !NumberUtil.isInteger(uid)) {
+				uid="0";
+			}
+			if(utype==null) {
+				utype="";
+			}
+			
 			//动态ID
 			Integer i_status_id = Integer.valueOf(status_id);
 			//获取小组动态详情
@@ -840,15 +900,18 @@ public class StatusesController {
 			else {
 				//判断是否点赞 或点评 
 				Integer i_uid = status.getOwner();
+				
+				//传递的是当前登录用户ID和类型
 				Map<String, Object> map = new HashMap<String, Object>();  
 			    map.put("s_id", i_status_id);  
-			    map.put("i_uid", i_uid);
-				     
-			    HomeLikeOrCommentBean isExistLike= this.statusesService.selectIsLikeOrCommentOrAtt(map);
-			    status.setIs_like((String)map.get("is_like"));
-			    status.setIs_comment((String)map.get("is_comment"));
-				   
+			    map.put("u_id", i_uid);
+			    map.put("u_type", utype);
+			    
+			    HomeLikeOrCommentBean isExistLike= this.statusesService.getIsLikeOrCommentOrAtt(map);
+
 				if(isExistLike!=null) {
+					status.setIs_like((String)map.get("is_like"));
+				    status.setIs_comment((String)map.get("is_comment"));
 					String att_type = isExistLike.getAtt_type();
 					if(att_type!=null && !att_type.equals("")) {
 						Integer att_id = isExistLike.getAtt_id();
@@ -859,91 +922,40 @@ public class StatusesController {
 						status.setAtt(attList);
 					}
 				}
-				//1.查询小组动态评论信息 先是名师点评信息
-				List<StatusesTecComment> statusTecCommentList = this.statusTecCommentService.getStatusTecCommentByShow(i_status_id, tecLimit);
-				//名师点评信息列表大小
-				tecLimit = statusTecCommentList.size();
-				//2.查询其他人点评信息
-				commentLimit = limit-tecLimit;
-				List<StatusesComment> statusCommentList = this.statusCommentService.getStatusCommentByShow(i_status_id, commentLimit);
-				//3.组装评论信息
+				//1.查询评论信息
+				List<CommentsVisitorBean> statusCommentList = this.statusCommentService.getStatusCommentByShow(i_status_id, limit);
+				//2.组装评论信息
 				List<CommentsBean> commentList = new ArrayList<CommentsBean>();
-				//组装名师点评信息
-				for(StatusesTecComment statusTec:statusTecCommentList) {
-					CommentsBean comment = new CommentsBean();
-					Integer visitor = statusTec.getVisitor();
-					String visitor_type = statusTec.getVisitorType();
-					Integer host = statusTec.getHost();
-					String host_type = statusTec.getHostType();
-					String type = statusTec.getType();
-					Date time = statusTec.getCreateTime();
-					comment.setComm_type(type);
-					comment.setUser_id(visitor);
-					comment.setUser_type(visitor_type);
-					comment.setTime(TimeUtil.getTimeByDate(time));
-					comment.setContent(statusTec.getContent());
-					
-					Map<String, Object> infoMap = new HashMap<String, Object>();  
-					infoMap.put("type", type);  
-					infoMap.put("v_type", visitor_type);  
-					infoMap.put("v_id", visitor);
-					infoMap.put("h_type", host_type);  
-					infoMap.put("h_id", host);
-					
-					CommentsVisitorBean vb = this.statusTecCommentService.getVisitorOrHostInfo(infoMap);
-					CommentsHostBean hb = new CommentsHostBean();
-					if(type.equals("reply")) {
-						String name = (String)infoMap.get("user_name");
-						hb.setName(name);
-						hb.setUser_id(host);
-						hb.setUser_type(host_type);
-					}
-					comment.setCity(vb.getCity());
-					comment.setIdentity(vb.getIdentity());
-					comment.setName(vb.getName());
-					comment.setReply(hb);
-					commentList.add(comment);
-				}
 				//组装其他人评论列表
-				for(StatusesComment statusComment:statusCommentList) {
+				for(CommentsVisitorBean statusComment:statusCommentList) {
 					CommentsBean comment = new CommentsBean();
-					Integer visitor = statusComment.getVisitor();
-					String visitor_type = statusComment.getVisitorType();
-					Integer host = statusComment.getHost();
-					String host_type = statusComment.getHostType();
-					String type = statusComment.getType();
-					Date time = statusComment.getCreateTime();
-					
-					comment.setComm_type(type);
-					comment.setUser_id(visitor);
-					comment.setUser_type(visitor_type);
-					comment.setTime(TimeUtil.getTimeByDate(time));
+					String comm_type = statusComment.getComm_type();
+					Integer host_id = statusComment.getHost_id();
+			
+					comment.setCity(statusComment.getCity());
+					comment.setComm_type(comm_type);
+					comment.setComment_id(statusComment.getComment_id());
 					comment.setContent(statusComment.getContent());
+					comment.setIdentity(statusComment.getIdentity());
+					comment.setName(statusComment.getName());
+					comment.setTime(statusComment.getTime());
+					comment.setUser_id(statusComment.getUser_id());
+					comment.setUser_type(statusComment.getUser_type());
+					comment.setUser_pic(statusComment.getUser_pic());
 					
-					Map<String, Object> infoMap = new HashMap<String, Object>();  
-					infoMap.put("type", type);  
-					infoMap.put("v_type", visitor_type);  
-					infoMap.put("v_id", visitor);
-					infoMap.put("h_type", host_type);  
-					infoMap.put("h_id", host);
-					
-					CommentsVisitorBean vb = this.statusCommentService.getVisitorOrHostInfo(infoMap);
 					CommentsHostBean hb = new CommentsHostBean();
-					if(type.equals("reply")) {
-						String name = (String)infoMap.get("user_name");
+					if(comm_type.equals("reply")) {
+						String name = this.userStuService.getUserNameById(host_id);
 						hb.setName(name);
-						hb.setUser_id(host);
-						hb.setUser_type(host_type);
+						hb.setUser_id(host_id);
+						hb.setUser_type(statusComment.getHost_type());
 					}
-					comment.setCity(vb.getCity());
-					comment.setIdentity(vb.getIdentity());
-					comment.setName(vb.getName());
 					comment.setReply(hb);
 					commentList.add(comment);
 				}
 				status.setComments(commentList);
 				//4.查询广告信息
-				HomePageAdvertiseBean ad = this.adService.selectOneAdByHomepage();
+				HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
 				if(ad!=null) {
 					status.setAd(ad);
 				}
@@ -962,10 +974,140 @@ public class StatusesController {
 	 * 传递的参数:
 	 * status_id--动态帖子id
 	 * */
-//	@RequestMapping(value = "/show/work", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-//	public @ResponseBody Object showWork(HttpServletRequest request, HttpServletResponse response) {
-//		
-//	}
+	@RequestMapping(value = "/show/work", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object showWork(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		
+		String status_id = request.getParameter("status_id");
+		//以下不是必选参数
+		String uid = request.getParameter("uid");
+		String utype = request.getParameter("utype");
+		
+		//默认10条记录
+		Integer limit = ConfigUtil.PAGESIZE;
+		WorkShowBean work = new WorkShowBean();
+		
+		//如果用户id 默认查询uid=0 即尚未登录的用户
+		if(status_id==null || status_id.equals("")) {
+			errorCode="20032";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		}
+		else if(!NumberUtil.isInteger(status_id)) {
+			errorCode="20033";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		}
+		else {
+			if(uid==null || uid.equals("") || !NumberUtil.isInteger(uid)) {
+				uid="0";
+			}
+			if(utype==null) {
+				utype="";
+			}
+			//用户ID
+			Integer i_uid = Integer.valueOf(uid);
+			//动态ID
+			Integer i_status_id = Integer.valueOf(status_id);
+			//获取作品详情
+			work = this.worksService.getOneWorkByid(i_status_id);
+			if(work==null) {
+				work = new WorkShowBean();
+				errorCode="20007";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+			}
+			else {
+				//传递当前用户的ID和类型
+				Map<String, Object> map = new HashMap<String, Object>();  
+				map.put("s_id", i_status_id);  
+				map.put("u_id", i_uid);
+				map.put("u_type", utype);
+				//判断是否点赞 或点评
+				HomeLikeOrCommentBean isExistLike= this.worksService.getIsLikeOrCommentOrAtt(map);
+				if(isExistLike!=null) {
+					work.setIs_like((String)map.get("is_like"));
+					work.setIs_comment((String)map.get("is_comment"));
+					String att_type = isExistLike.getAtt_type();
+					if(att_type!=null && !att_type.equals("")) {
+						Integer att_id = isExistLike.getAtt_id();
+						String duration= isExistLike.getDuration();
+						String thumbnail=isExistLike.getThumbnail();
+						String store_path=isExistLike.getStore_path();
+						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+						work.setAtt(attList);
+					}
+				}
+				//1.查询名师点评信息
+				List<WorkCommentTecInfoBean> tecCommentList = this.workTecCommentService.getUserInfoByWorkShow(i_status_id);
+				work.setTec_comment_num(tecCommentList.size());
+				//组装名师点评信息
+				List<WorkTecCommentsListBean> tec_comments_list = new ArrayList<WorkTecCommentsListBean>();
+				for(WorkCommentTecInfoBean tecComment:tecCommentList) {
+					WorkTecCommentsListBean list = new WorkTecCommentsListBean();
+					WorkCommentDetailBean detail = new WorkCommentDetailBean();
+					detail.setTec(tecComment);
+					//获取名师点评和回复信息
+					
+					//传递评论名师或者回复名师ID
+					Integer tec_id = tecComment.getTec_id();
+					map.put("fid",i_status_id);
+					map.put("uid",tec_id);
+					map.put("limit",1);
+					List<WorkTecCommentBean> tec_comments = this.workTecCommentService.getTecCommentByWorkShow(map);
+					
+					detail.setTec_comments(tec_comments);
+					list.setComment_detail(detail);
+					tec_comments_list.add(list);
+				}
+				work.setTec_comments_list(tec_comments_list);
+				
+				//1.查询评论信息
+				List<CommentsVisitorBean> workCommentList = this.workCommentService.getWorkCommentByShow(i_status_id, limit);
+				//2.组装评论信息
+				List<CommentsBean> commentList = new ArrayList<CommentsBean>();
+				//组装其他人评论列表
+				for(CommentsVisitorBean workComment:workCommentList) {
+					CommentsBean comment = new CommentsBean();
+					String comm_type = workComment.getComm_type();
+					Integer host_id = workComment.getHost_id();
+					
+					comment.setCity(workComment.getCity());
+					comment.setComm_type(comm_type);
+					comment.setComment_id(workComment.getComment_id());
+					comment.setContent(workComment.getContent());
+					comment.setIdentity(workComment.getIdentity());
+					comment.setName(workComment.getName());
+					comment.setTime(workComment.getTime());
+					comment.setUser_id(workComment.getUser_id());
+					comment.setUser_type(workComment.getUser_type());
+					comment.setUser_pic(workComment.getUser_pic());
+							
+					CommentsHostBean hb = new CommentsHostBean();
+					if(comm_type.equals("reply")) {
+						String name = this.userStuService.getUserNameById(host_id);
+						hb.setName(name);
+						hb.setUser_id(host_id);
+						hb.setUser_type(workComment.getHost_type());
+					}
+					comment.setReply(hb);
+					commentList.add(comment);
+					}
+					work.setComments(commentList);
+					//4.查询广告信息
+					HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
+					if(ad!=null) {
+						work.setAd(ad);
+					}
+					errorCode="0";
+					errorMessage="ok";
+				}
+			}
+			work.setError_code(errorCode);
+			work.setError_msg(errorMessage);
+				
+			Gson gson = new Gson();
+			return gson.toJson(work);
+		
+	}
   /**
 	 * statuses/
 	 * 获取小组动态列表
@@ -980,9 +1122,14 @@ public class StatusesController {
 		
 		//定义一个首页列表对象
 		List<Object> gstusList = new ArrayList<Object>();
-		
+		//以下3个参数是不可选参数
+		String self = request.getParameter("self");
 		String uid = request.getParameter("uid");
+		String utype = request.getParameter("utype");
+		//以下1个参数是必选参数
 		String group_id = request.getParameter("group_id");
+		
+		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
 		//如果用户id 默认查询uid=0 即尚未登录的用户
 		if(group_id==null || group_id.equals("")) {
@@ -994,15 +1141,32 @@ public class StatusesController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 		}
 		else {
+			if(self==null || self.equals("")) {
+				offset = -1;
+			}
+			else if(!NumberUtil.isInteger(self)) {
+				offset = -10;
+			}
+			else
+				offset = Integer.valueOf(self);
+			
+			if(offset == -10) {
+				errorCode = "20033";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
+			}
+			else {
 			//如果用户id 默认查询uid=0 即尚未登录的用户
 			if(uid==null || uid.equals("") || !NumberUtil.isInteger(uid)) {
 				uid="0";
+			}
+			if(utype==null) {
+				utype="";
 			}
 			Integer i_uid = Integer.valueOf(uid);
 			//小组id
 			Integer i_group_id = Integer.valueOf(group_id);
 			//1. 查询指定所在小组发的10条动态列表信息
-			List<HomePageStatusesBean> statusList = this.statusesService.selectStatusesListByGid(i_group_id, limit);
+			List<HomePageStatusesBean> statusList = this.statusesService.getStatusesListByGid(i_group_id, offset, limit);
 			if(statusList.size()==0) {
 				statusList = new ArrayList<HomePageStatusesBean>();
 			}
@@ -1010,16 +1174,18 @@ public class StatusesController {
 			//填充小组信息详情信息
 			for (HomePageStatusesBean status : statusList) {
 			   Integer s_id = status.getStus_id();
-				
+			   
+			   //在这里传递的是当前登录用户ID和类型
 			   Map<String, Object> map = new HashMap<String, Object>();  
 			   map.put("s_id", s_id);
 			   map.put("u_id", i_uid);
-				
-		       HomeLikeOrCommentBean isExistLike = this.statusesService.selectIsLikeOrCommentOrAtt(map);
-		       status.setIs_like((String)map.get("is_like"));
-		       status.setIs_comment((String)map.get("is_comment"));
-			   
+			   map.put("u_type", utype);
+			 
+		       HomeLikeOrCommentBean isExistLike = this.statusesService.getIsLikeOrCommentOrAtt(map);
+		     
 		       if(isExistLike!=null) {
+		    	   status.setIs_like((String)map.get("is_like"));
+			       status.setIs_comment((String)map.get("is_comment"));
 					String att_type = isExistLike.getAtt_type();
 					if(att_type!=null && !att_type.equals("")) {
 						Integer att_id = isExistLike.getAtt_id();
@@ -1034,7 +1200,7 @@ public class StatusesController {
 			}
 		  }
 			//2.查询广告信息
-			HomePageAdvertiseBean ad = this.adService.selectOneAdByHomepage();
+			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
 			boolean isExistAd = false;
 			if(ad!=null) {
 				isExistAd=true;
@@ -1058,6 +1224,7 @@ public class StatusesController {
 				errorCode="20007";
 				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 			}
+		  }
 		}
 
 		HomePageBean homepage = new HomePageBean();
@@ -1084,16 +1251,20 @@ public class StatusesController {
 		List<Object> gstusList = new ArrayList<Object>();
 		
 		String group_id = request.getParameter("group_id");
+		//以下2个参数是不可选参数
 		String uid = request.getParameter("uid");
+		String utype = request.getParameter("utype");
+		String self = request.getParameter("self");
 		
+		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
 		//如果用户id 默认查询uid=0 即尚未登录的用户
-		if(group_id==null || uid==null) {
+		if(group_id==null || uid==null || utype==null) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
 		else
-		if(group_id.equals("") || uid.equals("")) {
+		if(group_id.equals("") || uid.equals("") || utype.equals("")) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -1102,25 +1273,41 @@ public class StatusesController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 		}
 		else {
+			if(self==null || self.equals("")) {
+				offset = -1;
+			}
+			else if(!NumberUtil.isInteger(self)) {
+				offset = -10;
+			}
+			else
+				offset = Integer.valueOf(self);
+			
+			if(offset == -10) {
+				errorCode = "20033";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
+			}
+			else {
 			//小组id
 			Integer i_group_id = Integer.valueOf(group_id);
 			//用户id
 			Integer i_uid = Integer.valueOf(uid);
 			//1. 查询指定用户 所在小组发的10条动态列表信息
-			List<HomePageStatusesBean> statusList = this.statusesService.selectStatusesListByUidAndGid(i_uid, i_group_id, limit);
+			List<HomePageStatusesBean> statusList = this.statusesService.getStatusesListByUidAndGid(i_uid, i_group_id, offset, limit);
 			if(statusList.size()==0) {
 				statusList = new ArrayList<HomePageStatusesBean>();
 			}
 			else {
 			//填充帖子详情信息
 			for (HomePageStatusesBean status : statusList) {
-				Integer s_id = status.getStus_id();
-				
+			   Integer s_id = status.getStus_id();
+			   
+			   //传递当前登录用户的ID和类型
 			   Map<String, Object> map = new HashMap<String, Object>();  
 			   map.put("s_id", s_id);  
 			   map.put("u_id", i_uid);
-			     
-		       HomeLikeOrCommentBean isExistLike = this.statusesService.selectIsLikeOrCommentOrAtt(map);
+			   map.put("u_type", utype);
+			   
+		       HomeLikeOrCommentBean isExistLike = this.statusesService.getIsLikeOrCommentOrAtt(map);
 		       status.setIs_like((String)map.get("is_like"));
 		       status.setIs_comment((String)map.get("is_comment"));
 			   
@@ -1139,7 +1326,7 @@ public class StatusesController {
 			}
 		  }
 			//2.查询广告信息
-			HomePageAdvertiseBean ad = this.adService.selectOneAdByHomepage();
+			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
 			boolean isExistAd = false;
 			if(ad!=null) {
 				isExistAd=true;
@@ -1151,11 +1338,9 @@ public class StatusesController {
 				if(isExistAd) {
 					if(gstusList.size()>4) {
 						gstusList.add(3,ad);
-						//gstusList.add(theme);
 					}
 					else {
 						gstusList.add(ad);
-						//gstusList.add(theme);
 					}
 				}
 				errorCode="0";
@@ -1165,6 +1350,7 @@ public class StatusesController {
 				errorCode="20007";
 				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 			}
+		  }
 		}
 
 		HomePageBean homepage = new HomePageBean();

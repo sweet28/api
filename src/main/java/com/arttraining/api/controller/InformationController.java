@@ -30,7 +30,7 @@ public class InformationController {
 	 * 
 	 * 获取头条信息列表
 	 * 暂未设置传递任何参数,故在此未获取任何参数
-	 * 如果数据库尚未获取到任何头条信息,错误码20008 内容为空
+	 * 如果数据库尚未获取到任何头条信息,错误码20007 内容为空
 	 * 
 	 * ***/
 	@RequestMapping(value = "/list", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

@@ -31,7 +31,7 @@ public class AdvertiseService implements IAdvertiseService {
 	}
 
 	@Override
-	public HomePageAdvertiseBean selectOneAdByHomepage() {
+	public HomePageAdvertiseBean getOneAdByHomepage() {
 		// TODO Auto-generated method stub
 		return this.advertiseDao.selectOneAdByHomepage();
 	}

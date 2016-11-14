@@ -22,7 +22,6 @@ import com.arttraining.api.bean.GroupListMyBean;
 import com.arttraining.api.bean.GroupListMyReBean;
 import com.arttraining.api.bean.GroupListReBean;
 import com.arttraining.api.bean.GroupShowBean;
-import com.arttraining.api.bean.GroupShowStatusBean;
 import com.arttraining.api.bean.GroupShowUserBean;
 import com.arttraining.api.bean.GroupUserBean;
 import com.arttraining.api.bean.GroupUserReBean;
@@ -195,10 +194,7 @@ public class GroupController {
 		
 		String group_id = request.getParameter("group_id");
 		
-		Integer offset=-1;
 		Integer limit = ConfigUtil.PAGESIZE;
-		
-		String self = request.getParameter("self");
 		if(group_id==null || group_id.equals("")) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;	
@@ -208,90 +204,49 @@ public class GroupController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 		}
 		else {
-			if(self==null || self.equals("")) {
-				offset=-1;
-			}
-			else
-			if(!NumberUtil.isInteger(self)) {
-				offset=-10;
-			}
-			else
-				offset = Integer.valueOf(self);
-			
-			if(offset==-10) {
-				errorCode = "20033";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
-			}
-			else {
-				//用户id
-				Integer i_group_id = Integer.valueOf(group_id);
-				//1.依据小组ID查询小组信息
-				groupShow = this.groupService.getGroupShowById(i_group_id,limit);
-				//2.获取小组成员列表信息
-				List<GroupShowUserBean> usersList = groupShow.getUsers();
-				//3.查询对应小组成员列表的头像信息
-				Map<String, Object> infoMap = new HashMap<String, Object>();
-				for(GroupShowUserBean user:usersList) {
-					String utype = user.getUtype();
-					Integer uid = user.getUid();
-					infoMap.put("utype", utype);
-					infoMap.put("uid", uid);
-					
-					this.groupService.getUerPicByIdAndType(infoMap);
-					user.setHead_pic((String)infoMap.get("pic"));
-				}
-				//4.用户信息
-				groupShow.setUsers(usersList);
+			//用户id
+			Integer i_group_id = Integer.valueOf(group_id);
+			//1.依据小组ID查询小组信息--获取发布小组动态的群主信息和小组信息
+			groupShow = this.groupService.getGroupShowById(i_group_id);
+			//2.获取小组成员列表信息
+			List<GroupShowUserBean> usersList = this.groupUserService.getGroupUserListByGroupShow(i_group_id, limit);
+			groupShow.setUsers(usersList);
+
+			//小组动态
+			List<Object> statuses = new ArrayList<Object>();
+			//3.查询小组成员所发布的小组动态信息
+			List<HomePageStatusesBean> statusList = this.statusService.getGroupStatusesByGid(i_group_id, limit);
+			//4.填充小组动态信息
+			for (HomePageStatusesBean status : statusList) {
+				Integer s_id = status.getStus_id();
+				Integer i_uid = status.getOwner();
+				String utype = status.getOwner_type();
 				
-				//小组动态
-				List<Object> statuses = new ArrayList<Object>();
-				
-				//5.查询小组成员所发布的小组动态信息
-				List<HomePageStatusesBean> statusList = this.statusService.getGroupStatusesByGid(i_group_id, offset, limit);
-				//填充小组动态信息
-				for (HomePageStatusesBean status : statusList) {
-					Integer s_id = status.getStus_id();
-					Integer i_uid = status.getOwner();
-					String utype = status.getOwner_type();
-					
-					Map<String, Object> map = new HashMap<String, Object>();  
-					map.put("s_id", s_id);  
-					map.put("u_type", utype);  
-					map.put("u_id", i_uid);
-					//用户信息存储过程
-					GroupShowStatusBean isExistUser = this.statusService.getGroupStatusUserByUid(map);
-					if(isExistUser!=null) {
-						String city = isExistUser.getCity();
-						String identity=isExistUser.getIdentity();
-						String owner_name = isExistUser.getOwner_name();
-						String owner_head_pic =isExistUser.getOwner_head_pic();
-						status.setCity(city);
-						status.setIdentity(identity);
-						status.setOwner_name(owner_name);
-						status.setOwner_head_pic(owner_head_pic);
+				//传递登录用户ID和类型	
+				Map<String, Object> map = new HashMap<String, Object>();  
+				map.put("s_id", s_id);  
+				map.put("u_type", utype);  
+				map.put("u_id", i_uid);
+				//点赞信息存储过程
+				HomeLikeOrCommentBean isExistLike = this.statusService.getIsLikeOrAtt(map);
+				if(isExistLike!=null) {
+					status.setIs_like((String)map.get("is_like"));   
+					String att_type = isExistLike.getAtt_type();
+					if(att_type!=null && !att_type.equals("")) {
+						Integer att_id = isExistLike.getAtt_id();
+						String duration= isExistLike.getDuration();
+						String thumbnail=isExistLike.getThumbnail();
+						String store_path=isExistLike.getStore_path();
+						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+						status.setAtt(attList);
 					}
-					//点赞信息存储过程
-					HomeLikeOrCommentBean isExistLike = this.statusService.getIsLikeOrAtt(map);
-					status.setIs_like((String)map.get("is_like"));
-						   
-					if(isExistLike!=null) {
-						String att_type = isExistLike.getAtt_type();
-						if(att_type!=null && !att_type.equals("")) {
-							Integer att_id = isExistLike.getAtt_id();
-							String duration= isExistLike.getDuration();
-							String thumbnail=isExistLike.getThumbnail();
-							String store_path=isExistLike.getStore_path();
-							List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
-							status.setAtt(attList);
-						}
-				   }
-					statuses.add(status);
-			    }
-				//6.小组动态信息
+				  }
+				 statuses.add(status);
+			   }
+				//5.小组动态信息
 				groupShow.setStatuses(statuses);
 				errorCode = "0";
 				errorMessage = "ok";
-			}
 		}
 		groupShow.setError_code(errorCode);
 		groupShow.setError_msg(errorMessage);
@@ -313,7 +268,6 @@ public class GroupController {
 		String self = request.getParameter("self");
 		
 		Integer offset = -1;
-		
 		GroupUserReBean userReBean = new GroupUserReBean();
 		
 		if(group_id==null || group_id.equals("")) {
@@ -345,24 +299,10 @@ public class GroupController {
 				Integer limit = ConfigUtil.PAGESIZE;
 				//小组ID
 				Integer i_group_id = Integer.valueOf(group_id);
-				List<GroupUser> groupUserList = this.groupUserService.getGroupUserListByGid(i_group_id, offset, limit);
-				
-				//小组用户信息列表
-				List<GroupUserBean> userBeanList = new ArrayList<GroupUserBean>();
-				Map<String,Object> infoMap = new HashMap<String, Object>();
-				for(GroupUser groupUser:groupUserList) {
-					String utype = groupUser.getUserType();
-					Integer uid = groupUser.getGroupId();
-					String identity = groupUser.getIdentity();
-					
-					infoMap.put("utype", utype);
-					infoMap.put("uid", uid);
-					GroupUserBean userBean = this.groupUserService.getGroupUserInfoByUid(infoMap);
-					userBean.setIdentity(identity);
-					userBean.setTime("");
-					userBeanList.add(userBean);
-				}
-				userReBean.setUsers(userBeanList);
+				List<GroupUserBean> groupUserList = this.groupUserService.getGroupUserListByGid(i_group_id, offset, limit);
+				userReBean.setUsers(groupUserList);
+				errorCode = "0";
+				errorMessage = "ok";	
 			}
 		}
 		userReBean.setError_code(errorCode);
@@ -438,8 +378,8 @@ public class GroupController {
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("uid", i_uid);
 					map.put("utype", utype);
-					
-					this.groupService.getUerPicByIdAndType(map);
+					//获取小组成员用户头像
+					String user_pic = this.groupService.getUerPicByIdAndType(map);
 					
 					//2.创建小组成员信息
 					GroupUser groupUser = new GroupUser();
@@ -447,7 +387,7 @@ public class GroupController {
 					groupUser.setCreateTime(TimeUtil.getTimeStamp());
 					groupUser.setUserId(i_uid);
 					groupUser.setUserType(utype);
-					groupUser.setHeadPic((String)map.get("pic"));
+					groupUser.setHeadPic(user_pic);
 				
 					try {
 						this.groupService.insertOneGroupAndUser(group, groupUser);
@@ -513,8 +453,8 @@ public class GroupController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("uid", i_uid);
 			map.put("utype", utype);
-			
-			this.groupService.getUerPicByIdAndType(map);
+			//获取登录用户ID和类型对应的头像
+			String user_pic = this.groupService.getUerPicByIdAndType(map);
 			
 			//1.创建小组成员信息
 			GroupUser groupUser = new GroupUser();
@@ -522,7 +462,7 @@ public class GroupController {
 			groupUser.setCreateTime(TimeUtil.getTimeStamp());
 			groupUser.setUserId(i_uid);
 			groupUser.setUserType(utype);
-			groupUser.setHeadPic((String)map.get("pic"));
+			groupUser.setHeadPic(user_pic);
 			groupUser.setGroupId(i_group_id);
 			
 			//2.修改小组信息

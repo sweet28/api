@@ -25,6 +25,40 @@
     name, describel, expiry_date, face_value, face_value_type, type, is_used, user_id, 
     user_type
   </sql>
+  <!-- coffee add sql where -->
+  <sql id="select_coupon_where">
+  		and is_deleted=0
+  </sql>
+  <!-- coffee add 1112 获取优惠券信息列表 coupons/list接口调用 -->
+  <resultMap id="ListResultMap" type="com.arttraining.api.bean.CouponsListBean" >
+    <id column="id" property="coupon_id" jdbcType="INTEGER" />
+    <result column="name" property="coupon_name" jdbcType="VARCHAR" />
+    <result column="describel" property="destribe" jdbcType="VARCHAR" />
+    <result column="expiry_date" property="expiry_date" jdbcType="TIMESTAMP" />
+    <result column="face_value" property="face_value" jdbcType="DOUBLE" />
+    <result column="type" property="coupon_type" jdbcType="INTEGER" />
+    <result column="is_used" property="is_used" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <select id="selectCouponListByUid" resultMap="ListResultMap">
+    select id,name,describel,expiry_date,face_value,type,is_used
+    from t_yp_coupon
+    where user_id=#{uid,jdbcType=INTEGER}
+    and user_type=#{utype,jdbcType=VARCHAR}
+    <include refid="select_coupon_where"></include>
+    <if test="offset != -1">
+    	and expiry_date &gt;(select expiry_date from t_yp_coupon
+    	where id = #{offset,jdbcType=INTEGER}
+    	<include refid="select_coupon_where"></include>)
+    </if>
+    <if test="type!=null">
+    	and type=#{type,jdbcType=INTEGER}
+    </if>
+    order by expiry_date
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+  <!-- end -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

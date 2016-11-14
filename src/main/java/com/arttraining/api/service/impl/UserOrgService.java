@@ -1,6 +1,7 @@
 package com.arttraining.api.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -23,17 +24,18 @@ public class UserOrgService implements IUserOrgService {
 		return this.userOrgDao.selectOneOrgByTecShow(id);
 	}
 
-	@Override
-	public List<OrgListBean> getOrgListPrimaryKey(String city, String province,
-			String type, Integer offset, Integer limit) {
-		// TODO Auto-generated method stub
-		return this.userOrgDao.selectOrgListPrimaryKey(city, province, type, offset, limit);
-	}
 
 	@Override
 	public OrgShowBean getOneOrgByOrgShow(Integer id) {
 		// TODO Auto-generated method stub
 		return this.userOrgDao.selectOneOrgByOrgShow(id);
+	}
+
+
+	@Override
+	public List<OrgListBean> getOrgListPrimaryKey(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.userOrgDao.selectOrgListPrimaryKey(map);
 	}
 
 	

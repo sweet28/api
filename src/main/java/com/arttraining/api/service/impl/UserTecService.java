@@ -1,6 +1,7 @@
 package com.arttraining.api.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -23,12 +24,6 @@ public class UserTecService implements IUserTecService {
 	}
 
 	@Override
-	public List<TecherListBean> getTecherListBySelective(String spec,String city, String college, Integer offset, Integer limit) {
-		// TODO Auto-generated method stub
-		return this.userTecDao.selectTecherListBySelective(spec, city, college, offset, limit);
-	}
-
-	@Override
 	public List<TecherListBean> getTecherListIndexBySelective(Integer offset, Integer limit) {
 		// TODO Auto-generated method stub
 		return this.userTecDao.selectTecherListIndexBySelective(offset,limit);
@@ -38,6 +33,12 @@ public class UserTecService implements IUserTecService {
 	public int countTecherNumer() {
 		// TODO Auto-generated method stub
 		return this.userTecDao.selectTecherNumer();
+	}
+
+	@Override
+	public List<TecherListBean> getTecherListBySelective(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.userTecDao.selectTecherListBySelective(map);
 	}
 
 }

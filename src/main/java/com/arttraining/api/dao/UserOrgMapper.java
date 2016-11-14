@@ -1,8 +1,7 @@
 package com.arttraining.api.dao;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
+import java.util.Map;
 
 import com.arttraining.api.bean.OrgListBean;
 import com.arttraining.api.bean.OrgShowBean;
@@ -22,14 +21,10 @@ public interface UserOrgMapper {
 
     int updateByPrimaryKey(UserOrg record);
     
-    //名师id查询相应名师信息-->对应查询下面的机构信息
+    //名师id查询相应名师信息-->对应查询下面的机构信息--techer/show
     TecherShowOrgBean selectOneOrgByTecShow(Integer id);
-    //获取机构列表信息
-    List<OrgListBean> selectOrgListPrimaryKey(@Param("city") String city, 
-    		@Param("province") String province, 
-    		@Param("type") String type, 
-    		@Param("offset") Integer offset, 
-    		@Param("limit") Integer limit);
-    //依据机构id查询机构详情
+    //获取机构列表信息--org/list接口调用
+    List<OrgListBean> selectOrgListPrimaryKey(Map<String, Object> map);
+    //依据机构id查询机构详情--org/show接口调用
     OrgShowBean selectOneOrgByOrgShow(Integer id);
 }

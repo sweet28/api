@@ -8,8 +8,9 @@ import com.arttraining.api.bean.UserStuShowBean;
 import com.arttraining.api.pojo.UserStu;
 
 public interface IUserStuService {
-	//依据用户ID查询相应的爱好者用户信息
+	//依据用户ID查询相应的爱好者用户信息(users/show接口)
 	public UserStu getUserStuById(Integer userStuId);
+	
 	//传递参数修改相应的爱好者用户信息
 	public Integer updateUserStuBySelective(UserStu record);
 	
@@ -44,5 +45,8 @@ public interface IUserStuService {
 	
 	//注册用户
 	int insert(UserStu userStu);
+	
+	//查询小组动态/帖子/作品回复的名称 statuses/show/bbs g_stus work接口调用
+    String getUserNameById(Integer id);
 
 }

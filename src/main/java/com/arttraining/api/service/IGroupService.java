@@ -13,7 +13,7 @@ public interface IGroupService {
 	//创建小组时 执行的方法
 	void insertOneGroupAndUser(Group group,GroupUser groupUser);
 	//依据用户类型和ID查询对应的头像
-    void getUerPicByIdAndType(Map<String,Object> map);
+	String getUerPicByIdAndType(Map<String,Object> map);
     //创建小组时 判断是否重复创建
     Group getIsRepeatGroup(Integer uid,String utype,String name);
 
@@ -22,6 +22,6 @@ public interface IGroupService {
   //查看我的小组列表信息
     List<GroupListMyBean> getGroupListMy(Map<String,Object> map);
     
-  //查询指定小组信息
-   GroupShowBean getGroupShowById(Integer id,Integer limit);
+  //查询指定小组信息--group/show接口调用
+   GroupShowBean getGroupShowById(Integer id);
 }

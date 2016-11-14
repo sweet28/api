@@ -56,7 +56,7 @@ public class UserStuController {
 		
 		String uid = request.getParameter("uid");
 		//创建一个UserStuShowBean对象 默认会对属性进行赋值
-		UserStuShowBean userStu = null;
+		UserStuShowBean userStu = new UserStuShowBean();
 		if(uid==null) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -130,7 +130,6 @@ public class UserStuController {
 				userStu.setHeadPic(head_pic);
 				
 				try {
-					//Integer rtn = this.userStuService.updateUserStuBySelective(userStu);
 					this.userStuService.updateUserStuBySelective(userStu);
 					errorCode = "0";
 					errorMessage = "ok";
@@ -139,15 +138,6 @@ public class UserStuController {
 					errorCode = "20036";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
 				}
-				
-				/*if(rtn>0) {
-					errorCode = "0";
-					errorMessage = "ok";
-				}
-				else {
-					errorCode = "20036";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
-				}*/
 			}
 			else {
 				errorCode = "20028";
@@ -211,15 +201,6 @@ public class UserStuController {
 					errorCode = "20036";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
 				}
-				/*Integer rtn = this.userStuService.updateUserStuBySelective(userStu);
-				if(rtn>0) {
-					errorCode = "0";
-					errorMessage = "ok";
-				}
-				else {
-					errorCode = "20036";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
-				}*/
 			}
 			else {
 				errorCode = "20028";
@@ -283,16 +264,6 @@ public class UserStuController {
 					errorCode = "20036";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
 				}
-				
-				/*Integer rtn = this.userStuService.updateUserStuBySelective(userStu);
-				if(rtn>0) {
-					errorCode = "0";
-					errorMessage = "ok";
-				}
-				else {
-					errorCode = "20036";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
-				}*/
 			}
 			else {
 				errorCode = "20028";
@@ -371,22 +342,23 @@ public class UserStuController {
 				Integer i_specialty_id=null;
 				Integer i_intentional_college_id=null;
 				
-				if(city_id!=null && !city_id.equals("")) {
+				if(city_id!=null && !city_id.equals("") && NumberUtil.isInteger(city_id)) {
 					i_city_id=Integer.valueOf(city_id);
 				}
-				if(identity_id!=null && !identity_id.equals("")) {
+				if(identity_id!=null && !identity_id.equals("") && NumberUtil.isInteger(identity_id)) {
 					i_identity_id=Integer.valueOf(identity_id);
 				}
-				if(school_id!=null && !school_id.equals("")) {
+				if(school_id!=null && !school_id.equals("") && NumberUtil.isInteger(school_id)) {
 					i_school_id=Integer.valueOf(school_id);
 				}
-				if(org_id!=null && !org_id.equals("")) {
+				if(org_id!=null && !org_id.equals("") && NumberUtil.isInteger(org_id)) {
 					i_org_id=Integer.valueOf(org_id);
 				}
-				if(specialty_id!=null && !specialty_id.equals("")) {
+				if(specialty_id!=null && !specialty_id.equals("") && NumberUtil.isInteger(specialty_id)) {
 					i_specialty_id=Integer.valueOf(specialty_id);
 				}
-				if(intentional_college_id!=null && !intentional_college_id.equals("")) {
+				if(intentional_college_id!=null && !intentional_college_id.equals("") 
+						&& NumberUtil.isInteger(intentional_college_id)) {
 					i_intentional_college_id=Integer.valueOf(intentional_college_id);
 				}
 					
@@ -417,16 +389,6 @@ public class UserStuController {
 					errorCode = "20036";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
 				}
-				
-				/*Integer rtn = this.userStuService.setUserStuInfoBySelective(userStu);
-				if(rtn>0) {
-					errorCode = "0";
-					errorMessage = "ok";
-				}
-				else {
-					errorCode = "20036";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
-				}*/
 			}
 			else {
 				errorCode = "20028";

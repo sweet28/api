@@ -20,6 +20,52 @@
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="content_type" property="contentType" jdbcType="VARCHAR" />
   </resultMap>
+  <!-- coffee add 新增查询条件 -->
+  <sql id="select_comment_where">
+  	and is_deleted=0
+  </sql>
+  <!-- coffee add 1113 查询名师点评作品的信息 statuses/show/work接口调用-->
+   <resultMap id="WorkUserResultMap" type="com.arttraining.api.bean.WorkCommentTecInfoBean" >
+    <result column="id" property="tec_id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+    <result column="school_name" property="school" jdbcType="VARCHAR" />
+    <result column="identity_name" property="identity" jdbcType="VARCHAR" />
+    <result column="head_pic" property="tec_pic" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectUserInfoByWorkShow" resultMap="WorkUserResultMap" parameterType="java.lang.Integer" >
+    select u.id,u.name,u.city_name,u.school_name,
+	u.identity_name,u.head_pic
+    from (select distinct visitor
+	from t_yp_works_tec_comment
+	where type='comment' and foreign_key=#{fid,jdbcType=INTEGER}
+	and visitor_type='tec'
+	<include refid="select_comment_where"></include>) c,
+	(select id,name,city_name,school_name,
+	identity_name,head_pic
+	from t_yp_user_tech
+	where is_lock=0 and is_deleted=0) u
+	where c.visitor=u.id
+  </select>
+  
+  <!-- coffee add 依据名师ID 查询评论信息 默认显示第一条(按照评论时间升序排序) -->
+  <resultMap id="TecCommentResultMap" type="com.arttraining.api.bean.WorkTecCommentBean" >
+    <result column="content_type" property="type" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="type" property="comm_type" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectTecCommentByWorkShow" resultMap="TecCommentResultMap">
+ 	select content_type,content,type
+	from t_yp_works_tec_comment
+	where foreign_key=#{fid,jdbcType=INTEGER}
+	and ((visitor_type='tec' and visitor=#{uid,jdbcType=INTEGER})
+	or (host_type='tec' and host=#{uid,jdbcType=INTEGER})) 
+	order by create_time
+	limit #{limit,jdbcType=INTEGER}
+  </select>
+  <!-- end -->
+  
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     visitor, visitor_type, host, host_type, foreign_key, content, score, type, content_type

@@ -27,40 +27,40 @@
   <sql id="select_comment_where">
   	  and is_deleted=0
   </sql>
-  <!-- coffee add 获取帖子详情(哪些人评论了 哪些人回复了) -->
-  <select id="selectBBSCommentByShow" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
+  <!-- coffee add 获取帖子详情(哪些人评论了 哪些人回复了) statuses/show/bbs接口调用 -->
+    <resultMap id="BBSCommentResultMap" type="com.arttraining.api.bean.CommentsVisitorBean" >
+    <result column="comment_id" property="comment_id" jdbcType="INTEGER" />
+    <result column="visitor" property="user_id" jdbcType="INTEGER" />
+    <result column="visitor_type" property="user_type" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="head_pic" property="user_pic" jdbcType="VARCHAR" />
+    <result column="create_time" property="time" jdbcType="TIMESTAMP" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+    <result column="identity_name" property="identity" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="type" property="comm_type" jdbcType="VARCHAR" />
+    <result column="host" property="host_id" jdbcType="INTEGER" />
+    <result column="host_type" property="host_type" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectBBSCommentByShow" resultMap="BBSCommentResultMap">
+    select b.id as comment_id,b.visitor,b.visitor_type,
+    b.create_time,b.content,b.type,
+    b.host,b.host_type,
+    u.city_name,u.identity_name,u.name,u.head_pic
+    from (select id,visitor,visitor_type,create_time,content,
+    type,host,host_type,order_code
     from t_yp_bbs_comment
-    where foreign_key = #{fid,jdbcType=INTEGER}
+    where foreign_key = #{fid,jdbcType=INTEGER} and visitor_type='stu'
     <include refid="select_comment_where"></include>
     order by order_code,create_time desc
-    limit #{limit,jdbcType=INTEGER}
+    limit #{limit,jdbcType=INTEGER}) b,
+    (select id,name,city_name,identity_name, head_pic
+    from t_yp_user_stu 
+    where is_deleted=0 and is_lock=0) u
+    where b.visitor = u.id
+    order by b.order_code,b.create_time desc
   </select>
- 
-  <!-- coffee add 依据帖子ID 来获取帖子评论回复的用户信息 -->
-  <!-- coffee add 调用存储过程 用于获取评论/回复人的用户信息 -->
-   <resultMap id="VisitorInfoResultMap" type="com.arttraining.api.bean.CommentsVisitorBean" >
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="city_name" property="city" jdbcType="VARCHAR" />
-    <result column="identity_name" property="identity" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="HostInfoResultMap" type="com.arttraining.api.bean.CommentsHostBean" >
-    <id column="id" property="user_id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="user_type" property="user_type" jdbcType="VARCHAR" />
-  </resultMap>
-  <select id="selectVisitorOrHostInfo" parameterType="java.util.Map" 
-  	resultMap="VisitorInfoResultMap" statementType="CALLABLE">
-  		<![CDATA[{CALL p_yp_show_status(
-  			#{type,mode=IN,jdbcType=VARCHAR},  
-	  		#{v_type,mode=IN,jdbcType=VARCHAR},  
-	  	    #{v_id,mode=IN,jdbcType=INTEGER},
-	  	    #{h_type,mode=IN,jdbcType=VARCHAR},
-	  	    #{h_id,mode=IN,jdbcType=INTEGER},
-	  	    #{user_name,mode=OUT,jdbcType=VARCHAR}
-  	    )}]]> 
-   </select>
+
   <!-- end -->
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

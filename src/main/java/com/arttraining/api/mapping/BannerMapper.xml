@@ -22,7 +22,7 @@
     title, content, pic, url, priority, is_publish
   </sql>
   
-  <!-- coffee add 1104 查询轮播列表信息 -->
+  <!-- coffee add 1104 查询轮播列表信息 banner/list接口调用 -->
   <resultMap id="ListResultMap" type="com.arttraining.api.bean.BannerListBean" >
     <id column="id" property="banner_id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
@@ -39,7 +39,7 @@
     order by order_code,create_time desc
     limit 0,3
   </select>
-  
+   <!-- coffee add 1104 查询某一个轮播信息 banner/show接口调用 -->
   <resultMap id="ShowResultMap" type="com.arttraining.api.bean.BannerShowBean" >
     <id column="id" property="info_id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />

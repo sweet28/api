@@ -38,7 +38,7 @@
   <sql id="select_userstu_where" >
        is_lock=0 and is_deleted=0
   </sql>
-  <!-- coffee add 点赞时更新点赞数 -->
+  <!-- coffee add 点赞时更新点赞数  like/create/bbs接口调用-->
   <update id="updateBBSLikeNumByPrimaryKey" parameterType="java.lang.Integer" >
     update t_yp_bbs
     set like_num = like_num+1
@@ -46,7 +46,7 @@
     <include refid="select_bbs_where"></include>
   </update>
   
-  <!-- coffee add 发布帖子时执行的方法   -->
+  <!-- coffee add 发布帖子时执行的方法  statuses/publish/bbs接口调用 -->
   <insert id="insertOneBBSSelective" useGeneratedKeys="true" keyProperty="id"
   	parameterType="com.arttraining.api.pojo.BBS" >
     insert into t_yp_bbs
@@ -194,7 +194,7 @@
     </trim>
   </insert>
   
-  <!-- coffee add 查询首页帖子列表信息 默认是显示10条 -->
+  <!-- coffee add 查询首页帖子列表信息 默认是显示10条 statuses/public_timeline/bbs接口调用-->
    <resultMap id="HomepageListResultMap" type="com.arttraining.api.bean.HomePageStatusesBean" >
     <result column="stus_id" property="stus_id" jdbcType="INTEGER" />
     <result column="stus_type" property="stus_type" jdbcType="VARCHAR" />   
@@ -214,7 +214,7 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   
-  <select id="selectBBSListByHomepage" resultMap="HomepageListResultMap" parameterType="java.lang.Integer">
+  <select id="selectBBSListByHomepage" resultMap="HomepageListResultMap">
     select b.id as stus_id,'status' as stus_type,b.comment_num,
     b.owner_type,b.like_num,b.browse_num,b.content,
 	b.title,b.tag,b.create_time,b.remarks,
@@ -222,15 +222,20 @@
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from (select id,comment_num,like_num,browse_num,content,title,
-		  tag,create_time,owner,owner_type,remarks
+		  tag,create_time,owner,owner_type,remarks,order_code
 		  from t_yp_bbs
 	      where is_deleted=0 and owner_type='stu'
+	      <if test="offset !=-1">
+	      	and order_code &gt;(select order_code from t_yp_bbs
+	      	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+	      </if>
 		  order by order_code,create_time desc
 	      limit #{limit,jdbcType=INTEGER}) b, 
 		(select identity_name,city_name,head_pic,name,id
 		from t_yp_user_stu
 		where <include refid="select_userstu_where"></include>) s
 	where b.owner = s.id
+	order by b.order_code,b.create_time desc
   </select>
  
   <!-- coffee add 1108 查询指定用户发帖详情 默认10条记录 -->
@@ -242,9 +247,13 @@
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from (select id,comment_num,like_num,browse_num,content,title,
-		  tag,create_time,owner,owner_type,remarks
+		  tag,create_time,owner,owner_type,remarks,order_code
 		  from t_yp_bbs
 	      where is_deleted=0 and owner_type='stu' and owner=#{uid,jdbcType=INTEGER}
+		  <if test="offset !=-1">
+		  	and order_code &gt;(select order_code from t_yp_bbs
+		  	 where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+		  </if>
 		  order by order_code,create_time desc
 	      limit #{limit,jdbcType=INTEGER}) b, 
 		(select identity_name,city_name,head_pic,name,id
@@ -252,6 +261,7 @@
 		where <include refid="select_userstu_where"></include>
 		 and id=#{uid,jdbcType=INTEGER}) s
 	where b.owner = s.id
+	order by b.order_code,b.create_time desc
   </select>
   
   <!-- coffee add 1108 查询某一个帖子信息 -->
@@ -290,32 +300,19 @@
 	where b.owner = s.id
   </select>
   
-  <!-- coffee add 1107 查询是否点赞和点评 -->
+  <!-- coffee add 1107 查询是否点赞和点评 statuses/public_timeline/bbs接口调用 -->
    <resultMap id="LikeOrCommentResultMap" type="com.arttraining.api.bean.HomeLikeOrCommentBean" >
-    <!--<result column="is_like" property="is_like" jdbcType="VARCHAR" />   
-    <result column="is_comment" property="is_comment" jdbcType="VARCHAR" /> -->
     <result column="id" property="att_id" jdbcType="INTEGER" />
     <result column="duration" property="duration" jdbcType="VARCHAR" />
     <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
     <result column="store_path" property="store_path" jdbcType="VARCHAR" />
    	<result column="type" property="att_type" jdbcType="VARCHAR" />
   </resultMap>
-   <!--  <select id="selectIsLikeOrCommentOrAtt" parameterType="java.util.Map" resultMap="LikeOrCommentResultMap" statementType="CALLABLE">
+   <select id="selectIsLikeOrCommentOrAtt" parameterType="java.util.Map" 
+   		resultMap="LikeOrCommentResultMap" statementType="CALLABLE">
   		<![CDATA[{CALL p_yp_homepage_bbs(
-	  		#{s_id,mode=IN,jdbcType=INTEGER},  
-	  	    #{u_id,mode=IN,jdbcType=INTEGER},
-	  	    #{is_like,mode=OUT,jdbcType=VARCHAR},
-	  	    #{is_comment,mode=OUT,jdbcType=VARCHAR},
-	  	    #{att_id,mode=OUT,jdbcType=INTEGER},
-	  	    #{duration,mode=OUT,jdbcType=VARCHAR},
-	  	    #{att_type,mode=OUT,jdbcType=VARCHAR},
-	  	    #{thumbnail,mode=OUT,jdbcType=VARCHAR},
-	  	    #{store_path,mode=OUT,jdbcType=VARCHAR}
-  	    )}]]> 
-   </select>-->
-   <select id="selectIsLikeOrCommentOrAtt" parameterType="java.util.Map" resultMap="LikeOrCommentResultMap" statementType="CALLABLE">
-  		<![CDATA[{CALL p_yp_homepage_bbs(
-	  		#{s_id,mode=IN,jdbcType=INTEGER},  
+	  		#{s_id,mode=IN,jdbcType=INTEGER}, 
+	  		#{u_type,mode=IN,jdbcType=VARCHAR}, 
 	  	    #{u_id,mode=IN,jdbcType=INTEGER},
 	  	    #{is_like,mode=OUT,jdbcType=VARCHAR},
 	  	    #{is_comment,mode=OUT,jdbcType=VARCHAR}

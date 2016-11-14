@@ -64,7 +64,5 @@ public class ConfigUtil {
 
 	// 帖子/小组动态名师点评显示的记录数
 	public static Integer DIANPING_PAGESIZE = 1;
-	
-	//定义2015/1/1时间戳
-	public static long DEFINE_TIMESTAMP=1420041600;
+
 }

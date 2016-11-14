@@ -484,7 +484,7 @@ public class LikeController {
 	/**
 	 * 添加点赞信息
 	 * 传递参数:
-	 * access_token--OAuth uid--用户id type--点赞人的类型 like_id--被点赞信息id
+	 * access_token--OAuth uid--用户id utype--点赞人的类型 like_id--被点赞信息id
 	 * 1103 下午 拆分传递的接口 将点赞类型拆分
 	 * status：动态(首页发的帖子) work：测评作品  org：机构  tec：名师   g_stus：小组动态
 	 * 
@@ -494,22 +494,22 @@ public class LikeController {
 		String accessToken = "";
 		String uid = "";
 		String like_id="";
-		String type="";
+		String utype="";
 		
 		String errorCode = "";
 		String errorMessage = "";
-		
+		//以下4个是必选参数
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
 		like_id = request.getParameter("like_id");
-		type=request.getParameter("type");
+		utype=request.getParameter("utype");
 		
-		if(accessToken == null || uid == null || type == null || like_id==null){
+		if(accessToken == null || uid == null || utype == null || like_id==null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
 		else
-		if(accessToken.equals("") || uid.equals("") || type.equals("") || like_id.equals("")){
+		if(accessToken.equals("") || uid.equals("") || utype.equals("") || like_id.equals("")){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -542,7 +542,7 @@ public class LikeController {
 						//开始添加点赞信息
 						BBSLike bbsLike = new BBSLike();
 						bbsLike.setVisitor(i_uid);
-						bbsLike.setVisitorType(type);
+						bbsLike.setVisitorType(utype);
 						bbsLike.setHost(bbs.getOwner());
 						bbsLike.setHostType(bbs.getOwnerType());
 						bbsLike.setForeignKey(i_like_id);
@@ -559,17 +559,6 @@ public class LikeController {
 							errorCode = "20034";
 							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20034;
 						}
-						/*Integer rtn = this.bbsLikeService.insertBBSLikeSelective(bbsLike);
-						if(rtn>0) {
-							//添加点赞成功
-							errorCode = "0";
-							errorMessage = "ok";
-							
-						}
-						else {
-							errorCode = "20034";
-							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20034;
-						}*/
 					}
 			  }
 			}
@@ -593,7 +582,7 @@ public class LikeController {
 		String accessToken = "";
 		String uid = "";
 		String like_id="";
-		String type="";
+		String utype="";
 		
 		String errorCode = "";
 		String errorMessage = "";
@@ -601,16 +590,16 @@ public class LikeController {
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
 		like_id = request.getParameter("like_id");
-		type=request.getParameter("type");
+		utype=request.getParameter("utype");
 		
 		JSONObject jsonObject = new JSONObject();
 		
-		if(accessToken == null || uid == null || type == null || like_id==null){
+		if(accessToken == null || uid == null || utype == null || like_id==null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
 		else
-		if(accessToken.equals("") || uid.equals("") || type.equals("") || like_id.equals("")){
+		if(accessToken.equals("") || uid.equals("") || utype.equals("") || like_id.equals("")){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -643,7 +632,7 @@ public class LikeController {
 					else {
 						WorksLike worksLike = new WorksLike();
 						worksLike.setVisitor(i_uid);
-						worksLike.setVisitorType(type);
+						worksLike.setVisitorType(utype);
 						worksLike.setHost(works.getOwner());
 						worksLike.setHostType(works.getOwnerType());
 						worksLike.setForeignKey(i_like_id);
@@ -659,16 +648,6 @@ public class LikeController {
 							errorCode = "20034";
 							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20034;
 						}
-						/*Integer rtn = this.worksLikeService.insertWorksLikeSelective(worksLike);
-						if(rtn>0) {
-							//添加点赞成功
-							errorCode = "0";
-							errorMessage = "ok";
-						}
-						else {
-							errorCode = "20034";
-							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20034;
-						}*/
 					}
 				}
 			}
@@ -691,7 +670,7 @@ public class LikeController {
 		String accessToken = "";
 		String uid = "";
 		String like_id="";
-		String type="";
+		String utype="";
 		
 		String errorCode = "";
 		String errorMessage = "";
@@ -699,16 +678,16 @@ public class LikeController {
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
 		like_id = request.getParameter("like_id");
-		type=request.getParameter("type");
+		utype=request.getParameter("utype");
 		
 		JSONObject jsonObject = new JSONObject();
 		
-		if(accessToken == null || uid == null || type == null || like_id==null){
+		if(accessToken == null || uid == null || utype == null || like_id==null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
 		else
-		if(accessToken.equals("") || uid.equals("") || type.equals("") || like_id.equals("")){
+		if(accessToken.equals("") || uid.equals("") || utype.equals("") || like_id.equals("")){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -741,7 +720,7 @@ public class LikeController {
 					else {
 						StatusesLike statusesLike = new StatusesLike();
 						statusesLike.setVisitor(i_uid);
-						statusesLike.setVisitorType(type);
+						statusesLike.setVisitorType(utype);
 						statusesLike.setHost(statuses.getOwner());
 						statusesLike.setHostType(statuses.getOwnerType());
 						statusesLike.setForeignKey(i_like_id);
@@ -757,17 +736,6 @@ public class LikeController {
 							errorCode = "20034";
 							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20034;
 						}
-						/*Integer rtn = this.statusesLikeService.insertStatusesLikeSelective(statusesLike);
-						if(rtn>0) {
-							//添加点赞成功
-							errorCode = "0";
-							errorMessage = "ok";
-							//点赞成功之后 返回相应的信息
-						}
-						else {
-							errorCode = "20034";
-							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20034;
-						}*/
 					}
 			  }
 			}

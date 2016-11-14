@@ -5,9 +5,13 @@ import java.util.Map;
 
 import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
+import com.arttraining.api.bean.WorkShowBean;
 import com.arttraining.api.pojo.Works;
 
 public interface IWorksService {
+	//显示指定某一个用户发布的作品信息--statuses/show/work接口调用
+	WorkShowBean getOneWorkByid(Integer id);
+    
 	//依据传递的id获取相应的作品信息
 	Works getWorksById(Integer id);
 	//主页获取帖子列表信息
@@ -16,5 +20,5 @@ public interface IWorksService {
 	//HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Integer u_id, Integer s_id);
 	HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Map<String, Object> map);
 	 //查询指定用户id 发布的作品动态 默认显示10条记录
-    List<HomePageStatusesBean> selectWorkListByUid(Integer uid,Integer limit);
+    List<HomePageStatusesBean> getWorkListByUid(Integer uid,Integer offset,Integer limit);
 }

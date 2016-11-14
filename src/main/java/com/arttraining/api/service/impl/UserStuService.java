@@ -45,21 +45,21 @@ public class UserStuService implements IUserStuService{
 	public List<LikeUserBean> listBBSLikeUserByFid(Integer fid, Integer offset,
 			Integer limit) {
 		// TODO Auto-generated method stub
-		return this.listBBSLikeUserByFid(fid, offset, limit);
+		return this.userStuDao.selectBBSLikeUserByFid(fid, offset, limit);
 	}
 
 	@Override
 	public List<LikeUserBean> listWorksLikeUserByFid(Integer fid,
 			Integer offset, Integer limit) {
 		// TODO Auto-generated method stub
-		return this.listWorksLikeUserByFid(fid, offset, limit);
+		return this.userStuDao.selectWorksLikeUserByFid(fid, offset, limit);
 	}
 
 	@Override
 	public List<LikeUserBean> listStatusesLikeUserByFid(Integer fid,
 			Integer offset, Integer limit) {
 		// TODO Auto-generated method stub
-		return this.listStatusesLikeUserByFid(fid, offset, limit);
+		return this.userStuDao.selectStatusesLikeUserByFid(fid, offset, limit);
 	}
 
 	@Override
@@ -93,6 +93,12 @@ public class UserStuService implements IUserStuService{
 	public Integer setUserStuInfoBySelective(UserStu record) {
 		// TODO Auto-generated method stub
 		return this.userStuDao.setUserStuInfo(record);
+	}
+
+	@Override
+	public String getUserNameById(Integer id) {
+		// TODO Auto-generated method stub
+		return this.userStuDao.selectUserNameById(id);
 	}
 	
 }

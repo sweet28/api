@@ -2,8 +2,10 @@ package com.arttraining.api.bean;
 
 
 public class CommentsBean {
+	private Integer comment_id;
 	private Integer user_id;
 	private String user_type;
+	private String user_pic;
 	private String name;
 	private String time;
 	private String city;
@@ -12,6 +14,18 @@ public class CommentsBean {
 	private String comm_type;
 	private CommentsHostBean reply;
 	
+	public Integer getComment_id() {
+		return comment_id;
+	}
+	public void setComment_id(Integer comment_id) {
+		this.comment_id = comment_id;
+	}
+	public String getUser_pic() {
+		return user_pic;
+	}
+	public void setUser_pic(String user_pic) {
+		this.user_pic = user_pic;
+	}
 	public Integer getUser_id() {
 		return user_id;
 	}

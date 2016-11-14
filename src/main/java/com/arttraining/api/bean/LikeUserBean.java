@@ -1,6 +1,7 @@
 package com.arttraining.api.bean;
 
 public class LikeUserBean {
+	private Integer b_like_id;
 	private Integer uid;
 	private String pic;
 	private String user_type;
@@ -9,7 +10,13 @@ public class LikeUserBean {
 	private String city;
 	private String identity;
 	
-	
+
+	public Integer getB_like_id() {
+		return b_like_id;
+	}
+	public void setB_like_id(Integer b_like_id) {
+		this.b_like_id = b_like_id;
+	}
 	public Integer getUid() {
 		return uid;
 	}

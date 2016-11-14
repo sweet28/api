@@ -33,9 +33,9 @@ public class GroupService implements IGroupService {
 	}
 
 	@Override
-	public void getUerPicByIdAndType(Map<String, Object> map) {
+	public String getUerPicByIdAndType(Map<String, Object> map) {
 		// TODO Auto-generated method stub
-		this.groupDao.selectUerPicByIdAndType(map);
+		return this.groupDao.selectUerPicByIdAndType(map);
 	}
 
 	@Override
@@ -57,8 +57,8 @@ public class GroupService implements IGroupService {
 	}
 
 	@Override
-	public GroupShowBean getGroupShowById(Integer id, Integer limit) {
+	public GroupShowBean getGroupShowById(Integer id) {
 		// TODO Auto-generated method stub
-		return this.groupDao.selectGroupShowById(id, limit);
+		return this.groupDao.selectGroupShowById(id);
 	}	
 }

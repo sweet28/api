@@ -41,27 +41,29 @@ public class BBSService implements IBBSService {
 	}
 
 	@Override
-	public List<HomePageStatusesBean> getBBSListByHomepage(Integer limit) {
-		// TODO Auto-generated method stub
-		return this.bbsDao.selectBBSListByHomepage(limit);
-	}
-
-	@Override
 	public HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return this.bbsDao.selectIsLikeOrCommentOrAtt(map);
 	}
 
 	@Override
-	public List<HomePageStatusesBean> getBBSListByUid(Integer uid, Integer limit) {
-		// TODO Auto-generated method stub
-		return this.bbsDao.selectBBSListByUid(uid, limit);
-	}
-
-	@Override
 	public StatusesShowBean getOneBBSById(Integer id) {
 		// TODO Auto-generated method stub
 		return this.bbsDao.selectOneBBSByid(id);
+	}
+
+	@Override
+	public List<HomePageStatusesBean> getBBSListByHomepage(Integer offset,
+			Integer limit) {
+		// TODO Auto-generated method stub
+		return this.bbsDao.selectBBSListByHomepage(offset, limit);
+	}
+
+	@Override
+	public List<HomePageStatusesBean> getBBSListByUid(Integer uid,
+			Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return this.bbsDao.selectBBSListByUid(uid, offset, limit);
 	}
 
 	

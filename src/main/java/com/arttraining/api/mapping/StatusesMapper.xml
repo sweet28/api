@@ -200,8 +200,45 @@
       </if>
     </trim>
   </insert>
+  <!-- coffee add 1113 依据小组ID 来获取小组动态列表信息 group/show接口调用 -->
+  <resultMap id="GroupStatusResultMap" type="com.arttraining.api.bean.HomePageStatusesBean" >
+    <result column="stus_id" property="stus_id" jdbcType="INTEGER" />
+    <result column="stus_type" property="stus_type" jdbcType="VARCHAR" />   
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="owner_type" jdbcType="VARCHAR" />
+  	<result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="comment_num" property="comment_num" jdbcType="INTEGER" />
+    <result column="like_num" property="like_num" jdbcType="INTEGER" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="name" property="owner_name" jdbcType="VARCHAR" />
+    <result column="head_pic" property="owner_head_pic" jdbcType="VARCHAR" />
+    <result column="identity_name" property="identity" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+   </resultMap>
+  <select id="selectGroupStatusesByGid" resultMap="GroupStatusResultMap">
+    select s.id as stus_id,'g_stus' as stus_type,
+    g.comment_num,g.like_num,g.browse_num,g.content,
+    g.title,g.tag,g.owner,g.owner_type,g.remarks,g.create_time,
+    u.name,u.city_name,u.head_pic,u.identity_name
+    (select id,comment_num,like_num,browse_num,content,
+    title,tag,owner,owner_type,remarks,order_code,create_time
+    from t_yp_statuses
+	where is_deleted=0 and group_id=#{gid,jdbcType=INTEGER}
+	order by order_code,create_time desc
+	limit #{limit,jdbcType=INTEGER}) s
+	join
+	 (select id,name,city_name,head_pic,identity_name
+	  from t_yp_user_stu 
+	  where is_deleted=0 and is_lock=0 ) u
+	on s.owner = u.id
+	order by s.order_code,s.create_time desc
+  </select>
   
-  <!-- coffee add 获取小组动态列表信息 默认显示10条记录 -->
+  <!-- coffee add 获取小组动态列表信息 默认显示10条记录 statuses/public_timeline/g_stus接口调用-->
    <resultMap id="HomepageListResultMap" type="com.arttraining.api.bean.HomePageStatusesBean" >
     <result column="stus_id" property="stus_id" jdbcType="INTEGER" />
     <result column="stus_type" property="stus_type" jdbcType="VARCHAR" />   
@@ -229,30 +266,39 @@
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from (select id,comment_num,like_num,browse_num,content,title,
-		  tag,create_time,owner,owner_type,remarks
+		  tag,create_time,owner,owner_type,remarks,order_code
 		  from t_yp_statuses
 	      where is_deleted=0 and owner_type='stu' and group_id=#{gid,jdbcType=INTEGER}
+	      <if test="offset !=-1">
+	      	and order_code &gt;(seelct order_code from t_yp_statuses
+	      	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+	      </if>
 		  order by order_code,create_time desc
 	      limit #{limit,jdbcType=INTEGER}) b, 
 		(select identity_name,city_name,head_pic,name,id
 		from t_yp_user_stu
 		where <include refid="select_userstu_where"></include>) s
 	where b.owner = s.id
+	order by b.order_code,b.create_time desc
   </select>
   
-    <!-- coffee add 1108 查询指定用户发布的动态信息 默认10条记录 -->
+    <!-- coffee add 1108 查询指定用户发布的动态信息 默认10条记录 statuses/user_timeline/g_stus接口调用 -->
   <select id="selectStatusesListByUidAndGid" resultMap="HomepageListResultMap">
-    select b.id as stus_id,'status' as stus_type,b.comment_num,
+    select b.id as stus_id,'g_stus' as stus_type,b.comment_num,
     b.owner_type,b.like_num,b.browse_num,b.content,
 	b.title,b.tag,b.create_time,b.remarks,
 	s.identity_name as identity,
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from (select id,comment_num,like_num,browse_num,content,title,
-		  tag,create_time,owner,owner_type,remarks
+		  tag,create_time,owner,owner_type,remarks,order_code
 		  from t_yp_statuses
 	      where is_deleted=0 and owner_type='stu' and owner=#{uid,jdbcType=INTEGER}
 	      and group_id=#{gid,jdbcType=INTEGER}
+	      <if test="offset !=-1">
+	      	and order_code &gt;(select order_code from t_yp_statuses
+	      	 where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+	      </if>
 		  order by order_code,create_time desc
 	      limit #{limit,jdbcType=INTEGER}) b, 
 		(select identity_name,city_name,head_pic,name,id
@@ -260,6 +306,7 @@
 		where <include refid="select_userstu_where"></include>
 		 and id=#{uid,jdbcType=INTEGER}) s
 	where b.owner = s.id
+	order by b.order_code,b.create_time desc
   </select>
   <!-- coffee add 1110 获取某一个小组动态小组信息 -->
     <resultMap id="ShowOneStatusResultMap" type="com.arttraining.api.bean.StatusesShowBean" >
@@ -281,7 +328,7 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectOneStatusByid" resultMap="ShowOneStatusResultMap">
-    select b.id as stus_id,'status' as stus_type,b.comment_num,
+    select b.id as stus_id,'g_stus' as stus_type,b.comment_num,
     b.owner_type,b.like_num,b.browse_num,b.content,
 	b.title,b.tag,b.create_time,b.remarks,
 	s.identity_name as identity,
@@ -307,13 +354,24 @@
   </resultMap>
   <select id="selectIsLikeOrCommentOrAtt" parameterType="java.util.Map" resultMap="LikeOrCommentResultMap" statementType="CALLABLE">
   		<![CDATA[{CALL p_yp_homepage_bbs(
-	  		#{s_id,mode=IN,jdbcType=INTEGER},  
+	  		#{s_id,mode=IN,jdbcType=INTEGER},
+	  		#{u_type,mode=IN,jdbcType=VARCHAR},  
 	  	    #{u_id,mode=IN,jdbcType=INTEGER},
 	  	    #{is_like,mode=OUT,jdbcType=VARCHAR},
 	  	    #{is_comment,mode=OUT,jdbcType=VARCHAR}
   	    )}]]> 
    </select>
    
+   <!-- coffee add 1113 查询当前登录用户是否对该动态进行点赞/点评 group/show接口调用  -->
+   <select id="selectIsLikeOrAtt" parameterType="java.util.Map" resultMap="LikeOrCommentResultMap" statementType="CALLABLE">
+  		<![CDATA[{CALL p_yp_group_show_status(
+	  		#{s_id,mode=IN,jdbcType=INTEGER}, 
+	  		#{u_type,mode=IN,jdbcType=VARCHAR}, 
+	  	    #{u_id,mode=IN,jdbcType=INTEGER},
+	  	    #{is_like,mode=OUT,jdbcType=VARCHAR}
+  	    )}]]> 
+   </select>
+   <!-- end -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

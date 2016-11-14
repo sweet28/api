@@ -20,10 +20,10 @@ public interface AdvertisingMapper {
 
     int updateByPrimaryKey(Advertising record);
     
-    //获取广告列表详情
+    //获取广告列表详情 --advertising/list接口调用
     List<AdvertiseListBean> selectAdList();
-    //依据广告ID查询相关的广告详情
+    //依据广告ID查询相关的广告详情 --advertising/show接口调用
     AdvertiseShowBean selectAdShowByPrimaryKey(Integer id);
-    //获取首页最新的一条广告信息
+    //获取首页最新的一条广告信息 --statuses/public_timeline/bbs接口调用
     HomePageAdvertiseBean selectOneAdByHomepage();
 }

@@ -1,7 +1,9 @@
 package com.arttraining.api.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +69,14 @@ public class UserOrgController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
-			orgList = this.userOrgService.getOrgListPrimaryKey(city, province, type, offset, limit);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("city", city);
+			map.put("province", province);
+			map.put("type", type);
+			map.put("offset", offset);
+			map.put("limit", limit);
+			
+			orgList = this.userOrgService.getOrgListPrimaryKey(map);
 			if(orgList.size() > 0) {
 				errorCode = "0";
 				errorMessage = "ok";

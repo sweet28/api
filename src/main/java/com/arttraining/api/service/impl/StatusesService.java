@@ -42,30 +42,42 @@ public class StatusesService implements IStatusesService {
 	}
 
 	@Override
-	public List<HomePageStatusesBean> selectStatusesListByGid(Integer gid,
-			Integer limit) {
+	public StatusesShowBean getOneStatusByid(Integer id) {
 		// TODO Auto-generated method stub
-		return this.statusesDao.selectStatusesListByGid(gid, limit);
+		return this.statusesDao.selectOneStatusByid(id);
 	}
 
 	@Override
-	public List<HomePageStatusesBean> selectStatusesListByUidAndGid(
-			Integer uid, Integer gid, Integer limit) {
-		// TODO Auto-generated method stub
-		return this.statusesDao.selectStatusesListByUidAndGid(uid, gid, limit);
-	}
-
-	@Override
-	public HomeLikeOrCommentBean selectIsLikeOrCommentOrAtt(
-			Map<String, Object> map) {
+	public HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return this.statusesDao.selectIsLikeOrCommentOrAtt(map);
 	}
 
 	@Override
-	public StatusesShowBean getOneStatusByid(Integer id) {
+	public List<HomePageStatusesBean> getGroupStatusesByGid(Integer gid,
+			Integer limit) {
 		// TODO Auto-generated method stub
-		return this.statusesDao.selectOneStatusByid(id);
+		return this.statusesDao.selectGroupStatusesByGid(gid, limit);
+	}
+
+	@Override
+	public HomeLikeOrCommentBean getIsLikeOrAtt(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.statusesDao.selectIsLikeOrAtt(map);
+	}
+
+	@Override
+	public List<HomePageStatusesBean> getStatusesListByGid(Integer gid,
+			Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return this.statusesDao.selectStatusesListByGid(gid, offset, limit);
+	}
+
+	@Override
+	public List<HomePageStatusesBean> getStatusesListByUidAndGid(Integer uid,
+			Integer gid, Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return this.statusesDao.selectStatusesListByUidAndGid(uid, gid, offset, limit);
 	}
 
 }

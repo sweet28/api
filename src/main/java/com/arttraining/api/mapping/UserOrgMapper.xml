@@ -36,7 +36,7 @@
   <sql id="select_org_where">
   	and is_deleted=0
   </sql>
-  <!-- coffee add 查询名师下所属的机构信息 -->
+  <!-- coffee add 查询名师下所属的机构信息 techer/show接口 查询某一个名师下所属机构 -->
    <resultMap id="TecShowOrgResultMap" type="com.arttraining.api.bean.TecherShowOrgBean" >
     <id column="id" property="org_id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -50,7 +50,7 @@
     <include refid="select_org_where"></include>
   </select>
   
-  <!-- coffee add 返回机构列表信息 -->
+  <!-- coffee add 返回机构列表信息 org/list接口调用 -->
   <resultMap id="OrgListResultMap" type="com.arttraining.api.bean.OrgListBean" >
     <id column="id" property="org_id" jdbcType="INTEGER" />
     <result column="pic" property="pic" jdbcType="VARCHAR" />
@@ -69,7 +69,7 @@
     where 1=1 
     <include refid="select_org_where"></include>
     <if test="offset != -1">
-    	and order_code &lt; (select order_code 
+    	and order_code &gt; (select order_code 
     	from t_yp_org where id=#{offset,jdbcType=INTEGER}
     	<include refid="select_org_where"></include>)
     </if>
@@ -80,7 +80,7 @@
     limit #{limit,jdbcType=INTEGER}
   </select>
   
-   <!-- coffee add 依据机构Id查询具体的机构详情信息 -->
+   <!-- coffee add 依据机构Id查询具体的机构详情信息 org/show接口调用 -->
   <resultMap id="OrgShowResultMap" type="com.arttraining.api.bean.OrgShowBean" >
     <id column="id" property="org_id" jdbcType="INTEGER" />
     <result column="pic" property="head_pic" jdbcType="VARCHAR" />

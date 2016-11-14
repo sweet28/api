@@ -15,14 +15,12 @@ public interface IBBSService {
 	
 	//发布帖子时 更新帖子附件信息
 	void insertBBSAndInsertAttr(BBS bbs, BBSAttachment bbsAttr);
-	//主页获取帖子列表信息
-	List<HomePageStatusesBean> getBBSListByHomepage(Integer limit);
-	//当前用户是否点赞或者名师是否点评
-	//HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Integer u_id, Integer s_id);
-	//void getIsLikeOrCommentOrAtt(Map<String, Object> map);
+	//主页获取帖子列表信息--statuses/public_timeline/bbs接口调用
+	List<HomePageStatusesBean> getBBSListByHomepage(Integer offset,Integer limit);
+	//当前用户是否点赞或者名师是否点评--statuses/user_timeline/bbs接口调用
 	HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Map<String, Object> map);
-	//获取指定用户发布的帖子列表信息 默认显示10条
-    List<HomePageStatusesBean> getBBSListByUid(Integer uid, Integer limit);
+	//获取指定用户发布的帖子列表信息 默认显示10条--statuses/user_timeline/bbs接口调用
+    List<HomePageStatusesBean> getBBSListByUid(Integer uid,Integer offset,Integer limit);
     //依据帖子ID查询某一个帖子信息
     StatusesShowBean getOneBBSById(Integer id);
 }

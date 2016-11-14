@@ -66,6 +66,7 @@
   	and is_deleted=0 and is_lock=0
   </sql>
   
+  <!-- coffee add 1112 techer/list接口 获取名师列表接口 -->
   <resultMap id="TecListResultMap" type="com.arttraining.api.bean.TecherListBean">
     <id column="id" property="tec_id" jdbcType="INTEGER" />
     <result column="head_pic" property="pic" jdbcType="VARCHAR" />
@@ -84,18 +85,19 @@
     from t_yp_user_tech
     where 1=1
      <if test="offset !=-1" >
-        and order_code &lt; 
+        and order_code &gt; 
         (select order_code from t_yp_user_tech where id = #{offset,jdbcType=INTEGER}
         <include refid="select_tec_where"></include>)  
     </if> 
     <if test="college !=null"> and school_name = #{college,jdbcType=VARCHAR} </if>
     <if test="spec !=null"> and specialty_name = #{spec,jdbcType=VARCHAR} </if>
     <if test="city !=null"> and city_name = #{city,jdbcType=VARCHAR}</if>
+    <if test="provinces !=null"> and city_father = #{provinces,jdbcType=VARCHAR}</if>
     <include refid="select_tec_where"></include>
     order by order_code
     limit #{limit,jdbcType=INTEGER}
   </select>
-  
+  <!-- coffee add 1112 -techer/list/index接口调用 默认显示2条数据 -->
   <select id="selectTecherListIndexBySelective" resultMap="TecListResultMap">
     select id, head_pic, name, specialty_name, title,
     authentication, comment_num, fans_num, ass_pay
