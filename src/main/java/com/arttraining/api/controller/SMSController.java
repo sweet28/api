@@ -19,6 +19,7 @@ import com.arttraining.api.service.impl.SMSService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.DaYuServiceUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.PhoneUtil;
 import com.arttraining.commons.util.Random;
 import com.arttraining.commons.util.TimeUtil;
 import com.google.gson.Gson;
@@ -56,7 +57,7 @@ public class SMSController {
 			errorCode = "20032";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			System.out.println("进入验证码发送:手机号-type空"+TimeUtil.getTimeStamp());
-		} else {
+		} else if(PhoneUtil.isMobile(mobile)){
 			SMSCheckCode smsCCode = null;
 			smsCCode = new SMSCheckCode();
 			SMSCheckCode smsCheckCode = new SMSCheckCode();
@@ -126,6 +127,9 @@ public class SMSController {
 					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20047;
 				}
 			}
+		}else{
+			errorCode = "20044";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20044;
 		}
 		
 		simReBean.setError_code(errorCode);

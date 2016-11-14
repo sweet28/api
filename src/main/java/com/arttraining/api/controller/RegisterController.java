@@ -46,7 +46,7 @@ public class RegisterController {
 		} else if (account.equals("")) {
 			errorCode = "20032";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
-		} else {
+		} else if(PhoneUtil.isMobile(account)){
 			UserStu userStu = null;
 			userStu = this.userStuService.getUserStuByAccount(account);
 			if(userStu != null){
@@ -56,6 +56,9 @@ public class RegisterController {
 				errorCode = "0";
 				errorMsg = "ok";
 			}
+		}else{
+			errorCode = "20044";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20044;
 		}
 		
 		simReBean.setError_code(errorCode);
