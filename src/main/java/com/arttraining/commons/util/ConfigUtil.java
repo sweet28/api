@@ -11,7 +11,7 @@ public class ConfigUtil {
 	public static long QINIU_EXPIRES = 86400;// 有效时长，单位秒
 	public static boolean STRICT = true;
 	public static StringMap QINIU_POLICY = null;
-	public static String QINIU_BUCKET_COM_URL = "oflkt0ank.bkt.clouddn.com";
+	public static String QINIU_BUCKET_COM_URL = "http://oflkt0ank.bkt.clouddn.com";
 
 	public static String PARAMETER_ERROR_CODE = "error_code";
 	public static String PARAMETER_ERROR_MSG = "error_msg";
@@ -63,6 +63,8 @@ public class ConfigUtil {
 	public static Integer HOMEWORK_PAGESIZE = 2;
 
 	// 帖子/小组动态名师点评显示的记录数
-	public static Integer DIANPING_PAGESIZE = 2;
-
+	public static Integer DIANPING_PAGESIZE = 1;
+	
+	//定义2015/1/1时间戳
+	public static long DEFINE_TIMESTAMP=1420041600;
 }
