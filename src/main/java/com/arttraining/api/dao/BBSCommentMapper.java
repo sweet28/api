@@ -1,6 +1,7 @@
 package com.arttraining.api.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -24,4 +25,6 @@ public interface BBSCommentMapper {
     List<CommentsVisitorBean> selectBBSCommentByShow(@Param("fid") Integer fid,
     		@Param("limit") Integer limit);
     
+   //查询帖子相关的评论回复列表信息--comment/list/bbs接口调用
+    List<CommentsVisitorBean> selectBBSCommentByList(Map<String, Object> map);
 }

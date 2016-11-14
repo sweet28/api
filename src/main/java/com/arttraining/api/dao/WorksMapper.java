@@ -39,4 +39,7 @@ public interface WorksMapper {
     		@Param("limit")Integer limit);
     //显示指定某一个用户发布的作品信息--statuses/show/work接口调用
     WorkShowBean selectOneWorkByid(Integer id);
+    
+    //发布评论时更新评论数 comments/create/work接口调用
+    int updateWorkCommNumByPrimaryKey(Integer id);
 }

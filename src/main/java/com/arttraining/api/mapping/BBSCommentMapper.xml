@@ -60,7 +60,30 @@
     where b.visitor = u.id
     order by b.order_code,b.create_time desc
   </select>
-
+	
+  <!--coffee add 1114 查询帖子相关的评论回复列表信息-comment/list/bbs接口调用 -->
+   <select id="selectBBSCommentByList" resultMap="BBSCommentResultMap">
+    select b.id as comment_id,b.visitor,b.visitor_type,
+    b.create_time,b.content,b.type,
+    b.host,b.host_type,
+    u.city_name,u.identity_name,u.name,u.head_pic
+    from (select id,visitor,visitor_type,create_time,content,
+    type,host,host_type
+    from t_yp_bbs_comment
+    where foreign_key = #{fid,jdbcType=INTEGER} and visitor_type='stu'
+    <include refid="select_comment_where"></include>
+    <if test="offset !=-1">
+    	and create_time &lt;(select create_time from t_yp_bbs_comment
+    	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+    </if>
+    order by create_time desc
+    limit #{limit,jdbcType=INTEGER}) b,
+    (select id,name,city_name,identity_name, head_pic
+    from t_yp_user_stu 
+    where is_deleted=0 and is_lock=0) u
+    where b.visitor = u.id
+    order by b.create_time desc
+  </select>
   <!-- end -->
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

@@ -504,6 +504,7 @@ public class LikeController {
 		like_id = request.getParameter("like_id");
 		utype=request.getParameter("utype");
 		
+		System.out.println("accessToken:"+accessToken+"uid:"+uid+"like_id:"+like_id+"utype:"+utype);
 		if(accessToken == null || uid == null || utype == null || like_id==null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;

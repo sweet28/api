@@ -28,6 +28,25 @@
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="money" property="money" jdbcType="VARCHAR" />
   </resultMap>
+
+  <!-- coffee add 1114 获取活动列表 activities/list接口调用-->
+   <resultMap id="ListResultMap" type="com.arttraining.api.bean.ActivityListBean" >
+    <id column="id" property="act_id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectActivityList" resultMap="ListResultMap">
+    select id,title,pic
+    from t_yp_activities
+    where is_deleted=0
+    <if test="offset !=-1">
+    	and create_time &lt;(select create_time from t_yp_activities
+    	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+    </if>
+    order by create_time desc
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  <!-- coffee add 1114 依据活动ID获取某一个活动列表信息 activities/show接口调用-->
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     title, pic, purpose, the_way, host_org, contractors, support_org, sponsor_org, start_time, 
@@ -39,7 +58,10 @@
     <include refid="Base_Column_List" />
     from t_yp_activities
     where id = #{id,jdbcType=INTEGER}
+    and is_deleted=0
   </select>
+  <!-- end -->
+    
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_activities
     where id = #{id,jdbcType=INTEGER}

@@ -1,6 +1,7 @@
 package com.arttraining.api.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -23,4 +24,6 @@ public interface WorksCommentMapper {
     //查询帖子相关的评论回复列表信息--statuses/show/bbs接口调用
     List<CommentsVisitorBean> selectWorkCommentByShow(@Param("fid") Integer fid,
     		@Param("limit") Integer limit);
+    //查询帖子相关的评论回复列表信息--comment/list/work接口调用
+    List<CommentsVisitorBean> selectWorkCommentByList(Map<String, Object> map);
 }

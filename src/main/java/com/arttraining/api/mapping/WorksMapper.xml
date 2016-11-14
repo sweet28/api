@@ -38,6 +38,13 @@
   <sql id="select_userstu_where" >
        is_lock=0 and is_deleted=0
   </sql>
+   <!-- coffee add 发布评论时更新评论数 comments/create/work接口调用 -->
+  <update id="updateWorkCommNumByPrimaryKey" parameterType="java.lang.Integer" >
+    update t_yp_works
+    set comment_num = comment_num+1
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_works_where"></include>
+  </update>
    <!-- coffee add 点赞时更新点赞数 -->
   <update id="updateWorkLikeNumByPrimaryKey" parameterType="java.lang.Integer" >
     update t_yp_works

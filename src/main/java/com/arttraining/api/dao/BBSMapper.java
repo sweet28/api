@@ -40,6 +40,8 @@ public interface BBSMapper {
     
     //显示指定某一个用户发布的帖子信息--statuses/show/bbs接口调用
     StatusesShowBean selectOneBBSByid(Integer id);
+    //发布评论时更新评论数 comments/create/bbs接口调用
+    int updateBBSCommNumByPrimaryKey(Integer id);
     
-    
+ 
 }

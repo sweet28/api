@@ -311,10 +311,9 @@ public class StatusesController {
 					map.put("u_type", utype);
 					
 					HomeLikeOrCommentBean isExistLike = this.worksService.getIsLikeOrCommentOrAtt(map);   
+					work.setIs_like((String)map.get("is_like"));
+					work.setIs_comment((String)map.get("is_comment"));
 					if(isExistLike!=null) {
-						work.setIs_like((String)map.get("is_like"));
-						work.setIs_comment((String)map.get("is_comment"));
-						
 						String att_type = isExistLike.getAtt_type();
 						if(att_type!=null && !att_type.equals("")) {
 							Integer att_id = isExistLike.getAtt_id();
@@ -344,11 +343,12 @@ public class StatusesController {
 			   map.put("s_id", s_id);  
 			   map.put("u_id", i_uid);
 			   map.put("u_type", utype);
-			     
+			   System.out.println("s_id:"+s_id+"u_id:"+uid+"u_type:"+utype);  
+			   
 		       HomeLikeOrCommentBean isExistLike = this.bbsService.getIsLikeOrCommentOrAtt(map);
-			   if(isExistLike!=null) {
-				   bbs.setIs_like((String)map.get("is_like"));
-				   bbs.setIs_comment((String)map.get("is_comment"));
+		       bbs.setIs_like((String)map.get("is_like"));
+			   bbs.setIs_comment((String)map.get("is_comment"));
+		       if(isExistLike!=null) {
 				   String att_type = isExistLike.getAtt_type();
 				   if(att_type!=null && !att_type.equals("")) {
 					   Integer att_id = isExistLike.getAtt_id();
@@ -791,10 +791,9 @@ public class StatusesController {
 			    map.put("u_type", utype);
 			    //判断是否点赞 或点评
 			    HomeLikeOrCommentBean isExistLike= this.bbsService.getIsLikeOrCommentOrAtt(map);
-				   
+			    bbs.setIs_like((String)map.get("is_like"));
+				bbs.setIs_comment((String)map.get("is_comment"));
 				if(isExistLike!=null) {
-					bbs.setIs_like((String)map.get("is_like"));
-					bbs.setIs_comment((String)map.get("is_comment"));
 					String att_type = isExistLike.getAtt_type();
 					if(att_type!=null && !att_type.equals("")) {
 						Integer att_id = isExistLike.getAtt_id();
@@ -908,10 +907,9 @@ public class StatusesController {
 			    map.put("u_type", utype);
 			    
 			    HomeLikeOrCommentBean isExistLike= this.statusesService.getIsLikeOrCommentOrAtt(map);
-
+			    status.setIs_like((String)map.get("is_like"));
+			    status.setIs_comment((String)map.get("is_comment"));
 				if(isExistLike!=null) {
-					status.setIs_like((String)map.get("is_like"));
-				    status.setIs_comment((String)map.get("is_comment"));
 					String att_type = isExistLike.getAtt_type();
 					if(att_type!=null && !att_type.equals("")) {
 						Integer att_id = isExistLike.getAtt_id();
@@ -1023,9 +1021,9 @@ public class StatusesController {
 				map.put("u_type", utype);
 				//判断是否点赞 或点评
 				HomeLikeOrCommentBean isExistLike= this.worksService.getIsLikeOrCommentOrAtt(map);
+				work.setIs_like((String)map.get("is_like"));
+				work.setIs_comment((String)map.get("is_comment"));
 				if(isExistLike!=null) {
-					work.setIs_like((String)map.get("is_like"));
-					work.setIs_comment((String)map.get("is_comment"));
 					String att_type = isExistLike.getAtt_type();
 					if(att_type!=null && !att_type.equals("")) {
 						Integer att_id = isExistLike.getAtt_id();
@@ -1182,10 +1180,9 @@ public class StatusesController {
 			   map.put("u_type", utype);
 			 
 		       HomeLikeOrCommentBean isExistLike = this.statusesService.getIsLikeOrCommentOrAtt(map);
-		     
+		       status.setIs_like((String)map.get("is_like"));
+		       status.setIs_comment((String)map.get("is_comment"));
 		       if(isExistLike!=null) {
-		    	   status.setIs_like((String)map.get("is_like"));
-			       status.setIs_comment((String)map.get("is_comment"));
 					String att_type = isExistLike.getAtt_type();
 					if(att_type!=null && !att_type.equals("")) {
 						Integer att_id = isExistLike.getAtt_id();

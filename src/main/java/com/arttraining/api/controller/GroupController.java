@@ -229,8 +229,8 @@ public class GroupController {
 				map.put("u_id", i_uid);
 				//点赞信息存储过程
 				HomeLikeOrCommentBean isExistLike = this.statusService.getIsLikeOrAtt(map);
+				status.setIs_like((String)map.get("is_like"));   
 				if(isExistLike!=null) {
-					status.setIs_like((String)map.get("is_like"));   
 					String att_type = isExistLike.getAtt_type();
 					if(att_type!=null && !att_type.equals("")) {
 						Integer att_id = isExistLike.getAtt_id();

@@ -62,6 +62,30 @@
     order by s.order_code,s.create_time desc
   </select>
  
+  <!-- coffee add 1114 查询小组动态相关的评论回复列表信息 comment/list/g_stus接口调用-->
+   <select id="selectStatusCommentByList" resultMap="StatusCommentResultMap">
+    select s.id as comment_id,s.visitor,s.visitor_type,
+    s.create_time,s.content,s.type,
+    s.host,s.host_type,
+    u.city_name,u.identity_name,u.name,u.head_pic
+    from (select id,visitor,visitor_type,create_time,content,
+    type,host,host_type
+    from t_yp_statuses_comment
+    where foreign_key = #{fid,jdbcType=INTEGER} and visitor_type='stu'
+    <include refid="select_comment_where"></include>
+    <if test="offset !=-1">
+    	and create_time &lt;(select create_time from t_yp_statuses_comment
+    	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+    </if>
+    order by create_time desc
+    limit #{limit,jdbcType=INTEGER}) s,
+    (select id,name,city_name,identity_name, head_pic
+    from t_yp_user_stu 
+    where is_deleted=0 and is_lock=0) u
+    where s.visitor = u.id
+    order by s.create_time desc
+  </select>
+  
   <!-- end -->
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

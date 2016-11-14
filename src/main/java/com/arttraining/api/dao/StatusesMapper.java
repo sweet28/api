@@ -48,4 +48,7 @@ public interface StatusesMapper {
     
     //判断是否对其进行点赞  --group/show接口调用
     HomeLikeOrCommentBean selectIsLikeOrAtt(Map<String,Object> map);
+    
+    //发布小组动态评论时更新评论数 comments/create/g_stus接口调用
+    int updateStatusCommNumByPrimaryKey(Integer id);
 }

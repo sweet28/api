@@ -77,4 +77,7 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20048 = "验证码失效，请重新发送验证码";
 	public static String ERROR_MSG_ZH_20049 = "验证码不正确，请重新输入。";
 	
+	public static String ERROR_MSG_ZH_20050 = "评论失败,请检查网络是否畅通。";
+	
+	
 }

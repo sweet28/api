@@ -14,6 +14,40 @@
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <!-- coffee add 1114 查看帮助列表信息 help/list接口调用 -->
+  <resultMap id="ListResultMap" type="com.arttraining.api.bean.HelpListBean" >
+    <id column="id" property="help_id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectHelpList" resultMap="ListResultMap">
+    select id,title
+    from t_yp_help
+    where is_deleted=0
+    <if test="offset !=-1">
+    	and order_code &gt;(select order_code from t_yp_help
+    	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+    </if>
+    order by order_code
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+  <!-- coffee add 1114 依据帮助ID查询详情 help/show接口调用 -->
+  <resultMap id="ShowResultMap" type="com.arttraining.api.bean.HelpShowBean" >
+    <id column="id" property="help_id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectHelpShow" resultMap="ShowResultMap" parameterType="java.lang.Integer" >
+    select id,title,remark,content
+    from t_yp_help
+    where id = #{id,jdbcType=INTEGER}
+    and is_deleted=0
+  </select>
+  
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     title, content, type

@@ -1,5 +1,9 @@
 package com.arttraining.api.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import com.arttraining.api.bean.ActivityListBean;
 import com.arttraining.api.pojo.Activities;
 
 public interface ActivitiesMapper {
@@ -14,4 +18,7 @@ public interface ActivitiesMapper {
     int updateByPrimaryKeySelective(Activities record);
 
     int updateByPrimaryKey(Activities record);
+    
+    //获取活动列表 --activities/list接口调用
+    List<ActivityListBean> selectActivityList(Map<String, Object> map);
 }

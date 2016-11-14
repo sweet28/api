@@ -57,6 +57,31 @@
     order by w.order_code,w.create_time desc
   </select>
 
+  <!-- coffee add 1114 查询帖子相关的评论回复列表信息-comment/list/work接口调用 -->
+    <select id="selectWorkCommentByList" resultMap="WorkCommentResultMap">
+    select w.id as comment_id,w.visitor,w.visitor_type,
+    w.create_time,w.content,w.type,
+    w.host,w.host_type,
+    u.city_name,u.identity_name,u.name,u.head_pic
+    from (select id,visitor,visitor_type,create_time,content,
+    type,host,host_type
+    from t_yp_works_comment
+    where foreign_key = #{fid,jdbcType=INTEGER} and visitor_type='stu'
+    <include refid="select_comment_where"></include>
+    <if test="offset !=-1">
+    	and create_time &lt;(select create_time from t_yp_works_comment
+    	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+    </if>
+    order by create_time desc
+    limit #{limit,jdbcType=INTEGER}) w,
+    (select id,name,city_name,identity_name, head_pic
+    from t_yp_user_stu 
+    where is_deleted=0 and is_lock=0) u
+    where w.visitor = u.id
+    order by w.create_time desc
+  </select>
+  
+  
   <!-- end -->
   
   <sql id="Base_Column_List" >
