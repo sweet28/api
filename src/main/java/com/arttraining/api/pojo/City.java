@@ -21,7 +21,9 @@ public class City {
 
     private Integer fatherId;
 
-    private String level;
+    private String fatherName;
+
+    private Integer level;
 
     private String name;
 
@@ -101,12 +103,20 @@ public class City {
         this.fatherId = fatherId;
     }
 
-    public String getLevel() {
+    public String getFatherName() {
+        return fatherName;
+    }
+
+    public void setFatherName(String fatherName) {
+        this.fatherName = fatherName == null ? null : fatherName.trim();
+    }
+
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
-        this.level = level == null ? null : level.trim();
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public String getName() {

@@ -11,14 +11,15 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
     <result column="father_id" property="fatherId" jdbcType="INTEGER" />
-    <result column="level" property="level" jdbcType="VARCHAR" />
+    <result column="father_name" property="fatherName" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="describe" property="describe" jdbcType="VARCHAR" />
     <result column="is_valid" property="isValid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    father_id, level, name, describe, is_valid
+    father_id, father_name, level, name, describe, is_valid
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -34,13 +35,13 @@
     insert into t_yp_city (id, uuid, is_deleted, 
       create_time, order_code, delete_time, 
       remarks, attachment, father_id, 
-      level, name, describe, 
-      is_valid)
+      father_name, level, name, 
+      describe, is_valid)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{fatherId,jdbcType=INTEGER}, 
-      #{level,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{describe,jdbcType=VARCHAR}, 
-      #{isValid,jdbcType=INTEGER})
+      #{fatherName,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{describe,jdbcType=VARCHAR}, #{isValid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.City" >
     insert into t_yp_city
@@ -71,6 +72,9 @@
       </if>
       <if test="fatherId != null" >
         father_id,
+      </if>
+      <if test="fatherName != null" >
+        father_name,
       </if>
       <if test="level != null" >
         level,
@@ -113,8 +117,11 @@
       <if test="fatherId != null" >
         #{fatherId,jdbcType=INTEGER},
       </if>
+      <if test="fatherName != null" >
+        #{fatherName,jdbcType=VARCHAR},
+      </if>
       <if test="level != null" >
-        #{level,jdbcType=VARCHAR},
+        #{level,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -154,8 +161,11 @@
       <if test="fatherId != null" >
         father_id = #{fatherId,jdbcType=INTEGER},
       </if>
+      <if test="fatherName != null" >
+        father_name = #{fatherName,jdbcType=VARCHAR},
+      </if>
       <if test="level != null" >
-        level = #{level,jdbcType=VARCHAR},
+        level = #{level,jdbcType=INTEGER},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
@@ -179,7 +189,8 @@
       remarks = #{remarks,jdbcType=VARCHAR},
       attachment = #{attachment,jdbcType=VARCHAR},
       father_id = #{fatherId,jdbcType=INTEGER},
-      level = #{level,jdbcType=VARCHAR},
+      father_name = #{fatherName,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       describe = #{describe,jdbcType=VARCHAR},
       is_valid = #{isValid,jdbcType=INTEGER}
