@@ -45,6 +45,11 @@ public class UserStuController {
 		  
 	        return true;
 	}*/
+	/***
+	 * 根据用户ID获取用户数目信息
+	 * 传递的参数:uid 用户ID
+	 * 
+	 */
 	
 	/***
 	 * 根据用户ID获取用户信息
@@ -322,6 +327,16 @@ public class UserStuController {
 		String intentional_college = request.getParameter("intentional_college");
 		String email = request.getParameter("email");
 		
+		
+		System.out.println(access_token+"=="+uid+"=="+name);
+		System.out.println(sex+"=="+city_id+"=="+city);
+		System.out.println(identity_id+"=="+identity+"=="+school_id);
+		System.out.println(school+"=="+org_id+"=="+org);
+		System.out.println(specialty_id+"=="+specialty+"=="+intentional_college_id);
+		System.out.println(intentional_college+"=="+email);
+		
+		
+		
 		if(access_token==null || uid==null) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -407,6 +422,8 @@ public class UserStuController {
 		jsonObject.put("uid", 0);
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
+		
+		System.out.println(jsonObject);
 		
 		return jsonObject;
 	}

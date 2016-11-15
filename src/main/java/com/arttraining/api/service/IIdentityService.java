@@ -1,6 +1,10 @@
 package com.arttraining.api.service;
 
+import java.util.List;
+
+import com.arttraining.api.bean.IdentityListBean;
+
 public interface IIdentityService {
-	//依据用户身份ID来查询相应的身份名称
-	public String getNameById(Integer identityId);
+	 //获取身份列表--identity/list接口调用
+    List<IdentityListBean> getIdentityList();
 }

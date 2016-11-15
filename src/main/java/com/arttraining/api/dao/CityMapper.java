@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.arttraining.api.bean.CityListBean;
+import com.arttraining.api.bean.CitySortListBean;
 import com.arttraining.api.bean.ProvinceListBean;
 import com.arttraining.api.pojo.City;
 
@@ -24,4 +25,6 @@ public interface CityMapper {
     List<CityListBean> selectCityListByProvince(@Param("fatherName") String fatherName);
     //获取省份列表--common/get_province接口调用
     List<ProvinceListBean> selectProvinceList();
+    //获取城市列表-- common/get_city接口调用
+    List<CitySortListBean> selectCityListBySort(@Param("fatherName") String fatherName); 
 }

@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.arttraining.api.bean.CityListBean;
+import com.arttraining.api.bean.CitySortListBean;
 import com.arttraining.api.bean.ProvinceListBean;
 import com.arttraining.api.dao.CityMapper;
 import com.arttraining.api.service.ICityService;
@@ -26,6 +27,12 @@ public class CityService implements ICityService {
 	public List<ProvinceListBean> getProvinceList() {
 		// TODO Auto-generated method stub
 		return this.cityDao.selectProvinceList();
+	}
+
+	@Override
+	public List<CitySortListBean> getCityListBySort(String fatherName) {
+		// TODO Auto-generated method stub
+		return this.cityDao.selectCityListBySort(fatherName);
 	}
 	
 }

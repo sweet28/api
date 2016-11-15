@@ -15,6 +15,23 @@
     <result column="father_name" property="fatherName" jdbcType="VARCHAR" />
     <result column="level" property="level" jdbcType="INTEGER" />
   </resultMap>
+  <!-- coffee add 1115 获取一级专业列表 major/list/level_one接口调用 -->
+   <resultMap id="MajorListResultMap" type="com.arttraining.api.bean.MajorListBean" >
+    <id column="id" property="major_id" jdbcType="INTEGER" />
+    <result column="name" property="major_name" jdbcType="VARCHAR" />
+    <result column="father_id" property="fatherId" jdbcType="INTEGER" />
+    <result column="father_name" property="fatherName" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectOneLevelMajorByList" resultMap="MajorListResultMap">
+    select id,name,father_id,father_name,level
+    from t_yp_major
+    where is_deleted=0 and level=1
+    order by order_code
+  </select>
+  
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     name, father_id, father_name, level

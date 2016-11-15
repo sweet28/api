@@ -13,6 +13,21 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <!-- coffee add 1115 获取身份列表 identity/list接口调用-->
+   <resultMap id="IdentityListResultMap" type="com.arttraining.api.bean.IdentityListBean" >
+    <id column="id" property="identity_id" jdbcType="INTEGER" />
+    <result column="name" property="identity_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectIdentityList" resultMap="IdentityListResultMap">
+    select id,name
+    from t_yp_identity
+    where is_deleted=0
+    order by order_code,create_time
+  </select>
+  
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, name, describe, is_deleted, create_time, order_code, delete_time, remarks, 
     attachment
