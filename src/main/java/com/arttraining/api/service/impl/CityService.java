@@ -18,9 +18,9 @@ public class CityService implements ICityService {
 	private CityMapper cityDao;
 	
 	@Override
-	public List<CityListBean> getCityListByProvince(String fatherName) {
+	public List<CityListBean> getCityListByProvince(String father_name) {
 		// TODO Auto-generated method stub
-		return this.cityDao.selectCityListByProvince(fatherName);
+		return this.cityDao.selectCityListByProvince(father_name);
 	}
 
 	@Override
@@ -30,9 +30,9 @@ public class CityService implements ICityService {
 	}
 
 	@Override
-	public List<CitySortListBean> getCityListBySort(String fatherName) {
+	public List<CitySortListBean> getCityListBySort(String father_name) {
 		// TODO Auto-generated method stub
-		return this.cityDao.selectCityListBySort(fatherName);
+		return this.cityDao.selectCityListBySort(father_name);
 	}
 	
 }

@@ -22,9 +22,9 @@ public interface CityMapper {
 
     int updateByPrimaryKey(City record);
     //根据省份获取城市列表--common/get_city/by_province接口调用
-    List<CityListBean> selectCityListByProvince(@Param("fatherName") String fatherName);
+    List<CityListBean> selectCityListByProvince(@Param("father_name") String father_name);
     //获取省份列表--common/get_province接口调用
     List<ProvinceListBean> selectProvinceList();
     //获取城市列表-- common/get_city接口调用
-    List<CitySortListBean> selectCityListBySort(@Param("fatherName") String fatherName); 
+    List<CitySortListBean> selectCityListBySort(@Param("father_name") String father_name); 
 }

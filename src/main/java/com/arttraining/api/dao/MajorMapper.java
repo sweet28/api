@@ -2,6 +2,9 @@ package com.arttraining.api.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
+import com.arttraining.api.bean.MajorLevelListBean;
 import com.arttraining.api.bean.MajorListBean;
 import com.arttraining.api.pojo.Major;
 
@@ -17,6 +20,13 @@ public interface MajorMapper {
     int updateByPrimaryKeySelective(Major record);
 
     int updateByPrimaryKey(Major record);
+    
     //获取一级专业列表--major/list/level_one接口调用
     List<MajorListBean> selectOneLevelMajorByList();
+    //获取专业列表 --major/list接口调用
+    MajorLevelListBean selectMajorNodeById(Integer id);
+    //依据父节点 获取某专业下的子节点列表--major/list接口调用
+    List<MajorLevelListBean> selectMajorNodeByFid(Integer father_id);
+    //获取所有一级专业列表ID--major/list接口调用
+    List<Integer> selectAllOneLevelMajor();
 }

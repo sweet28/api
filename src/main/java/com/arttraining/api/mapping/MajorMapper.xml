@@ -19,12 +19,42 @@
    <resultMap id="MajorListResultMap" type="com.arttraining.api.bean.MajorListBean" >
     <id column="id" property="major_id" jdbcType="INTEGER" />
     <result column="name" property="major_name" jdbcType="VARCHAR" />
-    <result column="father_id" property="fatherId" jdbcType="INTEGER" />
-    <result column="father_name" property="fatherName" jdbcType="VARCHAR" />
+    <result column="father_id" property="father_id" jdbcType="INTEGER" />
+    <result column="father_name" property="father_name" jdbcType="VARCHAR" />
     <result column="level" property="level" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectOneLevelMajorByList" resultMap="MajorListResultMap">
     select id,name,father_id,father_name,level
+    from t_yp_major
+    where is_deleted=0 and level=1
+    order by order_code
+  </select>
+  
+  <!-- coffee add 获取专业列表 major/list接口调用 -->
+   <resultMap id="MajorTreeResultMap" type="com.arttraining.api.bean.MajorLevelListBean" >
+    <id column="id" property="major_id" jdbcType="INTEGER" />
+    <result column="name" property="major_name" jdbcType="VARCHAR" />
+    <result column="father_id" property="father_id" jdbcType="INTEGER" />
+    <result column="father_name" property="father_name" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+  </resultMap>
+  <!-- coffee add 1115 依据ID查询某个专业信息 major/list接口调用 -->
+  <select id="selectMajorNodeById" resultMap="MajorTreeResultMap" parameterType="java.lang.Integer">
+    select id,name,father_id,father_name,level
+    from t_yp_major
+    where is_deleted=0 and id=#{id,jdbcType=INTEGER}
+  </select>
+  <!-- coffee add 1115 依据父节点查询所属的所有子节点 major/list接口调用-->
+  <select id="selectMajorNodeByFid" resultMap="MajorTreeResultMap" parameterType="java.lang.Integer">
+    select id,name,father_id,father_name,level
+    from t_yp_major
+    where is_deleted=0 and father_id=#{father_id,jdbcType=INTEGER}
+    order by order_code
+  </select>
+  
+  <!-- coffee add 1115 获取目前所有的一级专业列表信息 major/list接口调用 -->
+  <select id="selectAllOneLevelMajor" resultType="java.lang.Integer">
+    select id
     from t_yp_major
     where is_deleted=0 and level=1
     order by order_code
