@@ -26,7 +26,6 @@ import com.arttraining.api.bean.HomePageAttBean;
 import com.arttraining.api.bean.HomePageBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
 import com.arttraining.api.bean.StatusesShowBean;
-import com.arttraining.api.bean.WorkCommentDetailBean;
 import com.arttraining.api.bean.WorkCommentTecInfoBean;
 import com.arttraining.api.bean.WorkShowBean;
 import com.arttraining.api.bean.WorkTecCommentBean;
@@ -982,6 +981,7 @@ public class StatusesController {
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
 		
+		System.out.println(status_id+"=="+uid+"=="+utype);
 		//默认10条记录
 		Integer limit = ConfigUtil.PAGESIZE;
 		WorkShowBean work = new WorkShowBean();
@@ -1041,8 +1041,8 @@ public class StatusesController {
 				List<WorkTecCommentsListBean> tec_comments_list = new ArrayList<WorkTecCommentsListBean>();
 				for(WorkCommentTecInfoBean tecComment:tecCommentList) {
 					WorkTecCommentsListBean list = new WorkTecCommentsListBean();
-					WorkCommentDetailBean detail = new WorkCommentDetailBean();
-					detail.setTec(tecComment);
+					
+					list.setTec(tecComment);
 					//获取名师点评和回复信息
 					
 					//传递评论名师或者回复名师ID
@@ -1052,8 +1052,7 @@ public class StatusesController {
 					map.put("limit",1);
 					List<WorkTecCommentBean> tec_comments = this.workTecCommentService.getTecCommentByWorkShow(map);
 					
-					detail.setTec_comments(tec_comments);
-					list.setComment_detail(detail);
+					list.setTec_comments(tec_comments);
 					tec_comments_list.add(list);
 				}
 				work.setTec_comments_list(tec_comments_list);
@@ -1103,6 +1102,7 @@ public class StatusesController {
 			work.setError_msg(errorMessage);
 				
 			Gson gson = new Gson();
+			System.out.println(gson.toJson(work));
 			return gson.toJson(work);
 		
 	}

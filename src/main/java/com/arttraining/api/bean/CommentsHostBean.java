@@ -4,7 +4,12 @@ public class CommentsHostBean {
     private Integer user_id;
 	private String name;
 	private String user_type;
-	
+
+	public CommentsHostBean() {
+		this.user_id = 0;
+		this.name = "";
+		this.user_type = "";
+	}
 	public Integer getUser_id() {
 		return user_id;
 	}

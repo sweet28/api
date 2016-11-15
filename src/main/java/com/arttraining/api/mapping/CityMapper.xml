@@ -18,6 +18,70 @@
     <result column="is_valid" property="isValid" jdbcType="INTEGER" />
     <result column="sort_word" property="sortWord" jdbcType="VARCHAR" />
   </resultMap>
+  <!-- coffee add 根据省份获取城市列表 common/get_city/by_province接口调用 -->
+  <resultMap id="CityListByProvinceResultMap" type="com.arttraining.api.bean.CityListBean" >
+    <id column="id" property="city_id" jdbcType="INTEGER" />
+    <result column="father_id" property="father_id" jdbcType="INTEGER" />
+    <result column="father_name" property="father_name" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectCityListByProvince" resultMap="CityListByProvinceResultMap" parameterType="java.lang.String" >
+    select id,father_id,father_name,name,level
+    from t_yp_city
+    where level=2 and is_deleted=0 and is_valid=0
+    <if test="fatherName !=null">
+    	and father_name=#{fatherName,jdbcType=VARCHAR}
+    </if>
+    order by order_code
+  </select>
+  
+  <!-- coffee add 1115 获取省份列表 common/get_province接口调用 -->
+  <resultMap id="ProvinceListResultMap" type="com.arttraining.api.bean.ProvinceListBean" >
+    <id column="id" property="pro_id" jdbcType="INTEGER" />
+    <result column="father_id" property="father_id" jdbcType="INTEGER" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectCityListByProvince" resultMap="ProvinceListResultMap">
+    select id,father_id,name,level
+    from t_yp_city
+    where level=1 and is_deleted=0 and is_valid=0
+    order by order_code
+  </select>
+  
+  <!-- coffee add 1115 获取城市列表 common/get_city接口调用 -->
+  <resultMap id="CityListResultMap" type="com.arttraining.api.bean.CitySortListBean" >
+    <result column="sort_word" property="sort_word" jdbcType="VARCHAR" /> 
+    <collection property="sort_citys" ofType="com.arttraining.api.bean.CityListBean">
+    	<result column="id" property="city_id" jdbcType="INTEGER" />
+	    <result column="father_id" property="father_id" jdbcType="INTEGER" />
+	    <result column="father_name" property="father_name" jdbcType="VARCHAR" />
+	    <result column="level" property="level" jdbcType="INTEGER" />
+	    <result column="name" property="name" jdbcType="VARCHAR" />
+	</collection>
+  </resultMap>
+  <select id="selectCityListBySort" resultMap="CityListResultMap">
+    
+    from (select sort_word
+    from t_yp_city
+    where level=2 and is_deleted=0 and is_valid=0
+    group by sort_word) s,
+    (select id,father_id,name,level,sort_word
+    from t_yp_city
+    where level=2 and is_deleted=0 and is_valid=0
+    <if test="province !=null">
+    	and father_name=#{province,jdbcType=VARCHAR}
+    </if>
+    order by order_code) c
+    where s.sort_word=c.sort_word
+    order by s.sort_word
+  </select>
+  
+  
+  <!-- end -->
+  
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     father_id, father_name, level, name, describe, is_valid, sort_word

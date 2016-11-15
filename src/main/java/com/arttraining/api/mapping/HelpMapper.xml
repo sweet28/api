@@ -36,11 +36,11 @@
   <resultMap id="ShowResultMap" type="com.arttraining.api.bean.HelpShowBean" >
     <id column="id" property="help_id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="remarks" property="remark" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectHelpShow" resultMap="ShowResultMap" parameterType="java.lang.Integer" >
-    select id,title,remark,content
+    select id,title,remarks,content
     from t_yp_help
     where id = #{id,jdbcType=INTEGER}
     and is_deleted=0
