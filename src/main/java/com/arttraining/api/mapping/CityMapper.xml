@@ -62,11 +62,12 @@
 	</collection>
   </resultMap>
   <select id="selectCityListBySort" resultMap="CityListResultMap">
-    
+    select s.sort_word,c.id,c.father_id,c.name,c.level
     from (select sort_word
     from t_yp_city
     where level=2 and is_deleted=0 and is_valid=0
-    group by sort_word) s,
+    group by sort_word
+    order by sort_word) s,
     (select id,father_id,name,level,sort_word
     from t_yp_city
     where level=2 and is_deleted=0 and is_valid=0
@@ -75,9 +76,7 @@
     </if>
     order by order_code) c
     where s.sort_word=c.sort_word
-    order by s.sort_word
   </select>
-  
   
   <!-- end -->
   
