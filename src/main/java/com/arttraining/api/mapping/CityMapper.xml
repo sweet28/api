@@ -16,30 +16,11 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="describe" property="describe" jdbcType="VARCHAR" />
     <result column="is_valid" property="isValid" jdbcType="INTEGER" />
+    <result column="sort_word" property="sortWord" jdbcType="VARCHAR" />
   </resultMap>
-  
-  <!-- coffee add 根据省份获取城市列表 common/get_city/by_province接口调用 -->
-  <resultMap id="CityListResultMap" type="com.arttraining.api.bean.CityListBean" >
-    <id column="id" property="city_id" jdbcType="INTEGER" />
-    <result column="father_id" property="father_id" jdbcType="INTEGER" />
-    <result column="father_name" property="father_name" jdbcType="VARCHAR" />
-    <result column="level" property="level" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-  </resultMap>
-   <select id="selectCityListByProvince" resultMap="CityListResultMap" parameterType="java.lang.String" >
-    select id,father_id,father_name,name,level
-    from t_yp_city
-    where level=2 and is_deleted=0 and is_valid=0
-    <if test="province !=null">
-    	and father_name=#{province,jdbcType=VARCHAR}
-    </if>
-  </select>
-  <!-- end -->
-  
-  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    father_id, father_name, level, name, describe, is_valid
+    father_id, father_name, level, name, describe, is_valid, sort_word
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -56,12 +37,14 @@
       create_time, order_code, delete_time, 
       remarks, attachment, father_id, 
       father_name, level, name, 
-      describe, is_valid)
+      describe, is_valid, sort_word
+      )
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{fatherId,jdbcType=INTEGER}, 
       #{fatherName,jdbcType=VARCHAR}, #{level,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{describe,jdbcType=VARCHAR}, #{isValid,jdbcType=INTEGER})
+      #{describe,jdbcType=VARCHAR}, #{isValid,jdbcType=INTEGER}, #{sortWord,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.City" >
     insert into t_yp_city
@@ -108,6 +91,9 @@
       <if test="isValid != null" >
         is_valid,
       </if>
+      <if test="sortWord != null" >
+        sort_word,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -151,6 +137,9 @@
       </if>
       <if test="isValid != null" >
         #{isValid,jdbcType=INTEGER},
+      </if>
+      <if test="sortWord != null" >
+        #{sortWord,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -196,6 +185,9 @@
       <if test="isValid != null" >
         is_valid = #{isValid,jdbcType=INTEGER},
       </if>
+      <if test="sortWord != null" >
+        sort_word = #{sortWord,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -213,7 +205,8 @@
       level = #{level,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       describe = #{describe,jdbcType=VARCHAR},
-      is_valid = #{isValid,jdbcType=INTEGER}
+      is_valid = #{isValid,jdbcType=INTEGER},
+      sort_word = #{sortWord,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

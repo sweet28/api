@@ -31,6 +31,8 @@ public class City {
 
     private Integer isValid;
 
+    private String sortWord;
+
     public Integer getId() {
         return id;
     }
@@ -141,5 +143,13 @@ public class City {
 
     public void setIsValid(Integer isValid) {
         this.isValid = isValid;
+    }
+
+    public String getSortWord() {
+        return sortWord;
+    }
+
+    public void setSortWord(String sortWord) {
+        this.sortWord = sortWord == null ? null : sortWord.trim();
     }
 }
