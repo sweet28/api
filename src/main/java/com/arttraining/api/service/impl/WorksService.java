@@ -46,5 +46,10 @@ public class WorksService implements IWorksService {
 		// TODO Auto-generated method stub
 		return this.worksDao.selectOneWorkByid(id);
 	}
+	@Override
+	public Works getWorkByOrderNumber(String orderNumber) {
+		// TODO Auto-generated method stub
+		return this.worksDao.selectByOrderNumber(orderNumber);
+	}
 
 }

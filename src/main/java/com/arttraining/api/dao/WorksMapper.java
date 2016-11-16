@@ -22,9 +22,11 @@ public interface WorksMapper {
     int insertSelective(Works record);
 
     Works selectByPrimaryKey(Integer id);
+    
+    Works selectByOrderNumber(String orderNumber);
 
     int updateByPrimaryKeySelective(Works record);
-
+    
     int updateByPrimaryKey(Works record);
     
     //点赞帖子时 更新帖子表的点赞数量--like/create/work接口调用

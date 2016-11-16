@@ -14,4 +14,6 @@ public interface WorksAttchmentMapper {
     int updateByPrimaryKeySelective(WorksAttchment record);
 
     int updateByPrimaryKey(WorksAttchment record);
+    
+    int updateByWorkId(WorksAttchment record);
 }

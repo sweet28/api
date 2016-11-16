@@ -21,4 +21,6 @@ public interface IWorksService {
 	HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Map<String, Object> map);
 	 //查询指定用户id 发布的作品动态 默认显示10条记录
     List<HomePageStatusesBean> getWorkListByUid(Integer uid,Integer offset,Integer limit);
+    
+    Works getWorkByOrderNumber(String orderNumber);
 }
