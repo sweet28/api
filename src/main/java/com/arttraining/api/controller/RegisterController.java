@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.LoginBean;
 import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.pojo.UserStu;
@@ -144,7 +146,14 @@ public class RegisterController {
 					LoginBean loginBean = new LoginBean();
 					loginBean.setCity(userBean.getCityName());
 					loginBean.setEmail(userBean.getEmail());
-					loginBean.setHead_pic(userBean.getHeadPic());
+					String headPic = userBean.getHeadPic();
+					if(!"".equals(headPic) && null != headPic){
+						JSONArray jsonArray = JSONArray.parseArray(headPic);
+						JSONObject jsonObject = (JSONObject)jsonArray.getJSONObject(0);
+						headPic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + jsonObject.getString("store_path");
+						
+						loginBean.setHead_pic(headPic);
+					}
 					loginBean.setIdentity(userBean.getIdentityName());
 					loginBean.setIntentional_college(userBean.getIntentionalCollegeName());
 					loginBean.setMobile(userBean.getUserMobile());

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.UserStuShowBean;
 import com.arttraining.api.pojo.UserStu;
@@ -55,6 +56,7 @@ public class UserStuController {
 	 * 根据用户ID获取用户信息
 	 * 传递的参数:uid 用户id
 	 * **/
+	@SuppressWarnings("unused")
 	@RequestMapping(value = "/show", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object show(HttpServletRequest request, HttpServletResponse response) {
 		String errorCode = "";
@@ -81,6 +83,14 @@ public class UserStuController {
 			//依据传递的uid 来获取相应的用户信息
 			Integer i_uid = Integer.valueOf(uid);
 			userStu = this.userStuService.showUserStuById(i_uid);
+			String headPic = userStu.getHead_pic();
+			if(!"".equals(headPic) && null != headPic){
+				JSONArray jsonArray = JSONArray.parseArray(headPic);
+				JSONObject jsonObject = (JSONObject)jsonArray.getJSONObject(0);
+				headPic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + jsonObject.getString("store_path");
+				
+				userStu.setHead_pic(headPic);
+			}
 			if(userStu==null) {
 				//如果查询不存在uid 则重新赋值一个对象
 				userStu = new UserStuShowBean();

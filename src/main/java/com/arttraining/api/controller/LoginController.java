@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.LoginBean;
 import com.arttraining.api.bean.SimpleReBean;
@@ -79,7 +80,14 @@ public class LoginController {
 						errorMessage = "ok";
 						loginBean.setCity(userStu.getCityName());
 						loginBean.setEmail(userStu.getEmail());
-						loginBean.setHead_pic(userStu.getHeadPic());
+						String headPic = userStu.getHeadPic();
+						if(!"".equals(headPic) && null != headPic){
+							JSONArray jsonArray = JSONArray.parseArray(headPic);
+							JSONObject jsonObject = (JSONObject)jsonArray.getJSONObject(0);
+							headPic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + jsonObject.getString("store_path");
+							
+							loginBean.setHead_pic(headPic);
+						}
 						loginBean.setIdentity(userStu.getIdentityName());
 						loginBean.setIntentional_college(userStu.getIntentionalCollegeName());
 						loginBean.setMobile(userStu.getUserMobile());
