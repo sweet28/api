@@ -580,8 +580,10 @@
         city_id = #{cityId,jdbcType=INTEGER},
         city_name = #{cityName,jdbcType=VARCHAR},
       </if>
-      <if test="schoolId != null and schoolName != null" >
+      <if test="schoolId != null" >
         school_id = #{schoolId,jdbcType=INTEGER},
+      </if>
+      <if test="schoolName != null" >
         school_name = #{schoolName,jdbcType=VARCHAR},
       </if>
       <if test="identityId != null and identityName != null" >
