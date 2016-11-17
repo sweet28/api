@@ -856,6 +856,7 @@ public class StatusesController {
 		bbs.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		System.out.println(TimeUtil.getTimeStamp() + "bbs_show:"+gson.toJson(bbs));
 		return gson.toJson(bbs);
 	}
 	/**
