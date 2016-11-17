@@ -16,6 +16,7 @@ import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.TokenUtil;
@@ -83,14 +84,6 @@ public class UserStuController {
 			//依据传递的uid 来获取相应的用户信息
 			Integer i_uid = Integer.valueOf(uid);
 			userStu = this.userStuService.showUserStuById(i_uid);
-			String headPic = userStu.getHead_pic();
-			if(!"".equals(headPic) && null != headPic){
-				JSONArray jsonArray = JSONArray.parseArray(headPic);
-				JSONObject jsonObject = (JSONObject)jsonArray.getJSONObject(0);
-				headPic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + jsonObject.getString("store_path");
-				
-				userStu.setHead_pic(headPic);
-			}
 			if(userStu==null) {
 				//如果查询不存在uid 则重新赋值一个对象
 				userStu = new UserStuShowBean();
@@ -143,6 +136,7 @@ public class UserStuController {
 				Integer i_uid = Integer.valueOf(uid);
 				UserStu userStu = new UserStu();
 				userStu.setId(i_uid);
+				head_pic = ImageUtil.parseAttPath(head_pic);
 				userStu.setHeadPic(head_pic);
 				
 				try {

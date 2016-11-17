@@ -3,6 +3,9 @@ package com.arttraining.api.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.arttraining.commons.util.ConfigUtil;
+import com.arttraining.commons.util.ImageUtil;
+
 public class HomePageStatusesBean {
 	private Integer stus_id;
 	private String stus_type;
@@ -93,7 +96,13 @@ public class HomePageStatusesBean {
 	}
 
 	public void setOwner_head_pic(String owner_head_pic) {
-		this.owner_head_pic = owner_head_pic;
+		if(!"".equals(owner_head_pic) && null != owner_head_pic){
+			System.out.println("------------");
+			this.owner_head_pic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + owner_head_pic;
+		}else{
+			this.owner_head_pic = owner_head_pic;
+			System.out.println("------------------"+owner_head_pic);
+		}
 	}
 
 	public String getCreate_time() {

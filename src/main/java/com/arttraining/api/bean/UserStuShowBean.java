@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ConfigUtil;
+
 public class UserStuShowBean {
 	private String error_code;
 	private String error_msg;
@@ -76,10 +78,17 @@ public class UserStuShowBean {
 		this.mobile = mobile;
 	}
 	public String getHead_pic() {
+//		if(!"".equals(head_pic) && null != head_pic){
+//			head_pic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + head_pic;
+//		}
 		return head_pic;
 	}
 	public void setHead_pic(String head_pic) {
-		this.head_pic = head_pic;
+		if(!"".equals(head_pic) && null != head_pic){
+			this.head_pic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + head_pic;
+		}else{
+			this.head_pic = head_pic;
+		}
 	}
 	public String getSex() {
 		return sex;

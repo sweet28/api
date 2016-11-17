@@ -268,6 +268,9 @@ public class StatusesController {
 		
 		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
+		
+		System.out.println(TimeUtil.getTimeStamp() + "-bbs list int uid:" + uid + "-utype:" + utype + "- self:" + self);
+		
 		if(self==null || self.equals("")) {
 			offset=-1;
 		}
@@ -296,6 +299,7 @@ public class StatusesController {
 			Integer worksLimit = ConfigUtil.HOMEWORK_PAGESIZE;	
 			List<HomePageStatusesBean> worksList = this.worksService.getWorksListByHomepage(worksLimit);
 			if(worksList.size()==0) {
+				System.out.println(TimeUtil.getTimeStamp() + "-bbs list in11 uid:" + uid + "-utype:" + utype + "- self:" + self);
 				worksList = new ArrayList<HomePageStatusesBean>();
 			}
 			else {
@@ -330,6 +334,8 @@ public class StatusesController {
 		//2. 查询10条帖子详情
 		List<HomePageStatusesBean> bbsList = this.bbsService.getBBSListByHomepage(offset, limit);
 		if(bbsList.size()==0) {
+
+			System.out.println(TimeUtil.getTimeStamp() + "-bbs list in222 uid:" + uid + "-utype:" + utype + "- self:" + self);
 			bbsList = new ArrayList<HomePageStatusesBean>();
 		}
 		else {
@@ -342,7 +348,8 @@ public class StatusesController {
 			   map.put("s_id", s_id);  
 			   map.put("u_id", i_uid);
 			   map.put("u_type", utype);
-			   System.out.println("s_id:"+s_id+"u_id:"+uid+"u_type:"+utype);  
+
+			   System.out.println(TimeUtil.getTimeStamp() + "-bbs list in333 uid:" + uid + "-utype:" + utype + "- self:" + self); 
 			   
 		       HomeLikeOrCommentBean isExistLike = this.bbsService.getIsLikeOrCommentOrAtt(map);
 		       bbs.setIs_like((String)map.get("is_like"));
@@ -403,7 +410,8 @@ public class StatusesController {
 		homepage.setError_msg(errorMessage);
 		homepage.setStatuses(statusesList);
 		Gson gson = new Gson();
-		
+
+		System.out.println(TimeUtil.getTimeStamp() + "-bbs list end uid:" + uid + "-utype:" + utype + "- self:" + self +gson.toJson(homepage));
 		return gson.toJson(homepage);
 	}
 
