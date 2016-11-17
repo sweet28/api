@@ -80,14 +80,7 @@ public class LoginController {
 						errorMessage = "ok";
 						loginBean.setCity(userStu.getCityName());
 						loginBean.setEmail(userStu.getEmail());
-						String headPic = userStu.getHeadPic();
-						if(!"".equals(headPic) && null != headPic){
-							JSONArray jsonArray = JSONArray.parseArray(headPic);
-							JSONObject jsonObject = (JSONObject)jsonArray.getJSONObject(0);
-							headPic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + jsonObject.getString("store_path");
-							
-							loginBean.setHead_pic(headPic);
-						}
+						loginBean.setHead_pic(userStu.getHeadPic());
 						loginBean.setIdentity(userStu.getIdentityName());
 						loginBean.setIntentional_college(userStu.getIntentionalCollegeName());
 						loginBean.setMobile(userStu.getUserMobile());
