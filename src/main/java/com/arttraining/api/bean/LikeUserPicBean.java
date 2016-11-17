@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class LikeUserPicBean {
 	private Integer b_like_id;
 	private Integer uid;
@@ -22,7 +24,7 @@ public class LikeUserPicBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = pic;
+		this.pic = ImageUtil.parsePicPath(pic);
 	}
 	public String getUser_type() {
 		return user_type;

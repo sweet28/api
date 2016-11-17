@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class GroupUserBean {
 	private Integer group_user_id;
 	private String head_pic;
@@ -20,7 +22,7 @@ public class GroupUserBean {
 		return head_pic;
 	}
 	public void setHead_pic(String head_pic) {
-		this.head_pic = head_pic;
+		this.head_pic = ImageUtil.parsePicPath(head_pic);
 	}
 	public Integer getUid() {
 		return uid;

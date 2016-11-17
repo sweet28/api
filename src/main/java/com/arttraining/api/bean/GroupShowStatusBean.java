@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class GroupShowStatusBean {
 	private String city;
 	private String owner_name;
@@ -23,7 +25,7 @@ public class GroupShowStatusBean {
 		return owner_head_pic;
 	}
 	public void setOwner_head_pic(String owner_head_pic) {
-		this.owner_head_pic = owner_head_pic;
+		this.owner_head_pic = ImageUtil.parsePicPath(owner_head_pic);
 	}
 	public String getIdentity() {
 		return identity;

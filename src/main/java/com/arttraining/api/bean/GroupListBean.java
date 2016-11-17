@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class GroupListBean {
 	private Integer group_id;
 	private String name;
@@ -43,7 +45,7 @@ public class GroupListBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = pic;
+		this.pic = ImageUtil.parsePicPath(pic);
 	}
 	public String getOrder_code() {
 		return order_code;

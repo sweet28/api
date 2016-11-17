@@ -1,6 +1,7 @@
 package com.arttraining.api.bean;
 
 import com.arttraining.commons.util.ConfigUtil;
+import com.arttraining.commons.util.ImageUtil;
 
 public class UserStuShowBean {
 	private String error_code;
@@ -84,11 +85,7 @@ public class UserStuShowBean {
 		return head_pic;
 	}
 	public void setHead_pic(String head_pic) {
-		if(!"".equals(head_pic) && null != head_pic){
-			this.head_pic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + head_pic;
-		}else{
-			this.head_pic = head_pic;
-		}
+		this.head_pic = ImageUtil.parsePicPath(head_pic);
 	}
 	public String getSex() {
 		return sex;

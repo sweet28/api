@@ -96,13 +96,7 @@ public class HomePageStatusesBean {
 	}
 
 	public void setOwner_head_pic(String owner_head_pic) {
-		if(!"".equals(owner_head_pic) && null != owner_head_pic){
-			System.out.println("------------");
-			this.owner_head_pic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + owner_head_pic;
-		}else{
-			this.owner_head_pic = owner_head_pic;
-			System.out.println("------------------"+owner_head_pic);
-		}
+		this.owner_head_pic = ImageUtil.parsePicPath(owner_head_pic);
 	}
 
 	public String getCreate_time() {

@@ -2,6 +2,8 @@ package com.arttraining.api.bean;
 
 import java.util.List;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class GroupShowBean {
 	private String error_code;
 	private String error_msg;
@@ -97,7 +99,7 @@ public class GroupShowBean {
 		return owner_pic;
 	}
 	public void setOwner_pic(String owner_pic) {
-		this.owner_pic = owner_pic;
+		this.owner_pic = ImageUtil.parsePicPath(owner_pic);
 	}
 	public String getCreate_time() {
 		return create_time;
