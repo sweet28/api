@@ -19,9 +19,10 @@
   <resultMap id="ListResultMap" type="com.arttraining.api.bean.HelpListBean" >
     <id column="id" property="help_id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="attachment" property="help_url" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectHelpList" resultMap="ListResultMap">
-    select id,title
+    select id,title,attachment
     from t_yp_help
     where is_deleted=0
     <if test="offset !=-1">

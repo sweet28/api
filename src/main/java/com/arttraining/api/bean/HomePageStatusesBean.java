@@ -3,7 +3,6 @@ package com.arttraining.api.bean;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ImageUtil;
 
 public class HomePageStatusesBean {

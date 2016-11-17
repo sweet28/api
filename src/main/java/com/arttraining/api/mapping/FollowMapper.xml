@@ -17,6 +17,98 @@
     <result column="host_name" property="hostName" jdbcType="VARCHAR" />
     <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
   </resultMap>
+  
+  <!-- coffee add 1116 依据类型不同 添加关注信息 follow/create接口调用 -->
+   <resultMap id="CreateResultMap" type="com.arttraining.api.bean.FollowCreateBean" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectUserInfoByFollowCreate" resultMap="CreateResultMap" parameterType="java.util.Map" >
+    <choose>
+    	<when test="type=='org'"> 
+	    	select id,name
+	   		from t_yp_org
+	   		where id = #{id,jdbcType=INTEGER}
+	   		and is_deleted=0
+   		</when>
+    	<when test="type=='stu'"> 
+	    	select id,name
+	   		from t_yp_user_stu
+	   		where id = #{id,jdbcType=INTEGER}
+	   		and is_deleted=0 and is_lock=0 
+   		</when>
+    	<otherwise> 
+    		select id,name
+	   		from t_yp_user_tech
+	   		where id = #{id,jdbcType=INTEGER}
+	   		and is_deleted=0 and is_lock=0 
+    	</otherwise>
+    </choose>
+  </select>
+    
+  <!-- coffee add 1117 根据用户ID获取用户粉丝列表 follow/fans/list接口调用 -->
+   <resultMap id="FollowListResultMap" type="com.arttraining.api.bean.FollowFansBean" >
+    <result column="follow_id" property="follow_id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="utype" property="utype" jdbcType="VARCHAR" />
+    <result column="time" property="time" jdbcType="VARCHAR" />
+  </resultMap> 
+   <resultMap id="UserInfoResultMap" type="com.arttraining.api.bean.FollowUserBean" >
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="identity" property="identity" jdbcType="VARCHAR" />
+  </resultMap> 
+   <select id="selectFollowFansList" resultMap="FollowListResultMap" parameterType="java.util.Map" >
+   select id as follow_id,visitor as uid, visitor_type as utype,'' as time
+   from t_yp_follow
+   where is_deleted=0 and host=#{uid,jdbcType=VARCHAR}
+   and host_type=#{utype,jdbcType=VARCHAR}
+   <if test="offset!=-1">
+   		and create_time &gt; (select create_time from t_yp_follow
+   		where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+   </if>
+   order by create_time
+   limit #{limit,jdbcType=INTEGER}
+  </select>
+   <select id="selectFollowUserById" resultMap="UserInfoResultMap">
+   	  <choose>
+    	<when test="utype=='org'"> 
+	    	select name,pic as head_pic,city_name as city,'' as identity
+	   		from t_yp_org
+	   		where id = #{uid,jdbcType=INTEGER}
+	   		and is_deleted=0
+   		</when>
+    	<when test="utype=='stu'"> 
+	    	select name,head_pic,city_name as city,identity_name as identity
+	   		from t_yp_user_stu
+	   		where id = #{uid,jdbcType=INTEGER}
+	   		and is_deleted=0 and is_lock=0 
+   		</when>
+    	<otherwise> 
+    		select name,head_pic,city_name as city,identity_name as identity
+	   		from t_yp_user_tech
+	   		where id = #{uid,jdbcType=INTEGER}
+	   		and is_deleted=0 and is_lock=0 
+    	</otherwise>
+    </choose>
+  </select>
+   
+   <!-- coffee add 1117 根据用户ID获取用户关注列表 follow/follow/list接口调用 -->
+   <select id="selectFollowList" resultMap="FollowListResultMap" parameterType="java.util.Map" >
+   select id as follow_id,host as uid,host_type as utype,'' as time
+   from t_yp_follow
+   where is_deleted=0 and visitor=#{uid,jdbcType=VARCHAR}
+   and visitor_type=#{utype,jdbcType=VARCHAR}
+   <if test="offset!=-1">
+   		and create_time &gt; (select create_time from t_yp_follow
+   		where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+   </if>
+   order by create_time
+   limit #{limit,jdbcType=INTEGER}
+  </select>
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     visitor, visitor_type, host, host_type, host_name, foreign_key
