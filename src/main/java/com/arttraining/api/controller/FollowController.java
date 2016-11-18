@@ -81,7 +81,6 @@ public class FollowController {
 				follow.setHost(userinfo.getId());
 				follow.setHostType(type);
 				follow.setHostName(userinfo.getName());
-				follow.setForeignKey(i_follow_id);
 				follow.setCreateTime(TimeUtil.getTimeStamp());
 				
 				try {

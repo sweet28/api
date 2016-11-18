@@ -16,35 +16,209 @@
     <result column="host_type" property="hostType" jdbcType="VARCHAR" />
     <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
   </resultMap>
-  
-  <!-- coffee add 1117 添加收藏 favorites/create接口调用 -->
-  <resultMap id="CreateResultMap" type="com.arttraining.api.bean.FavoriteCreateBean" >
+ 
+  <!-- coffee add 1118 根据用户ID获取收藏列表 favorites/list接口调用 -->
+  <resultMap id="ListResultMap" type="com.arttraining.api.bean.FavoritesListReBean" >
     <result column="uid" property="uid" jdbcType="INTEGER" />
-    <result column="utype" property="utype" jdbcType="VARCHAR" />
+    <result column="user_code" property="user_code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <collection property="favorites" ofType="com.arttraining.api.bean.FavoritesListBean">
+    	<id column="fav_id" property="fav_id" jdbcType="INTEGER" />
+    	<id column="b_fav_id" property="b_fav_id" jdbcType="INTEGER" />
+    	<result column="fav_type" property="fav_type" jdbcType="VARCHAR" />
+	</collection>
   </resultMap>
-  <select id="selectUserInfoByFavoriteCreate" resultMap="CreateResultMap" parameterType="java.util.Map" >
-  	<choose>
-  		<when test="type=='status'">
-	  		select owner as uid,owner_type as utype
-	    	from t_yp_bbs
-	   	 	where id = #{favorite_id,jdbcType=INTEGER}
-	   	 	and is_deleted=0
-  		</when>
-  		<when test="type=='g_stus'">
-  			select owner as uid,owner_type as utype
-	    	from t_yp_statuses
-	   	 	where id = #{favorite_id,jdbcType=INTEGER}
-	   	 	and is_deleted=0
-  		</when>
-  		<otherwise>
-  			select owner as uid,owner_type as utype
-	    	from t_yp_works
-	   	 	where id = #{favorite_id,jdbcType=INTEGER}
-	   	 	and is_deleted=0
-  		</otherwise>
-  	</choose>
+  <select id="selectFavoritesListByUid" resultMap="ListResultMap" parameterType="java.util.Map" >
+    <choose>
+    	<when test="utype=='stu'">
+    		select u.id as uid,u.name,u.user_code,
+    		f.id as fav_id,f.host as b_fav_id,f.host_type as fav_type
+    		from (select id,name,user_code
+    		from t_yp_user_stu
+    		where is_lock=0 and is_deleted=0
+    		and id=#{uid,jdbcType=INTEGER}) u 
+    		left join 
+    		(select id,host,host_type,visitor,create_time
+    		from t_yp_favorites
+    		where visitor_type='stu' and is_deleted=0 
+    		and visitor=#{uid,jdbcType=INTEGER}
+    		<if test="offset != -1">
+    		 and create_time <![CDATA[ >= ]]> (select create_time
+    		 from t_yp_favorites where visitor_type='stu' and is_deleted=0
+    		 and id=#{offset,jdbcType=INTEGER}
+    		 and visitor=#{uid,jdbcType=INTEGER})
+    		 and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+    		</if>
+    		order by create_time
+    		limit #{limit,jdbcType=INTEGER}) f
+    		on f.visitor=u.id
+    	</when>
+    	<when test="utype=='tec'">
+    		select u.id as uid,u.name,u.user_code,
+    		f.id as fav_id,f.host as b_fav_id,f.host_type as fav_type
+    		from (select id,name,user_code
+    		from t_yp_user_tech
+    		where is_lock=0 and is_deleted=0
+    		and id=#{uid,jdbcType=INTEGER}) u 
+    		left join 
+    		(select id,host,host_type,visitor,create_time
+    		from t_yp_favorites
+    		where visitor_type='tec' and is_deleted=0 
+    		and visitor=#{uid,jdbcType=INTEGER}
+    		<if test="offset != -1">
+    		 and create_time <![CDATA[ >= ]]> (select create_time
+    		 from t_yp_favorites where visitor_type='tec' and is_deleted=0
+    		 and id=#{offset,jdbcType=INTEGER}
+    		 and visitor=#{uid,jdbcType=INTEGER})
+    		 and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+    		</if>
+    		order by create_time
+    		limit #{limit,jdbcType=INTEGER}) f
+    		on f.visitor=u.id
+    		order by f.create_time
+    	</when>
+    	<otherwise>
+    		select u.id as uid,u.name,'' as user_code,
+    		f.id as fav_id,f.host as b_fav_id,f.host_type as fav_type
+    		from (select id,name,user_code
+    		from t_yp_org
+    		where is_lock=0 and is_deleted=0
+    		and id=#{uid,jdbcType=INTEGER}) u 
+    		left join 
+    		(select id,host,host_type,visitor,create_time
+    		from t_yp_favorites
+    		where visitor_type='org' and is_deleted=0 
+    		and visitor=#{uid,jdbcType=INTEGER}
+    		<if test="offset != -1">
+    		 and create_time <![CDATA[ >= ]]> (select create_time
+    		 from t_yp_favorites where visitor_type='org' and is_deleted=0
+    		 and id=#{offset,jdbcType=INTEGER}
+    		 and visitor=#{uid,jdbcType=INTEGER})
+    		 and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+    		</if>
+    		order by create_time
+    		limit #{limit,jdbcType=INTEGER}) f
+    		on f.visitor=u.id
+    		order by f.create_time
+    	</otherwise>
+    </choose>
   </select>
   
+  <!-- coffee add 根据用户ID获取收藏列表 favorites/list接口调用 -->
+  <resultMap id="HomepageListResultMap" type="com.arttraining.api.bean.HomePageStatusesBean" >
+    <result column="stus_id" property="stus_id" jdbcType="INTEGER" />
+    <result column="stus_type" property="stus_type" jdbcType="VARCHAR" />   
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="owner_type" jdbcType="VARCHAR" />
+    <result column="owner_name" property="owner_name" jdbcType="VARCHAR" />
+    <result column="owner_head_pic" property="owner_head_pic" jdbcType="VARCHAR" />
+   	<result column="identity" property="identity" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+  	<result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="comment_num" property="comment_num" jdbcType="INTEGER" />
+    <result column="like_num" property="like_num" jdbcType="INTEGER" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectOneStatusByFavorite" resultMap="HomepageListResultMap" parameterType="java.util.Map">
+    <choose>
+    	<when test="fav_type=='status'">
+    		select b.id as stus_id,'status' as stus_type,b.comment_num,
+		    b.owner_type,b.like_num,b.browse_num,b.content,
+			b.title,b.tag,b.create_time,b.remarks,
+			s.identity_name as identity,
+			s.id as owner,s.name as owner_name,s.city_name as city,
+			s.head_pic as owner_head_pic
+			from (select id,comment_num,like_num,browse_num,content,title,
+				  tag,create_time,owner,owner_type,remarks,order_code
+				  from t_yp_bbs
+			      where is_deleted=0 and id=#{fav_id,jdbcType=INTEGER}) b, 
+				(select identity_name,city_name,head_pic,name,id
+				from t_yp_user_stu
+				where is_lock=0 and is_deleted=0) s
+			where b.owner = s.id
+    	</when>
+    	<when test="fav_type=='g_stus'">
+    	 	select b.id as stus_id,'g_stus' as stus_type,b.comment_num,
+		    b.owner_type,b.like_num,b.browse_num,b.content,
+			b.title,b.tag,b.create_time,b.remarks,
+			s.identity_name as identity,
+			s.id as owner,s.name as owner_name,s.city_name as city,
+			s.head_pic as owner_head_pic
+			from (select id,comment_num,like_num,browse_num,content,title,
+				  tag,create_time,owner,owner_type,remarks,order_code
+				  from t_yp_statuses
+			      where is_deleted=0 and id=#{fav_id,jdbcType=INTEGER}) b, 
+				(select identity_name,city_name,head_pic,name,id
+				from t_yp_user_stu
+				where is_lock=0 and is_deleted=0) s
+			where b.owner = s.id
+    	</when>
+    	<otherwise>
+	    	select w.id as stus_id,'work' as stus_type,w.comment_num,
+		    w.owner_type,w.like_num,w.browse_num,w.content,
+			w.title,w.tag,w.create_time,w.remarks,
+			s.identity_name as identity,
+			s.id as owner,s.name as owner_name,s.city_name as city,
+			s.head_pic as owner_head_pic
+			from (select id,comment_num,like_num,browse_num,content,title,
+				  tag,create_time,owner,owner_type,remarks,order_code
+				  from t_yp_works
+			      where is_deleted=0 and id=#{fav_id,jdbcType=INTEGER}) w, 
+				(select identity_name,city_name,head_pic,name,id
+				from t_yp_user_stu
+				where is_lock=0 and is_deleted=0) s
+			where w.owner = s.id
+    	</otherwise>
+    </choose>
+  </select>
+  
+  <!-- coffee add 1118 根据用户ID获取收藏列表 favorites/list接口调用 -->
+  <resultMap id="LikeOrCommentResultMap" type="com.arttraining.api.bean.HomeLikeOrCommentBean" >
+    <result column="id" property="att_id" jdbcType="INTEGER" />
+    <result column="duration" property="duration" jdbcType="VARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+    <result column="store_path" property="store_path" jdbcType="VARCHAR" />
+   	<result column="type" property="att_type" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectIsLikeOrCommentOrAtt" resultMap="LikeOrCommentResultMap" 
+  		parameterType="java.util.Map"
+   		statementType="CALLABLE">
+  		<choose>
+  			<when test="fav_type=='status'">
+  				{CALL p_yp_homepage_bbs(
+			  		#{s_id,jdbcType=INTEGER,mode=IN},
+			  		#{u_type,jdbcType=VARCHAR,mode=IN},  
+			  	    #{u_id,jdbcType=INTEGER,mode=IN},
+			  	    #{is_like,jdbcType=VARCHAR,mode=OUT},
+			  	    #{is_comment,jdbcType=VARCHAR,mode=OUT}
+  	    		)}  
+  			</when>
+  			<when test="fav_type=='g_stus'">
+  				{CALL p_yp_homepage_status(
+			  		#{s_id,jdbcType=INTEGER,mode=IN},
+			  		#{u_type,jdbcType=VARCHAR,mode=IN},  
+			  	    #{u_id,jdbcType=INTEGER,mode=IN},
+			  	    #{is_like,jdbcType=VARCHAR,mode=OUT},
+			  	    #{is_comment,jdbcType=VARCHAR,mode=OUT}
+  	    		)}  
+  			</when>
+  			<otherwise>
+  				{CALL p_yp_homepage_works(
+			  		#{s_id,jdbcType=INTEGER,mode=IN},
+			  		#{u_type,jdbcType=VARCHAR,mode=IN},  
+			  	    #{u_id,jdbcType=INTEGER,mode=IN},
+			  	    #{is_like,jdbcType=VARCHAR,mode=OUT},
+			  	    #{is_comment,jdbcType=VARCHAR,mode=OUT}
+  	    		)}  
+  			</otherwise>
+  		</choose>
+  
+   </select>
+   
   <!-- end -->
   
   <sql id="Base_Column_List" >
