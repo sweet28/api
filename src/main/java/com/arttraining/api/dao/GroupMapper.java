@@ -42,4 +42,6 @@ public interface GroupMapper {
     
     //查询指定小组信息--group/show接口调用
     GroupShowBean selectGroupShowById(Integer id);
+    //根据关键字搜索小组 --search/group接口调用
+    List<GroupListBean> selectGroupListBySearch(Map<String, Object> map);
 }

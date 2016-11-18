@@ -24,4 +24,7 @@ public interface IGroupService {
     
   //查询指定小组信息--group/show接口调用
    GroupShowBean getGroupShowById(Integer id);
+   
+   //根据关键字搜索小组 --search/group接口调用
+   List<GroupListBean> getGroupListBySearch(Map<String, Object> map);
 }

@@ -30,4 +30,7 @@ public interface UserTechMapper {
     
     //查询名师数量
     int selectTecherNumer();
+    
+    //根据关键字搜索教师--search/tec接口调用
+    List<TecherListBean> selectTecherListBySearch(Map<String, Object> map);
 }

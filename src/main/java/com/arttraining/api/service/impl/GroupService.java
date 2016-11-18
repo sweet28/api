@@ -60,5 +60,11 @@ public class GroupService implements IGroupService {
 	public GroupShowBean getGroupShowById(Integer id) {
 		// TODO Auto-generated method stub
 		return this.groupDao.selectGroupShowById(id);
+	}
+
+	@Override
+	public List<GroupListBean> getGroupListBySearch(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.groupDao.selectGroupListBySearch(map);
 	}	
 }

@@ -38,5 +38,12 @@ public class UserOrgService implements IUserOrgService {
 		return this.userOrgDao.selectOrgListPrimaryKey(map);
 	}
 
+
+	@Override
+	public List<OrgListBean> getOrgListBySearch(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.userOrgDao.selectOrgListBySearch(map);
+	}
+
 	
 }

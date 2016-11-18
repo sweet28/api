@@ -27,4 +27,7 @@ public interface UserOrgMapper {
     List<OrgListBean> selectOrgListPrimaryKey(Map<String, Object> map);
     //依据机构id查询机构详情--org/show接口调用
     OrgShowBean selectOneOrgByOrgShow(Integer id);
+    
+    //根据关键字搜索机构 --search/org接口调用
+    List<OrgListBean> selectOrgListBySearch(Map<String, Object> map);
 }

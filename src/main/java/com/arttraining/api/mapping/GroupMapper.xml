@@ -27,6 +27,24 @@
   <sql id="select_group_where">
   	and is_deleted=0
   </sql>
+  
+  <!-- coffee add 1118 根据关键字搜索小组 search/group接口调用 -->
+   <select id="selectGroupListBySearch" resultMap="ListResultMap" >
+   select id,name,pic,introduce,grade,people_num,order_code
+    from t_yp_group
+    where verify_status=1 and is_deleted=0
+    <if test="offset != -1">
+    	and order_code <![CDATA[ >= ]]> 
+    	(select order_code from t_yp_group 
+    	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+    	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+    </if>
+    order by order_code, create_time desc
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+  
+  
   <!-- coffee add 1110 创建小组时新增的小组信息 group/create接口调用 -->
    <insert id="insertOneGroup" useGeneratedKeys="true" keyProperty="id"
     parameterType="com.arttraining.api.pojo.Group" >

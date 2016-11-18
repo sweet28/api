@@ -41,4 +41,10 @@ public class UserTecService implements IUserTecService {
 		return this.userTecDao.selectTecherListBySelective(map);
 	}
 
+	@Override
+	public List<TecherListBean> getTecherListBySearch(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.userTecDao.selectTecherListBySearch(map);
+	}
+
 }

@@ -66,6 +66,28 @@
   	and is_deleted=0 and is_lock=0
   </sql>
   
+  <!-- coffee add 根据关键字搜索教师 search/tec接口调用 -->
+   <select id="selectTecherListBySearch" resultMap="TecListResultMap">
+    select id, head_pic, name, specialty_name, title,
+    authentication, comment_num, fans_num, ass_pay
+    from t_yp_user_tech
+    where 1=1
+     <if test="offset !=-1" >
+        and order_code <![CDATA[ >= ]]> 
+        (select order_code from t_yp_user_tech where id = #{offset,jdbcType=INTEGER}
+        <include refid="select_tec_where"></include>
+        and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER})  
+    </if> 
+    <if test="key !=null"> 
+    	and (school_name like '%${key}%' or name like '%${key}%'
+    	or city_name like '%${key}%' or city_father like '%${key}%') 
+    </if>
+    <include refid="select_tec_where"></include>
+    order by order_code
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+  
   <!-- coffee add 1112 techer/list接口 获取名师列表接口 -->
   <resultMap id="TecListResultMap" type="com.arttraining.api.bean.TecherListBean">
     <id column="id" property="tec_id" jdbcType="INTEGER" />

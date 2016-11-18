@@ -15,4 +15,7 @@ public interface IUserOrgService {
     
     //依据机构id查询机构详情
     OrgShowBean getOneOrgByOrgShow(Integer id);
+    
+    //根据关键字搜索机构 --search/org接口调用
+    List<OrgListBean> getOrgListBySearch(Map<String, Object> map);
 }

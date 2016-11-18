@@ -15,4 +15,6 @@ public interface IUserTecService {
 	List<TecherListBean> getTecherListIndexBySelective(Integer offset, Integer limit);
 	//查询名师数量
     int countTecherNumer();
+    //根据关键字搜索教师--search/tec接口调用
+    List<TecherListBean> getTecherListBySearch(Map<String, Object> map);
 }
