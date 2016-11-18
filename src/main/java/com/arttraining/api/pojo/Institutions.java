@@ -47,6 +47,26 @@ public class Institutions {
 
     private Integer browseNum;
 
+    private Integer isMedia;
+
+    private Integer isFineArt;
+
+    private Integer isMusic;
+
+    private Integer isIndependence;
+
+    private Integer isReference;
+
+    private Integer isScore;
+
+    private String schoolGrade;
+
+    private String schoolBatch;
+
+    private String schoolScore;
+
+    private Integer enrollmentNum;
+
     public Integer getId() {
         return id;
     }
@@ -221,5 +241,85 @@ public class Institutions {
 
     public void setBrowseNum(Integer browseNum) {
         this.browseNum = browseNum;
+    }
+
+    public Integer getIsMedia() {
+        return isMedia;
+    }
+
+    public void setIsMedia(Integer isMedia) {
+        this.isMedia = isMedia;
+    }
+
+    public Integer getIsFineArt() {
+        return isFineArt;
+    }
+
+    public void setIsFineArt(Integer isFineArt) {
+        this.isFineArt = isFineArt;
+    }
+
+    public Integer getIsMusic() {
+        return isMusic;
+    }
+
+    public void setIsMusic(Integer isMusic) {
+        this.isMusic = isMusic;
+    }
+
+    public Integer getIsIndependence() {
+        return isIndependence;
+    }
+
+    public void setIsIndependence(Integer isIndependence) {
+        this.isIndependence = isIndependence;
+    }
+
+    public Integer getIsReference() {
+        return isReference;
+    }
+
+    public void setIsReference(Integer isReference) {
+        this.isReference = isReference;
+    }
+
+    public Integer getIsScore() {
+        return isScore;
+    }
+
+    public void setIsScore(Integer isScore) {
+        this.isScore = isScore;
+    }
+
+    public String getSchoolGrade() {
+        return schoolGrade;
+    }
+
+    public void setSchoolGrade(String schoolGrade) {
+        this.schoolGrade = schoolGrade == null ? null : schoolGrade.trim();
+    }
+
+    public String getSchoolBatch() {
+        return schoolBatch;
+    }
+
+    public void setSchoolBatch(String schoolBatch) {
+        this.schoolBatch = schoolBatch == null ? null : schoolBatch.trim();
+    }
+
+    public String getSchoolScore() {
+        return schoolScore;
+    }
+
+    public void setSchoolScore(String schoolScore) {
+        this.schoolScore = schoolScore == null ? null : schoolScore.trim();
+    }
+
+    public Integer getEnrollmentNum() {
+        return enrollmentNum;
+    }
+
+    public void setEnrollmentNum(Integer enrollmentNum) {
+        this.enrollmentNum = enrollmentNum;
     }
 }

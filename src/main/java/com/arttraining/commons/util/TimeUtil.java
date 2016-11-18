@@ -12,6 +12,12 @@ public class TimeUtil {
 		Timestamp time = new Timestamp(date.getTime());
 		return time;
 	}
+	
+	public static long getTimeStampLong() {
+		Date date = new Date();
+		return date.getTime();
+	}
+	
 	/**
      * 将date类型的时间 转换成字符串类型
      * 
