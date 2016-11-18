@@ -1,5 +1,8 @@
 package com.arttraining.api.dao;
 
+import java.util.Map;
+
+import com.arttraining.api.bean.FavoriteCreateBean;
 import com.arttraining.api.pojo.Favorites;
 
 public interface FavoritesMapper {
@@ -14,4 +17,6 @@ public interface FavoritesMapper {
     int updateByPrimaryKeySelective(Favorites record);
 
     int updateByPrimaryKey(Favorites record);
+    //coffee add 1117--添加收藏 favorites/create接口调用
+    FavoriteCreateBean selectUserInfoByFavoriteCreate(Map<String, Object> map);
 }

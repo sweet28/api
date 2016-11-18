@@ -16,6 +16,37 @@
     <result column="host_type" property="hostType" jdbcType="VARCHAR" />
     <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
   </resultMap>
+  
+  <!-- coffee add 1117 添加收藏 favorites/create接口调用 -->
+  <resultMap id="CreateResultMap" type="com.arttraining.api.bean.FavoriteCreateBean" >
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="utype" property="utype" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectUserInfoByFavoriteCreate" resultMap="CreateResultMap" parameterType="java.util.Map" >
+  	<choose>
+  		<when test="type=='status'">
+	  		select owner as uid,owner_type as utype
+	    	from t_yp_bbs
+	   	 	where id = #{favorite_id,jdbcType=INTEGER}
+	   	 	and is_deleted=0
+  		</when>
+  		<when test="type=='g_stus'">
+  			select owner as uid,owner_type as utype
+	    	from t_yp_statuses
+	   	 	where id = #{favorite_id,jdbcType=INTEGER}
+	   	 	and is_deleted=0
+  		</when>
+  		<otherwise>
+  			select owner as uid,owner_type as utype
+	    	from t_yp_works
+	   	 	where id = #{favorite_id,jdbcType=INTEGER}
+	   	 	and is_deleted=0
+  		</otherwise>
+  	</choose>
+  </select>
+  
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     visitor, visitor_type, host, host_type, foreign_key

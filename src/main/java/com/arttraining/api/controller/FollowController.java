@@ -48,6 +48,7 @@ public class FollowController {
 		String utype=request.getParameter("utype");
 		String type=request.getParameter("type");
 		String follow_id=request.getParameter("follow_id");
+		System.out.println("access_token:"+access_token+"uid:"+uid+"type:"+type+"utype:"+utype+"follow_id:"+follow_id);
 		
 		if(access_token==null || uid==null || utype==null || follow_id==null || type==null){
 			errorCode = "20032";
@@ -72,24 +73,30 @@ public class FollowController {
 			map.put("id", i_follow_id);
 			
 			FollowCreateBean userinfo = this.followService.getUserInfoByFollowCreate(map);
-			//新增关注信息
-			Follow follow = new Follow();
-			follow.setVisitor(i_uid);
-			follow.setVisitorType(utype);
-			follow.setHost(userinfo.getId());
-			follow.setHostType(type);
-			follow.setHostName(userinfo.getName());
-			follow.setForeignKey(i_follow_id);
-			follow.setCreateTime(TimeUtil.getTimeStamp());
-			
-			try {
-				this.followService.insertOneFollow(follow);
-				errorCode = "0";
-				errorMessage = "ok";
-			} catch (Exception e) {
+			if(userinfo!=null) {
+				//新增关注信息
+				Follow follow = new Follow();
+				follow.setVisitor(i_uid);
+				follow.setVisitorType(utype);
+				follow.setHost(userinfo.getId());
+				follow.setHostType(type);
+				follow.setHostName(userinfo.getName());
+				follow.setForeignKey(i_follow_id);
+				follow.setCreateTime(TimeUtil.getTimeStamp());
+				
+				try {
+					this.followService.insertOneFollow(follow);
+					errorCode = "0";
+					errorMessage = "ok";
+				} catch (Exception e) {
+					errorCode = "20052";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20052;
+				}
+			}
+			else {
 				errorCode = "20052";
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20052;
-			}	
+			}
 		}
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
@@ -98,6 +105,7 @@ public class FollowController {
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
 		
+		System.out.println(jsonObject);
 		return jsonObject;
 	}
 	

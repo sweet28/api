@@ -80,4 +80,5 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20050 = "评论失败,请检查网络是否畅通。";
 	public static String ERROR_MSG_ZH_20051 = "建议反馈发送失败,请检查网络是否畅通。";
 	public static String ERROR_MSG_ZH_20052 = "添加关注失败,请检查网络是否畅通。";
+	public static String ERROR_MSG_ZH_20053 = "添加收藏失败,请检查网络是否畅通。";
 }
