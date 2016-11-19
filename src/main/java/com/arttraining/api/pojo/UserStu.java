@@ -90,6 +90,8 @@ public class UserStu {
     private Integer orgId;
 
     private String orgName;
+    private Integer bbsNum;
+    private Integer favoriteNum;
 
     public Integer getId() {
         return id;
@@ -442,4 +444,21 @@ public class UserStu {
     public void setOrgName(String orgName) {
         this.orgName = orgName == null ? null : orgName.trim();
     }
+
+	public Integer getBbsNum() {
+		return bbsNum;
+	}
+
+	public void setBbsNum(Integer bbsNum) {
+		this.bbsNum = bbsNum;
+	}
+
+	public Integer getFavoriteNum() {
+		return favoriteNum;
+	}
+
+	public void setFavoriteNum(Integer favoriteNum) {
+		this.favoriteNum = favoriteNum;
+	}
+    
 }

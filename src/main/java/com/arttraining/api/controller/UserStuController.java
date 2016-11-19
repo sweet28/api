@@ -19,6 +19,7 @@ import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
 
@@ -63,6 +64,9 @@ public class UserStuController {
 		String errorMessage = "";
 		
 		String uid = request.getParameter("uid");
+		
+		ServerLog.getLogger().info("uid:"+uid);
+		
 		//创建一个UserStuShowBean对象 默认会对属性进行赋值
 		UserStuShowBean userStu = new UserStuShowBean();
 		if(uid==null) {
@@ -97,6 +101,8 @@ public class UserStuController {
 		userStu.setError_code(errorCode);
 		userStu.setError_msg(errorMessage);
 		Gson gson = new Gson();
+		
+		ServerLog.getLogger().info(gson.toJson(userStu));
 		return gson.toJson(userStu);
 	}
 
