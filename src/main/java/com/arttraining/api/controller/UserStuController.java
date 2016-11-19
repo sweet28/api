@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.arttraining.api.bean.UserNumberBean;
 import com.arttraining.api.bean.UserStuShowBean;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.UserStuService;
@@ -57,7 +57,6 @@ public class UserStuController {
 	 * 根据用户ID获取用户信息
 	 * 传递的参数:uid 用户id
 	 * **/
-	@SuppressWarnings("unused")
 	@RequestMapping(value = "/show", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object show(HttpServletRequest request, HttpServletResponse response) {
 		String errorCode = "";
@@ -431,5 +430,46 @@ public class UserStuController {
 		
 		return jsonObject;
 	}
-	
+	/***
+	 * 根据用户ID获取用户数目信息
+	 * 传递的参数:
+	 * uid--用户ID
+	 */
+	@RequestMapping(value = "/num", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object num(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		//用户ID--必选参数
+		String uid = request.getParameter("uid");
+		
+		UserNumberBean userNum = new UserNumberBean();
+		
+		if(uid==null || uid.equals("")) {
+			errorCode = "20032";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		}
+		else if(!NumberUtil.isInteger(uid)) {
+			errorCode = "20033";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		}
+		else {
+			//用户ID
+			Integer i_uid = Integer.valueOf(uid);
+			userNum = this.userStuService.getUserNumberByUid(i_uid);
+			if(userNum==null) {
+				userNum = new UserNumberBean();
+				errorCode = "20007";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+			}
+			else {
+				errorCode = "0";
+				errorMessage = "ok";
+			}
+		}
+		userNum.setError_code(errorCode);
+		userNum.setError_msg(errorMessage);
+		
+		Gson gson = new Gson();
+		return gson.toJson(userNum);
+	}
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.arttraining.api.bean.LikeUserBean;
 import com.arttraining.api.bean.LikeUserPicBean;
+import com.arttraining.api.bean.UserNumberBean;
 import com.arttraining.api.bean.UserStuShowBean;
 import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.pojo.UserStu;
@@ -99,6 +100,12 @@ public class UserStuService implements IUserStuService{
 	public String getUserNameById(Integer id) {
 		// TODO Auto-generated method stub
 		return this.userStuDao.selectUserNameById(id);
+	}
+
+	@Override
+	public UserNumberBean getUserNumberByUid(Integer id) {
+		// TODO Auto-generated method stub
+		return this.userStuDao.selectUserNumberByUid(id);
 	}
 	
 }

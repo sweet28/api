@@ -35,6 +35,62 @@
     <result column="school_score" property="schoolScore" jdbcType="VARCHAR" />
     <result column="enrollment_num" property="enrollmentNum" jdbcType="INTEGER" />
   </resultMap>
+  
+  <!-- coffee add 获取院校信息列表 institutions/list接口调用-->
+    <resultMap id="ListResultMap" type="com.arttraining.api.bean.InstitutionsListBean" >
+    <id column="id" property="institution_id" jdbcType="INTEGER" />
+    <result column="pic" property="institution_pic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="admissions_guide" property="admissions_guide" jdbcType="VARCHAR" />
+    <result column="follow_num" property="follow_num" jdbcType="INTEGER" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+  </resultMap>
+   <select id="selectInstitutionsList" resultMap="ListResultMap" parameterType="java.util.Map" >
+    select id,pic,name,admissions_guide,
+    follow_num,browse_num
+    from t_yp_institutions
+    where is_deleted=0
+    <if test="city !=null">
+    	and city_name =#{city,jdbcType=VARCHAR}
+    </if>
+     <if test="province !=null">
+    	and city_father =#{province,jdbcType=VARCHAR}
+    </if>
+    order by order_code
+  </select>
+  
+  <!-- coffee add 根据院校ID获取院校详情信息 institutions/show接口调用-->
+   <resultMap id="ShowResultMap" type="com.arttraining.api.bean.InstitutionsShowBean" >
+  	 <id column="id" property="institution_id" jdbcType="INTEGER" />
+    <result column="pic" property="institution_pic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="admissions_guide" property="admissions_guide" jdbcType="VARCHAR" />
+    <result column="follow_num" property="follow_num" jdbcType="INTEGER" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+    <result column="video" property="video" jdbcType="VARCHAR" />
+    <result column="city_name" property="city" jdbcType="VARCHAR" />
+    <result column="city_father" property="province" jdbcType="VARCHAR" />
+    <result column="school_grade" property="school_grade" jdbcType="VARCHAR" />
+    <result column="school_batch" property="school_batch" jdbcType="VARCHAR" />
+    <result column="school_score" property="school_score" jdbcType="VARCHAR" />
+    <result column="school_type" property="school_type" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="enrollment_num" property="enrollment_num" jdbcType="INTEGER" />
+    <result column="enrollment_plan" property="enrollment_plan" jdbcType="VARCHAR" /> 
+    <result column="admission_line" property="admission_line" jdbcType="VARCHAR" /> 
+    <result column="official_website" property="official_website" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectInstitutionsShow" resultMap="ShowResultMap" parameterType="java.lang.Integer" >
+    select id,pic,name,admissions_guide,
+    follow_num,browse_num,official_website,
+    admission_line,enrollment_plan,enrollment_num,
+    introduction,school_type,school_score,school_batch,
+    city_father,city_name,video,school_grade
+    from t_yp_institutions
+    where is_deleted=0 and id=#{id,jdbcType=INTEGER}
+  </select>
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     name, video, pic, introduction, admissions_guide, admission_line, enrollment_plan, 

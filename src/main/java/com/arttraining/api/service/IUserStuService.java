@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.arttraining.api.bean.LikeUserBean;
 import com.arttraining.api.bean.LikeUserPicBean;
+import com.arttraining.api.bean.UserNumberBean;
 import com.arttraining.api.bean.UserStuShowBean;
 import com.arttraining.api.pojo.UserStu;
 
@@ -48,5 +49,8 @@ public interface IUserStuService {
 	
 	//查询小组动态/帖子/作品回复的名称 statuses/show/bbs g_stus work接口调用
     String getUserNameById(Integer id);
+    
+    //根据用户ID获取用户数目信息 --users/num接口调用
+    UserNumberBean getUserNumberByUid(Integer id);
 
 }

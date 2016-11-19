@@ -46,8 +46,27 @@
     <result column="school_id" property="schoolId" jdbcType="INTEGER" />
     <result column="org_id" property="orgId" jdbcType="INTEGER" />
     <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="favorite_num" property="favoriteNum" jdbcType="INTEGER" />
+    <result column="bbs_num" property="bbsNum" jdbcType="INTEGER" />
   </resultMap>
  
+  <!-- coffee add 根据用户ID获取用户数目信息 users/num接口调用-->
+   <resultMap id="UserNumResultMap" type="com.arttraining.api.bean.UserNumberBean" >
+    <result column="bbs_num" property="bbs_num" jdbcType="INTEGER" />
+    <result column="group_num" property="group_num" jdbcType="INTEGER" />
+    <result column="favorite_num" property="favorite_num" jdbcType="INTEGER" />
+    <result column="comment_num" property="comment_num" jdbcType="INTEGER" />
+    <result column="follow_num" property="follow_num" jdbcType="INTEGER" />
+    <result column="fans_num" property="fans_num" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectUserNumberByUid" resultMap="UserNumResultMap" parameterType="java.lang.Integer" >
+    select bbs_num,group_num,favorite_num,
+    comment_num,follow_num,fans_num
+    from t_yp_user_stu
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_userstu_where"></include>
+  </select>
+  
   <!-- coffee add 点赞列表接口 -->
    <resultMap id="LikeResultMap" type="com.arttraining.api.bean.LikeUserBean" >
     <result column="uid" property="uid" jdbcType="INTEGER" />
@@ -73,7 +92,7 @@
     score, rank, work_num, comment_num, fans_num, follow_num, group_num, role, power, 
     is_lock, locked_time, works, title, continue_count, last_login_time, ip, mac, is_deleted, 
     create_time, order_code, delete_time, remarks, attachment, identity_name, specialty_name, 
-    school_id, org_id, org_name
+    school_id, org_id, org_name,bbs_num,favorite_num
   </sql>
   <!-- coffee add 1103 where sql -->
    <sql id="select_userstu_where">
@@ -263,7 +282,7 @@
       is_deleted, create_time, order_code, 
       delete_time, remarks, attachment, 
       identity_name, specialty_name, school_id, 
-      org_id, org_name)
+      org_id, org_name,bbs_num,favorite_num)
     values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=VARCHAR}, #{userCode,jdbcType=VARCHAR}, 
       #{userMobile,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{headPic,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, 
@@ -278,7 +297,8 @@
       #{isDeleted,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, 
       #{deleteTime,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, 
       #{identityName,jdbcType=VARCHAR}, #{specialtyName,jdbcType=VARCHAR}, #{schoolId,jdbcType=INTEGER}, 
-      #{orgId,jdbcType=INTEGER}, #{orgName,jdbcType=VARCHAR})
+      #{orgId,jdbcType=INTEGER}, #{orgName,jdbcType=VARCHAR},
+      #{bbsNum,jdbcType=INTEGER}, #{favoriteNum,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.UserStu" >
     insert into t_yp_user_stu
@@ -415,6 +435,12 @@
       <if test="orgName != null" >
         org_name,
       </if>
+      <if test="bbsNum != null" >
+        bbs_num,
+      </if>
+      <if test="favoriteNum != null" >
+        favorite_num,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -549,6 +575,12 @@
       <if test="orgName != null" >
         #{orgName,jdbcType=VARCHAR},
       </if>
+      <if test="bbsNum != null" >
+        #{bbsNum,jdbcType=INTEGER},
+      </if>
+       <if test="favoriteNum != null" >
+        #{favoriteNum,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <!-- coffee add 1104 设置个人资料set_info接口-->
@@ -673,6 +705,12 @@
       </if>
       <if test="attachment != null" >
         attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="bbsNum != null" >
+        bbs_num = #{bbsNum,jdbcType=INTEGER},
+      </if>
+      <if test="favoriteNum != null" >
+        favorite_num = #{favoriteNum,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -813,6 +851,12 @@
       <if test="orgName != null" >
         org_name = #{orgName,jdbcType=VARCHAR},
       </if>
+      <if test="bbsNum != null" >
+        bbs_num = #{bbsNum,jdbcType=INTEGER},
+      </if>
+      <if test="favoriteNum != null" >
+        favorite_num = #{favoriteNum,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
     <include refid="select_userstu_where"></include>
@@ -862,7 +906,9 @@
       specialty_name = #{specialtyName,jdbcType=VARCHAR},
       school_id = #{schoolId,jdbcType=INTEGER},
       org_id = #{orgId,jdbcType=INTEGER},
-      org_name = #{orgName,jdbcType=VARCHAR}
+      org_name = #{orgName,jdbcType=VARCHAR},
+      bbs_num = #{bbsNum,jdbcType=INTEGER},
+      favorite_num = #{favoriteNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
