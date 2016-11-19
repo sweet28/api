@@ -16,7 +16,6 @@ import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
-import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
@@ -65,7 +64,7 @@ public class UserStuController {
 		
 		String uid = request.getParameter("uid");
 		
-		ServerLog.getLogger().info("uid:"+uid);
+		ServerLog.getLogger().debug("uid:"+uid);
 		
 		//创建一个UserStuShowBean对象 默认会对属性进行赋值
 		UserStuShowBean userStu = new UserStuShowBean();
@@ -102,7 +101,7 @@ public class UserStuController {
 		userStu.setError_msg(errorMessage);
 		Gson gson = new Gson();
 		
-		ServerLog.getLogger().info(gson.toJson(userStu));
+		ServerLog.getLogger().debug(gson.toJson(userStu));
 		return gson.toJson(userStu);
 	}
 
@@ -119,7 +118,7 @@ public class UserStuController {
 		String access_token = request.getParameter("access_token");
 		String uid = request.getParameter("uid");
 		String head_pic = request.getParameter("head_pic");
-		
+		ServerLog.getLogger().info("access_token:"+access_token+"uid:"+uid+"head_pic:"+head_pic);
 		if(access_token==null || uid==null || head_pic==null) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -141,7 +140,6 @@ public class UserStuController {
 				Integer i_uid = Integer.valueOf(uid);
 				UserStu userStu = new UserStu();
 				userStu.setId(i_uid);
-				head_pic = ImageUtil.parseAttPath(head_pic);
 				userStu.setHeadPic(head_pic);
 				
 				try {
@@ -167,6 +165,8 @@ public class UserStuController {
 		jsonObject.put("name", "");
 		jsonObject.put("head_pic", "");
 		
+		ServerLog.getLogger().info(jsonObject.toString());
+		
 		return jsonObject;
 	}
 	
@@ -183,6 +183,8 @@ public class UserStuController {
 		String access_token = request.getParameter("access_token");
 		String uid = request.getParameter("uid");
 		String new_pwd = request.getParameter("new_pwd");
+		
+		ServerLog.getLogger().info("access_token:"+access_token+"uid:"+uid+"new_pwd:"+new_pwd);
 		
 		if(access_token==null || uid==null || new_pwd==null) {
 			errorCode = "20032";
@@ -234,6 +236,8 @@ public class UserStuController {
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
 		
+		ServerLog.getLogger().info(jsonObject.toString());
+		
 		return jsonObject;
 	}
 	
@@ -251,6 +255,8 @@ public class UserStuController {
 		String access_token = request.getParameter("access_token");
 		String uid = request.getParameter("uid");
 		String mobile = request.getParameter("mobile");
+		
+		ServerLog.getLogger().info("access_token:"+access_token+"uid:"+uid+"mobile:"+mobile);
 		
 		if(access_token==null || uid==null || mobile==null) {
 			errorCode = "20032";
@@ -296,6 +302,8 @@ public class UserStuController {
 		jsonObject.put("uid", 0);
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
+		
+		ServerLog.getLogger().info(jsonObject.toString());
 		
 		return jsonObject;
 	}
@@ -447,7 +455,7 @@ public class UserStuController {
 		String errorMessage = "";
 		//用户ID--必选参数
 		String uid = request.getParameter("uid");
-		
+		ServerLog.getLogger().info("uid:"+uid);
 		UserNumberBean userNum = new UserNumberBean();
 		
 		if(uid==null || uid.equals("")) {
@@ -476,6 +484,7 @@ public class UserStuController {
 		userNum.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().info(gson.toJson(userNum));
 		return gson.toJson(userNum);
 	}
 }

@@ -16,7 +16,7 @@ public class ServerLog {
 	}
 	public static void main(String[] args) {
 		
-		ServerLog.getLogger().info("hh");
-		ServerLog.getLogger().info("hh");
+		ServerLog.getLogger().info("444");
+		ServerLog.getLogger().info("555");
 	}
 }
