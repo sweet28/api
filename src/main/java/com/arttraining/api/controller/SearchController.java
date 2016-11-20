@@ -107,43 +107,52 @@ public class SearchController {
 		String errorMessage = "";
 		//以下不是必选参数
 		String key = request.getParameter("key");
+		String spec = request.getParameter("spec");
 		//以下用于分页
 		String self=request.getParameter("self");
 		Integer offset=-1;
 		Integer limit=ConfigUtil.PAGESIZE;
 		
-		ServerLog.getLogger().warn("key:"+key+"-self:"+self);
+		ServerLog.getLogger().warn("key:"+key+"-self:"+self+"-spec:"+spec);
 		
 		SearchTecReBean tecReBean = new SearchTecReBean();
 		
-		if(self==null || self.equals("")) {
-			offset=-1;
-		}
-		else if(!NumberUtil.isInteger(self)) {
-			offset=-10;
-		}
-		else 
-			offset=Integer.valueOf(self);
-		
-		if(offset==-10) {
-			errorCode = "20033";
-			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		if(spec==null || spec.equals("")) {
+			errorCode = "20032";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
 		else {
-			//依据关键字搜索机构列表信息
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("key", key);
-			map.put("offset", offset);
-			map.put("limit", limit);
-			List<TecherListBean> tecList = this.userTecService.getTecherListBySearch(map);
-			if(tecList.size()>0) {
-				tecReBean.setTec(tecList);
-				errorCode = "0";
-				errorMessage = "ok";
+			if(self==null || self.equals("")) {
+				offset=-1;
+			}
+			else if(!NumberUtil.isInteger(self)) {
+				offset=-10;
+			}
+			else 
+				offset=Integer.valueOf(self);
+			
+			if(offset==-10) {
+				errorCode = "20033";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 			}
 			else {
-				errorCode = "20007";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				//依据关键字搜索机构列表信息
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("key", key);
+				map.put("offset", offset);
+				map.put("limit", limit);
+				map.put("spec", spec);
+				
+				List<TecherListBean> tecList = this.userTecService.getTecherListBySearch(map);
+				if(tecList.size()>0) {
+					tecReBean.setTec(tecList);
+					errorCode = "0";
+					errorMessage = "ok";
+				}
+				else {
+					errorCode = "20007";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				}
 			}
 		}
 		tecReBean.setError_code(errorCode);
