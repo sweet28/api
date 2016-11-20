@@ -40,6 +40,8 @@ public class Order {
     private Double finalPay;
 
     private String payType;
+    
+    private Integer orderDetailNum;
 
     public Integer getId() {
         return id;
@@ -192,4 +194,13 @@ public class Order {
     public void setPayType(String payType) {
         this.payType = payType == null ? null : payType.trim();
     }
+
+	public Integer getOrderDetailNum() {
+		return orderDetailNum;
+	}
+
+	public void setOrderDetailNum(Integer orderDetailNum) {
+		this.orderDetailNum = orderDetailNum;
+	}
+    
 }

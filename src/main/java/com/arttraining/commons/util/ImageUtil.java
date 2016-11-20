@@ -18,7 +18,6 @@ public class ImageUtil {
 			JSONObject jsonObject = (JSONObject) iterator.next();
 			path = jsonObject.getString("store_path");
 		}
-
 		return path;
 	}
 

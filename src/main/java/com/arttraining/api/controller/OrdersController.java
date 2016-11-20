@@ -1,10 +1,13 @@
 package com.arttraining.api.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.resource.spi.work.WorkAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -17,6 +20,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.arttraining.api.bean.AssessmentListBean;
+import com.arttraining.api.bean.AssessmentListReBean;
+import com.arttraining.api.bean.OrderListMyBean;
+import com.arttraining.api.bean.OrderListMyReBean;
+import com.arttraining.api.bean.OrderWorkBean;
 import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.pojo.Assessments;
 import com.arttraining.api.pojo.Order;
@@ -30,6 +38,9 @@ import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.IdWorker;
+import com.arttraining.commons.util.ImageUtil;
+import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
@@ -44,59 +55,168 @@ public class OrdersController {
 	@Resource
 	private WorksService workService;
 	
-	
+	/***
+	 * 获取用户订单信息列表
+	 * @param request access_token--验证 uid--用户ID
+	 * @param response
+	 * @return
+	 */
 	@RequestMapping(value = "/list_my", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public @ResponseBody Object myAssessment(HttpServletRequest request, HttpServletResponse response){
-		SimpleReBean simReBean = new SimpleReBean();
-		Gson gson = new Gson();
+	public @ResponseBody Object listMy(HttpServletRequest request, HttpServletResponse response){
 		String errorCode = "";
 		String errorMsg = "";
-		String account = "";
+		String access_token = "";
+		String uid="";
+		//以下两个是必选参数
+		access_token = request.getParameter("access_token");
+		uid = request.getParameter("uid");
 		
-		account = request.getParameter("mobile");
-		System.out.println("进入订单列表："+account+TimeUtil.getTimeStamp());
-		if(account == null){
+		String self = request.getParameter("self");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid);
+		
+		Integer limit=ConfigUtil.PAGESIZE;
+		Integer offset=-1;
+		
+		OrderListMyReBean orderMyBean = new OrderListMyReBean();
+		
+		if(access_token == null || uid==null){
 			errorCode = "20032";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
-		} else if (account.equals("")) {
+		} else if (access_token.equals("") || uid.equals("")) {
 			errorCode = "20032";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
-		} else {
-			errorCode = "0";
-			errorMsg = "ok";
+		} else if(!NumberUtil.isInteger(uid)) {
+			errorCode = "20033";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
+		else {
+			if(self==null || self.equals("")) {
+				offset=-1;
+			} else if(!NumberUtil.isInteger(self)) {
+				offset=-10;
+			} else
+				offset=Integer.valueOf(self);
+			
+			if(offset==-10) {
+				errorCode = "20033";
+				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+			}
+			else {
+				//用户ID 
+				Integer i_uid = Integer.valueOf(uid);
+				//依据用户ID去查询相应的订单列表
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("uid", i_uid);
+				map.put("offset", offset);
+				map.put("limit",limit);
+				List<OrderListMyBean> orderList = this.ordersService.getMyListOrderByUid(map);
+				if(orderList.size()>0) {
+					//循环读取list 依次查询作品信息
+					for (OrderListMyBean order : orderList) {
+						Integer type = order.getOrder_type();
+						Integer order_id = order.getOrder_id();
+						String order_number=order.getOrder_number();
+						map.put("type", type);
+						map.put("order_id", order_id);
+						map.put("order_number", order_number);
+						//获取作品相关的信息
+						OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);
+						if(work!=null) {
+							order.setWork_id(work.getWork_id());
+							order.setWork_title(work.getWork_title());
+							//获取头像
+							String path = work.getWork_pic();
+							if(path!=null && !"".equals(path.trim())) {
+								order.setWork_pic(ImageUtil.parseAttPath(path));
+							}
+						}
+					}
+					orderMyBean.setOrders(orderList);
+					errorCode = "0";
+					errorMsg = "ok";
+				}
+				else {
+					errorCode = "20007";
+					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				}
+		  }
+		}
+		orderMyBean.setError_code(errorCode);
+		orderMyBean.setError_msg(errorMsg);
 		
-		simReBean.setError_code(errorCode);
-		simReBean.setError_msg(errorMsg);
-
-		return gson.toJson(simReBean);
+		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(orderMyBean));
+		return gson.toJson(orderMyBean);
 	}
 	
 	@RequestMapping(value = "/show", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object show(HttpServletRequest request, HttpServletResponse response){
-		SimpleReBean simReBean = new SimpleReBean();
-		Gson gson = new Gson();
+		
 		String errorCode = "";
 		String errorMsg = "";
-		String account = "";
+	
+		//以下4个参数是必选参数
+		String access_token = request.getParameter("access_token");
+		String uid = request.getParameter("uid");
+		String order_id = request.getParameter("order_id");
+		String order_type = request.getParameter("order_type");
+	
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+
+				"-order_id:"+order_id+"-order_type:"+order_type);
 		
-		account = request.getParameter("mobile");
-		System.out.println("进入订单明细："+account+TimeUtil.getTimeStamp());
-		if(account == null){
+		AssessmentListReBean assReBean = new AssessmentListReBean();
+		
+		if(access_token == null || uid==null || order_id==null || order_type==null){
 			errorCode = "20032";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
-		} else if (account.equals("")) {
+		} else if (access_token.equals("") || uid.equals("") || order_id.equals("") || order_type.equals("")) {
 			errorCode = "20032";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(!NumberUtil.isInteger(uid) || !NumberUtil.isInteger(order_id)) {
+			errorCode = "20033";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
-			errorCode = "0";
-			errorMsg = "ok";
+			//用户ID和订单ID
+			Integer i_uid = Integer.valueOf(uid);
+			Integer i_order_id=Integer.valueOf(order_id);
+			//查询某个订单ID对应的测评列表信息
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("order_id", i_order_id);
+			map.put("uid", i_uid);
+			assReBean = this.ordersService.getAssListByShow(map);
+			if(assReBean==null) {
+				assReBean = new AssessmentListReBean();
+				errorCode = "20007";
+				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+			}
+			else {
+				List<AssessmentListBean> assessments=assReBean.getAssessments();
+				//判断测评信息是否为空
+				if(assessments.size()>0) {
+					//循环读取测评信息 从而名师头像
+					for (AssessmentListBean ass : assessments) {
+						Integer tid = ass.getTec_id();
+						String pic = this.ordersService.getTecPicById(tid);
+						ass.setTec_pic(pic);
+					}
+					assReBean.setAssessments(assessments);
+					errorCode = "0";
+					errorMsg = "ok";
+				}
+				else {
+					errorCode = "20007";
+					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				}
+			}
+			
 		}
+		assReBean.setError_code(errorCode);
+		assReBean.setError_msg(errorMsg);
 		
-		simReBean.setError_code(errorCode);
-		simReBean.setError_msg(errorMsg);
-
-		return gson.toJson(simReBean);
+		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(assReBean));
+		return gson.toJson(assReBean);
 	}
 	
 	@RequestMapping(value = "/create/assessment", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -131,7 +251,7 @@ public class OrdersController {
 		couponStr = request.getParameter("coupon_pay");
 		finalStr = request.getParameter("final");
 		title = request.getParameter("title");
-		teaStr = request.getParameter("teacher_list").toString().trim(); 
+		teaStr = request.getParameter("teacher_list"); 
 		
 		content = request.getParameter("content");
 		attachment = request.getParameter("attachment");
@@ -244,12 +364,19 @@ public class OrdersController {
 		order.setUserId(uid);
 		IdWorker idWorker = new IdWorker(0, 0);
 		String orderNum = idWorker.nextId() + "";
+		//创建时间
+		Date date = new Date();
+		String time = TimeUtil.getTimeByDate(date);
+		
 		order.setCodeNumber(orderNum);
 		order.setType(0);
 		order.setCouponPay(couponPay);
 		order.setFinalPay(finalPay);
 		order.setMoney(totalPay);
-		order.setCreateTime(TimeUtil.getTimeStamp());
+		//新增订单创建时间 create_time order_code 和订单商品数量
+		order.setCreateTime(Timestamp.valueOf(time));
+		order.setOrderCode(time);
+		order.setOrderDetailNum(teaArr.size());
 		
 		UserStu userStu = new UserStu();
 		userStu = this.userStuService.getUserStuById(Integer.parseInt(uid));
@@ -261,7 +388,7 @@ public class OrdersController {
 			
 			Assessments ass = new Assessments();
 			ass.setAssType(assType);
-			ass.setCreateTime(TimeUtil.getTimeStamp());
+			ass.setCreateTime(Timestamp.valueOf(time));
 			ass.setOrderNumber(orderNum);
 			ass.setStuId(Integer.parseInt(uid));
 			ass.setStuName(userStu.getName());
@@ -269,7 +396,8 @@ public class OrdersController {
 			ass.setTecId(jo.getIntValue("tec_id"));
 			ass.setTecName(jo.getString("tec_name"));
 			ass.setCodes(idWorker.nextId() + "");
-			
+			//新增order_code
+			ass.setOrderCode(time);
 			assList.add(ass);
 		}
 		
@@ -277,12 +405,11 @@ public class OrdersController {
 		work.setOwner(Integer.parseInt(uid));
 		work.setOwnerType("stu");
 		work.setArtType(assType);
-		work.setCreateTime(TimeUtil.getTimeStamp());
+		work.setCreateTime(Timestamp.valueOf(time));
 		work.setTitle(title);
-		if(content != null || ("").equals(content.trim())){
+		if(content != null && ("").equals(content.trim())){
 			work.setContent(content);
 		}
-		work.setCreateTime(TimeUtil.getTimeStamp());
 		work.setAssessmentsCode(orderNum);
 		
 		WorksAttchment workAtt = new WorksAttchment();
@@ -297,7 +424,7 @@ public class OrdersController {
 			jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 			jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMsg);
 			jsonObject.put("order_number", orderNum);
-			jsonObject.put("create_time", TimeUtil.getTimeStamp());
+			jsonObject.put("create_time", time);
 			
 			System.out.println(TimeUtil.getTimeStamp()+"-订单创建8-"+jsonObject);
 			return jsonObject;

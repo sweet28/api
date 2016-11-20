@@ -1,11 +1,15 @@
 package com.arttraining.api.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.arttraining.api.bean.AssessmentListReBean;
+import com.arttraining.api.bean.OrderListMyBean;
+import com.arttraining.api.bean.OrderWorkBean;
 import com.arttraining.api.dao.AssessmentsMapper;
 import com.arttraining.api.dao.OrderMapper;
 import com.arttraining.api.dao.WorksAttchmentMapper;
@@ -100,6 +104,30 @@ public class OrdersService implements IOrdersService{
 	@Override
 	public Order selectByPrimaryKey(Integer id) {
 		return this.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public List<OrderListMyBean> getMyListOrderByUid(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.orderDao.selectMyListOrderByUid(map);
+	}
+
+	@Override
+	public OrderWorkBean getWorkInfoByListMy(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.orderDao.selectWorkInfoByListMy(map);
+	}
+
+	@Override
+	public AssessmentListReBean getAssListByShow(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.orderDao.selectAssListByShow(map);
+	}
+
+	@Override
+	public String getTecPicById(Integer id) {
+		// TODO Auto-generated method stub
+		return this.orderDao.selectTecPicById(id);
 	}
 
 }

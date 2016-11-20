@@ -16,4 +16,5 @@ public interface AssessmentsMapper {
     int updateByPrimaryKey(Assessments record);
     
     int updateByOrderNumber(Assessments record);
+   
 }
