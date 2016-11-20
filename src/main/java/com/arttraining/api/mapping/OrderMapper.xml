@@ -59,7 +59,7 @@
       #{auditor,jdbcType=VARCHAR}, #{couponPay,jdbcType=DOUBLE}, #{finalPay,jdbcType=DOUBLE}, 
       #{payType,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Order" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.arttraining.api.pojo.Order" >
     insert into t_yp_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

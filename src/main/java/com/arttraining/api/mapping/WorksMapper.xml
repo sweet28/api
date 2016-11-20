@@ -237,7 +237,7 @@
       #{commentNum,jdbcType=INTEGER}, #{likeNum,jdbcType=INTEGER}, #{tecCommentNum,jdbcType=INTEGER}, 
       #{browseNum,jdbcType=INTEGER}, #{rewardNum,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Works" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.arttraining.api.pojo.Works" >
     insert into t_yp_works
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
