@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class HomePageAdvertiseBean {
 	private String stus_type;
 	private Integer ad_id;
@@ -27,7 +29,7 @@ public class HomePageAdvertiseBean {
 		return ad_pic;
 	}
 	public void setAd_pic(String ad_pic) {
-		this.ad_pic = ad_pic;
+		this.ad_pic = ImageUtil.parsePicPath(ad_pic);
 	}
 	
 }

@@ -12,8 +12,10 @@ import com.arttraining.api.bean.HomePageStatusesBean;
 import com.arttraining.api.bean.StatusesShowBean;
 import com.arttraining.api.dao.BBSAttachmentMapper;
 import com.arttraining.api.dao.BBSMapper;
+import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.pojo.BBS;
 import com.arttraining.api.pojo.BBSAttachment;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.IBBSService;
 
 @Service("bbsService")
@@ -22,6 +24,8 @@ public class BBSService implements IBBSService {
 	private BBSMapper bbsDao;
 	@Resource
 	private BBSAttachmentMapper bbsAttDao;
+	@Resource
+	private UserStuMapper userStuDao;
 
 	@Override
 	public BBS getBBSById(Integer id) {
@@ -30,7 +34,7 @@ public class BBSService implements IBBSService {
 	}
 
 	@Override
-	public void insertBBSAndInsertAttr(BBS bbs, BBSAttachment bbsAttr) {
+	public void insertBBSAndInsertAttr(BBS bbs, BBSAttachment bbsAttr, UserStu user) {
 		// TODO Auto-generated method stub
 		this.bbsDao.insertOneBBSSelective(bbs);
 		int id = bbs.getId();
@@ -38,6 +42,7 @@ public class BBSService implements IBBSService {
 			bbsAttr.setForeignKey(id);
 			this.bbsAttDao.insertSelective(bbsAttr);
 		}
+		this.userStuDao.updateNumberBySelective(user);
 	}
 
 	@Override
@@ -64,6 +69,12 @@ public class BBSService implements IBBSService {
 			Integer offset, Integer limit) {
 		// TODO Auto-generated method stub
 		return this.bbsDao.selectBBSListByUid(uid, offset, limit);
+	}
+
+	@Override
+	public int updateBBSNumber(BBS record) {
+		// TODO Auto-generated method stub
+		return this.bbsDao.updateNumberBySelective(record);
 	}
 
 	

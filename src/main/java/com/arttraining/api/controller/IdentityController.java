@@ -17,6 +17,7 @@ import com.arttraining.api.bean.IdentityListBean;
 import com.arttraining.api.service.impl.IdentityService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.ServerLog;
 
 @Controller
 @RequestMapping("/identity")
@@ -48,7 +49,7 @@ public class IdentityController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("identitys", identityList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 }

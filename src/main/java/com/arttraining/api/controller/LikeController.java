@@ -1,7 +1,9 @@
 package com.arttraining.api.controller;
 
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -32,6 +34,7 @@ import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 
@@ -72,6 +75,8 @@ public class LikeController {
 		//被点赞信息id 即bbs/works/statuses/org/tec
 		like_id = request.getParameter("like_id");
 		self=request.getParameter("self");
+		
+		ServerLog.getLogger().warn("like_id:"+like_id+"-self:"+self);
 		
 		JSONObject jsonObject = new JSONObject();
 		List<LikeUserPicBean> bbsLikeList = new ArrayList<LikeUserPicBean>();
@@ -119,6 +124,7 @@ public class LikeController {
 					errorMessage = "ok";
 				}
 				else {
+					bbsLikeList = new ArrayList<LikeUserPicBean>();
 					errorCode = "20007";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 				}
@@ -127,7 +133,7 @@ public class LikeController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("users",bbsLikeList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	@RequestMapping(value = "/list/pic/work", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -141,7 +147,7 @@ public class LikeController {
 		//被点赞信息id 即bbs/works/statuses/org/tec
 		like_id = request.getParameter("like_id");
 		self=request.getParameter("self");
-		
+		ServerLog.getLogger().warn("like_id:"+like_id+"-self:"+self);
 		JSONObject jsonObject = new JSONObject();
 		List<LikeUserPicBean> workLikeList = new ArrayList<LikeUserPicBean>();
 		
@@ -187,6 +193,7 @@ public class LikeController {
 					errorMessage = "ok";
 				}
 				else {
+					workLikeList = new ArrayList<LikeUserPicBean>();
 					errorCode = "20007";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 				}
@@ -195,7 +202,7 @@ public class LikeController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("users",workLikeList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	@RequestMapping(value = "/list/pic/g_stus", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -209,6 +216,8 @@ public class LikeController {
 		//被点赞信息id 即bbs/works/statuses/org/tec
 		like_id = request.getParameter("like_id");
 		self=request.getParameter("self");
+		
+		ServerLog.getLogger().warn("like_id:"+like_id+"-self:"+self);
 		
 		JSONObject jsonObject = new JSONObject();
 		List<LikeUserPicBean> statusesLikeList = new ArrayList<LikeUserPicBean>();
@@ -255,6 +264,7 @@ public class LikeController {
 					errorMessage = "ok";
 				}
 				else {
+					statusesLikeList = new ArrayList<LikeUserPicBean>();
 					errorCode = "20007";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 				}
@@ -263,7 +273,7 @@ public class LikeController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("users",statusesLikeList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	
@@ -285,6 +295,8 @@ public class LikeController {
 		//被点赞信息id 即bbs/works/statuses/org/tec
 		like_id = request.getParameter("like_id");
 		self=request.getParameter("self");
+		
+		ServerLog.getLogger().warn("like_id:"+like_id+"-self:"+self);
 		
 		JSONObject jsonObject = new JSONObject();
 		List<LikeUserBean> bbsLikeList = new ArrayList<LikeUserBean>();
@@ -332,6 +344,7 @@ public class LikeController {
 					errorMessage = "ok";
 				}
 				else {
+					bbsLikeList = new ArrayList<LikeUserBean>();
 					errorCode = "20007";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 				}
@@ -341,7 +354,7 @@ public class LikeController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("users",bbsLikeList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	@RequestMapping(value = "/list/work", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -355,6 +368,7 @@ public class LikeController {
 		//被点赞信息id 即bbs/works/statuses/org/tec
 		like_id = request.getParameter("like_id");
 		self=request.getParameter("self");
+		ServerLog.getLogger().warn("like_id:"+like_id+"-self:"+self);
 		
 		JSONObject jsonObject = new JSONObject();
 		List<LikeUserBean> worksLikeList = new ArrayList<LikeUserBean>();
@@ -401,6 +415,7 @@ public class LikeController {
 					errorMessage = "ok";
 				}
 				else {
+					worksLikeList = new ArrayList<LikeUserBean>();
 					errorCode = "20007";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 				}
@@ -409,6 +424,8 @@ public class LikeController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("users",worksLikeList);
+		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		
 		return jsonObject;
 	}
@@ -423,6 +440,8 @@ public class LikeController {
 		//被点赞信息id 即bbs/works/statuses/org/tec
 		like_id = request.getParameter("like_id");
 		self=request.getParameter("self");
+		
+		ServerLog.getLogger().warn("like_id:"+like_id+"-self:"+self);
 		
 		JSONObject jsonObject = new JSONObject();
 		List<LikeUserBean> statusesLikeList = new ArrayList<LikeUserBean>();
@@ -469,6 +488,7 @@ public class LikeController {
 					errorMessage = "ok";
 				}
 				else {
+					statusesLikeList = new ArrayList<LikeUserBean>();
 					errorCode = "20007";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 				}
@@ -477,7 +497,7 @@ public class LikeController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("users",statusesLikeList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	
@@ -504,7 +524,8 @@ public class LikeController {
 		like_id = request.getParameter("like_id");
 		utype=request.getParameter("utype");
 		
-		System.out.println("accessToken:"+accessToken+"uid:"+uid+"like_id:"+like_id+"utype:"+utype);
+		ServerLog.getLogger().warn("accessToken:"+accessToken+"-uid:"+uid+"-like_id:"+like_id+"-utype:"+utype);
+		
 		if(accessToken == null || uid == null || utype == null || like_id==null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -540,6 +561,9 @@ public class LikeController {
 						errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 					}
 					else {
+						Date date = new Date();
+						String time = TimeUtil.getTimeByDate(date);
+						
 						//开始添加点赞信息
 						BBSLike bbsLike = new BBSLike();
 						bbsLike.setVisitor(i_uid);
@@ -548,7 +572,8 @@ public class LikeController {
 						bbsLike.setHostType(bbs.getOwnerType());
 						bbsLike.setForeignKey(i_like_id);
 						//获取点赞时间
-						bbsLike.setCreateTime(TimeUtil.getTimeStamp());
+						bbsLike.setCreateTime(Timestamp.valueOf(time));
+						bbsLike.setOrderCode(time);
 						
 						try {
 							this.bbsLikeService.insertAndUpdateBBS(bbsLike, i_like_id);
@@ -576,6 +601,8 @@ public class LikeController {
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
 		
+		ServerLog.getLogger().warn(jsonObject.toString());
+		
 		return jsonObject;
 	}
 	@RequestMapping(value = "/create/work", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -592,6 +619,8 @@ public class LikeController {
 		uid = request.getParameter("uid");
 		like_id = request.getParameter("like_id");
 		utype=request.getParameter("utype");
+		
+		ServerLog.getLogger().warn("accessToken:"+accessToken+"-uid:"+uid+"-like_id:"+like_id+"-utype:"+utype);
 		
 		JSONObject jsonObject = new JSONObject();
 		
@@ -631,16 +660,20 @@ public class LikeController {
 						errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 					}
 					else {
+						Date date = new Date();
+						String time = TimeUtil.getTimeByDate(date);
+						
 						WorksLike worksLike = new WorksLike();
 						worksLike.setVisitor(i_uid);
 						worksLike.setVisitorType(utype);
 						worksLike.setHost(works.getOwner());
 						worksLike.setHostType(works.getOwnerType());
 						worksLike.setForeignKey(i_like_id);
-						worksLike.setCreateTime(TimeUtil.getTimeStamp());
+						worksLike.setCreateTime(Timestamp.valueOf(time));
+						worksLike.setOrderCode(time);
 						
 						try {
-							this.worksLikeService.insertAndUpdateWork(worksLike, i_like_id);;
+							this.worksLikeService.insertAndUpdateWork(worksLike, i_like_id);
 							//添加点赞成功
 							errorCode = "0";
 							errorMessage = "ok";
@@ -663,6 +696,8 @@ public class LikeController {
 			jsonObject.put("user_code", "");
 			jsonObject.put("name", "");
 			
+			ServerLog.getLogger().warn(jsonObject.toString());
+			
 			return jsonObject;
 	}
 	
@@ -680,6 +715,8 @@ public class LikeController {
 		uid = request.getParameter("uid");
 		like_id = request.getParameter("like_id");
 		utype=request.getParameter("utype");
+		
+		ServerLog.getLogger().warn("accessToken:"+accessToken+"-uid:"+uid+"-like_id:"+like_id+"-utype:"+utype);
 		
 		JSONObject jsonObject = new JSONObject();
 		
@@ -719,13 +756,17 @@ public class LikeController {
 						errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 					}
 					else {
+						Date date = new Date();
+						String time = TimeUtil.getTimeByDate(date);
+						
 						StatusesLike statusesLike = new StatusesLike();
 						statusesLike.setVisitor(i_uid);
 						statusesLike.setVisitorType(utype);
 						statusesLike.setHost(statuses.getOwner());
 						statusesLike.setHostType(statuses.getOwnerType());
 						statusesLike.setForeignKey(i_like_id);
-						statusesLike.setCreateTime(TimeUtil.getTimeStamp());
+						statusesLike.setCreateTime(Timestamp.valueOf(time));
+						statusesLike.setOrderCode(time);
 						
 						try {
 							this.statusesLikeService.insertAndUpdateStatus(statusesLike, i_like_id);
@@ -750,7 +791,7 @@ public class LikeController {
 			jsonObject.put("uid",0);
 			jsonObject.put("user_code","");
 			jsonObject.put("name","");
-			
+			ServerLog.getLogger().warn(jsonObject.toString());
 			return jsonObject;
 	}
 }

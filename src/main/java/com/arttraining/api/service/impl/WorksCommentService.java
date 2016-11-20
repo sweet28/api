@@ -8,8 +8,10 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.arttraining.api.bean.CommentsVisitorBean;
+import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.dao.WorksCommentMapper;
 import com.arttraining.api.dao.WorksMapper;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.WorksComment;
 import com.arttraining.api.service.IWorksCommentService;
 
@@ -20,6 +22,8 @@ public class WorksCommentService implements IWorksCommentService{
 	private WorksCommentMapper worksCommentDao;
 	@Resource
 	private WorksMapper worksDao;
+	@Resource
+	private UserStuMapper userStuDao;
 	
 	@Override
 	public List<CommentsVisitorBean> getWorkCommentByShow(Integer fid,
@@ -36,10 +40,13 @@ public class WorksCommentService implements IWorksCommentService{
 	}
 
 	@Override
-	public void insertAndUpdateWorkComment(WorksComment workComment, Integer id) {
+	public void insertAndUpdateWorkComment(WorksComment workComment, Integer id,UserStu user) {
 		// TODO Auto-generated method stub
 		this.worksCommentDao.insertSelective(workComment);
 		this.worksDao.updateWorkCommNumByPrimaryKey(id);
+		if(user!=null) {
+			this.userStuDao.updateNumberBySelective(user);
+		}
 	}
 
 }

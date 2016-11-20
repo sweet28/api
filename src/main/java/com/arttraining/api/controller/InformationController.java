@@ -18,6 +18,7 @@ import com.arttraining.api.service.impl.InformationService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
 @Controller
@@ -53,7 +54,7 @@ public class InformationController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("informations", informationList);
-
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	/***
@@ -69,6 +70,7 @@ public class InformationController {
 		InformationShowBean informationShow = new InformationShowBean();
 		//获取传递的info_id参数,判断传递的参数是否不存在或者是否为空
 		String info_id=request.getParameter("info_id");
+		ServerLog.getLogger().warn("info_id:"+info_id);
 		if(info_id==null || info_id.equals("")) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -95,6 +97,7 @@ public class InformationController {
 		informationShow.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(informationShow));
 		return gson.toJson(informationShow);
 	}
 }

@@ -33,7 +33,7 @@
    <if test="father_name !=null">
     	and father_name=#{father_name,jdbcType=VARCHAR}
     </if>
-    order by order_code
+    order by order_code desc
   </select>
   
   <!-- coffee add 1115 获取省份列表 common/get_province接口调用 -->
@@ -47,7 +47,7 @@
     select id,father_id,name,level
     from t_yp_city
     where level=1 and is_deleted=0 and is_valid=0
-    order by order_code
+    order by order_code desc
   </select>
   
   <!-- coffee add 1115 获取城市列表 common/get_city接口调用 -->
@@ -74,7 +74,7 @@
     	and father_name=#{father_name,jdbcType=VARCHAR}
     </if>) c
     where s.sort_word=c.sort_word
-    order by c.sort_word,c.order_code
+    order by c.sort_word,c.order_code desc
   </select>
   
   <!-- end -->

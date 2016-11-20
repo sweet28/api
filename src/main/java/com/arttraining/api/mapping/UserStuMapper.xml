@@ -50,6 +50,37 @@
     <result column="bbs_num" property="bbsNum" jdbcType="INTEGER" />
   </resultMap>
  
+  <!-- coffee add 转发动态或者发布动态时修改数量-->
+   <update id="updateNumberBySelective" parameterType="com.arttraining.api.pojo.UserStu" >
+    update t_yp_user_stu
+    <set >
+      <if test="workNum != null" >
+        work_num = work_num+${workNum},
+      </if>
+      <if test="commentNum != null" >
+        comment_num = comment_num+${commentNum},
+      </if>
+      <if test="fansNum != null" >
+        fans_num = fans_num+${fansNum},
+      </if>
+      <if test="followNum != null" >
+        follow_num = follow_num+${followNum},
+      </if>
+      <if test="groupNum != null" >
+        group_num = group_num+${groupNum},
+      </if>
+      <if test="bbsNum != null" >
+        bbs_num = bbs_num+${bbsNum},
+      </if>
+      <if test="favoriteNum != null" >
+        favorite_num = favorite_num+${favoriteNum},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_userstu_where"></include>
+  </update>
+  
+  
   <!-- coffee add 根据用户ID获取用户数目信息 users/num接口调用-->
    <resultMap id="UserNumResultMap" type="com.arttraining.api.bean.UserNumberBean" >
     <result column="bbs_num" property="bbs_num" jdbcType="INTEGER" />

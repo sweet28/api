@@ -1,6 +1,8 @@
 package com.arttraining.api.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -23,10 +25,12 @@ import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageAttBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
 import com.arttraining.api.pojo.Favorites;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.FavoritesService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.google.gson.Gson;
 
@@ -55,6 +59,9 @@ public class FavoritesController {
 		String type=request.getParameter("type");
 		String favorite_id=request.getParameter("favorite_id");
 		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-favorite_id:"+favorite_id+"-utype:"+utype+
+				"-type:"+type);
+		
 		if(access_token==null || uid==null || utype==null || favorite_id==null || type==null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -73,16 +80,25 @@ public class FavoritesController {
 			Integer i_uid=Integer.valueOf(uid);
 			//被收藏ID
 			Integer i_favorite_id=Integer.valueOf(favorite_id);
+			
+			Date date = new Date();
+			String time = TimeUtil.getTimeByDate(date);
 			//新增收藏信息
 			Favorites favorites = new Favorites();
-			favorites.setCreateTime(TimeUtil.getTimeStamp());
+			favorites.setCreateTime(Timestamp.valueOf(time));
 			favorites.setVisitor(i_uid);
 			favorites.setVisitorType(utype);
 			favorites.setHost(i_favorite_id);
 			favorites.setHostType(type);
+			favorites.setOrderCode(time);
+			
+			//更新用户收藏量
+			UserStu user = new UserStu();
+			user.setId(i_uid);
+			user.setFavoriteNum(1);
 				
 			try {
-				this.favoritesService.insertOneFavorite(favorites);
+				this.favoritesService.insertOneFavoriteAndUpdateNum(favorites, user);
 				errorCode = "0";
 				errorMessage = "ok";
 			} catch (Exception e) {
@@ -96,7 +112,7 @@ public class FavoritesController {
 		jsonObject.put("uid",0);
 		jsonObject.put("user_code","");
 		jsonObject.put("name","");
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 
 	}
@@ -116,6 +132,7 @@ public class FavoritesController {
 		String uid=request.getParameter("uid");
 		String utype=request.getParameter("utype");
 		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype);
 		//分页时所用
 		String self = request.getParameter("self");
 		Integer limit = ConfigUtil.PAGESIZE;
@@ -179,12 +196,9 @@ public class FavoritesController {
 							Map<String, Object> infoMap = new HashMap<String, Object>();
 							infoMap.put("fav_id", b_fav_id);
 							infoMap.put("fav_type", fav_type);
-							
-							System.out.println(i_uid+"=="+b_fav_id+"=="+fav_type);
+
 							HomePageStatusesBean status = this.favoritesService.getOneStatusByFavorite(infoMap);
-							System.out.println("111");
 							if(status==null) {
-								System.out.println("222");
 								status= new HomePageStatusesBean();
 							}
 							else {
@@ -193,8 +207,6 @@ public class FavoritesController {
 								infoMap.put("s_id", s_id);  
 								infoMap.put("u_id", i_uid);
 								infoMap.put("u_type", utype);
-								
-								System.out.println("s_id:"+s_id+"=="+"u_type:"+utype+"fav_type:"+fav_type);
 								
 								HomeLikeOrCommentBean isExistLike = this.favoritesService.getIsLikeOrCommentOrAtt(infoMap);
 								status.setIs_like((String)infoMap.get("is_like"));
@@ -229,6 +241,7 @@ public class FavoritesController {
 		favoriteReBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(favoriteReBean));
 		return gson.toJson(favoriteReBean);
 	}
 	//封装一个方法用于解析json数据 然后将其拆解

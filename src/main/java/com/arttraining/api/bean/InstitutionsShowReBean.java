@@ -5,11 +5,6 @@ public class InstitutionsShowReBean {
 	private String error_msg;
 	private InstitutionsShowBean institutions;
 	
-	
-	public InstitutionsShowReBean() {
-		this.institutions = new InstitutionsShowBean();
-	}
-	
 	public String getError_code() {
 		return error_code;
 	}

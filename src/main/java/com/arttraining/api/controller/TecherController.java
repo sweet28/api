@@ -24,6 +24,7 @@ import com.arttraining.api.service.impl.UserTecService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
 @Controller
@@ -55,6 +56,9 @@ public class TecherController {
 		String provinces = request.getParameter("provinces");
 		
 		List<TecherListBean> teacherList = new ArrayList<TecherListBean>();
+		ServerLog.getLogger().warn("self:"+self+"-college:"+college+"-spec:"+spec+
+				"-city:"+city+"-provinces:"+provinces);
+		
 		Integer offset=-1;
 		Integer limit=ConfigUtil.PAGESIZE;
 		//self--当前位置ID 在这里指的是名师ID 
@@ -89,6 +93,7 @@ public class TecherController {
 				errorMessage="ok";
 			}
 			else {
+				teacherList = new ArrayList<TecherListBean>();
 				errorCode = "20007";
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;	
 			}
@@ -97,6 +102,7 @@ public class TecherController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("tec", teacherList);
+		ServerLog.getLogger().warn(jsonObject.toString());
 		
 		return jsonObject;
 	}
@@ -114,6 +120,8 @@ public class TecherController {
 		List<TecherListBean> teacherList = new ArrayList<TecherListBean>();
 		
 		String self=request.getParameter("self");
+		ServerLog.getLogger().warn("self:"+self);
+		
 		Integer offset=-1;
 		Integer limit = ConfigUtil.HOMEPAGE_PAGESIZE;
 		if(self==null || self.equals("")) {
@@ -139,6 +147,7 @@ public class TecherController {
 				errorMessage = "ok";	
 			}
 			else {
+				teacherList = new ArrayList<TecherListBean>();
 				errorCode = "20007";
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;	
 			}
@@ -147,7 +156,7 @@ public class TecherController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("tec", teacherList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	/**
@@ -164,6 +173,8 @@ public class TecherController {
 		TecherShowBean tecShow = new TecherShowBean();
 		
 		String tec_id = request.getParameter("tec_id");
+		ServerLog.getLogger().warn("tec_id:"+tec_id);
+		
 		if(tec_id==null) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -220,6 +231,7 @@ public class TecherController {
 		tecShow.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(tecShow));
 		return gson.toJson(tecShow);
 	}
 

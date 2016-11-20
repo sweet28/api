@@ -24,6 +24,7 @@ import com.arttraining.api.service.impl.ActivitiesService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.google.gson.Gson;
 
@@ -45,6 +46,7 @@ public class ActivitiesController {
 		//以下是分页参数
 		String self = request.getParameter("self");
 		
+		ServerLog.getLogger().warn("self:"+self);
 		ActivityListReBean activity = new ActivityListReBean();
 		
 		Integer offset = -1;
@@ -82,6 +84,7 @@ public class ActivitiesController {
 		activity.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(activity));
 		return gson.toJson(activity);
 	}
 	
@@ -100,6 +103,8 @@ public class ActivitiesController {
 		
 		//以下参数是必选参数
 		String active_id = request.getParameter("active_id");
+		ServerLog.getLogger().warn("active_id:"+active_id);
+		
 		if(active_id==null || active_id.equals("")) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -165,6 +170,7 @@ public class ActivitiesController {
 		activityShow.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(activityShow));
 		return gson.toJson(activityShow);
 	}
 

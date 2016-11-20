@@ -14,4 +14,7 @@ public interface BBSAttachmentMapper {
     int updateByPrimaryKeySelective(BBSAttachment record);
 
     int updateByPrimaryKey(BBSAttachment record);
+    
+    //转发帖子时更新帖子附件表
+    int insertBBSAttrByForward(BBSAttachment record);
 }

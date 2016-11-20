@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class ActivityListBean {
 	private Integer act_id;
 	private String pic;
@@ -14,7 +16,7 @@ public class ActivityListBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = pic;
+		this.pic = ImageUtil.parsePicPath(pic);
 	}
 	public String getTitle() {
 		return title;

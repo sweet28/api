@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class OrgShowTraineesBean {
 	private Integer tra_id;
 	private String tra_name;
@@ -22,7 +24,7 @@ public class OrgShowTraineesBean {
 		return tra_pic;
 	}
 	public void setTra_pic(String tra_pic) {
-		this.tra_pic = tra_pic;
+		this.tra_pic = ImageUtil.parsePicPath(tra_pic);
 	}
 	public String getTra_school() {
 		return tra_school;

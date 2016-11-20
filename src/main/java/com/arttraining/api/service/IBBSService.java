@@ -8,13 +8,14 @@ import com.arttraining.api.bean.HomePageStatusesBean;
 import com.arttraining.api.bean.StatusesShowBean;
 import com.arttraining.api.pojo.BBS;
 import com.arttraining.api.pojo.BBSAttachment;
+import com.arttraining.api.pojo.UserStu;
 
 public interface IBBSService {
 	//依据ID获取相应的bbs记录
 	BBS getBBSById(Integer id);
 	
-	//发布帖子时 更新帖子附件信息
-	void insertBBSAndInsertAttr(BBS bbs, BBSAttachment bbsAttr);
+	//发布帖子时 更新帖子附件信息--statuses/publish/bbs接口调用
+	void insertBBSAndInsertAttr(BBS bbs, BBSAttachment bbsAttr,UserStu user);
 	//主页获取帖子列表信息--statuses/public_timeline/bbs接口调用
 	List<HomePageStatusesBean> getBBSListByHomepage(Integer offset,Integer limit);
 	//当前用户是否点赞或者名师是否点评--statuses/user_timeline/bbs接口调用
@@ -22,5 +23,7 @@ public interface IBBSService {
 	//获取指定用户发布的帖子列表信息 默认显示10条--statuses/user_timeline/bbs接口调用
     List<HomePageStatusesBean> getBBSListByUid(Integer uid,Integer offset,Integer limit);
     //依据帖子ID查询某一个帖子信息
-    StatusesShowBean getOneBBSById(Integer id);
+    StatusesShowBean getOneBBSById(Integer id); 
+    //更新帖子相关数量
+    int updateBBSNumber(BBS record);
 }

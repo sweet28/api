@@ -31,4 +31,7 @@ public interface IStatusesService {
     List<HomePageStatusesBean> getGroupStatusesByGid(Integer gid, Integer limit);
     //判断是否对其进行点赞  --group/show接口调用
     HomeLikeOrCommentBean getIsLikeOrAtt(Map<String,Object> map);
+    
+    //更新小组动态数量
+    int updateStatusNumber(Statuses record);
 }

@@ -26,10 +26,11 @@
     from t_yp_help
     where is_deleted=0
     <if test="offset !=-1">
-    	and order_code &gt;(select order_code from t_yp_help
+    	and order_code <![CDATA[ <= ]]> (select order_code from t_yp_help
     	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+    	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
     </if>
-    order by order_code
+    order by order_code desc
     limit #{limit,jdbcType=INTEGER}
   </select>
   

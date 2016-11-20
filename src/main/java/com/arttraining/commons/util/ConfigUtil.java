@@ -66,4 +66,8 @@ public class ConfigUtil {
 	public static Integer DIANPING_PAGESIZE = 1;
 	//定义2015/1/1时间戳
 	public static long DEFINE_TIMESTAMP=1420041600;
+	
+	//生成随机数的最大和最小值
+	public static Integer RANDOM_MAXVALUE=30;
+	public static Integer RANDOM_MINVALUE=5;
 }

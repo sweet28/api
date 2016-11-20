@@ -6,12 +6,13 @@ import com.arttraining.api.bean.GroupShowUserBean;
 import com.arttraining.api.bean.GroupUserBean;
 import com.arttraining.api.pojo.Group;
 import com.arttraining.api.pojo.GroupUser;
+import com.arttraining.api.pojo.UserStu;
 
 public interface IGroupUserService {
 	//加入小组时 新增小组成员信息 同时更新小组成员数
-	void updateGroupAndUserByCreate(Group group,GroupUser groupUser);
+	void updateGroupAndUserByCreate(Group group,GroupUser groupUser,UserStu user);
 	//退出小组时 修改小组成员信息 同时更新小组成员数
-	void updateGroupAndUserByExit(Group group,GroupUser groupUser);
+	void updateGroupAndUserByExit(Group group,GroupUser groupUser,UserStu user);
 	 //获取小组成员列表信息--group/users接口调用
     List<GroupUserBean> getGroupUserListByGid(Integer gid, Integer offset, Integer limit);
 

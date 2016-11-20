@@ -48,13 +48,13 @@
     from t_yp_works_comment
     where foreign_key = #{fid,jdbcType=INTEGER} and visitor_type='stu'
     <include refid="select_comment_where"></include>
-    order by order_code,create_time desc
+    order by order_code desc
     limit #{limit,jdbcType=INTEGER}) w,
     (select id,name,city_name,identity_name, head_pic
     from t_yp_user_stu 
     where is_deleted=0 and is_lock=0) u
     where w.visitor = u.id
-    order by w.order_code,w.create_time desc
+    order by w.order_code desc
   </select>
 
   <!-- coffee add 1114 查询帖子相关的评论回复列表信息-comment/list/work接口调用 -->

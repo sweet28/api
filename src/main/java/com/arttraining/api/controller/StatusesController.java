@@ -1,6 +1,8 @@
 package com.arttraining.api.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +38,8 @@ import com.arttraining.api.pojo.BBSForward;
 import com.arttraining.api.pojo.Statuses;
 import com.arttraining.api.pojo.StatusesAttachment;
 import com.arttraining.api.pojo.StatusesForward;
+import com.arttraining.api.pojo.UserStu;
+import com.arttraining.api.pojo.Works;
 import com.arttraining.api.service.impl.AdvertiseService;
 import com.arttraining.api.service.impl.BBSCommentService;
 import com.arttraining.api.service.impl.BBSForwardService;
@@ -50,6 +54,8 @@ import com.arttraining.api.service.impl.WorksTecCommentService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.Random;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
@@ -102,6 +108,10 @@ public class StatusesController {
 		String content = request.getParameter("content");
 		String attr = request.getParameter("attr");
 		String attr_type=request.getParameter("attr_type");
+		String duration=request.getParameter("duration");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-title:"+title+
+				"-content:"+content+"-attr:"+attr+"-attr_type:"+attr_type+"-duration:"+duration);
 		
 		if(access_token==null || uid==null || utype==null) {
 			errorCode = "20032";
@@ -118,6 +128,9 @@ public class StatusesController {
 		else {
 			boolean tokenFlag = TokenUtil.checkToken(access_token);
 			if (tokenFlag) {
+				Date date = new Date();
+				String time = TimeUtil.getTimeByDate(date);
+				
 				//用户id
 				Integer i_uid = Integer.valueOf(uid);
 				//新增帖子信息
@@ -126,18 +139,26 @@ public class StatusesController {
 				bbs.setOwnerType(utype);
 				bbs.setTitle(title);
 				bbs.setContent(content);
-				bbs.setCreateTime(TimeUtil.getTimeStamp());
+				bbs.setCreateTime(Timestamp.valueOf(time));
+				bbs.setOrderCode(time);
 				
 				//新增帖子对应的附件信息
 				BBSAttachment bbsAttr = null;
 				if(attr_type!=null && !attr_type.equals("")) {
 					bbsAttr = new BBSAttachment();
 					bbsAttr.setStorePath(attr);
-					bbsAttr.setCreateTime(TimeUtil.getTimeStamp());
+					bbsAttr.setCreateTime(Timestamp.valueOf(time));
 					bbsAttr.setType(attr_type);
+					bbsAttr.setDuration(duration);
+					bbsAttr.setOrderCode(time);
 				}
+				//发布帖子时 更新用户发帖量
+				UserStu user = new UserStu();
+				user.setId(i_uid);
+				user.setBbsNum(1);
+				
 				try {
-					this.bbsService.insertBBSAndInsertAttr(bbs, bbsAttr);
+					this.bbsService.insertBBSAndInsertAttr(bbs, bbsAttr,user);
 					errorCode = "0";
 					errorMessage = "ok";
 					
@@ -158,6 +179,7 @@ public class StatusesController {
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
 		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	
@@ -184,6 +206,10 @@ public class StatusesController {
 		String content = request.getParameter("content");
 		String attr = request.getParameter("attr");
 		String attr_type=request.getParameter("attr_type");
+		String duration=request.getParameter("duration");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-title:"+title+
+				"-content:"+content+"-attr:"+attr+"-attr_type:"+attr_type+"-duration:"+duration+"-group_id:"+group_id);
 		
 		if(access_token==null || uid==null || utype==null || content==null || group_id==null) {
 			errorCode = "20032";
@@ -205,23 +231,30 @@ public class StatusesController {
 				//小组id
 				Integer i_group_id = Integer.valueOf(group_id);
 				
+				Date date = new Date();
+				String time = TimeUtil.getTimeByDate(date);
+				
 				//新增小组动态信息
 				Statuses status = new Statuses();
 				status.setOwner(i_uid);
 				status.setOwnerType(utype);
 				status.setTitle(title);
 				status.setContent(content);
-				status.setCreateTime(TimeUtil.getTimeStamp());
+				status.setCreateTime(Timestamp.valueOf(time));
 				status.setGroupId(i_group_id);
+				status.setOrderCode(time);
 				
 				//新增小组动态对应的附件信息
 				StatusesAttachment statusAttr = null;
 				if(attr_type!=null && !attr_type.equals("")) {
 					statusAttr = new StatusesAttachment();
 					statusAttr.setStorePath(attr);
-					statusAttr.setCreateTime(TimeUtil.getTimeStamp());
+					statusAttr.setCreateTime(Timestamp.valueOf(time));
 					statusAttr.setType(attr_type);
+					statusAttr.setDuration(duration);
+					statusAttr.setOrderCode(time);
 				}
+				
 				try {
 					this.statusesService.insertStatusAndUpdateAttr(status, statusAttr);
 					errorCode = "0";
@@ -258,6 +291,16 @@ public class StatusesController {
 		String errorCode = "";
 		String errorMessage = "";
 		
+		//以下参数不是必选参数
+		String access_token = request.getParameter("access_token");
+		if(access_token!=null && !access_token.equals("")) {
+			// todo:判断token是否有效
+			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			if (tokenFlag) {
+				TokenUtil.delayTokenDeadline(access_token);
+			}
+		}
+		
 		//定义一个首页列表对象
 		List<Object> statusesList = new ArrayList<Object>();
 		//分页时 最后一个位置ID(当前首页帖子的ID)
@@ -269,7 +312,7 @@ public class StatusesController {
 		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
 		
-		System.out.println(TimeUtil.getTimeStamp() + "-bbs list int uid:" + uid + "-utype:" + utype + "- self:" + self);
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-self:"+self);
 		
 		if(self==null || self.equals("")) {
 			offset=-1;
@@ -299,7 +342,6 @@ public class StatusesController {
 			Integer worksLimit = ConfigUtil.HOMEWORK_PAGESIZE;	
 			List<HomePageStatusesBean> worksList = this.worksService.getWorksListByHomepage(worksLimit);
 			if(worksList.size()==0) {
-				System.out.println(TimeUtil.getTimeStamp() + "-bbs list in11 uid:" + uid + "-utype:" + utype + "- self:" + self);
 				worksList = new ArrayList<HomePageStatusesBean>();
 			}
 			else {
@@ -334,8 +376,6 @@ public class StatusesController {
 		//2. 查询10条帖子详情
 		List<HomePageStatusesBean> bbsList = this.bbsService.getBBSListByHomepage(offset, limit);
 		if(bbsList.size()==0) {
-
-			System.out.println(TimeUtil.getTimeStamp() + "-bbs list in222 uid:" + uid + "-utype:" + utype + "- self:" + self);
 			bbsList = new ArrayList<HomePageStatusesBean>();
 		}
 		else {
@@ -348,8 +388,6 @@ public class StatusesController {
 			   map.put("s_id", s_id);  
 			   map.put("u_id", i_uid);
 			   map.put("u_type", utype);
-
-			   System.out.println(TimeUtil.getTimeStamp() + "-bbs list in333 uid:" + uid + "-utype:" + utype + "- self:" + self); 
 			   
 		       HomeLikeOrCommentBean isExistLike = this.bbsService.getIsLikeOrCommentOrAtt(map);
 		       bbs.setIs_like((String)map.get("is_like"));
@@ -411,7 +449,7 @@ public class StatusesController {
 		homepage.setStatuses(statusesList);
 		Gson gson = new Gson();
 
-		System.out.println(TimeUtil.getTimeStamp() + "-bbs list end uid:" + uid + "-utype:" + utype + "- self:" + self +gson.toJson(homepage));
+		ServerLog.getLogger().warn(gson.toJson(homepage));
 		return gson.toJson(homepage);
 	}
 
@@ -435,6 +473,9 @@ public class StatusesController {
 		
 		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
+		
+		ServerLog.getLogger().warn("uid:"+uid+"-utype:"+utype+"-self:"+self);
+		
 		//如果用户id 默认查询uid=0 即尚未登录的用户
 		if(uid==null || utype==null) {
 			errorCode="20032";
@@ -532,6 +573,8 @@ public class StatusesController {
 		homepage.setStatuses(statusesList);
 		Gson gson = new Gson();
 		
+		ServerLog.getLogger().warn(gson.toJson(homepage));
+		
 		return gson.toJson(homepage);
 	}
 	/**
@@ -552,6 +595,8 @@ public class StatusesController {
 		String utype = request.getParameter("utype");
 		//以下参数用于分页
 		String self = request.getParameter("self");
+		
+		ServerLog.getLogger().warn("uid:"+uid+"-utype:"+utype+"-self:"+self);
 		
 		Integer offset = -1;		
 		Integer limit = ConfigUtil.PAGESIZE;
@@ -600,10 +645,9 @@ public class StatusesController {
 					map.put("u_type", utype);
 					
 					HomeLikeOrCommentBean isExistLike = this.worksService.getIsLikeOrCommentOrAtt(map);
-						   
+					work.setIs_like((String)map.get("is_like"));
+					work.setIs_comment((String)map.get("is_comment"));	   
 					if(isExistLike!=null) {
-						work.setIs_like((String)map.get("is_like"));
-						work.setIs_comment((String)map.get("is_comment"));
 						String att_type = isExistLike.getAtt_type();
 						if(att_type!=null && !att_type.equals("")) {
 							Integer att_id = isExistLike.getAtt_id();
@@ -618,23 +662,23 @@ public class StatusesController {
 				}
 			  }
 			//2.查询广告信息
-			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
-			boolean isExistAd = false;
-			if(ad!=null) {
-				isExistAd=true;
-			}
+//			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
+//			boolean isExistAd = false;
+//			if(ad!=null) {
+//				isExistAd=true;
+//			}
 			//3.查询主题信息
 			//HomePageThemeBean theme = new HomePageThemeBean();
 			
 		    if(statusesList.size()>0) {
-				if(isExistAd) {
-					if(statusesList.size()>4) {
-						statusesList.add(3,ad);
-					}
-					else {
-						statusesList.add(ad);
-					}
-				}
+//				if(isExistAd) {
+//					if(statusesList.size()>4) {
+//						statusesList.add(3,ad);
+//					}
+//					else {
+//						statusesList.add(ad);
+//					}
+//				}
 				errorCode="0";
 				errorMessage="ok";
 			}
@@ -649,6 +693,8 @@ public class StatusesController {
 		homepage.setError_msg(errorMessage);
 		homepage.setStatuses(statusesList);
 		Gson gson = new Gson();
+		
+		ServerLog.getLogger().warn(gson.toJson(homepage));
 		
 		return gson.toJson(homepage);
 	}
@@ -668,6 +714,8 @@ public class StatusesController {
 		String uid = request.getParameter("uid");
 		String status_id = request.getParameter("status_id");
 		String utype=request.getParameter("utype");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-status_id:"+status_id);
 		
 		if(access_token==null || uid==null || status_id==null || utype==null) {
 			errorCode="20032";
@@ -695,14 +743,17 @@ public class StatusesController {
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20038;
 				}
 				else {
+					Date date = new Date();
+					String time = TimeUtil.getTimeByDate(date);
 					//如果存在转发帖子信息 则更改用户的发布状态
 					BBSForward bbsForward = new BBSForward();
-					bbsForward.setCreateTime(TimeUtil.getTimeStamp());
+					bbsForward.setCreateTime(Timestamp.valueOf(time));
 					bbsForward.setVisitor(i_uid);
 					bbsForward.setVisitorType(utype);
 					bbsForward.setHost(bbs.getOwner());
 					bbsForward.setHostType(bbs.getOwnerType());
-
+					bbsForward.setOrderCode(time);
+					
 					//新增一条帖子信息
 					BBS bbsNew = new BBS();
 					bbsNew.setOwner(i_uid);
@@ -713,11 +764,23 @@ public class StatusesController {
 					bbsNew.setArtType(bbs.getArtType());
 					bbsNew.setTheme(bbs.getTheme());
 					bbsNew.setTag(bbs.getTag());
-					bbsNew.setCreateTime(TimeUtil.getTimeStamp());
+					bbsNew.setCreateTime(Timestamp.valueOf(time));
 					bbsNew.setRemarks("forward");
+					bbsNew.setOrderCode(time);
+					
+					//新增帖子附件表
+					BBSAttachment bbsAttachment = new BBSAttachment();
+					bbsAttachment.setForeignKey(i_status_id);
+					bbsAttachment.setCreateTime(Timestamp.valueOf(time));
+					bbsAttachment.setOrderCode(time);
+					
+					//更新用户的帖子数量
+					UserStu user = new UserStu();
+					user.setId(i_uid);
+					user.setBbsNum(1);
 					
 					try {
-						this.bbsForwardService.insertOneBBSForward(bbsForward, bbsNew);
+						this.bbsForwardService.insertOneBBSForward(bbsForward, bbsNew,user,bbsAttachment);
 						errorCode = "0";
 						errorMessage = "ok";
 					} catch (Exception e) {
@@ -739,6 +802,8 @@ public class StatusesController {
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
 		
+		ServerLog.getLogger().warn(jsonObject.toString());
+		
 		return jsonObject;
 		
 	}
@@ -758,6 +823,8 @@ public class StatusesController {
 		//以下不是必选参数
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
+		
+		ServerLog.getLogger().warn("status_id:"+status_id+"-uid:"+uid+"-utype:"+utype);
 		
 		//默认10条记录
 		Integer limit = ConfigUtil.PAGESIZE;
@@ -791,6 +858,12 @@ public class StatusesController {
 				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 			}
 			else {
+			try {//在这里 更新帖子浏览量
+				BBS bro_bbs=new BBS();
+				bro_bbs.setId(i_status_id);
+				bro_bbs.setBrowseNum(Random.randomCommonInt());
+				this.bbsService.updateBBSNumber(bro_bbs);
+				
 				//传递当前用户的ID和类型
 				Map<String, Object> map = new HashMap<String, Object>();  
 			    map.put("s_id", i_status_id);  
@@ -850,13 +923,17 @@ public class StatusesController {
 				}
 				errorCode="0";
 				errorMessage="ok";
+			} catch (Exception e) {
+				errorCode="20054";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20054;
 			}
+		  }
 		}
 		bbs.setError_code(errorCode);
 		bbs.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
-		System.out.println(TimeUtil.getTimeStamp() + "bbs_show:"+gson.toJson(bbs));
+		ServerLog.getLogger().warn(gson.toJson(bbs));
 		return gson.toJson(bbs);
 	}
 	/**
@@ -873,7 +950,9 @@ public class StatusesController {
 		//以下不是必选参数
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
-				
+		
+		ServerLog.getLogger().warn("status_id:"+status_id+"-uid:"+uid+"-utype:"+utype);
+		
 		//默认10条记录
 		Integer limit = ConfigUtil.PAGESIZE;
 		StatusesShowBean status = new StatusesShowBean();
@@ -905,6 +984,13 @@ public class StatusesController {
 				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 			}
 			else {
+				try {
+				//更新动态浏览数
+				Statuses bro_status = new Statuses();
+				bro_status.setId(i_status_id);
+				bro_status.setBrowseNum(Random.randomCommonInt());
+				this.statusesService.updateStatusNumber(bro_status);
+				
 				//判断是否点赞 或点评 
 				Integer i_uid = status.getOwner();
 				
@@ -967,12 +1053,18 @@ public class StatusesController {
 				}
 				errorCode="0";
 				errorMessage="ok";
+			} catch (Exception e) {
+				errorCode="20054";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20054;
 			}
+		  }
 		}
 		status.setError_code(errorCode);
 		status.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(status));
+		
 		return gson.toJson(status);
 	}
 	/**
@@ -990,7 +1082,7 @@ public class StatusesController {
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
 		
-		System.out.println(status_id+"=="+uid+"=="+utype);
+		ServerLog.getLogger().warn("status_id:"+status_id+"-uid:"+uid+"-utype:"+utype);
 		//默认10条记录
 		Integer limit = ConfigUtil.PAGESIZE;
 		WorkShowBean work = new WorkShowBean();
@@ -1023,6 +1115,13 @@ public class StatusesController {
 				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 			}
 			else {
+				try {
+				//更新作品的浏览量
+				Works bro_work = new Works();
+				bro_work.setBrowseNum(Random.randomCommonInt());
+				bro_work.setId(i_status_id);
+				this.worksService.updateWorksNumber(bro_work);
+					
 				//传递当前用户的ID和类型
 				Map<String, Object> map = new HashMap<String, Object>();  
 				map.put("s_id", i_status_id);  
@@ -1105,13 +1204,19 @@ public class StatusesController {
 					}
 					errorCode="0";
 					errorMessage="ok";
+					
+				} catch (Exception e) {
+					errorCode="20054";
+					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20054;
 				}
+			  }
 			}
 			work.setError_code(errorCode);
 			work.setError_msg(errorMessage);
 				
 			Gson gson = new Gson();
-			System.out.println(gson.toJson(work));
+			ServerLog.getLogger().warn(gson.toJson(work));
+			
 			return gson.toJson(work);
 		
 	}
@@ -1135,6 +1240,8 @@ public class StatusesController {
 		String utype = request.getParameter("utype");
 		//以下1个参数是必选参数
 		String group_id = request.getParameter("group_id");
+		
+		ServerLog.getLogger().warn("uid:"+uid+"-utype:"+utype+"-self:"+self+"-group_id:"+group_id);
 		
 		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
@@ -1205,24 +1312,24 @@ public class StatusesController {
 		       gstusList.add(status);
 			}
 		  }
-			//2.查询广告信息
-			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
-			boolean isExistAd = false;
-			if(ad!=null) {
-				isExistAd=true;
-			}
+//			//2.查询广告信息
+//			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
+//			boolean isExistAd = false;
+//			if(ad!=null) {
+//				isExistAd=true;
+//			}
 			//3.查询主题信息
 			//HomePageThemeBean theme = new HomePageThemeBean();
 			
 			if(gstusList.size()>0) {
-				if(isExistAd) {
-					if(gstusList.size()>4) {
-						gstusList.add(3,ad);
-					}
-					else {
-						gstusList.add(ad);
-					}
-				}
+//				if(isExistAd) {
+//					if(gstusList.size()>4) {
+//						gstusList.add(3,ad);
+//					}
+//					else {
+//						gstusList.add(ad);
+//					}
+//				}
 				errorCode="0";
 				errorMessage="ok";
 			}
@@ -1238,6 +1345,8 @@ public class StatusesController {
 		homepage.setError_msg(errorMessage);
 		homepage.setStatuses(gstusList);
 		Gson gson = new Gson();
+		
+		ServerLog.getLogger().warn(gson.toJson(homepage));
 		
 		return gson.toJson(homepage);
 	}
@@ -1331,24 +1440,24 @@ public class StatusesController {
 		       gstusList.add(status);
 			}
 		  }
-			//2.查询广告信息
-			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
-			boolean isExistAd = false;
-			if(ad!=null) {
-				isExistAd=true;
-			}
+//			//2.查询广告信息
+//			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
+//			boolean isExistAd = false;
+//			if(ad!=null) {
+//				isExistAd=true;
+//			}
 			//3.查询主题信息
 			//HomePageThemeBean theme = new HomePageThemeBean();
 			
 			if(gstusList.size()>0) {
-				if(isExistAd) {
-					if(gstusList.size()>4) {
-						gstusList.add(3,ad);
-					}
-					else {
-						gstusList.add(ad);
-					}
-				}
+//				if(isExistAd) {
+//					if(gstusList.size()>4) {
+//						gstusList.add(3,ad);
+//					}
+//					else {
+//						gstusList.add(ad);
+//					}
+//				}
 				errorCode="0";
 				errorMessage="ok";
 			}
@@ -1370,7 +1479,7 @@ public class StatusesController {
 	/**
 	 * 转发小组动态
 	 * access_token--验证  uid--用户id  status_id被转发动态id
-	 * type -- 用户类型  group_id --小组ID
+	 * utype -- 用户类型  group_id --小组ID
 	 * */
 	@RequestMapping(value = "/report/g_stus", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object reportGstus(HttpServletRequest request, HttpServletResponse response) {
@@ -1380,14 +1489,17 @@ public class StatusesController {
 		String access_token = request.getParameter("access_token");
 		String uid = request.getParameter("uid");
 		String status_id = request.getParameter("status_id");
-		String type=request.getParameter("type");
+		String utype=request.getParameter("utype");
 		String group_id = request.getParameter("group_id");
 		
-		if(access_token==null || uid==null || status_id==null || type==null || group_id==null) {
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-status_id:"+status_id+
+				"-group_id:"+group_id);
+		
+		if(access_token==null || uid==null || status_id==null || utype==null || group_id==null) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
-		else if(access_token.equals("") || uid.equals("") || status_id.equals("") || type.equals("") || group_id.equals("")) {
+		else if(access_token.equals("") || uid.equals("") || status_id.equals("") || utype.equals("") || group_id.equals("")) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -1410,18 +1522,22 @@ public class StatusesController {
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20038;
 				}
 				else {
+					Date date = new Date();
+					String time = TimeUtil.getTimeByDate(date);
+					
 					//如果存在转发动态信息 则更改用户的发布状态
 					StatusesForward statusForward = new StatusesForward();
-					statusForward.setCreateTime(TimeUtil.getTimeStamp());
+					statusForward.setCreateTime(Timestamp.valueOf(time));
 					statusForward.setVisitor(i_uid);
-					statusForward.setVisitorType(type);
+					statusForward.setVisitorType(utype);
 					statusForward.setHost(status.getOwner());
 					statusForward.setHostType(status.getOwnerType());
+					statusForward.setOrderCode(time);
 
 					//新增一条动态信息
 					Statuses statusNew = new Statuses();
 					statusNew.setOwner(i_uid);
-					statusNew.setOwnerType(type);
+					statusNew.setOwnerType(utype);
 					statusNew.setTitle(status.getTitle());
 					statusNew.setContent(status.getContent());
 					statusNew.setAttachment(status.getAttachment());
@@ -1429,11 +1545,18 @@ public class StatusesController {
 					statusNew.setTheme(status.getTheme());
 					statusNew.setTag(status.getTag());
 					statusNew.setGroupId(i_group_id);
-					statusNew.setCreateTime(TimeUtil.getTimeStamp());
+					statusNew.setCreateTime(Timestamp.valueOf(time));
 					statusNew.setRemarks("forward");
+					statusNew.setOrderCode(time);
+					
+					//新增帖子附件表
+					StatusesAttachment statusAttachment = new StatusesAttachment();
+					statusAttachment.setForeignKey(i_status_id);
+					statusAttachment.setCreateTime(Timestamp.valueOf(time));
+					statusAttachment.setOrderCode(time);
 					
 					try {
-						this.statusForwardService.insertOneStatusForward(statusForward, statusNew);
+						this.statusForwardService.insertOneStatusForward(statusForward, statusNew, statusAttachment);
 						errorCode = "0";
 						errorMessage = "ok";
 					} catch (Exception e) {
@@ -1454,7 +1577,7 @@ public class StatusesController {
 		jsonObject.put("uid", 0);
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 		
 	}

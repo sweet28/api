@@ -1,6 +1,8 @@
 package com.arttraining.api.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +32,7 @@ import com.arttraining.api.bean.HomePageAttBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
 import com.arttraining.api.pojo.Group;
 import com.arttraining.api.pojo.GroupUser;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.AdvertiseService;
 import com.arttraining.api.service.impl.GroupService;
 import com.arttraining.api.service.impl.GroupUserService;
@@ -37,6 +40,7 @@ import com.arttraining.api.service.impl.StatusesService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
@@ -66,6 +70,7 @@ public class GroupController {
 		GroupListReBean groupBean = new GroupListReBean();
 		
 		String self = request.getParameter("self");
+		ServerLog.getLogger().warn("self:"+self);
 		
 		Integer offset = -1;
 		if(self==null || self.equals("")) {
@@ -101,6 +106,7 @@ public class GroupController {
 		groupBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(groupBean));
 		return gson.toJson(groupBean);
 	}
 	/**
@@ -119,6 +125,8 @@ public class GroupController {
 		String uid = request.getParameter("uid");
 		String utype=request.getParameter("utype");
 		String self = request.getParameter("self");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-self:"+self);
 		
 		Integer offset = -1;
 		if(access_token==null || uid==null || utype==null) {
@@ -177,6 +185,7 @@ public class GroupController {
 		myGroupBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(myGroupBean));
 		return gson.toJson(myGroupBean);
 	}
 	/***
@@ -193,6 +202,8 @@ public class GroupController {
 		GroupShowBean groupShow = new GroupShowBean();
 		
 		String group_id = request.getParameter("group_id");
+		
+		ServerLog.getLogger().warn("group_id:"+group_id);
 		
 		Integer limit = ConfigUtil.PAGESIZE;
 		if(group_id==null || group_id.equals("")) {
@@ -252,6 +263,7 @@ public class GroupController {
 		groupShow.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(groupShow));
 		return gson.toJson(groupShow);
 	}
 	/***
@@ -266,6 +278,8 @@ public class GroupController {
 		
 		String group_id = request.getParameter("group_id");
 		String self = request.getParameter("self");
+		
+		ServerLog.getLogger().warn("group_id:"+group_id+"-self:"+self);
 		
 		Integer offset = -1;
 		GroupUserReBean userReBean = new GroupUserReBean();
@@ -300,15 +314,22 @@ public class GroupController {
 				//小组ID
 				Integer i_group_id = Integer.valueOf(group_id);
 				List<GroupUserBean> groupUserList = this.groupUserService.getGroupUserListByGid(i_group_id, offset, limit);
-				userReBean.setUsers(groupUserList);
-				errorCode = "0";
-				errorMessage = "ok";	
+				if(groupUserList.size()>0) {
+					userReBean.setUsers(groupUserList);
+					errorCode = "0";
+					errorMessage = "ok";	
+				}
+				else {
+					errorCode = "20007";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;	
+				}
 			}
 		}
 		userReBean.setError_code(errorCode);
 		userReBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(userReBean));
 		return gson.toJson(userReBean);
 	}
 	/***
@@ -334,6 +355,9 @@ public class GroupController {
 		String pic =  request.getParameter("pic");
 		String tag =  request.getParameter("tag");
 		String classify =  request.getParameter("classify");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-group_name:"+group_name+"-utype:"+utype+
+				"-introduce:"+introduce+"-pic:"+pic+"-tag:"+tag+"-classify:"+classify);
 		
 		if(access_token==null || uid==null || utype==null || group_name==null || introduce==null) {
 			errorCode = "20032";
@@ -362,6 +386,10 @@ public class GroupController {
 					//获取当前时间
 					long curTime = System.currentTimeMillis(); 
 					long time = curTime-preTime;
+					
+					Date date = new Date();
+					String mytime = TimeUtil.getTimeByDate(date);
+					
 					//1.创建小组信息
 					Group group = new Group();
 					group.setOwner(i_uid);
@@ -370,10 +398,11 @@ public class GroupController {
 					group.setNumber(String.valueOf(time));
 					group.setIntroduce(introduce);
 					group.setTag(tag);
-					group.setCreateTime(TimeUtil.getTimeStamp());
+					group.setCreateTime(Timestamp.valueOf(mytime));
 					group.setClassify(classify);
 					group.setPic(pic);
 					group.setPeopleNum(1);
+					group.setOrderCode(mytime);
 					
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("uid", i_uid);
@@ -384,13 +413,21 @@ public class GroupController {
 					//2.创建小组成员信息
 					GroupUser groupUser = new GroupUser();
 					groupUser.setIdentity("owner");
-					groupUser.setCreateTime(TimeUtil.getTimeStamp());
+					groupUser.setCreateTime(Timestamp.valueOf(mytime));
 					groupUser.setUserId(i_uid);
 					groupUser.setUserType(utype);
 					groupUser.setHeadPic(user_pic);
-				
+					groupUser.setOrderCode(mytime);
+					
+					//3.更新用户加入群组数
+					UserStu user = null;
+					if(utype.equals("stu")) {
+						user = new UserStu();
+						user.setId(i_uid);
+						user.setGroupNum(1);
+					}
 					try {
-						this.groupService.insertOneGroupAndUser(group, groupUser);
+						this.groupService.insertOneGroupAndUser(group, groupUser, user);
 						errorCode = "0";
 						errorMessage = "ok";	
 					} catch (Exception e) {
@@ -412,7 +449,7 @@ public class GroupController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("group_id", 0);
 		jsonObject.put("group_code","");
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	} 
 	/***
@@ -430,6 +467,8 @@ public class GroupController {
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
 		String group_id = request.getParameter("group_id");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-group_id:"+group_id+"-utype:"+utype);
 		
 		if(access_token==null || uid==null || utype==null || group_id==null) {
 			errorCode = "20032";
@@ -456,21 +495,33 @@ public class GroupController {
 			//获取登录用户ID和类型对应的头像
 			String user_pic = this.groupService.getUerPicByIdAndType(map);
 			
+			Date date = new Date();
+			String mytime = TimeUtil.getTimeByDate(date);
+			
 			//1.创建小组成员信息
 			GroupUser groupUser = new GroupUser();
 			groupUser.setIdentity("host");
-			groupUser.setCreateTime(TimeUtil.getTimeStamp());
+			groupUser.setCreateTime(Timestamp.valueOf(mytime));
 			groupUser.setUserId(i_uid);
 			groupUser.setUserType(utype);
 			groupUser.setHeadPic(user_pic);
 			groupUser.setGroupId(i_group_id);
+			groupUser.setOrderCode(mytime);
 			
 			//2.修改小组信息
 			Group group = new Group();
 			group.setId(i_group_id);
 			
+			//3.更新用户加入群组数
+			UserStu user = null;
+			if(utype.equals("stu")) {
+				user = new UserStu();
+				user.setId(i_uid);
+				user.setGroupNum(1);
+			}
+			
 			try {
-				this.groupUserService.updateGroupAndUserByCreate(group, groupUser);
+				this.groupUserService.updateGroupAndUserByCreate(group, groupUser, user);
 				errorCode = "0";
 				errorMessage = "ok";	
 			} catch (Exception e) {
@@ -483,7 +534,7 @@ public class GroupController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("group_id", 0);
 		jsonObject.put("group_code","");
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	} 
 	/***
@@ -499,6 +550,8 @@ public class GroupController {
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
 		String group_id = request.getParameter("group_id");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-group_id:"+group_id+"-utype:"+utype);
 		
 		if(access_token==null || uid==null || utype==null || group_id==null) {
 			errorCode = "20032";
@@ -530,8 +583,16 @@ public class GroupController {
 			Group group = new Group();
 			group.setId(i_group_id);
 			
+			//3.更新用户加入群组数
+			UserStu user = null;
+			if(utype.equals("stu")) {
+				user = new UserStu();
+				user.setId(i_uid);
+				user.setGroupNum(-1);
+			}
+			
 			try {
-				this.groupUserService.updateGroupAndUserByExit(group, groupUser);
+				this.groupUserService.updateGroupAndUserByExit(group, groupUser, user);
 				errorCode = "0";
 				errorMessage = "ok";	
 			} catch (Exception e) {
@@ -544,7 +605,7 @@ public class GroupController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("group_id", 0);
 		jsonObject.put("group_code","");
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	} 
 	//封装一个方法用于解析json数据 然后将其拆解

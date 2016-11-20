@@ -21,6 +21,7 @@ import com.arttraining.api.bean.ProvinceListReBean;
 import com.arttraining.api.service.impl.CityService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
 @Controller
@@ -39,6 +40,7 @@ public class CityController {
 		String errorMessage = "";
 		//以下不是必选参数
 		String province = request.getParameter("province");
+		ServerLog.getLogger().warn("province:"+province);
 		
 		CityListReBean cityReBean = new CityListReBean();
 		
@@ -63,6 +65,7 @@ public class CityController {
 		cityReBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(cityReBean));
 		return gson.toJson(cityReBean);
 	}
 	/***
@@ -91,6 +94,7 @@ public class CityController {
 		provinceReBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(provinceReBean));
 		return gson.toJson(provinceReBean);
 	}
 	
@@ -105,7 +109,7 @@ public class CityController {
 		
 		//以下不是必选参数
 		String province = request.getParameter("province");
-		
+		ServerLog.getLogger().warn("province:"+province);
 		//获取城市列表信息
 		List<CitySortListBean> cityList = this.cityService.getCityListBySort(province);
 		if(cityList.size()>0) {
@@ -121,7 +125,7 @@ public class CityController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("citys", cityList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 }

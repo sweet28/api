@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class BannerShowBean {
 	private String error_code;
 	private String error_msg;
@@ -59,7 +61,7 @@ public class BannerShowBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = pic;
+		this.pic = ImageUtil.parsePicPath(pic);
 	}
 	public String getUrl() {
 		return url;

@@ -7,12 +7,16 @@ import com.arttraining.api.bean.FollowCreateBean;
 import com.arttraining.api.bean.FollowFansBean;
 import com.arttraining.api.bean.FollowUserBean;
 import com.arttraining.api.pojo.Follow;
+import com.arttraining.api.pojo.UserStu;
 
 public interface IFollowService {
 	//依据类型不同 添加关注信息--follow/create接口调用
     FollowCreateBean getUserInfoByFollowCreate(Map<String, Object> map);
     //添加关注信息--follow/create接口调用
     int insertOneFollow(Follow follow);
+    //添加关注信息--follow/create接口调用
+    void insertOneFollowAndUpdateNum(Follow follow,UserStu follow_user,UserStu fan_user);
+    
     //coffee add 1117--根据用户ID获取用户粉丝列表 follow/fans/list接口调用
     List<FollowFansBean> getFollowFansList(Map<String, Object> map);
     //coffee add 1117--根据用户ID获取用户粉丝列表 follow/follow/list接口调用

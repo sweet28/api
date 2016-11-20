@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 @Controller
 @RequestMapping("/users")
 public class UserStuController {
+	
 	@Resource
 	private UserStuService userStuService;
 	
@@ -63,8 +64,7 @@ public class UserStuController {
 		String errorMessage = "";
 		
 		String uid = request.getParameter("uid");
-		
-		ServerLog.getLogger().debug("uid:"+uid);
+		ServerLog.getLogger().warn("uid:"+uid);
 		
 		//创建一个UserStuShowBean对象 默认会对属性进行赋值
 		UserStuShowBean userStu = new UserStuShowBean();
@@ -94,14 +94,14 @@ public class UserStuController {
 			}
 			else {
 				errorCode = "0";
-				errorMessage = "ok";	
+				errorMessage = "ok";
 			}
 		}
 		userStu.setError_code(errorCode);
 		userStu.setError_msg(errorMessage);
 		Gson gson = new Gson();
 		
-		ServerLog.getLogger().debug(gson.toJson(userStu));
+		ServerLog.getLogger().warn(gson.toJson(userStu));
 		return gson.toJson(userStu);
 	}
 
@@ -118,7 +118,9 @@ public class UserStuController {
 		String access_token = request.getParameter("access_token");
 		String uid = request.getParameter("uid");
 		String head_pic = request.getParameter("head_pic");
-		ServerLog.getLogger().info("access_token:"+access_token+"uid:"+uid+"head_pic:"+head_pic);
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-head_pic:"+head_pic);
+		
 		if(access_token==null || uid==null || head_pic==null) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -165,7 +167,7 @@ public class UserStuController {
 		jsonObject.put("name", "");
 		jsonObject.put("head_pic", "");
 		
-		ServerLog.getLogger().info(jsonObject.toString());
+		ServerLog.getLogger().warn(jsonObject.toString());
 		
 		return jsonObject;
 	}
@@ -184,7 +186,7 @@ public class UserStuController {
 		String uid = request.getParameter("uid");
 		String new_pwd = request.getParameter("new_pwd");
 		
-		ServerLog.getLogger().info("access_token:"+access_token+"uid:"+uid+"new_pwd:"+new_pwd);
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-new_pwd:"+new_pwd);
 		
 		if(access_token==null || uid==null || new_pwd==null) {
 			errorCode = "20032";
@@ -236,7 +238,7 @@ public class UserStuController {
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
 		
-		ServerLog.getLogger().info(jsonObject.toString());
+		ServerLog.getLogger().warn(jsonObject.toString());
 		
 		return jsonObject;
 	}
@@ -256,7 +258,7 @@ public class UserStuController {
 		String uid = request.getParameter("uid");
 		String mobile = request.getParameter("mobile");
 		
-		ServerLog.getLogger().info("access_token:"+access_token+"uid:"+uid+"mobile:"+mobile);
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-mobile:"+mobile);
 		
 		if(access_token==null || uid==null || mobile==null) {
 			errorCode = "20032";
@@ -303,7 +305,7 @@ public class UserStuController {
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
 		
-		ServerLog.getLogger().info(jsonObject.toString());
+		ServerLog.getLogger().warn(jsonObject.toString());
 		
 		return jsonObject;
 	}
@@ -345,13 +347,12 @@ public class UserStuController {
 		String email = request.getParameter("email");
 		
 		
-		System.out.println(access_token+"=="+uid+"=="+name);
-		System.out.println(sex+"=="+city_id+"=="+city);
-		System.out.println(identity_id+"=="+identity+"=="+school_id);
-		System.out.println(school+"=="+org_id+"=="+org);
-		System.out.println(specialty_id+"=="+specialty+"=="+intentional_college_id);
-		System.out.println(intentional_college+"=="+email);
-		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+
+				"-name:"+name+"-sex:"+sex+"-city_id:"+city_id+"-city:"+city+
+				"-identity_id:"+identity_id+"-identity:"+identity+
+				"-school_id:"+school_id+"-school:"+school+"-org_id:"+org_id+"-org:"+org+
+				"-specialty_id:"+specialty_id+"-specialty:"+specialty+
+				"-intentional_college_id:"+intentional_college_id+"-intentional_college:"+intentional_college+"-email:"+email);
 		
 		
 		if(access_token==null || uid==null) {
@@ -440,7 +441,7 @@ public class UserStuController {
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
 		
-		System.out.println(jsonObject);
+		ServerLog.getLogger().warn(jsonObject.toString());
 		
 		return jsonObject;
 	}
@@ -455,7 +456,9 @@ public class UserStuController {
 		String errorMessage = "";
 		//用户ID--必选参数
 		String uid = request.getParameter("uid");
-		ServerLog.getLogger().info("uid:"+uid);
+		
+		ServerLog.getLogger().warn("uid:"+uid);
+		
 		UserNumberBean userNum = new UserNumberBean();
 		
 		if(uid==null || uid.equals("")) {
@@ -484,7 +487,7 @@ public class UserStuController {
 		userNum.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
-		ServerLog.getLogger().info(gson.toJson(userNum));
+		ServerLog.getLogger().warn(gson.toJson(userNum));
 		return gson.toJson(userNum);
 	}
 }

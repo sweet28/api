@@ -34,7 +34,7 @@
     select id as info_id,title
     from t_yp_information
     where <include refid="select_information_where"></include>
-    order by order_code,create_time desc
+    order by order_code desc
     limit 0,3
   </select>
   

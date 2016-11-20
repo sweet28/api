@@ -1,6 +1,8 @@
 package com.arttraining.api.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +21,12 @@ import com.arttraining.api.bean.FollowCreateBean;
 import com.arttraining.api.bean.FollowFansBean;
 import com.arttraining.api.bean.FollowUserBean;
 import com.arttraining.api.pojo.Follow;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.FollowService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 
 @Controller
@@ -48,7 +52,9 @@ public class FollowController {
 		String utype=request.getParameter("utype");
 		String type=request.getParameter("type");
 		String follow_id=request.getParameter("follow_id");
-		System.out.println("access_token:"+access_token+"uid:"+uid+"type:"+type+"utype:"+utype+"follow_id:"+follow_id);
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-follow_id:"+follow_id+"-utype:"+utype+
+				"-type:"+type);
 		
 		if(access_token==null || uid==null || utype==null || follow_id==null || type==null){
 			errorCode = "20032";
@@ -74,17 +80,36 @@ public class FollowController {
 			
 			FollowCreateBean userinfo = this.followService.getUserInfoByFollowCreate(map);
 			if(userinfo!=null) {
+				Date date = new Date();
+				String time = TimeUtil.getTimeByDate(date);
+				
+				Integer host_id=userinfo.getId();
 				//新增关注信息
 				Follow follow = new Follow();
 				follow.setVisitor(i_uid);
 				follow.setVisitorType(utype);
-				follow.setHost(userinfo.getId());
+				follow.setHost(host_id);
 				follow.setHostType(type);
 				follow.setHostName(userinfo.getName());
-				follow.setCreateTime(TimeUtil.getTimeStamp());
+				follow.setCreateTime(Timestamp.valueOf(time));
+				follow.setOrderCode(time);
+				
+				//更新用户的关注量和粉丝量
+				UserStu follow_user = null;
+				if(utype.equals("stu")) {
+					follow_user = new UserStu();
+					follow_user.setId(i_uid);
+					follow_user.setFollowNum(1);
+				}
+				UserStu fan_user=null; 
+				if(type.equals("stu")) {
+					fan_user = new UserStu();
+					fan_user.setId(host_id);
+					fan_user.setFollowNum(1);
+				}
 				
 				try {
-					this.followService.insertOneFollow(follow);
+					this.followService.insertOneFollowAndUpdateNum(follow, follow_user, fan_user);
 					errorCode = "0";
 					errorMessage = "ok";
 				} catch (Exception e) {
@@ -104,7 +129,7 @@ public class FollowController {
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
 		
-		System.out.println(jsonObject);
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	
@@ -124,6 +149,8 @@ public class FollowController {
 		String self = request.getParameter("self");
 		Integer offset=-1;
 		Integer limit = ConfigUtil.PAGESIZE;
+		
+		ServerLog.getLogger().warn("uid:"+uid+"-utype:"+utype+"-self:"+self);
 		
 		//用户ID获取用户粉丝列表
 		List<FollowFansBean> fansList = new ArrayList<FollowFansBean>();
@@ -185,7 +212,7 @@ public class FollowController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("follows",fansList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	/***
@@ -204,6 +231,8 @@ public class FollowController {
 		String self = request.getParameter("self");
 		Integer offset=-1;
 		Integer limit = ConfigUtil.PAGESIZE;
+		
+		ServerLog.getLogger().warn("uid:"+uid+"-utype:"+utype+"-self:"+self);
 		
 		//用户ID获取用户关注列表
 		List<FollowFansBean> followList = new ArrayList<FollowFansBean>();
@@ -239,7 +268,6 @@ public class FollowController {
 			map.put("limit", limit);
 			//获取关注列表
 			followList = this.followService.getFollowList(map);
-			System.out.println("size:"+followList.size());
 			 if(followList.size()>0) {
 				//循环读取关注列表信息
 				for (FollowFansBean follow : followList) {
@@ -266,7 +294,7 @@ public class FollowController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("follows",followList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 }

@@ -48,7 +48,7 @@ public class TestMyBatis {
 		      UserStu useStu1 = new UserStu();
 		      useStu1.setName("654");
 		      useStu1.setId(10);
-		       
+		      logger.info(JSON.toJSONString(useStu1));
 		      //this.userService.delAndUpdate(useStu, useStu1);
 		      System.out.println("true");
 		} catch (Exception e) {

@@ -1,6 +1,8 @@
 package com.arttraining.api.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import com.arttraining.api.pojo.BBS;
 import com.arttraining.api.pojo.BBSComment;
 import com.arttraining.api.pojo.Statuses;
 import com.arttraining.api.pojo.StatusesComment;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksComment;
 import com.arttraining.api.service.impl.BBSCommentService;
@@ -35,6 +38,7 @@ import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
@@ -74,6 +78,8 @@ public class CommentController {
 		
 		//返回的bean结果
 		CommentStatusListBean commentBBS = new CommentStatusListBean();
+		
+		ServerLog.getLogger().warn("status_id:"+status_id+"-self:"+self);
 		
 		Integer offset = -1;
 		//默认10条记录
@@ -151,6 +157,7 @@ public class CommentController {
 		commentBBS.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(commentBBS));
 		return gson.toJson(commentBBS);
 	}
 	/****
@@ -170,7 +177,7 @@ public class CommentController {
 		String utype = request.getParameter("utype");
 		String content = request.getParameter("content");
 		
-		System.out.println(access_token+"=="+status_id+"=="+uid+"=="+utype+"=="+content);
+		ServerLog.getLogger().warn("access_token:"+access_token+"-status_id:"+status_id+"-uid:"+uid+"-utype:"+utype+"-content:"+content);
 		
 		if(access_token==null || status_id==null || uid==null || utype==null || content==null) {
 			errorCode="20032";
@@ -193,21 +200,39 @@ public class CommentController {
 				Integer i_uid = Integer.valueOf(uid);
 				Integer i_status_id = Integer.valueOf(status_id);
 				
+				Date date = new Date();
+				String time = TimeUtil.getTimeByDate(date);
+				
 				//首先依据帖子ID 获取首页帖子相关信息
 				BBS bbs = this.bbsSerivce.getBBSById(i_status_id);
+				Integer owner=0;
+				String owner_type="";
+				if(bbs!=null) {
+					owner=bbs.getOwner();
+					owner_type=bbs.getOwnerType();
+				}
 				//新增帖子评论信息
 				BBSComment bbsComment = new BBSComment();
 				bbsComment.setContent(content);
-				bbsComment.setCreateTime(TimeUtil.getTimeStamp());
+				bbsComment.setCreateTime(Timestamp.valueOf(time));
 				bbsComment.setForeignKey(i_status_id);
-				bbsComment.setHost(bbs.getOwner());
-				bbsComment.setHostType(bbs.getOwnerType());
+				bbsComment.setHost(owner);
+				bbsComment.setHostType(owner_type);
 				bbsComment.setType("comment");
 				bbsComment.setVisitor(i_uid);
 				bbsComment.setVisitorType(utype);
+				bbsComment.setOrderCode(time);
+				
+				//更新爱好者用户表中的评论数(这里的评论数指的是被评论数)
+				UserStu user = null;
+				if(owner_type!=null && owner_type.equals("stu")) {
+					user=new UserStu();
+					user.setId(owner);
+					user.setCommentNum(1);
+				}
 				
 				try {
-					this.bbsCommentService.insertAndUpdateBBSComment(bbsComment, i_status_id);
+					this.bbsCommentService.insertAndUpdateBBSComment(bbsComment, i_status_id, user);
 					errorCode="0";
 					errorMessage="ok";
 				} catch (Exception e) {
@@ -226,6 +251,8 @@ public class CommentController {
 		jsonObject.put("uid", 0);
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
+		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		
 		return jsonObject;
 		
@@ -252,6 +279,9 @@ public class CommentController {
 		String status_id=request.getParameter("status_id");
 		String content=request.getParameter("content");
 	
+		ServerLog.getLogger().warn("access_token:"+access_token+"-status_id:"+status_id+"-uid:"+uid+"-utype:"+utype+"-content:"+content+
+				"-comm_u_id:"+comm_u_id+"-comm_u_type:"+comm_u_type);
+		
 		if(access_token==null || uid==null || utype==null || comm_u_id==null || 
 				comm_u_type==null || status_id==null || content==null) {
 			errorCode="20032";
@@ -277,19 +307,32 @@ public class CommentController {
 				Integer i_status_id = Integer.valueOf(status_id);
 				//评论人ID
 				Integer i_comm_uid=Integer.valueOf(comm_u_id);
+				
+				Date date = new Date();
+				String time = TimeUtil.getTimeByDate(date);
+				
 				//新增帖子评论信息
 				BBSComment bbsComment = new BBSComment();
 				bbsComment.setContent(content);
-				bbsComment.setCreateTime(TimeUtil.getTimeStamp());
+				bbsComment.setCreateTime(Timestamp.valueOf(time));
 				bbsComment.setForeignKey(i_status_id);
 				bbsComment.setHost(i_comm_uid);
 				bbsComment.setHostType(comm_u_type);
 				bbsComment.setType("reply");
 				bbsComment.setVisitor(i_uid);
 				bbsComment.setVisitorType(utype);
+				bbsComment.setOrderCode(time);
+				
+				//更新爱好者用户表中的评论数(这里的评论数指的是被评论数)
+				UserStu user = null;
+				if(comm_u_type!=null && comm_u_type.equals("stu")) {
+					user=new UserStu();
+					user.setId(i_comm_uid);
+					user.setCommentNum(1);
+				}
 				
 				try {
-					this.bbsCommentService.insertAndUpdateBBSComment(bbsComment, i_status_id);
+					this.bbsCommentService.insertAndUpdateBBSComment(bbsComment, i_status_id,user);
 					errorCode="0";
 					errorMessage="ok";
 				} catch (Exception e) {
@@ -307,7 +350,7 @@ public class CommentController {
 		jsonObject.put("uid", 0);
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	/***
@@ -323,9 +366,11 @@ public class CommentController {
 		//以下不是必选参数
 		String self = request.getParameter("self");
 		
+		ServerLog.getLogger().warn("status_id:"+status_id+"-self:"+self);
+		
 		//返回的bean结果
 		CommentStatusListBean commentStatus = new CommentStatusListBean();
-		
+	
 		Integer offset = -1;
 		//默认10条记录
 		Integer limit = ConfigUtil.PAGESIZE;
@@ -402,6 +447,7 @@ public class CommentController {
 		commentStatus.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(commentStatus));
 		return gson.toJson(commentStatus);
 	}
 	/***
@@ -419,6 +465,8 @@ public class CommentController {
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
 		String content = request.getParameter("content");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-status_id:"+status_id+"-uid:"+uid+"-utype:"+utype+"-content:"+content);
 		
 		if(access_token==null || status_id==null || uid==null || utype==null || content==null) {
 			errorCode="20032";
@@ -441,21 +489,39 @@ public class CommentController {
 				Integer i_uid = Integer.valueOf(uid);
 				Integer i_status_id = Integer.valueOf(status_id);
 				
+				Date date = new Date();
+				String time = TimeUtil.getTimeByDate(date);
+				
 				//首先依据小组动态ID 获取小组动态相关信息
 				Statuses status = this.statusService.getStatusesById(i_status_id);
+				Integer owner=0;
+				String owner_type="";
+				if(status!=null) {
+					owner=status.getOwner();
+					owner_type=status.getOwnerType();
+				}
 				//新增小组动态评论信息
 				StatusesComment statusComment = new StatusesComment();
 				statusComment.setContent(content);
-				statusComment.setCreateTime(TimeUtil.getTimeStamp());
+				statusComment.setCreateTime(Timestamp.valueOf(time));
 				statusComment.setForeignKey(i_status_id);
-				statusComment.setHost(status.getOwner());
-				statusComment.setHostType(status.getOwnerType());
+				statusComment.setHost(owner);
+				statusComment.setHostType(owner_type);
 				statusComment.setType("comment");
 				statusComment.setVisitor(i_uid);
 				statusComment.setVisitorType(utype);
+				statusComment.setOrderCode(time);
+				
+				//更新爱好者用户表中的评论数(这里的评论数指的是被评论数)
+				UserStu user = null;
+				if(owner_type!=null && owner_type.equals("stu")) {
+					user=new UserStu();
+					user.setId(owner);
+					user.setCommentNum(1);
+				}
 				
 				try {
-					this.statusCommentService.insertAndUpdateStatusComment(statusComment, i_status_id);
+					this.statusCommentService.insertAndUpdateStatusComment(statusComment, i_status_id,user);
 					errorCode="0";
 					errorMessage="ok";
 				} catch (Exception e) {
@@ -499,6 +565,9 @@ public class CommentController {
 		String status_id=request.getParameter("status_id");
 		String content=request.getParameter("content");
 	
+		ServerLog.getLogger().warn("access_token:"+access_token+"-status_id:"+status_id+"-uid:"+uid+"-utype:"+utype+"-content:"+content+
+				"-comm_u_id:"+comm_u_id+"-comm_u_type:"+comm_u_type);
+		
 		if(access_token==null || uid==null || utype==null || comm_u_id==null || 
 				comm_u_type==null || status_id==null || content==null) {
 			errorCode="20032";
@@ -524,19 +593,32 @@ public class CommentController {
 				Integer i_status_id = Integer.valueOf(status_id);
 				//评论人ID
 				Integer i_comm_uid=Integer.valueOf(comm_u_id);
+				
+				Date date = new Date();
+				String time = TimeUtil.getTimeByDate(date);
+				
 				//新增小组动态评论信息
 				StatusesComment statusComment = new StatusesComment();
 				statusComment.setContent(content);
-				statusComment.setCreateTime(TimeUtil.getTimeStamp());
+				statusComment.setCreateTime(Timestamp.valueOf(time));
 				statusComment.setForeignKey(i_status_id);
 				statusComment.setHost(i_comm_uid);
 				statusComment.setHostType(comm_u_type);
 				statusComment.setType("reply");
 				statusComment.setVisitor(i_uid);
 				statusComment.setVisitorType(utype);
+				statusComment.setOrderCode(time);
+				
+				//更新爱好者用户表中的评论数(这里的评论数指的是被评论数)
+				UserStu user = null;
+				if(comm_u_type!=null && comm_u_type.equals("stu")) {
+					user=new UserStu();
+					user.setId(i_comm_uid);
+					user.setCommentNum(1);
+				}
 				
 				try {
-					this.statusCommentService.insertAndUpdateStatusComment(statusComment, i_status_id);
+					this.statusCommentService.insertAndUpdateStatusComment(statusComment, i_status_id,user);
 					errorCode="0";
 					errorMessage="ok";
 				} catch (Exception e) {
@@ -555,6 +637,8 @@ public class CommentController {
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
 		
+		ServerLog.getLogger().warn(jsonObject.toString());
+		
 		return jsonObject;
 	}
 	/***
@@ -571,6 +655,8 @@ public class CommentController {
 		String status_id = request.getParameter("status_id");
 		//以下不是必选参数
 		String self = request.getParameter("self");
+		
+		ServerLog.getLogger().warn("status_id:"+status_id+"-self:"+self);
 		
 		//返回的bean结果
 		CommentStatusListBean commentWork = new CommentStatusListBean();
@@ -651,6 +737,7 @@ public class CommentController {
 		commentWork.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(commentWork));
 		return gson.toJson(commentWork);
 	}
 	/***
@@ -669,6 +756,8 @@ public class CommentController {
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
 		String content = request.getParameter("content");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-status_id:"+status_id+"-uid:"+uid+"-utype:"+utype+"-content:"+content);
 		
 		if(access_token==null || status_id==null || uid==null || utype==null || content==null) {
 			errorCode="20032";
@@ -691,21 +780,39 @@ public class CommentController {
 				Integer i_uid = Integer.valueOf(uid);
 				Integer i_status_id = Integer.valueOf(status_id);
 				
+				Date date = new Date();
+				String time = TimeUtil.getTimeByDate(date);
+				
 				//首先依据帖子ID 获取首页帖子相关信息
 				Works work = this.workService.getWorksById(i_status_id);
+				Integer owner=0;
+				String owner_type="";
+				if(work!=null) {
+					owner=work.getOwner();
+					owner_type=work.getOwnerType();
+				}
 				//新增作品评论信息
 				WorksComment workComment = new WorksComment();
 				workComment.setContent(content);
-				workComment.setCreateTime(TimeUtil.getTimeStamp());
+				workComment.setCreateTime(Timestamp.valueOf(time));
 				workComment.setForeignKey(i_status_id);
-				workComment.setHost(work.getOwner());
-				workComment.setHostType(work.getOwnerType());
+				workComment.setHost(owner);
+				workComment.setHostType(owner_type);
 				workComment.setType("comment");
 				workComment.setVisitor(i_uid);
 				workComment.setVisitorType(utype);
+				workComment.setOrderCode(time);
+				
+				//更新爱好者用户表中的评论数(这里的评论数指的是被评论数)
+				UserStu user = null;
+				if(owner_type!=null && owner_type.equals("stu")) {
+					user=new UserStu();
+					user.setId(owner);
+					user.setCommentNum(1);
+				}
 				
 				try {
-					this.workCommentService.insertAndUpdateWorkComment(workComment, i_status_id);
+					this.workCommentService.insertAndUpdateWorkComment(workComment, i_status_id,user);
 					errorCode="0";
 					errorMessage="ok";
 				} catch (Exception e) {
@@ -750,6 +857,9 @@ public class CommentController {
 		String status_id=request.getParameter("status_id");
 		String content=request.getParameter("content");
 	
+		ServerLog.getLogger().warn("access_token:"+access_token+"-status_id:"+status_id+"-uid:"+uid+"-utype:"+utype+"-content:"+content+
+				"-comm_u_id:"+comm_u_id+"-comm_u_type:"+comm_u_type);
+		
 		if(access_token==null || uid==null || utype==null || comm_u_id==null || 
 				comm_u_type==null || status_id==null || content==null) {
 			errorCode="20032";
@@ -775,19 +885,31 @@ public class CommentController {
 				Integer i_status_id = Integer.valueOf(status_id);
 				//评论人ID
 				Integer i_comm_uid=Integer.valueOf(comm_u_id);
+				
+				Date date = new Date();
+				String time = TimeUtil.getTimeByDate(date);
+				
 				//新增小组动态评论信息
 				WorksComment workComment = new WorksComment();
 				workComment.setContent(content);
-				workComment.setCreateTime(TimeUtil.getTimeStamp());
+				workComment.setCreateTime(Timestamp.valueOf(time));
 				workComment.setForeignKey(i_status_id);
 				workComment.setHost(i_comm_uid);
 				workComment.setHostType(comm_u_type);
 				workComment.setType("reply");
 				workComment.setVisitor(i_uid);
 				workComment.setVisitorType(utype);
+				workComment.setOrderCode(time);
 				
+				//更新爱好者用户表中的评论数(这里的评论数指的是被评论数)
+				UserStu user = null;
+				if(comm_u_type!=null && comm_u_type.equals("stu")) {
+					user=new UserStu();
+					user.setId(i_comm_uid);
+					user.setCommentNum(1);
+				}
 				try {
-					this.workCommentService.insertAndUpdateWorkComment(workComment, i_status_id);
+					this.workCommentService.insertAndUpdateWorkComment(workComment, i_status_id, user);
 					errorCode="0";
 					errorMessage="ok";
 				} catch (Exception e) {
@@ -805,6 +927,8 @@ public class CommentController {
 		jsonObject.put("uid", 0);
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
+		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		
 		return jsonObject;
 	}

@@ -38,6 +38,31 @@
   <sql id="select_userstu_where" >
        is_lock=0 and is_deleted=0
   </sql>
+  <!-- coffee add 更新帖子相关数量 -->
+   <update id="updateNumberBySelective" parameterType="com.arttraining.api.pojo.BBS" >
+    update t_yp_bbs
+    <set >
+      <if test="commentNum != null" >
+        comment_num = comment_num+${commentNum},
+      </if>
+      <if test="likeNum != null" >
+        like_num = like_num+${likeNum},
+      </if>
+      <if test="tecCommentNum != null" >
+        tec_comment_num = tec_comment_num+${tecCommentNum},
+      </if>
+      <if test="browseNum != null" >
+        browse_num = browse_num+${browseNum},
+      </if>
+      <if test="rewardNum != null" >
+        reward_num = reward_num+${rewardNum},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_bbs_where"></include>
+  </update>
+  
+  
   <!-- coffee add 发布评论时更新评论数 comments/create/bbs接口调用 -->
   <update id="updateBBSCommNumByPrimaryKey" parameterType="java.lang.Integer" >
     update t_yp_bbs
@@ -234,16 +259,17 @@
 		  from t_yp_bbs
 	      where is_deleted=0 and owner_type='stu'
 	      <if test="offset !=-1">
-	      	and order_code &gt;(select order_code from t_yp_bbs
+	      	and order_code <![CDATA[ <= ]]> (select order_code from t_yp_bbs
 	      	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+	      	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
 	      </if>
-		  order by order_code,create_time desc
+		  order by order_code desc
 	      limit #{limit,jdbcType=INTEGER}) b, 
 		(select identity_name,city_name,head_pic,name,id
 		from t_yp_user_stu
 		where <include refid="select_userstu_where"></include>) s
 	where b.owner = s.id
-	order by b.order_code,b.create_time desc
+	order by b.order_code desc
   </select>
  
   <!-- coffee add 1108 查询指定用户发帖详情 默认10条记录 -->
@@ -259,17 +285,18 @@
 		  from t_yp_bbs
 	      where is_deleted=0 and owner_type='stu' and owner=#{uid,jdbcType=INTEGER}
 		  <if test="offset !=-1">
-		  	and order_code &gt;(select order_code from t_yp_bbs
+		  	and order_code <![CDATA[ <= ]]> (select order_code from t_yp_bbs
 		  	 where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+		  	 and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
 		  </if>
-		  order by order_code,create_time desc
+		  order by order_code desc
 	      limit #{limit,jdbcType=INTEGER}) b, 
 		(select identity_name,city_name,head_pic,name,id
 		from t_yp_user_stu
 		where <include refid="select_userstu_where"></include>
 		 and id=#{uid,jdbcType=INTEGER}) s
 	where b.owner = s.id
-	order by b.order_code,b.create_time desc
+	order by b.order_code desc
   </select>
   
   <!-- coffee add 1108 查询某一个帖子信息 -->

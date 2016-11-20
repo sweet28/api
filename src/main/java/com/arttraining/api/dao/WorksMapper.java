@@ -44,4 +44,6 @@ public interface WorksMapper {
     
     //发布评论时更新评论数 comments/create/work接口调用
     int updateWorkCommNumByPrimaryKey(Integer id);
+    //更新作品相关数量
+    int updateNumberBySelective(Works record);
 }

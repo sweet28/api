@@ -1,5 +1,6 @@
 package com.arttraining.api.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.arttraining.commons.util.ImageUtil;
@@ -22,6 +23,24 @@ public class GroupShowBean {
 	private List<GroupShowUserBean> users;
 	private List<Object> statuses;
 	
+	
+	
+	public GroupShowBean() {
+		this.group_id = 0;
+		this.name = "";
+		this.introduce = "";
+		this.grade = 0;
+		this.users_num = 0;
+		this.pic = "";
+		this.number = "";
+		this.owner_type = "";
+		this.owner = 0;
+		this.owner_name = "";
+		this.owner_pic = "";
+		this.create_time = "";
+		this.users = new ArrayList<GroupShowUserBean>();
+		this.statuses = new ArrayList<Object>();
+	}
 	
 	public String getError_code() {
 		return error_code;
@@ -69,7 +88,7 @@ public class GroupShowBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = pic;
+		this.pic = ImageUtil.parsePicPath(pic);
 	}
 	public String getNumber() {
 		return number;

@@ -14,4 +14,6 @@ public interface StatusesAttachmentMapper {
     int updateByPrimaryKeySelective(StatusesAttachment record);
 
     int updateByPrimaryKey(StatusesAttachment record);
+    //转发动态时更新帖子附件表
+    int insertStatusAttrByForward(StatusesAttachment record);
 }

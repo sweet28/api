@@ -7,10 +7,14 @@ import com.arttraining.api.bean.FavoritesListReBean;
 import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
 import com.arttraining.api.pojo.Favorites;
+import com.arttraining.api.pojo.UserStu;
 
 public interface IFavoritesService {
      //coffee add 1117--添加收藏 favorites/create接口调用
      int insertOneFavorite(Favorites favorites);
+     //coffee add 1117--添加收藏 favorites/create接口调用 更新用户收藏量
+     void insertOneFavoriteAndUpdateNum(Favorites favorites,UserStu user);
+     
      //根据用户ID获取收藏列表--favorites/list接口调用
      FavoritesListReBean getFavoritesListByUid(Map<String, Object> map);
      //根据用户ID获取收藏列表--favorites/list接口调用

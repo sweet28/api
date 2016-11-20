@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.arttraining.api.bean.CommentsVisitorBean;
 import com.arttraining.api.pojo.BBSComment;
+import com.arttraining.api.pojo.UserStu;
 
 public interface IBBSCommentService {
 	 //查询帖子相关的评论回复列表信息--statuses/show/bbs接口调用
@@ -13,5 +14,5 @@ public interface IBBSCommentService {
     List<CommentsVisitorBean> getBBSCommentByList(Map<String, Object> map);
     
     //评论帖子的同时更新帖子的评论数
-    void insertAndUpdateBBSComment(BBSComment bbsComment,Integer id);
+    void insertAndUpdateBBSComment(BBSComment bbsComment,Integer id,UserStu user);
 }

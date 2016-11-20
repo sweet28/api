@@ -80,4 +80,10 @@ public class StatusesService implements IStatusesService {
 		return this.statusesDao.selectStatusesListByUidAndGid(uid, gid, offset, limit);
 	}
 
+	@Override
+	public int updateStatusNumber(Statuses record) {
+		// TODO Auto-generated method stub
+		return this.statusesDao.updateNumberBySelective(record);
+	}
+
 }

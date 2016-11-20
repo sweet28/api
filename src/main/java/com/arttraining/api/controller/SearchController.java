@@ -25,6 +25,7 @@ import com.arttraining.api.service.impl.UserTecService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
 @Controller
@@ -52,6 +53,8 @@ public class SearchController {
 		String self=request.getParameter("self");
 		Integer offset=-1;
 		Integer limit=ConfigUtil.PAGESIZE;
+		
+		ServerLog.getLogger().warn("key:"+key+"-self:"+self);
 		
 		SearchOrgReBean orgReBean = new SearchOrgReBean();
 		
@@ -89,6 +92,7 @@ public class SearchController {
 		orgReBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(orgReBean));
 		return gson.toJson(orgReBean);
 	}
 	
@@ -107,6 +111,8 @@ public class SearchController {
 		String self=request.getParameter("self");
 		Integer offset=-1;
 		Integer limit=ConfigUtil.PAGESIZE;
+		
+		ServerLog.getLogger().warn("key:"+key+"-self:"+self);
 		
 		SearchTecReBean tecReBean = new SearchTecReBean();
 		
@@ -144,6 +150,7 @@ public class SearchController {
 		tecReBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(tecReBean));
 		return gson.toJson(tecReBean);
 	}
 	/***
@@ -158,6 +165,9 @@ public class SearchController {
 		String key = request.getParameter("key");
 		//以下用于分页
 		String self=request.getParameter("self");
+		
+		ServerLog.getLogger().warn("key:"+key+"-self:"+self);
+		
 		Integer offset=-1;
 		Integer limit=ConfigUtil.PAGESIZE;
 		
@@ -197,6 +207,7 @@ public class SearchController {
 		groupReBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(groupReBean));
 		return gson.toJson(groupReBean);
 	}
 }

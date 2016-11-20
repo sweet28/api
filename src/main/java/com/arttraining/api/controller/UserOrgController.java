@@ -21,6 +21,7 @@ import com.arttraining.api.service.impl.UserOrgService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
 
@@ -49,6 +50,8 @@ public class UserOrgController {
 		String province = request.getParameter("province");
 		String type = request.getParameter("type");
 		
+		ServerLog.getLogger().warn("self:"+self+"-type:"+type+
+				"-city:"+city+"-province:"+province);
 		
 		List<OrgListBean> orgList  = new ArrayList<OrgListBean>();
 
@@ -82,6 +85,7 @@ public class UserOrgController {
 				errorMessage = "ok";
 			}
 			else {
+				orgList  = new ArrayList<OrgListBean>();
 				errorCode = "20007";
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 			}
@@ -90,7 +94,7 @@ public class UserOrgController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("org", orgList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	
@@ -105,6 +109,9 @@ public class UserOrgController {
 		String errorMessage = "";
 		
 		String org_id = request.getParameter("org_id");
+		
+		ServerLog.getLogger().warn("org_id:"+org_id);
+		
 		OrgShowBean orgShow = new OrgShowBean();
 		
 		if(org_id==null || org_id.equals("")) {
@@ -132,7 +139,7 @@ public class UserOrgController {
 		orgShow.setError_code(errorCode);
 		orgShow.setError_msg(errorMessage);
 		Gson gson = new Gson();
-		
+		ServerLog.getLogger().warn(gson.toJson(orgShow));
 		return gson.toJson(orgShow);
 	}
 	

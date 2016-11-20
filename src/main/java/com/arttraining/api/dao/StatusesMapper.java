@@ -51,4 +51,6 @@ public interface StatusesMapper {
     
     //发布小组动态评论时更新评论数 comments/create/g_stus接口调用
     int updateStatusCommNumByPrimaryKey(Integer id);
+    //更新小组动态数量
+    int updateNumberBySelective(Statuses record);
 }

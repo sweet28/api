@@ -12,8 +12,10 @@ import com.arttraining.api.bean.GroupListMyBean;
 import com.arttraining.api.bean.GroupShowBean;
 import com.arttraining.api.dao.GroupMapper;
 import com.arttraining.api.dao.GroupUserMapper;
+import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.pojo.Group;
 import com.arttraining.api.pojo.GroupUser;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.IGroupService;
 
 @Service("groupService")
@@ -22,14 +24,20 @@ public class GroupService implements IGroupService {
 	private GroupMapper groupDao;
 	@Resource
 	private GroupUserMapper groupUserDao;
+	@Resource
+	private UserStuMapper userStuDao;
 	
 	@Override
-	public void insertOneGroupAndUser(Group group, GroupUser groupUser) {
+	public void insertOneGroupAndUser(Group group, GroupUser groupUser,UserStu user) {
 		// TODO Auto-generated method stub
 		this.groupDao.insertOneGroup(group);
 		Integer id = group.getId();
 		groupUser.setGroupId(id);
 		this.groupUserDao.insertSelective(groupUser);
+		//更新用户群组数量
+		if(user!=null) {
+			this.userStuDao.updateNumberBySelective(user);
+		}
 	}
 
 	@Override

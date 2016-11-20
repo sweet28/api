@@ -52,5 +52,8 @@ public interface IUserStuService {
     
     //根据用户ID获取用户数目信息 --users/num接口调用
     UserNumberBean getUserNumberByUid(Integer id);
+    
+    //转发动态或者发布动态时修改数量
+    int updateUserNumber(UserStu record);
 
 }

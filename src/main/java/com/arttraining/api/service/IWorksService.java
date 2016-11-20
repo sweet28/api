@@ -23,4 +23,7 @@ public interface IWorksService {
     List<HomePageStatusesBean> getWorkListByUid(Integer uid,Integer offset,Integer limit);
     
     Works getWorkByOrderNumber(String orderNumber);
+    
+    //更新作品相关数量
+    int updateWorksNumber(Works record);
 }

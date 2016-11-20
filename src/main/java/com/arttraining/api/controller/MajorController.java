@@ -18,6 +18,7 @@ import com.arttraining.api.bean.MajorListBean;
 import com.arttraining.api.service.impl.MajorService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.ServerLog;
 
 @Controller
 @RequestMapping("/major")
@@ -49,7 +50,7 @@ public class MajorController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("majors", majorList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	/***
@@ -74,6 +75,7 @@ public class MajorController {
 			errorMessage = "ok";
 		}
 		else {
+			majorList = new ArrayList<MajorLevelListBean>();
 			errorCode = "20007";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 		}
@@ -81,7 +83,7 @@ public class MajorController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("majors", majorList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	

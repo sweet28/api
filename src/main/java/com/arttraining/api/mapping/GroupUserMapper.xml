@@ -50,17 +50,18 @@
     where group_id = #{gid,jdbcType=INTEGER}
     <include refid="select_groupuser_where"></include>
     <if test="offset !=-1 ">
-    	and order_code &gt; (select order_code from t_yp_group_user 
+    	and order_code <![CDATA[ >= ]]> (select order_code from t_yp_group_user 
     	where id=#{offset,jdbcType=INTEGER} and group_id = #{gid,jdbcType=INTEGER}
     	<include refid="select_groupuser_where"></include>)
+    	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}  
     </if>
-    order by order_code,create_time
+    order by order_code
     limit #{limit,jdbcType=INTEGER}) g
     join 
     (select id,city_name,name from t_yp_user_stu 
     where is_lock=0 and is_deleted=0) u
     where u.id = g.user_id
-    order by order_code,create_time
+    order by g.order_code
   </select>
     
   <!-- coffee add 1113 依据小组ID查询对应的所有小组成员列表信息 group/show接口调用 -->

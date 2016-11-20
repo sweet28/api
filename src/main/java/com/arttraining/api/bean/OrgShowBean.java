@@ -44,7 +44,6 @@ public class OrgShowBean {
 		this.course = new ArrayList<OrgShowCourseBean>();
 		this.trainees = new ArrayList<OrgShowTraineesBean>();
 		this.contact_address = "";
-		this.evaluate = new OrgShowEvaluateBean();
 	}
 
 	public String getError_code() {

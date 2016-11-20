@@ -107,5 +107,11 @@ public class UserStuService implements IUserStuService{
 		// TODO Auto-generated method stub
 		return this.userStuDao.selectUserNumberByUid(id);
 	}
+
+	@Override
+	public int updateUserNumber(UserStu record) {
+		// TODO Auto-generated method stub
+		return this.userStuDao.updateNumberBySelective(record);
+	}
 	
 }

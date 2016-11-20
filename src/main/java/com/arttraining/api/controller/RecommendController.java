@@ -1,6 +1,7 @@
 package com.arttraining.api.controller;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +18,7 @@ import com.arttraining.api.service.impl.RecommendService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 
 @Controller
@@ -41,6 +43,9 @@ public class RecommendController {
 		//以下1个参数是必选参数
 		String content=request.getParameter("content");
 		
+		ServerLog.getLogger().warn("uid:"+uid+"-utype:"+utype+"-pic:"+pic+"-phone:"+phone+
+				"-content:"+content);
+		
 		//用户ID
 		Integer i_uid=0;
 		if(uid==null || uid.equals("") || !NumberUtil.isInteger(uid)) {
@@ -50,14 +55,17 @@ public class RecommendController {
 			i_uid=Integer.valueOf(uid);
 		
 		//发送建议反馈信息
-		Timestamp time = TimeUtil.getTimeStamp();
+		Date date = new Date();
+		String time = TimeUtil.getTimeByDate(date);
+		
 		Recommend recommend = new Recommend();
 		recommend.setContent(content);
-		recommend.setCreateTime(time);
+		recommend.setCreateTime(Timestamp.valueOf(time));
 		recommend.setRecPersonId(i_uid);
 		recommend.setRecPersonType(utype);
 		recommend.setRemarks(pic);
 		recommend.setContactWay(phone);
+		recommend.setOrderCode(time);
 		
 		try {
 			this.recommendService.insertOneRecommend(recommend);
@@ -73,7 +81,7 @@ public class RecommendController {
 		jsonObject.put("uid", 0);
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 		
 	}

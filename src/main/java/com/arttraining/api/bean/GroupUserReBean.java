@@ -1,5 +1,6 @@
 package com.arttraining.api.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupUserReBean {
@@ -7,6 +8,11 @@ public class GroupUserReBean {
 	private String error_msg;
 	private List<GroupUserBean> users;
 	
+	
+	
+	public GroupUserReBean() {
+		this.users = new ArrayList<GroupUserBean>();
+	}
 	public String getError_code() {
 		return error_code;
 	}

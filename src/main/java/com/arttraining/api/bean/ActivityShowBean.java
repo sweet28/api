@@ -3,6 +3,8 @@ package com.arttraining.api.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class ActivityShowBean {
 	private String error_code;
 	private String error_msg;
@@ -60,7 +62,7 @@ public class ActivityShowBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = pic;
+		this.pic = ImageUtil.parsePicPath(pic);
 	}
 	public String getTitle() {
 		return title;

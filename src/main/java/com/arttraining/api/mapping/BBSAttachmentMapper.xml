@@ -17,6 +17,18 @@
     <result column="duration" property="duration" jdbcType="VARCHAR" />
     <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
   </resultMap>
+  
+  	<!-- coffee add 转发帖子时更新帖子附件表 -->
+	  <insert id="insertBBSAttrByForward" useGeneratedKeys="true" keyProperty="id"
+	  	parameterType="com.arttraining.api.pojo.BBSAttachment" >
+	    insert into t_yp_bbs_att (remarks, attachment, type, 
+	      thumbnail, store_path, content, duration)
+	    select remarks, attachment, type, thumbnail, store_path, content, duration
+	    from t_yp_bbs_att
+	    where foreign_key = #{foreignKey,jdbcType=INTEGER} and is_deleted=0
+	  </insert>
+	<!-- end -->  
+	  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     type, thumbnail, store_path, content, duration, foreign_key

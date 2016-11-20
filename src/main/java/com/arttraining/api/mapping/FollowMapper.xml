@@ -65,7 +65,7 @@
    where is_deleted=0 and host=#{uid,jdbcType=VARCHAR}
    and host_type=#{utype,jdbcType=VARCHAR}
    <if test="offset!=-1">
-   		and create_time <![CDATA[ >= ]]> (select create_time from t_yp_follow
+   		and create_time <![CDATA[ > ]]> (select create_time from t_yp_follow
    		where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
    		and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
    </if>
@@ -102,7 +102,7 @@
    where is_deleted=0 and visitor=#{uid,jdbcType=VARCHAR}
    and visitor_type=#{utype,jdbcType=VARCHAR}
    <if test="offset!=-1">
-   		and create_time <![CDATA[ >= ]]> (select create_time from t_yp_follow
+   		and create_time <![CDATA[ > ]]> (select create_time from t_yp_follow
    		where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
    		and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
    </if>

@@ -1,5 +1,6 @@
 package com.arttraining.api.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import com.arttraining.api.service.impl.BannerService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
 @Controller
@@ -43,6 +45,7 @@ public class BannerController {
 			errorMessage="ok";	
 		}
 		else {
+			bannerList = new ArrayList<BannerListBean>();
 			errorCode="20007";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 		}
@@ -50,7 +53,7 @@ public class BannerController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("banners", bannerList);
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	
@@ -67,6 +70,7 @@ public class BannerController {
 		BannerShowBean bannerShow = new BannerShowBean();
 		//获取传递的ad_id参数,判断传递的参数是否不存在或者是否为空
 		String ad_id=request.getParameter("ad_id");
+		ServerLog.getLogger().warn("ad_id:"+ad_id);
 		if(ad_id==null || ad_id.equals("")) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -93,6 +97,7 @@ public class BannerController {
 		bannerShow.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(bannerShow));
 		return gson.toJson(bannerShow);
 	}
 }

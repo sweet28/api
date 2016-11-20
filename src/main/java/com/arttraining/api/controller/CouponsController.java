@@ -19,6 +19,7 @@ import com.arttraining.api.service.impl.CouponService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
 
@@ -44,6 +45,8 @@ public class CouponsController {
 		String access_token = request.getParameter("access_token");
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype);
 		
 		//以下1个可选参数
 		String self = request.getParameter("self");
@@ -98,9 +101,15 @@ public class CouponsController {
 					map.put("type", type);
 					
 					List<CouponsListBean> coupons = this.couponService.getCouponListByUid(map);
-					couponsReBean.setCoupons(coupons);
-					errorCode = "0";
-					errorMessage = "ok";
+					if(coupons.size()>0) {
+						couponsReBean.setCoupons(coupons);
+						errorCode = "0";
+						errorMessage = "ok";
+					}
+					else {
+						errorCode = "20007";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+					}
 				}
 			}
 			else {
@@ -111,7 +120,7 @@ public class CouponsController {
 		couponsReBean.setError_code(errorCode);
 		couponsReBean.setError_msg(errorMessage);
 		Gson gson = new Gson();
-		
+		ServerLog.getLogger().warn(gson.toJson(couponsReBean));
 		return gson.toJson(couponsReBean);
 	}
 

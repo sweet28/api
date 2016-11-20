@@ -93,6 +93,17 @@ public class Random {
    		return resultStr;
    	}
    	
+   	/***
+   	 * 随机生成1个10--100的数字
+   	 * @param args
+   	 */
+   	public static Integer randomCommonInt() {
+   		Integer max= ConfigUtil.RANDOM_MAXVALUE;
+   		Integer min= ConfigUtil.RANDOM_MINVALUE;
+   		Integer num = (int) (Math.random() * (max - min)) + min;
+   		return num;
+   	}
+   	
    	public static void main(String[] args){
    		System.out.println(randomCommonStr(ConfigUtil.ALIDAYU_SMS_CHECK_CODE_LENGTH).toString());
    	}

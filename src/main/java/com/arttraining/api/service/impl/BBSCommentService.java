@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import com.arttraining.api.bean.CommentsVisitorBean;
 import com.arttraining.api.dao.BBSCommentMapper;
 import com.arttraining.api.dao.BBSMapper;
+import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.pojo.BBSComment;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.IBBSCommentService;
 
 @Service("bbsCommentService")
@@ -19,6 +21,8 @@ public class BBSCommentService implements IBBSCommentService {
 	private BBSCommentMapper bbsCommentDao;
 	@Resource
 	private BBSMapper bbsDao;
+	@Resource
+	private UserStuMapper userStuDao;
 
 	@Override
 	public List<CommentsVisitorBean> getBBSCommentByShow(Integer fid,
@@ -34,10 +38,13 @@ public class BBSCommentService implements IBBSCommentService {
 	}
 
 	@Override
-	public void insertAndUpdateBBSComment(BBSComment bbsComment, Integer id) {
+	public void insertAndUpdateBBSComment(BBSComment bbsComment, Integer id,UserStu user) {
 		// TODO Auto-generated method stub
 		this.bbsCommentDao.insertSelective(bbsComment);
 		this.bbsDao.updateBBSCommNumByPrimaryKey(id);
+		if(user!=null) {
+			this.userStuDao.updateNumberBySelective(user);
+		}
 	}
 
 }

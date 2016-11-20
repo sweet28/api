@@ -31,12 +31,28 @@ public class StatusesShowBean {
     private List<CommentsBean> comments;
     private HomePageAdvertiseBean ad;
     
-    
 	public StatusesShowBean() {
+		this.stus_id = 0;
+		this.stus_type = "";
+		this.owner = 0;
+		this.owner_type = "";
+		this.owner_name = "";
+		this.owner_head_pic = "";
+		this.create_time = "";
+		this.tag = "";
+		this.city = "";
+		this.identity = "";
+		this.title = "";
+		this.content = "";
+		this.browse_num = 0;
+		this.comment_num = 0;
+		this.like_num = 0;
+		this.is_like = "";
+		this.is_comment = "";
+		this.remarks = "";
 		this.att = new ArrayList<HomePageAttBean>();
 		this.comments = new ArrayList<CommentsBean>();
 	}
-	
 	public String getError_code() {
 		return error_code;
 	}

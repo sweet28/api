@@ -22,6 +22,7 @@ import com.arttraining.api.service.impl.InstitutionService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
 @Controller
@@ -45,6 +46,9 @@ public class InstitutionsController {
 		//以下2个参数不是必选参数
 		String city_name=request.getParameter("city_name");
 		String provinces_name=request.getParameter("provinces_name");
+		
+		ServerLog.getLogger().warn("city_name:"+city_name+"-provinces_name:"+provinces_name);
+		
 		//获取院校信息列表
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("city", city_name);
@@ -65,7 +69,7 @@ public class InstitutionsController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put("institutions", institutionsList);
 		
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	/***
@@ -79,6 +83,7 @@ public class InstitutionsController {
 		String errorMessage = "";
 		//以下是必选参数
 		String institution_id = request.getParameter("institution_id");
+		ServerLog.getLogger().warn("institution_id:"+institution_id);
 		
 		InstitutionsShowReBean showReBean = new InstitutionsShowReBean();
 		
@@ -108,6 +113,7 @@ public class InstitutionsController {
 		showReBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(showReBean));
 		return gson.toJson(showReBean);
 	}
 

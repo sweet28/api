@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class InstitutionsShowBean {
 	private Integer institution_id;
 	private String name;
@@ -37,7 +39,7 @@ public class InstitutionsShowBean {
 		return institution_pic;
 	}
 	public void setInstitution_pic(String institution_pic) {
-		this.institution_pic = institution_pic;
+		this.institution_pic = ImageUtil.parsePicPath(institution_pic);
 	}
 	public String getAdmissions_guide() {
 		return admissions_guide;

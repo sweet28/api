@@ -10,8 +10,10 @@ import com.arttraining.api.bean.GroupShowUserBean;
 import com.arttraining.api.bean.GroupUserBean;
 import com.arttraining.api.dao.GroupMapper;
 import com.arttraining.api.dao.GroupUserMapper;
+import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.pojo.Group;
 import com.arttraining.api.pojo.GroupUser;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.IGroupUserService;
 
 @Service("groupUserService")
@@ -20,19 +22,27 @@ public class GroupUserService implements IGroupUserService {
 	private GroupUserMapper groupUserDao;
 	@Resource
 	private GroupMapper groupDao;
+	@Resource
+	private UserStuMapper userStuDao;
 	
 	@Override
-	public void updateGroupAndUserByCreate(Group group, GroupUser groupUser) {
+	public void updateGroupAndUserByCreate(Group group, GroupUser groupUser,UserStu user) {
 		// TODO Auto-generated method stub
 		this.groupDao.updatePeopleNumByCreate(group);
 		this.groupUserDao.insertSelective(groupUser);
+		if(user!=null) {
+			this.userStuDao.updateNumberBySelective(user);
+		}
 	}
 
 	@Override
-	public void updateGroupAndUserByExit(Group group, GroupUser groupUser) {
+	public void updateGroupAndUserByExit(Group group, GroupUser groupUser,UserStu user) {
 		// TODO Auto-generated method stub
 		this.groupDao.updatePeopleNumByExit(group);
 		this.groupUserDao.updateGroupUserByExit(groupUser);
+		if(user!=null) {
+			this.userStuDao.updateNumberBySelective(user);
+		}
 	}
 	
 	@Override

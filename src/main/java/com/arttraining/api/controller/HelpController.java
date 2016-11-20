@@ -20,6 +20,7 @@ import com.arttraining.api.service.impl.HelpService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
 @Controller
@@ -41,6 +42,9 @@ public class HelpController {
 		
 		//以下是分页参数
 		String self = request.getParameter("self");
+	
+		ServerLog.getLogger().warn("self:"+self);
+		
 		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
 		if(self==null || self.equals("")) {
@@ -76,6 +80,7 @@ public class HelpController {
 		helpReBean.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(helpReBean));
 		return gson.toJson(helpReBean);
 	}
 	/***
@@ -91,6 +96,9 @@ public class HelpController {
 		
 		//以下是必选参数
 		String help_id = request.getParameter("help_id");
+		
+		ServerLog.getLogger().warn("help_id:"+help_id);
+		
 		if(help_id==null || help_id.equals("")) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -117,6 +125,7 @@ public class HelpController {
 		helpShow.setError_msg(errorMessage);
 		
 		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(helpShow));
 		return gson.toJson(helpShow);
 	}
 	

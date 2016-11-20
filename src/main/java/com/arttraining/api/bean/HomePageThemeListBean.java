@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class HomePageThemeListBean {
 	private String pic;
 	private String title;
@@ -11,7 +13,7 @@ public class HomePageThemeListBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = pic;
+		this.pic = ImageUtil.parsePicPath(pic);
 	}
 	public String getTitle() {
 		return title;

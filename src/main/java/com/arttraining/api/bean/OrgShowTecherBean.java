@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class OrgShowTecherBean {
 	private Integer tec_id;
 	private String tec_name;
@@ -29,7 +31,7 @@ public class OrgShowTecherBean {
 		return tec_pic;
 	}
 	public void setTec_pic(String tec_pic) {
-		this.tec_pic = tec_pic;
+		this.tec_pic = ImageUtil.parsePicPath(tec_pic);
 	}
 
 }

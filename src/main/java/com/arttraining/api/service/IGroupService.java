@@ -8,10 +8,12 @@ import com.arttraining.api.bean.GroupListMyBean;
 import com.arttraining.api.bean.GroupShowBean;
 import com.arttraining.api.pojo.Group;
 import com.arttraining.api.pojo.GroupUser;
+import com.arttraining.api.pojo.UserStu;
 
 public interface IGroupService {
-	//创建小组时 执行的方法
-	void insertOneGroupAndUser(Group group,GroupUser groupUser);
+	//创建小组时 执行的方法  group/create接口调用
+	void insertOneGroupAndUser(Group group,GroupUser groupUser,UserStu user);
+	
 	//依据用户类型和ID查询对应的头像
 	String getUerPicByIdAndType(Map<String,Object> map);
     //创建小组时 判断是否重复创建

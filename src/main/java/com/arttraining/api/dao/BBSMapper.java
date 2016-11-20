@@ -42,6 +42,8 @@ public interface BBSMapper {
     StatusesShowBean selectOneBBSByid(Integer id);
     //发布评论时更新评论数 comments/create/bbs接口调用
     int updateBBSCommNumByPrimaryKey(Integer id);
+    //更新帖子相关数量
+    int updateNumberBySelective(BBS record);
     
  
 }
