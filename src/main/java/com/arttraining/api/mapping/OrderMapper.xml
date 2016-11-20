@@ -43,6 +43,9 @@
     	where user_id = #{uid,jdbcType=INTEGER} 
     	and id=#{id,jdbcType=INTEGER})
     </if>
+    <if test="status !=null">
+    	and status=#{status,jdbcType=INTEGER}
+    </if>
     order by create_time desc
     limit #{limit,jdbcType=INTEGER}
   </select>

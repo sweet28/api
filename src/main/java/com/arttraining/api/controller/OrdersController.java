@@ -71,9 +71,10 @@ public class OrdersController {
 		access_token = request.getParameter("access_token");
 		uid = request.getParameter("uid");
 		
+		String status=request.getParameter("status");
 		String self = request.getParameter("self");
 		
-		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid);
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-status:"+status);
 		
 		Integer limit=ConfigUtil.PAGESIZE;
 		Integer offset=-1;
@@ -103,6 +104,12 @@ public class OrdersController {
 				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 			}
 			else {
+				Integer i_status=null;
+				if(status==null || status.equals("") || !NumberUtil.isInteger(status)) {
+					i_status=null;
+				}
+				else 
+					i_status = Integer.valueOf(status);
 				//用户ID 
 				Integer i_uid = Integer.valueOf(uid);
 				//依据用户ID去查询相应的订单列表
@@ -110,6 +117,7 @@ public class OrdersController {
 				map.put("uid", i_uid);
 				map.put("offset", offset);
 				map.put("limit",limit);
+				map.put("status", i_status);
 				List<OrderListMyBean> orderList = this.ordersService.getMyListOrderByUid(map);
 				if(orderList.size()>0) {
 					//循环读取list 依次查询作品信息
