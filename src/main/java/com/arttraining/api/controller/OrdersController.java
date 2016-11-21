@@ -455,6 +455,7 @@ public class OrdersController {
 		String attrType = "";
 		String attrLong = "";
 		String isPay = "";
+		String thumbnail = "";
 
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
@@ -464,6 +465,7 @@ public class OrdersController {
 		attrType = request.getParameter("attr_type");
 		attrLong = request.getParameter("attr_long");
 		isPay = request.getParameter("is_pay");
+		thumbnail = request.getParameter("thumbnail");
 		
 		System.out.println("进入订单更新："+TimeUtil.getTimeStamp());
 		
@@ -487,6 +489,9 @@ public class OrdersController {
 				workAtt.setStorePath(attachment);
 				workAtt.setDuration(attrLong);
 				workAtt.setType(attrType);
+				if(thumbnail != null || ("").equals(thumbnail.trim())){
+					workAtt.setThumbnail(thumbnail);
+				}
 				
 				int result = this.ordersService.updateAndUpdateWorkAssAtt(order, workAtt);
 				if(result == 1){

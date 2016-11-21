@@ -82,6 +82,10 @@ public class OrdersService implements IOrdersService{
 		result = this.assDao.updateByOrderNumber(ass);
 		
 		Works work = this.workDao.selectByOrderNumber(orderNumber);
+		if(workAtt.getThumbnail() != null || ("").equals(workAtt.getThumbnail().trim())){
+			work.setAttachment(workAtt.getThumbnail());
+			this.workDao.updateByPrimaryKeySelective(work);
+		}
 		int workId = work.getId();
 		workAtt.setForeignKey(workId);
 		
