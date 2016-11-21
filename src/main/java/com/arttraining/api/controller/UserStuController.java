@@ -1,5 +1,8 @@
 package com.arttraining.api.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.UserNumberBean;
 import com.arttraining.api.bean.UserStuShowBean;
+import com.arttraining.api.pojo.Follow;
 import com.arttraining.api.pojo.UserStu;
+import com.arttraining.api.service.impl.FollowService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
@@ -29,6 +34,9 @@ public class UserStuController {
 	
 	@Resource
 	private UserStuService userStuService;
+	@Resource
+	private FollowService followService;
+	
 	
 	/*@RequestMapping(value = "/test", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object test(HttpServletRequest request, HttpServletResponse response) {
@@ -65,7 +73,12 @@ public class UserStuController {
 		String errorMessage = "";
 		
 		String uid = request.getParameter("uid");
-		ServerLog.getLogger().warn("uid:"+uid);
+		//以下是可选参数
+		String login_id = request.getParameter("login_id");
+		String login_type = request.getParameter("login_type");
+						
+		String is_follow="";
+		ServerLog.getLogger().warn("uid:"+uid+"-login_type:"+login_type+"-login_id:"+login_id);
 		
 		//创建一个UserStuShowBean对象 默认会对属性进行赋值
 		UserStuShowBean userStu = new UserStuShowBean();
@@ -84,8 +97,31 @@ public class UserStuController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;		
 		}
 		else {
+			Integer i_login_id = 0;
+			if(login_id==null || login_type==null || login_id.equals("") || login_type.equals("")) {
+				i_login_id = 0;
+				login_type="";
+			} else if(!NumberUtil.isInteger(login_id)) {
+				i_login_id = 0;
+			} else
+				i_login_id=Integer.valueOf(login_id);
+			
 			//依据传递的uid 来获取相应的用户信息
 			Integer i_uid = Integer.valueOf(uid);
+			//依据关注类型的不同 查询不同的表
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("type", "org");
+			map.put("id", i_uid);
+			map.put("uid", i_login_id);
+			map.put("utype", login_type);
+			//首先判断登录是否重复对名师/机构/爱好者用户关注
+			Follow isExist=this.followService.getIsExistFollow(map);
+			if(isExist!=null) {
+				is_follow="yes";
+			}
+			else
+				is_follow="no";
+
 			userStu = this.userStuService.showUserStuById(i_uid);
 			if(userStu==null) {
 				//如果查询不存在uid 则重新赋值一个对象
@@ -94,6 +130,7 @@ public class UserStuController {
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;		
 			}
 			else {
+				userStu.setIs_follow(is_follow);
 				errorCode = "0";
 				errorMessage = "ok";
 			}

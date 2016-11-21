@@ -22,6 +22,7 @@ public class UserStuShowBean {
 	private String title;
 	private Integer score;
 	private Integer rank;
+	private String is_follow;
 	
 	public UserStuShowBean(){
 		this.uid = 0;
@@ -40,8 +41,20 @@ public class UserStuShowBean {
 		this.title="";
 		this.score = 0;
 		this.rank = 0;
+		this.is_follow="";
 	}
 	
+	
+	public String getIs_follow() {
+		return is_follow;
+	}
+
+
+	public void setIs_follow(String is_follow) {
+		this.is_follow = is_follow;
+	}
+
+
 	public String getError_code() {
 		return error_code;
 	}

@@ -3,6 +3,8 @@ package com.arttraining.api.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class OrgShowBean {
 	private String error_code;
 	private String error_msg;
@@ -35,6 +37,9 @@ public class OrgShowBean {
 
 	//评价
 	private OrgShowEvaluateBean evaluate;
+	
+	//新增是否关注
+	private String is_follow;
 
 	
 	public OrgShowBean() {
@@ -163,7 +168,7 @@ public class OrgShowBean {
 	}
 
 	public void setHead_pic(String head_pic) {
-		this.head_pic = head_pic;
+		this.head_pic = ImageUtil.parsePicPath(head_pic);
 	}
 
 	public List<String> getPic() {
@@ -229,4 +234,13 @@ public class OrgShowBean {
 	public void setEvaluate(OrgShowEvaluateBean evaluate) {
 		this.evaluate = evaluate;
 	}
+
+	public String getIs_follow() {
+		return is_follow;
+	}
+
+	public void setIs_follow(String is_follow) {
+		this.is_follow = is_follow;
+	}
+	
 }

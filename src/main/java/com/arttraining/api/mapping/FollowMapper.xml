@@ -18,6 +18,18 @@
     <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
   </resultMap>
   
+  <!-- coffee add 1121 判断登录是否重复对名师/机构/爱好者用户关注 -->
+   <select id="selectIsExistFollow" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_follow
+    where visitor = #{uid,jdbcType=INTEGER}
+    and visitor_type= #{utype,jdbcType=VARCHAR}
+    and host=#{id,jdbcType=INTEGER}
+    and host_type=#{type,jdbcType=VARCHAR}
+    and is_deleted=0 
+  </select>
+  
   <!-- coffee add 1116 依据类型不同 添加关注信息 follow/create接口调用 -->
    <resultMap id="CreateResultMap" type="com.arttraining.api.bean.FollowCreateBean" >
     <result column="id" property="id" jdbcType="INTEGER" />

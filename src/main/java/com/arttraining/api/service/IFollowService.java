@@ -23,4 +23,6 @@ public interface IFollowService {
     List<FollowFansBean> getFollowList(Map<String, Object> map);
     //依据用户ID和类型查询相应的用户信息-- follow/fans/list follow/follow/list接口调用 
     FollowUserBean getFollowUserById(Integer uid,String utype);
+   //判断登录是否重复对名师/机构/爱好者用户关注 
+    Follow getIsExistFollow(Map<String, Object> map);
 }

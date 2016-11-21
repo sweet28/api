@@ -22,7 +22,8 @@ public interface FollowMapper {
     int updateByPrimaryKeySelective(Follow record);
 
     int updateByPrimaryKey(Follow record);
-    
+    //判断登录是否重复对名师/机构/爱好者用户关注 
+    Follow selectIsExistFollow(Map<String, Object> map);
     //依据类型不同 添加关注信息--follow/create接口调用
     FollowCreateBean selectUserInfoByFollowCreate(Map<String, Object> map);
     //coffee add 1117--根据用户ID获取用户粉丝列表 follow/fans/list接口调用

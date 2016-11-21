@@ -66,4 +66,10 @@ public class FollowService implements IFollowService {
 		}
 	}
 
+	@Override
+	public Follow getIsExistFollow(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.followDao.selectIsExistFollow(map);
+	}
+
 }

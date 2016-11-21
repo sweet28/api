@@ -18,7 +18,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.TecherListBean;
 import com.arttraining.api.bean.TecherShowBean;
 import com.arttraining.api.bean.TecherShowOrgBean;
+import com.arttraining.api.pojo.Follow;
 import com.arttraining.api.pojo.UserTech;
+import com.arttraining.api.service.impl.FollowService;
 import com.arttraining.api.service.impl.UserOrgService;
 import com.arttraining.api.service.impl.UserTecService;
 import com.arttraining.commons.util.ConfigUtil;
@@ -34,6 +36,8 @@ public class TecherController {
 	private UserTecService userTecService;
 	@Resource
 	private UserOrgService userOrgService;
+	@Resource
+	private FollowService followService;
 	
 	/**
 	 * 获取名师列表
@@ -173,7 +177,13 @@ public class TecherController {
 		TecherShowBean tecShow = new TecherShowBean();
 		
 		String tec_id = request.getParameter("tec_id");
-		ServerLog.getLogger().warn("tec_id:"+tec_id);
+		//以下是可选参数
+		String login_id = request.getParameter("login_id");
+		String login_type = request.getParameter("login_type");
+				
+		String is_follow="";
+				
+		ServerLog.getLogger().warn("tec_id:"+tec_id+"-login_type:"+login_type+"-login_id:"+login_id);
 		
 		if(tec_id==null) {
 			errorCode = "20032";
@@ -190,7 +200,30 @@ public class TecherController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;		
 		}
 		else {
+			Integer i_login_id = 0;
+			if(login_id==null || login_type==null || login_id.equals("") || login_type.equals("")) {
+				i_login_id = 0;
+				login_type="";
+			} else if(!NumberUtil.isInteger(login_id)) {
+				i_login_id = 0;
+			} else
+				i_login_id=Integer.valueOf(login_id);
+			
 			Integer i_tec_id = Integer.valueOf(tec_id);
+			//依据关注类型的不同 查询不同的表
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("type", "org");
+			map.put("id", i_tec_id);
+			map.put("uid", i_login_id);
+			map.put("utype", login_type);
+			//首先判断登录是否重复对名师/机构/爱好者用户关注
+			Follow isExist=this.followService.getIsExistFollow(map);
+			if(isExist!=null) {
+				is_follow="yes";
+			}
+			else
+				is_follow="no";
+
 			//依据名师tec_id--名师ID来查询相应的名师信息
 			UserTech userTec = this.userTecService.selectOneUserTecById(i_tec_id);
 			if(userTec==null) {
@@ -205,12 +238,10 @@ public class TecherController {
 				Integer i_org_id = userTec.getOrgId();
 				//如果所属机构不存在,则无需进行一次机构查询
 				TecherShowOrgBean org=null;
-				if(i_org_id==null || i_org_id==0) {
-					org = new TecherShowOrgBean();
-				}
-				else {
+				if(i_org_id!=null && i_org_id!=0) {
 					org = this.userOrgService.getOneOrgByTecShow(i_org_id);
-				}	
+					tecShow.setOrg(org);
+				}
 				tecShow.setTec_id(userTec.getId());
 				tecShow.setName(userTec.getName());
 				tecShow.setPic(userTec.getHeadPic());
@@ -224,7 +255,7 @@ public class TecherController {
 				tecShow.setTitle(userTec.getTitle());
 				tecShow.setSpecialty(userTec.getSpecialtyName());
 				tecShow.setIntroduction(userTec.getIntroduction());
-				tecShow.setOrg(org);
+				tecShow.setIs_follow(is_follow);
 			}
 		}
 		tecShow.setError_code(errorCode);

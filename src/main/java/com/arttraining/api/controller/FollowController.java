@@ -77,7 +77,15 @@ public class FollowController {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("type", type);
 			map.put("id", i_follow_id);
-			
+			map.put("uid", i_uid);
+			map.put("utype", utype);
+			//首先判断登录是否重复对名师/机构/爱好者用户关注
+			Follow isExist=this.followService.getIsExistFollow(map);
+			if(isExist!=null) {
+				errorCode = "20055";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20055;
+			}
+			else{
 			FollowCreateBean userinfo = this.followService.getUserInfoByFollowCreate(map);
 			if(userinfo!=null) {
 				Date date = new Date();
@@ -116,10 +124,11 @@ public class FollowController {
 					errorCode = "20052";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20052;
 				}
-			}
+			   }
 			else {
 				errorCode = "20052";
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20052;
+			  }
 			}
 		}
 		JSONObject jsonObject = new JSONObject();
