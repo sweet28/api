@@ -34,7 +34,7 @@
     <result column="order_detail_num" property="order_element_num" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectMyListOrderByUid" resultMap="ListMyResultMap" parameterType="java.util.Map" >
-    (select id,create_time,code_number,
+    select id,create_time,code_number,
     type,status,final_pay,order_detail_num
     from t_yp_order
     where user_id = #{uid,jdbcType=INTEGER}
@@ -47,8 +47,7 @@
     	and status=#{status,jdbcType=INTEGER}
     </if>
     order by create_time desc
-    limit #{limit,jdbcType=INTEGER}) o,
-    
+    limit #{limit,jdbcType=INTEGER}
   </select>
   <resultMap id="MyWorkResultMap" type="com.arttraining.api.bean.OrderWorkBean" >
     <result column="work_id" property="work_id" jdbcType="INTEGER" />

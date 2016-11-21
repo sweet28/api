@@ -12,6 +12,8 @@ public class ImageUtil {
 	// 封装一个方法用于解析json数据 然后将其拆解
 	public static String parseAttPath(String store_path) {
 		String path = "";
+		//去除首尾空格字符串
+		store_path=store_path.trim();
 		// 首先判断是否是Json
 		JSONArray jsonArray = JSONArray.parseArray(store_path);
 		for (Iterator iterator = jsonArray.iterator(); iterator.hasNext();) {

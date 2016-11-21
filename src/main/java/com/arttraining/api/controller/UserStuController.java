@@ -16,6 +16,7 @@ import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
@@ -142,7 +143,7 @@ public class UserStuController {
 				Integer i_uid = Integer.valueOf(uid);
 				UserStu userStu = new UserStu();
 				userStu.setId(i_uid);
-				userStu.setHeadPic(head_pic);
+				userStu.setHeadPic(ImageUtil.parseAttPath(head_pic));
 				
 				try {
 					this.userStuService.updateUserStuBySelective(userStu);
