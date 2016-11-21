@@ -1,8 +1,5 @@
 package com.arttraining.api.bean;
 
-import com.arttraining.commons.util.ImageUtil;
-
-
 public class CommentsBean {
 	private Integer comment_id;
 	private Integer user_id;
@@ -26,7 +23,7 @@ public class CommentsBean {
 		return user_pic;
 	}
 	public void setUser_pic(String user_pic) {
-		this.user_pic = ImageUtil.parsePicPath(user_pic);
+		this.user_pic = user_pic;
 	}
 	public Integer getUser_id() {
 		return user_id;
