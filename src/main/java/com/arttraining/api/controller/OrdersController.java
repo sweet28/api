@@ -457,6 +457,8 @@ public class OrdersController {
 		String isPay = "";
 		String thumbnail = "";
 
+		System.out.println("进入订单更新000："+TimeUtil.getTimeStamp());
+		
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
 		orderNum = request.getParameter("order_number");
@@ -512,7 +514,7 @@ public class OrdersController {
 		
 		jo.put("error_code", errorCode);
 		jo.put("error_msg", errorMsg);
-		jo.put("uid", errorMsg);
+		jo.put("uid", 0);
 		jo.put("user_code", "");
 		jo.put("name", "");
 
