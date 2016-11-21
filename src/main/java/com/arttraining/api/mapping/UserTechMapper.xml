@@ -130,7 +130,7 @@
     from t_yp_user_tech
     where 1=1 
     <include refid="select_tec_where"></include>
-    order by order_code
+    order by order_code desc
     limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
   </select>
   
