@@ -34,7 +34,7 @@
     <result column="order_detail_num" property="order_element_num" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectMyListOrderByUid" resultMap="ListMyResultMap" parameterType="java.util.Map" >
-    select id,create_time,code_number,
+    (select id,create_time,code_number,
     type,status,final_pay,order_detail_num
     from t_yp_order
     where user_id = #{uid,jdbcType=INTEGER}
@@ -47,7 +47,8 @@
     	and status=#{status,jdbcType=INTEGER}
     </if>
     order by create_time desc
-    limit #{limit,jdbcType=INTEGER}
+    limit #{limit,jdbcType=INTEGER}) o,
+    
   </select>
   <resultMap id="MyWorkResultMap" type="com.arttraining.api.bean.OrderWorkBean" >
     <result column="work_id" property="work_id" jdbcType="INTEGER" />
@@ -57,17 +58,11 @@
   <select id="selectWorkInfoByListMy" resultMap="MyWorkResultMap" parameterType="java.util.Map" >
     <choose>
     	<when test="type==0">
-	    	select w.id as work_id,w.title as work_title,a.store_path as work_pic
-	    	from (select id,title
-	    	from t_yp_works
+	    	select id as work_id,title as work_title,attachment as work_pic
+	    	from t_yp_works 
 	    	where assessments_code=#{order_number,jdbcType=VARCHAR}
 	    	and assessments_id=#{order_id,jdbcType=INTEGER}
-	    	and is_deleted=0) w
-	    	left join 
-	    	(select store_path,foreign_key
-	    	from t_yp_works_att
-	    	where is_deleted=0) a
-	    	on w.id = a.foreign_key
+	    	and is_deleted=0
     	</when>
     </choose>
   </select>

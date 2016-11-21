@@ -93,7 +93,7 @@ public class StatusesController {
 	 * stus_type--动态类型  title--标题 conten--内容  
 	 * attr--附件路径 attr_type--附件类型 theme_id--话题id tag_id--标签id
 	 * 一期: 标题 内容  附件路径 附件类型 用户类型 uid
-	 * 
+	 * thumbnail--缩略图
 	 * ***/
 	@RequestMapping(value = "/publish/bbs", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object publishBBS(HttpServletRequest request, HttpServletResponse response) {
@@ -109,9 +109,10 @@ public class StatusesController {
 		String attr = request.getParameter("attr");
 		String attr_type=request.getParameter("attr_type");
 		String duration=request.getParameter("duration");
+		String thumbnail=request.getParameter("thumbnail");
 		
 		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-title:"+title+
-				"-content:"+content+"-attr:"+attr+"-attr_type:"+attr_type+"-duration:"+duration);
+				"-content:"+content+"-attr:"+attr+"-attr_type:"+attr_type+"-duration:"+duration+"-thumbnail:"+thumbnail);
 		
 		if(access_token==null || uid==null || utype==null) {
 			errorCode = "20032";
@@ -141,6 +142,7 @@ public class StatusesController {
 				bbs.setContent(content);
 				bbs.setCreateTime(Timestamp.valueOf(time));
 				bbs.setOrderCode(time);
+				bbs.setAttachment(thumbnail);
 				
 				//新增帖子对应的附件信息
 				BBSAttachment bbsAttr = null;
@@ -151,6 +153,7 @@ public class StatusesController {
 					bbsAttr.setType(attr_type);
 					bbsAttr.setDuration(duration);
 					bbsAttr.setOrderCode(time);
+					bbsAttr.setThumbnail(thumbnail);
 				}
 				//发布帖子时 更新用户发帖量
 				UserStu user = new UserStu();
@@ -207,9 +210,11 @@ public class StatusesController {
 		String attr = request.getParameter("attr");
 		String attr_type=request.getParameter("attr_type");
 		String duration=request.getParameter("duration");
+		String thumbnail=request.getParameter("thumbnail");
 		
 		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-title:"+title+
-				"-content:"+content+"-attr:"+attr+"-attr_type:"+attr_type+"-duration:"+duration+"-group_id:"+group_id);
+				"-content:"+content+"-attr:"+attr+"-attr_type:"+attr_type+"-duration:"+duration+"-group_id:"+group_id+
+				"-thumbnail:"+thumbnail);
 		
 		if(access_token==null || uid==null || utype==null || content==null || group_id==null) {
 			errorCode = "20032";
@@ -243,6 +248,7 @@ public class StatusesController {
 				status.setCreateTime(Timestamp.valueOf(time));
 				status.setGroupId(i_group_id);
 				status.setOrderCode(time);
+				status.setAttachment(thumbnail);
 				
 				//新增小组动态对应的附件信息
 				StatusesAttachment statusAttr = null;
@@ -253,6 +259,7 @@ public class StatusesController {
 					statusAttr.setType(attr_type);
 					statusAttr.setDuration(duration);
 					statusAttr.setOrderCode(time);
+					statusAttr.setThumbnail(thumbnail);
 				}
 				
 				try {

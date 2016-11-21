@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class HomePageAttBean {
 	private Integer att_id;
 	private String duration;
@@ -30,7 +32,7 @@ public class HomePageAttBean {
 		return thumbnail;
 	}
 	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+		this.thumbnail = ImageUtil.parsePicPath(thumbnail);
 	}
 	public String getStore_path() {
 		return store_path;

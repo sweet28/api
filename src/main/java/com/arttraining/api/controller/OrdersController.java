@@ -29,7 +29,6 @@ import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.pojo.Assessments;
 import com.arttraining.api.pojo.Order;
 import com.arttraining.api.pojo.UserStu;
-import com.arttraining.api.pojo.UserTech;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksAttchment;
 import com.arttraining.api.service.impl.OrdersService;
@@ -38,7 +37,6 @@ import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.IdWorker;
-import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
@@ -133,11 +131,7 @@ public class OrdersController {
 						if(work!=null) {
 							order.setWork_id(work.getWork_id());
 							order.setWork_title(work.getWork_title());
-							//获取头像
-							String path = work.getWork_pic();
-							if(path!=null && !"".equals(path.trim())) {
-								order.setWork_pic(ImageUtil.parseAttPath(path));
-							}
+							order.setWork_pic(work.getWork_pic());
 						}
 					}
 					orderMyBean.setOrders(orderList);
