@@ -113,7 +113,7 @@ public class FollowController {
 				if(type.equals("stu")) {
 					fan_user = new UserStu();
 					fan_user.setId(host_id);
-					fan_user.setFollowNum(1);
+					fan_user.setFansNum(1);
 				}
 				
 				try {
