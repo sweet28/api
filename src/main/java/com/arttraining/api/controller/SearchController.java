@@ -117,11 +117,11 @@ public class SearchController {
 		
 		SearchTecReBean tecReBean = new SearchTecReBean();
 		
-		if(spec==null || spec.equals("")) {
-			errorCode = "20032";
-			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
-		}
-		else {
+//		if(spec==null || spec.equals("")) {
+//			errorCode = "20032";
+//			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+//		}
+//		else {
 			if(self==null || self.equals("")) {
 				offset=-1;
 			}
@@ -154,7 +154,7 @@ public class SearchController {
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 				}
 			}
-		}
+		//}
 		tecReBean.setError_code(errorCode);
 		tecReBean.setError_msg(errorMessage);
 		
