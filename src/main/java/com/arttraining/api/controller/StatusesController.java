@@ -815,7 +815,107 @@ public class StatusesController {
 		return jsonObject;
 		
 	}
-	
+	/***
+	 * 查看我评论过的帖子列表信息
+	 * 传递的参数:
+	 * uid--用户ID
+	 * utype--用户类型
+	 * self--分页时的最后位置ID.
+	 */
+	@RequestMapping(value = "/show_my/bbs", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object showMyBBS(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		
+		//定义一个首页列表对象
+		List<Object> statusesList = new ArrayList<Object>();
+				
+		//以下两个是必选参数
+		String uid = request.getParameter("uid");
+		String utype = request.getParameter("utype");
+		
+		//以下参数不是必选参数
+		String self=request.getParameter("self");
+		ServerLog.getLogger().warn("self:"+self+"-uid:"+uid+"-utype:"+utype);
+		//默认10条记录
+		Integer limit = ConfigUtil.PAGESIZE;
+		Integer offset=-1;
+		if(uid==null || utype==null) {
+			errorCode="20032";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(uid.equals("") || utype.equals("")) {
+			errorCode="20032";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(!NumberUtil.isInteger(uid)) {
+			errorCode="20033";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		} else {
+			if(self==null || self.equals("")) {
+				offset=-1;
+			} else if(!NumberUtil.isInteger(self)) {
+				offset=-10;
+			} else 
+				offset=Integer.valueOf(self);
+			
+			if(offset==-10) {
+				errorCode="20032";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+			} else {
+				//用户ID
+				Integer i_uid=Integer.valueOf(uid);
+				//1. 查询该用户10条帖子详情
+				List<HomePageStatusesBean> bbsList = this.bbsService.getBBSListByMyComment(i_uid, offset, limit);
+				if(bbsList.size()==0) {
+					bbsList = new ArrayList<HomePageStatusesBean>();
+				} else {
+					//填充帖子详情信息
+					for (HomePageStatusesBean bbs : bbsList) {
+					   Integer s_id = bbs.getStus_id();
+					   
+					   //这里传递的是当前登录用户的ID和类型
+					   Map<String, Object> map = new HashMap<String, Object>();  
+				       map.put("s_id", s_id);  
+				       map.put("u_id", i_uid);
+				       map.put("u_type", utype);
+				       
+				       HomeLikeOrCommentBean isExistLike= this.bbsService.getIsLikeOrCommentOrAtt(map);
+				       bbs.setIs_like((String)map.get("is_like"));
+					   bbs.setIs_comment((String)map.get("is_comment"));
+					   
+					   if(isExistLike!=null) {
+							String att_type = isExistLike.getAtt_type();
+							if(att_type!=null && !att_type.equals("")) {
+								Integer att_id = isExistLike.getAtt_id();
+								String duration= isExistLike.getDuration();
+								String thumbnail=isExistLike.getThumbnail();
+								String store_path=isExistLike.getStore_path();
+								List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,1);
+								bbs.setAtt(attList);
+							}
+					   }
+						statusesList.add(bbs);
+					}
+				}
+				if(statusesList.size()>0) {
+					errorCode="0";
+					errorMessage="ok";
+				}
+				else {
+					errorCode="20007";
+					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				}
+			}
+		}
+		HomePageBean homepage = new HomePageBean();
+		homepage.setError_code(errorCode);
+		homepage.setError_msg(errorMessage);
+		homepage.setStatuses(statusesList);
+		Gson gson = new Gson();
+		
+		ServerLog.getLogger().warn(gson.toJson(homepage));
+		
+		return gson.toJson(homepage);
+	}
 	/**
 	 * 获取帖子详情
 	 * 传递的参数:

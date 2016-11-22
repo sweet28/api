@@ -77,5 +77,12 @@ public class BBSService implements IBBSService {
 		return this.bbsDao.updateNumberBySelective(record);
 	}
 
+	@Override
+	public List<HomePageStatusesBean> getBBSListByMyComment(Integer uid,
+			Integer offset, Integer limit) {
+		// TODO Auto-generated method stub
+		return this.bbsDao.selectBBSListByMyComment(uid, offset, limit);
+	}
+
 	
 }

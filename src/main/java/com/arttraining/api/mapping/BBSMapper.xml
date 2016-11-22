@@ -271,7 +271,38 @@
 	where b.owner = s.id
 	order by b.order_code desc
   </select>
- 
+  <!-- coffee add 1122 查看我评论过的帖子列表信息 statuses/show_my/bbs接口调用-->
+   <select id="selectBBSListByMyComment" resultMap="HomepageListResultMap">
+    select b.id as stus_id,'status' as stus_type,b.comment_num,
+    b.owner_type,b.like_num,b.browse_num,b.content,
+	b.title,b.tag,b.create_time,b.remarks,
+	s.identity_name as identity,
+	s.id as owner,s.name as owner_name,s.city_name as city,
+	s.head_pic as owner_head_pic
+	from
+	(select foreign_key,visitor,order_code
+	from t_yp_bbs_comment
+	where is_deleted=0 and visitor=#{uid,jdbcType=INTEGER} 
+	and visitor_type='stu'
+	<if test="offset !=-1">
+		  and order_code <![CDATA[ <= ]]> (select order_code from t_yp_bbs_comment
+		  where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+		  and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+	</if>
+	order by order_code desc
+	limit #{limit,jdbcType=INTEGER}) c, 
+	(select id,comment_num,like_num,browse_num,content,title,
+	tag,create_time,owner,owner_type,remarks
+	from t_yp_bbs
+	where is_deleted=0) b, 
+	(select identity_name,city_name,head_pic,name,id
+	from t_yp_user_stu
+	where <include refid="select_userstu_where"></include>
+	and id=#{uid,jdbcType=INTEGER}) s
+	where c.foreign_key = b.id and c.visitor=s.id
+	order by c.order_code desc
+  </select>
+  
   <!-- coffee add 1108 查询指定用户发帖详情 默认10条记录 -->
   <select id="selectBBSListByUid" resultMap="HomepageListResultMap">
     select b.id as stus_id,'status' as stus_type,b.comment_num,

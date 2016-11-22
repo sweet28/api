@@ -3,6 +3,8 @@ package com.arttraining.api.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
 import com.arttraining.api.bean.StatusesShowBean;
@@ -26,4 +28,9 @@ public interface IBBSService {
     StatusesShowBean getOneBBSById(Integer id); 
     //更新帖子相关数量
     int updateBBSNumber(BBS record);
+    
+    //查看我评论过的帖子列表信息--statuses/show_my/bbs接口调用
+    List<HomePageStatusesBean> getBBSListByMyComment(@Param("uid")Integer uid,
+    		@Param("offset")Integer offset,
+    		@Param("limit")Integer limit);
 }

@@ -45,5 +45,9 @@ public interface BBSMapper {
     //更新帖子相关数量
     int updateNumberBySelective(BBS record);
     
- 
+    //查看我评论过的帖子列表信息--statuses/show_my/bbs接口调用
+    List<HomePageStatusesBean> selectBBSListByMyComment(@Param("uid")Integer uid,
+    		@Param("offset")Integer offset,
+    		@Param("limit")Integer limit);
+    
 }
