@@ -469,7 +469,7 @@ public class OrdersController {
 		isPay = request.getParameter("is_pay");
 		thumbnail = request.getParameter("thumbnail");
 		
-		System.out.println("进入订单更新："+TimeUtil.getTimeStamp());
+		System.out.println(thumbnail+"-进入订单更新："+TimeUtil.getTimeStamp()+"-"+attachment);
 		
 		if(accessToken == null || uid == null || orderNum == null){
 			System.out.println("进入订单更新2："+TimeUtil.getTimeStamp());
@@ -492,6 +492,7 @@ public class OrdersController {
 				workAtt.setDuration(attrLong);
 				workAtt.setType(attrType);
 				if(thumbnail != null && ("").equals(thumbnail.trim())){
+					System.out.println("____________________________________________________________________________");
 					workAtt.setThumbnail(thumbnail);
 				}
 				

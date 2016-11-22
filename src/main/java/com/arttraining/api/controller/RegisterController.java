@@ -18,6 +18,7 @@ import com.arttraining.api.service.impl.InviteCodeService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.PhoneUtil;
 import com.arttraining.commons.util.TimeUtil;
@@ -148,9 +149,7 @@ public class RegisterController {
 					loginBean.setEmail(userBean.getEmail());
 					String headPic = userBean.getHeadPic();
 					if(!"".equals(headPic) && null != headPic){
-						JSONArray jsonArray = JSONArray.parseArray(headPic);
-						JSONObject jsonObject = (JSONObject)jsonArray.getJSONObject(0);
-						headPic = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + jsonObject.getString("store_path");
+						headPic = ImageUtil.parseQiNiuPath(headPic, 5);
 						
 						loginBean.setHead_pic(headPic);
 					}

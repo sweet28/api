@@ -82,7 +82,7 @@ public class OrdersService implements IOrdersService{
 		result = this.assDao.updateByOrderNumber(ass);
 		
 		Works work = this.workDao.selectByOrderNumber(orderNumber);
-		if(workAtt.getThumbnail() != null || ("").equals(workAtt.getThumbnail().trim())){
+		if(workAtt.getThumbnail() != null && !("").equals(workAtt.getThumbnail().trim())){
 			work.setAttachment(workAtt.getThumbnail());
 			this.workDao.updateByPrimaryKeySelective(work);
 		}
