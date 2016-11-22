@@ -50,12 +50,29 @@
     follow_num,browse_num
     from t_yp_institutions
     where is_deleted=0
-    <if test="city !=null">
-    	and city_name =#{city,jdbcType=VARCHAR}
-    </if>
-     <if test="province !=null">
-    	and city_father =#{province,jdbcType=VARCHAR}
-    </if>
+    <choose>
+    	<when test="type=='is_media'">
+    		and is_media=#{name,jdbcType=VARCHAR}
+    	</when>
+    	<when test="type=='city'">
+    		and city_name=#{name,jdbcType=VARCHAR}
+    	</when>
+    	<when test="type=='province'">
+    		and city_father=#{name,jdbcType=VARCHAR}
+    	</when>
+    	<when test="type=='is_fine_art'">
+    		and is_fine_art=#{name,jdbcType=VARCHAR}
+    	</when>
+    	<when test="type=='is_music'">
+    		and is_music=#{name,jdbcType=VARCHAR}
+    	</when>
+    	<when test="type=='is_independence'">
+    		and is_independence=#{name,jdbcType=VARCHAR}
+    	</when>
+    	<when test="type=='is_reference'">
+    		and is_reference=#{name,jdbcType=VARCHAR}
+    	</when>
+    </choose>
     order by order_code
   </select>
   

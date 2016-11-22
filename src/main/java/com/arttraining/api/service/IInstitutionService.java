@@ -11,4 +11,5 @@ public interface IInstitutionService {
     List<InstitutionsListBean> getInstitutionsList(Map<String,Object> map);
     //根据院校ID获取院校详情信息--institutions/show接口调用
     InstitutionsShowBean getInstitutionsShow(Integer id);
+    
 }

@@ -13,6 +13,20 @@
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
   </resultMap>
+  <!-- coffee add 获取院校地域、类型条件列表 institutions/conditions接口调用 -->
+   <resultMap id="ConditionResultMap" type="com.arttraining.api.bean.InstitutionConditionBean" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectConditionList" resultMap="ConditionResultMap">
+    select id,type,name
+    from t_yp_institutions_conditions
+    where is_deleted=0
+    order by order_code desc
+  </select>
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     type, name
