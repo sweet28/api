@@ -27,23 +27,52 @@ public class UploadController {
 		String QNToken = "";
 		String errorCode = "";
 		String errorMessage = "";
+		String buketType = "";
 		
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
-		if(accessToken == null || uid == null){
+		buketType = request.getParameter("buket_type");
+		if(accessToken == null || uid == null || buketType == null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}else{
-			if(accessToken.equals("") || uid.equals("")){
+			if(accessToken.equals("") || uid.equals("") || buketType.equals("")){
 				errorCode = "20032";
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			}else{
 				// todo:判断token是否有效
 				boolean tokenFlag = TokenUtil.checkToken(accessToken);
 				if (tokenFlag) {
+					String buketPath = "";
+					switch (Integer.parseInt(buketType)) {
+					case 0:
+						buketPath = ConfigUtil.QINIU_BUCKET;
+						break;
+					case 1:
+						buketPath = ConfigUtil.QINIU_BUCKET_BBS;
+						break;
+					case 2:
+						buketPath = ConfigUtil.QINIU_BUCKET_COURSE;
+						break;
+					case 3:
+						buketPath = ConfigUtil.QINIU_BUCKET_G_STUS;
+						break;
+					case 4:
+						buketPath = ConfigUtil.QINIU_BUCKET_INFO;
+						break;
+					case 5:
+						buketPath = ConfigUtil.QINIU_BUCKET_STU_ORG_TEC;
+						break;
+					case 6:
+						buketPath = ConfigUtil.QINIU_BUCKET_WORKS;
+						break;
+					default:
+						break;
+					}
+					
 					Auth auth = Auth.create(ConfigUtil.QINIU_AK,
 							ConfigUtil.QINIU_SK);
-					QNToken = auth.uploadToken(ConfigUtil.QINIU_BUCKET, null,
+					QNToken = auth.uploadToken(buketPath, null,
 							ConfigUtil.QINIU_EXPIRES, ConfigUtil.QINIU_POLICY);
 					if (QNToken.equals("") || QNToken == null) {
 						errorCode = "20031";
