@@ -83,7 +83,8 @@
     </if>
     <if test="key !=null"> 
     	and (school_name like '%${key}%' or name like '%${key}%'
-    	or city_name like '%${key}%' or city_father like '%${key}%') 
+    	or city_name like '%${key}%' or city_father like '%${key}%'
+    	or specialty_name like '%${key}%') 
     </if>
     <include refid="select_tec_where"></include>
     order by order_code desc
