@@ -6,13 +6,32 @@ public class ConfigUtil {
 	// todo:七牛云密钥
 	public static String QINIU_AK = "4NLPjCaLLjYCXYUQ-Jl5iW5Ceknmux9iDRDtQ2vX";
 	public static String QINIU_SK = "ZxF06uDuQ_ZQVKsNSQykLN1YwWYrC1lFTunBUFf6";
-	public static String QINIU_BUCKET = "yipei-2016";// 空间名
 	public static String QINIU_KEY = null;
 	public static long QINIU_EXPIRES = 86400;// 有效时长，单位秒
 	public static boolean STRICT = true;
 	public static StringMap QINIU_POLICY = null;
+	
+	public static String QINIU_BUCKET = "yipei-2016";// 空间名
 	public static String QINIU_BUCKET_COM_URL = "http://oflkt0ank.bkt.clouddn.com";
-
+	//todo:帖子存储及访问
+	public static String QINIU_BUCKET_BBS = "artforyou-bbs";// 空间名
+	public static String QINIU_BUCKET_BBS_COM_URL = "http://oh0vdeauy.bkt.clouddn.com";
+	//todo:课程存储及访问
+	public static String QINIU_BUCKET_COURSE = "artforyou-course";// 空间名
+	public static String QINIU_BUCKET_COURSE_COM_URL = "http://oh0ucnjvb.bkt.clouddn.com";
+	//todo:小组存储及访问
+	public static String QINIU_BUCKET_G_STUS = "artforyou-g-stus";// 空间名
+	public static String QINIU_BUCKET_G_STUS_COM_URL = "http://oh0vfhtgh.bkt.clouddn.com";
+	//todo:活动、广告等存储及访问
+	public static String QINIU_BUCKET_INFO = "artforyou-info";// 空间名
+	public static String QINIU_BUCKET_INFO_COM_URL = "http://oh0uyp4iw.bkt.clouddn.com";
+	//todo:爱好者、名师、机构头像、图片存储及访问
+	public static String QINIU_BUCKET_STU_ORG_TEC = "artforyou-stu-org-tec";// 空间名
+	public static String QINIU_BUCKET_STU_ORG_TEC_COM_URL = "http://oh0uhvgvb.bkt.clouddn.com";
+	//todo:作品存储及访问
+	public static String QINIU_BUCKET_WORKS = "artforyou-works";// 空间名
+	public static String QINIU_BUCKET_WORKS_COM_URL = "http://oh0u47h9e.bkt.clouddn.com";
+	
 	public static String PARAMETER_ERROR_CODE = "error_code";
 	public static String PARAMETER_ERROR_MSG = "error_msg";
 	public static String PARAMETER_QINIU_TOKEN = "qiniu_token";

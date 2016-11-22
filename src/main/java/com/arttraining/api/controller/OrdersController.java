@@ -491,7 +491,7 @@ public class OrdersController {
 				workAtt.setStorePath(attachment);
 				workAtt.setDuration(attrLong);
 				workAtt.setType(attrType);
-				if(thumbnail != null || ("").equals(thumbnail.trim())){
+				if(thumbnail != null && ("").equals(thumbnail.trim())){
 					workAtt.setThumbnail(thumbnail);
 				}
 				
