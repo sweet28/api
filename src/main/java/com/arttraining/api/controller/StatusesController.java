@@ -639,6 +639,7 @@ public class StatusesController {
 			Integer i_uid = Integer.valueOf(uid);	
 			List<HomePageStatusesBean> worksList = this.worksService.getWorkListByUid(i_uid, offset, limit);
 			if(worksList.size()==0) {
+				
 				worksList = new ArrayList<HomePageStatusesBean>();
 			}
 			else {

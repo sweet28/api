@@ -483,20 +483,40 @@ public class OrdersController {
 			Order order = this.ordersService.selectByOrderNumber(orderNum);
 			if(order != null){
 				System.out.println("进入订单更新4："+TimeUtil.getTimeStamp());
-				order.setPayTime(TimeUtil.getTimeStamp());
-				order.setPayType(payType);
-				order.setStatus(4);
-				
+
+				Assessments ass = new Assessments();
+				if(isPay != null && !("").equals(isPay)){
+					order.setStatus(Integer.parseInt(isPay));
+					if(isPay.equals("1")){
+						order.setPayTime(TimeUtil.getTimeStamp());
+						order.setPayType(payType);
+						ass.setPayTime(TimeUtil.getTimeStamp());
+						ass.setIsPay(1);
+						if(attachment != null && !("").equals(attachment)){
+							ass.setStatus(0);
+						}else{
+							ass.setStatus(4);
+						}
+					}
+				}
+
 				WorksAttchment workAtt = new WorksAttchment();
-				workAtt.setStorePath(attachment);
-				workAtt.setDuration(attrLong);
-				workAtt.setType(attrType);
-				if(thumbnail != null && ("").equals(thumbnail.trim())){
-					System.out.println("____________________________________________________________________________");
+				
+				
+				if(attachment != null && !("").equals(attachment)){
+					workAtt.setStorePath(attachment);
+				}
+				if(attrLong != null && !("").equals(attrLong)){
+					workAtt.setDuration(attrLong);
+				}
+				if(attrType != null && !("").equals(attrType)){
+					workAtt.setType(attrType);
+				}
+				if(thumbnail != null && !("").equals(thumbnail.trim())){
 					workAtt.setThumbnail(thumbnail);
 				}
-				
-				int result = this.ordersService.updateAndUpdateWorkAssAtt(order, workAtt);
+				System.out.println(attrType+"_---------"+attachment +"-----------------"+thumbnail);
+				int result = this.ordersService.updateAndUpdateWorkAssAtt(order, workAtt, ass);
 				if(result == 1){
 					System.out.println("进入订单更新5："+TimeUtil.getTimeStamp());
 					errorCode = "0";

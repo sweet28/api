@@ -20,7 +20,7 @@ public interface IOrdersService {
 	
 	int updateAndUpdateWorkAssAtt(Order order, Works works, List<Assessments> assList, WorksAttchment workAtt);
 	
-	int updateAndUpdateWorkAssAtt(Order order, WorksAttchment workAtt);
+	int updateAndUpdateWorkAssAtt(Order order, WorksAttchment workAtt, Assessments ass);
 	
 	Order selectByOrderNumber(String orderNumber);
 	

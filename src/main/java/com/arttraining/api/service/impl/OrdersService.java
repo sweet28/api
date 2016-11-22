@@ -66,7 +66,7 @@ public class OrdersService implements IOrdersService{
 	}
 	
 	@Override
-	public int updateAndUpdateWorkAssAtt(Order order, WorksAttchment workAtt) {
+	public int updateAndUpdateWorkAssAtt(Order order, WorksAttchment workAtt, Assessments ass) {
 		int result = 0;
 		
 		result = this.orderDao.updateByPrimaryKeySelective(order);
@@ -74,10 +74,6 @@ public class OrdersService implements IOrdersService{
 		int orderId = order.getId();
 		String orderNumber = order.getCodeNumber();
 		
-		Assessments ass = new Assessments();
-		ass.setIsPay(1);
-		ass.setPayTime(TimeUtil.getTimeStamp());
-		ass.setStatus(0);
 		ass.setOrderNumber(orderNumber);
 		result = this.assDao.updateByOrderNumber(ass);
 		
