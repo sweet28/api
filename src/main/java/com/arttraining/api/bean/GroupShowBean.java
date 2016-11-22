@@ -88,7 +88,7 @@ public class GroupShowBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = ImageUtil.parsePicPath(pic);
+		this.pic = ImageUtil.parsePicPath(pic,3);
 	}
 	public String getNumber() {
 		return number;
@@ -118,7 +118,7 @@ public class GroupShowBean {
 		return owner_pic;
 	}
 	public void setOwner_pic(String owner_pic) {
-		this.owner_pic = ImageUtil.parsePicPath(owner_pic);
+		this.owner_pic = ImageUtil.parsePicPath(owner_pic,5);
 	}
 	public String getCreate_time() {
 		return create_time;

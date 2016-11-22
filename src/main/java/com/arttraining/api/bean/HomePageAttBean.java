@@ -1,6 +1,5 @@
 package com.arttraining.api.bean;
 
-import com.arttraining.commons.util.ImageUtil;
 
 public class HomePageAttBean {
 	private Integer att_id;
@@ -32,7 +31,7 @@ public class HomePageAttBean {
 		return thumbnail;
 	}
 	public void setThumbnail(String thumbnail) {
-		this.thumbnail = ImageUtil.parsePicPath(thumbnail);
+		this.thumbnail = thumbnail;
 	}
 	public String getStore_path() {
 		return store_path;

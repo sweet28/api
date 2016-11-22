@@ -27,7 +27,7 @@ public class InstitutionsListBean {
 		return institution_pic;
 	}
 	public void setInstitution_pic(String institution_pic) {
-		this.institution_pic = ImageUtil.parsePicPath(institution_pic);
+		this.institution_pic = ImageUtil.parsePicPath(institution_pic,5);
 	}
 	public String getAdmissions_guide() {
 		return admissions_guide;

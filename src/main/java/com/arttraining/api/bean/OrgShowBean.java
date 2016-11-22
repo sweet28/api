@@ -168,7 +168,7 @@ public class OrgShowBean {
 	}
 
 	public void setHead_pic(String head_pic) {
-		this.head_pic = ImageUtil.parsePicPath(head_pic);
+		this.head_pic = ImageUtil.parsePicPath(head_pic,5);
 	}
 
 	public List<String> getPic() {

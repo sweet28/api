@@ -24,7 +24,7 @@ public class OrgShowTraineesBean {
 		return tra_pic;
 	}
 	public void setTra_pic(String tra_pic) {
-		this.tra_pic = ImageUtil.parsePicPath(tra_pic);
+		this.tra_pic = ImageUtil.parsePicPath(tra_pic,5);
 	}
 	public String getTra_school() {
 		return tra_school;

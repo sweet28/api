@@ -29,7 +29,7 @@ public class HomePageAdvertiseBean {
 		return ad_pic;
 	}
 	public void setAd_pic(String ad_pic) {
-		this.ad_pic = ImageUtil.parsePicPath(ad_pic);
+		this.ad_pic = ImageUtil.parsePicPath(ad_pic,4);
 	}
 	
 }

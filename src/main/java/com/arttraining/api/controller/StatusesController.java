@@ -53,6 +53,7 @@ import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.api.service.impl.WorksTecCommentService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.Random;
 import com.arttraining.commons.util.ServerLog;
@@ -372,7 +373,7 @@ public class StatusesController {
 							String duration= isExistLike.getDuration();
 							String thumbnail=isExistLike.getThumbnail();
 							String store_path=isExistLike.getStore_path();
-							List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+							List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,6);
 							work.setAtt(attList);
 						}
 				   }
@@ -406,7 +407,7 @@ public class StatusesController {
 					   String duration= isExistLike.getDuration();
 					   String thumbnail=isExistLike.getThumbnail();
 					   String store_path=isExistLike.getStore_path();
-					   List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+					   List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,1);
 					   bbs.setAtt(attList);
 				   } 
 			   }
@@ -539,7 +540,7 @@ public class StatusesController {
 						String duration= isExistLike.getDuration();
 						String thumbnail=isExistLike.getThumbnail();
 						String store_path=isExistLike.getStore_path();
-						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,1);
 						bbs.setAtt(attList);
 					}
 			   }
@@ -661,7 +662,7 @@ public class StatusesController {
 							String duration= isExistLike.getDuration();
 							String thumbnail=isExistLike.getThumbnail();
 							String store_path=isExistLike.getStore_path();
-							List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+							List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,6);
 							work.setAtt(attList);
 						}
 				   }
@@ -887,7 +888,7 @@ public class StatusesController {
 						String duration= isExistLike.getDuration();
 						String thumbnail=isExistLike.getThumbnail();
 						String store_path=isExistLike.getStore_path();
-						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,1);
 						bbs.setAtt(attList);
 					}
 				}
@@ -1017,7 +1018,7 @@ public class StatusesController {
 						String duration= isExistLike.getDuration();
 						String thumbnail=isExistLike.getThumbnail();
 						String store_path=isExistLike.getStore_path();
-						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,3);
 						status.setAtt(attList);
 					}
 				}
@@ -1145,7 +1146,7 @@ public class StatusesController {
 						String duration= isExistLike.getDuration();
 						String thumbnail=isExistLike.getThumbnail();
 						String store_path=isExistLike.getStore_path();
-						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,6);
 						work.setAtt(attList);
 					}
 				}
@@ -1312,7 +1313,7 @@ public class StatusesController {
 						String duration= isExistLike.getDuration();
 						String thumbnail=isExistLike.getThumbnail();
 						String store_path=isExistLike.getStore_path();
-						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,3);
 						status.setAtt(attList);
 					}
 			   }
@@ -1440,7 +1441,7 @@ public class StatusesController {
 						String duration= isExistLike.getDuration();
 						String thumbnail=isExistLike.getThumbnail();
 						String store_path=isExistLike.getStore_path();
-						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,3);
 						status.setAtt(attList);
 					}
 			   }
@@ -1590,7 +1591,7 @@ public class StatusesController {
 	}
 	//封装一个方法用于解析json数据 然后将其拆解
 	public List<HomePageAttBean> parseAttPath(Integer att_id,String att_type,
-			String duration,String thumbnail,String store_path) {
+			String duration,String thumbnail,String store_path,Integer type) {
 		List<HomePageAttBean> attList = new ArrayList<HomePageAttBean>();
 		HomePageAttBean h = null;
 		 
@@ -1604,8 +1605,10 @@ public class StatusesController {
 	          h.setAtt_type(att_type);
 	          
 	          h.setDuration(duration);
-	          path = ConfigUtil.QINIU_BUCKET_COM_URL+"/"+jsonObject.getString("store_path");
+	          path = jsonObject.getString("store_path");
+	          path=ImageUtil.parsePicPath(path, type);
 	          h.setStore_path(path);
+	          thumbnail=ImageUtil.parsePicPath(thumbnail, type);
 	          h.setThumbnail(thumbnail);
 	          attList.add(h);
 	    }

@@ -1,8 +1,5 @@
 package com.arttraining.api.bean;
 
-import com.arttraining.commons.util.ImageUtil;
-
-
 public class OrderListMyBean {
 	private Integer order_type;
 	private String order_number;
@@ -85,7 +82,7 @@ public class OrderListMyBean {
 		return work_pic;
 	}
 	public void setWork_pic(String work_pic) {
-		this.work_pic = ImageUtil.parsePicPath(work_pic);
+		this.work_pic = work_pic;
 	}
 
 }

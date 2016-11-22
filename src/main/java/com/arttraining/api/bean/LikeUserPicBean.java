@@ -24,7 +24,7 @@ public class LikeUserPicBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = ImageUtil.parsePicPath(pic);
+		this.pic = ImageUtil.parsePicPath(pic,5);
 	}
 	public String getUser_type() {
 		return user_type;

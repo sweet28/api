@@ -28,7 +28,7 @@ public class OrderWorkBean {
 		return work_pic;
 	}
 	public void setWork_pic(String work_pic) {
-		this.work_pic = ImageUtil.parsePicPath(work_pic);
+		this.work_pic = ImageUtil.parsePicPath(work_pic,6);
 	}
 	
 	

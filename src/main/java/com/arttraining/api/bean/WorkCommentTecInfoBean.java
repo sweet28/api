@@ -43,7 +43,7 @@ public class WorkCommentTecInfoBean {
 		return tec_pic;
 	}
 	public void setTec_pic(String tec_pic) {
-		this.tec_pic = ImageUtil.parsePicPath(tec_pic);
+		this.tec_pic = ImageUtil.parsePicPath(tec_pic,5);
 	}
 	
 	

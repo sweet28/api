@@ -24,24 +24,77 @@ public class ImageUtil {
 	}
 
 	// 封装一个方法用于解析json数据 然后将其拆解
-	public static String parseQiNiuPath(String store_path) {
+	public static String parseQiNiuPath(String store_path,Integer type) {
 		String path = "";
+		String pre_path="";
+		switch (type) {
+		case 0:
+			pre_path=ConfigUtil.QINIU_BUCKET_COM_URL;
+			break;
+		case 1:
+			pre_path=ConfigUtil.QINIU_BUCKET_BBS_COM_URL;
+			break;
+		case 2:
+			pre_path=ConfigUtil.QINIU_BUCKET_COURSE_COM_URL;
+			break;
+		case 3:
+			pre_path=ConfigUtil.QINIU_BUCKET_G_STUS_COM_URL;
+			break;
+		case 4:
+			pre_path=ConfigUtil.QINIU_BUCKET_INFO_COM_URL;
+			break;
+		case 5:
+			pre_path=ConfigUtil.QINIU_BUCKET_STU_ORG_TEC_COM_URL;
+			break;
+		case 6:
+			pre_path=ConfigUtil.QINIU_BUCKET_WORKS_COM_URL;
+			break;
+		default:
+			break;
+		}
+		
 		// 首先判断是否是Json
 		JSONArray jsonArray = JSONArray.parseArray(store_path);
 		for (Iterator iterator = jsonArray.iterator(); iterator.hasNext();) {
 			JSONObject jsonObject = (JSONObject) iterator.next();
-			path = ConfigUtil.QINIU_BUCKET_COM_URL + "/"
+			path = pre_path + "/"
 					+ jsonObject.getString("store_path");
 		}
 
 		return path;
 	}
 	
-	public static String parsePicPath(String store_path){
+	public static String parsePicPath(String store_path,Integer type){
 		String result = "";
 		
-		if(!"".equals(store_path) && null != store_path){
-			result = ConfigUtil.QINIU_BUCKET_COM_URL+"/" + store_path;
+		if(null != store_path && !"".equals(store_path.trim())){
+			String pre_path="";
+			switch (type) {
+			case 0:
+				pre_path=ConfigUtil.QINIU_BUCKET_COM_URL;
+				break;
+			case 1:
+				pre_path=ConfigUtil.QINIU_BUCKET_BBS_COM_URL;
+				break;
+			case 2:
+				pre_path=ConfigUtil.QINIU_BUCKET_COURSE_COM_URL;
+				break;
+			case 3:
+				pre_path=ConfigUtil.QINIU_BUCKET_G_STUS_COM_URL;
+				break;
+			case 4:
+				pre_path=ConfigUtil.QINIU_BUCKET_INFO_COM_URL;
+				break;
+			case 5:
+				pre_path=ConfigUtil.QINIU_BUCKET_STU_ORG_TEC_COM_URL;
+				break;
+			case 6:
+				pre_path=ConfigUtil.QINIU_BUCKET_WORKS_COM_URL;
+				break;
+			default:
+				break;
+			}
+			result = pre_path+"/" + store_path;
 		}else{
 			result = store_path;
 		}

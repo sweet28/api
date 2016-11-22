@@ -60,7 +60,7 @@ public class OrgShowListevaBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = ImageUtil.parsePicPath(pic);
+		this.pic = ImageUtil.parsePicPath(pic,5);
 	}
 	public String getContent() {
 		return content;

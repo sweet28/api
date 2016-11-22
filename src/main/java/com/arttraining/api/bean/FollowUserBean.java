@@ -31,7 +31,7 @@ public class FollowUserBean {
 		return head_pic;
 	}
 	public void setHead_pic(String head_pic) {
-		this.head_pic = ImageUtil.parsePicPath(head_pic);
+		this.head_pic = ImageUtil.parsePicPath(head_pic,5);
 	}
 
 }

@@ -102,7 +102,7 @@ public class StatusesShowBean {
 		return owner_head_pic;
 	}
 	public void setOwner_head_pic(String owner_head_pic) {
-		this.owner_head_pic = ImageUtil.parsePicPath(owner_head_pic);
+		this.owner_head_pic = ImageUtil.parsePicPath(owner_head_pic,5);
 	}
 	public String getCreate_time() {
 		return create_time;

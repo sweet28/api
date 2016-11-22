@@ -38,7 +38,7 @@ public class CommentsVisitorBean {
 		return user_pic;
 	}
 	public void setUser_pic(String user_pic) {
-		this.user_pic = ImageUtil.parsePicPath(user_pic);
+		this.user_pic = ImageUtil.parsePicPath(user_pic,5);
 	}
 	public String getName() {
 		return name;

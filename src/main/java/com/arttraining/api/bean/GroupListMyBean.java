@@ -45,7 +45,7 @@ public class GroupListMyBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = ImageUtil.parsePicPath(pic);
+		this.pic = ImageUtil.parsePicPath(pic,3);
 	}
 	public Integer getVerify_status() {
 		return verify_status;

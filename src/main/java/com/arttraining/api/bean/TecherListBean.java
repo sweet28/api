@@ -43,7 +43,7 @@ public class TecherListBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = ImageUtil.parsePicPath(pic);
+		this.pic = ImageUtil.parsePicPath(pic,5);
 	}
 	public Integer getComment() {
 		return comment;

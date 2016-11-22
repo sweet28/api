@@ -24,7 +24,7 @@ public class AdvertiseListBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = ImageUtil.parsePicPath(pic);
+		this.pic = ImageUtil.parsePicPath(pic,4);
 	}
 	public String getUrl() {
 		return url;
