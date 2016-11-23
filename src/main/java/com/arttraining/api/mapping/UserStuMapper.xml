@@ -89,10 +89,11 @@
     <result column="comment_num" property="comment_num" jdbcType="INTEGER" />
     <result column="follow_num" property="follow_num" jdbcType="INTEGER" />
     <result column="fans_num" property="fans_num" jdbcType="INTEGER" />
+    <result column="work_num" property="work_num" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectUserNumberByUid" resultMap="UserNumResultMap" parameterType="java.lang.Integer" >
     select bbs_num,group_num,favorite_num,
-    comment_num,follow_num,fans_num
+    comment_num,follow_num,fans_num,work_num
     from t_yp_user_stu
     where id = #{id,jdbcType=INTEGER}
     <include refid="select_userstu_where"></include>

@@ -502,9 +502,15 @@ public class OrdersController {
 
 				WorksAttchment workAtt = new WorksAttchment();
 				
-				
+				//coffee add 更新登录用户作品数
+				UserStu user = null;
+				//end
 				if(attachment != null && !("").equals(attachment)){
 					workAtt.setStorePath(attachment);
+					Integer i_uid=Integer.valueOf(uid);
+					user=new UserStu();
+					user.setId(i_uid);
+					user.setWorkNum(1);
 				}
 				if(attrLong != null && !("").equals(attrLong)){
 					workAtt.setDuration(attrLong);
@@ -515,8 +521,9 @@ public class OrdersController {
 				if(thumbnail != null && !("").equals(thumbnail.trim())){
 					workAtt.setThumbnail(thumbnail);
 				}
+				
 				System.out.println(attrType+"_---------"+attachment +"-----------------"+thumbnail);
-				int result = this.ordersService.updateAndUpdateWorkAssAtt(order, workAtt, ass);
+				int result = this.ordersService.updateAndUpdateWorkAssAtt(order, workAtt, ass,user);
 				if(result == 1){
 					System.out.println("进入订单更新5："+TimeUtil.getTimeStamp());
 					errorCode = "0";

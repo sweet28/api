@@ -12,14 +12,15 @@ import com.arttraining.api.bean.OrderListMyBean;
 import com.arttraining.api.bean.OrderWorkBean;
 import com.arttraining.api.dao.AssessmentsMapper;
 import com.arttraining.api.dao.OrderMapper;
+import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.dao.WorksAttchmentMapper;
 import com.arttraining.api.dao.WorksMapper;
 import com.arttraining.api.pojo.Assessments;
 import com.arttraining.api.pojo.Order;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksAttchment;
 import com.arttraining.api.service.IOrdersService;
-import com.arttraining.commons.util.TimeUtil;
 
 @Service("OrdersService")
 public class OrdersService implements IOrdersService{
@@ -31,6 +32,8 @@ public class OrdersService implements IOrdersService{
 	private AssessmentsMapper assDao;
 	@Resource
 	private WorksAttchmentMapper workAttDao;
+	@Resource
+	private UserStuMapper userStuDao;
 
 	@Override
 	public int insert(Order order) {
@@ -66,7 +69,7 @@ public class OrdersService implements IOrdersService{
 	}
 	
 	@Override
-	public int updateAndUpdateWorkAssAtt(Order order, WorksAttchment workAtt, Assessments ass) {
+	public int updateAndUpdateWorkAssAtt(Order order, WorksAttchment workAtt, Assessments ass,UserStu user) {
 		int result = 0;
 		
 		result = this.orderDao.updateByPrimaryKeySelective(order);
@@ -86,7 +89,10 @@ public class OrdersService implements IOrdersService{
 		workAtt.setForeignKey(workId);
 		
 		result = this.workAttDao.updateByWorkId(workAtt);
-		
+		//更新爱好者用户作品数
+		if(user!=null) {
+			this.userStuDao.updateNumberBySelective(user);
+		}
 		return result;
 	}
 

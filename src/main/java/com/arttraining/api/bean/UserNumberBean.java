@@ -9,6 +9,7 @@ public class UserNumberBean {
 	private Integer comment_num;
 	private Integer follow_num;
 	private Integer fans_num;
+	private Integer work_num;
 	
 	
 	public UserNumberBean() {
@@ -18,6 +19,7 @@ public class UserNumberBean {
 		this.comment_num = 0;
 		this.follow_num = 0;
 		this.fans_num = 0;
+		this.work_num=0;
 	}
 	public String getError_code() {
 		return error_code;
@@ -67,7 +69,11 @@ public class UserNumberBean {
 	public void setFans_num(Integer fans_num) {
 		this.fans_num = fans_num;
 	}
+	public Integer getWork_num() {
+		return work_num;
+	}
+	public void setWork_num(Integer work_num) {
+		this.work_num = work_num;
+	}
 	
-	
-
 }
