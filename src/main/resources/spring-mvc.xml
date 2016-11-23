@@ -77,6 +77,9 @@
 		</property>
 	</bean>
 	
+	<!-- 全局异常处理 coffee add 1123-->
+    <bean id="exceptionHandler" class="com.arttraining.commons.util.DefaultExceptionHandler" />
+        
 	<!-- redis
 	<context:property-placeholder location="classpath:redis.properties" />    
     <bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">    

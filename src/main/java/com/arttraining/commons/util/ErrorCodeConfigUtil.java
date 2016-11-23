@@ -10,7 +10,7 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_10007 = "不支持的MediaType (%s)";
 	public static String ERROR_MSG_ZH_10008 = "参数错误，请参考API文档";
 	public static String ERROR_MSG_ZH_10009 = "任务过多，系统繁忙";
-	public static String ERROR_MSG_ZH_10010 = "任务超时";
+	public static String ERROR_MSG_ZH_10010 = "任务超时,请稍后重试。";
 	public static String ERROR_MSG_ZH_10011 = "RPC错误";
 	public static String ERROR_MSG_ZH_10012 = "非法请求";
 	public static String ERROR_MSG_ZH_10013 = "不合法的用户";
