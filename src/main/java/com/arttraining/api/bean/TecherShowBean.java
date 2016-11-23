@@ -11,7 +11,7 @@ public class TecherShowBean {
 	private Integer comment;
 	private Integer fans_num;
 	private String auth;
-	private Integer like_num;
+	private Integer browse_num;
 	private String city;
 	private String college;
 	private Double ass_pay;
@@ -28,7 +28,7 @@ public class TecherShowBean {
 		this.comment = 0;
 		this.fans_num = 0;
 		this.auth = "";
-		this.like_num = 0;
+		this.browse_num = 0;
 		this.city = "";
 		this.college = "";
 		this.ass_pay = 0.0;
@@ -94,12 +94,15 @@ public class TecherShowBean {
 	public void setAuth(String auth) {
 		this.auth = auth;
 	}
-	public Integer getLike_num() {
-		return like_num;
+	
+	public Integer getBrowse_num() {
+		return browse_num;
 	}
-	public void setLike_num(Integer like_num) {
-		this.like_num = like_num;
+
+	public void setBrowse_num(Integer browse_num) {
+		this.browse_num = browse_num;
 	}
+
 	public String getCity() {
 		return city;
 	}

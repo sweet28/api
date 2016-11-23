@@ -11,6 +11,7 @@ import com.arttraining.api.bean.OrgListBean;
 import com.arttraining.api.bean.OrgShowBean;
 import com.arttraining.api.bean.TecherShowOrgBean;
 import com.arttraining.api.dao.UserOrgMapper;
+import com.arttraining.api.pojo.UserOrg;
 import com.arttraining.api.service.IUserOrgService;
 
 @Service("userOrgService")
@@ -43,6 +44,13 @@ public class UserOrgService implements IUserOrgService {
 	public List<OrgListBean> getOrgListBySearch(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return this.userOrgDao.selectOrgListBySearch(map);
+	}
+
+
+	@Override
+	public int updateOrgNumber(UserOrg record) {
+		// TODO Auto-generated method stub
+		return this.userOrgDao.updateNumberBySelective(record);
 	}
 
 	

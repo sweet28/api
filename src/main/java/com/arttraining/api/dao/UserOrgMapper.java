@@ -30,4 +30,6 @@ public interface UserOrgMapper {
     
     //根据关键字搜索机构 --search/org接口调用
     List<OrgListBean> selectOrgListBySearch(Map<String, Object> map);
+    //更新机构相关数量
+    int updateNumberBySelective(UserOrg record);
 }

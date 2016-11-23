@@ -26,6 +26,7 @@ import com.arttraining.api.service.impl.UserTecService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.Random;
 import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
@@ -210,6 +211,13 @@ public class TecherController {
 				i_login_id=Integer.valueOf(login_id);
 			
 			Integer i_tec_id = Integer.valueOf(tec_id);
+			try {
+			//在这里先更新名师浏览量
+			UserTech bro_tec= new UserTech();
+			bro_tec.setId(i_tec_id);
+			bro_tec.setBrowseNum(Random.randomCommonInt());
+			this.userTecService.updateTecNumber(bro_tec);
+			
 			//依据关注类型的不同 查询不同的表
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("type", "org");
@@ -248,7 +256,7 @@ public class TecherController {
 				tecShow.setComment(userTec.getCommentNum());
 				tecShow.setFans_num(userTec.getFansNum());
 				tecShow.setAuth(userTec.getAuthentication());
-				tecShow.setLike_num(userTec.getLikeNum());
+				tecShow.setBrowse_num(userTec.getBrowseNum());
 				tecShow.setCity(userTec.getCityName());
 				tecShow.setCollege(userTec.getSchoolName());
 				tecShow.setAss_pay(userTec.getAssPay());
@@ -256,6 +264,10 @@ public class TecherController {
 				tecShow.setSpecialty(userTec.getSpecialtyName());
 				tecShow.setIntroduction(userTec.getIntroduction());
 				tecShow.setIs_follow(is_follow);
+			 }
+			} catch (Exception e) {
+				errorCode="20054";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20054;
 			}
 		}
 		tecShow.setError_code(errorCode);

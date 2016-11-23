@@ -17,4 +17,7 @@ public interface IUserTecService {
     int countTecherNumer();
     //根据关键字搜索教师--search/tec接口调用
     List<TecherListBean> getTecherListBySearch(Map<String, Object> map);
+    
+    //更新艺术家/名师相关数量
+    int updateTecNumber(UserTech record);
 }

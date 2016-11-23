@@ -47,4 +47,10 @@ public class UserTecService implements IUserTecService {
 		return this.userTecDao.selectTecherListBySearch(map);
 	}
 
+	@Override
+	public int updateTecNumber(UserTech record) {
+		// TODO Auto-generated method stub
+		return this.userTecDao.updateNumberBySelective(record);
+	}
+
 }

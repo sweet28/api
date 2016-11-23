@@ -66,6 +66,36 @@
   	and is_deleted=0 and is_lock=0
   </sql>
   
+  <!-- coffee add 更新艺术家/名师相关数量 -->
+   <update id="updateNumberBySelective" parameterType="com.arttraining.api.pojo.UserTech" >
+    update t_yp_user_tech
+    <set >
+      <if test="workNum != null" >
+        work_num = work_num+${workNum},
+      </if>
+      <if test="commentNum != null" >
+        comment_num = comment_num+${commentNum},
+      </if>
+      <if test="fansNum != null" >
+        fans_num = fans_num+${fansNum},
+      </if>
+      <if test="followNum != null" >
+        follow_num = follow_num+${followNum},
+      </if>
+      <if test="groupNum != null" >
+        group_num = group_num+${groupNum},
+      </if>
+      <if test="browseNum != null" >
+        browse_num = browse_num+${browseNum},
+      </if>
+      <if test="likeNum != null" >
+        like_num = like_num+${likeNum},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_tec_where"></include>
+  </update>
+  
   <!-- coffee add 根据关键字搜索教师 search/tec接口调用 -->
    <select id="selectTecherListBySearch" resultMap="TecListResultMap">
     select id, head_pic, name, specialty_name, title,

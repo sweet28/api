@@ -6,6 +6,7 @@ import java.util.Map;
 import com.arttraining.api.bean.OrgListBean;
 import com.arttraining.api.bean.OrgShowBean;
 import com.arttraining.api.bean.TecherShowOrgBean;
+import com.arttraining.api.pojo.UserOrg;
 
 public interface IUserOrgService {
 	TecherShowOrgBean getOneOrgByTecShow(Integer id);
@@ -18,4 +19,7 @@ public interface IUserOrgService {
     
     //根据关键字搜索机构 --search/org接口调用
     List<OrgListBean> getOrgListBySearch(Map<String, Object> map);
+    
+    //更新机构相关数量
+    int updateOrgNumber(UserOrg record);
 }

@@ -21,7 +21,6 @@ import com.arttraining.api.bean.FollowCreateBean;
 import com.arttraining.api.bean.FollowFansBean;
 import com.arttraining.api.bean.FollowUserBean;
 import com.arttraining.api.pojo.Follow;
-import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.FollowService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
@@ -103,21 +102,22 @@ public class FollowController {
 				follow.setOrderCode(time);
 				
 				//更新用户的关注量和粉丝量
-				UserStu follow_user = null;
-				if(utype.equals("stu")) {
-					follow_user = new UserStu();
-					follow_user.setId(i_uid);
-					follow_user.setFollowNum(1);
-				}
-				UserStu fan_user=null; 
-				if(type.equals("stu")) {
-					fan_user = new UserStu();
-					fan_user.setId(host_id);
-					fan_user.setFansNum(1);
-				}
+//				UserStu follow_user = null;
+//				if(utype.equals("stu")) {
+//					follow_user = new UserStu();
+//					follow_user.setId(i_uid);
+//					follow_user.setFollowNum(1);
+//				}
+//				UserStu fan_user=null; 
+//				if(type.equals("stu")) {
+//					fan_user = new UserStu();
+//					fan_user.setId(host_id);
+//					fan_user.setFansNum(1);
+//				}
 				
 				try {
-					this.followService.insertOneFollowAndUpdateNum(follow, follow_user, fan_user);
+					this.followService.insertOneFollowAndUpdateNum(follow, i_uid, utype, host_id, type);
+					//this.followService.insertOneFollowAndUpdateNum(follow, follow_user, fan_user);
 					errorCode = "0";
 					errorMessage = "ok";
 				} catch (Exception e) {

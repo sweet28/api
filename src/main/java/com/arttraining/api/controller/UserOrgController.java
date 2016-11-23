@@ -18,11 +18,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.OrgListBean;
 import com.arttraining.api.bean.OrgShowBean;
 import com.arttraining.api.pojo.Follow;
+import com.arttraining.api.pojo.UserOrg;
 import com.arttraining.api.service.impl.FollowService;
 import com.arttraining.api.service.impl.UserOrgService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.Random;
 import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
@@ -143,6 +145,12 @@ public class UserOrgController {
 			
 			//INT机构ID
 			Integer i_org_id = Integer.valueOf(org_id);
+			try {
+			//在这里先更新名师浏览量
+			UserOrg bro_org = new UserOrg();
+			bro_org.setId(i_org_id);
+			bro_org.setBrowseNum(Random.randomCommonInt());
+			this.userOrgService.updateOrgNumber(bro_org);
 			//依据关注类型的不同 查询不同的表
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("type", "org");
@@ -167,6 +175,10 @@ public class UserOrgController {
 				orgShow.setIs_follow(is_follow);
 				errorCode = "0";
 				errorMessage = "ok";
+			 }
+			} catch (Exception e) {	
+				errorCode="20054";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20054;
 			}
 		}
 		orgShow.setError_code(errorCode);

@@ -36,7 +36,32 @@
   <sql id="select_org_where">
   	and is_deleted=0
   </sql>
-  
+   <!-- coffee add 更新机构相关数量 -->
+   <update id="updateNumberBySelective" parameterType="com.arttraining.api.pojo.UserOrg" >
+    update t_yp_org
+    <set >
+      <if test="commentNum != null" >
+        comment_num = comment_num+${commentNum},
+      </if>
+      <if test="fansNum != null" >
+        fans_num = fans_num+${fansNum},
+      </if>
+      <if test="followNum != null" >
+        follow_num = follow_num+${followNum},
+      </if>
+      <if test="groupNum != null" >
+        group_num = group_num+${groupNum},
+      </if>
+      <if test="browseNum != null" >
+        browse_num = browse_num+${browseNum},
+      </if>
+      <if test="likeNum != null" >
+        like_num = like_num+${likeNum},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+    <include refid="select_org_where"></include>
+  </update>
   <!-- coffee add 根据关键字搜索机构 search/org接口调用 -->
   <select id="selectOrgListBySearch" resultMap="OrgListResultMap">
     select id,name,authentication,pic,
