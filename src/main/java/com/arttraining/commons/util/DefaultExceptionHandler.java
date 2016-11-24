@@ -18,11 +18,14 @@ public class DefaultExceptionHandler implements HandlerExceptionResolver {
 			HttpServletResponse arg1, Object arg2, Exception arg3) {
 		// TODO Auto-generated method stub
 		ModelAndView mv = new ModelAndView();
+		String errorCode="10010";
+		String errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_10010;
+		
 	    /*	使用FastJson提供的FastJsonJsonView视图返回，不需要捕获异常	*/
 	    FastJsonJsonView view = new FastJsonJsonView();
 	    Map<String, Object> attributes = new HashMap<String, Object>();
-	    attributes.put(ConfigUtil.PARAMETER_ERROR_CODE, "1000001");
-	    attributes.put(ConfigUtil.PARAMETER_ERROR_MSG, arg3.getMessage());
+	    attributes.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+	    attributes.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 	    view.setAttributesMap(attributes);
 	    mv.setView(view); 
 		return mv;

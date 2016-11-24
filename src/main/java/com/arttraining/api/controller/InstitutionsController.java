@@ -49,10 +49,11 @@ public class InstitutionsController {
 		//获取院校地域、类型条件列表 
 		List<InstitutionConditionBean> conditionList = this.institutionsConditionService.getConditionList();
 		if(conditionList.size()>0) {
+			institutionReBean.setConditions(conditionList);
 			errorCode = "0";
 			errorMessage = "ok";
 		} else {
-			institutionReBean.setConditions(conditionList);
+			institutionReBean= new InstitutionConditionReBean();
 			errorCode = "20007";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 		}
