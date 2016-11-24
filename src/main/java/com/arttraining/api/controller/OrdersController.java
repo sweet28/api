@@ -259,7 +259,7 @@ public class OrdersController {
 		attachment = request.getParameter("attachment");
 		attType = request.getParameter("attr_type");
 		
-		System.out.println("uid:"+uid+"-token:"+accessToken+"-type:"+assType+"-total:"+totalStr+"-coupon:"+couponStr+"-final:"+finalStr+"-tec:"+teaArr.equals("[]")+"-title:"+title+"-进入订单创建："+account+TimeUtil.getTimeStamp()+request.toString());
+		System.out.println("uid:"+uid+"-token:"+accessToken+"-type:"+assType+"-total:"+totalStr+"-coupon:"+couponStr+"-final:"+finalStr+"-tec:"+teaArr.equals("[]")+"-title:"+title+"----content:---"+content+"-进入订单创建："+account+TimeUtil.getTimeStamp()+request.toString());
 		
 		if(accessToken == null || ("").equals(accessToken.trim())){
 			errorCode = "00000000000000";
@@ -408,8 +408,9 @@ public class OrdersController {
 		work.setOwnerType("stu");
 		work.setArtType(assType);
 		work.setCreateTime(Timestamp.valueOf(time));
+		work.setOrderCode(time);
 		work.setTitle(title);
-		if(content != null && ("").equals(content.trim())){
+		if(content != null && !("").equals(content.trim())){
 			work.setContent(content);
 		}
 		work.setAssessmentsCode(orderNum);
