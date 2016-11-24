@@ -29,6 +29,7 @@ import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.FavoritesService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
@@ -202,6 +203,21 @@ public class FavoritesController {
 								status= new HomePageStatusesBean();
 							}
 							else {
+								//判断收藏类型
+								Integer type=1;
+								switch (fav_type) {
+								case "status":
+									type=1;
+									break;
+								case "g_stus":
+									type=3;
+									break;
+								case "work":
+									type=6;
+									break;
+								default:
+									break;
+								}
 								//获取点赞或点评信息
 								Integer s_id = status.getStus_id();
 								infoMap.put("s_id", s_id);  
@@ -218,7 +234,7 @@ public class FavoritesController {
 										String duration= isExistLike.getDuration();
 										String thumbnail=isExistLike.getThumbnail();
 										String store_path=isExistLike.getStore_path();
-										List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path);
+										List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,type);
 										status.setAtt(attList);
 									}
 							   }
@@ -245,8 +261,8 @@ public class FavoritesController {
 		return gson.toJson(favoriteReBean);
 	}
 	//封装一个方法用于解析json数据 然后将其拆解
-		public List<HomePageAttBean> parseAttPath(Integer att_id,String att_type,
-				String duration,String thumbnail,String store_path) {
+	public List<HomePageAttBean> parseAttPath(Integer att_id,String att_type,
+				String duration,String thumbnail,String store_path,Integer type) {
 			List<HomePageAttBean> attList = new ArrayList<HomePageAttBean>();
 			HomePageAttBean h = null;
 			 
@@ -260,8 +276,10 @@ public class FavoritesController {
 		          h.setAtt_type(att_type);
 		          
 		          h.setDuration(duration);
-		          path = ConfigUtil.QINIU_BUCKET_COM_URL+"/"+jsonObject.getString("store_path");
+		          path = jsonObject.getString("store_path");
+		          path=ImageUtil.parsePicPath(path, type);
 		          h.setStore_path(path);
+		          thumbnail=ImageUtil.parsePicPath(thumbnail, type);
 		          h.setThumbnail(thumbnail);
 		          attList.add(h);
 		    }
