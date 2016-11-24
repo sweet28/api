@@ -242,6 +242,7 @@ public class FavoritesController {
 							//设置收藏信息
 							favorite.setStatuses(status);
 						}
+						favoriteReBean.setFavorites(favoriteList);
 						errorCode="0";
 						errorMessage="ok";
 					}
@@ -249,7 +250,6 @@ public class FavoritesController {
 						errorCode="20007";
 						errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 					}
-					favoriteReBean.setFavorites(favoriteList);
 				}
 			}
 		}
