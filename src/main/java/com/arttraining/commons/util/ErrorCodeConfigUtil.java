@@ -83,4 +83,8 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20053 = "添加收藏失败,请检查网络是否畅通。";
 	public static String ERROR_MSG_ZH_20054 = "查看详情失败,请检查网络是否畅通。";
 	public static String ERROR_MSG_ZH_20055 = "已经关注了";
+	
+	public static String ERROR_MSG_ZH_20056 = "退出失败,请检查网络是否通畅。";
+	public static String ERROR_MSG_ZH_20057 = "点评失败,请检查网络是否通畅。";
+	public static String ERROR_MSG_ZH_20058 = "已经点评了";
 }

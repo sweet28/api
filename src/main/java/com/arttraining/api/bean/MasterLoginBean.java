@@ -2,10 +2,12 @@ package com.arttraining.api.bean;
 
 import com.arttraining.commons.util.ImageUtil;
 
-public class TecherShowBean {
+public class MasterLoginBean {
 	private String error_code;
 	private String error_msg;
-	private Integer tec_id;
+	private String access_token;
+	private String user_code;
+	private Integer uid;
 	private String name;
 	private String pic;
 	private Integer comment;
@@ -18,11 +20,17 @@ public class TecherShowBean {
 	private String title;
 	private String specialty;
 	private String introduction;
+	private String identity;
+	private String email;
+	private String mobile;
+	private Integer score;
+	private Integer rank;
 	private TecherShowOrgBean org;
-	private String is_follow;
 	
-	public TecherShowBean() {
-		this.tec_id = 0;
+	public MasterLoginBean() {
+		this.access_token = "";
+		this.user_code = "";
+		this.uid = 0;
 		this.name = "";
 		this.pic = "";
 		this.comment = 0;
@@ -35,18 +43,14 @@ public class TecherShowBean {
 		this.title = "";
 		this.specialty = "";
 		this.introduction = "";
-		this.org=new TecherShowOrgBean();
-		this.is_follow="";
+		this.identity = "";
+		this.email = "";
+		this.mobile = "";
+		this.score = 0;
+		this.rank = 0;
+		this.org = new TecherShowOrgBean();
 	}
 	
-	public String getIs_follow() {
-		return is_follow;
-	}
-
-	public void setIs_follow(String is_follow) {
-		this.is_follow = is_follow;
-	}
-
 	public String getError_code() {
 		return error_code;
 	}
@@ -59,11 +63,23 @@ public class TecherShowBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getTec_id() {
-		return tec_id;
+	public String getAccess_token() {
+		return access_token;
 	}
-	public void setTec_id(Integer tec_id) {
-		this.tec_id = tec_id;
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
+	}
+	public String getUser_code() {
+		return user_code;
+	}
+	public void setUser_code(String user_code) {
+		this.user_code = user_code;
+	}
+	public Integer getUid() {
+		return uid;
+	}
+	public void setUid(Integer uid) {
+		this.uid = uid;
 	}
 	public String getName() {
 		return name;
@@ -75,7 +91,7 @@ public class TecherShowBean {
 		return pic;
 	}
 	public void setPic(String pic) {
-		this.pic = ImageUtil.parsePicPath(pic,5);
+		this.pic = ImageUtil.parsePicPath(pic, 5);
 	}
 	public Integer getComment() {
 		return comment;
@@ -95,15 +111,12 @@ public class TecherShowBean {
 	public void setAuth(String auth) {
 		this.auth = auth;
 	}
-	
 	public Integer getBrowse_num() {
 		return browse_num;
 	}
-
 	public void setBrowse_num(Integer browse_num) {
 		this.browse_num = browse_num;
 	}
-
 	public String getCity() {
 		return city;
 	}
@@ -140,11 +153,43 @@ public class TecherShowBean {
 	public void setIntroduction(String introduction) {
 		this.introduction = introduction;
 	}
+	public String getIdentity() {
+		return identity;
+	}
+	public void setIdentity(String identity) {
+		this.identity = identity;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getMobile() {
+		return mobile;
+	}
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+	public Integer getScore() {
+		return score;
+	}
+	public void setScore(Integer score) {
+		this.score = score;
+	}
+	public Integer getRank() {
+		return rank;
+	}
+	public void setRank(Integer rank) {
+		this.rank = rank;
+	}
+
 	public TecherShowOrgBean getOrg() {
 		return org;
 	}
+
 	public void setOrg(TecherShowOrgBean org) {
 		this.org = org;
 	}
-
+	
 }

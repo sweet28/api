@@ -24,6 +24,19 @@
   <sql id="select_comment_where">
   	and is_deleted=0
   </sql>
+  <!-- coffee add 1124 判断名师是否重复点评 -->
+  <select id="selectTecCommentByMaster" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_works_tec_comment
+    where is_deleted=0 and foreign_key=#{work_id,jdbcType=INTEGER}
+    and visitor = #{uid,jdbcType=INTEGER}
+    and visitor_type='tec' and type='comment'
+    limit 0,1
+  </select>
+  <!-- end -->
+  
+  
   <!-- coffee add 1113 查询名师点评作品的信息 statuses/show/work接口调用-->
    <resultMap id="WorkUserResultMap" type="com.arttraining.api.bean.WorkCommentTecInfoBean" >
     <result column="id" property="tec_id" jdbcType="INTEGER" />

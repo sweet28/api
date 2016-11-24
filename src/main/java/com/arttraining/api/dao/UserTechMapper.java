@@ -36,4 +36,10 @@ public interface UserTechMapper {
     
     //更新艺术家/名师相关数量
     int updateNumberBySelective(UserTech record);
+    
+    //以下接口均用于名师端 begin
+    //根据名师账号密码登录APP--login/master/login接口调用
+    UserTech selectMasterInfoByName(String account);
+    int updateMasterInfoByPrimaryKeySelective(UserTech record);
+    //end
 }

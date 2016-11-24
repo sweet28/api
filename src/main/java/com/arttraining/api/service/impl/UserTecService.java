@@ -18,7 +18,7 @@ public class UserTecService implements IUserTecService {
 	private UserTechMapper userTecDao;
 	
 	@Override
-	public UserTech selectOneUserTecById(Integer id) {
+	public UserTech getOneUserTecById(Integer id) {
 		// TODO Auto-generated method stub
 		return this.userTecDao.selectByPrimaryKey(id);
 	}
@@ -51,6 +51,24 @@ public class UserTecService implements IUserTecService {
 	public int updateTecNumber(UserTech record) {
 		// TODO Auto-generated method stub
 		return this.userTecDao.updateNumberBySelective(record);
+	}
+
+	@Override
+	public UserTech getMasterInfoByName(String account) {
+		// TODO Auto-generated method stub
+		return this.userTecDao.selectMasterInfoByName(account);
+	}
+
+	@Override
+	public int updateMasterInfoBySelective(UserTech record) {
+		// TODO Auto-generated method stub
+		return this.userTecDao.updateMasterInfoByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public int updateMasterInfoByPrimaryKeySelective(UserTech record) {
+		// TODO Auto-generated method stub
+		return this.userTecDao.updateByPrimaryKeySelective(record);
 	}
 
 }

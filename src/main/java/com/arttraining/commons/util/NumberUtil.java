@@ -19,6 +19,17 @@ public class NumberUtil {
 			return false;
 		}
 	}
+	/**
+	 * 判断字符串是否是整数
+	 */
+	public static boolean isDouble(String value) {
+		try {
+			Double.valueOf(value);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+	}
 	
 	/**
 	 * 把16进制字符串转换成字节数组

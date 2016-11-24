@@ -23,4 +23,7 @@ public interface WorksTecCommentMapper {
     List<WorkCommentTecInfoBean> selectUserInfoByWorkShow(Integer fid);
     //查询评论信息 默认显示第一条(按照评论时间升序排序) statuses/show/work接口调用
     List<WorkTecCommentBean> selectTecCommentByWorkShow(Map<String, Object> map);
+    
+    //判断名师是否重复对作品进行点评--tech_comments/create reply接口调用
+    WorksTecComment selectTecCommentByMaster(Map<String, Object> map);
 }

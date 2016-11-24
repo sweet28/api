@@ -38,25 +38,24 @@
   <sql id="select_userstu_where" >
        is_lock=0 and is_deleted=0
   </sql>
-  
    <!-- coffee add 更新作品相关数量 -->
    <update id="updateNumberBySelective" parameterType="com.arttraining.api.pojo.Works" >
     update t_yp_works
     <set >
       <if test="commentNum != null" >
-        comment_num = #{commentNum,jdbcType=INTEGER},
+        comment_num = comment_num+${commentNum},
       </if>
       <if test="likeNum != null" >
-        like_num = #{likeNum,jdbcType=INTEGER},
+        like_num = like_num+${likeNum},
       </if>
       <if test="tecCommentNum != null" >
-        tec_comment_num = #{tecCommentNum,jdbcType=INTEGER},
+        tec_comment_num = tec_comment_num+${tecCommentNum},
       </if>
       <if test="browseNum != null" >
-        browse_num = #{browseNum,jdbcType=INTEGER},
+        browse_num = browse_num+${browseNum},
       </if>
       <if test="rewardNum != null" >
-        reward_num = #{rewardNum,jdbcType=INTEGER},
+        reward_num = reward_num+${rewardNum},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}

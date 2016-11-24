@@ -233,7 +233,7 @@ public class TecherController {
 				is_follow="no";
 
 			//依据名师tec_id--名师ID来查询相应的名师信息
-			UserTech userTec = this.userTecService.selectOneUserTecById(i_tec_id);
+			UserTech userTec = this.userTecService.getOneUserTecById(i_tec_id);
 			if(userTec==null) {
 				errorCode = "20007";
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;		

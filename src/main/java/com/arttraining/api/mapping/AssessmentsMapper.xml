@@ -26,6 +26,50 @@
     <result column="tec_name" property="tecName" jdbcType="VARCHAR" />
     <result column="ass_type" property="assType" jdbcType="VARCHAR" />
   </resultMap>
+  <!-- coffee add 1124 名师端接口 begin -->
+  <!-- coffee add 1124 根据用户ID获取名师待测评列表 assessments/list/no接口调用 -->
+  <resultMap id="MasterListResultMap" type="com.arttraining.api.bean.MasterAssessmentBean" >
+    <id column="id" property="ass_id" jdbcType="INTEGER" />
+    <result column="ass_time" property="ass_time" jdbcType="TIMESTAMP" />
+    <result column="code_number" property="order_number" jdbcType="VARCHAR" />
+    <result column="order_id" property="order_id" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="codes" property="codes" jdbcType="VARCHAR" />
+    <result column="stu_id" property="stu_id" jdbcType="INTEGER" />
+    <result column="stu_name" property="stu" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectAssessmentNoListByMaster" resultMap="MasterListResultMap" parameterType="java.util.Map" >
+   select id,order_number,order_id,codes,
+   stu_id,stu_name,ass_time,status
+   from t_yp_assessments
+   where is_deleted=0 and tec_id= #{uid,jdbcType=INTEGER}
+   and status= 0
+   <if test="offset!=-1">
+   		and create_time &gt;(select create_time from t_yp_assessments
+   		where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+   		and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+   </if>
+   order by create_time
+   limit #{limit,jdbcType=INTEGER}
+  </select>
+  <!-- coffee add 1124 根据用户ID获取名师已测评列表 assessments/list/yes接口调用 -->
+   <select id="selectAssessmentYesListByMaster" resultMap="MasterListResultMap" parameterType="java.util.Map" >
+   select id,order_number,order_id,codes,
+   stu_id,stu_name,ass_time,status
+   from t_yp_assessments
+   where is_deleted=0 and tec_id= #{uid,jdbcType=INTEGER}
+   and status= 1
+   <if test="offset!=-1">
+   		and ass_time &lt;(select ass_time from t_yp_assessments
+   		where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+   		and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+   </if>
+   order by ass_time desc
+   limit #{limit,jdbcType=INTEGER}
+  </select>
+	
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     order_number, order_id, codes, stu_id, tec_id, status, ass_time, money, is_pay, pay_time, 

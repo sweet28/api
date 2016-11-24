@@ -23,6 +23,7 @@
     <result column="pay_type" property="payType" jdbcType="VARCHAR" />
     <result column="order_detail_num" property="orderDetailNum" jdbcType="INTEGER" />
   </resultMap>
+  
   <!-- coffee add 获取用户订单信息列表 orders/list_my接口调用 -->
   <resultMap id="ListMyResultMap" type="com.arttraining.api.bean.OrderListMyBean" >
     <id column="id" property="order_id" jdbcType="INTEGER" />
