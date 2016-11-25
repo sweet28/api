@@ -3,6 +3,9 @@ package com.arttraining.api.service;
 import java.util.List;
 import java.util.Map;
 
+import com.arttraining.api.bean.MasterCommentListBean;
+import com.arttraining.api.bean.MasterCommentReBean;
+import com.arttraining.api.bean.MasterCommentUserBean;
 import com.arttraining.api.bean.WorkCommentTecInfoBean;
 import com.arttraining.api.bean.WorkTecCommentBean;
 import com.arttraining.api.pojo.Works;
@@ -20,4 +23,10 @@ public interface IWorksTecCommentService {
     int insertOneTecComment(WorksTecComment comment);
     //判断名师是否重复对作品进行点评--tech_comments/create reply接口调用
     WorksTecComment getTecCommentByMaster(Map<String, Object> map);
+    //根据名师ID 作品ID来获取作品和用户详情--assessments/master/show接口调用
+    MasterCommentReBean getOneWorkByMasterShow(Integer id);
+    //根据名师ID 作品ID来获取作品和用户详情--assessments/master/show接口调用
+    List<MasterCommentListBean> getCommentListByMasterShow(Map<String, Object> map);
+    //根据名师ID 作品ID来获取作品和用户详情--assessments/master/show接口调用
+    MasterCommentUserBean getCommentUserByMasterShow(Map<String, Object> map);
 }

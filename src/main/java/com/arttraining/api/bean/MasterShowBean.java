@@ -19,6 +19,7 @@ public class MasterShowBean {
 	private String specialty;
 	private String introduction;
 	private TecherShowOrgBean org;
+	private String sex;
 	
 	public MasterShowBean() {
 		this.tec_id = 0;
@@ -34,6 +35,7 @@ public class MasterShowBean {
 		this.title = "";
 		this.specialty = "";
 		this.introduction = "";
+		this.sex="";
 		this.org=new TecherShowOrgBean();
 	}
 	public String getError_code() {
@@ -134,6 +136,12 @@ public class MasterShowBean {
 	}
 	public void setOrg(TecherShowOrgBean org) {
 		this.org = org;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 
 }

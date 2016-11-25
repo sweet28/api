@@ -425,8 +425,8 @@ public class StatusesController {
 			//HomePageThemeBean theme = new HomePageThemeBean();
 			if(statusesList.size()>0) {
 				if(isExistAd) {
-					if(statusesList.size()>4) {
-						statusesList.add(3,ad);
+					if(statusesList.size()>3) {
+						statusesList.add(2,ad);
 					}
 					else
 						statusesList.add(ad);

@@ -220,7 +220,7 @@ public class TecherController {
 			
 			//依据关注类型的不同 查询不同的表
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("type", "org");
+			map.put("type", "tec");
 			map.put("id", i_tec_id);
 			map.put("uid", i_login_id);
 			map.put("utype", login_type);

@@ -9,6 +9,31 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.HomePageAttBean;
 
 public class ImageUtil {
+	//封装一个方法用于解析json数据 然后将其拆解
+	public static List<HomePageAttBean> parseAttPathByType(Integer att_id,String att_type,
+				String duration,String thumbnail,String store_path,Integer type) {
+		List<HomePageAttBean> attList = new ArrayList<HomePageAttBean>();
+		HomePageAttBean h = null;
+			 
+		String path="";
+		//首先判断是否是Json
+		JSONArray jsonArray = JSONArray.parseArray(store_path);
+		for (Iterator iterator = jsonArray.iterator(); iterator.hasNext();) {
+		        JSONObject jsonObject=(JSONObject)iterator.next();
+		        h = new HomePageAttBean();
+		        h.setAtt_id(att_id);
+		        h.setAtt_type(att_type);
+		          
+		        h.setDuration(duration);
+		        path = jsonObject.getString("store_path");
+		        path=ImageUtil.parsePicPath(path, type);
+		        h.setStore_path(path);
+		        thumbnail=ImageUtil.parsePicPath(thumbnail, type);
+		        h.setThumbnail(thumbnail);
+		        attList.add(h);
+		    }
+		return attList;
+	}
 	// 封装一个方法用于解析json数据 然后将其拆解
 	public static String parseAttPath(String store_path) {
 		String path = "";

@@ -16,4 +16,7 @@ public interface WorksAttchmentMapper {
     int updateByPrimaryKey(WorksAttchment record);
     
     int updateByWorkId(WorksAttchment record);
+    
+    //根据用户ID获取名师测评详情 --assessments/master/show接口调用
+    WorksAttchment selectOneAttByWorkId(Integer id);
 }

@@ -7,6 +7,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.arttraining.api.bean.MasterCommentListBean;
+import com.arttraining.api.bean.MasterCommentReBean;
+import com.arttraining.api.bean.MasterCommentUserBean;
 import com.arttraining.api.bean.WorkCommentTecInfoBean;
 import com.arttraining.api.bean.WorkTecCommentBean;
 import com.arttraining.api.dao.WorksMapper;
@@ -54,6 +57,26 @@ public class WorksTecCommentService implements IWorksTecCommentService {
 	public WorksTecComment getTecCommentByMaster(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return this.worksTecCommentDao.selectTecCommentByMaster(map);
+	}
+
+	@Override
+	public MasterCommentReBean getOneWorkByMasterShow(Integer id) {
+		// TODO Auto-generated method stub
+		return this.worksTecCommentDao.selectWorkByMasterShow(id);
+	}
+
+	@Override
+	public List<MasterCommentListBean> getCommentListByMasterShow(
+			Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.worksTecCommentDao.selectCommentListByMasterShow(map);
+	}
+
+	@Override
+	public MasterCommentUserBean getCommentUserByMasterShow(
+			Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.worksTecCommentDao.selectCommentUserByMasterShow(map);
 	}
 
 }

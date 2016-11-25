@@ -34,6 +34,93 @@
     and visitor_type='tec' and type='comment'
     limit 0,1
   </select>
+  <!-- coffee add 1124 名师端接口 获取发布作品用户ID的信息 assessments/master/show接口调用-->
+  <resultMap id="MasterShowResultMap" type="com.arttraining.api.bean.MasterCommentReBean" >
+    <result column="stus_id" property="stus_id" jdbcType="INTEGER" />
+    <result column="stus_type" property="type" jdbcType="VARCHAR" />   
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="owner_type" jdbcType="VARCHAR" />
+    <result column="owner_name" property="owner_name" jdbcType="VARCHAR" />
+    <result column="owner_head_pic" property="owner_head_pic" jdbcType="VARCHAR" />
+   	<result column="identity" property="identity" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+  	<result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="comment_num" property="comment_num" jdbcType="INTEGER" />
+    <result column="like_num" property="like_num" jdbcType="INTEGER" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectWorkByMasterShow" resultMap="MasterShowResultMap" parameterType="java.lang.Integer">
+    select w.id as stus_id,'work' as stus_type,w.comment_num,
+    w.owner_type,w.like_num,w.browse_num,w.content,
+	w.title,w.tag,w.create_time,
+	s.identity_name as identity,
+	s.id as owner,s.name as owner_name,s.city_name as city,
+	s.head_pic as owner_head_pic
+	from (select id,comment_num,like_num,browse_num,content,title,
+		  tag,create_time,owner,owner_type
+		  from t_yp_works
+	      where is_deleted=0 and id=#{id,jdbcType=INTEGER}) w, 
+		(select identity_name,city_name,head_pic,name,id
+		from t_yp_user_stu
+		where is_deleted=0 and is_lock=0) s
+	where w.owner = s.id
+  </select>
+  
+  <!-- coffee add 依据名师ID和作品ID来获取点评列表信息 assessments/master/show接口调用-->
+   <resultMap id="MasterCommentResultMap" type="com.arttraining.api.bean.MasterCommentListBean" >
+    <result column="comm_id" property="comm_id" jdbcType="INTEGER" />
+    <result column="visitor_id" property="visitor_id" jdbcType="INTEGER" />   
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="content_type" property="content_type" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="duration" property="duration" jdbcType="VARCHAR" />
+   	<result column="attr" property="attr" jdbcType="VARCHAR" />
+    <result column="comm_type" property="comm_type" jdbcType="VARCHAR" />
+  	<result column="comm_time" property="comm_time" jdbcType="TIMESTAMP" />
+  </resultMap>
+   <select id="selectCommentListByMasterShow" resultMap="MasterCommentResultMap" parameterType="java.util.Map" >
+    select id as comm_id,visitor as visitor_id,visitor_type as type,
+    content_type,content,remarks as duration,attachment as attr,
+    type as comm_type,create_time as comm_time
+    from t_yp_works_tec_comment
+    where is_deleted=0 and 
+    ((visitor = #{uid,jdbcType=INTEGER} and visitor_type='tec')
+    or  (host = #{uid,jdbcType=INTEGER} and host_type='tec'))
+    and foreign_key= #{work_id,jdbcType=INTEGER}
+    <if test="offset !=-1">
+    	and create_time &gt;(select create_time
+    	from t_yp_works_tec_comment 
+    	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
+    	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+    </if>
+    order by create_time
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+  <!-- coffee add 1125 依据用户类型和ID查询名称和头像 -->
+   <resultMap id="CommentUserResultMap" type="com.arttraining.api.bean.MasterCommentUserBean" >
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  	<result column="pic" property="pic" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectCommentUserByMasterShow" resultMap="CommentUserResultMap" parameterType="java.util.Map" >
+  <choose>
+  	<when test="user_type=='stu'">
+  		select name,head_pic as pic
+  		from t_yp_user_stu
+  		where is_deleted=0 and is_lock=0
+  		and id=#{user_id,jdbcType=INTEGER}
+  	</when>
+  	<when test="user_type=='tec'">
+  		select name,head_pic as pic
+  		from t_yp_user_tech
+  		where is_deleted=0 and is_lock=0
+  		and id=#{user_id,jdbcType=INTEGER}
+  	</when>
+  </choose>
+  </select>
   <!-- end -->
   
   

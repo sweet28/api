@@ -85,6 +85,7 @@ public class MasterController {
 				masterBean.setTitle(userTec.getTitle());
 				masterBean.setSpecialty(userTec.getSpecialtyName());
 				masterBean.setIntroduction(userTec.getIntroduction());
+				masterBean.setSex(userTec.getSex());
 			}
 		}
 		masterBean.setError_code(errorCode);

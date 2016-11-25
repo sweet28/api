@@ -110,7 +110,7 @@ public class UserStuController {
 			Integer i_uid = Integer.valueOf(uid);
 			//依据关注类型的不同 查询不同的表
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("type", "org");
+			map.put("type", "stu");
 			map.put("id", i_uid);
 			map.put("uid", i_login_id);
 			map.put("utype", login_type);
