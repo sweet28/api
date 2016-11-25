@@ -1,5 +1,8 @@
 package com.arttraining.api.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,12 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.arttraining.api.bean.MasterNumBean;
 import com.arttraining.api.bean.MasterShowBean;
 import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.bean.TecherShowOrgBean;
 import com.arttraining.api.pojo.UserTech;
+import com.arttraining.api.service.impl.AssessmentService;
 import com.arttraining.api.service.impl.UserOrgService;
 import com.arttraining.api.service.impl.UserTecService;
+import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
@@ -28,6 +34,8 @@ public class MasterController {
 	private UserTecService userTecService;
 	@Resource
 	private UserOrgService userOrgService;
+	@Resource
+	private AssessmentService assessmentService;
 	
 	/***
 	 * 根据名师ID获取名师详情
@@ -226,6 +234,55 @@ public class MasterController {
 		
 		return gson.toJson(reBean);
 	}
-	
+	/**
+	 * 根据名师ID获取数量接口
+	 * 传递的参数:login_id--名师ID
+	 * 
+	 */
+	@RequestMapping(value = "/num", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object num(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		
+		//以下参数是必选参数
+		String login_id=request.getParameter("login_id");
+		ServerLog.getLogger().warn("login_id:"+login_id);
+		//返回的数据对象
+		MasterNumBean numBean = new MasterNumBean();
+		
+		if(login_id==null || login_id.equals("")) {
+			errorCode = "20032";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;		
+		} else if(!NumberUtil.isInteger(login_id)) {
+			errorCode = "20033";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;		
+		} else {
+			//名师ID
+			Integer i_tec_id=Integer.valueOf(login_id);
+			//分别查询待测评和已测评的数量
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("uid",i_tec_id);
+			//待测评的数量
+			Integer no_status=ConfigUtil.STATUS_4;
+			map.put("status",no_status);
+			Integer no_num = this.assessmentService.getAssNumByMaster(map);
+			numBean.setNo_num(no_num);
+			
+			//已测评的数量
+			Integer yes_status=ConfigUtil.STATUS_5;
+			map.put("status",yes_status);
+			Integer yes_num = this.assessmentService.getAssNumByMaster(map);
+			numBean.setYes_num(yes_num);
+				
+			errorCode = "0";
+			errorMessage = "ok";	
+		}
+		numBean.setError_code(errorCode);
+		numBean.setError_msg(errorMessage);
+		
+		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(numBean));
+		return gson.toJson(numBean);
+	}
 
 }

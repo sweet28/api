@@ -89,4 +89,13 @@ public class ConfigUtil {
 	//生成随机数的最大和最小值
 	public static Integer RANDOM_MAXVALUE=30;
 	public static Integer RANDOM_MINVALUE=5;
+	
+	//订单和测评状态
+	public static int STATUS_0=0;//待支付
+	public static int STATUS_1=1;//已支付
+	public static int STATUS_2=2;//取消交易
+	public static int STATUS_3=3;//作品待上传
+	public static int STATUS_4=4;//作品待测评
+	public static int STATUS_5=5;//已测评
+	
 }

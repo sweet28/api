@@ -102,6 +102,7 @@ public class MasterLoginController {
 					masterLoginBean.setSpecialty(tec.getSpecialtyName());
 					masterLoginBean.setTitle(tec.getTitle());
 					masterLoginBean.setUser_code(tec.getUserCode());
+					masterLoginBean.setSex(tec.getSex());
 				}
 			}
 		}

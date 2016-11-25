@@ -29,4 +29,10 @@ public class AssessmentService implements IAssessmentService {
 		return this.assessmentDao.selectAssessmentYesListByMaster(map);
 	}
 
+	@Override
+	public int getAssNumByMaster(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.assessmentDao.selectAssNumByMaster(map);
+	}
+
 }

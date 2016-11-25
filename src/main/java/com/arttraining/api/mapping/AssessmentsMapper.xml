@@ -43,7 +43,7 @@
    stu_id,stu_name,ass_time,status
    from t_yp_assessments
    where is_deleted=0 and tec_id= #{uid,jdbcType=INTEGER}
-   and status= 0
+   and status= #{status,jdbcType=INTEGER}
    <if test="offset!=-1">
    		and create_time &gt;(select create_time from t_yp_assessments
    		where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
@@ -58,7 +58,7 @@
    stu_id,stu_name,ass_time,status
    from t_yp_assessments
    where is_deleted=0 and tec_id= #{uid,jdbcType=INTEGER}
-   and status= 1
+   and status= #{status,jdbcType=INTEGER}
    <if test="offset!=-1">
    		and ass_time &lt;(select ass_time from t_yp_assessments
    		where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
@@ -68,6 +68,15 @@
    limit #{limit,jdbcType=INTEGER}
   </select>
 	
+  <!-- coffee add 根据名师ID获取数量接口 masters/num接口调用 -->
+  <select id="selectAssNumByMaster" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(id) as num
+    from t_yp_assessments
+    where tec_id = #{uid,jdbcType=INTEGER}
+    and status=#{status,jdbcType=INTEGER}
+    and is_deleted=0
+  </select>
+
   <!-- end -->
   
   <sql id="Base_Column_List" >

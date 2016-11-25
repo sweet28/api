@@ -25,6 +25,7 @@ public class MasterLoginBean {
 	private String mobile;
 	private Integer score;
 	private Integer rank;
+	private String sex;
 	private TecherShowOrgBean org;
 	
 	public MasterLoginBean() {
@@ -48,6 +49,7 @@ public class MasterLoginBean {
 		this.mobile = "";
 		this.score = 0;
 		this.rank = 0;
+		this.sex="";
 		this.org = new TecherShowOrgBean();
 	}
 	
@@ -190,6 +192,14 @@ public class MasterLoginBean {
 
 	public void setOrg(TecherShowOrgBean org) {
 		this.org = org;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
 	}
 	
 }

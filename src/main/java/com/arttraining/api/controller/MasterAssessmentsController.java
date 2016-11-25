@@ -93,6 +93,7 @@ public class MasterAssessmentsController {
 				map.put("limit", limit);
 				map.put("offset", offset);
 				map.put("uid", i_uid);
+				map.put("status", ConfigUtil.STATUS_4);
 				List<MasterAssessmentBean> assessmentList = this.assessmentService.getAssessmentNoListByMaster(map);
 				if(assessmentList.size()>0) {
 					//循环读取测评信息
@@ -178,6 +179,7 @@ public class MasterAssessmentsController {
 				map.put("limit", limit);
 				map.put("offset", offset);
 				map.put("uid", i_uid);
+				map.put("status", ConfigUtil.STATUS_5);
 				List<MasterAssessmentBean> assessmentList = this.assessmentService.getAssessmentYesListByMaster(map);
 				if(assessmentList.size()>0) {
 					//循环读取测评信息
