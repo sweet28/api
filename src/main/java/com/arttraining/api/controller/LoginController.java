@@ -94,6 +94,15 @@ public class LoginController {
 						loginBean.setUid(userStu.getId());
 						loginBean.setUser_code(userStu.getUserCode());
 						loginBean.setTitle(userStu.getTitle());
+						//coffee add
+						loginBean.setBbs_num(userStu.getBbsNum());
+						loginBean.setComment_num(userStu.getCommentNum());
+						loginBean.setFans_num(userStu.getFansNum());
+						loginBean.setFavorite_num(userStu.getFavoriteNum());
+						loginBean.setFollow_num(userStu.getFollowNum());
+						loginBean.setGroup_num(userStu.getGroupNum());
+						loginBean.setWork_num(userStu.getWorkNum());
+						//end
 					}
 				}
 			}
