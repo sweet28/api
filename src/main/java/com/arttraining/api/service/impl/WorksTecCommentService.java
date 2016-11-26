@@ -12,8 +12,10 @@ import com.arttraining.api.bean.MasterCommentReBean;
 import com.arttraining.api.bean.MasterCommentUserBean;
 import com.arttraining.api.bean.WorkCommentTecInfoBean;
 import com.arttraining.api.bean.WorkTecCommentBean;
+import com.arttraining.api.dao.AssessmentsMapper;
 import com.arttraining.api.dao.WorksMapper;
 import com.arttraining.api.dao.WorksTecCommentMapper;
+import com.arttraining.api.pojo.Assessments;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksTecComment;
 import com.arttraining.api.service.IWorksTecCommentService;
@@ -24,6 +26,8 @@ public class WorksTecCommentService implements IWorksTecCommentService {
 	private WorksTecCommentMapper worksTecCommentDao;
 	@Resource
 	private WorksMapper worksDao;
+	@Resource
+	private AssessmentsMapper assessmentsDao;
 	
 	@Override
 	public List<WorkCommentTecInfoBean> getUserInfoByWorkShow(Integer fid) {
@@ -39,12 +43,15 @@ public class WorksTecCommentService implements IWorksTecCommentService {
 	}
 
 	@Override
-	public void insertTecCommentAndUpdateNum(WorksTecComment comment, Works work) {
+	public void insertTecCommentAndUpdateNum(WorksTecComment comment, Works work,Assessments ass) {
 		// TODO Auto-generated method stub
 		//先插入名师点评信息
 		this.worksTecCommentDao.insertSelective(comment);
 		//然后更新作品点评数
 		this.worksDao.updateNumberBySelective(work);
+		//最后修改作品测评表中的状态信息
+		this.assessmentsDao.updateByPrimaryKeySelective(ass);
+		
 	}
 
 	@Override

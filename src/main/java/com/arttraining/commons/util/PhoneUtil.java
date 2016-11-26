@@ -40,5 +40,21 @@ public class PhoneUtil {
 		}  
 		return b;
 	}
+	/**
+	 * 手机号隐藏4位
+	 * 传递的参数:手机号
+	 * 先判断手机号的长度是否是11位 如果是11位 则隐藏其中的4位
+	 * 否则使用云互艺公司随机生成的6位数字
+	 * 
+	 */
+	public static String hiddenPhoneNumber(String phone) {
+		String hiddenPhone="";
+		if (phone.length()==11){
+			hiddenPhone = phone.substring(0,3)+"****"+phone.substring(7,phone.length());
+        } else {
+        	hiddenPhone="yhy_"+Random.randomCommonStr(10, 100, 6);
+        }
+		return hiddenPhone;
+	}
 
 }

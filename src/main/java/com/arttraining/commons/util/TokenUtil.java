@@ -26,8 +26,8 @@ public class TokenUtil {
 	// todo:验证token是否有效
 	public static boolean checkToken(String token) {
 		boolean flag = false;
-		//flag = RedisUtil.checkExpire(token);
-		flag=true;
+		flag = RedisUtil.checkExpire(token);
+		//flag=true;
 		return flag;
 	}
 

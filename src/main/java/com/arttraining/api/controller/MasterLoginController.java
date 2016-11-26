@@ -83,6 +83,7 @@ public class MasterLoginController {
 						org = this.userOrgService.getOneOrgByTecShow(i_org_id);
 						masterLoginBean.setOrg(org);
 					}
+					
 					masterLoginBean.setAccess_token(access_token);
 					masterLoginBean.setAss_pay(tec.getAssPay());
 					masterLoginBean.setAuth(tec.getAuthentication());
@@ -100,6 +101,7 @@ public class MasterLoginController {
 					masterLoginBean.setRank(tec.getRank());
 					masterLoginBean.setScore(tec.getScore());
 					masterLoginBean.setSpecialty(tec.getSpecialtyName());
+					masterLoginBean.setUid(tec.getId());
 					masterLoginBean.setTitle(tec.getTitle());
 					masterLoginBean.setUser_code(tec.getUserCode());
 					masterLoginBean.setSex(tec.getSex());

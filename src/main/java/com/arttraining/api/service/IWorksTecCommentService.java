@@ -8,6 +8,7 @@ import com.arttraining.api.bean.MasterCommentReBean;
 import com.arttraining.api.bean.MasterCommentUserBean;
 import com.arttraining.api.bean.WorkCommentTecInfoBean;
 import com.arttraining.api.bean.WorkTecCommentBean;
+import com.arttraining.api.pojo.Assessments;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksTecComment;
 
@@ -18,7 +19,7 @@ public interface IWorksTecCommentService {
     List<WorkTecCommentBean> getTecCommentByWorkShow(Map<String, Object> map);
     
     //名师点评作品的同时 更新作品的点评数(按照点评名师数来统计点评数)--tech_comments/create reply接口调用
-    void insertTecCommentAndUpdateNum(WorksTecComment comment, Works work);
+    void insertTecCommentAndUpdateNum(WorksTecComment comment, Works work, Assessments ass);
     //名师回复作品评论信息时执行的方法--tech_comments/reply接口调用
     int insertOneTecComment(WorksTecComment comment);
     //判断名师是否重复对作品进行点评--tech_comments/create reply接口调用

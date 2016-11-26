@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.arttraining.api.bean.SimpleReBean;
+import com.arttraining.api.pojo.Assessments;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksTecComment;
 import com.arttraining.api.service.impl.WorksTecCommentService;
+import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
@@ -59,22 +61,24 @@ public class MasterCommentController {
 		String tec_id=request.getParameter("tec_id");
 		String work_id=request.getParameter("work_id");
 		String content_type=request.getParameter("content_type");
+		String ass_id=request.getParameter("ass_id");
 		//以下不是必选参数
 		String content=request.getParameter("content");
 		
 		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+
 				"-tec_id:"+tec_id+"-work_id:"+work_id+"-content:"+content+
-				"-content_type:"+content_type);
+				"-content_type:"+content_type+"-ass_id:"+ass_id);
 		
-		if(access_token==null || uid==null || tec_id==null || work_id==null || content_type==null) {
+		if(access_token==null || uid==null || tec_id==null || work_id==null || content_type==null
+				|| ass_id==null) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		} else if(access_token.equals("") || uid.equals("") || tec_id.equals("")
-				|| work_id.equals("") || content_type.equals("")) {
+				|| work_id.equals("") || content_type.equals("") || ass_id.equals("")) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		} else if(!NumberUtil.isInteger(tec_id) || !NumberUtil.isInteger(work_id) 
-				|| !NumberUtil.isInteger(uid)) {
+				|| !NumberUtil.isInteger(uid) || !NumberUtil.isInteger(ass_id)) {
 			errorCode = "20033";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
@@ -84,6 +88,8 @@ public class MasterCommentController {
 			Integer i_uid=Integer.valueOf(uid);
 			//作品ID
 			Integer i_work_id=Integer.valueOf(work_id);
+			//测评作品ID
+			Integer i_ass_id=Integer.valueOf(ass_id);
 			
 			//首先判断是否重复点评 
 			//begin
@@ -116,8 +122,15 @@ public class MasterCommentController {
 				works.setId(i_work_id);
 				works.setTecCommentNum(1);
 				
+				//更改测评ID 名师ID的测评状态 coffee add 将待测评--4 改成已测评--5
+				Assessments ass = new Assessments();
+				ass.setId(i_ass_id);
+				ass.setAssTime(Timestamp.valueOf(time));
+				ass.setStatus(ConfigUtil.STATUS_5);
+				//end
+				
 				try {
-					this.worksTecCommentService.insertTecCommentAndUpdateNum(tecComment, works);
+					this.worksTecCommentService.insertTecCommentAndUpdateNum(tecComment, works,ass);
 					errorCode = "0";
 					errorMessage = "ok";	
 				} catch (Exception e) {

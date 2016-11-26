@@ -58,7 +58,7 @@ public class OrdersService implements IOrdersService{
 		int workId = works.getId();
 		for(Assessments ass : assList){
 			ass.setWorkId(workId);
-			
+			ass.setOrderId(orderId);
 			result = this.assDao.insertSelective(ass);
 		}
 		
@@ -76,7 +76,9 @@ public class OrdersService implements IOrdersService{
 		
 		int orderId = order.getId();
 		String orderNumber = order.getCodeNumber();
-		
+		//coffee add
+		ass.setOrderId(orderId);
+		//end
 		ass.setOrderNumber(orderNumber);
 		result = this.assDao.updateByOrderNumber(ass);
 		

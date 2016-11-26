@@ -165,7 +165,9 @@ public class RegisterController {
 						if (name != null && !("").equals(userStu2)) {
 							userStu2.setName(name);
 						}else{
-							userStu2.setName(moblie);
+							String hidden_mobile=PhoneUtil.hiddenPhoneNumber(moblie);
+							userStu2.setName(hidden_mobile);
+							//userStu2.setName(mobile);
 						}
 						int result = 0;
 						result = this.userStuService.insert(userStu2);

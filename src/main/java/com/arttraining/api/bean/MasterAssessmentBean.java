@@ -17,6 +17,23 @@ public class MasterAssessmentBean {
 	private String city;
 	private String identity;
 	private String pic;
+	
+	public MasterAssessmentBean() {
+		this.ass_id = 0;
+		this.order_number = "";
+		this.order_id = 0;
+		this.codes = "";
+		this.ass_time = "";
+		this.status = 0;
+		this.stu_id = 0;
+		this.stu = "";
+		this.work_id = 0;
+		this.work_title = "";
+		this.work_pic = "";
+		this.city = "";
+		this.identity = "";
+		this.pic = "";
+	}
 	public Integer getAss_id() {
 		return ass_id;
 	}
