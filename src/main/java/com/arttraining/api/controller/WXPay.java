@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,11 +17,15 @@ import org.dom4j.io.SAXReader;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.arttraining.api.pojo.Order;
+import com.arttraining.api.service.impl.OrdersService;
 import com.arttraining.commons.util.pay.WXPay.RequestHandler;
 
 @Controller
 @RequestMapping("mobile/wx")
 public class WXPay {
+	@Resource
+	private OrdersService ordersService;
 
 	@RequestMapping("/pay")
 	public void wxpay(HttpServletRequest request, HttpServletResponse response) {
@@ -53,10 +58,11 @@ public class WXPay {
 			// 验证签名
 			if ((sign).equals(map.get("sign"))) {
 				// 查询订单中的价格
-				params.put("id", map.get("out_trade_no"));
+				String order_number = map.get("out_trade_no");
 				//查询数据库操作
-				
-				String order_price = "1";//demo，数据库中保存价格1元
+				Order order = this.ordersService.selectByOrderNumber(order_number);
+				String order_price = order.getFinalPay().toString();
+//				String order_price = "1";//demo，数据库中保存价格1元
 				//微信需要使用单位为   分   的数据，1元=100
 				int int_order_price = (int) (Double.parseDouble(order_price) * 100);
 				// 取返回的价格
@@ -66,6 +72,9 @@ public class WXPay {
 				if (int_order_price == int_num) {
 					//价格比对正确，继续操作
 					//正式完成订单已支付的相关操作
+
+					// 暂放在订单更新接口中操作，为了安全，后面要调整到此处异步操作
+					
 					inputStream.close();
 					response.getWriter().println(res);
 				} else {

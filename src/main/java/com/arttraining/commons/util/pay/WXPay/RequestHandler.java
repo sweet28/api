@@ -13,8 +13,8 @@ import com.arttraining.commons.util.pay.utils.MD5;
 
 public class RequestHandler {
 	private String gzhKey = "";
-	private String iosKey = "";
-	private String androidKey = "";
+	private String iosKey = "StoneSweet1212YunhuyiArtforyou16";
+	private String androidKey = "StoneSweet1212YunhuyiArtforyou16";
 	private SortedMap parameters;
 
 	/**

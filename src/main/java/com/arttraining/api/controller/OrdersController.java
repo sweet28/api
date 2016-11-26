@@ -379,6 +379,7 @@ public class OrdersController {
 		order.setCreateTime(Timestamp.valueOf(time));
 		order.setOrderCode(time);
 		order.setOrderDetailNum(teaArr.size());
+		order.setStatus(ConfigUtil.STATUS_0);
 		
 		UserStu userStu = new UserStu();
 		userStu = this.userStuService.getUserStuById(Integer.parseInt(uid));
@@ -394,7 +395,7 @@ public class OrdersController {
 			ass.setOrderNumber(orderNum);
 			ass.setStuId(Integer.parseInt(uid));
 			ass.setStuName(userStu.getName());
-			ass.setStatus(3);
+			ass.setStatus(ConfigUtil.STATUS_0);
 			ass.setTecId(jo.getIntValue("tec_id"));
 			ass.setTecName(jo.getString("tec_name"));
 			ass.setCodes(idWorker.nextId() + "");
@@ -488,15 +489,15 @@ public class OrdersController {
 				Assessments ass = new Assessments();
 				if(isPay != null && !("").equals(isPay)){
 					order.setStatus(Integer.parseInt(isPay));
-					if(isPay.equals("1")){
+					if(isPay.equals(ConfigUtil.STATUS_1)){
 						order.setPayTime(TimeUtil.getTimeStamp());
 						order.setPayType(payType);
 						ass.setPayTime(TimeUtil.getTimeStamp());
 						ass.setIsPay(1);
 						if(attachment != null && !("").equals(attachment)){
-							ass.setStatus(0);
+							ass.setStatus(ConfigUtil.STATUS_4);
 						}else{
-							ass.setStatus(4);
+							ass.setStatus(ConfigUtil.STATUS_3);
 						}
 					}
 				}

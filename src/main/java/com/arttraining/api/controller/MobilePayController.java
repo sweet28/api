@@ -51,6 +51,10 @@ public class MobilePayController {
 	private static final String PAY_METHOD_WX = "wxpay";
 	private static final String PAY_SOURCE_IOS = "ios";
 	private static final String PAY_SOURCE_ANDROID = "android";
+	//todo:wx
+	private static final String PAY_WX_APP_ID = "wx7d6ed84ec930fb37";
+	private static final String PAY_WX_MCH_ID = "1415449402";
+	
 
 	/**
 	 * 请求支付
@@ -58,7 +62,7 @@ public class MobilePayController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/do_pay", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
+	@RequestMapping(value = "/do_pay", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public String doPay(HttpServletRequest request, HttpServletResponse response, MessageModel model) {
 		String accessToken = request.getParameter("access_token");
@@ -82,114 +86,122 @@ public class MobilePayController {
 			System.out.println(TimeUtil.getTimeStamp() + "-支付1-"
 					+ gson.toJson(simReBean));
 			return gson.toJson(simReBean);
-		}
-		
-		TokenUtil.delayTokenDeadline(accessToken);//token延时
-		
-		String product_name="云互艺评测";//订单名称
-		String order_price="";//订单金额(ali)
-		String order_price_wx="";//订单金额(wx)
-		try {
-			Order order = this.ordersService.selectByOrderNumber(order_id);
-			order_price = order.getFinalPay().toString();//从数据库查询出的订单价格1元
-			int int_order_price = (int)(order.getFinalPay()*100);//微信金额 以分为单位
-			order_price_wx =  Integer.toString(int_order_price);
-		} catch (Exception e) {
-			model.setCode("20032");
-			model.setMsg(ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
-			e.printStackTrace();
-		}
-		if((PAY_METHOD_WX).equals(pay_method)){
-			// 初始化 RequestHandler
-			RequestHandler reqHandler = new RequestHandler(request, response);
-			// 拼接参数
-			Random random = new Random();
-			String noncestr = MD5.GetMD5Code(String.valueOf(random.nextInt(10000)));// 生成随机字符串
-			String timestamp = Long.toString(System.currentTimeMillis() / 1000);// 生成1970年到现在的秒数
+		}if(TokenUtil.checkToken(accessToken)){
+			TokenUtil.delayTokenDeadline(accessToken);//token延时
+			
+			String product_name="云互艺评测";//订单名称
+			String order_price="";//订单金额(ali)
+			String order_price_wx="";//订单金额(wx)
+			try {
+				Order order = this.ordersService.selectByOrderNumber(order_id);
+				order_price = order.getFinalPay().toString();
+				int int_order_price = (int)(order.getFinalPay()*100);//微信金额 以分为单位
+				order_price_wx =  Integer.toString(int_order_price);
+//				int demo_price = 1;//从数据库查询出的订单价格  demo:1元
+//				int int_order_price = (int)(demo_price*100);
+//				order_price_wx =  Integer.toString(int_order_price);
+			} catch (Exception e) {
+				model.setError_code("20032");
+				model.setError_msg(ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
+				e.printStackTrace();
+			}
+			if((PAY_METHOD_WX).equals(pay_method)){
+				// 初始化 RequestHandler
+				RequestHandler reqHandler = new RequestHandler(request, response);
+				// 拼接参数
+				Random random = new Random();
+				String noncestr = MD5.GetMD5Code(String.valueOf(random.nextInt(10000)));// 生成随机字符串
+				String timestamp = Long.toString(System.currentTimeMillis() / 1000);// 生成1970年到现在的秒数
 
-			reqHandler.setParameter("appid", "");
-			reqHandler.setParameter("mch_id", "");// 商户号
-			reqHandler.setParameter("nonce_str", noncestr);// 随机字符串
-			reqHandler.setParameter("body", product_name);// 商品描述
-			reqHandler.setParameter("attach", pay_source);// 支付来源 ios/android
-			reqHandler.setParameter("out_trade_no", order_id);// 商家订单号
-			reqHandler.setParameter("total_fee", order_price_wx);// 商品金额,以分为单位
-			reqHandler.setParameter("spbill_create_ip", request.getRemoteAddr());// 用户的公网IP
-			reqHandler.setParameter("notify_url", "http://www.你们的网址.com/mobile/wx/pay");//微信异步通知地址，WXPay.java
-			reqHandler.setParameter("trade_type", "APP");
-			String requestUrl = reqHandler.getRequestURL(pay_source);
-			// 发起统一下单
-			String orderUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
-			String result = HttpRequest.sendPost(orderUrl, requestUrl);
-			Map<String, String> orderMap = XMLUtil.doXMLParse(result);
-			String prepay_id = orderMap.get("prepay_id");// 预支付ID
-			// 调起支付所需参数
-			SortedMap<String, String> getPayMap = new TreeMap<String, String>();
-			getPayMap.put("appid", "");
-			getPayMap.put("partnerid", "");
-			getPayMap.put("prepayid", prepay_id);
-			getPayMap.put("package", "Sign=WXPay");
-			getPayMap.put("noncestr", noncestr);
-			getPayMap.put("timestamp", timestamp);
-			String sign = reqHandler.createSign(getPayMap, pay_source);
-			getPayMap.put("sign", sign);
-			model.setModel(getPayMap);
-			model.setCode("0");
-			model.setMsg("ok");
-		} else if ((PAY_METHOD_ALI).equals(pay_method)) {
-			Map<String, String> getPayMap = new HashMap<String, String>();
-			getPayMap.put("service", AlipayConfig.h5service);
-			getPayMap.put("partner", AlipayConfig.partner);
-			getPayMap.put("_input_charset", AlipayConfig.input_charset);
-			getPayMap.put("notify_url", AlipayConfig.notify_url);//notify_url是异步通知，作为正式结果去操作数据库
-			getPayMap.put("out_trade_no", order_id);
-			getPayMap.put("subject", product_name);
-			getPayMap.put("payment_type", "1");
-			getPayMap.put("seller_id", AlipayConfig.seller_id);
-			getPayMap.put("total_fee", order_price);
-			getPayMap.put("body", product_name);
-			if (!("").equals(show_url) && null != show_url) {
-				getPayMap.put("return_url", AlipayConfig.return_url);//return_url是同步通知，给用户展示支付成功失败，但不作为正式数据保存
-				getPayMap.put("show_url", show_url);
-				getPayMap.put("app_pay", "Y");
-			}
-			getPayMap = AlipayCore.paraFilter(getPayMap);
-			String content = null;
-			if (!("").equals(show_url) && null != show_url) {
-				content = AlipayCore.createLinkString(getPayMap);//h5支付：参数=参数值
-			} else {
-				content = AlipayCore.createLinkStringPay(getPayMap);//app支付：参数="参数值"
-			}
-			String sign = RSA.sign(content, AlipayConfig.private_key, AlipayConfig.input_charset);
-			if (("").equals(show_url) || null == show_url) {//app支付的sign签名，需要URLEncoder
-				try {
-					sign = java.net.URLEncoder.encode(sign, "utf-8");
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-				content = content + "&sign=\"" + sign + "\"&sign_type=\"" + AlipayConfig.sign_type + "\"";
-			} else {
+				reqHandler.setParameter("appid", PAY_WX_APP_ID);
+				reqHandler.setParameter("mch_id", PAY_WX_MCH_ID);// 商户号
+				reqHandler.setParameter("nonce_str", noncestr);// 随机字符串
+				reqHandler.setParameter("body", product_name);// 商品描述
+				reqHandler.setParameter("attach", pay_source);// 支付来源 ios/android
+				reqHandler.setParameter("out_trade_no", order_id);// 商家订单号
+				reqHandler.setParameter("total_fee", order_price_wx);// 商品金额,以分为单位
+				reqHandler.setParameter("spbill_create_ip", request.getRemoteAddr());// 用户的公网IP
+				reqHandler.setParameter("notify_url", "http://118.178.136.110/mobile/wx/pay");//微信异步通知地址，WXPay.java
+				reqHandler.setParameter("trade_type", "APP");
+				String requestUrl = reqHandler.getRequestURL(pay_source);
+				// 发起统一下单
+				String orderUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+				String result = HttpRequest.sendPost(orderUrl, requestUrl);
+				Map<String, String> orderMap = XMLUtil.doXMLParse(result);
+				String prepay_id = orderMap.get("prepay_id");// 预支付ID
+				// 调起支付所需参数
+				SortedMap<String, String> getPayMap = new TreeMap<String, String>();
+				getPayMap.put("appid", PAY_WX_APP_ID);
+				getPayMap.put("partnerid", PAY_WX_MCH_ID);// 商户号
+				getPayMap.put("prepayid", prepay_id);// 预支付ID
+				getPayMap.put("package", "Sign=WXPay");// 扩展字段，固定填写
+				getPayMap.put("noncestr", noncestr); //随机字符串
+				getPayMap.put("timestamp", timestamp);// 时间戳
+				String sign = reqHandler.createSign(getPayMap, pay_source); //签名
 				getPayMap.put("sign", sign);
-				getPayMap.put("sign_type", AlipayConfig.sign_type);
-				List<String> keys = new ArrayList<String>(getPayMap.keySet());
-				StringBuffer sbHtml = new StringBuffer();
-				sbHtml.append("<form id=\"alipaysubmit\" name=\"alipaysubmit\" action=\"" + ALIPAY_GATEWAY_NEW + "_input_charset=" + AlipayConfig.input_charset + "\" method=\"post\">");
-
-				for (int i = 0; i < keys.size(); i++) {
-					String name = (String) keys.get(i);
-					String value = (String) getPayMap.get(name);
-					sbHtml.append("<input type=\"hidden\" name=\"" + name + "\" value=\"" + value + "\"/>");
+				model.setModel(getPayMap);
+				model.setError_code("0");
+				model.setError_msg("ok");
+			} else if ((PAY_METHOD_ALI).equals(pay_method)) {
+				Map<String, String> getPayMap = new HashMap<String, String>();
+				getPayMap.put("service", AlipayConfig.h5service);
+				getPayMap.put("partner", AlipayConfig.partner);
+				getPayMap.put("_input_charset", AlipayConfig.input_charset);
+				getPayMap.put("notify_url", AlipayConfig.notify_url);//notify_url是异步通知，作为正式结果去操作数据库
+				getPayMap.put("out_trade_no", order_id);
+				getPayMap.put("subject", product_name);
+				getPayMap.put("payment_type", "1");
+				getPayMap.put("seller_id", AlipayConfig.seller_id);
+				getPayMap.put("total_fee", order_price);
+				getPayMap.put("body", product_name);
+				if (!("").equals(show_url) && null != show_url) {
+					getPayMap.put("return_url", AlipayConfig.return_url);//return_url是同步通知，给用户展示支付成功失败，但不作为正式数据保存
+					getPayMap.put("show_url", show_url);
+					getPayMap.put("app_pay", "Y");
 				}
+				getPayMap = AlipayCore.paraFilter(getPayMap);
+				String content = null;
+				if (!("").equals(show_url) && null != show_url) {
+					content = AlipayCore.createLinkString(getPayMap);//h5支付：参数=参数值
+				} else {
+					content = AlipayCore.createLinkStringPay(getPayMap);//app支付：参数="参数值"
+				}
+				String sign = RSA.sign(content, AlipayConfig.private_key, AlipayConfig.input_charset);
+				if (("").equals(show_url) || null == show_url) {//app支付的sign签名，需要URLEncoder
+					try {
+						sign = java.net.URLEncoder.encode(sign, "utf-8");
+					} catch (UnsupportedEncodingException e) {
+						e.printStackTrace();
+					}
+					content = content + "&sign=\"" + sign + "\"&sign_type=\"" + AlipayConfig.sign_type + "\"";
+				} else {
+					getPayMap.put("sign", sign);
+					getPayMap.put("sign_type", AlipayConfig.sign_type);
+					List<String> keys = new ArrayList<String>(getPayMap.keySet());
+					StringBuffer sbHtml = new StringBuffer();
+					sbHtml.append("<form id=\"alipaysubmit\" name=\"alipaysubmit\" action=\"" + ALIPAY_GATEWAY_NEW + "_input_charset=" + AlipayConfig.input_charset + "\" method=\"post\">");
 
-				// submit按钮控件请不要含有name属性
-				sbHtml.append("<input type=\"submit\" value=\"确认\" style=\"display:none;\"></form>");
-				sbHtml.append("<script>document.forms['alipaysubmit'].submit();</script>");
-				content = sbHtml.toString();
+					for (int i = 0; i < keys.size(); i++) {
+						String name = (String) keys.get(i);
+						String value = (String) getPayMap.get(name);
+						sbHtml.append("<input type=\"hidden\" name=\"" + name + "\" value=\"" + value + "\"/>");
+					}
+
+					// submit按钮控件请不要含有name属性
+					sbHtml.append("<input type=\"submit\" value=\"确认\" style=\"display:none;\"></form>");
+					sbHtml.append("<script>document.forms['alipaysubmit'].submit();</script>");
+					content = sbHtml.toString();
+				}
+				model.setModel(content);
+				model.setError_code("0");
+				model.setError_msg("ok");
 			}
-			model.setModel(content);
-			model.setCode("0");
-			model.setMsg("ok");
+		}else{
+			model.setError_code("20028");
+			model.setError_msg(ErrorCodeConfigUtil.ERROR_MSG_ZH_20028);
 		}
+		
+		
 		System.out.println(TimeUtil.getTimeStamp() + "-支付接口结束-" + JSON.toJSONString(model));
 		return JSON.toJSONString(model);
 	}
