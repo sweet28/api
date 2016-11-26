@@ -1,5 +1,7 @@
 package com.arttraining.api.controller;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.arttraining.api.bean.SimpleReBean;
+import com.arttraining.api.pojo.SMSCheckCode;
 import com.arttraining.api.pojo.UserStu;
+import com.arttraining.api.service.impl.SMSService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
@@ -24,9 +28,11 @@ import com.google.gson.Gson;
 public class ForgotPwdController {
 	@Resource
 	private UserStuService userStuService;
+	@Resource
+	private SMSService smsService;
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public @ResponseBody Object isRegister(HttpServletRequest request, HttpServletResponse response){
+	public @ResponseBody Object create(HttpServletRequest request, HttpServletResponse response){
 		SimpleReBean simReBean = new SimpleReBean();
 		Gson gson = new Gson();
 		String errorCode = "";
@@ -36,6 +42,11 @@ public class ForgotPwdController {
 		
 		account = request.getParameter("mobile");
 		pwd = request.getParameter("new_pwd");
+		//coffee add 
+		//String code_type = request.getParameter("code_type");
+		String code_type ="identity_code";
+		//end
+		
 		System.out.println("进入忘记密码："+account+TimeUtil.getTimeStamp());
 		if(account == null || pwd == null){
 			System.out.println("进入忘记密码2222："+account+TimeUtil.getTimeStamp());
@@ -54,15 +65,45 @@ public class ForgotPwdController {
 				pwd = MD5.encodeString(MD5.encodeString(pwd
 						+ ConfigUtil.MD5_PWD_STR)
 						+ ConfigUtil.MD5_PWD_STR);
-				userStu.setPwd(pwd);
-				try {
-					this.userStuService.updateUserStuBySelective(userStu);
-					errorCode = "0";
-					errorMsg = "ok";
-				}catch(Exception e) {
-					errorCode = "20036";
-					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
+				
+				//coffee add  这里去短信验证码中去手机号最近一次使用的使用时间
+				SMSCheckCode smsCCode = null;
+				smsCCode = new SMSCheckCode();
+				SMSCheckCode smsCheckCode = new SMSCheckCode();
+				smsCheckCode.setMobile(account);
+				smsCheckCode.setRemarks(code_type);
+				smsCCode = this.smsService.getOneSmsInfo(smsCheckCode);
+				//如果存在 则判断使用时间是否在60s以内
+				if(smsCCode!=null) {
+					long useTime = smsCCode.getUsingTime().getTime();
+					long nowTime = new Date().getTime();
+					long diffSeconds = TimeUtil.diffSeconds(nowTime, useTime);
+					if(diffSeconds>ConfigUtil.VERIFY_TIME) {
+						errorCode = "20048";
+						errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20048;
+					}
+					else {
+						//如果在规定时间内
+						userStu.setPwd(pwd);
+						try {
+							this.userStuService.updateUserStuBySelective(userStu);
+							//coffee add //设置短信已使用
+							smsCCode.setIsUsed(2);
+							this.smsService.update(smsCCode);
+							//end
+							errorCode = "0";
+							errorMsg = "ok";
+						}catch(Exception e) {
+							errorCode = "20036";
+							errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
+						}
+					}
+				} else {
+					errorCode = "20049";
+					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20049;
 				}
+				//end
+				
 			}else{
 				errorCode = "20022";
 				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20022;

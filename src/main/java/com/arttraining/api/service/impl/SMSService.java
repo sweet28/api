@@ -31,4 +31,10 @@ public class SMSService implements ISMSService{
 		return this.smsCheckCodeDao.updateByPrimaryKeySelective(smsCheckCode);
 	}
 
+	@Override
+	public SMSCheckCode getOneSmsInfo(SMSCheckCode smsCheckCode) {
+		// TODO Auto-generated method stub
+		return this.smsCheckCodeDao.selectOneSmsInfo(smsCheckCode);
+	}
+
 }

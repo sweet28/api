@@ -58,18 +58,19 @@ public class MasterCommentController {
 		String uid=request.getParameter("uid");
 		String tec_id=request.getParameter("tec_id");
 		String work_id=request.getParameter("work_id");
-		String content=request.getParameter("content");
 		String content_type=request.getParameter("content_type");
+		//以下不是必选参数
+		String content=request.getParameter("content");
 		
 		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+
 				"-tec_id:"+tec_id+"-work_id:"+work_id+"-content:"+content+
 				"-content_type:"+content_type);
 		
-		if(access_token==null || uid==null || tec_id==null || work_id==null || content==null || content_type==null) {
+		if(access_token==null || uid==null || tec_id==null || work_id==null || content_type==null) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		} else if(access_token.equals("") || uid.equals("") || tec_id.equals("")
-				|| work_id.equals("") || content.equals("") || content_type.equals("")) {
+				|| work_id.equals("") || content_type.equals("")) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		} else if(!NumberUtil.isInteger(tec_id) || !NumberUtil.isInteger(work_id) 

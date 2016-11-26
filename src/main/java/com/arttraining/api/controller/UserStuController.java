@@ -1,5 +1,6 @@
 package com.arttraining.api.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,8 +17,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.UserNumberBean;
 import com.arttraining.api.bean.UserStuShowBean;
 import com.arttraining.api.pojo.Follow;
+import com.arttraining.api.pojo.SMSCheckCode;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.FollowService;
+import com.arttraining.api.service.impl.SMSService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
@@ -25,6 +28,7 @@ import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
+import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
 
@@ -36,6 +40,8 @@ public class UserStuController {
 	private UserStuService userStuService;
 	@Resource
 	private FollowService followService;
+	@Resource
+	private SMSService smsService;
 	
 	
 	/*@RequestMapping(value = "/test", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -223,8 +229,12 @@ public class UserStuController {
 		String access_token = request.getParameter("access_token");
 		String uid = request.getParameter("uid");
 		String new_pwd = request.getParameter("new_pwd");
-		
-		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-new_pwd:"+new_pwd);
+		//coffee add 
+		//String code_type = request.getParameter("code_type");
+		String code_type ="change_code";
+		//end
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-new_pwd:"+new_pwd+
+				"-code_type:"+code_type);
 		
 		if(access_token==null || uid==null || new_pwd==null) {
 			errorCode = "20032";
@@ -245,24 +255,54 @@ public class UserStuController {
 			boolean tokenFlag = TokenUtil.checkToken(access_token);
 			if (tokenFlag) {
 				Integer i_uid = Integer.valueOf(uid);
-				UserStu userStu = new UserStu();
-				userStu.setId(i_uid);
 				
-				new_pwd = MD5.encodeString(MD5.encodeString(new_pwd
-						+ ConfigUtil.MD5_PWD_STR)
-						+ ConfigUtil.MD5_PWD_STR);
-				
-				userStu.setPwd(new_pwd);
-				
-				try {
-					this.userStuService.updateUserStuBySelective(userStu);
-					errorCode = "0";
-					errorMessage = "ok";
-					
-				}catch(Exception e) {
-					errorCode = "20036";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
+				//coffee add
+				//1.先依据uid查询用户手机号码
+				UserStu stu=this.userStuService.getUserStuById(i_uid);
+				String mobile=stu.getUserMobile();
+				SMSCheckCode smsCCode = null;
+				smsCCode = new SMSCheckCode();
+				SMSCheckCode smsCheckCode = new SMSCheckCode();
+				smsCheckCode.setMobile(mobile);
+				smsCheckCode.setRemarks(code_type);
+				smsCCode = this.smsService.getOneSmsInfo(smsCheckCode);
+				//如果存在 则判断使用时间是否在60s以内
+				if(smsCCode!=null) {
+					long useTime = smsCCode.getUsingTime().getTime();
+					long nowTime = new Date().getTime();
+					long diffSeconds = TimeUtil.diffSeconds(nowTime, useTime);
+					if(diffSeconds>ConfigUtil.VERIFY_TIME) {
+						errorCode = "20048";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20048;
+					}
+					else {
+						UserStu userStu = new UserStu();
+						userStu.setId(i_uid);
+						
+						new_pwd = MD5.encodeString(MD5.encodeString(new_pwd
+								+ ConfigUtil.MD5_PWD_STR)
+								+ ConfigUtil.MD5_PWD_STR);
+						
+						userStu.setPwd(new_pwd);
+						try {
+							this.userStuService.updateUserStuBySelective(userStu);
+							//coffee add //设置短信已使用
+							smsCCode.setIsUsed(2);
+							this.smsService.update(smsCCode);
+							//end
+							errorCode = "0";
+							errorMessage = "ok";
+							
+						}catch(Exception e) {
+							errorCode = "20036";
+							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
+						}
+					}
+				} else {
+					errorCode = "20049";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20049;
 				}
+				//end
 			}
 			else {
 				errorCode = "20028";

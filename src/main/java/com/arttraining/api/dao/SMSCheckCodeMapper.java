@@ -16,4 +16,6 @@ public interface SMSCheckCodeMapper {
     int updateByPrimaryKeySelective(SMSCheckCode record);
 
     int updateByPrimaryKey(SMSCheckCode record);
+    
+    SMSCheckCode selectOneSmsInfo(SMSCheckCode smsCheckCode);
 }

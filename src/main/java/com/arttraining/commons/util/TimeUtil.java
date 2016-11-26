@@ -31,13 +31,14 @@ public class TimeUtil {
     
 	public static long diffSeconds(long nowTime, long oldTime){
 		long result = 0;
-		
+		//这个方法是用来计算在秒单位上的差距 所以永远不可能大于60秒  考虑比较时差需要加上 天、小时、分钟、秒 才是总差
 		long diff = nowTime - oldTime;
-	    long day = diff / (1000 * 60 * 60 * 24);
-	    long hour=(diff/(60*60*1000)-day*24);
-	    long min=((diff/(60*1000))-day*24*60-hour*60);
-	    long s=(diff/1000-day*24*60*60-hour*60*60-min*60);
-	    
+//	    long day = diff / (1000 * 60 * 60 * 24);
+//	    long hour=(diff/(60*60*1000)-day*24);
+//	    long min=((diff/(60*1000))-day*24*60-hour*60);
+//	    long s=(diff/1000-day*24*60*60-hour*60*60-min*60);
+//	    System.out.println("day-"+day+" min-"+hour+" -min "+min + " sec -"+s);
+	    long s=diff/1000;
 	    result = s;
 		
 	    return result;

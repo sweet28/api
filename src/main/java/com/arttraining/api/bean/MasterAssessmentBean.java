@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class MasterAssessmentBean {
 	private Integer ass_id;
 	private String order_number;
@@ -12,6 +14,9 @@ public class MasterAssessmentBean {
 	private Integer work_id;
 	private String work_title;
 	private String work_pic;
+	private String city;
+	private String identity;
+	private String pic;
 	public Integer getAss_id() {
 		return ass_id;
 	}
@@ -77,6 +82,24 @@ public class MasterAssessmentBean {
 	}
 	public void setWork_pic(String work_pic) {
 		this.work_pic = work_pic;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getIdentity() {
+		return identity;
+	}
+	public void setIdentity(String identity) {
+		this.identity = identity;
+	}
+	public String getPic() {
+		return pic;
+	}
+	public void setPic(String pic) {
+		this.pic = ImageUtil.parsePicPath(pic, 5);
 	}
 	
 	

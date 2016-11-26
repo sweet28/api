@@ -1,5 +1,7 @@
 package com.arttraining.api.controller;
 
+import java.util.Date;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.LoginBean;
 import com.arttraining.api.bean.SimpleReBean;
+import com.arttraining.api.pojo.SMSCheckCode;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.InviteCodeService;
+import com.arttraining.api.service.impl.SMSService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
@@ -32,6 +34,8 @@ public class RegisterController {
 	private UserStuService userStuService;
 	@Resource
 	private InviteCodeService invCodeService;
+	@Resource
+	private SMSService smsService;
 	
 	@RequestMapping(value = "/is_reg", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object isRegister(HttpServletRequest request, HttpServletResponse response){
@@ -81,6 +85,11 @@ public class RegisterController {
 		String pwd = "";
 		String name = "";
 		
+		//coffee add 
+		//String code_type = request.getParameter("code_type");
+		String code_type ="reg_code";
+		//end
+				
 		System.out.println("进入注册"+TimeUtil.getTimeStamp());
 		
 		moblie = request.getParameter("mobile");
@@ -118,75 +127,116 @@ public class RegisterController {
 				System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
 				return gson.toJson(simReBean);
 			}else{
-				UserStu userStu2 = null;
-				userStu2 = new UserStu();
-
-				pwd = MD5.encodeString(MD5.encodeString(pwd
-						+ ConfigUtil.MD5_PWD_STR)
-						+ ConfigUtil.MD5_PWD_STR);
-				userStu2.setUserMobile(moblie);
-				userStu2.setPwd(pwd);
-				
-				
-				userStu2.setTitle("nomal");//master：达人、brother：师哥师姐、nomal：一般等
-				if (name != null && !("").equals(userStu2)) {
-					userStu2.setName(name);
-				}else{
-					userStu2.setName(moblie);
-				}
-				int result = 0;
-				result = this.userStuService.insert(userStu2);
-				System.out.println(":::::::::::::result::::" + result);
-				if (result == 1) {
-					UserStu userBean = this.userStuService.getUserStuByAccount(moblie);
-					
-					accessToken = TokenUtil.generateToken(moblie);
-					errorCode = "0";
-					errorMsg = "ok";
-					
-					LoginBean loginBean = new LoginBean();
-					loginBean.setCity(userBean.getCityName());
-					loginBean.setEmail(userBean.getEmail());
-					String headPic = userBean.getHeadPic();
-					if(!"".equals(headPic) && null != headPic){
-						headPic = ImageUtil.parseQiNiuPath(headPic, 5);
+				//coffee add  这里去短信验证码中去手机号最近一次使用的使用时间
+				SMSCheckCode smsCCode = null;
+				smsCCode = new SMSCheckCode();
+				SMSCheckCode smsCheckCode = new SMSCheckCode();
+				smsCheckCode.setMobile(moblie);
+				smsCheckCode.setRemarks(code_type);
+				smsCCode = this.smsService.getOneSmsInfo(smsCheckCode);
+				//如果存在 则判断使用时间是否在60s以内
+				if(smsCCode!=null) {
+					long useTime = smsCCode.getUsingTime().getTime();
+					long nowTime = new Date().getTime();
+					long diffSeconds = TimeUtil.diffSeconds(nowTime, useTime);
+					if(diffSeconds>ConfigUtil.VERIFY_TIME) {
+						errorCode = "20048";
+						errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20048;
+						SimpleReBean simReBean = new SimpleReBean();
+						simReBean.setError_code(errorCode);
+						simReBean.setError_msg(errorMsg);
 						
-						loginBean.setHead_pic(headPic);
+						System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
+						return gson.toJson(simReBean);
 					}
-					loginBean.setIdentity(userBean.getIdentityName());
-					loginBean.setIntentional_college(userBean.getIntentionalCollegeName());
-					loginBean.setMobile(userBean.getUserMobile());
-					loginBean.setName(userBean.getName());
-					loginBean.setOrg(userBean.getOrgName());
-					loginBean.setRank(userBean.getRank());
-					loginBean.setSchool(userBean.getSchoolName());
-					loginBean.setScore(userBean.getScore());
-					loginBean.setSex(userBean.getSex());
-					loginBean.setSpecialty(userBean.getSpecialtyName());
-					loginBean.setUid(userBean.getId());
-					loginBean.setUser_code(userBean.getUserCode());
-					loginBean.setTitle(userBean.getTitle());
-					
-					loginBean.setAccess_token(accessToken);
-					loginBean.setError_code(errorCode);
-					loginBean.setError_msg(errorMsg);
-					System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(loginBean));
-					return gson.toJson(loginBean);
-					
-				} else {
-					errorCode = "20040";
-					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20040;
+					else {
+						//coffee add begin
+						UserStu userStu2 = null;
+						userStu2 = new UserStu();
 
+						pwd = MD5.encodeString(MD5.encodeString(pwd
+								+ ConfigUtil.MD5_PWD_STR)
+								+ ConfigUtil.MD5_PWD_STR);
+						userStu2.setUserMobile(moblie);
+						userStu2.setPwd(pwd);
+						
+						
+						userStu2.setTitle("normal");//master：达人、brother：师哥师姐、nomal：一般等
+						if (name != null && !("").equals(userStu2)) {
+							userStu2.setName(name);
+						}else{
+							userStu2.setName(moblie);
+						}
+						int result = 0;
+						result = this.userStuService.insert(userStu2);
+						System.out.println(":::::::::::::result::::" + result);
+						if (result == 1) {
+							//coffee add //设置短信已使用
+							smsCCode.setIsUsed(2);
+							this.smsService.update(smsCCode);
+							//end
+							
+							UserStu userBean = this.userStuService.getUserStuByAccount(moblie);
+							
+							accessToken = TokenUtil.generateToken(moblie);
+							errorCode = "0";
+							errorMsg = "ok";
+							
+							LoginBean loginBean = new LoginBean();
+							loginBean.setCity(userBean.getCityName());
+							loginBean.setEmail(userBean.getEmail());
+							String headPic = userBean.getHeadPic();
+							if(!"".equals(headPic) && null != headPic){
+								headPic = ImageUtil.parseQiNiuPath(headPic, 5);
+								
+								loginBean.setHead_pic(headPic);
+							}
+							loginBean.setIdentity(userBean.getIdentityName());
+							loginBean.setIntentional_college(userBean.getIntentionalCollegeName());
+							loginBean.setMobile(userBean.getUserMobile());
+							loginBean.setName(userBean.getName());
+							loginBean.setOrg(userBean.getOrgName());
+							loginBean.setRank(userBean.getRank());
+							loginBean.setSchool(userBean.getSchoolName());
+							loginBean.setScore(userBean.getScore());
+							loginBean.setSex(userBean.getSex());
+							loginBean.setSpecialty(userBean.getSpecialtyName());
+							loginBean.setUid(userBean.getId());
+							loginBean.setUser_code(userBean.getUserCode());
+							loginBean.setTitle(userBean.getTitle());
+							
+							loginBean.setAccess_token(accessToken);
+							loginBean.setError_code(errorCode);
+							loginBean.setError_msg(errorMsg);
+							System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(loginBean));
+							return gson.toJson(loginBean);
+							
+						} else {
+							errorCode = "20040";
+							errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20040;
+
+							SimpleReBean simReBean = new SimpleReBean();
+							simReBean.setError_code(errorCode);
+							simReBean.setError_msg(errorMsg);
+
+							System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
+							return gson.toJson(simReBean);
+						}
+					}
+				} else {
+					errorCode = "20049";
+					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20049;
+					
 					SimpleReBean simReBean = new SimpleReBean();
 					simReBean.setError_code(errorCode);
 					simReBean.setError_msg(errorMsg);
-
+					
 					System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
 					return gson.toJson(simReBean);
 				}
 			}
 			
-		}else{
+		} else{
 			errorCode = "20044";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20044;
 

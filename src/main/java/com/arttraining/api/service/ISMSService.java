@@ -8,4 +8,6 @@ public interface ISMSService {
 	int update(SMSCheckCode smsCheckCode);
 
 	SMSCheckCode getSMSCheckCode(SMSCheckCode smsCheckCode);
+	
+	 SMSCheckCode getOneSmsInfo(SMSCheckCode smsCheckCode);
 }

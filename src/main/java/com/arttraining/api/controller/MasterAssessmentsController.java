@@ -94,7 +94,9 @@ public class MasterAssessmentsController {
 				map.put("offset", offset);
 				map.put("uid", i_uid);
 				map.put("status", ConfigUtil.STATUS_4);
+				System.out.println("==111");
 				List<MasterAssessmentBean> assessmentList = this.assessmentService.getAssessmentNoListByMaster(map);
+				System.out.println("==2222");
 				if(assessmentList.size()>0) {
 					//循环读取测评信息
 					for (MasterAssessmentBean assessment : assessmentList) {

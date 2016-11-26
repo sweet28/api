@@ -91,11 +91,15 @@ public class ConfigUtil {
 	public static Integer RANDOM_MINVALUE=5;
 	
 	//订单和测评状态
-	public static int STATUS_0=0;//待支付
-	public static int STATUS_1=1;//已支付
-	public static int STATUS_2=2;//取消交易
-	public static int STATUS_3=3;//作品待上传
-	public static int STATUS_4=4;//作品待测评
-	public static int STATUS_5=5;//已测评
+	public static Integer STATUS_0=0;//待支付
+	public static Integer STATUS_1=1;//已支付
+	public static Integer STATUS_2=2;//取消交易
+	public static Integer STATUS_3=3;//作品待上传
+	public static Integer STATUS_4=4;//作品待测评
+	public static Integer STATUS_5=5;//已测评
+	
+	//忘记密码 修改密码 注册时差 验证码验证成功有效期
+	public static long VERIFY_TIME=120; 
+	
 	
 }

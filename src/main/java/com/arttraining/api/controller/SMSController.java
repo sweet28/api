@@ -58,12 +58,16 @@ public class SMSController {
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			System.out.println("进入验证码发送:手机号-type空"+TimeUtil.getTimeStamp());
 		} else if(PhoneUtil.isMobile(mobile)){
+			System.out.println("2222===");
+			
 			SMSCheckCode smsCCode = null;
 			smsCCode = new SMSCheckCode();
 			SMSCheckCode smsCheckCode = new SMSCheckCode();
 			smsCheckCode.setMobile(mobile);
-			smsCheckCode.setRemarks(codeType);
+			//smsCheckCode.setRemarks(codeType);
+			System.out.println("333===");
 			smsCCode = this.smsService.getSMSCheckCode(smsCheckCode);
+			System.out.println("444===");
 			
 			if(smsCCode != null){
 				System.out.println("进入验证码发送：验证码存在"+TimeUtil.getTimeStamp());
@@ -71,6 +75,7 @@ public class SMSController {
 				long createTime = smsCCode.getCreateTime().getTime();
 				long nowTime = new Date().getTime();
 				long diffSeconds = TimeUtil.diffSeconds(nowTime, createTime);
+				System.out.println("createTime:"+createTime+"-nowTime:"+nowTime+"-diffSeconds:"+diffSeconds);
 				if(diffSeconds < 60){
 					System.out.println("时间间隔太小，老弟你刷短信纳是吧，果断拒绝你");
 					errorCode = "20046";
@@ -128,6 +133,7 @@ public class SMSController {
 				}
 			}
 		}else{
+			System.out.println("1111111=====");
 			errorCode = "20044";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20044;
 		}
@@ -208,7 +214,11 @@ public class SMSController {
 					System.out.println("验证码验证6");
 					errorCode = "0";
 					errorMsg = "ok";
-					
+					//coffee add //设置短信已使用
+					smsCCode.setIsUsed(1);
+					smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+					this.smsService.update(smsCCode);
+					//end
 					simReBean.setError_code(errorCode);
 					simReBean.setError_msg(errorMsg);
 					System.out.println("验证码验证8"+gson.toJson(simReBean));

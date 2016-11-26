@@ -30,11 +30,39 @@
     select 
     <include refid="Base_Column_List" />
     from t_yp_sms_check_code
-    where remarks = #{remarks,jdbcType=VARCHAR} 
-    and mobile = #{mobile,jdbcType=VARCHAR} 
-    and check_code = #{checkCode,jdbcType=VARCHAR} 
+    where 1=1 
+    <if test="remarks !=null">
+    	and remarks=#{remarks,jdbcType=VARCHAR} 
+    </if>
+     <if test="mobile !=null">
+    	and mobile=#{mobile,jdbcType=VARCHAR} 
+    </if>
+    <if test="checkCode !=null">
+    	 and check_code=#{checkCode,jdbcType=VARCHAR} 
+    </if>
     and is_used = 0 and is_deleted = 0
+    order by create_time desc
+    limit 0,1
   </select>
+  <select id="selectOneSmsInfo" resultMap="BaseResultMap" parameterType="com.arttraining.api.pojo.SMSCheckCode" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_sms_check_code
+    where 1=1 
+    <if test="remarks !=null">
+    	and remarks=#{remarks,jdbcType=VARCHAR} 
+    </if>
+     <if test="mobile !=null">
+    	and mobile=#{mobile,jdbcType=VARCHAR} 
+    </if>
+    <if test="checkCode !=null">
+    	and check_code=#{checkCode,jdbcType=VARCHAR} 
+    </if>
+    and is_used = 1 and is_deleted = 0
+    order by create_time desc
+    limit 0,1
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_sms_check_code
     where id = #{id,jdbcType=INTEGER}
