@@ -73,6 +73,11 @@ public class MobilePayController {
 		String show_url = request.getParameter("show_url");//show_url 是只在h5支付的时候，必须传的参数，是用户支付过程中取消支付所返回的页面
 		
 		System.out.println(TimeUtil.getTimeStamp()+"-进入支付：order_no:"+order_id+"-method:"+pay_method+"-source:"+pay_source+"-show_url:"+show_url);
+		order_id = "802121234509876234";
+		pay_method = PAY_METHOD_WX;
+		pay_source = PAY_SOURCE_ANDROID;
+		accessToken = "test_token";
+		uid = "0";
 		
 		if (order_id == null || pay_method == null || pay_source == null
 				|| accessToken == null || uid == null || ("").equals(order_id)
@@ -86,25 +91,23 @@ public class MobilePayController {
 			System.out.println(TimeUtil.getTimeStamp() + "-支付1-"
 					+ gson.toJson(simReBean));
 			return gson.toJson(simReBean);
-		}if(TokenUtil.checkToken(accessToken)){
-			TokenUtil.delayTokenDeadline(accessToken);//token延时
+		}if(true){//(TokenUtil.checkToken(accessToken)){
+//			TokenUtil.delayTokenDeadline(accessToken);//token延时
 			
 			String product_name="云互艺评测";//订单名称
 			String order_price="";//订单金额(ali)
 			String order_price_wx="";//订单金额(wx)
 			try {
-				Order order = this.ordersService.selectByOrderNumber(order_id);
-				order_price = order.getFinalPay().toString();
-				System.out.println("111order_price:"+order_price);
-				int int_order_price = (int)(order.getFinalPay()*100);//微信金额 以分为单位
-				System.out.println("222order_price:"+int_order_price);
+//				Order order = this.ordersService.selectByOrderNumber(order_id);
+//				order_price = order.getFinalPay().toString();
+//				int int_order_price = (int)(order.getFinalPay()*100);//微信金额 以分为单位
+//				order_price_wx =  Integer.toString(int_order_price);
+				
+				double demo_price = 0.1;//从数据库查询出的订单价格  demo:0.1元
+				int int_order_price = (int)(demo_price*100);
+				System.out.println("333order_price:"+int_order_price);
 				order_price_wx =  Integer.toString(int_order_price);
 				System.out.println("333order_price:"+order_price_wx);
-				//int demo_price = 1;//从数据库查询出的订单价格  demo:1元
-				//int int_order_price = (int)(demo_price*100);
-				//System.out.println("333order_price:"+int_order_price);
-				//order_price_wx =  Integer.toString(int_order_price);
-				//System.out.println("333order_price:"+order_price_wx);
 			} catch (Exception e) {
 				model.setError_code("20032");
 				model.setError_msg(ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
@@ -122,11 +125,12 @@ public class MobilePayController {
 				reqHandler.setParameter("mch_id", PAY_WX_MCH_ID);// 商户号
 				reqHandler.setParameter("nonce_str", noncestr);// 随机字符串
 				reqHandler.setParameter("body", product_name);// 商品描述
-				reqHandler.setParameter("attach", pay_source);// 支付来源 ios/android
+				reqHandler.setParameter("attach", pay_source);//附加数据，在查询API和支付通知中原样返回，该字段主要用于商户携带订单的自定义数据::: 支付来源 ios/android
 				reqHandler.setParameter("out_trade_no", order_id);// 商家订单号
 				reqHandler.setParameter("total_fee", order_price_wx);// 商品金额,以分为单位
 				reqHandler.setParameter("spbill_create_ip", request.getRemoteAddr());// 用户的公网IP
-				reqHandler.setParameter("notify_url", "http://118.178.136.110/mobile/wx/pay");//微信异步通知地址，WXPay.java
+				System.out.println(request.getRemoteAddr()+"------------------------------------------");
+				reqHandler.setParameter("notify_url", "http://localhost:8080/mobile/wx/pay");//微信异步通知地址，WXPay.java118.178.136.110
 				reqHandler.setParameter("trade_type", "APP");
 				String requestUrl = reqHandler.getRequestURL(pay_source);
 				// 发起统一下单
@@ -140,7 +144,7 @@ public class MobilePayController {
 				getPayMap.put("appid", PAY_WX_APP_ID);
 				getPayMap.put("partnerid", PAY_WX_MCH_ID);// 商户号
 				getPayMap.put("prepayid", prepay_id);// 预支付ID
-				getPayMap.put("pay_package", "Sign=WXPay");// 扩展字段，固定填写
+				getPayMap.put("package", "Sign=WXPay");// 扩展字段，固定填写
 				getPayMap.put("noncestr", noncestr); //随机字符串
 				getPayMap.put("timestamp", timestamp);// 时间戳
 				String sign = reqHandler.createSign(getPayMap, pay_source); //签名
