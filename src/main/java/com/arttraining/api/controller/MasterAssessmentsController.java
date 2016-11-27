@@ -307,9 +307,9 @@ public class MasterAssessmentsController {
 							}
 						}
 						commentReBean.setTec_comments_list(commentList);
-						errorCode = "0";
-						errorMessage = "ok";
 					 }
+					errorCode = "0";
+					errorMessage = "ok";
 				}
 		   }
 		}

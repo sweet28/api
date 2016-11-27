@@ -62,7 +62,7 @@ public class MobilePayController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping(value = "/do_pay", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
+	@RequestMapping(value = "/do_pay", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String doPay(HttpServletRequest request, HttpServletResponse response, MessageModel model) {
 		String accessToken = request.getParameter("access_token");
@@ -95,11 +95,16 @@ public class MobilePayController {
 			try {
 				Order order = this.ordersService.selectByOrderNumber(order_id);
 				order_price = order.getFinalPay().toString();
+				System.out.println("111order_price:"+order_price);
 				int int_order_price = (int)(order.getFinalPay()*100);//微信金额 以分为单位
+				System.out.println("222order_price:"+int_order_price);
 				order_price_wx =  Integer.toString(int_order_price);
-//				int demo_price = 1;//从数据库查询出的订单价格  demo:1元
-//				int int_order_price = (int)(demo_price*100);
-//				order_price_wx =  Integer.toString(int_order_price);
+				System.out.println("333order_price:"+order_price_wx);
+				//int demo_price = 1;//从数据库查询出的订单价格  demo:1元
+				//int int_order_price = (int)(demo_price*100);
+				//System.out.println("333order_price:"+int_order_price);
+				//order_price_wx =  Integer.toString(int_order_price);
+				//System.out.println("333order_price:"+order_price_wx);
 			} catch (Exception e) {
 				model.setError_code("20032");
 				model.setError_msg(ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
@@ -127,6 +132,7 @@ public class MobilePayController {
 				// 发起统一下单
 				String orderUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 				String result = HttpRequest.sendPost(orderUrl, requestUrl);
+				System.out.println("11111==="+result);
 				Map<String, String> orderMap = XMLUtil.doXMLParse(result);
 				String prepay_id = orderMap.get("prepay_id");// 预支付ID
 				// 调起支付所需参数
@@ -134,7 +140,7 @@ public class MobilePayController {
 				getPayMap.put("appid", PAY_WX_APP_ID);
 				getPayMap.put("partnerid", PAY_WX_MCH_ID);// 商户号
 				getPayMap.put("prepayid", prepay_id);// 预支付ID
-				getPayMap.put("package", "Sign=WXPay");// 扩展字段，固定填写
+				getPayMap.put("pay_package", "Sign=WXPay");// 扩展字段，固定填写
 				getPayMap.put("noncestr", noncestr); //随机字符串
 				getPayMap.put("timestamp", timestamp);// 时间戳
 				String sign = reqHandler.createSign(getPayMap, pay_source); //签名

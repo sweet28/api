@@ -11,6 +11,7 @@ public class AdvertiseShowBean {
 	private String url;
 	private String content;
 	private String create_time;
+
 	
 	public String getError_code() {
 		return error_code;
