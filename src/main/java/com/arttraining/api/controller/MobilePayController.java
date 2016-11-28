@@ -72,13 +72,13 @@ public class MobilePayController {
 		String pay_source = request.getParameter("pay_source");//支付来源：ios||android
 		String show_url = request.getParameter("show_url");//show_url 是只在h5支付的时候，必须传的参数，是用户支付过程中取消支付所返回的页面
 		
-		System.out.println(TimeUtil.getTimeStamp()+"-进入支付：order_no:"+order_id+"-method:"+pay_method+"-source:"+pay_source+"-show_url:"+show_url);
+		System.out.println(TimeUtil.getTimeStamp()+"-进入支付：order_no:"+order_id+"-accessToken:"+accessToken+"-method:"+pay_method+"-source:"+pay_source+"-show_url:"+show_url);
 //		order_id = "802121234509876234";
 //		pay_method = PAY_METHOD_WX;
 //		pay_source = PAY_SOURCE_ANDROID;
 //		accessToken = "test_token";
 //		uid = "0";
-		
+		System.out.println(TokenUtil.checkToken(accessToken));
 		if (order_id == null || pay_method == null || pay_source == null
 				|| accessToken == null || uid == null || ("").equals(order_id)
 				|| ("").equals(pay_method) || ("").equals(pay_method)
@@ -91,7 +91,7 @@ public class MobilePayController {
 			System.out.println(TimeUtil.getTimeStamp() + "-支付1-"
 					+ gson.toJson(simReBean));
 			return gson.toJson(simReBean);
-		}if(TokenUtil.checkToken(accessToken)){
+		} else if(TokenUtil.checkToken(accessToken)){
 			TokenUtil.delayTokenDeadline(accessToken);//token延时
 			
 			String product_name="云互艺评测";//订单名称
@@ -127,7 +127,8 @@ public class MobilePayController {
 				reqHandler.setParameter("out_trade_no", order_id);// 商家订单号
 				reqHandler.setParameter("total_fee", order_price_wx);// 商品金额,以分为单位
 				reqHandler.setParameter("spbill_create_ip", request.getRemoteAddr());// 用户的公网IP
-				reqHandler.setParameter("notify_url", "http://118.178.136.110/api/mobile/wx/pay");//微信异步通知地址，WXPay.java118.178.136.110
+				//reqHandler.setParameter("notify_url", "http://118.178.136.110/api/mobile/wx/pay");//微信异步通知地址，WXPay.java118.178.136.110
+				reqHandler.setParameter("notify_url", "http://127.0.0.1:8080/api/mobile/wx/pay");//微信异步通知地址，WXPay.java118.178.136.110
 				reqHandler.setParameter("trade_type", "APP");
 				String requestUrl = reqHandler.getRequestURL(pay_source);
 				// 发起统一下单

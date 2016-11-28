@@ -232,7 +232,7 @@
         foreign_key = #{foreignKey,jdbcType=INTEGER},
       </if>
     </set>
-    where foreign_key = #{foreignKey,jdbcType=VARCHAR}
+    where foreign_key = #{foreignKey,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.WorksAttchment" >
     update t_yp_works_att

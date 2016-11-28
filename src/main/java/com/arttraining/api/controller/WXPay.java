@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.arttraining.api.pojo.Order;
 import com.arttraining.api.service.impl.OrdersService;
+import com.arttraining.commons.util.ConfigUtil;
+import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.pay.WXPay.RequestHandler;
 
 @Controller
@@ -71,12 +73,20 @@ public class WXPay {
 				String cash_fee = map.get("cash_fee").toString();
 				Integer num = Integer.valueOf(cash_fee);
 				int int_num = num.intValue();
+				System.out.println("cash_fee:"+cash_fee);
+				System.out.println("int_num:"+int_num);
+				System.out.println("order_price:"+order_price);
+				System.out.println("int_order_price:"+int_order_price);
 				if (int_order_price == int_num) {
 					// 价格比对正确，继续操作
 					// 正式完成订单已支付的相关操作
-
+					Order update_order=new Order();
+					update_order.setStatus(ConfigUtil.STATUS_1);
+					update_order.setPayTime(TimeUtil.getTimeStamp());
+					update_order.setPayType("wxpay");
+					update_order.setId(order.getId());
 					// 暂放在订单更新接口中操作，为了安全，后面要调整到此处异步操作
-
+					this.ordersService.update(update_order);
 					inputStream.close();
 					response.getWriter().println(res);
 				} else {

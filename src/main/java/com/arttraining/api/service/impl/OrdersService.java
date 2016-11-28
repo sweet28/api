@@ -49,48 +49,53 @@ public class OrdersService implements IOrdersService{
 	public int insertAndUpdateWorkAssAtt(Order order, Works works,
 			List<Assessments> assList, WorksAttchment workAtt) {
 		int result = 0;
+		//1.先新增订单信息
 		result = this.orderDao.insertSelective(order);
-		
+		//2.获取刚插入的订单ID 然后插入作品信息
 		int orderId = order.getId();
 		works.setAssessmentsId(orderId);
 		result = this.workDao.insertSelective(works);
-		
+		//3.获取刚插入的作品ID 然后插入测评列表信息
 		int workId = works.getId();
 		for(Assessments ass : assList){
 			ass.setWorkId(workId);
 			ass.setOrderId(orderId);
 			result = this.assDao.insertSelective(ass);
 		}
-		
+		//4.插入作品附件信息
 		workAtt.setForeignKey(workId);
 		result = workAttDao.insertSelective(workAtt);
-		
 		return result;
 	}
 	
 	@Override
 	public int updateAndUpdateWorkAssAtt(Order order, WorksAttchment workAtt, Assessments ass,UserStu user) {
 		int result = 0;
-		
+		//1.更新订单信息 依据订单自增ID
 		result = this.orderDao.updateByPrimaryKeySelective(order);
-		
+		//2.然后依据订单自增ID和订单号 修改测评信息
 		int orderId = order.getId();
 		String orderNumber = order.getCodeNumber();
 		//coffee add
 		ass.setOrderId(orderId);
-		//end
 		ass.setOrderNumber(orderNumber);
+		//end
 		result = this.assDao.updateByOrderNumber(ass);
-		
+		//3.然后依据订单号去查询作品信息 
 		Works work = this.workDao.selectByOrderNumber(orderNumber);
-		if(workAtt.getThumbnail() != null && !("").equals(workAtt.getThumbnail().trim())){
-			work.setAttachment(workAtt.getThumbnail());
-			this.workDao.updateByPrimaryKeySelective(work);
+		int workId=0;
+		if(work!=null) {
+			workId=work.getId();
 		}
-		int workId = work.getId();
-		workAtt.setForeignKey(workId);
-		
-		result = this.workAttDao.updateByWorkId(workAtt);
+		if(workAtt!=null) {
+			if(workAtt.getThumbnail() != null && !("").equals(workAtt.getThumbnail().trim())){
+				work.setAttachment(workAtt.getThumbnail());
+				this.workDao.updateByPrimaryKeySelective(work);
+			}
+			//4.修改作品附件的信息
+			workAtt.setForeignKey(workId);
+			result = this.workAttDao.updateByWorkId(workAtt);
+		}
 		//更新爱好者用户作品数
 		if(user!=null) {
 			this.userStuDao.updateNumberBySelective(user);

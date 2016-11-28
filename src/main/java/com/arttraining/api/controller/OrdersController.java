@@ -227,7 +227,7 @@ public class OrdersController {
 		Gson gson = new Gson();
 		String errorCode = "";
 		String errorMsg = "";
-		String account = "";
+		//String account = "";
 		
 		String accessToken = "";
 		String uid = "";
@@ -243,9 +243,9 @@ public class OrdersController {
 		String title = "";
 		
 		String content = "";
-		String attachment = "";
-		String attType = "";
-
+		//String attachment = "";
+		//String attType = "";
+		//以下参数是必选参数
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
 		assType = request.getParameter("ass_type");
@@ -254,12 +254,14 @@ public class OrdersController {
 		finalStr = request.getParameter("final");
 		title = request.getParameter("title");
 		teaStr = request.getParameter("teacher_list"); 
-		
 		content = request.getParameter("content");
-		attachment = request.getParameter("attachment");
-		attType = request.getParameter("attr_type");
+		//以下不是必选参数
+		//attachment = request.getParameter("attachment");
+		//attType = request.getParameter("attr_type");
 		
-		System.out.println("uid:"+uid+"-token:"+accessToken+"-type:"+assType+"-total:"+totalStr+"-coupon:"+couponStr+"-final:"+finalStr+"-tec:"+teaArr.equals("[]")+"-title:"+title+"----content:---"+content+"-进入订单创建："+account+TimeUtil.getTimeStamp()+request.toString());
+		ServerLog.getLogger().warn("uid:"+uid+"-token:"+accessToken+"-type:"+assType+"-total:"+totalStr+"-coupon:"+couponStr+"-final:"+finalStr+"-tec:"+teaArr+
+				"-title:"+title+"-content:"+content);
+		//System.out.println("uid:"+uid+"-token:"+accessToken+"-type:"+assType+"-total:"+totalStr+"-coupon:"+couponStr+"-final:"+finalStr+"-tec:"+teaArr.equals("[]")+"-title:"+title+"----content:---"+content+"-进入订单创建："+account+TimeUtil.getTimeStamp()+request.toString());
 		
 		if(accessToken == null || ("").equals(accessToken.trim())){
 			errorCode = "00000000000000";
@@ -267,7 +269,8 @@ public class OrdersController {
 			
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-订单创建-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}else if(uid == null || ("").equals(uid.trim())){
 			errorCode = "00000000000000";
@@ -275,7 +278,8 @@ public class OrdersController {
 			
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建1-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-订单创建1-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}else if(assType == null || ("").equals(assType.trim())){
 			errorCode = "00000000000000";
@@ -283,7 +287,8 @@ public class OrdersController {
 			
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建2-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-订单创建2-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}else if(totalStr == null || ("").equals(totalStr.trim())){
 			errorCode = "00000000000000";
@@ -291,7 +296,8 @@ public class OrdersController {
 			
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建3-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-订单创建3-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}else if(couponStr == null || ("").equals(couponStr.trim())){
 			errorCode = "00000000000000";
@@ -299,7 +305,8 @@ public class OrdersController {
 			
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建4-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-订单创建4-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}else if(finalStr == null || ("").equals(finalStr.trim())){
 			errorCode = "00000000000000";
@@ -307,15 +314,17 @@ public class OrdersController {
 			
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建5-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-订单创建5-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}else if(title == null || ("").equals(title.trim())){
 			errorCode = "00000000000000";
 			errorMsg = "作品名称为空";
 			
 			simReBean.setError_code(errorCode);
-			simReBean.setError_msg(errorMsg);	
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建6-"+gson.toJson(simReBean));
+			simReBean.setError_msg(errorMsg);
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-订单创建6-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}else if(teaStr == null || ("").equals(teaStr.trim()) || ("[]").equals(teaStr.trim())){
 			errorCode = "00000000000000";
@@ -323,130 +332,139 @@ public class OrdersController {
 			
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建7-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-订单创建7-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}
+		//coffee add
+		// todo:判断token是否有效
+		boolean tokenFlag = TokenUtil.checkToken(accessToken);
+		if (tokenFlag) {
+			//TokenUtil.delayTokenDeadline(accessToken);//token延时
+			totalPay = Double.parseDouble(totalStr);
+			couponPay = Double.parseDouble(couponStr);
+			finalPay = Double.parseDouble(finalStr);
+			try {
+					System.out.println(TimeUtil.getTimeStamp()+"-订单创建77-"+gson.toJson(simReBean));
+					teaArr = JSON.parseArray(teaStr);
+					if(teaArr.size() <= 0){
+						System.out.println(TimeUtil.getTimeStamp() + "-订单创建777-"+ gson.toJson(simReBean));
+						errorCode = "00000000000000";
+						errorMsg = "测评名师列表为空";
+			
+						simReBean.setError_code(errorCode);
+						simReBean.setError_msg(errorMsg);
+						ServerLog.getLogger().warn(gson.toJson(simReBean));
+						//System.out.println(TimeUtil.getTimeStamp() + "-订单创建79-"+ gson.toJson(simReBean));
+						return gson.toJson(simReBean);
+					}
+				} catch (JSONException e2) {// 抛错 说明JSON字符根本就不是JSON
+					System.out.println(TimeUtil.getTimeStamp() + "-订单创建78-"+ gson.toJson(simReBean));
+					errorCode = "00000000000000";
+					errorMsg = "测评名师列表为空";
 		
-		TokenUtil.delayTokenDeadline(accessToken);//token延时
-		
-		totalPay = Double.parseDouble(totalStr);
-		couponPay = Double.parseDouble(couponStr);
-		finalPay = Double.parseDouble(finalStr);
-		try {
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建77-"+gson.toJson(simReBean));
-//			teaArr = JSONObject.parseObject(teaStr)
-//					.getJSONArray("teacher_list");
-			teaArr = JSON.parseArray(teaStr);
-			if(teaArr.size() < 0){
-				System.out.println(TimeUtil.getTimeStamp() + "-订单创建777-"
-						+ gson.toJson(simReBean));
-				errorCode = "00000000000000";
-				errorMsg = "测评名师列表为空";
-
+					simReBean.setError_code(errorCode);
+					simReBean.setError_msg(errorMsg);
+					ServerLog.getLogger().warn(gson.toJson(simReBean));
+					//System.out.println(TimeUtil.getTimeStamp() + "-订单创建79-"+ gson.toJson(simReBean));
+					return gson.toJson(simReBean);
+				}
+			//1.先新增订单信息
+			Order order = new Order();
+			order.setUserId(uid);
+			IdWorker idWorker = new IdWorker(0, 0);
+			String orderNum = idWorker.nextId() + "";
+			//创建时间
+			Date date = new Date();
+			String time = TimeUtil.getTimeByDate(date);
+			
+			order.setCodeNumber(orderNum);//订单号
+			order.setType(0);//订单类型 0--测评 1--课程
+			order.setCouponPay(couponPay);//优惠金额
+			order.setFinalPay(finalPay);//实际金额
+			order.setMoney(totalPay);//总金额
+			//新增订单创建时间 create_time order_code 和订单商品数量
+			order.setCreateTime(Timestamp.valueOf(time));
+			order.setOrderCode(time);
+			order.setOrderDetailNum(teaArr.size());
+			order.setStatus(ConfigUtil.STATUS_0);
+			//2.新增爱好者用户的作品数量
+			UserStu userStu = new UserStu();
+			userStu = this.userStuService.getUserStuById(Integer.parseInt(uid));
+			//3.新增订单对应的测评列表信息
+			List<Assessments> assList = new ArrayList<Assessments>();
+			for(int i = 0; i < teaArr.size(); i++){
+				JSONObject jo = new JSONObject();
+				jo = teaArr.getJSONObject(i);
+				//每一个测评信息
+				Assessments ass = new Assessments();
+				ass.setAssType(assType);
+				ass.setCreateTime(Timestamp.valueOf(time));
+				ass.setOrderNumber(orderNum);
+				ass.setStuId(Integer.parseInt(uid));
+				ass.setStuName(userStu.getName());
+				ass.setStatus(ConfigUtil.STATUS_0);
+				ass.setTecId(jo.getIntValue("tec_id"));
+				ass.setTecName(jo.getString("tec_name"));
+				ass.setCodes(idWorker.nextId() + "");
+				//新增order_code
+				ass.setOrderCode(time);
+				assList.add(ass);
+			}
+			//4.新增作品信息
+			Works work = new Works();
+			work.setOwner(Integer.parseInt(uid));
+			work.setOwnerType("stu");
+			work.setArtType(assType);
+			work.setCreateTime(Timestamp.valueOf(time));
+			work.setOrderCode(time);
+			work.setTitle(title);
+			if(content != null && !("").equals(content.trim())){
+				work.setContent(content);
+			}
+			//作品对应的订单号
+			work.setAssessmentsCode(orderNum);
+			//5.新增作品附件信息
+			WorksAttchment workAtt = new WorksAttchment();
+			
+			try {
+				this.ordersService.insertAndUpdateWorkAssAtt(order, work, assList, workAtt);
+				errorCode = "0";
+				errorMsg = "ok";
+				
+				JSONObject jsonObject = new JSONObject();
+				jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+				jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMsg);
+				jsonObject.put("order_number", orderNum);
+				jsonObject.put("create_time", time);
+				ServerLog.getLogger().warn(jsonObject.toString());
+				//System.out.println(TimeUtil.getTimeStamp()+"-订单创建8-"+jsonObject);
+				return jsonObject;
+			} catch (Exception e) {
+				// TODO: handle exception
+				errorCode = "000000000000";
+				errorMsg = "测评订单创建失败";//ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+				
 				simReBean.setError_code(errorCode);
 				simReBean.setError_msg(errorMsg);
-				System.out.println(TimeUtil.getTimeStamp() + "-订单创建79-"
-						+ gson.toJson(simReBean));
+				ServerLog.getLogger().warn(gson.toJson(simReBean));
+				//System.out.println(TimeUtil.getTimeStamp()+"-订单创建9-"+gson.toJson(simReBean));
 				return gson.toJson(simReBean);
 			}
-		} catch (JSONException e2) {// 抛错 说明JSON字符根本就不是JSON
-			System.out.println(TimeUtil.getTimeStamp() + "-订单创建78-"
-					+ gson.toJson(simReBean));
-			errorCode = "00000000000000";
-			errorMsg = "测评名师列表为空";
-
-			simReBean.setError_code(errorCode);
-			simReBean.setError_msg(errorMsg);
-			System.out.println(TimeUtil.getTimeStamp() + "-订单创建79-"
-					+ gson.toJson(simReBean));
-			return gson.toJson(simReBean);
-		}
-
-		Order order = new Order();
-		order.setUserId(uid);
-		IdWorker idWorker = new IdWorker(0, 0);
-		String orderNum = idWorker.nextId() + "";
-		//创建时间
-		Date date = new Date();
-		String time = TimeUtil.getTimeByDate(date);
-		
-		order.setCodeNumber(orderNum);
-		order.setType(0);
-		order.setCouponPay(couponPay);
-		order.setFinalPay(finalPay);
-		order.setMoney(totalPay);
-		//新增订单创建时间 create_time order_code 和订单商品数量
-		order.setCreateTime(Timestamp.valueOf(time));
-		order.setOrderCode(time);
-		order.setOrderDetailNum(teaArr.size());
-		order.setStatus(ConfigUtil.STATUS_0);
-		
-		UserStu userStu = new UserStu();
-		userStu = this.userStuService.getUserStuById(Integer.parseInt(uid));
-		
-		List<Assessments> assList = new ArrayList<Assessments>();
-		for(int i = 0; i < teaArr.size(); i++){
-			JSONObject jo = new JSONObject();
-			jo = teaArr.getJSONObject(i);
-			
-			Assessments ass = new Assessments();
-			ass.setAssType(assType);
-			ass.setCreateTime(Timestamp.valueOf(time));
-			ass.setOrderNumber(orderNum);
-			ass.setStuId(Integer.parseInt(uid));
-			ass.setStuName(userStu.getName());
-			ass.setStatus(ConfigUtil.STATUS_0);
-			ass.setTecId(jo.getIntValue("tec_id"));
-			ass.setTecName(jo.getString("tec_name"));
-			ass.setCodes(idWorker.nextId() + "");
-			//新增order_code
-			ass.setOrderCode(time);
-			assList.add(ass);
-		}
-		
-		Works work = new Works();
-		work.setOwner(Integer.parseInt(uid));
-		work.setOwnerType("stu");
-		work.setArtType(assType);
-		work.setCreateTime(Timestamp.valueOf(time));
-		work.setOrderCode(time);
-		work.setTitle(title);
-		if(content != null && !("").equals(content.trim())){
-			work.setContent(content);
-		}
-		work.setAssessmentsCode(orderNum);
-		
-		WorksAttchment workAtt = new WorksAttchment();
-		
-		int result = this.ordersService.insertAndUpdateWorkAssAtt(order, work, assList, workAtt);
-		
-		if (result == 1) {
-			errorCode = "0";
-			errorMsg = "ok";
-			
-			JSONObject jsonObject = new JSONObject();
-			jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
-			jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMsg);
-			jsonObject.put("order_number", orderNum);
-			jsonObject.put("create_time", time);
-			
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建8-"+jsonObject);
-			return jsonObject;
 		} else {
-			errorCode = "000000000000";
-			errorMsg = "测评订单创建失败";//ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
-			
+			errorCode = "20028";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println(TimeUtil.getTimeStamp()+"-订单创建9-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}
+		//end
 	}
 	
 	@RequestMapping(value = "/update/assessment", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object updateAssessment(HttpServletRequest request, HttpServletResponse response){
 		JSONObject jo = new JSONObject();
-		Gson gson = new Gson();
 		String errorCode = "";
 		String errorMsg = "";
 		String accessToken = "";
@@ -459,7 +477,8 @@ public class OrdersController {
 		String isPay = "";
 		String thumbnail = "";
 
-		System.out.println("进入订单更新000："+TimeUtil.getTimeStamp());
+		
+		//System.out.println("进入订单更新000："+TimeUtil.getTimeStamp());
 		
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
@@ -471,7 +490,11 @@ public class OrdersController {
 		isPay = request.getParameter("is_pay");
 		thumbnail = request.getParameter("thumbnail");
 		
-		System.out.println(thumbnail+"-进入订单更新："+TimeUtil.getTimeStamp()+"-"+attachment);
+		ServerLog.getLogger().warn("uid:"+uid+"-token:"+accessToken+"-orderNum:"+orderNum+
+				"-thumbnail:"+thumbnail+"-isPay:"+isPay+"-attrLong:"+attrLong+
+				"-attrType:"+attrType+"-attachment:"+attachment+"-payType:"+payType);
+		
+		//System.out.println(thumbnail+"-进入订单更新："+TimeUtil.getTimeStamp()+"-"+attachment);
 		
 		if(accessToken == null || uid == null || orderNum == null){
 			System.out.println("进入订单更新2："+TimeUtil.getTimeStamp());
@@ -481,75 +504,90 @@ public class OrdersController {
 			errorCode = "20032";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		} else {
-			System.out.println("进入订单更新3："+TimeUtil.getTimeStamp());
-			Order order = this.ordersService.selectByOrderNumber(orderNum);
-			if(order != null){
-				System.out.println("进入订单更新4："+TimeUtil.getTimeStamp());
-
-				Assessments ass = new Assessments();
-				if(isPay != null && !("").equals(isPay)){
-					order.setStatus(Integer.parseInt(isPay));
-					if(isPay.equals(ConfigUtil.STATUS_1)){
-						order.setPayTime(TimeUtil.getTimeStamp());
-						order.setPayType(payType);
-						ass.setPayTime(TimeUtil.getTimeStamp());
-						ass.setIsPay(1);
-						if(attachment != null && !("").equals(attachment)){
-							ass.setStatus(ConfigUtil.STATUS_4);
-						}else{
-							ass.setStatus(ConfigUtil.STATUS_3);
+			//coffee begin
+			// todo:判断token是否有效
+			boolean tokenFlag = TokenUtil.checkToken(accessToken);
+			if (tokenFlag) {
+				System.out.println("进入订单更新3："+TimeUtil.getTimeStamp());
+				//1.依据订单号获取订单信息
+				Order order = this.ordersService.selectByOrderNumber(orderNum);
+				if(order != null){
+					System.out.println("进入订单更新4："+TimeUtil.getTimeStamp());
+					//2.更新订单信息和测评信息
+					Assessments ass = new Assessments();
+					if(isPay != null && !("").equals(isPay)){
+						Integer pay_status=Integer.parseInt(isPay);
+						//订单状态
+						order.setStatus(pay_status);
+						//判断支付状态是否是已支付状态
+						if(pay_status==ConfigUtil.STATUS_1){
+							//支付时间
+							order.setPayTime(TimeUtil.getTimeStamp());
+							//支付类型(微信支付还是支付宝支付)
+							order.setPayType(payType);
+							//测评时间
+							ass.setPayTime(TimeUtil.getTimeStamp());
+							//测评状态 判断是否支付
+							ass.setIsPay(1);
+							if(attachment != null && !("").equals(attachment)){
+								ass.setStatus(ConfigUtil.STATUS_4);
+							}else{
+								ass.setStatus(ConfigUtil.STATUS_3);
+							}
 						}
 					}
-				}
-
-				WorksAttchment workAtt = new WorksAttchment();
+					//3.更新作品附件信息
+					WorksAttchment workAtt = new WorksAttchment();
+					//coffee add 更新登录用户作品数
+					UserStu user = null;
+					//end
+					if(attachment != null && !("").equals(attachment)){
+						workAtt.setStorePath(attachment);
+						Integer i_uid=Integer.valueOf(uid);
+						user=new UserStu();
+						user.setId(i_uid);
+						user.setWorkNum(1);
+					}
+					if(attrLong != null && !("").equals(attrLong)){
+						workAtt.setDuration(attrLong);
+					}
+					if(attrType != null && !("").equals(attrType)){
+						workAtt.setType(attrType);
+					}
+					if(thumbnail != null && !("").equals(thumbnail.trim())){
+						workAtt.setThumbnail(thumbnail);
+					}
 				
-				//coffee add 更新登录用户作品数
-				UserStu user = null;
-				//end
-				if(attachment != null && !("").equals(attachment)){
-					workAtt.setStorePath(attachment);
-					Integer i_uid=Integer.valueOf(uid);
-					user=new UserStu();
-					user.setId(i_uid);
-					user.setWorkNum(1);
-				}
-				if(attrLong != null && !("").equals(attrLong)){
-					workAtt.setDuration(attrLong);
-				}
-				if(attrType != null && !("").equals(attrType)){
-					workAtt.setType(attrType);
-				}
-				if(thumbnail != null && !("").equals(thumbnail.trim())){
-					workAtt.setThumbnail(thumbnail);
-				}
-				
-				System.out.println(attrType+"_---------"+attachment +"-----------------"+thumbnail);
-				int result = this.ordersService.updateAndUpdateWorkAssAtt(order, workAtt, ass,user);
-				if(result == 1){
-					System.out.println("进入订单更新5："+TimeUtil.getTimeStamp());
-					errorCode = "0";
-					errorMsg = "ok";
+					System.out.println(attrType+"_---------"+attachment +"-----------------"+thumbnail);
+					try {
+						this.ordersService.updateAndUpdateWorkAssAtt(order, workAtt, ass,user);
+						System.out.println("进入订单更新5："+TimeUtil.getTimeStamp());
+						errorCode = "0";
+						errorMsg = "ok";
+					} catch (Exception e) {
+						// TODO: handle exception
+						System.out.println("进入订单更新6："+TimeUtil.getTimeStamp());
+						errorCode = "20032";
+						errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+					}
 				}else{
-					System.out.println("进入订单更新6："+TimeUtil.getTimeStamp());
+					System.out.println("进入订单更新7："+TimeUtil.getTimeStamp());
 					errorCode = "20032";
 					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 				}
-			}else{
-				System.out.println("进入订单更新7："+TimeUtil.getTimeStamp());
-				errorCode = "20032";
-				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+			} else {
+				errorCode = "20028";
+				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 			}
+			//end
 		}
-		
 		jo.put("error_code", errorCode);
 		jo.put("error_msg", errorMsg);
 		jo.put("uid", 0);
 		jo.put("user_code", "");
 		jo.put("name", "");
-
-		System.out.println(TimeUtil.getTimeStamp()+"-update订单结束-"+jo);
-		
+		ServerLog.getLogger().warn(jo.toString());
+		//System.out.println(TimeUtil.getTimeStamp()+"-update订单结束-"+jo);
 		return jo;
 	}
 

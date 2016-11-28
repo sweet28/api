@@ -420,6 +420,7 @@
       </if>
     </set>
     where order_number = #{orderNumber,jdbcType=VARCHAR}
+    and order_id= #{orderId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.Assessments" >
     update t_yp_assessments
