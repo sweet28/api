@@ -14,7 +14,7 @@
     <result column="pwd" property="pwd" jdbcType="VARCHAR" />
     <result column="pic" property="pic" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="city_id" property="cityId" jdbcType="INTEGER" />
@@ -141,10 +141,9 @@
     <result column="fans_num" property="fans_num" jdbcType="INTEGER" />
     <result column="skill" property="skill" jdbcType="VARCHAR" />
     <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
-    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="address" property="contact_address" jdbcType="VARCHAR" />
     <result column="phone" property="contact_phone" jdbcType="VARCHAR" />
-    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
   </resultMap>      
   
@@ -188,7 +187,7 @@
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
-      #{pwd,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{introduction,jdbcType=VARCHAR}, 
+      #{pwd,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{cityId,jdbcType=INTEGER}, 
       #{cityName,jdbcType=VARCHAR}, #{cityFather,jdbcType=VARCHAR}, #{orgType,jdbcType=VARCHAR}, 
       #{skill,jdbcType=VARCHAR}, #{authentication,jdbcType=VARCHAR}, #{commentNum,jdbcType=INTEGER}, 
@@ -325,7 +324,7 @@
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="introduction != null" >
-        #{introduction,jdbcType=VARCHAR},
+        #{introduction,jdbcType=LONGVARCHAR},
       </if>
       <if test="email != null" >
         #{email,jdbcType=VARCHAR},
@@ -414,7 +413,7 @@
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="introduction != null" >
-        introduction = #{introduction,jdbcType=VARCHAR},
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
       <if test="email != null" >
         email = #{email,jdbcType=VARCHAR},
@@ -480,7 +479,7 @@
       pwd = #{pwd,jdbcType=VARCHAR},
       pic = #{pic,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      introduction = #{introduction,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=LONGVARCHAR},
       email = #{email,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},
       city_id = #{cityId,jdbcType=INTEGER},

@@ -47,7 +47,7 @@
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="mac" property="mac" jdbcType="VARCHAR" />
     <result column="ass_pay" property="assPay" jdbcType="DOUBLE" />
-    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="skill" property="skill" jdbcType="VARCHAR" />
     <result column="like_num" property="likeNum" jdbcType="INTEGER" />
     <result column="browse_num" property="browseNum" jdbcType="INTEGER" />
@@ -212,7 +212,7 @@
         ass_pay = #{assPay,jdbcType=DOUBLE},
       </if>
       <if test="introduction != null" >
-        introduction = #{introduction,jdbcType=VARCHAR},
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
       <if test="skill != null" >
         skill = #{skill,jdbcType=VARCHAR},
@@ -381,7 +381,7 @@
       #{groupNum,jdbcType=INTEGER}, #{role,jdbcType=INTEGER}, #{power,jdbcType=INTEGER}, 
       #{isLock,jdbcType=INTEGER}, #{lockedTime,jdbcType=TIMESTAMP}, #{works,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{continueCount,jdbcType=INTEGER}, #{lastLoginTime,jdbcType=TIMESTAMP}, 
-      #{ip,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, #{assPay,jdbcType=DOUBLE}, #{introduction,jdbcType=VARCHAR}, 
+      #{ip,jdbcType=VARCHAR}, #{mac,jdbcType=VARCHAR}, #{assPay,jdbcType=DOUBLE}, #{introduction,jdbcType=LONGVARCHAR}, 
       #{skill,jdbcType=VARCHAR}, #{likeNum,jdbcType=INTEGER}, #{browseNum,jdbcType=INTEGER}
       )
   </insert>
@@ -673,7 +673,7 @@
         #{assPay,jdbcType=DOUBLE},
       </if>
       <if test="introduction != null" >
-        #{introduction,jdbcType=VARCHAR},
+        #{introduction,jdbcType=LONGVARCHAR},
       </if>
       <if test="skill != null" >
         #{skill,jdbcType=VARCHAR},
@@ -825,7 +825,7 @@
         ass_pay = #{assPay,jdbcType=DOUBLE},
       </if>
       <if test="introduction != null" >
-        introduction = #{introduction,jdbcType=VARCHAR},
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
       <if test="skill != null" >
         skill = #{skill,jdbcType=VARCHAR},
@@ -886,7 +886,7 @@
       ip = #{ip,jdbcType=VARCHAR},
       mac = #{mac,jdbcType=VARCHAR},
       ass_pay = #{assPay,jdbcType=DOUBLE},
-      introduction = #{introduction,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=LONGVARCHAR},
       skill = #{skill,jdbcType=VARCHAR},
       like_num = #{likeNum,jdbcType=INTEGER},
       browse_num = #{browseNum,jdbcType=INTEGER}
