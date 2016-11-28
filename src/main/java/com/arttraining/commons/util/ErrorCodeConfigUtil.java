@@ -30,7 +30,7 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20004 = "不支持的图片类型，仅仅支持JPG、GIF、PNG";
 	public static String ERROR_MSG_ZH_20005 = "图片太大";
 	public static String ERROR_MSG_ZH_20006 = "请确保使用multpart上传图片";
-	public static String ERROR_MSG_ZH_20007 = "内容为空";
+	public static String ERROR_MSG_ZH_20007 = "内容为空 ";
 	public static String ERROR_MSG_ZH_20008 = "IDs参数太长了";
 	public static String ERROR_MSG_ZH_20009 = "输入文字太长，请确认不超过140个字符";
 	public static String ERROR_MSG_ZH_20010 = "输入文字太长，请确认不超过300个字符";
@@ -87,4 +87,6 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20056 = "退出失败,请检查网络是否通畅。";
 	public static String ERROR_MSG_ZH_20057 = "点评失败,请检查网络是否通畅。";
 	public static String ERROR_MSG_ZH_20058 = "已经点评了";
+	public static String ERROR_MSG_ZH_20059 = "优惠券兑换码已失效 。";
+	public static String ERROR_MSG_ZH_20060 = "优惠券兑换码无效 。";
 }

@@ -134,7 +134,10 @@ public class MobilePayController {
 				// 发起统一下单
 				String orderUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 				String result = HttpRequest.sendPost(orderUrl, requestUrl);
+				System.out.println("1111===="+result);
 				Map<String, String> orderMap = XMLUtil.doXMLParse(result);
+				System.out.println("2222===="+orderMap.get("prepay_id"));
+				
 				String prepay_id = orderMap.get("prepay_id");// 预支付ID
 				// 调起支付所需参数
 				SortedMap<String, String> getPayMap = new TreeMap<String, String>();
