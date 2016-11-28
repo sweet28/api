@@ -22,11 +22,16 @@
     <result column="invite_type" property="inviteType" jdbcType="VARCHAR" />
     <result column="is_used" property="isUsed" jdbcType="INTEGER" />
     <result column="use_time" property="useTime" jdbcType="TIMESTAMP" />
+    <result column="describel" property="describel" jdbcType="VARCHAR" />
+    <result column="expiry_date" property="expiryDate" jdbcType="TIMESTAMP" />
+    <result column="face_value" property="faceValue" jdbcType="DOUBLE" />
+    <result column="face_value_type" property="faceValueType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     host_id, host_name, visitor_id, visitor_name, host_type, host_mobile, visitor_type, 
-    visitor_moblie, invite_code, invite_type, is_used, use_time
+    visitor_moblie, invite_code, invite_type, is_used, use_time, describel, expiry_date, 
+    face_value, face_value_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -34,7 +39,7 @@
     from t_yp_invite_code
     where id = #{id,jdbcType=INTEGER}
   </select>
-   <select id="selectByInviteCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByInviteCode" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_yp_invite_code
@@ -52,14 +57,18 @@
       host_name, visitor_id, visitor_name, 
       host_type, host_mobile, visitor_type, 
       visitor_moblie, invite_code, invite_type, 
-      is_used, use_time)
+      is_used, use_time, describel, 
+      expiry_date, face_value, face_value_type
+      )
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{hostId,jdbcType=INTEGER}, 
       #{hostName,jdbcType=VARCHAR}, #{visitorId,jdbcType=INTEGER}, #{visitorName,jdbcType=VARCHAR}, 
       #{hostType,jdbcType=VARCHAR}, #{hostMobile,jdbcType=VARCHAR}, #{visitorType,jdbcType=VARCHAR}, 
       #{visitorMoblie,jdbcType=VARCHAR}, #{inviteCode,jdbcType=VARCHAR}, #{inviteType,jdbcType=VARCHAR}, 
-      #{isUsed,jdbcType=INTEGER}, #{useTime,jdbcType=TIMESTAMP})
+      #{isUsed,jdbcType=INTEGER}, #{useTime,jdbcType=TIMESTAMP}, #{describel,jdbcType=VARCHAR}, 
+      #{expiryDate,jdbcType=TIMESTAMP}, #{faceValue,jdbcType=DOUBLE}, #{faceValueType,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.InviteCode" >
     insert into t_yp_invite_code
@@ -124,6 +133,18 @@
       <if test="useTime != null" >
         use_time,
       </if>
+      <if test="describel != null" >
+        describel,
+      </if>
+      <if test="expiryDate != null" >
+        expiry_date,
+      </if>
+      <if test="faceValue != null" >
+        face_value,
+      </if>
+      <if test="faceValueType != null" >
+        face_value_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -185,6 +206,18 @@
       </if>
       <if test="useTime != null" >
         #{useTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="describel != null" >
+        #{describel,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null" >
+        #{expiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="faceValue != null" >
+        #{faceValue,jdbcType=DOUBLE},
+      </if>
+      <if test="faceValueType != null" >
+        #{faceValueType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -248,6 +281,18 @@
       <if test="useTime != null" >
         use_time = #{useTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="describel != null" >
+        describel = #{describel,jdbcType=VARCHAR},
+      </if>
+      <if test="expiryDate != null" >
+        expiry_date = #{expiryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="faceValue != null" >
+        face_value = #{faceValue,jdbcType=DOUBLE},
+      </if>
+      <if test="faceValueType != null" >
+        face_value_type = #{faceValueType,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -271,7 +316,11 @@
       invite_code = #{inviteCode,jdbcType=VARCHAR},
       invite_type = #{inviteType,jdbcType=VARCHAR},
       is_used = #{isUsed,jdbcType=INTEGER},
-      use_time = #{useTime,jdbcType=TIMESTAMP}
+      use_time = #{useTime,jdbcType=TIMESTAMP},
+      describel = #{describel,jdbcType=VARCHAR},
+      expiry_date = #{expiryDate,jdbcType=TIMESTAMP},
+      face_value = #{faceValue,jdbcType=DOUBLE},
+      face_value_type = #{faceValueType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -43,6 +43,14 @@ public class InviteCode {
 
     private Date useTime;
 
+    private String describel;
+
+    private Date expiryDate;
+
+    private Double faceValue;
+
+    private String faceValueType;
+
     public Integer getId() {
         return id;
     }
@@ -201,5 +209,37 @@ public class InviteCode {
 
     public void setUseTime(Date useTime) {
         this.useTime = useTime;
+    }
+
+    public String getDescribel() {
+        return describel;
+    }
+
+    public void setDescribel(String describel) {
+        this.describel = describel == null ? null : describel.trim();
+    }
+
+    public Date getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(Date expiryDate) {
+        this.expiryDate = expiryDate;
+    }
+
+    public Double getFaceValue() {
+        return faceValue;
+    }
+
+    public void setFaceValue(Double faceValue) {
+        this.faceValue = faceValue;
+    }
+
+    public String getFaceValueType() {
+        return faceValueType;
+    }
+
+    public void setFaceValueType(String faceValueType) {
+        this.faceValueType = faceValueType == null ? null : faceValueType.trim();
     }
 }
