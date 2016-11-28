@@ -26,6 +26,7 @@ public class WorkShowBean {
 	private String is_like;
 	private String is_comment;
 	private String remarks;
+	private String art_type;
     
     private List<HomePageAttBean> att;
     private List<CommentsBean> comments;
@@ -189,6 +190,14 @@ public class WorkShowBean {
 	}
 	public void setTec_comments_list(List<WorkTecCommentsListBean> tec_comments_list) {
 		this.tec_comments_list = tec_comments_list;
+	}
+
+	public String getArt_type() {
+		return art_type;
+	}
+
+	public void setArt_type(String art_type) {
+		this.art_type = art_type;
 	}
 	
 	

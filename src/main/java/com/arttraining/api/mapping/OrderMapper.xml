@@ -42,7 +42,7 @@
     <if test="offset !=-1">
     	and create_time &lt;(select create_time from t_yp_order
     	where user_id = #{uid,jdbcType=INTEGER} 
-    	and id=#{id,jdbcType=INTEGER})
+    	and id=#{offset,jdbcType=INTEGER})
     </if>
     <if test="status !=null">
     	and status=#{status,jdbcType=INTEGER}

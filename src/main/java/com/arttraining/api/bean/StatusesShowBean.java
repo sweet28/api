@@ -26,6 +26,7 @@ public class StatusesShowBean {
 	private String is_like;
 	private String is_comment;
 	private String remarks;
+	private String art_type;
     
     private List<HomePageAttBean> att;
     private List<CommentsBean> comments;
@@ -50,6 +51,7 @@ public class StatusesShowBean {
 		this.is_like = "";
 		this.is_comment = "";
 		this.remarks = "";
+		this.art_type="";
 		this.att = new ArrayList<HomePageAttBean>();
 		this.comments = new ArrayList<CommentsBean>();
 	}
@@ -195,6 +197,12 @@ public class StatusesShowBean {
 
 	public void setAd(HomePageAdvertiseBean ad) {
 		this.ad = ad;
+	}
+	public String getArt_type() {
+		return art_type;
+	}
+	public void setArt_type(String art_type) {
+		this.art_type = art_type;
 	}
  
     

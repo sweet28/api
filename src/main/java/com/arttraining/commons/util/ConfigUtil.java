@@ -79,7 +79,7 @@ public class ConfigUtil {
 	// 首页名师 默认显示记录条数
 	public static Integer HOMEPAGE_PAGESIZE = 2;
 	// 首页作品 默认显示2条记录数
-	public static Integer HOMEWORK_PAGESIZE = 2;
+	public static Integer HOMEWORK_PAGESIZE = 6;
 
 	// 帖子/小组动态名师点评显示的记录数
 	public static Integer DIANPING_PAGESIZE = 1;

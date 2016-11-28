@@ -24,6 +24,7 @@ public class HomePageStatusesBean {
 	private String is_like;
 	private String is_comment;
 	private String remarks;
+	private String art_type;
     
     private List<HomePageAttBean> att;
     
@@ -47,6 +48,7 @@ public class HomePageStatusesBean {
 		this.is_like = "";
 		this.is_comment = "";
 		this.remarks="";
+		this.art_type="";
 		this.att = new ArrayList<HomePageAttBean>();;
 	}
 
@@ -200,6 +202,14 @@ public class HomePageStatusesBean {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getArt_type() {
+		return art_type;
+	}
+
+	public void setArt_type(String art_type) {
+		this.art_type = art_type;
 	}
     
 }

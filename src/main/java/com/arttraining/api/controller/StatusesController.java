@@ -345,7 +345,7 @@ public class StatusesController {
 		}
 		//用户ID
 		Integer i_uid = Integer.valueOf(uid);
-		//2. 查询2条测评动态详情
+		//2. 查询6条测评动态详情
 		if(offset==-1) {
 			Integer worksLimit = ConfigUtil.HOMEWORK_PAGESIZE;	
 			List<HomePageStatusesBean> worksList = this.worksService.getWorksListByHomepage(worksLimit);
@@ -425,8 +425,8 @@ public class StatusesController {
 			//HomePageThemeBean theme = new HomePageThemeBean();
 			if(statusesList.size()>0) {
 				if(isExistAd) {
-					if(statusesList.size()>3) {
-						statusesList.add(2,ad);
+					if(statusesList.size()>6) {
+						statusesList.add(6,ad);
 					}
 					else
 						statusesList.add(ad);

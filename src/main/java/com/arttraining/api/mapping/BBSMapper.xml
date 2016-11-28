@@ -245,17 +245,18 @@
     <result column="like_num" property="like_num" jdbcType="INTEGER" />
     <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="art_type" property="art_type" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="selectBBSListByHomepage" resultMap="HomepageListResultMap">
     select b.id as stus_id,'status' as stus_type,b.comment_num,
     b.owner_type,b.like_num,b.browse_num,b.content,
-	b.title,b.tag,b.create_time,b.remarks,
+	b.title,b.tag,b.create_time,b.remarks,b.art_type,
 	s.identity_name as identity,
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from (select id,comment_num,like_num,browse_num,content,title,
-		  tag,create_time,owner,owner_type,remarks,order_code
+		  tag,create_time,owner,owner_type,remarks,order_code,art_type
 		  from t_yp_bbs
 	      where is_deleted=0 and owner_type='stu'
 	      <if test="offset !=-1">
@@ -275,7 +276,7 @@
    <select id="selectBBSListByMyComment" resultMap="HomepageListResultMap">
     select b.id as stus_id,'status' as stus_type,b.comment_num,
     b.owner_type,b.like_num,b.browse_num,b.content,
-	b.title,b.tag,b.create_time,b.remarks,
+	b.title,b.tag,b.create_time,b.remarks,b.art_type,
 	s.identity_name as identity,
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
@@ -292,7 +293,7 @@
 	order by order_code desc
 	limit #{limit,jdbcType=INTEGER}) c, 
 	(select id,comment_num,like_num,browse_num,content,title,
-	tag,create_time,owner,owner_type,remarks
+	tag,create_time,owner,owner_type,remarks,art_type
 	from t_yp_bbs
 	where is_deleted=0) b, 
 	(select identity_name,city_name,head_pic,name,id
@@ -307,12 +308,12 @@
   <select id="selectBBSListByUid" resultMap="HomepageListResultMap">
     select b.id as stus_id,'status' as stus_type,b.comment_num,
     b.owner_type,b.like_num,b.browse_num,b.content,
-	b.title,b.tag,b.create_time,b.remarks,
+	b.title,b.tag,b.create_time,b.remarks,b.art_type,
 	s.identity_name as identity,
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from (select id,comment_num,like_num,browse_num,content,title,
-		  tag,create_time,owner,owner_type,remarks,order_code
+		  tag,create_time,owner,owner_type,remarks,order_code,art_type
 		  from t_yp_bbs
 	      where is_deleted=0 and owner_type='stu' and owner=#{uid,jdbcType=INTEGER}
 		  <if test="offset !=-1">
@@ -348,16 +349,17 @@
     <result column="like_num" property="like_num" jdbcType="INTEGER" />
     <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="art_type" property="art_type" jdbcType="VARCHAR" />
   </resultMap>
    <select id="selectOneBBSByid" resultMap="ShowOneBBSResultMap">
     select b.id as stus_id,'status' as stus_type,b.comment_num,
     b.owner_type,b.like_num,b.browse_num,b.content,
-	b.title,b.tag,b.create_time,b.remarks,
+	b.title,b.tag,b.create_time,b.remarks,b.art_type,
 	s.identity_name as identity,
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from (select id,comment_num,like_num,browse_num,content,title,
-		  tag,create_time,owner,owner_type,remarks
+		  tag,create_time,owner,owner_type,remarks,art_type
 		  from t_yp_bbs
 	      where is_deleted=0 and owner_type='stu' and id=#{id,jdbcType=INTEGER}) b, 
 		(select identity_name,city_name,head_pic,name,id

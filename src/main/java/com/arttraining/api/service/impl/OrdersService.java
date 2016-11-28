@@ -90,6 +90,7 @@ public class OrdersService implements IOrdersService{
 		if(workAtt!=null) {
 			if(workAtt.getThumbnail() != null && !("").equals(workAtt.getThumbnail().trim())){
 				work.setAttachment(workAtt.getThumbnail());
+				work.setIsPublic(1);
 				this.workDao.updateByPrimaryKeySelective(work);
 			}
 			//4.修改作品附件的信息
