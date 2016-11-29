@@ -27,6 +27,7 @@ import com.arttraining.api.bean.OrderListMyReBean;
 import com.arttraining.api.bean.OrderWorkBean;
 import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.pojo.Assessments;
+import com.arttraining.api.pojo.Coupon;
 import com.arttraining.api.pojo.Order;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.Works;
@@ -530,6 +531,11 @@ public class OrdersController {
 		attrLong = request.getParameter("attr_long");
 		isPay = request.getParameter("is_pay");
 		thumbnail = request.getParameter("thumbnail");
+		//coffee add
+		String coupon_id=request.getParameter("coupon_id");
+		Integer i_coupon_id=0;
+		Coupon coupon=null;
+		//end
 		
 		ServerLog.getLogger().warn("uid:"+uid+"-token:"+accessToken+"-orderNum:"+orderNum+
 				"-thumbnail:"+thumbnail+"-isPay:"+isPay+"-attrLong:"+attrLong+
@@ -570,6 +576,17 @@ public class OrdersController {
 							ass.setPayTime(TimeUtil.getTimeStamp());
 							//测评状态 判断是否支付
 							ass.setIsPay(1);
+							//coffee add 新增修改优惠券ID为使用的状态
+							if(coupon_id!=null && NumberUtil.isInteger(coupon_id)) {
+								Date date = new Date();
+								String time = TimeUtil.getTimeByDate(date);
+								coupon = new Coupon();
+								i_coupon_id=Integer.valueOf(coupon_id);
+								coupon.setId(i_coupon_id);
+								coupon.setIsUsed(1);
+								coupon.setRemarks(time);
+							}
+							//end
 							if(attachment != null && !("").equals(attachment)){
 								ass.setStatus(ConfigUtil.STATUS_4);
 							}else{
@@ -601,7 +618,7 @@ public class OrdersController {
 				
 					System.out.println(attrType+"_---------"+attachment +"-----------------"+thumbnail);
 					try {
-						this.ordersService.updateAndUpdateWorkAssAtt(order, workAtt, ass,user);
+						this.ordersService.updateAndUpdateWorkAssAtt(coupon,order, workAtt, ass,user);
 						System.out.println("进入订单更新5："+TimeUtil.getTimeStamp());
 						errorCode = "0";
 						errorMsg = "ok";

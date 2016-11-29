@@ -108,7 +108,7 @@
 	from (select id,comment_num,like_num,browse_num,content,title,
 		  tag,create_time,owner,owner_type,remarks,order_code,art_type
 		  from t_yp_works
-	      where is_deleted=0 and is_public=1
+	      where is_deleted=0
 		  order by order_code desc
 	      limit #{limit,jdbcType=INTEGER}) w, 
 		(select identity_name,city_name,head_pic,name,id

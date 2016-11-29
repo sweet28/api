@@ -7,6 +7,7 @@ import com.arttraining.api.bean.AssessmentListReBean;
 import com.arttraining.api.bean.OrderListMyBean;
 import com.arttraining.api.bean.OrderWorkBean;
 import com.arttraining.api.pojo.Assessments;
+import com.arttraining.api.pojo.Coupon;
 import com.arttraining.api.pojo.Order;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.Works;
@@ -21,7 +22,7 @@ public interface IOrdersService {
 	
 	int updateAndUpdateWorkAssAtt(Order order, Works works, List<Assessments> assList, WorksAttchment workAtt);
 	
-	int updateAndUpdateWorkAssAtt(Order order, WorksAttchment workAtt, Assessments ass,UserStu user);
+	int updateAndUpdateWorkAssAtt(Coupon coupon,Order order, WorksAttchment workAtt, Assessments ass,UserStu user);
 	
 	Order selectByOrderNumber(String orderNumber);
 	

@@ -11,11 +11,13 @@ import com.arttraining.api.bean.AssessmentListReBean;
 import com.arttraining.api.bean.OrderListMyBean;
 import com.arttraining.api.bean.OrderWorkBean;
 import com.arttraining.api.dao.AssessmentsMapper;
+import com.arttraining.api.dao.CouponMapper;
 import com.arttraining.api.dao.OrderMapper;
 import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.dao.WorksAttchmentMapper;
 import com.arttraining.api.dao.WorksMapper;
 import com.arttraining.api.pojo.Assessments;
+import com.arttraining.api.pojo.Coupon;
 import com.arttraining.api.pojo.Order;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.Works;
@@ -34,6 +36,8 @@ public class OrdersService implements IOrdersService{
 	private WorksAttchmentMapper workAttDao;
 	@Resource
 	private UserStuMapper userStuDao;
+	@Resource
+	private CouponMapper couponDao;
 
 	@Override
 	public int insert(Order order) {
@@ -69,7 +73,7 @@ public class OrdersService implements IOrdersService{
 	}
 	
 	@Override
-	public int updateAndUpdateWorkAssAtt(Order order, WorksAttchment workAtt, Assessments ass,UserStu user) {
+	public int updateAndUpdateWorkAssAtt(Coupon coupon, Order order, WorksAttchment workAtt, Assessments ass,UserStu user) {
 		int result = 0;
 		//1.更新订单信息 依据订单自增ID
 		result = this.orderDao.updateByPrimaryKeySelective(order);
@@ -90,7 +94,7 @@ public class OrdersService implements IOrdersService{
 		if(workAtt!=null) {
 			if(workAtt.getThumbnail() != null && !("").equals(workAtt.getThumbnail().trim())){
 				work.setAttachment(workAtt.getThumbnail());
-				work.setIsPublic(1);
+				//work.setIsPublic(1);
 				this.workDao.updateByPrimaryKeySelective(work);
 			}
 			//4.修改作品附件的信息
@@ -100,6 +104,10 @@ public class OrdersService implements IOrdersService{
 		//更新爱好者用户作品数
 		if(user!=null) {
 			this.userStuDao.updateNumberBySelective(user);
+		}
+		//5.修改优惠券使用信息
+		if(coupon!=null) {
+			this.couponDao.updateByPrimaryKeySelective(coupon);
 		}
 		return result;
 	}

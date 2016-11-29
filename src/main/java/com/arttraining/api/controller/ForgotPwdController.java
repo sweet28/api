@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.arttraining.api.bean.SimpleReBean;
+import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.pojo.SMSCheckCode;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.SMSService;
@@ -22,7 +22,6 @@ import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.PhoneUtil;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
-import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("/forgot_pwd")
@@ -34,13 +33,14 @@ public class ForgotPwdController {
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object create(HttpServletRequest request, HttpServletResponse response){
-		SimpleReBean simReBean = new SimpleReBean();
-		Gson gson = new Gson();
+//		SimpleReBean simReBean = new SimpleReBean();
+//		Gson gson = new Gson();
 		String errorCode = "";
 		String errorMsg = "";
 		String account = "";
 		String pwd = "";
 		String accessToken="";
+		Integer i_uid=0;
 		
 		account = request.getParameter("mobile");
 		pwd = request.getParameter("new_pwd");
@@ -93,9 +93,10 @@ public class ForgotPwdController {
 							smsCCode.setIsUsed(2);
 							this.smsService.update(smsCCode);
 							//end
+							i_uid=userStu.getId();
 							accessToken = TokenUtil.generateToken(account);
 							errorCode = "0";
-							errorMsg = accessToken;
+							errorMsg = "ok";
 						}catch(Exception e) {
 							errorCode = "20036";
 							errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
@@ -115,12 +116,20 @@ public class ForgotPwdController {
 			errorCode = "20044";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20044;
 		}
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMsg);
+		jsonObject.put("uid",i_uid);
+		jsonObject.put("user_code", accessToken);
+		jsonObject.put("name", "");
 		
-		simReBean.setError_code(errorCode);
-		simReBean.setError_msg(errorMsg);
-	
-		System.out.println(gson.toJson(simReBean)+"进入忘记密码555："+account+TimeUtil.getTimeStamp());
-
-		return gson.toJson(simReBean);
+		return jsonObject;
+		
+//		simReBean.setError_code(errorCode);
+//		simReBean.setError_msg(errorMsg);
+//	
+//		System.out.println(gson.toJson(simReBean)+"进入忘记密码555："+account+TimeUtil.getTimeStamp());
+//
+//		return gson.toJson(simReBean);
 	}
 }
