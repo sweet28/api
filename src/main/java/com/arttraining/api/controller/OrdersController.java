@@ -31,6 +31,7 @@ import com.arttraining.api.pojo.Order;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksAttchment;
+import com.arttraining.api.service.impl.AssessmentService;
 import com.arttraining.api.service.impl.OrdersService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.api.service.impl.WorksService;
@@ -52,6 +53,8 @@ public class OrdersController {
 	private UserStuService userStuService;
 	@Resource
 	private WorksService workService;
+	@Resource
+	private AssessmentService assessmentService;
 	
 	/***
 	 * 获取用户订单信息列表
@@ -126,6 +129,25 @@ public class OrdersController {
 						map.put("type", type);
 						map.put("order_id", order_id);
 						map.put("order_number", order_number);
+						//coffee add 1129 判断订单状态是否为1
+						Integer order_status=order.getOrder_status();
+						if(order_status==1) {
+							//如果状态为1 表示订单已支付状态 然后我去查看测评状态
+							Integer[] ass_status={ConfigUtil.STATUS_3,ConfigUtil.STATUS_4,ConfigUtil.STATUS_5};
+							for (Integer ass : ass_status) {
+								map.put("ass_status",ass);
+								Integer ass_num= this.assessmentService.getAssStatusByOrderId(map);
+								if(ass_num>0) {
+									//如果存在测评数量 则更改订单状态
+									order.setOrder_status(ass);
+									if(ass==ConfigUtil.STATUS_5) {
+										order.setAss_num(ass_num);
+									}
+									break;
+								}
+							}
+						}			
+						//end
 						//获取作品相关的信息
 						OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);
 						if(work!=null) {
@@ -196,6 +218,25 @@ public class OrdersController {
 				List<AssessmentListBean> assessments=assReBean.getAssessments();
 				//判断测评信息是否为空
 				if(assessments.size()>0) {
+					map.put("order_number", assReBean.getOrder_number());
+					//coffee add 1129 判断订单状态是否为1
+					Integer order_status=assReBean.getOrder_status();
+					if(order_status==1) {
+						//如果状态为1 表示订单已支付状态 然后我去查看测评状态
+						Integer[] ass_status={ConfigUtil.STATUS_3,ConfigUtil.STATUS_4,ConfigUtil.STATUS_5};
+						for (Integer ass : ass_status) {
+							map.put("ass_status",ass);
+							Integer ass_num= this.assessmentService.getAssStatusByOrderId(map);
+							if(ass_num>0) {
+								//如果存在测评数量 则更改订单状态
+								assReBean.setOrder_status(ass);
+								if(ass==ConfigUtil.STATUS_5) {
+									assReBean.setAss_num(ass_num);
+								}
+								break;
+							}
+						}
+					}			
 					//循环读取测评信息 从而名师头像
 					for (AssessmentListBean ass : assessments) {
 						Integer tid = ass.getTec_id();

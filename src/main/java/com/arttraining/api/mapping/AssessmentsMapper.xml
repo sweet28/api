@@ -96,7 +96,16 @@
     and status=#{status,jdbcType=INTEGER}
     and is_deleted=0
   </select>
-
+	
+  <!-- coffee add 1129 依据订单号和订单ID来获取测评数量 orders/list_my接口调用 -->
+  <select id="selectAssStatusByOrderId" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select count(id) as num
+    from t_yp_assessments
+    where order_id = #{order_id,jdbcType=INTEGER}
+    and order_number = #{order_number,jdbcType=VARCHAR}
+    and status=#{ass_status,jdbcType=INTEGER}
+    and is_deleted=0
+  </select>
   <!-- end -->
   
   <sql id="Base_Column_List" >

@@ -13,6 +13,7 @@ public class AssessmentListReBean {
     private String order_time;
     private Integer order_element_num;
     private Double order_total_price;
+    private Integer ass_num;
     private List<AssessmentListBean> assessments;
     
 	public AssessmentListReBean() {
@@ -23,6 +24,7 @@ public class AssessmentListReBean {
 		this.order_time = "";
 		this.order_element_num = 0;
 		this.order_total_price = 0.00;
+		this.ass_num=0;
 		this.assessments = new ArrayList<AssessmentListBean>();
 	}
 	public String getError_code() {
@@ -85,6 +87,12 @@ public class AssessmentListReBean {
 	}
 	public void setAssessments(List<AssessmentListBean> assessments) {
 		this.assessments = assessments;
+	}
+	public Integer getAss_num() {
+		return ass_num;
+	}
+	public void setAss_num(Integer ass_num) {
+		this.ass_num = ass_num;
 	}
     
     

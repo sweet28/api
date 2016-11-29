@@ -23,7 +23,7 @@
     select id,type,name
     from t_yp_institutions_conditions
     where is_deleted=0
-    order by order_code desc
+    order by order_code
   </select>
   <!-- end -->
   

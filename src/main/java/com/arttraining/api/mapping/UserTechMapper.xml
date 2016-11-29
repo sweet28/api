@@ -266,7 +266,7 @@
     from t_yp_user_tech
     where 1=1
      <if test="offset !=-1" >
-        and order_code <![CDATA[ <= ]]> 
+        and order_code <![CDATA[ >= ]]> 
         (select order_code from t_yp_user_tech where id = #{offset,jdbcType=INTEGER}
         <include refid="select_tec_where"></include>)
         and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}  
@@ -280,7 +280,7 @@
     	or specialty_name like '%${key}%') 
     </if>
     <include refid="select_tec_where"></include>
-    order by order_code desc
+    order by order_code
     limit #{limit,jdbcType=INTEGER}
   </select>
   
@@ -304,7 +304,7 @@
     from t_yp_user_tech
     where 1=1
      <if test="offset !=-1" >
-        and order_code <![CDATA[ <= ]]> 
+        and order_code <![CDATA[ >= ]]> 
         (select order_code from t_yp_user_tech where id = #{offset,jdbcType=INTEGER}
         <include refid="select_tec_where"></include>) 
         and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
@@ -314,7 +314,7 @@
     <if test="city !=null"> and city_name = #{city,jdbcType=VARCHAR}</if>
     <if test="provinces !=null"> and city_father = #{provinces,jdbcType=VARCHAR}</if>
     <include refid="select_tec_where"></include>
-    order by order_code desc
+    order by order_code
     limit #{limit,jdbcType=INTEGER}
   </select>
   <!-- coffee add 1112 -techer/list/index接口调用 默认显示2条数据 -->
@@ -324,7 +324,7 @@
     from t_yp_user_tech
     where 1=1 
     <include refid="select_tec_where"></include>
-    order by order_code desc
+    order by order_code
     limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}
   </select>
   

@@ -70,7 +70,7 @@
     where 1=1 
     <include refid="select_org_where"></include>
     <if test="offset != -1">
-    	and order_code <![CDATA[ <= ]]> (select order_code 
+    	and order_code <![CDATA[ >= ]]> (select order_code 
     	from t_yp_org where id=#{offset,jdbcType=INTEGER}
     	<include refid="select_org_where"></include>)
     	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
@@ -79,7 +79,7 @@
     	and (name like '%${key}%' or city_name like '%${key}%'
     	 or city_father like '%${key}%')
     </if>
-    order by order_code desc
+    order by order_code
     limit #{limit,jdbcType=INTEGER}
   </select>
   
@@ -117,7 +117,7 @@
     where 1=1 
     <include refid="select_org_where"></include>
     <if test="offset != -1">
-    	and order_code <![CDATA[ <= ]]>  (select order_code 
+    	and order_code <![CDATA[ >= ]]>  (select order_code 
     	from t_yp_org where id=#{offset,jdbcType=INTEGER}
     	<include refid="select_org_where"></include>)
     	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}  
@@ -125,7 +125,7 @@
     <if test="city != null"> and city_name like '%${city}%'</if>
     <if test="province != null"> and city_father like '%${province}%'</if>
     <if test="type != null"> and org_type like '%${type}%'</if>
-    order by order_code desc
+    order by order_code
     limit #{limit,jdbcType=INTEGER}
   </select>
   

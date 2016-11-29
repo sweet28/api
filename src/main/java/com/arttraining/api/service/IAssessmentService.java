@@ -12,4 +12,6 @@ public interface IAssessmentService {
     List<MasterAssessmentBean> getAssessmentYesListByMaster(Map<String, Object> map);
     //根据名师ID获取数量接口--masters/num接口调用
     int getAssNumByMaster(Map<String, Object> map);
+    //依据订单号和订单ID来获取测评数量 orders/list_my接口调用
+    int getAssStatusByOrderId(Map<String, Object> map);
 }

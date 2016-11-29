@@ -21,6 +21,7 @@ import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.PhoneUtil;
 import com.arttraining.commons.util.TimeUtil;
+import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
 
 @Controller
@@ -39,6 +40,7 @@ public class ForgotPwdController {
 		String errorMsg = "";
 		String account = "";
 		String pwd = "";
+		String accessToken="";
 		
 		account = request.getParameter("mobile");
 		pwd = request.getParameter("new_pwd");
@@ -91,8 +93,9 @@ public class ForgotPwdController {
 							smsCCode.setIsUsed(2);
 							this.smsService.update(smsCCode);
 							//end
+							accessToken = TokenUtil.generateToken(account);
 							errorCode = "0";
-							errorMsg = "ok";
+							errorMsg = accessToken;
 						}catch(Exception e) {
 							errorCode = "20036";
 							errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
@@ -115,6 +118,7 @@ public class ForgotPwdController {
 		
 		simReBean.setError_code(errorCode);
 		simReBean.setError_msg(errorMsg);
+	
 		System.out.println(gson.toJson(simReBean)+"进入忘记密码555："+account+TimeUtil.getTimeStamp());
 
 		return gson.toJson(simReBean);

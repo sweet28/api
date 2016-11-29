@@ -11,6 +11,7 @@ public class OrderListMyBean {
 	private Integer work_id;
 	private String work_title;
 	private String work_pic;
+	private Integer ass_num;
 
 	public OrderListMyBean() {
 		this.order_type = 0;
@@ -23,6 +24,7 @@ public class OrderListMyBean {
 		this.work_id = 0;
 		this.work_title = "";
 		this.work_pic = "";
+		this.ass_num=0;
 	}
 	public Integer getOrder_type() {
 		return order_type;
@@ -83,6 +85,12 @@ public class OrderListMyBean {
 	}
 	public void setWork_pic(String work_pic) {
 		this.work_pic = work_pic;
+	}
+	public Integer getAss_num() {
+		return ass_num;
+	}
+	public void setAss_num(Integer ass_num) {
+		this.ass_num = ass_num;
 	}
 
 }
