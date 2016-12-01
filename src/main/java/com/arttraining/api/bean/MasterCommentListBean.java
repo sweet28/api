@@ -1,5 +1,7 @@
 package com.arttraining.api.bean;
 
+import com.arttraining.commons.util.ImageUtil;
+
 public class MasterCommentListBean {
 	//评论ID
 	private Integer comm_id;
@@ -91,7 +93,7 @@ public class MasterCommentListBean {
 		return attr;
 	}
 	public void setAttr(String attr) {
-		this.attr = attr;
+		this.attr = ImageUtil.parsePicPath(attr, 6);
 	}
 	public String getComm_type() {
 		return comm_type;
