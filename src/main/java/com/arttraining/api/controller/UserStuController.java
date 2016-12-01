@@ -551,15 +551,15 @@ public class UserStuController {
 			//用户ID
 			Integer i_uid = Integer.valueOf(uid);
 			userNum = this.userStuService.getUserNumberByUid(i_uid);
-			if(userNum==null) {
-				userNum = new UserNumberBean();
-				errorCode = "20007";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
-			}
-			else {
+//			if(userNum==null) {
+//				userNum = new UserNumberBean();
+//				errorCode = "20007";
+//				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+//			}
+//			else {
 				errorCode = "0";
 				errorMessage = "ok";
-			}
+			//}
 		}
 		userNum.setError_code(errorCode);
 		userNum.setError_msg(errorMessage);
