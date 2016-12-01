@@ -89,5 +89,7 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20058 = "已经点评了";
 	public static String ERROR_MSG_ZH_20059 = "优惠券兑换码已失效 。";
 	public static String ERROR_MSG_ZH_20060 = "优惠券兑换码无效 。";
+	
 	public static String ERROR_MSG_ZH_20061 = "已经收藏了 。";
+	public static String ERROR_MSG_ZH_20062 = "版本已是最新的了哟 。";
 }

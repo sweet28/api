@@ -14,4 +14,6 @@ public interface AppVersionMapper {
     int updateByPrimaryKeySelective(AppVersion record);
 
     int updateByPrimaryKey(AppVersion record);
+    //app版本更新--version/update接口调用
+    AppVersion selectOneVersionInfo();
 }
