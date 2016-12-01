@@ -84,12 +84,10 @@ public class InstitutionsController {
 		//String provinces_name=request.getParameter("provinces_name");
 		//ServerLog.getLogger().warn("city_name:"+city_name+"-provinces_name:"+provinces_name);
 		ServerLog.getLogger().warn("condition_type:"+condition_type+"-condition_name:"+condition_name);
-		
 		//获取院校信息列表
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("type", condition_type);
 		map.put("name", condition_name);
-		
 		List<InstitutionsListBean> institutionsList = this.institutionService.getInstitutionsList(map);
 		if(institutionsList.size()>0) {
 			errorCode = "0";
@@ -100,6 +98,7 @@ public class InstitutionsController {
 			errorCode = "20007";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 		}
+		System.out.println("size:"+institutionsList.size());
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);

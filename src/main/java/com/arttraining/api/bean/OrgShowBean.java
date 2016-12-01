@@ -136,7 +136,7 @@ public class OrgShowBean {
 	}
 
 	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+		this.remarks =  ImageUtil.parsePicPath(remarks,5);
 	}
 
 	public String getCity() {

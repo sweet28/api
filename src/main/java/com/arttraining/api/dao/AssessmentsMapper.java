@@ -30,4 +30,6 @@ public interface AssessmentsMapper {
     int selectAssNumByMaster(Map<String, Object> map);
     //依据订单号和订单ID来获取测评数量 orders/list_my接口调用
     int selectAssStatusByOrderId(Map<String, Object> map);
+    //依据名师ID和作品ID查询测评ID
+    int selectAssIdByMaster(Map<String, Object> map);
 }

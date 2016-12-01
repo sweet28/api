@@ -17,6 +17,19 @@
     <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
   </resultMap>
  
+  <!-- coffee add 1130 判断是否重复收藏同一个ID-->
+   <select id="selectOneFavoriteById" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_favorites
+    where host = #{host_id,jdbcType=INTEGER}
+    and host_type = #{host_type,jdbcType=VARCHAR}
+    and visitor = #{visitor_id,jdbcType=INTEGER}
+    and visitor_type= #{visitor_type,jdbcType=VARCHAR}
+    and is_deleted=0
+  </select>
+  
+  
   <!-- coffee add 1118 根据用户ID获取收藏列表 favorites/list接口调用 -->
   <resultMap id="ListResultMap" type="com.arttraining.api.bean.FavoritesListReBean" >
     <result column="uid" property="uid" jdbcType="INTEGER" />
@@ -43,15 +56,16 @@
     		where visitor_type='stu' and is_deleted=0 
     		and visitor=#{uid,jdbcType=INTEGER}
     		<if test="offset != -1">
-    		 and create_time <![CDATA[ >= ]]> (select create_time
+    		 and create_time <![CDATA[ <= ]]> (select create_time
     		 from t_yp_favorites where visitor_type='stu' and is_deleted=0
     		 and id=#{offset,jdbcType=INTEGER}
     		 and visitor=#{uid,jdbcType=INTEGER})
     		 and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
     		</if>
-    		order by create_time
+    		order by create_time desc
     		limit #{limit,jdbcType=INTEGER}) f
     		on f.visitor=u.id
+    		order by f.create_time desc
     	</when>
     	<when test="utype=='tec'">
     		select u.id as uid,u.name,u.user_code,
@@ -66,16 +80,16 @@
     		where visitor_type='tec' and is_deleted=0 
     		and visitor=#{uid,jdbcType=INTEGER}
     		<if test="offset != -1">
-    		 and create_time <![CDATA[ >= ]]> (select create_time
+    		 and create_time <![CDATA[ <= ]]> (select create_time
     		 from t_yp_favorites where visitor_type='tec' and is_deleted=0
     		 and id=#{offset,jdbcType=INTEGER}
     		 and visitor=#{uid,jdbcType=INTEGER})
     		 and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
     		</if>
-    		order by create_time
+    		order by create_time desc
     		limit #{limit,jdbcType=INTEGER}) f
-    		on f.visitor=u.id
-    		order by f.create_time
+    		on f.visitor=u.id 
+    		order by f.create_time desc
     	</when>
     	<otherwise>
     		select u.id as uid,u.name,'' as user_code,
@@ -90,16 +104,16 @@
     		where visitor_type='org' and is_deleted=0 
     		and visitor=#{uid,jdbcType=INTEGER}
     		<if test="offset != -1">
-    		 and create_time <![CDATA[ >= ]]> (select create_time
+    		 and create_time <![CDATA[ <= ]]> (select create_time
     		 from t_yp_favorites where visitor_type='org' and is_deleted=0
     		 and id=#{offset,jdbcType=INTEGER}
     		 and visitor=#{uid,jdbcType=INTEGER})
     		 and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
     		</if>
-    		order by create_time
+    		order by create_time desc
     		limit #{limit,jdbcType=INTEGER}) f
     		on f.visitor=u.id
-    		order by f.create_time
+    		order by f.create_time desc
     	</otherwise>
     </choose>
   </select>

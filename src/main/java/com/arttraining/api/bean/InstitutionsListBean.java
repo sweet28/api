@@ -10,7 +10,6 @@ public class InstitutionsListBean {
 	private Integer follow_num;
 	private Integer browse_num;
 	
-	
 	public Integer getInstitution_id() {
 		return institution_id;
 	}

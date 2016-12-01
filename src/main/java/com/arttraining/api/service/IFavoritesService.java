@@ -21,4 +21,6 @@ public interface IFavoritesService {
      HomePageStatusesBean getOneStatusByFavorite(Map<String, Object> map);
      //查询是否点赞或者点评--favorites/list接口调用
      HomeLikeOrCommentBean getIsLikeOrCommentOrAtt(Map<String, Object> map);
+     //判断是否重复收藏同一个ID
+     Favorites getOneFavoriteById(Map<String, Object> map);
 }

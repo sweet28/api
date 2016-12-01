@@ -222,6 +222,9 @@ public class MasterController {
 					errorCode = "20036";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20036;
 				}
+			} else {
+				errorCode = "20028";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 			}
 			
 		}

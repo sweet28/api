@@ -41,37 +41,25 @@
     <id column="id" property="institution_id" jdbcType="INTEGER" />
     <result column="pic" property="institution_pic" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="admissions_guide" property="admissions_guide" jdbcType="VARCHAR" />
+    <result column="official_website" property="admissions_guide" jdbcType="VARCHAR" />
     <result column="follow_num" property="follow_num" jdbcType="INTEGER" />
     <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
   </resultMap>
    <select id="selectInstitutionsList" resultMap="ListResultMap" parameterType="java.util.Map" >
-    select id,pic,name,admissions_guide,
+    select id,pic,name,official_website,
     follow_num,browse_num
     from t_yp_institutions
     where is_deleted=0
     <choose>
-    	<when test="type=='is_media'">
-    		and is_media=#{name,jdbcType=VARCHAR}
-    	</when>
-    	<when test="type=='city'">
-    		and city_name=#{name,jdbcType=VARCHAR}
-    	</when>
     	<when test="type=='province'">
     		and city_father=#{name,jdbcType=VARCHAR}
     	</when>
-    	<when test="type=='is_fine_art'">
-    		and is_fine_art=#{name,jdbcType=VARCHAR}
+    	<when test="type=='all'">
+    		and 1=1
     	</when>
-    	<when test="type=='is_music'">
-    		and is_music=#{name,jdbcType=VARCHAR}
-    	</when>
-    	<when test="type=='is_independence'">
-    		and is_independence=#{name,jdbcType=VARCHAR}
-    	</when>
-    	<when test="type=='is_reference'">
-    		and is_reference=#{name,jdbcType=VARCHAR}
-    	</when>
+    	<otherwise>
+    		and ${type}=1
+    	</otherwise>
     </choose>
     order by order_code
   </select>

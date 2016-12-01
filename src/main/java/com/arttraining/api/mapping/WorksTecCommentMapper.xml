@@ -150,12 +150,17 @@
   
   <!-- coffee add 依据名师ID 查询评论信息 默认显示第一条(按照评论时间升序排序) -->
   <resultMap id="TecCommentResultMap" type="com.arttraining.api.bean.WorkTecCommentBean" >
+    <id column="comm_id" property="comm_id" jdbcType="INTEGER" />
     <result column="content_type" property="type" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="type" property="comm_type" jdbcType="VARCHAR" />
+    <result column="duration" property="duration" jdbcType="VARCHAR" />
+    <result column="comm_time" property="comm_time" jdbcType="VARCHAR" />
+    <result column="attr" property="attr" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectTecCommentByWorkShow" resultMap="TecCommentResultMap">
- 	select content_type,content,type
+ 	select id as comm_id,content_type,content,type,remarks as duration,
+ 	attachment as attr,create_time as comm_time
 	from t_yp_works_tec_comment
 	where foreign_key=#{fid,jdbcType=INTEGER}
 	and ((visitor_type='tec' and visitor=#{uid,jdbcType=INTEGER})

@@ -58,4 +58,11 @@ public class FavoritesService implements IFavoritesService {
 		this.userStuDao.updateNumberBySelective(user);
 	}
 
+
+	@Override
+	public Favorites getOneFavoriteById(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.favoritesDao.selectOneFavoriteById(map);
+	}
+
 }

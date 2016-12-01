@@ -33,6 +33,7 @@ import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
+import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
 
 @Controller
@@ -77,34 +78,52 @@ public class FavoritesController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
-			//用户ID
-			Integer i_uid=Integer.valueOf(uid);
-			//被收藏ID
-			Integer i_favorite_id=Integer.valueOf(favorite_id);
-			
-			Date date = new Date();
-			String time = TimeUtil.getTimeByDate(date);
-			//新增收藏信息
-			Favorites favorites = new Favorites();
-			favorites.setCreateTime(Timestamp.valueOf(time));
-			favorites.setVisitor(i_uid);
-			favorites.setVisitorType(utype);
-			favorites.setHost(i_favorite_id);
-			favorites.setHostType(type);
-			favorites.setOrderCode(time);
-			
-			//更新用户收藏量
-			UserStu user = new UserStu();
-			user.setId(i_uid);
-			user.setFavoriteNum(1);
-				
-			try {
-				this.favoritesService.insertOneFavoriteAndUpdateNum(favorites, user);
-				errorCode = "0";
-				errorMessage = "ok";
-			} catch (Exception e) {
-				errorCode = "20053";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20053;
+			// todo:判断token是否有效
+			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			if (tokenFlag) {
+				//用户ID
+				Integer i_uid=Integer.valueOf(uid);
+				//被收藏ID
+				Integer i_favorite_id=Integer.valueOf(favorite_id);
+				//1.首先判断是否重复收藏信息ID
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("visitor_id", i_uid);
+				map.put("visitor_type", utype);
+				map.put("host_id", i_favorite_id);
+				map.put("host_type", type);
+				Favorites isExist=this.favoritesService.getOneFavoriteById(map);
+				if(isExist!=null) {
+					Date date = new Date();
+					String time = TimeUtil.getTimeByDate(date);
+					//新增收藏信息
+					Favorites favorites = new Favorites();
+					favorites.setCreateTime(Timestamp.valueOf(time));
+					favorites.setVisitor(i_uid);
+					favorites.setVisitorType(utype);
+					favorites.setHost(i_favorite_id);
+					favorites.setHostType(type);
+					favorites.setOrderCode(time);
+					
+					//更新用户收藏量
+					UserStu user = new UserStu();
+					user.setId(i_uid);
+					user.setFavoriteNum(1);
+						
+					try {
+						this.favoritesService.insertOneFavoriteAndUpdateNum(favorites, user);
+						errorCode = "0";
+						errorMessage = "ok";
+					} catch (Exception e) {
+						errorCode = "20053";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20053;
+					}
+				} else {
+					errorCode = "20061";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20061;
+				}
+			} else {
+				errorCode = "20028";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 			}
 		}
 		JSONObject jsonObject = new JSONObject();
@@ -155,102 +174,109 @@ public class FavoritesController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
-			if(self==null || self.equals("")) {
-				offset=-1;
-			}
-			else if(!NumberUtil.isInteger(self)) {
-				offset=-10;
-			}
-			else
-				offset=Integer.valueOf(self);
-			
-			if(offset==-10) {
-				errorCode = "20033";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
-			}
-			else {
-				//用户ID 
-				Integer i_uid=Integer.valueOf(uid);
-				//先是以用户ID和类型 去收藏表查询用户所收藏的列表信息
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("uid", i_uid);
-				map.put("utype", utype);
-				map.put("offset", offset);
-				map.put("limit", limit);
+			// todo:判断token是否有效
+			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			if (tokenFlag) {
+				if(self==null || self.equals("")) {
+					offset=-1;
+				}
+				else if(!NumberUtil.isInteger(self)) {
+					offset=-10;
+				}
+				else
+					offset=Integer.valueOf(self);
 				
-				favoriteReBean = this.favoritesService.getFavoritesListByUid(map);
-				if(favoriteReBean==null) {
-					favoriteReBean=new FavoritesListReBean();
-					errorCode = "20007";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				if(offset==-10) {
+					errorCode = "20033";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 				}
 				else {
-					//获取收藏列表信息
-					List<FavoritesListBean> favoriteList = favoriteReBean.getFavorites();
-					if(favoriteList.size()>0) {
-						//循环读取收藏列表信息
-						for (FavoritesListBean favorite : favoriteList) {
-							//被收藏信息ID和被收藏类型
-							Integer b_fav_id=favorite.getB_fav_id();
-							String fav_type=favorite.getFav_type();
-							//传递的信息来获取相应的帖子信息
-							Map<String, Object> infoMap = new HashMap<String, Object>();
-							infoMap.put("fav_id", b_fav_id);
-							infoMap.put("fav_type", fav_type);
-
-							HomePageStatusesBean status = this.favoritesService.getOneStatusByFavorite(infoMap);
-							if(status==null) {
-								status= new HomePageStatusesBean();
-							}
-							else {
-								//判断收藏类型
-								Integer type=1;
-								switch (fav_type) {
-								case "status":
-									type=1;
-									break;
-								case "g_stus":
-									type=3;
-									break;
-								case "work":
-									type=6;
-									break;
-								default:
-									break;
-								}
-								//获取点赞或点评信息
-								Integer s_id = status.getStus_id();
-								infoMap.put("s_id", s_id);  
-								infoMap.put("u_id", i_uid);
-								infoMap.put("u_type", utype);
-								
-								HomeLikeOrCommentBean isExistLike = this.favoritesService.getIsLikeOrCommentOrAtt(infoMap);
-								status.setIs_like((String)infoMap.get("is_like"));
-								status.setIs_comment((String)infoMap.get("is_comment"));
-								if(isExistLike!=null) {
-									String att_type = isExistLike.getAtt_type();
-									if(att_type!=null && !att_type.equals("")) {
-										Integer att_id = isExistLike.getAtt_id();
-										String duration= isExistLike.getDuration();
-										String thumbnail=isExistLike.getThumbnail();
-										String store_path=isExistLike.getStore_path();
-										List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,type);
-										status.setAtt(attList);
-									}
-							   }
-							}
-							//设置收藏信息
-							favorite.setStatuses(status);
-						}
-						favoriteReBean.setFavorites(favoriteList);
-						errorCode="0";
-						errorMessage="ok";
+					//用户ID 
+					Integer i_uid=Integer.valueOf(uid);
+					//先是以用户ID和类型 去收藏表查询用户所收藏的列表信息
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("uid", i_uid);
+					map.put("utype", utype);
+					map.put("offset", offset);
+					map.put("limit", limit);
+					
+					favoriteReBean = this.favoritesService.getFavoritesListByUid(map);
+					if(favoriteReBean==null) {
+						favoriteReBean=new FavoritesListReBean();
+						errorCode = "20007";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 					}
 					else {
-						errorCode="20007";
-						errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+						//获取收藏列表信息
+						List<FavoritesListBean> favoriteList = favoriteReBean.getFavorites();
+						if(favoriteList.size()>0) {
+							//循环读取收藏列表信息
+							for (FavoritesListBean favorite : favoriteList) {
+								//被收藏信息ID和被收藏类型
+								Integer b_fav_id=favorite.getB_fav_id();
+								String fav_type=favorite.getFav_type();
+								//传递的信息来获取相应的帖子信息
+								Map<String, Object> infoMap = new HashMap<String, Object>();
+								infoMap.put("fav_id", b_fav_id);
+								infoMap.put("fav_type", fav_type);
+	
+								HomePageStatusesBean status = this.favoritesService.getOneStatusByFavorite(infoMap);
+								if(status==null) {
+									status= new HomePageStatusesBean();
+								}
+								else {
+									//判断收藏类型
+									Integer type=1;
+									switch (fav_type) {
+									case "status":
+										type=1;
+										break;
+									case "g_stus":
+										type=3;
+										break;
+									case "work":
+										type=6;
+										break;
+									default:
+										break;
+									}
+									//获取点赞或点评信息
+									Integer s_id = status.getStus_id();
+									infoMap.put("s_id", s_id);  
+									infoMap.put("u_id", i_uid);
+									infoMap.put("u_type", utype);
+									
+									HomeLikeOrCommentBean isExistLike = this.favoritesService.getIsLikeOrCommentOrAtt(infoMap);
+									status.setIs_like((String)infoMap.get("is_like"));
+									status.setIs_comment((String)infoMap.get("is_comment"));
+									if(isExistLike!=null) {
+										String att_type = isExistLike.getAtt_type();
+										if(att_type!=null && !att_type.equals("")) {
+											Integer att_id = isExistLike.getAtt_id();
+											String duration= isExistLike.getDuration();
+											String thumbnail=isExistLike.getThumbnail();
+											String store_path=isExistLike.getStore_path();
+											List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,type);
+											status.setAtt(attList);
+										}
+								   }
+								}
+								//设置收藏信息
+								favorite.setStatuses(status);
+							}
+							favoriteReBean.setFavorites(favoriteList);
+							errorCode="0";
+							errorMessage="ok";
+						}
+						else {
+							errorCode="20007";
+							errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+						}
 					}
 				}
+			} else {
+				errorCode = "20028";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 			}
 		}
 		favoriteReBean.setError_code(errorCode);

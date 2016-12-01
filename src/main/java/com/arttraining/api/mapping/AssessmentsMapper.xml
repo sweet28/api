@@ -27,6 +27,16 @@
     <result column="ass_type" property="assType" jdbcType="VARCHAR" />
   </resultMap>
   <!-- coffee add 1124 名师端接口 begin -->
+  <!-- coffee add 1201 依据名师ID和作品ID查询测评ID -->
+   <select id="selectAssIdByMaster" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select id
+    from t_yp_assessments
+    where tec_id = #{uid,jdbcType=INTEGER}
+    and work_id=#{work_id,jdbcType=INTEGER}
+    and is_deleted=0
+  </select>
+	
+  
   <!-- coffee add 1124 根据用户ID获取名师待测评列表 assessments/list/no接口调用 -->
   <resultMap id="MasterListResultMap" type="com.arttraining.api.bean.MasterAssessmentBean" >
     <id column="ass_id" property="ass_id" jdbcType="INTEGER" />

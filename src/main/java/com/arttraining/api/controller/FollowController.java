@@ -27,6 +27,7 @@ import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
+import com.arttraining.commons.util.TokenUtil;
 
 @Controller
 @RequestMapping("/follow")
@@ -69,66 +70,73 @@ public class FollowController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
-			//用户ID和关注信息ID
-			Integer i_uid = Integer.valueOf(uid);
-			Integer i_follow_id=Integer.valueOf(follow_id);
-			//依据关注类型的不同 查询不同的表
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("type", type);
-			map.put("id", i_follow_id);
-			map.put("uid", i_uid);
-			map.put("utype", utype);
-			//首先判断登录是否重复对名师/机构/爱好者用户关注
-			Follow isExist=this.followService.getIsExistFollow(map);
-			if(isExist!=null) {
-				errorCode = "20055";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20055;
-			}
-			else{
-			FollowCreateBean userinfo = this.followService.getUserInfoByFollowCreate(map);
-			if(userinfo!=null) {
-				Date date = new Date();
-				String time = TimeUtil.getTimeByDate(date);
-				
-				Integer host_id=userinfo.getId();
-				//新增关注信息
-				Follow follow = new Follow();
-				follow.setVisitor(i_uid);
-				follow.setVisitorType(utype);
-				follow.setHost(host_id);
-				follow.setHostType(type);
-				follow.setHostName(userinfo.getName());
-				follow.setCreateTime(Timestamp.valueOf(time));
-				follow.setOrderCode(time);
-				
-				//更新用户的关注量和粉丝量
-//				UserStu follow_user = null;
-//				if(utype.equals("stu")) {
-//					follow_user = new UserStu();
-//					follow_user.setId(i_uid);
-//					follow_user.setFollowNum(1);
-//				}
-//				UserStu fan_user=null; 
-//				if(type.equals("stu")) {
-//					fan_user = new UserStu();
-//					fan_user.setId(host_id);
-//					fan_user.setFansNum(1);
-//				}
-				
-				try {
-					this.followService.insertOneFollowAndUpdateNum(follow, i_uid, utype, host_id, type);
-					//this.followService.insertOneFollowAndUpdateNum(follow, follow_user, fan_user);
-					errorCode = "0";
-					errorMessage = "ok";
-				} catch (Exception e) {
+			// todo:判断token是否有效
+			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			if (tokenFlag) {
+				//用户ID和关注信息ID
+				Integer i_uid = Integer.valueOf(uid);
+				Integer i_follow_id=Integer.valueOf(follow_id);
+				//依据关注类型的不同 查询不同的表
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("type", type);
+				map.put("id", i_follow_id);
+				map.put("uid", i_uid);
+				map.put("utype", utype);
+				//首先判断登录是否重复对名师/机构/爱好者用户关注
+				Follow isExist=this.followService.getIsExistFollow(map);
+				if(isExist!=null) {
+					errorCode = "20055";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20055;
+				}
+				else{
+				FollowCreateBean userinfo = this.followService.getUserInfoByFollowCreate(map);
+				if(userinfo!=null) {
+					Date date = new Date();
+					String time = TimeUtil.getTimeByDate(date);
+					
+					Integer host_id=userinfo.getId();
+					//新增关注信息
+					Follow follow = new Follow();
+					follow.setVisitor(i_uid);
+					follow.setVisitorType(utype);
+					follow.setHost(host_id);
+					follow.setHostType(type);
+					follow.setHostName(userinfo.getName());
+					follow.setCreateTime(Timestamp.valueOf(time));
+					follow.setOrderCode(time);
+					
+					//更新用户的关注量和粉丝量
+	//				UserStu follow_user = null;
+	//				if(utype.equals("stu")) {
+	//					follow_user = new UserStu();
+	//					follow_user.setId(i_uid);
+	//					follow_user.setFollowNum(1);
+	//				}
+	//				UserStu fan_user=null; 
+	//				if(type.equals("stu")) {
+	//					fan_user = new UserStu();
+	//					fan_user.setId(host_id);
+	//					fan_user.setFansNum(1);
+	//				}
+					
+					try {
+						this.followService.insertOneFollowAndUpdateNum(follow, i_uid, utype, host_id, type);
+						//this.followService.insertOneFollowAndUpdateNum(follow, follow_user, fan_user);
+						errorCode = "0";
+						errorMessage = "ok";
+					} catch (Exception e) {
+						errorCode = "20052";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20052;
+					}
+				   }
+				else {
 					errorCode = "20052";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20052;
+				  }
 				}
-			   }
-			else {
-				errorCode = "20052";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20052;
-			  }
+			} else {
+				errorCode = "20028";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 			}
 		}
 		JSONObject jsonObject = new JSONObject();

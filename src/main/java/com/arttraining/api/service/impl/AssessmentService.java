@@ -41,4 +41,10 @@ public class AssessmentService implements IAssessmentService {
 		return this.assessmentDao.selectAssStatusByOrderId(map);
 	}
 
+	@Override
+	public int getAssIdByMaster(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.assessmentDao.selectAssIdByMaster(map);
+	}
+
 }

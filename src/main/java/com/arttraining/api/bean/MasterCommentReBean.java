@@ -23,7 +23,9 @@ public class MasterCommentReBean {
 	private Integer browse_num;
 	private Integer comment_num;
 	private Integer like_num;
-	
+	//coffee add 1201
+	private Integer ass_id;
+	//end
 	private List<HomePageAttBean> att;
 	private List<MasterCommentListBean> tec_comments_list;
 	
@@ -43,6 +45,7 @@ public class MasterCommentReBean {
 		this.browse_num = 0;
 		this.comment_num = 0;
 		this.like_num = 0;
+		this.ass_id=0;
 		this.att = new ArrayList<HomePageAttBean>();
 		this.tec_comments_list = new ArrayList<MasterCommentListBean>();
 	}
@@ -161,7 +164,13 @@ public class MasterCommentReBean {
 	public void setTec_comments_list(List<MasterCommentListBean> tec_comments_list) {
 		this.tec_comments_list = tec_comments_list;
 	}
-	
-	
+
+	public Integer getAss_id() {
+		return ass_id;
+	}
+
+	public void setAss_id(Integer ass_id) {
+		this.ass_id = ass_id;
+	}
 	
 }
