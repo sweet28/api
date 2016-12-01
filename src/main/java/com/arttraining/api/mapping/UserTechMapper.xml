@@ -299,7 +299,7 @@
   </resultMap>
   
    <select id="selectTecherListBySelective" resultMap="TecListResultMap">
-    select id, head_pic, name, specialty_name, title,
+    select id, head_pic, name, skill as specialty_name, title,
     authentication, browse_num, fans_num, ass_pay
     from t_yp_user_tech
     where 1=1
@@ -319,7 +319,7 @@
   </select>
   <!-- coffee add 1112 -techer/list/index接口调用 默认显示2条数据 -->
   <select id="selectTecherListIndexBySelective" resultMap="TecListResultMap">
-    select id, head_pic, name, specialty_name, title,
+    select id, head_pic, name, skill as specialty_name, title,
     authentication, browse_num, fans_num, ass_pay
     from t_yp_user_tech
     where 1=1 
