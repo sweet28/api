@@ -232,9 +232,14 @@ public class MasterCommentController {
 				tecComment.setRemarks(duration);
 				//end
 				
-				//名师回复时 不进行更新作品点评数
+				//名师回复时 不进行更新作品点评数 coffee add 1202
+				Works works=new Works();
+				works.setId(i_work_id);
+				works.setTecCommentNum(1);
+				//end 
+				
 				try {
-					this.worksTecCommentService.insertOneTecComment(tecComment);
+					this.worksTecCommentService.insertTecCommentAndUpdateNumByReply(tecComment,works);
 					errorCode = "0";
 					errorMessage = "ok";	
 				} catch (Exception e) {

@@ -22,6 +22,9 @@ public interface IWorksTecCommentService {
     void insertTecCommentAndUpdateNum(WorksTecComment comment, Works work, Assessments ass);
     //名师回复作品评论信息时执行的方法--tech_comments/reply接口调用
     int insertOneTecComment(WorksTecComment comment);
+    //名师回复作品评论信息时执行的方法--tech_comments/reply接口调用
+    void insertTecCommentAndUpdateNumByReply(WorksTecComment comment,Works work);
+    
     //判断名师是否重复对作品进行点评--tech_comments/create reply接口调用
     WorksTecComment getTecCommentByMaster(Map<String, Object> map);
     //根据名师ID 作品ID来获取作品和用户详情--assessments/master/show接口调用

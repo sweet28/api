@@ -86,4 +86,14 @@ public class WorksTecCommentService implements IWorksTecCommentService {
 		return this.worksTecCommentDao.selectCommentUserByMasterShow(map);
 	}
 
+	@Override
+	public void insertTecCommentAndUpdateNumByReply(WorksTecComment comment,
+			Works work) {
+		// TODO Auto-generated method stub
+		//先新增名师点评回复表
+		this.worksTecCommentDao.insertSelective(comment);
+		//然后更新作品点评表
+		this.worksDao.updateNumberBySelective(work);
+	}
+
 }

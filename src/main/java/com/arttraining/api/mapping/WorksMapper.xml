@@ -184,11 +184,12 @@
     <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="art_type" property="art_type" jdbcType="VARCHAR" />
+    <result column="tec_comment_num" property="tec_comment_num" jdbcType="INTEGER" />
   </resultMap>
    <select id="selectOneWorkByid" resultMap="ShowOneWorkResultMap">
     select w.id as stus_id,'work' as stus_type,w.comment_num,
     w.owner_type,w.like_num,w.browse_num,w.content,
-	w.title,w.tag,w.create_time,w.remarks,w.art_type,
+	w.title,w.tag,w.create_time,w.remarks,w.art_type,w.tec_comment_num,
 	s.identity_name as identity,
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic

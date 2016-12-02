@@ -51,16 +51,17 @@
     <result column="comment_num" property="comment_num" jdbcType="INTEGER" />
     <result column="like_num" property="like_num" jdbcType="INTEGER" />
     <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+    <result column="tec_comment_num" property="tec_comment_num" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectWorkByMasterShow" resultMap="MasterShowResultMap" parameterType="java.lang.Integer">
     select w.id as stus_id,'work' as stus_type,w.comment_num,
     w.owner_type,w.like_num,w.browse_num,w.content,
-	w.title,w.tag,w.create_time,
+	w.title,w.tag,w.create_time,w.tec_comment_num,
 	s.identity_name as identity,
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from (select id,comment_num,like_num,browse_num,content,title,
-		  tag,create_time,owner,owner_type
+		  tag,create_time,owner,owner_type,tec_comment_num
 		  from t_yp_works
 	      where is_deleted=0 and id=#{id,jdbcType=INTEGER}) w, 
 		(select identity_name,city_name,head_pic,name,id

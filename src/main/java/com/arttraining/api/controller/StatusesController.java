@@ -1253,7 +1253,7 @@ public class StatusesController {
 				}
 				//1.查询名师点评信息
 				List<WorkCommentTecInfoBean> tecCommentList = this.workTecCommentService.getUserInfoByWorkShow(i_status_id);
-				work.setTec_comment_num(tecCommentList.size());
+				//work.setTec_comment_num(tecCommentList.size());
 				//组装名师点评信息
 				List<WorkTecCommentsListBean> tec_comments_list = new ArrayList<WorkTecCommentsListBean>();
 				for(WorkCommentTecInfoBean tecComment:tecCommentList) {
