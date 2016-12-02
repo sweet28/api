@@ -10,6 +10,10 @@ public class ConfigUtil {
 	public static long QINIU_EXPIRES = 86400;// 有效时长，单位秒
 	public static boolean STRICT = true;
 	public static StringMap QINIU_POLICY = null;
+	
+	public static String CODE_TYPE = "dev";//测试存储环境
+	public static String CODE_TYPE_DEV = "dev";//测试存储环境
+	public static String CODE_TYPE_ONLINE = "online";//正式存储环境
 	//--0
 	public static String QINIU_BUCKET = "yipei-2016";// 空间名
 	public static String QINIU_BUCKET_COM_URL = "http://oflkt0ank.bkt.clouddn.com";

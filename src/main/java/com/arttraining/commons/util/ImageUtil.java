@@ -52,6 +52,9 @@ public class ImageUtil {
 	public static String parseQiNiuPath(String store_path,Integer type) {
 		String path = "";
 		String pre_path="";
+		if(ConfigUtil.CODE_TYPE.equals(ConfigUtil.CODE_TYPE_DEV)){
+			type = 0;
+		}
 		switch (type) {
 		case 0:
 			pre_path=ConfigUtil.QINIU_BUCKET_COM_URL;
@@ -91,7 +94,9 @@ public class ImageUtil {
 	
 	public static String parsePicPath(String store_path,Integer type){
 		String result = "";
-		
+		if(ConfigUtil.CODE_TYPE.equals(ConfigUtil.CODE_TYPE_DEV)){
+			type = 0;
+		}
 		if(null != store_path && !"".equals(store_path.trim())){
 			String pre_path="";
 			switch (type) {

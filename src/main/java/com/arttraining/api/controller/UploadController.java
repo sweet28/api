@@ -32,6 +32,11 @@ public class UploadController {
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
 		buketType = request.getParameter("buket_type");
+		
+		if(ConfigUtil.CODE_TYPE.equals(ConfigUtil.CODE_TYPE_DEV)){
+			buketType = "0";
+		}
+		
 		if(accessToken == null || uid == null || buketType == null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
