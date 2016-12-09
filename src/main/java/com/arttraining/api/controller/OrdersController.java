@@ -20,6 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
+import com.arttraining.api.bean.AssTecListBean;
 import com.arttraining.api.bean.AssessmentListBean;
 import com.arttraining.api.bean.AssessmentListReBean;
 import com.arttraining.api.bean.OrderListMyBean;
@@ -33,6 +34,7 @@ import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksAttchment;
 import com.arttraining.api.service.impl.AssessmentService;
+import com.arttraining.api.service.impl.CouponService;
 import com.arttraining.api.service.impl.OrdersService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.api.service.impl.WorksService;
@@ -56,6 +58,83 @@ public class OrdersController {
 	private WorksService workService;
 	@Resource
 	private AssessmentService assessmentService;
+	@Resource
+	private CouponService couponService;
+	
+	/***
+	 * 订单取消接口
+	 * 传递的参数:access_token--验证
+	 * uid--用户ID
+	 * order_id--订单ID
+	 * order_number--订单编号
+	 * 
+	 */
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object cancel(HttpServletRequest request, HttpServletResponse response){
+		String errorCode = "";
+		String errorMsg = "";
+		//以下是必选参数
+		String access_token = request.getParameter("access_token");
+		//String uid = request.getParameter("uid"); 
+		String order_id = request.getParameter("order_id"); 
+		String order_number = request.getParameter("order_number"); 
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-order_id:"+order_id+
+				"-order_number:"+order_number);
+		if(access_token==null || order_id==null || order_number==null) {
+			errorCode = "20032";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(access_token.equals("") || order_id.equals("") || order_number.equals("")) {
+			errorCode = "20032";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(!NumberUtil.isInteger(order_id)) {
+			errorCode = "20033";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		} else {
+			//用户ID
+			//Integer i_uid=Integer.valueOf(uid);
+			//订单ID
+			Integer i_order_id=Integer.valueOf(order_id);
+			//依据订单ID去查找订单信息
+			Order order=this.ordersService.selectByOrderNumber(order_number);
+			if(order!=null) {
+				Integer status=order.getStatus();
+				Integer coupon_id=order.getCouponId();
+				Integer coupon_type=order.getCouponType();
+				//订单状态为0 待支付
+				if(status==0) {
+					Order upd_order=new Order();
+					upd_order.setId(i_order_id);
+					upd_order.setStatus(2);
+					//判断是否恢复优惠券信息
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("order_id", i_order_id);
+					map.put("coupon_id", coupon_id);
+					map.put("coupon_type", coupon_type);
+					try {
+						this.ordersService.updateOrderAndCoupon(upd_order, map, coupon_id);
+						errorCode = "0";
+						errorMsg = "ok";
+					} catch (Exception e) {
+						errorCode = "20063";
+						errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20063;
+					}
+				}
+			} else {
+				errorCode = "20063";
+				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20063;
+			}
+		}
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMsg);
+		jsonObject.put("uid", 0);
+		jsonObject.put("user_code","");
+		jsonObject.put("name", "");
+		
+		ServerLog.getLogger().warn(jsonObject.toString());
+		return jsonObject;
+	}
 	
 	/***
 	 * 获取用户订单信息列表
@@ -77,7 +156,7 @@ public class OrdersController {
 		String self = request.getParameter("self");
 		
 		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-status:"+status);
-		
+	
 		Integer limit=ConfigUtil.PAGESIZE;
 		Integer offset=-1;
 		
@@ -147,7 +226,43 @@ public class OrdersController {
 									break;
 								}
 							}
-						}			
+							//coffee add 1208 状态为1的订单 表示已支付 去查询名师测评详情列表
+							List<AssTecListBean> ass_tec_list=this.assessmentService.getAssTecListByOrderId(map);
+							order.setAss_tec_list(ass_tec_list);
+							//end
+						} else if(order_status==0) {
+							//如果订单状态为0 判断支付时间是否已经过期 如果过期 则更改相应的代码
+							//如果已经错过支付时间 则关闭交易 如果有涉及到优惠券
+							Date currentDate = new Date();
+							Date payDate= java.sql.Date.valueOf(order.getActive_time());
+							long diff=TimeUtil.isOverTime(payDate, currentDate);
+							//当前时间减去有效时间 如果>0 表示支付超时
+							if(diff>0) {
+								//如果支付超时 关闭交易 将订单状态改为2 
+								//依据优惠券的type来执行的处理
+								order.setOrder_status(2);
+								Integer coupon_id=order.getCoupon_id();
+								Integer coupon_type=order.getCoupon_type();
+								Order upd_order=new Order();
+								upd_order.setId(order_id);
+								upd_order.setStatus(2);
+								//则用户未选择优惠券抵用券
+								if(coupon_id>0) {
+									map.put("coupon_id", coupon_id);
+									map.put("coupon_type", coupon_type);
+								} 
+								try {
+									this.ordersService.updateOrderAndCoupon(upd_order, map, coupon_id);
+								} catch (Exception e) {
+									
+								}
+							} else {
+								//如果支付未超时 则直接返回有效时间 和剩余支付时间
+								Integer remain=Integer.valueOf(String.valueOf(diff));
+								order.setRemaining_time(remain);
+							}
+							System.out.println("==="+diff);	
+						}
 						//end
 						//获取作品相关的信息
 						OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);
@@ -300,9 +415,16 @@ public class OrdersController {
 		//以下不是必选参数
 		//attachment = request.getParameter("attachment");
 		//attType = request.getParameter("attr_type");
+		//coffee add
+		String coupon_id=request.getParameter("coupon_id");
+		String coupon_type=request.getParameter("coupon_type");
+		Integer i_coupon_id=null;
+		Integer i_coupon_type=null;
+		//end
 		
 		ServerLog.getLogger().warn("uid:"+uid+"-token:"+accessToken+"-type:"+assType+"-total:"+totalStr+"-coupon:"+couponStr+"-final:"+finalStr+"-tec:"+teaArr+
-				"-title:"+title+"-content:"+content);
+				"-title:"+title+"-content:"+content+"-coupon_id:"+coupon_id+
+				"-coupon_type:"+coupon_type);
 		//System.out.println("uid:"+uid+"-token:"+accessToken+"-type:"+assType+"-total:"+totalStr+"-coupon:"+couponStr+"-final:"+finalStr+"-tec:"+teaArr.equals("[]")+"-title:"+title+"----content:---"+content+"-进入订单创建："+account+TimeUtil.getTimeStamp()+request.toString());
 		
 		if(accessToken == null || ("").equals(accessToken.trim())){
@@ -430,6 +552,18 @@ public class OrdersController {
 			order.setOrderCode(time);
 			order.setOrderDetailNum(teaArr.size());
 			order.setStatus(ConfigUtil.STATUS_0);
+			Integer pay_time=ConfigUtil.PAY_TIME;
+			order.setActiveTime(TimeUtil.getTimeByMinute(pay_time));
+			
+			if(coupon_id!=null && NumberUtil.isInteger(coupon_id)) {
+				i_coupon_id=Integer.valueOf(coupon_id);
+			}
+			if(coupon_type!=null && NumberUtil.isInteger(coupon_type)) {
+				i_coupon_type=Integer.valueOf(coupon_type);
+			}
+			order.setCouponId(i_coupon_id);
+			order.setCouponType(i_coupon_type);
+			
 			//2.新增爱好者用户的作品数量
 			UserStu userStu = new UserStu();
 			userStu = this.userStuService.getUserStuById(Integer.parseInt(uid));
@@ -470,7 +604,7 @@ public class OrdersController {
 			WorksAttchment workAtt = new WorksAttchment();
 			
 			try {
-				this.ordersService.insertAndUpdateWorkAssAtt(order, work, assList, workAtt);
+				int orderId=this.ordersService.insertAndUpdateWorkAssAtt(order, work, assList, workAtt);
 				errorCode = "0";
 				errorMsg = "ok";
 				
@@ -479,6 +613,7 @@ public class OrdersController {
 				jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMsg);
 				jsonObject.put("order_number", orderNum);
 				jsonObject.put("create_time", time);
+				jsonObject.put("order_id", orderId);
 				ServerLog.getLogger().warn(jsonObject.toString());
 				//System.out.println(TimeUtil.getTimeStamp()+"-订单创建8-"+jsonObject);
 				return jsonObject;

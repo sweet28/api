@@ -1,5 +1,6 @@
 package com.arttraining.api.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import com.arttraining.api.bean.MasterCommentListBean;
 import com.arttraining.api.bean.MasterCommentReBean;
 import com.arttraining.api.bean.MasterCommentUserBean;
 import com.arttraining.api.bean.OrderWorkBean;
+import com.arttraining.api.pojo.Order;
 import com.arttraining.api.pojo.WorksAttchment;
 import com.arttraining.api.service.impl.AssessmentService;
 import com.arttraining.api.service.impl.OrdersService;
@@ -30,6 +32,7 @@ import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
+import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
 
@@ -98,9 +101,9 @@ public class MasterAssessmentsController {
 					map.put("offset", offset);
 					map.put("uid", i_uid);
 					map.put("status", ConfigUtil.STATUS_4);
-					System.out.println("==111");
+					//System.out.println("==111");
 					List<MasterAssessmentBean> assessmentList = this.assessmentService.getAssessmentNoListByMaster(map);
-					System.out.println("==2222");
+					//System.out.println("==2222");
 					if(assessmentList.size()>0) {
 						//循环读取测评信息
 						for (MasterAssessmentBean assessment : assessmentList) {
@@ -110,6 +113,10 @@ public class MasterAssessmentsController {
 							map.put("type", type);
 							map.put("order_id", order_id);
 							map.put("order_number", order_number);
+							//依据订单ID来获取相应的订单信息
+							Order order = this.ordersService.selectByOrderNumber(order_number);
+							Date date=order.getCreateTime();
+							assessment.setOrder_time(TimeUtil.getTimeByDate(date));
 							//获取作品相关的信息
 							OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);
 							if(work!=null) {
@@ -203,6 +210,10 @@ public class MasterAssessmentsController {
 							map.put("type", type);
 							map.put("order_id", order_id);
 							map.put("order_number", order_number);
+							//依据订单ID来获取相应的订单信息
+							Order order = this.ordersService.selectByOrderNumber(order_number);
+							Date date=order.getCreateTime();
+							assessment.setOrder_time(TimeUtil.getTimeByDate(date));
 							//获取作品相关的信息
 							OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);
 							if(work!=null) {

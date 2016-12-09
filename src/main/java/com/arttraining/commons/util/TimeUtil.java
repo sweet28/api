@@ -7,6 +7,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TimeUtil {
+	/***
+	 * 判断支付时间是否已经错过
+	 * date1--支付时间
+	 * date2--当前时间
+	 * @return
+	 */
+	public static long isOverTime(Date date1, Date date2) {
+		long  between = (date2.getTime() - date1.getTime())/1000;
+		return between;
+	}
+	
 	public static Timestamp getTimeStamp() {
 		Date date = new Date();
 		Timestamp time = new Timestamp(date.getTime());

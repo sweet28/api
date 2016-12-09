@@ -67,11 +67,14 @@ public class MasterCommentController {
 		String content=request.getParameter("content");
 		String duration=request.getParameter("duration");
 		String attr=request.getParameter("attr");
+		//coffee add 1209 新增封面
+		String thumbnail=request.getParameter("thumbnail");
+		//end
 		
 		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+
 				"-tec_id:"+tec_id+"-work_id:"+work_id+"-content:"+content+
 				"-content_type:"+content_type+"-ass_id:"+ass_id+"-duration:"+duration+
-				"-attr:"+attr);
+				"-attr:"+attr+"-thumbnail:"+thumbnail);
 		
 		if(access_token==null || uid==null || tec_id==null || work_id==null || content_type==null
 				|| ass_id==null) {
@@ -113,6 +116,9 @@ public class MasterCommentController {
 					String time = TimeUtil.getTimeByDate(date);
 					//新增名师点评信息
 					WorksTecComment tecComment = new WorksTecComment();
+					if(!content_type.equals("word")) {
+						content=attr;
+					}
 					tecComment.setContent(content);
 					tecComment.setContentType(content_type);
 					tecComment.setCreateTime(Timestamp.valueOf(time));
@@ -124,7 +130,7 @@ public class MasterCommentController {
 					tecComment.setOrderCode(time);
 					tecComment.setType("comment");
 					//coffee add 新增点评语音时传递的语音路径和时长
-					tecComment.setAttachment(attr);
+					tecComment.setAttachment(thumbnail);
 					tecComment.setRemarks(duration);
 					//end
 					
@@ -185,11 +191,14 @@ public class MasterCommentController {
 		String content=request.getParameter("content");
 		String duration=request.getParameter("duration");
 		String attr=request.getParameter("attr");
+		//coffee add 1209 新增封面
+		String thumbnail=request.getParameter("thumbnail");
+		//end
 		
 		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+
 				"-tec_id:"+tec_id+"-work_id:"+work_id+"-content:"+content+
 				"-content_type:"+content_type+"-duration:"+duration+
-				"-attr:"+attr);
+				"-attr:"+attr+"-thumbnail:"+thumbnail);
 		
 		if(access_token==null || uid==null || tec_id==null || work_id==null || content_type==null) {
 			errorCode = "20032";
@@ -217,6 +226,9 @@ public class MasterCommentController {
 				String time = TimeUtil.getTimeByDate(date);
 				//新增名师点评信息
 				WorksTecComment tecComment = new WorksTecComment();
+				if(!content_type.equals("word")) {
+					content=attr;
+				}
 				tecComment.setContent(content);
 				tecComment.setContentType(content_type);
 				tecComment.setCreateTime(Timestamp.valueOf(time));
@@ -228,7 +240,7 @@ public class MasterCommentController {
 				tecComment.setOrderCode(time);
 				tecComment.setType("comment");
 				//coffee add 新增点评语音时传递的语音路径和时长
-				tecComment.setAttachment(attr);
+				tecComment.setAttachment(thumbnail);
 				tecComment.setRemarks(duration);
 				//end
 				

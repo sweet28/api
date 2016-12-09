@@ -23,4 +23,7 @@ public interface CouponMapper {
     /*List<CouponsListBean> selectCouponListByUid(@Param("uid") Integer uid,
     		@Param("utype") String utype,
     		@Param("offset") Integer offset, @Param("limit") Integer limit);*/
+    
+    //超过支付时间后 如果勾选了优惠券 则需要将优惠券的状态恢复原来状态 0代表测评 1代表课程 2代表通用 3代表会员卡
+    int updateCouponInfoByOrderId(Map<String, Object> map);
 }

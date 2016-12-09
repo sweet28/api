@@ -262,7 +262,11 @@
   <!-- coffee add 根据关键字搜索教师 search/tec接口调用 -->
    <select id="selectTecherListBySearch" resultMap="TecListResultMap">
     select id, head_pic, name, specialty_name, title,
-    authentication, comment_num, fans_num, ass_pay
+    authentication, comment_num, fans_num, ass_pay,
+    case   
+        when role=0 then 'ms'  
+        when role=1 then 'zj'  
+        else 'dr' end identity  
     from t_yp_user_tech
     where 1=1
      <if test="offset !=-1" >
@@ -278,6 +282,9 @@
     	and (school_name like '%${key}%' or name like '%${key}%'
     	or city_name like '%${key}%' or city_father like '%${key}%'
     	or specialty_name like '%${key}%') 
+    </if>
+    <if test="identity !=null">
+    	and role=#{identity,jdbcType=INTEGER}
     </if>
     <include refid="select_tec_where"></include>
     order by order_code
@@ -296,11 +303,16 @@
     <result column="fans_num" property="fans_num" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="ass_pay" property="ass_pay" jdbcType="DOUBLE" />
+    <result column="identity" property="identity" jdbcType="VARCHAR" />
   </resultMap>
   
    <select id="selectTecherListBySelective" resultMap="TecListResultMap">
     select id, head_pic, name, skill as specialty_name, title,
-    authentication, browse_num, fans_num, ass_pay
+    authentication, browse_num, fans_num, ass_pay,
+    case   
+        when role=0 then 'ms'  
+        when role=1 then 'zj'  
+        else 'dr' end identity  
     from t_yp_user_tech
     where 1=1
      <if test="offset !=-1" >
@@ -313,6 +325,7 @@
     <if test="spec !=null"> and specialty_name = #{spec,jdbcType=VARCHAR} </if>
     <if test="city !=null"> and city_name = #{city,jdbcType=VARCHAR}</if>
     <if test="provinces !=null"> and city_father = #{provinces,jdbcType=VARCHAR}</if>
+    <if test="identity !=null"> and role= #{identity,jdbcType=INTEGER}</if>
     <include refid="select_tec_where"></include>
     order by order_code
     limit #{limit,jdbcType=INTEGER}
@@ -320,9 +333,13 @@
   <!-- coffee add 1112 -techer/list/index接口调用 默认显示2条数据 -->
   <select id="selectTecherListIndexBySelective" resultMap="TecListResultMap">
     select id, head_pic, name, skill as specialty_name, title,
-    authentication, browse_num, fans_num, ass_pay
+    authentication, browse_num, fans_num, ass_pay,
+    case   
+        when role=0 then 'ms'  
+        when role=1 then 'zj'  
+        else 'dr' end identity  
     from t_yp_user_tech
-    where 1=1 
+    where 1=1 and role=0
     <include refid="select_tec_where"></include>
     order by order_code
     limit #{offset,jdbcType=INTEGER}, #{limit,jdbcType=INTEGER}

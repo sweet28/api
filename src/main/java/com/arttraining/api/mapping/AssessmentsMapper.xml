@@ -118,6 +118,30 @@
   </select>
   <!-- end -->
   
+  <!-- coffee add 1208 获取名师测评列表信息 -->
+  <resultMap id="AssTecListResultMap" type="com.arttraining.api.bean.AssTecListBean" >
+    <result column="tec_id" property="tec_id" jdbcType="INTEGER" />
+    <result column="tec_name" property="tec_name" jdbcType="VARCHAR" />
+    <result column="tec_status" property="tec_status" jdbcType="BOOLEAN" />
+    <result column="tec_pic" property="tec_pic" jdbcType="VARCHAR" />   
+  </resultMap>
+  <select id="selectAssTecListByOrderId" resultMap="AssTecListResultMap" parameterType="java.util.Map" >
+    select a.tec_id,a.u.tec_status,u.name as tec_name,u.head_pic as tec_pic
+    from (select tec_id,
+    case   
+        when status=5 then true  
+        else false end tec_status  
+    from t_yp_assessments
+    where order_id = #{order_id,jdbcType=INTEGER}
+    and order_number = #{order_number,jdbcType=VARCHAR}
+    and is_deleted=0) a,
+    (select id,name,head_pic from t_yp_user_tech
+    where is_deleted=0 and is_lock=0) u
+    where a.tec_id=u.id
+  </select>
+  
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     order_number, order_id, codes, stu_id, tec_id, status, ass_time, money, is_pay, pay_time, 

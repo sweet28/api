@@ -42,6 +42,12 @@ public class Order {
     private String payType;
     
     private Integer orderDetailNum;
+    
+    private Date activeTime;
+    private Date remainingTime;
+    private Integer couponId;
+    private Integer couponType;
+   
 
     public Integer getId() {
         return id;
@@ -201,6 +207,38 @@ public class Order {
 
 	public void setOrderDetailNum(Integer orderDetailNum) {
 		this.orderDetailNum = orderDetailNum;
+	}
+
+	public Integer getCouponId() {
+		return couponId;
+	}
+
+	public void setCouponId(Integer couponId) {
+		this.couponId = couponId;
+	}
+
+	public Date getActiveTime() {
+		return activeTime;
+	}
+
+	public void setActiveTime(Date activeTime) {
+		this.activeTime = activeTime;
+	}
+
+	public Date getRemainingTime() {
+		return remainingTime;
+	}
+
+	public void setRemainingTime(Date remainingTime) {
+		this.remainingTime = remainingTime;
+	}
+
+	public Integer getCouponType() {
+		return couponType;
+	}
+
+	public void setCouponType(Integer couponType) {
+		this.couponType = couponType;
 	}
     
 }

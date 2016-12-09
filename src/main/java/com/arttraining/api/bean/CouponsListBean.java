@@ -4,10 +4,12 @@ public class CouponsListBean {
 	private Integer coupon_id;
 	private String coupon_name;
 	private String destribe;
-	private Integer face_value;
+	private Double face_value;
 	private String expiry_date;
 	private Integer coupon_type;
 	private Integer is_used;
+	private Double usage_value;
+	private String use_time;
 	
 	public Integer getCoupon_id() {
 		return coupon_id;
@@ -27,11 +29,17 @@ public class CouponsListBean {
 	public void setDestribe(String destribe) {
 		this.destribe = destribe;
 	}
-	public Integer getFace_value() {
+	public Double getFace_value() {
 		return face_value;
 	}
-	public void setFace_value(Integer face_value) {
+	public void setFace_value(Double face_value) {
 		this.face_value = face_value;
+	}
+	public Double getUsage_value() {
+		return usage_value;
+	}
+	public void setUsage_value(Double usage_value) {
+		this.usage_value = usage_value;
 	}
 	public String getExpiry_date() {
 		return expiry_date;
@@ -51,5 +59,12 @@ public class CouponsListBean {
 	public void setIs_used(Integer is_used) {
 		this.is_used = is_used;
 	}
+	public String getUse_time() {
+		return use_time;
+	}
+	public void setUse_time(String use_time) {
+		this.use_time = use_time;
+	}
+	
 	
 }

@@ -22,6 +22,11 @@
     <result column="final_pay" property="finalPay" jdbcType="DOUBLE" />
     <result column="pay_type" property="payType" jdbcType="VARCHAR" />
     <result column="order_detail_num" property="orderDetailNum" jdbcType="INTEGER" />
+    
+    <result column="coupon_id" property="couponId" jdbcType="INTEGER" />
+    <result column="coupon_type" property="couponType" jdbcType="INTEGER" />
+    <result column="active_time" property="activeTime" jdbcType="TIMESTAMP" />
+    <result column="remaining_time" property="remainingTime" jdbcType="TIMESTAMP" />
   </resultMap>
   
   <!-- coffee add 获取用户订单信息列表 orders/list_my接口调用 -->
@@ -33,10 +38,14 @@
     <result column="status" property="order_status" jdbcType="INTEGER" />
     <result column="final_pay" property="order_total_price" jdbcType="DOUBLE" />
     <result column="order_detail_num" property="order_element_num" jdbcType="INTEGER" />
+    <result column="active_time" property="active_time" jdbcType="VARCHAR" />
+    <result column="coupon_id" property="coupon_id" jdbcType="INTEGER" />
+    <result column="coupon_type" property="coupon_type" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectMyListOrderByUid" resultMap="ListMyResultMap" parameterType="java.util.Map" >
     select id,create_time,code_number,
-    type,status,final_pay,order_detail_num
+    type,status,final_pay,order_detail_num,
+    active_time,coupon_id,coupon_type
     from t_yp_order
     where user_id = #{uid,jdbcType=INTEGER}
     <if test="offset !=-1">
@@ -126,7 +135,8 @@
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     code_number, user_id, type, status, pay_time, cancel_time, money, auditor, coupon_pay, 
-    final_pay, pay_type, order_detail_num
+    final_pay, pay_type, order_detail_num,active_time,remaining_time,
+    coupon_id,coupon_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -151,14 +161,18 @@
       user_id, type, status, 
       pay_time, cancel_time, money, 
       auditor, coupon_pay, final_pay, 
-      pay_type,order_detail_num)
+      pay_type,order_detail_num,
+      active_time,remaining_time,
+      coupon_id,coupon_type)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{codeNumber,jdbcType=VARCHAR}, 
       #{userId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
       #{payTime,jdbcType=TIMESTAMP}, #{cancelTime,jdbcType=TIMESTAMP}, #{money,jdbcType=DOUBLE}, 
       #{auditor,jdbcType=VARCHAR}, #{couponPay,jdbcType=DOUBLE}, #{finalPay,jdbcType=DOUBLE}, 
-      #{payType,jdbcType=VARCHAR}, #{orderDetailNum,jdbcType=INTEGER})
+      #{payType,jdbcType=VARCHAR}, #{orderDetailNum,jdbcType=INTEGER},
+      #{activeTime,jdbcType=TIMESTAMP}, #{remainingTime,jdbcType=TIMESTAMP},
+      #{couponId,jdbcType=INTEGER}, #{couponType,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.arttraining.api.pojo.Order" >
     insert into t_yp_order
@@ -223,6 +237,18 @@
       <if test="orderDetailNum != null" >
         order_detail_num,
       </if>
+      <if test="activeTime != null" >
+        active_time,
+      </if>
+      <if test="remainingTime != null" >
+        remaining_time,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+       <if test="couponType != null" >
+        coupon_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -284,6 +310,18 @@
       </if>
        <if test="orderDetailNum != null" >
         #{orderDetailNum,jdbcType=INTEGER},
+      </if>
+      <if test="activeTime != null" >
+        #{activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remainingTime != null" >
+        #{remainingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponType != null" >
+        #{couponType,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -347,6 +385,19 @@
        <if test="orderDetailNum != null" >
         order_detail_num = #{orderDetailNum,jdbcType=INTEGER},
       </if>
+      <if test="activeTime != null" >
+        active_time= #{activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remainingTime != null" >
+        remaining_time= #{remainingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponId != null" >
+        coupon_id=#{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponType != null" >
+        coupon_type=#{couponType,jdbcType=INTEGER},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -410,6 +461,18 @@
       <if test="orderDetailNum != null" >
         order_detail_num = #{orderDetailNum,jdbcType=INTEGER},
       </if>
+      <if test="activeTime != null" >
+        active_time= #{activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remainingTime != null" >
+        remaining_time= #{remainingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponId != null" >
+        coupon_id=#{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponType != null" >
+        coupon_type=#{couponType,jdbcType=INTEGER},
+      </if>
     </set>
     where code_number = #{codeNumber,jdbcType=VARCHAR}
   </update>
@@ -433,7 +496,11 @@
       coupon_pay = #{couponPay,jdbcType=DOUBLE},
       final_pay = #{finalPay,jdbcType=DOUBLE},
       pay_type = #{payType,jdbcType=VARCHAR},
-      order_detail_num = #{orderDetailNum,jdbcType=INTEGER}
+      order_detail_num = #{orderDetailNum,jdbcType=INTEGER},
+      active_time= #{activeTime,jdbcType=TIMESTAMP},
+      remaining_time= #{remainingTime,jdbcType=TIMESTAMP},
+      coupon_id=#{couponId,jdbcType=INTEGER},
+      coupon_type=#{couponType,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

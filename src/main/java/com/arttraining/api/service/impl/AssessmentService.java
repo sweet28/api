@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.arttraining.api.bean.AssTecListBean;
 import com.arttraining.api.bean.MasterAssessmentBean;
 import com.arttraining.api.dao.AssessmentsMapper;
 import com.arttraining.api.service.IAssessmentService;
@@ -45,6 +46,12 @@ public class AssessmentService implements IAssessmentService {
 	public int getAssIdByMaster(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return this.assessmentDao.selectAssIdByMaster(map);
+	}
+
+	@Override
+	public List<AssTecListBean> getAssTecListByOrderId(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.assessmentDao.selectAssTecListByOrderId(map);
 	}
 
 }

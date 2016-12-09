@@ -1,5 +1,8 @@
 package com.arttraining.api.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class OrderListMyBean {
 	private Integer order_type;
 	private String order_number;
@@ -12,6 +15,13 @@ public class OrderListMyBean {
 	private String work_title;
 	private String work_pic;
 	private Integer ass_num;
+	//coffee add 1208
+	private String active_time;
+	private Integer remaining_time;
+	private Integer coupon_id;
+	private Integer coupon_type;
+	private List<AssTecListBean> ass_tec_list;
+	//end
 
 	public OrderListMyBean() {
 		this.order_type = 0;
@@ -25,6 +35,11 @@ public class OrderListMyBean {
 		this.work_title = "";
 		this.work_pic = "";
 		this.ass_num=0;
+		this.active_time="";
+		this.coupon_id=0;
+		this.coupon_type=-1;
+		this.remaining_time=0;
+		this.ass_tec_list = new ArrayList<AssTecListBean>();
 	}
 	public Integer getOrder_type() {
 		return order_type;
@@ -91,6 +106,37 @@ public class OrderListMyBean {
 	}
 	public void setAss_num(Integer ass_num) {
 		this.ass_num = ass_num;
+	}
+	public String getActive_time() {
+		return active_time;
+	}
+	public void setActive_time(String active_time) {
+		this.active_time = active_time;
+	}
+	
+	public Integer getRemaining_time() {
+		return remaining_time;
+	}
+	public void setRemaining_time(Integer remaining_time) {
+		this.remaining_time = remaining_time;
+	}
+	public Integer getCoupon_id() {
+		return coupon_id;
+	}
+	public void setCoupon_id(Integer coupon_id) {
+		this.coupon_id = coupon_id;
+	}
+	public Integer getCoupon_type() {
+		return coupon_type;
+	}
+	public void setCoupon_type(Integer coupon_type) {
+		this.coupon_type = coupon_type;
+	}
+	public List<AssTecListBean> getAss_tec_list() {
+		return ass_tec_list;
+	}
+	public void setAss_tec_list(List<AssTecListBean> ass_tec_list) {
+		this.ass_tec_list = ass_tec_list;
 	}
 
 }

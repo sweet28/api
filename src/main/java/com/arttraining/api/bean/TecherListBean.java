@@ -13,6 +13,9 @@ public class TecherListBean {
 	private String title;
 	private String specialty;
 	private Boolean click;
+	//coffee add
+	private String identity;
+	//end
 	
 	public TecherListBean() {
 		this.tec_id = 0;
@@ -25,7 +28,7 @@ public class TecherListBean {
 		this.title = "";
 		this.specialty = "";
 		this.click = false;
-		
+		this.identity="";
 	}
 	public Integer getTec_id() {
 		return tec_id;
@@ -86,5 +89,12 @@ public class TecherListBean {
 	}
 	public void setClick(Boolean click) {
 		this.click = click;
+	}
+	public String getIdentity() {
+		return identity;
+	}
+	public void setIdentity(String identity) {
+		this.identity = identity;
 	}	
+	
 }

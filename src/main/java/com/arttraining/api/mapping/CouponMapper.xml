@@ -19,11 +19,13 @@
     <result column="is_used" property="isUsed" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="usage_value" property="usageValue" jdbcType="DOUBLE" />
+    <result column="use_time" property="useTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     name, describel, expiry_date, face_value, face_value_type, type, is_used, user_id, 
-    user_type
+    user_type,usage_value, use_time
   </sql>
   <!-- coffee add sql where -->
   <sql id="select_coupon_where">
@@ -36,12 +38,15 @@
     <result column="describel" property="destribe" jdbcType="VARCHAR" />
     <result column="expiry_date" property="expiry_date" jdbcType="TIMESTAMP" />
     <result column="face_value" property="face_value" jdbcType="DOUBLE" />
+    <result column="usage_value" property="usage_value" jdbcType="DOUBLE" />
     <result column="type" property="coupon_type" jdbcType="INTEGER" />
     <result column="is_used" property="is_used" jdbcType="INTEGER" />
+    <result column="use_time" property="use_time" jdbcType="VARCHAR" />
   </resultMap>
   
   <select id="selectCouponListByUid" resultMap="ListResultMap">
-    select id,name,describel,expiry_date,face_value,type,is_used
+    select id,name,describel,expiry_date,
+    face_value,type,is_used,usage_value,use_time
     from t_yp_coupon
     where user_id=#{uid,jdbcType=INTEGER}
     and user_type=#{utype,jdbcType=VARCHAR}
@@ -58,6 +63,27 @@
     limit #{limit,jdbcType=INTEGER}
   </select>
   
+  <!-- coffee add 1208 超过支付时间后 如果勾选了优惠券 则需要将优惠券的状态恢复原来状态
+  	0代表测评 1代表课程 2代表通用 3代表会员卡 -->
+   <update id="updateCouponInfoByOrderId" parameterType="java.util.Map" >
+   		<choose>
+   			<when test="coupon_type='3'">
+   				update c
+   				set face_value=face_value+o.coupon_pay,
+   				usage_value=usage_value-o.coupon_pay
+   				from t_yp_coupon c,t_yp_order o
+   				where c.coupon_id=o.coupon_id and o.id= #{order_id,jdbcType=INTEGER}
+   				and c.coupon_id=#{coupon_id,jdbcType=INTEGER}
+   				and c.is_deleted=0 and o.is_deleted=0
+   			</when>
+   			<otherwise>
+   				update t_yp_coupon
+   				set is_used=0,use_time=null
+   				where coupon_id=#{coupon_id,jdbcType=INTEGER}
+   				and is_deleted=0
+   			</otherwise>
+   		</choose>
+   </update>
   <!-- end -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -75,13 +101,14 @@
       remarks, attachment, name, 
       describel, expiry_date, face_value, 
       face_value_type, type, is_used, 
-      user_id, user_type)
+      user_id, user_type,usage_value,use_time)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{describel,jdbcType=VARCHAR}, #{expiryDate,jdbcType=TIMESTAMP}, #{faceValue,jdbcType=DOUBLE}, 
       #{faceValueType,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{isUsed,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{userType,jdbcType=VARCHAR})
+      #{userId,jdbcType=INTEGER}, #{userType,jdbcType=VARCHAR},
+      #{usageValue,jdbcType=DOUBLE}, #{useTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Coupon" >
     insert into t_yp_coupon
@@ -137,6 +164,12 @@
       <if test="userType != null" >
         user_type,
       </if>
+      <if test="usageValue != null" >
+        usage_value,
+      </if>
+      <if test="useTime != null" >
+        use_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -189,6 +222,12 @@
       </if>
       <if test="userType != null" >
         #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="usageValue != null" >
+        #{usageValue,jdbcType=DOUBLE},
+      </if>
+      <if test="useTime != null" >
+        #{useTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -243,6 +282,12 @@
       <if test="userType != null" >
         user_type = #{userType,jdbcType=VARCHAR},
       </if>
+      <if test="usageValue != null" >
+        usage_value = #{usageValue,jdbcType=DOUBLE},
+      </if>
+      <if test="useTime != null" >
+        use_time=#{useTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -263,7 +308,9 @@
       type = #{type,jdbcType=INTEGER},
       is_used = #{isUsed,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      user_type = #{userType,jdbcType=VARCHAR}
+      user_type = #{userType,jdbcType=VARCHAR},
+      usage_value = #{usageValue,jdbcType=DOUBLE},
+      use_time=#{useTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

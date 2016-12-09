@@ -22,6 +22,12 @@ public class CouponService implements ICouponService {
 		return this.couponDao.selectCouponListByUid(map);
 	}
 
+	@Override
+	public int updateOneCouponInfoByOrderId(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.couponDao.updateCouponInfoByOrderId(map);
+	}
+
 	
 
 }

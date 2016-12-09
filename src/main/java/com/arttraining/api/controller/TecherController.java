@@ -59,10 +59,22 @@ public class TecherController {
 		String spec=request.getParameter("spec");
 		String city=request.getParameter("city");
 		String provinces = request.getParameter("provinces");
-		
+		//coffee add 1207
+		String identity=request.getParameter("identity");
+		Integer role=null;
+		if(identity!=null) {
+			if(identity.equals("ms")) {
+				role=0;
+			} else if(identity.equals("zj")) {
+				role=1;
+			} else if(identity.equals("dr")) {
+				role=2;
+			}
+		}
+		//end
 		List<TecherListBean> teacherList = new ArrayList<TecherListBean>();
 		ServerLog.getLogger().warn("self:"+self+"-college:"+college+"-spec:"+spec+
-				"-city:"+city+"-provinces:"+provinces);
+				"-city:"+city+"-provinces:"+provinces+"-identity:"+identity);
 		
 		Integer offset=-1;
 		Integer limit=ConfigUtil.PAGESIZE;
@@ -91,6 +103,7 @@ public class TecherController {
 			map.put("provinces", provinces);
 			map.put("offset", offset);
 			map.put("limit", limit);
+			map.put("identity", role);
 			
 			teacherList = this.userTecService.getTecherListBySelective(map);
 			if(teacherList.size()>0) {
@@ -264,6 +277,7 @@ public class TecherController {
 				tecShow.setSpecialty(userTec.getSpecialtyName());
 				tecShow.setIntroduction(userTec.getIntroduction());
 				tecShow.setIs_follow(is_follow);
+				tecShow.setBg_pic(userTec.getAttachment());
 			 }
 			} catch (Exception e) {
 				errorCode="20054";

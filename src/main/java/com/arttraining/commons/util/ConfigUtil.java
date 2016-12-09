@@ -105,5 +105,8 @@ public class ConfigUtil {
 	//忘记密码 修改密码 注册时差 验证码验证成功有效期
 	public static long VERIFY_TIME=120; 
 	
+	//设置支付时间在30分钟以内
+	public static Integer PAY_TIME=30;
+	
 	
 }

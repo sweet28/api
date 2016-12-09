@@ -17,6 +17,7 @@ public class MasterAssessmentBean {
 	private String city;
 	private String identity;
 	private String pic;
+	private String order_time;
 	
 	public MasterAssessmentBean() {
 		this.ass_id = 0;
@@ -33,6 +34,7 @@ public class MasterAssessmentBean {
 		this.city = "";
 		this.identity = "";
 		this.pic = "";
+		this.order_time="";
 	}
 	public Integer getAss_id() {
 		return ass_id;
@@ -118,6 +120,10 @@ public class MasterAssessmentBean {
 	public void setPic(String pic) {
 		this.pic = ImageUtil.parsePicPath(pic, 5);
 	}
-	
-	
+	public String getOrder_time() {
+		return order_time;
+	}
+	public void setOrder_time(String order_time) {
+		this.order_time = order_time;
+	}
 }

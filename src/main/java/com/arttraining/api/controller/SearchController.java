@@ -113,7 +113,20 @@ public class SearchController {
 		Integer offset=-1;
 		Integer limit=ConfigUtil.PAGESIZE;
 		
-		ServerLog.getLogger().warn("key:"+key+"-self:"+self+"-spec:"+spec);
+		//coffee add 1208
+		String identity = request.getParameter("identity");
+		Integer role=null;
+		if(identity!=null) {
+			if(identity.equals("ms")) {
+				role=0;
+			} else if(identity.equals("zj")) {
+				role=1;
+			} else if(identity.equals("dr")) {
+				role=2;
+			}
+		}
+		//end
+		ServerLog.getLogger().warn("key:"+key+"-self:"+self+"-spec:"+spec+"-identity:"+identity);
 		
 		SearchTecReBean tecReBean = new SearchTecReBean();
 		
@@ -142,6 +155,7 @@ public class SearchController {
 				map.put("offset", offset);
 				map.put("limit", limit);
 				map.put("spec", spec);
+				map.put("identity", role);
 				
 				List<TecherListBean> tecList = this.userTecService.getTecherListBySearch(map);
 				if(tecList.size()>0) {

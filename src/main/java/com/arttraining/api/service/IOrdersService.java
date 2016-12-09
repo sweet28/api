@@ -36,4 +36,7 @@ public interface IOrdersService {
     AssessmentListReBean getAssListByShow(Map<String, Object> map);
     //根据ID名师头像-- orders/show接口调用 
     String getTecPicById(Integer id);
+    
+    //恢复优惠券状态
+    int updateOrderAndCoupon(Order order,Map<String, Object> map,Integer flag);
 }

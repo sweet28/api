@@ -3,6 +3,7 @@ package com.arttraining.api.service;
 import java.util.List;
 import java.util.Map;
 
+import com.arttraining.api.bean.AssTecListBean;
 import com.arttraining.api.bean.MasterAssessmentBean;
 
 public interface IAssessmentService {
@@ -16,4 +17,6 @@ public interface IAssessmentService {
     int getAssStatusByOrderId(Map<String, Object> map);
     //依据名师ID和作品ID查询测评ID
     int getAssIdByMaster(Map<String, Object> map);
+    //获取名师测评列表信息 --依据订单ID和订单号
+    List<AssTecListBean> getAssTecListByOrderId(Map<String, Object> map);
 }

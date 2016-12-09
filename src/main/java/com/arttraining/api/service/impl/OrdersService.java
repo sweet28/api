@@ -69,6 +69,9 @@ public class OrdersService implements IOrdersService{
 		//4.插入作品附件信息
 		workAtt.setForeignKey(workId);
 		result = workAttDao.insertSelective(workAtt);
+		//coffee add 1207
+		result=orderId;
+		//end
 		return result;
 	}
 	
@@ -150,6 +153,18 @@ public class OrdersService implements IOrdersService{
 	public String getTecPicById(Integer id) {
 		// TODO Auto-generated method stub
 		return this.orderDao.selectTecPicById(id);
+	}
+
+	@Override
+	public int updateOrderAndCoupon(Order order, Map<String, Object> map,
+			Integer flag) {
+		// TODO Auto-generated method stub
+		this.orderDao.updateByPrimaryKeySelective(order);
+		//1表示修改优惠券信息
+		if(flag>0) {
+			this.couponDao.updateCouponInfoByOrderId(map);
+		}
+		return 0;
 	}
 
 }

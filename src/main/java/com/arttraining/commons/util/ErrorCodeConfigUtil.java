@@ -92,4 +92,5 @@ public class ErrorCodeConfigUtil {
 	
 	public static String ERROR_MSG_ZH_20061 = "已经收藏了 。";
 	public static String ERROR_MSG_ZH_20062 = "版本已是最新的了哟 。";
+	public static String ERROR_MSG_ZH_20063 = "取消订单失败,请检查网络是否畅通 。";
 }

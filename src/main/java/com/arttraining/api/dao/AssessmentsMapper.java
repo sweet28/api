@@ -3,6 +3,7 @@ package com.arttraining.api.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.arttraining.api.bean.AssTecListBean;
 import com.arttraining.api.bean.MasterAssessmentBean;
 import com.arttraining.api.pojo.Assessments;
 
@@ -32,4 +33,7 @@ public interface AssessmentsMapper {
     int selectAssStatusByOrderId(Map<String, Object> map);
     //依据名师ID和作品ID查询测评ID
     int selectAssIdByMaster(Map<String, Object> map);
+    
+    //获取名师测评列表信息 --依据订单ID和订单号
+    List<AssTecListBean> selectAssTecListByOrderId(Map<String, Object> map);
 }
