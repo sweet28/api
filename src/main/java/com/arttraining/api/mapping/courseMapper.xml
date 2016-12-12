@@ -17,6 +17,31 @@
     <result column="pic" property="pic" jdbcType="VARCHAR" />
     <result column="person_num" property="personNum" jdbcType="INTEGER" />
   </resultMap>
+  
+  <!-- coffee add 1210 名师端课程列表接口 course/master/list接口调用 -->
+   <resultMap id="CourseListResultMap" type="com.arttraining.api.bean.MasterCourseListBean" >
+    <id column="id" property="course_id" jdbcType="INTEGER" />
+    <result column="name" property="course_name" jdbcType="VARCHAR" />
+    <result column="course_intro" property="course_intro" jdbcType="VARCHAR" />
+    <result column="course_pay" property="course_pay" jdbcType="DOUBLE" />
+    <result column="course_pay_zh" property="course_pay_zh" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="person_num" property="person_num" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectCourseListByMaster" resultMap="CourseListResultMap" parameterType="java.util.Map" >
+    select id,name,course_intro,course_pay,
+    course_pay_zh,pic,person_num
+    from t_yp_course
+    where is_deleted=0
+    <if test="offset !=-1">
+    	and order_code &lt;(select order_code from t_yp_course
+    	where id=#{offset,jdbcType=INTEGER})
+    </if>
+    order by order_code desc
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+  <!-- end -->
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     name, course_intro, course_pay, course_pay_zh, pic, person_num

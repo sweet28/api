@@ -126,7 +126,7 @@
     <result column="tec_pic" property="tec_pic" jdbcType="VARCHAR" />   
   </resultMap>
   <select id="selectAssTecListByOrderId" resultMap="AssTecListResultMap" parameterType="java.util.Map" >
-    select a.tec_id,a.u.tec_status,u.name as tec_name,u.head_pic as tec_pic
+    select a.tec_id,a.tec_status,u.name as tec_name,u.head_pic as tec_pic
     from (select tec_id,
     case   
         when status=5 then true  
@@ -140,6 +140,12 @@
     where a.tec_id=u.id
   </select>
   
+  <!-- coffee add 1210 关闭交易时将作品附件表设置为失效 -->
+  <update id="updateWorkAttrByOrderId" parameterType="java.lang.Integer">
+  	 update t_yp_works_att a join t_yp_works w on a.foreign_key=w.id 
+  	 set a.is_deleted=1 
+  	 where w.assessments_id=#{order_id,jdbcType=INTEGER}
+  </update>
   <!-- end -->
   
   <sql id="Base_Column_List" >

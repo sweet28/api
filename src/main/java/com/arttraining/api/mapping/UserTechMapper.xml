@@ -262,7 +262,7 @@
   <!-- coffee add 根据关键字搜索教师 search/tec接口调用 -->
    <select id="selectTecherListBySearch" resultMap="TecListResultMap">
     select id, head_pic, name, specialty_name, title,
-    authentication, comment_num, fans_num, ass_pay,
+    authentication, comment_num, fans_num, ass_pay,attachment,introduction,
     case   
         when role=0 then 'ms'  
         when role=1 then 'zj'  
@@ -304,11 +304,13 @@
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="ass_pay" property="ass_pay" jdbcType="DOUBLE" />
     <result column="identity" property="identity" jdbcType="VARCHAR" />
+    <result column="attachment" property="bg_pic" jdbcType="VARCHAR" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
   </resultMap>
   
    <select id="selectTecherListBySelective" resultMap="TecListResultMap">
     select id, head_pic, name, skill as specialty_name, title,
-    authentication, browse_num, fans_num, ass_pay,
+    authentication, browse_num, fans_num, ass_pay,attachment,introduction,
     case   
         when role=0 then 'ms'  
         when role=1 then 'zj'  
@@ -333,7 +335,7 @@
   <!-- coffee add 1112 -techer/list/index接口调用 默认显示2条数据 -->
   <select id="selectTecherListIndexBySelective" resultMap="TecListResultMap">
     select id, head_pic, name, skill as specialty_name, title,
-    authentication, browse_num, fans_num, ass_pay,
+    authentication, browse_num, fans_num, ass_pay,attachment,introduction,
     case   
         when role=0 then 'ms'  
         when role=1 then 'zj'  

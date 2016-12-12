@@ -8,13 +8,27 @@ import java.util.Date;
 
 public class TimeUtil {
 	/***
+	 * 将string类型转换成date类型
+	 */
+	public static Date strToDate(String str) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date=null;
+		try {
+			date = format.parse(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
+	}
+	/***
 	 * 判断支付时间是否已经错过
 	 * date1--支付时间
 	 * date2--当前时间
 	 * @return
 	 */
 	public static long isOverTime(Date date1, Date date2) {
-		long  between = (date2.getTime() - date1.getTime())/1000;
+		long  between = (date1.getTime() - date2.getTime())/1000;
 		return between;
 	}
 	

@@ -20,6 +20,47 @@
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="city_father" property="cityFather" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <!-- coffee add 1209 名师端资讯列表接口 info/master/list接口调用 -->
+  <resultMap id="InfoListResultMap" type="com.arttraining.api.bean.MasterInfoListBean" >
+    <id column="id" property="info_id" jdbcType="INTEGER" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectInfoListByMaster" resultMap="InfoListResultMap" parameterType="java.util.Map" >
+    select id,create_time,title,pic,url,browse_num
+    from t_yp_information_fortec
+    where is_publish=1 and is_deleted=0
+    <if test="offset != -1">
+    	and order_code &lt;(select order_code from t_yp_information_fortec
+    	where id=#{offset,jdbcType=INTEGER})
+    	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+    </if>
+    order by order_code desc
+    limit #{limit,jdbcType=INTEGER}
+  </select>
+  
+  <!-- coffee add 1210 名师端资讯详情接口 info/master/show接口调用 -->
+   <resultMap id="InfoShowResultMap" type="com.arttraining.api.bean.MasterInfoShowBean" >
+    <id column="id" property="info_id" jdbcType="INTEGER" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectInfoShowByMaster" resultMap="InfoShowResultMap" parameterType="java.lang.Integer" >
+    select id,create_time,title,pic,url,browse_num,content
+    from t_yp_information_fortec
+    where is_publish=1 and is_deleted=0
+    and id=#{id,jdbcType=INTEGER}
+  </select>
+  <!-- end -->
+  
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     title, content, pic, url, priority, is_publish, browse_num, city, city_father

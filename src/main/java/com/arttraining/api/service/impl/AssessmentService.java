@@ -54,4 +54,10 @@ public class AssessmentService implements IAssessmentService {
 		return this.assessmentDao.selectAssTecListByOrderId(map);
 	}
 
+	@Override
+	public int updateOneWorkAttrByOrderId(Integer order_id) {
+		// TODO Auto-generated method stub
+		return this.assessmentDao.updateWorkAttrByOrderId(order_id);
+	}
+
 }

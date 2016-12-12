@@ -22,6 +22,7 @@ public class TecherShowBean {
 	private String is_follow;
 	//coffee add 1209 老师个人背景图
 	private String bg_pic;
+	private String identity;
 	//end
 	
 	public TecherShowBean() {
@@ -41,6 +42,7 @@ public class TecherShowBean {
 		this.org=new TecherShowOrgBean();
 		this.is_follow="";
 		this.bg_pic="";
+		this.identity="";
 	}
 	
 	public String getIs_follow() {
@@ -157,6 +159,14 @@ public class TecherShowBean {
 
 	public void setBg_pic(String bg_pic) {
 		this.bg_pic = ImageUtil.parsePicPath(bg_pic, 5);
+	}
+
+	public String getIdentity() {
+		return identity;
+	}
+
+	public void setIdentity(String identity) {
+		this.identity = identity;
 	}
 	
 }

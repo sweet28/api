@@ -106,6 +106,8 @@ public class OrdersController {
 					Order upd_order=new Order();
 					upd_order.setId(i_order_id);
 					upd_order.setStatus(2);
+					Date time =new Date();
+					upd_order.setCancelTime(time);
 					//判断是否恢复优惠券信息
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("order_id", i_order_id);
@@ -211,6 +213,7 @@ public class OrdersController {
 						map.put("order_number", order_number);
 						//coffee add 1129 判断订单状态是否为1
 						Integer order_status=order.getOrder_status();
+						System.out.println("fffff==="+order_status);
 						if(order_status==1) {
 							//如果状态为1 表示订单已支付状态 然后我去查看测评状态
 							Integer[] ass_status={ConfigUtil.STATUS_3,ConfigUtil.STATUS_4,ConfigUtil.STATUS_5};
@@ -226,18 +229,18 @@ public class OrdersController {
 									break;
 								}
 							}
-							//coffee add 1208 状态为1的订单 表示已支付 去查询名师测评详情列表
-							List<AssTecListBean> ass_tec_list=this.assessmentService.getAssTecListByOrderId(map);
-							order.setAss_tec_list(ass_tec_list);
-							//end
 						} else if(order_status==0) {
 							//如果订单状态为0 判断支付时间是否已经过期 如果过期 则更改相应的代码
 							//如果已经错过支付时间 则关闭交易 如果有涉及到优惠券
 							Date currentDate = new Date();
-							Date payDate= java.sql.Date.valueOf(order.getActive_time());
+							System.out.println("hhhhh1==="+currentDate.getTime());
+							System.out.println("hhhhh22==="+order.getActive_time());
+							Date payDate= TimeUtil.strToDate(order.getActive_time());
+							System.out.println("hhhhh2==="+payDate.getTime());
 							long diff=TimeUtil.isOverTime(payDate, currentDate);
+							System.out.println("1111===");
 							//当前时间减去有效时间 如果>0 表示支付超时
-							if(diff>0) {
+							if(diff<0) {
 								//如果支付超时 关闭交易 将订单状态改为2 
 								//依据优惠券的type来执行的处理
 								order.setOrder_status(2);
@@ -246,6 +249,7 @@ public class OrdersController {
 								Order upd_order=new Order();
 								upd_order.setId(order_id);
 								upd_order.setStatus(2);
+								//System.out.println("2222===");
 								//则用户未选择优惠券抵用券
 								if(coupon_id>0) {
 									map.put("coupon_id", coupon_id);
@@ -253,16 +257,23 @@ public class OrdersController {
 								} 
 								try {
 									this.ordersService.updateOrderAndCoupon(upd_order, map, coupon_id);
+									System.out.println("333===");
 								} catch (Exception e) {
-									
+									System.out.println("444===");
 								}
 							} else {
 								//如果支付未超时 则直接返回有效时间 和剩余支付时间
 								Integer remain=Integer.valueOf(String.valueOf(diff));
 								order.setRemaining_time(remain);
+								System.out.println("555===");
 							}
 							System.out.println("==="+diff);	
 						}
+						//coffee add 1208 状态为1的订单 表示已支付 去查询名师测评详情列表
+						System.out.println("=========");	
+						List<AssTecListBean> ass_tec_list=this.assessmentService.getAssTecListByOrderId(map);
+						System.out.println("==="+ass_tec_list.size());	
+						order.setAss_tec_list(ass_tec_list);
 						//end
 						//获取作品相关的信息
 						OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);

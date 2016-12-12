@@ -19,4 +19,6 @@ public interface IAssessmentService {
     int getAssIdByMaster(Map<String, Object> map);
     //获取名师测评列表信息 --依据订单ID和订单号
     List<AssTecListBean> getAssTecListByOrderId(Map<String, Object> map);
+    //关闭交易时将作品附件表设置为失效--order/cancel  order/listMy接口调用
+    int updateOneWorkAttrByOrderId(Integer order_id);
 }

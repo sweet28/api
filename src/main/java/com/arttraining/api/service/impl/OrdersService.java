@@ -164,6 +164,9 @@ public class OrdersService implements IOrdersService{
 		if(flag>0) {
 			this.couponDao.updateCouponInfoByOrderId(map);
 		}
+		//2.设置作品附件失效 is_deleted=1
+		Integer order_id=order.getId();
+		this.assDao.updateWorkAttrByOrderId(order_id);
 		return 0;
 	}
 

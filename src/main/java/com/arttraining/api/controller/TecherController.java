@@ -278,6 +278,20 @@ public class TecherController {
 				tecShow.setIntroduction(userTec.getIntroduction());
 				tecShow.setIs_follow(is_follow);
 				tecShow.setBg_pic(userTec.getAttachment());
+				int role=userTec.getRole();
+				switch (role) {
+				case 0:
+					tecShow.setIdentity("ms");
+					break;
+				case 1:
+					tecShow.setIdentity("zj");
+					break;
+				case 2:
+					tecShow.setIdentity("dr");
+					break;
+				default:
+					break;
+				}
 			 }
 			} catch (Exception e) {
 				errorCode="20054";

@@ -15,6 +15,8 @@ public class TecherListBean {
 	private Boolean click;
 	//coffee add
 	private String identity;
+	private String bg_pic;
+	private String introduction;
 	//end
 	
 	public TecherListBean() {
@@ -29,6 +31,8 @@ public class TecherListBean {
 		this.specialty = "";
 		this.click = false;
 		this.identity="";
+		this.bg_pic="";
+		this.introduction="";
 	}
 	public Integer getTec_id() {
 		return tec_id;
@@ -95,6 +99,17 @@ public class TecherListBean {
 	}
 	public void setIdentity(String identity) {
 		this.identity = identity;
+	}
+	public String getBg_pic() {
+		return bg_pic;
+	}
+	public void setBg_pic(String bg_pic) {
+		this.bg_pic = ImageUtil.parsePicPath(bg_pic, 5);
+	}
+	public String getIntroduction() {
+		return introduction;
+	}
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
 	}	
-	
 }

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.CommentReadMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.CommentRead" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="visitor" property="visitor" jdbcType="INTEGER" />
+    <result column="visitor_type" property="visitorType" jdbcType="VARCHAR" />
+    <result column="host" property="host" jdbcType="INTEGER" />
+    <result column="host_type" property="hostType" jdbcType="VARCHAR" />
+    <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <!-- coffee add 1210 判断是否重复对老师点评信息进行收听/看 -->
+  <select id="selectCommentReadByComId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select <include refid="Base_Column_List" />
+    from t_yp_comment_read
+    where foreign_key = #{comm_id,jdbcType=INTEGER}
+    and is_deleted and visitor=#{uid,jdbcType=INTEGER}
+    and visitor_type=#{utype,jdbcType=VARCHAR}
+  </select>
+  <!-- end -->
+  
+  
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    visitor, visitor_type, host, host_type, foreign_key
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_comment_read
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_comment_read
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.CommentRead" >
+    insert into t_yp_comment_read (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, visitor, 
+      visitor_type, host, host_type, 
+      foreign_key)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{visitor,jdbcType=INTEGER}, 
+      #{visitorType,jdbcType=VARCHAR}, #{host,jdbcType=INTEGER}, #{hostType,jdbcType=VARCHAR}, 
+      #{foreignKey,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.CommentRead" >
+    insert into t_yp_comment_read
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="visitor != null" >
+        visitor,
+      </if>
+      <if test="visitorType != null" >
+        visitor_type,
+      </if>
+      <if test="host != null" >
+        host,
+      </if>
+      <if test="hostType != null" >
+        host_type,
+      </if>
+      <if test="foreignKey != null" >
+        foreign_key,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="visitor != null" >
+        #{visitor,jdbcType=INTEGER},
+      </if>
+      <if test="visitorType != null" >
+        #{visitorType,jdbcType=VARCHAR},
+      </if>
+      <if test="host != null" >
+        #{host,jdbcType=INTEGER},
+      </if>
+      <if test="hostType != null" >
+        #{hostType,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignKey != null" >
+        #{foreignKey,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.CommentRead" >
+    update t_yp_comment_read
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="visitor != null" >
+        visitor = #{visitor,jdbcType=INTEGER},
+      </if>
+      <if test="visitorType != null" >
+        visitor_type = #{visitorType,jdbcType=VARCHAR},
+      </if>
+      <if test="host != null" >
+        host = #{host,jdbcType=INTEGER},
+      </if>
+      <if test="hostType != null" >
+        host_type = #{hostType,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignKey != null" >
+        foreign_key = #{foreignKey,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.CommentRead" >
+    update t_yp_comment_read
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      visitor = #{visitor,jdbcType=INTEGER},
+      visitor_type = #{visitorType,jdbcType=VARCHAR},
+      host = #{host,jdbcType=INTEGER},
+      host_type = #{hostType,jdbcType=VARCHAR},
+      foreign_key = #{foreignKey,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

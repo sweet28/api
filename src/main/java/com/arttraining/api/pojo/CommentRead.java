@@ -2,7 +2,7 @@ package com.arttraining.api.pojo;
 
 import java.util.Date;
 
-public class WorksTecComment {
+public class CommentRead {
     private Integer id;
 
     private String uuid;
@@ -28,17 +28,6 @@ public class WorksTecComment {
     private String hostType;
 
     private Integer foreignKey;
-
-    private String content;
-
-    private String score;
-
-    private String type;
-
-    private String contentType;
-    //coffee add 1210
-    private Integer listenNum;
-    //end
 
     public Integer getId() {
         return id;
@@ -143,45 +132,4 @@ public class WorksTecComment {
     public void setForeignKey(Integer foreignKey) {
         this.foreignKey = foreignKey;
     }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content == null ? null : content.trim();
-    }
-
-    public String getScore() {
-        return score;
-    }
-
-    public void setScore(String score) {
-        this.score = score == null ? null : score.trim();
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
-    }
-
-    public String getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = contentType == null ? null : contentType.trim();
-    }
-
-	public Integer getListenNum() {
-		return listenNum;
-	}
-
-	public void setListenNum(Integer listenNum) {
-		this.listenNum = listenNum;
-	}
-    
 }

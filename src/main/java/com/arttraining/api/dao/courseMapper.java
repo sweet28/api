@@ -1,5 +1,9 @@
 package com.arttraining.api.dao;
 
+import java.util.List;
+import java.util.Map;
+
+import com.arttraining.api.bean.MasterCourseListBean;
 import com.arttraining.api.pojo.course;
 
 public interface courseMapper {
@@ -14,4 +18,6 @@ public interface courseMapper {
     int updateByPrimaryKeySelective(course record);
 
     int updateByPrimaryKey(course record);
+    //名师端课程列表接口--course/master/list接口调用
+    List<MasterCourseListBean> selectCourseListByMaster(Map<String, Object> map);
 }
