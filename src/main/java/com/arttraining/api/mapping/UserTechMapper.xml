@@ -265,7 +265,8 @@
     authentication, comment_num, fans_num, ass_pay,attachment,introduction,
     case   
         when role=0 then 'ms'  
-        when role=1 then 'zj'  
+        when role=1 then 'zj' 
+        when role=2 then 'iartschool' 
         else 'dr' end identity  
     from t_yp_user_tech
     where 1=1
@@ -313,7 +314,8 @@
     authentication, browse_num, fans_num, ass_pay,attachment,introduction,
     case   
         when role=0 then 'ms'  
-        when role=1 then 'zj'  
+        when role=1 then 'zj' 
+        when role=2 then 'iartschool' 
         else 'dr' end identity  
     from t_yp_user_tech
     where 1=1
@@ -338,7 +340,8 @@
     authentication, browse_num, fans_num, ass_pay,attachment,introduction,
     case   
         when role=0 then 'ms'  
-        when role=1 then 'zj'  
+        when role=1 then 'zj' 
+        when role=2 then 'iartschool' 
         else 'dr' end identity  
     from t_yp_user_tech
     where 1=1 and role=0

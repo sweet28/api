@@ -45,10 +45,11 @@
   </resultMap>
   <select id="selectTecCommentByWorkId" resultMap="CommentListResultMap" parameterType="java.lang.Integer" >
     select u.id as tec_id,u.name,u.title,
-    case 
-    	when u.role=0 then 'ms'
-    	when u.role=1 then 'zj'
-    	else 'dr' 
+    case   
+        when u.role=0 then 'ms'  
+        when u.role=1 then 'zj' 
+        when u.role=2 then 'iartschool' 
+        else 'dr' 
     end identity,u.city_name as city,u.school_name as school,
     u.head_pic as tec_pic,c.create_time as comm_time,c.content,
     c.content_type as type,c.type as comm_type,

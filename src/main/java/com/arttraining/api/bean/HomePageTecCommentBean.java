@@ -94,7 +94,7 @@ public class HomePageTecCommentBean {
 		return thumbnail;
 	}
 	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+		this.thumbnail = ImageUtil.parsePicPath(thumbnail, 6);
 	}
 	public Integer getListen_num() {
 		return listen_num;

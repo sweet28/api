@@ -121,8 +121,10 @@ public class SearchController {
 				role=0;
 			} else if(identity.equals("zj")) {
 				role=1;
-			} else if(identity.equals("dr")) {
+			} else if(identity.equals("iartschool")) {
 				role=2;
+			} else if(identity.equals("dr")) {
+				role=3;
 			}
 		}
 		//end

@@ -287,6 +287,9 @@ public class TecherController {
 					tecShow.setIdentity("zj");
 					break;
 				case 2:
+					tecShow.setIdentity("iartschool");
+					break;
+				case 3:
 					tecShow.setIdentity("dr");
 					break;
 				default:
