@@ -3,6 +3,7 @@ package com.arttraining.api.service;
 import java.util.List;
 import java.util.Map;
 
+import com.arttraining.api.bean.HomePageTecCommentBean;
 import com.arttraining.api.bean.MasterCommentListBean;
 import com.arttraining.api.bean.MasterCommentReBean;
 import com.arttraining.api.bean.MasterCommentUserBean;
@@ -33,4 +34,7 @@ public interface IWorksTecCommentService {
     List<MasterCommentListBean> getCommentListByMasterShow(Map<String, Object> map);
     //根据名师ID 作品ID来获取作品和用户详情--assessments/master/show接口调用
     MasterCommentUserBean getCommentUserByMasterShow(Map<String, Object> map);
+    
+    //获取首页的名师点评信息 homepage/public_timeline/work接口调用
+    List<HomePageTecCommentBean> getTecCommentByWorkId(Integer work_id); 
 }

@@ -59,9 +59,11 @@
   <resultMap id="HomepageOneAdResultMap" type="com.arttraining.api.bean.HomePageAdvertiseBean" >
     <id column="id" property="ad_id" jdbcType="INTEGER" />
     <result column="pic" property="ad_pic" jdbcType="VARCHAR" />
+    <result column="url" property="ad_url" jdbcType="VARCHAR" />
+    <result column="stus_type" property="stus_type" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectOneAdByHomepage" resultMap="HomepageOneAdResultMap">
-    select id,pic
+    select id,pic,'ad' as stus_type,url
     from t_yp_advertising
     where 1=1
     <include refid="select_ad_where"></include>

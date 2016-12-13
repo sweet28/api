@@ -6,11 +6,13 @@ public class HomePageAdvertiseBean {
 	private String stus_type;
 	private Integer ad_id;
 	private String ad_pic;
+	private String ad_url;
 	
 	public HomePageAdvertiseBean() {
 		this.stus_type = "ad";
 		this.ad_id = 0;
 		this.ad_pic = "";
+		this.ad_url="";
 	}
 	
 	public String getStus_type() {
@@ -30,6 +32,14 @@ public class HomePageAdvertiseBean {
 	}
 	public void setAd_pic(String ad_pic) {
 		this.ad_pic = ImageUtil.parsePicPath(ad_pic,4);
+	}
+
+	public String getAd_url() {
+		return ad_url;
+	}
+
+	public void setAd_url(String ad_url) {
+		this.ad_url = ad_url;
 	}
 	
 }

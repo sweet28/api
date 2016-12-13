@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
+import com.arttraining.api.bean.HomePageWorkBean;
 import com.arttraining.api.bean.WorkShowBean;
 import com.arttraining.api.pojo.Works;
 
@@ -26,4 +27,6 @@ public interface IWorksService {
     
     //更新作品相关数量
     int updateWorksNumber(Works record);
+    //获取首页的作品列表信息 homepage/public_timeline/work接口调用
+    List<HomePageWorkBean> getWorkListByPublic(Map<String, Object> map);
 }

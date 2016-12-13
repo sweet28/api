@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.arttraining.api.bean.HomePageTecCommentBean;
 import com.arttraining.api.bean.MasterCommentListBean;
 import com.arttraining.api.bean.MasterCommentReBean;
 import com.arttraining.api.bean.MasterCommentUserBean;
@@ -94,6 +95,12 @@ public class WorksTecCommentService implements IWorksTecCommentService {
 		this.worksTecCommentDao.insertSelective(comment);
 		//然后更新作品点评表
 		this.worksDao.updateNumberBySelective(work);
+	}
+
+	@Override
+	public List<HomePageTecCommentBean> getTecCommentByWorkId(Integer work_id) {
+		// TODO Auto-generated method stub
+		return this.worksTecCommentDao.selectTecCommentByWorkId(work_id);
 	}
 
 }

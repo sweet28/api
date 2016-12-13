@@ -38,6 +38,52 @@
   <sql id="select_userstu_where" >
        is_lock=0 and is_deleted=0
   </sql>
+  
+   <!-- coffee add 1212 获取首页的作品列表信息 homepage/public_timeline/work接口调用-->
+   <resultMap id="WorkListResultMap" type="com.arttraining.api.bean.HomePageWorkBean" >
+    <result column="stus_id" property="stus_id" jdbcType="INTEGER" />
+    <result column="stus_type" property="stus_type" jdbcType="VARCHAR" />   
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="owner_type" jdbcType="VARCHAR" />
+    <result column="owner_name" property="owner_name" jdbcType="VARCHAR" />
+    <result column="owner_head_pic" property="owner_head_pic" jdbcType="VARCHAR" />
+   	<result column="identity" property="identity" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+  	<result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="tag" property="tag" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="comment_num" property="comment_num" jdbcType="INTEGER" />
+    <result column="like_num" property="like_num" jdbcType="INTEGER" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="art_type" property="art_type" jdbcType="VARCHAR" />
+  </resultMap>
+    <select id="selectWorkListByPublic" resultMap="WorkListResultMap" parameterType="java.util.Map">
+    select w.id as stus_id,'work' as stus_type,w.comment_num,
+    w.owner_type,w.like_num,w.browse_num,w.content,
+	w.title,w.tag,w.create_time,w.remarks,w.art_type,
+	s.identity_name as identity,
+	s.id as owner,s.name as owner_name,s.city_name as city,
+	s.head_pic as owner_head_pic
+	from (select id,comment_num,like_num,browse_num,content,title,
+		  tag,create_time,owner,owner_type,remarks,order_code,art_type
+		  from t_yp_works
+	      where is_deleted=0 and is_public=1
+	      <if test="offset != -1">
+	      	and order_code &lt;(select order_code from t_yp_works 
+	      	where is_deleted=0 and is_public=1 and id=#{offset,jdbcType=INTEGER})
+	      </if>
+		  order by order_code desc
+	      limit #{limit,jdbcType=INTEGER}) w, 
+		(select identity_name,city_name,head_pic,name,id
+		from t_yp_user_stu
+		where <include refid="select_userstu_where"></include>) s
+	where w.owner = s.id
+	order by w.order_code desc
+  </select>
+  
+   
    <!-- coffee add 更新作品相关数量 -->
    <update id="updateNumberBySelective" parameterType="com.arttraining.api.pojo.Works" >
     update t_yp_works

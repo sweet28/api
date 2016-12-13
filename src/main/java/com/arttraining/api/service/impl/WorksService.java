@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageStatusesBean;
+import com.arttraining.api.bean.HomePageWorkBean;
 import com.arttraining.api.bean.WorkShowBean;
 import com.arttraining.api.dao.WorksMapper;
 import com.arttraining.api.pojo.Works;
@@ -54,6 +55,11 @@ public class WorksService implements IWorksService {
 	public int updateWorksNumber(Works record) {
 		// TODO Auto-generated method stub
 		return this.worksDao.updateNumberBySelective(record);
+	}
+	@Override
+	public List<HomePageWorkBean> getWorkListByPublic(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.worksDao.selectWorkListByPublic(map);
 	}
 
 }
