@@ -81,7 +81,7 @@ public class MasterCommentListBean {
 		return content;
 	}
 	public void setContent(String content) {
-		this.content = content;
+		this.content = ImageUtil.parsePicPath(content, 6);;
 	}
 	public String getDuration() {
 		return duration;
