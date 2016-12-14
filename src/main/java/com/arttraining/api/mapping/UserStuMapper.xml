@@ -673,7 +673,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="score != null" >
-        score = #{score,jdbcType=INTEGER},
+        score = score+#{score,jdbcType=INTEGER},
       </if>
       <if test="rank != null" >
         rank = #{rank,jdbcType=INTEGER},
@@ -806,7 +806,7 @@
         email = #{email,jdbcType=VARCHAR},
       </if>
       <if test="score != null" >
-        score = #{score,jdbcType=INTEGER},
+        score = score+#{score,jdbcType=INTEGER},
       </if>
       <if test="rank != null" >
         rank = #{rank,jdbcType=INTEGER},
@@ -917,7 +917,7 @@
       intentional_college_name = #{intentionalCollegeName,jdbcType=VARCHAR},
       intentional_college_id = #{intentionalCollegeId,jdbcType=INTEGER},
       email = #{email,jdbcType=VARCHAR},
-      score = #{score,jdbcType=INTEGER},
+      score = score+#{score,jdbcType=INTEGER},
       rank = #{rank,jdbcType=INTEGER},
       work_num = #{workNum,jdbcType=INTEGER},
       comment_num = #{commentNum,jdbcType=INTEGER},

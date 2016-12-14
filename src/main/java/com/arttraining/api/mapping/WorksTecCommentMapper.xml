@@ -42,6 +42,7 @@
     <result column="duration" property="duration" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="listen_num" property="listen_num" jdbcType="INTEGER" />
+    <result column="comm_id" property="comm_id" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectTecCommentByWorkId" resultMap="CommentListResultMap" parameterType="java.lang.Integer" >
     select u.id as tec_id,u.name,u.title,
@@ -52,10 +53,10 @@
         else 'dr' 
     end identity,u.city_name as city,u.school_name as school,
     u.head_pic as tec_pic,c.create_time as comm_time,c.content,
-    c.content_type as type,c.type as comm_type,
+    c.content_type as type,c.type as comm_type,c.id as comm_id,
     c.attachment as thumbnail,c.remarks as duration,c.listen_num
     from (select distinct visitor,create_time,type,
-    content_type,listen_num,content,attachment,remarks
+    content_type,listen_num,content,attachment,remarks,id
 	from t_yp_works_tec_comment
 	where type='comment' and foreign_key=#{work_id,jdbcType=INTEGER}
 	and visitor_type='tec'
@@ -201,16 +202,19 @@
     <result column="duration" property="duration" jdbcType="VARCHAR" />
     <result column="comm_time" property="comm_time" jdbcType="VARCHAR" />
     <result column="attr" property="attr" jdbcType="VARCHAR" />
+    <result column="listen_num" property="listen_num" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectTecCommentByWorkShow" resultMap="TecCommentResultMap">
  	select id as comm_id,content_type,content,type,remarks as duration,
- 	attachment as attr,create_time as comm_time
+ 	attachment as attr,create_time as comm_time,listen_num
 	from t_yp_works_tec_comment
 	where foreign_key=#{fid,jdbcType=INTEGER}
 	and ((visitor_type='tec' and visitor=#{uid,jdbcType=INTEGER})
 	or (host_type='tec' and host=#{uid,jdbcType=INTEGER})) 
 	order by create_time
-	limit #{limit,jdbcType=INTEGER}
+	<if test="limit != null">
+		limit #{limit,jdbcType=INTEGER}
+	</if>
   </select>
   <!-- end -->
   

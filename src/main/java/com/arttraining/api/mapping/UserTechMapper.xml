@@ -155,7 +155,7 @@
         org_name = #{orgName,jdbcType=VARCHAR},
       </if>
       <if test="score != null" >
-        score = #{score,jdbcType=INTEGER},
+        score = score+#{score,jdbcType=INTEGER},
       </if>
       <if test="rank != null" >
         rank = #{rank,jdbcType=INTEGER},
@@ -790,7 +790,7 @@
         org_name = #{orgName,jdbcType=VARCHAR},
       </if>
       <if test="score != null" >
-        score = #{score,jdbcType=INTEGER},
+        score = score+#{score,jdbcType=INTEGER},
       </if>
       <if test="rank != null" >
         rank = #{rank,jdbcType=INTEGER},
@@ -889,7 +889,7 @@
       school_name = #{schoolName,jdbcType=VARCHAR},
       org_id = #{orgId,jdbcType=INTEGER},
       org_name = #{orgName,jdbcType=VARCHAR},
-      score = #{score,jdbcType=INTEGER},
+      score = score+#{score,jdbcType=INTEGER},
       rank = #{rank,jdbcType=INTEGER},
       email = #{email,jdbcType=VARCHAR},
       work_num = #{workNum,jdbcType=INTEGER},

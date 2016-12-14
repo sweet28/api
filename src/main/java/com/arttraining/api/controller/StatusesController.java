@@ -1176,6 +1176,148 @@ public class StatusesController {
 		
 		return gson.toJson(status);
 	}
+	/***
+	 * 查看我的作品详情(本人的)
+	 * 传递的参数:
+	 * status_id--动态作品ID
+	 * uid--用户ID
+	 * utype--用户类型
+	 */
+	@RequestMapping(value = "/show_my/work", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object showMyWork(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		//以下是必选参数
+		String status_id = request.getParameter("status_id");
+		String uid=request.getParameter("uid");
+		String utype=request.getParameter("utype");
+		
+		ServerLog.getLogger().warn("status_id:"+status_id+"-uid:"+uid+"-utype:"+utype);
+		//默认10条记录
+		Integer limit = ConfigUtil.PAGESIZE;
+		WorkShowBean work = new WorkShowBean();
+		//如果用户id 默认查询uid=0 即尚未登录的用户
+		if(status_id==null || uid==null || utype==null) {
+			errorCode="20032";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(status_id.equals("") || uid.equals("") || utype.equals("")) {
+			errorCode="20032";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(!NumberUtil.isInteger(status_id) || !NumberUtil.isInteger(uid)) {
+			errorCode="20033";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		} else {
+			//用户ID
+			Integer i_uid=Integer.valueOf(uid);
+			//作品ID
+			Integer i_status_id=Integer.valueOf(status_id);
+			//获取作品详情
+			work = this.worksService.getOneWorkByid(i_status_id);
+			if(work==null) {
+				work = new WorkShowBean();
+				errorCode="20007";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+			}else {
+				try {
+				//更新作品的浏览量
+				Works bro_work = new Works();
+				bro_work.setBrowseNum(Random.randomCommonInt());
+				bro_work.setId(i_status_id);
+				this.worksService.updateWorksNumber(bro_work);
+					
+				//传递当前用户的ID和类型
+				Map<String, Object> map = new HashMap<String, Object>();  
+				map.put("s_id", i_status_id);  
+				map.put("u_id", i_uid);
+				map.put("u_type", utype);
+				//判断是否点赞 或点评
+				HomeLikeOrCommentBean isExistLike= this.worksService.getIsLikeOrCommentOrAtt(map);
+				work.setIs_like((String)map.get("is_like"));
+				work.setIs_comment((String)map.get("is_comment"));
+				if(isExistLike!=null) {
+					String att_type = isExistLike.getAtt_type();
+					if(att_type!=null && !att_type.equals("")) {
+						Integer att_id = isExistLike.getAtt_id();
+						String duration= isExistLike.getDuration();
+						String thumbnail=isExistLike.getThumbnail();
+						String store_path=isExistLike.getStore_path();
+						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,6);
+						work.setAtt(attList);
+					}
+				}
+				//1.查询名师点评信息
+				List<WorkCommentTecInfoBean> tecCommentList = this.workTecCommentService.getUserInfoByWorkShow(i_status_id);
+				//组装名师点评信息
+				List<WorkTecCommentsListBean> tec_comments_list = new ArrayList<WorkTecCommentsListBean>();
+				for(WorkCommentTecInfoBean tecComment:tecCommentList) {
+					WorkTecCommentsListBean list = new WorkTecCommentsListBean();
+					
+					list.setTec(tecComment);
+					//获取名师点评和回复信息
+					
+					//传递评论名师或者回复名师ID
+					Integer tec_id = tecComment.getTec_id();
+					map.put("fid",i_status_id);
+					map.put("uid",tec_id);
+					List<WorkTecCommentBean> tec_comments = this.workTecCommentService.getTecCommentByWorkShow(map);
+					
+					list.setTec_comments(tec_comments);
+					tec_comments_list.add(list);
+				}
+				work.setTec_comments_list(tec_comments_list);
+				
+				//1.查询评论信息
+				List<CommentsVisitorBean> workCommentList = this.workCommentService.getWorkCommentByShow(i_status_id, limit);
+				//2.组装评论信息
+				List<CommentsBean> commentList = new ArrayList<CommentsBean>();
+				//组装其他人评论列表
+				for(CommentsVisitorBean workComment:workCommentList) {
+					CommentsBean comment = new CommentsBean();
+					String comm_type = workComment.getComm_type();
+					Integer host_id = workComment.getHost_id();
+					
+					comment.setCity(workComment.getCity());
+					comment.setComm_type(comm_type);
+					comment.setComment_id(workComment.getComment_id());
+					comment.setContent(workComment.getContent());
+					comment.setIdentity(workComment.getIdentity());
+					comment.setName(workComment.getName());
+					comment.setTime(workComment.getTime());
+					comment.setUser_id(workComment.getUser_id());
+					comment.setUser_type(workComment.getUser_type());
+					comment.setUser_pic(workComment.getUser_pic());
+							
+					CommentsHostBean hb = new CommentsHostBean();
+					if(comm_type.equals("reply")) {
+						String name = this.userStuService.getUserNameById(host_id);
+						hb.setName(name);
+						hb.setUser_id(host_id);
+						hb.setUser_type(workComment.getHost_type());
+					}
+					comment.setReply(hb);
+					commentList.add(comment);
+					}
+					work.setComments(commentList);
+//					//4.查询广告信息
+//					HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
+//					if(ad!=null) {
+//						work.setAd(ad);
+//					}
+					errorCode="0";
+					errorMessage="ok";
+					
+				} catch (Exception e) {
+					errorCode="20054";
+					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20054;
+				}
+			  }
+			}
+		work.setError_code(errorCode);
+		work.setError_msg(errorMessage);	
+		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(work));
+		return gson.toJson(work);
+	}
 	/**
 	 * 获取作品详情
 	 * 传递的参数:

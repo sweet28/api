@@ -1,5 +1,6 @@
 package com.arttraining.api.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,8 @@ public class OrdersService implements IOrdersService{
 	private UserStuMapper userStuDao;
 	@Resource
 	private CouponMapper couponDao;
+	@Resource
+	private ScoreRecordService scoreRecordService;
 
 	@Override
 	public int insert(Order order) {
@@ -104,13 +107,25 @@ public class OrdersService implements IOrdersService{
 			workAtt.setForeignKey(workId);
 			result = this.workAttDao.updateByWorkId(workAtt);
 		}
+		//记录用户积分表 coffee add 1214 
+		Map<String, Object> map=new HashMap<String, Object>();
+		Integer user_id=0;
+		//end
 		//更新爱好者用户作品数
 		if(user!=null) {
 			this.userStuDao.updateNumberBySelective(user);
-		}
+			user_id=user.getId();
+		} 
 		//5.修改优惠券使用信息
 		if(coupon!=null) {
 			this.couponDao.updateByPrimaryKeySelective(coupon);
+		}
+		if(user_id!=0) {
+			//coffee add 1214 
+			map.put("order_id", orderId);
+			map.put("order_number", orderNumber);
+			this.scoreRecordService.insertScoreRecord(map);
+			//end	
 		}
 		return result;
 	}
@@ -167,6 +182,13 @@ public class OrdersService implements IOrdersService{
 		//2.设置作品附件失效 is_deleted=1
 		Integer order_id=order.getId();
 		this.assDao.updateWorkAttrByOrderId(order_id);
+		
+		//3.关闭交易的话 恢复积分表 coffee add 1214
+		Map<String, Object> info_map=new HashMap<String, Object>();
+		info_map.put("order_id", order_id);
+		this.scoreRecordService.insertAndBackScoreRecord(info_map);
+		//end 
+		
 		return 0;
 	}
 

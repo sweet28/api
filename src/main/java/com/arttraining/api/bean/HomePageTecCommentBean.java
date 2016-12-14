@@ -10,6 +10,7 @@ public class HomePageTecCommentBean {
 	private String city;
 	private String school;
 	private String tec_pic;
+	private Integer comm_id;
 	private String comm_time;
 	private String type;
 	private String comm_type;
@@ -82,7 +83,10 @@ public class HomePageTecCommentBean {
 		return content;
 	}
 	public void setContent(String content) {
-		this.content = ImageUtil.parsePicPath(content, 6);
+		if(this.type!=null && !this.type.equals("word")) {
+			this.content = ImageUtil.parsePicPath(content, 6);
+		} else 
+			this.content=content;
 	}
 	public String getDuration() {
 		return duration;
@@ -101,6 +105,12 @@ public class HomePageTecCommentBean {
 	}
 	public void setListen_num(Integer listen_num) {
 		this.listen_num = listen_num;
+	}
+	public Integer getComm_id() {
+		return comm_id;
+	}
+	public void setComm_id(Integer comm_id) {
+		this.comm_id = comm_id;
 	}
 	
 	

@@ -11,6 +11,7 @@ public class WorkTecCommentBean {
 	private String comm_time;
 	private String duration;
 	private String attr;
+	private Integer listen_num;
 	//end
 	
 	public String getType() {
@@ -23,7 +24,10 @@ public class WorkTecCommentBean {
 		return content;
 	}
 	public void setContent(String content) {
-		this.content = content;
+		if(this.type!=null && !this.type.equals("word")) {
+			this.content = ImageUtil.parsePicPath(content, 6);
+		} else 
+			this.content=content;
 	}
 	public String getComm_type() {
 		return comm_type;
@@ -54,6 +58,12 @@ public class WorkTecCommentBean {
 	}
 	public void setAttr(String attr) {
 		this.attr = ImageUtil.parsePicPath(attr, 6);
+	}
+	public Integer getListen_num() {
+		return listen_num;
+	}
+	public void setListen_num(Integer listen_num) {
+		this.listen_num = listen_num;
 	}
 
 }
