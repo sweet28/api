@@ -37,6 +37,7 @@ import com.arttraining.api.service.impl.AdvertiseService;
 import com.arttraining.api.service.impl.GroupService;
 import com.arttraining.api.service.impl.GroupUserService;
 import com.arttraining.api.service.impl.StatusesService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
@@ -56,6 +57,8 @@ public class GroupController {
 	private StatusesService statusService;
 	@Resource
 	private AdvertiseService adService;
+	@Resource
+	private TokenService tokenService;
 	
 	
 	/**
@@ -157,30 +160,35 @@ public class GroupController {
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 			}
 			else {
-				//小组列表
-				Integer limit = ConfigUtil.PAGESIZE;	
-				//用户ID
-				Integer i_uid = Integer.valueOf(uid);
-				
-				Map<String, Object> infoMap = new HashMap<String, Object>();
-				infoMap.put("offset", offset);
-				infoMap.put("limit", limit);
-				infoMap.put("uid", i_uid);
-				infoMap.put("utype", utype);
-				
-				List<GroupListMyBean> myGroupList = this.groupService.getGroupListMy(infoMap);
-				if(myGroupList.size()>0) {
-					errorCode = "0";
-					errorMessage = "ok";
-					myGroupBean.setGroups(myGroupList);
+				boolean tokenFlag = tokenService.checkToken(access_token);
+				if (tokenFlag) {
+					//小组列表
+					Integer limit = ConfigUtil.PAGESIZE;	
+					//用户ID
+					Integer i_uid = Integer.valueOf(uid);
+					
+					Map<String, Object> infoMap = new HashMap<String, Object>();
+					infoMap.put("offset", offset);
+					infoMap.put("limit", limit);
+					infoMap.put("uid", i_uid);
+					infoMap.put("utype", utype);
+					
+					List<GroupListMyBean> myGroupList = this.groupService.getGroupListMy(infoMap);
+					if(myGroupList.size()>0) {
+						errorCode = "0";
+						errorMessage = "ok";
+						myGroupBean.setGroups(myGroupList);
+					}
+					else {
+						errorCode = "20007";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;	
+					}
+				} else {
+					errorCode = "20028";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;	
 				}
-				else {
-					errorCode = "20007";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;	
-				}
-			}
-				
-		  }
+		    }
+		}
 		myGroupBean.setError_code(errorCode);
 		myGroupBean.setError_msg(errorMessage);
 		
@@ -373,7 +381,8 @@ public class GroupController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 		}
 		else {
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//创建小组的组主
 				Integer i_uid = Integer.valueOf(uid);
@@ -440,9 +449,10 @@ public class GroupController {
 					errorCode = "20042";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20042;	
 				}
-				
+			} else {
+				errorCode = "20028";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;	
 			}
-		
 		}
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
@@ -484,49 +494,55 @@ public class GroupController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 		}
 		else {
-			//小组id
-			Integer i_group_id = Integer.valueOf(group_id);
-			//用户id
-			Integer i_uid = Integer.valueOf(uid);
-		
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("uid", i_uid);
-			map.put("utype", utype);
-			//获取登录用户ID和类型对应的头像
-			String user_pic = this.groupService.getUerPicByIdAndType(map);
+			boolean tokenFlag = tokenService.checkToken(access_token);
+			if (tokenFlag) {
+				//小组id
+				Integer i_group_id = Integer.valueOf(group_id);
+				//用户id
+				Integer i_uid = Integer.valueOf(uid);
 			
-			Date date = new Date();
-			String mytime = TimeUtil.getTimeByDate(date);
-			
-			//1.创建小组成员信息
-			GroupUser groupUser = new GroupUser();
-			groupUser.setIdentity("host");
-			groupUser.setCreateTime(Timestamp.valueOf(mytime));
-			groupUser.setUserId(i_uid);
-			groupUser.setUserType(utype);
-			groupUser.setHeadPic(user_pic);
-			groupUser.setGroupId(i_group_id);
-			groupUser.setOrderCode(mytime);
-			
-			//2.修改小组信息
-			Group group = new Group();
-			group.setId(i_group_id);
-			
-			//3.更新用户加入群组数
-			UserStu user = null;
-			if(utype.equals("stu")) {
-				user = new UserStu();
-				user.setId(i_uid);
-				user.setGroupNum(1);
-			}
-			
-			try {
-				this.groupUserService.updateGroupAndUserByCreate(group, groupUser, user);
-				errorCode = "0";
-				errorMessage = "ok";	
-			} catch (Exception e) {
-				errorCode = "20043";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20043;	
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("uid", i_uid);
+				map.put("utype", utype);
+				//获取登录用户ID和类型对应的头像
+				String user_pic = this.groupService.getUerPicByIdAndType(map);
+				
+				Date date = new Date();
+				String mytime = TimeUtil.getTimeByDate(date);
+				
+				//1.创建小组成员信息
+				GroupUser groupUser = new GroupUser();
+				groupUser.setIdentity("host");
+				groupUser.setCreateTime(Timestamp.valueOf(mytime));
+				groupUser.setUserId(i_uid);
+				groupUser.setUserType(utype);
+				groupUser.setHeadPic(user_pic);
+				groupUser.setGroupId(i_group_id);
+				groupUser.setOrderCode(mytime);
+				
+				//2.修改小组信息
+				Group group = new Group();
+				group.setId(i_group_id);
+				
+				//3.更新用户加入群组数
+				UserStu user = null;
+				if(utype.equals("stu")) {
+					user = new UserStu();
+					user.setId(i_uid);
+					user.setGroupNum(1);
+				}
+				
+				try {
+					this.groupUserService.updateGroupAndUserByCreate(group, groupUser, user);
+					errorCode = "0";
+					errorMessage = "ok";	
+				} catch (Exception e) {
+					errorCode = "20043";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20043;	
+				}
+			} else {
+				errorCode = "20028";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;	
 			}
 		}
 		JSONObject jsonObject = new JSONObject();
@@ -557,8 +573,7 @@ public class GroupController {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;	
 		}
-		else
-		if(access_token.equals("") || uid.equals("") || utype.equals("") || group_id.equals("")) {
+		else if(access_token.equals("") || uid.equals("") || utype.equals("") || group_id.equals("")) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;	
 		}
@@ -567,37 +582,42 @@ public class GroupController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 		}
 		else {
-			//小组id
-			Integer i_group_id = Integer.valueOf(group_id);
-			//用户id
-			Integer i_uid = Integer.valueOf(uid);
-			//1.修改小组成员信息
-			GroupUser groupUser = new GroupUser();
-			groupUser.setIsDeleted(1);
-			groupUser.setDeleteTime(TimeUtil.getTimeStamp());
-			groupUser.setUserId(i_uid);
-			groupUser.setUserType(utype);
-			groupUser.setGroupId(i_group_id);
-			
-			//2.修改小组信息
-			Group group = new Group();
-			group.setId(i_group_id);
-			
-			//3.更新用户加入群组数
-			UserStu user = null;
-			if(utype.equals("stu")) {
-				user = new UserStu();
-				user.setId(i_uid);
-				user.setGroupNum(-1);
-			}
-			
-			try {
-				this.groupUserService.updateGroupAndUserByExit(group, groupUser, user);
-				errorCode = "0";
-				errorMessage = "ok";	
-			} catch (Exception e) {
-				errorCode = "20043";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20043;	
+			boolean tokenFlag = tokenService.checkToken(access_token);
+			if (tokenFlag) {
+				//小组id
+				Integer i_group_id = Integer.valueOf(group_id);
+				//用户id
+				Integer i_uid = Integer.valueOf(uid);
+				//1.修改小组成员信息
+				GroupUser groupUser = new GroupUser();
+				groupUser.setIsDeleted(1);
+				groupUser.setDeleteTime(TimeUtil.getTimeStamp());
+				groupUser.setUserId(i_uid);
+				groupUser.setUserType(utype);
+				groupUser.setGroupId(i_group_id);
+				
+				//2.修改小组信息
+				Group group = new Group();
+				group.setId(i_group_id);
+				
+				//3.更新用户加入群组数
+				UserStu user = null;
+				if(utype.equals("stu")) {
+					user = new UserStu();
+					user.setId(i_uid);
+					user.setGroupNum(-1);
+				}
+				try {
+					this.groupUserService.updateGroupAndUserByExit(group, groupUser, user);
+					errorCode = "0";
+					errorMessage = "ok";	
+				} catch (Exception e) {
+					errorCode = "20043";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20043;	
+				}
+			} else {
+				errorCode = "20028";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;	
 			}
 		}
 		JSONObject jsonObject = new JSONObject();

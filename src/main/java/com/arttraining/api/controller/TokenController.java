@@ -1,5 +1,6 @@
 package com.arttraining.api.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.ServerLog;
@@ -17,6 +19,8 @@ import com.arttraining.commons.util.TokenUtil;
 @Controller
 @RequestMapping("/token")
 public class TokenController {
+	@Resource
+	private TokenService tokenService;
 	
 	/**
 	 * 验证token是否有效
@@ -38,7 +42,8 @@ public class TokenController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		} else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				errorCode = "0";
 				errorMessage = "ok";

@@ -18,6 +18,7 @@ import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.pojo.Assessments;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksTecComment;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.WorksTecCommentService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
@@ -32,6 +33,8 @@ import com.google.gson.Gson;
 public class MasterCommentController {
 	@Resource
 	private WorksTecCommentService worksTecCommentService;
+	@Resource
+	private TokenService tokenService;
 	
 	/****
 	 * 获取动态的名师点评列表
@@ -90,7 +93,8 @@ public class MasterCommentController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//名师ID
 				Integer i_tec_id=Integer.valueOf(tec_id);
@@ -213,7 +217,8 @@ public class MasterCommentController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//名师ID
 				Integer i_tec_id=Integer.valueOf(tec_id);

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.arttraining.api.bean.CouponsListBean;
 import com.arttraining.api.bean.CouponsListReBean;
 import com.arttraining.api.service.impl.CouponService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
@@ -28,6 +29,8 @@ import com.google.gson.Gson;
 public class CouponsController {
 	@Resource
 	private CouponService couponService;
+	@Resource
+	private TokenService tokenService;
 	
 	/***
 	 * 获取优惠券信息列表
@@ -71,7 +74,8 @@ public class CouponsController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID
 				Integer i_uid = Integer.valueOf(uid);

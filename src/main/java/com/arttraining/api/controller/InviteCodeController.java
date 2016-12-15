@@ -17,6 +17,7 @@ import com.arttraining.api.pojo.Coupon;
 import com.arttraining.api.pojo.InviteCode;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.InviteCodeService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
@@ -32,6 +33,8 @@ public class InviteCodeController {
 	private InviteCodeService invCodeService;
 	@Resource
 	private UserStuService userStuService;
+	@Resource
+	private TokenService tokenService;
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object createInviteCode(HttpServletRequest request, HttpServletResponse response){
@@ -87,7 +90,8 @@ public class InviteCodeController {
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else{
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 			//System.out.println(4);
 			//用户ID

@@ -1,12 +1,5 @@
 package com.arttraining.commons.util;
 
-import java.util.Date;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-
 import redis.clients.jedis.Jedis;
 
 public class TokenUtil {
@@ -25,7 +18,7 @@ public class TokenUtil {
 
 	// todo:验证token是否有效
 	public static boolean checkToken(String token) {
-		boolean flag = false;
+		boolean flag = false; 
 		flag = RedisUtil.checkExpire(token);
 		//flag=true;
 		return flag;

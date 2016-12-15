@@ -25,6 +25,7 @@ import com.arttraining.api.pojo.Order;
 import com.arttraining.api.pojo.WorksAttchment;
 import com.arttraining.api.service.impl.AssessmentService;
 import com.arttraining.api.service.impl.OrdersService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.WorksAttchmentService;
 import com.arttraining.api.service.impl.WorksTecCommentService;
 import com.arttraining.commons.util.ConfigUtil;
@@ -47,6 +48,8 @@ public class MasterAssessmentsController {
 	private WorksAttchmentService worksAttchmentService;
 	@Resource
 	private WorksTecCommentService worksTecCommentService;
+	@Resource
+	private TokenService tokenService;
 	/***
 	 * 根据用户ID获取名师待测评列表
 	 * 传递的参数:access_token--验证
@@ -80,7 +83,8 @@ public class MasterAssessmentsController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {		
 				if(self==null || self.equals("")) {
 					 offset=-1;
@@ -179,7 +183,8 @@ public class MasterAssessmentsController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				if(self==null || self.equals("")) {
 					 offset=-1;
@@ -277,7 +282,8 @@ public class MasterAssessmentsController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {					
 				if(self==null || self.equals("")) {
 					offset=-1;

@@ -29,6 +29,8 @@ public class Token {
 
     private String effectiveTime;
 
+    private Date loginTime;
+
     private Integer isEffective;
 
     public Integer getId() {
@@ -133,6 +135,14 @@ public class Token {
 
     public void setEffectiveTime(String effectiveTime) {
         this.effectiveTime = effectiveTime == null ? null : effectiveTime.trim();
+    }
+
+    public Date getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
     }
 
     public Integer getIsEffective() {

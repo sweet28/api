@@ -1,5 +1,9 @@
 package com.arttraining.api.controller;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +18,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.LoginBean;
 import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.bean.UserStuShowBean;
+import com.arttraining.api.pojo.Token;
 import com.arttraining.api.pojo.UserStu;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
@@ -28,6 +34,8 @@ import com.google.gson.Gson;
 public class LoginController {
 	@Resource
 	private UserStuService userStuService;
+	@Resource
+	private TokenService tokenService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object loginYHY(HttpServletRequest request, HttpServletResponse response) {
@@ -76,6 +84,29 @@ public class LoginController {
 					}else{
 						System.out.println("登录8"+"-"+TimeUtil.getTimeStamp());
 						accessToken = TokenUtil.generateToken(name);
+						//coffee add 1215
+						//1.判断数据库是否有该用户的登录token 如果没有 则新增 如果有 则修改
+						Integer user_id=userStu.getId();
+						String user_type="stu";
+						Map<String, Object> map=new HashMap<String, Object>();
+						map.put("user_id", user_id);
+						map.put("user_type", user_type);
+						Token token=this.tokenService.getOneTokenInfo(map);
+						Date date=new Date();
+						if(token!=null) {
+							token.setToken(accessToken);
+							token.setLoginTime(date);
+							token.setIsDeleted(0);
+							this.tokenService.updateTokenInfo(token);
+						} else {
+							token = new Token();
+							token.setLoginTime(date);
+							token.setToken(accessToken);
+							token.setUserId(user_id);
+							token.setUserType(user_type);
+							this.tokenService.insertTokenInfo(token);
+						}
+						//end
 						errorCode = "0";
 						errorMessage = "ok";
 						loginBean.setCity(userStu.getCityName());
@@ -136,12 +167,25 @@ public class LoginController {
 				errorCode = "20032";
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			}else{
-				if(TokenUtil.deleteToken(accessToken)){
-					errorCode = "0";
-					errorMessage = "ok";
-				}else{
-					errorCode = "20032";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+				//coffee add 1215 
+				//1.先判断token是否存在 如果存在 直接修改 如果不存在 直接删除token
+				Map<String, Object> map=new HashMap<String, Object>();
+				map.put("token", accessToken);
+				Token token=this.tokenService.getOneTokenInfo(map);
+				if(token!=null) {
+					Date date=new Date();
+					token.setLoginTime(date);
+					token.setIsDeleted(1);
+					this.tokenService.updateTokenInfo(token);
+				} else {
+					//end
+					if(TokenUtil.deleteToken(accessToken)){
+						errorCode = "0";
+						errorMessage = "ok";
+					}else{
+						errorCode = "20032";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+					}
 				}
 			}
 		}

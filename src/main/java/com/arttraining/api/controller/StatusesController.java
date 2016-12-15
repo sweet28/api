@@ -47,6 +47,7 @@ import com.arttraining.api.service.impl.BBSService;
 import com.arttraining.api.service.impl.StatusCommentService;
 import com.arttraining.api.service.impl.StatusesForwardService;
 import com.arttraining.api.service.impl.StatusesService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.api.service.impl.WorksCommentService;
 import com.arttraining.api.service.impl.WorksService;
@@ -86,6 +87,8 @@ public class StatusesController {
 	private WorksCommentService workCommentService;
 	@Resource
 	private WorksTecCommentService workTecCommentService;
+	@Resource
+	private TokenService tokenService;
 	
 	/**
 	 * 发布帖子
@@ -128,7 +131,8 @@ public class StatusesController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				Date date = new Date();
 				String time = TimeUtil.getTimeByDate(date);
@@ -230,7 +234,8 @@ public class StatusesController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户id
 				Integer i_uid = Integer.valueOf(uid);
@@ -303,7 +308,8 @@ public class StatusesController {
 		String access_token = request.getParameter("access_token");
 		if(access_token!=null && !access_token.equals("")) {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				TokenUtil.delayTokenDeadline(access_token);
 			}
@@ -346,41 +352,41 @@ public class StatusesController {
 		//用户ID
 		Integer i_uid = Integer.valueOf(uid);
 		//2. 查询6条测评动态详情
-		if(offset==-1) {
-			Integer worksLimit = ConfigUtil.HOMEWORK_PAGESIZE;	
-			List<HomePageStatusesBean> worksList = this.worksService.getWorksListByHomepage(worksLimit);
-			if(worksList.size()==0) {
-				worksList = new ArrayList<HomePageStatusesBean>();
-			}
-			else {
-				//填充作品详情信息
-				for (HomePageStatusesBean work : worksList) {
-					Integer s_id = work.getStus_id();
-					
-					//判断是否点赞或点评--(传递当前用户的ID和类型)
-					Map<String, Object> map = new HashMap<String, Object>();  
-					map.put("s_id", s_id);  
-					map.put("u_id", i_uid);
-					map.put("u_type", utype);
-					
-					HomeLikeOrCommentBean isExistLike = this.worksService.getIsLikeOrCommentOrAtt(map);   
-					work.setIs_like((String)map.get("is_like"));
-					work.setIs_comment((String)map.get("is_comment"));
-					if(isExistLike!=null) {
-						String att_type = isExistLike.getAtt_type();
-						if(att_type!=null && !att_type.equals("")) {
-							Integer att_id = isExistLike.getAtt_id();
-							String duration= isExistLike.getDuration();
-							String thumbnail=isExistLike.getThumbnail();
-							String store_path=isExistLike.getStore_path();
-							List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,6);
-							work.setAtt(attList);
-						}
-				   }
-					statusesList.add(work);
-			   }
-			}
-		}		
+//		if(offset==-1) {
+//			Integer worksLimit = ConfigUtil.HOMEWORK_PAGESIZE;	
+//			List<HomePageStatusesBean> worksList = this.worksService.getWorksListByHomepage(worksLimit);
+//			if(worksList.size()==0) {
+//				worksList = new ArrayList<HomePageStatusesBean>();
+//			}
+//			else {
+//				//填充作品详情信息
+//				for (HomePageStatusesBean work : worksList) {
+//					Integer s_id = work.getStus_id();
+//					
+//					//判断是否点赞或点评--(传递当前用户的ID和类型)
+//					Map<String, Object> map = new HashMap<String, Object>();  
+//					map.put("s_id", s_id);  
+//					map.put("u_id", i_uid);
+//					map.put("u_type", utype);
+//					
+//					HomeLikeOrCommentBean isExistLike = this.worksService.getIsLikeOrCommentOrAtt(map);   
+//					work.setIs_like((String)map.get("is_like"));
+//					work.setIs_comment((String)map.get("is_comment"));
+//					if(isExistLike!=null) {
+//						String att_type = isExistLike.getAtt_type();
+//						if(att_type!=null && !att_type.equals("")) {
+//							Integer att_id = isExistLike.getAtt_id();
+//							String duration= isExistLike.getDuration();
+//							String thumbnail=isExistLike.getThumbnail();
+//							String store_path=isExistLike.getStore_path();
+//							List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,6);
+//							work.setAtt(attList);
+//						}
+//				   }
+//					statusesList.add(work);
+//			   }
+//			}
+//		}		
 		//2. 查询10条帖子详情
 		List<HomePageStatusesBean> bbsList = this.bbsService.getBBSListByHomepage(offset, limit);
 		if(bbsList.size()==0) {
@@ -425,8 +431,8 @@ public class StatusesController {
 			//HomePageThemeBean theme = new HomePageThemeBean();
 			if(statusesList.size()>0) {
 				if(isExistAd) {
-					if(statusesList.size()>6) {
-						statusesList.add(6,ad);
+					if(statusesList.size()>5) {
+						statusesList.add(5,ad);
 					}
 					else
 						statusesList.add(ad);
@@ -740,7 +746,8 @@ public class StatusesController {
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID 和被转发帖子ID 
 				Integer i_uid = Integer.valueOf(uid);
@@ -1760,7 +1767,8 @@ public class StatusesController {
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID 和被转发小组动态ID 用户所在小组id
 				Integer i_uid = Integer.valueOf(uid);

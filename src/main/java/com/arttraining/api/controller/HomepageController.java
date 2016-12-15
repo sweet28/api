@@ -21,6 +21,7 @@ import com.arttraining.api.bean.HomePageAttBean;
 import com.arttraining.api.bean.HomePageTecCommentBean;
 import com.arttraining.api.bean.HomePageWorkBean;
 import com.arttraining.api.service.impl.AdvertiseService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.api.service.impl.WorksTecCommentService;
 import com.arttraining.commons.util.ConfigUtil;
@@ -39,6 +40,8 @@ public class HomepageController {
 	private WorksTecCommentService worksTecCommentService;
 	@Resource
 	private AdvertiseService advertiseService;
+	@Resource
+	private TokenService tokenService;
 	
 	/***
 	 * 获取首页作品列表接口
@@ -53,7 +56,8 @@ public class HomepageController {
 		String access_token = request.getParameter("access_token");
 		if(access_token!=null && !access_token.equals("")) {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				TokenUtil.delayTokenDeadline(access_token);
 			}

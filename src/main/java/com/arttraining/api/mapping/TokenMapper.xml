@@ -15,12 +15,33 @@
     <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
     <result column="user_type" property="userType" jdbcType="VARCHAR" />
     <result column="effective_time" property="effectiveTime" jdbcType="VARCHAR" />
+    <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
     <result column="is_effective" property="isEffective" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    token, user_id, user_phone, user_type, effective_time, is_effective
+    token, user_id, user_phone, user_type, effective_time, login_time, is_effective
   </sql>
+  
+  <!-- coffee 1215 依据用户ID和用户类型 查询最新的token信息 -->
+  <select id="selectOneTokenInfo" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_token
+    where is_deleted=0
+    <if test="user_id !=null">
+   		 and user_id = #{user_id,jdbcType=INTEGER}
+    </if>
+    <if test="user_type !=null">
+    	 and user_type=#{user_type,jdbcType=VARCHAR}
+    </if>
+    <if test="token !=null">
+    	and token=#{token,jdbcType=VARCHAR}
+    </if>
+ 
+  </select>
+  <!-- end -->
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -36,12 +57,14 @@
       create_time, order_code, delete_time, 
       remarks, attachment, token, 
       user_id, user_phone, user_type, 
-      effective_time, is_effective)
+      effective_time, login_time, is_effective
+      )
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
       #{userId,jdbcType=INTEGER}, #{userPhone,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, 
-      #{effectiveTime,jdbcType=VARCHAR}, #{isEffective,jdbcType=INTEGER})
+      #{effectiveTime,jdbcType=VARCHAR}, #{loginTime,jdbcType=TIMESTAMP}, #{isEffective,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Token" >
     insert into t_yp_token
@@ -84,6 +107,9 @@
       </if>
       <if test="effectiveTime != null" >
         effective_time,
+      </if>
+      <if test="loginTime != null" >
+        login_time,
       </if>
       <if test="isEffective != null" >
         is_effective,
@@ -129,6 +155,9 @@
       <if test="effectiveTime != null" >
         #{effectiveTime,jdbcType=VARCHAR},
       </if>
+      <if test="loginTime != null" >
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="isEffective != null" >
         #{isEffective,jdbcType=INTEGER},
       </if>
@@ -173,6 +202,9 @@
       <if test="effectiveTime != null" >
         effective_time = #{effectiveTime,jdbcType=VARCHAR},
       </if>
+      <if test="loginTime != null" >
+        login_time = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="isEffective != null" >
         is_effective = #{isEffective,jdbcType=INTEGER},
       </if>
@@ -193,6 +225,7 @@
       user_phone = #{userPhone,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=VARCHAR},
       effective_time = #{effectiveTime,jdbcType=VARCHAR},
+      login_time = #{loginTime,jdbcType=TIMESTAMP},
       is_effective = #{isEffective,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>

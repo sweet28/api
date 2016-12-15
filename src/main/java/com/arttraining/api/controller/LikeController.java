@@ -28,6 +28,7 @@ import com.arttraining.api.service.impl.BBSLikeService;
 import com.arttraining.api.service.impl.BBSService;
 import com.arttraining.api.service.impl.StatusesLikeService;
 import com.arttraining.api.service.impl.StatusesService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.api.service.impl.WorksLikeService;
 import com.arttraining.api.service.impl.WorksService;
@@ -55,6 +56,8 @@ public class LikeController {
 	private StatusesLikeService statusesLikeService;
 	@Resource
 	private StatusesService statusesService;
+	@Resource
+	private TokenService tokenService;
 	
 	/***
 	 * 根据ID获取点赞用户头像列表
@@ -542,7 +545,8 @@ public class LikeController {
 		}
 		else{
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(accessToken);
+			//boolean tokenFlag = TokenUtil.checkToken(accessToken);
+			boolean tokenFlag = tokenService.checkToken(accessToken);
 			if (tokenFlag) {
 				//首先用户uid是否对当前的帖子id进行点赞了
 				Integer i_uid =  Integer.valueOf(uid);
@@ -640,7 +644,8 @@ public class LikeController {
 		}
 		else{
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(accessToken);
+			//boolean tokenFlag = TokenUtil.checkToken(accessToken);
+			boolean tokenFlag = tokenService.checkToken(accessToken);
 			if (tokenFlag) {
 				//首先判断用户uid是否对测评作品id进行点赞了
 				Integer i_uid =  Integer.valueOf(uid);
@@ -736,7 +741,8 @@ public class LikeController {
 		}
 		else{
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(accessToken);
+			//boolean tokenFlag = TokenUtil.checkToken(accessToken);
+			boolean tokenFlag = tokenService.checkToken(accessToken);
 			if (tokenFlag) {
 				//首先判断用户uid是否对测评作品id进行点赞了
 				Integer i_uid = Integer.valueOf(uid);

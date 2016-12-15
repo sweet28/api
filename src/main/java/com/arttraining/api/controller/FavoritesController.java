@@ -27,6 +27,7 @@ import com.arttraining.api.bean.HomePageStatusesBean;
 import com.arttraining.api.pojo.Favorites;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.FavoritesService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.ImageUtil;
@@ -41,6 +42,8 @@ import com.google.gson.Gson;
 public class FavoritesController {
 	@Resource
 	private FavoritesService favoritesService;
+	@Resource
+	private TokenService tokenService;
 	
 	/**
 	 * 添加收藏
@@ -79,7 +82,8 @@ public class FavoritesController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID
 				Integer i_uid=Integer.valueOf(uid);
@@ -92,7 +96,7 @@ public class FavoritesController {
 				map.put("host_id", i_favorite_id);
 				map.put("host_type", type);
 				Favorites isExist=this.favoritesService.getOneFavoriteById(map);
-				if(isExist!=null) {
+				if(isExist==null) {
 					Date date = new Date();
 					String time = TimeUtil.getTimeByDate(date);
 					//新增收藏信息
@@ -175,7 +179,8 @@ public class FavoritesController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				if(self==null || self.equals("")) {
 					offset=-1;

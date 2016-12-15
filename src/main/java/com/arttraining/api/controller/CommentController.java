@@ -32,6 +32,7 @@ import com.arttraining.api.service.impl.BBSCommentService;
 import com.arttraining.api.service.impl.BBSService;
 import com.arttraining.api.service.impl.StatusCommentService;
 import com.arttraining.api.service.impl.StatusesService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.api.service.impl.WorksCommentService;
 import com.arttraining.api.service.impl.WorksService;
@@ -60,6 +61,8 @@ public class CommentController {
 	private WorksService workService;
 	@Resource
 	private WorksCommentService workCommentService;
+	@Resource
+	private TokenService tokenService;
 	
 	/***
 	 * 获取首页帖子动态的评论列表
@@ -194,7 +197,8 @@ public class CommentController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID和动态ID
 				Integer i_uid = Integer.valueOf(uid);
@@ -300,7 +304,8 @@ public class CommentController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID和动态ID
 				Integer i_uid = Integer.valueOf(uid);
@@ -483,7 +488,8 @@ public class CommentController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID和动态ID
 				Integer i_uid = Integer.valueOf(uid);
@@ -586,7 +592,8 @@ public class CommentController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID和动态ID
 				Integer i_uid = Integer.valueOf(uid);
@@ -774,7 +781,8 @@ public class CommentController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID和动态ID
 				Integer i_uid = Integer.valueOf(uid);
@@ -878,7 +886,8 @@ public class CommentController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID和动态ID
 				Integer i_uid = Integer.valueOf(uid);

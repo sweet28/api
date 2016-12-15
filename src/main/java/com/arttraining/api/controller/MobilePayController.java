@@ -22,6 +22,7 @@ import com.alibaba.fastjson.JSON;
 import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.pojo.Order;
 import com.arttraining.api.service.impl.OrdersService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.TimeUtil;
@@ -45,6 +46,8 @@ import com.google.gson.Gson;
 public class MobilePayController {
 	@Resource
 	private OrdersService ordersService;
+	@Resource
+	private TokenService tokenService;
 
 	private static final String ALIPAY_GATEWAY_NEW = "https://mapi.alipay.com/gateway.do?";
 	private static final String PAY_METHOD_ALI = "alipay";
@@ -78,7 +81,7 @@ public class MobilePayController {
 //		pay_source = PAY_SOURCE_ANDROID;
 //		accessToken = "test_token";
 //		uid = "0";
-		System.out.println(TokenUtil.checkToken(accessToken));
+		//System.out.println(TokenUtil.checkToken(accessToken));
 		if (order_id == null || pay_method == null || pay_source == null
 				|| accessToken == null || uid == null || ("").equals(order_id)
 				|| ("").equals(pay_method) || ("").equals(pay_method)
@@ -91,7 +94,8 @@ public class MobilePayController {
 			System.out.println(TimeUtil.getTimeStamp() + "-支付1-"
 					+ gson.toJson(simReBean));
 			return gson.toJson(simReBean);
-		} else if(TokenUtil.checkToken(accessToken)){
+		} //else if(TokenUtil.checkToken(accessToken)){
+		else if(tokenService.checkToken(accessToken)){
 			TokenUtil.delayTokenDeadline(accessToken);//token延时
 			
 			String product_name="云互艺评测";//订单名称

@@ -25,6 +25,7 @@ import com.arttraining.api.bean.AssessmentListBean;
 import com.arttraining.api.bean.AssessmentListReBean;
 import com.arttraining.api.bean.OrderListMyBean;
 import com.arttraining.api.bean.OrderListMyReBean;
+import com.arttraining.api.bean.OrderRemainTimeBean;
 import com.arttraining.api.bean.OrderWorkBean;
 import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.pojo.Assessments;
@@ -36,6 +37,7 @@ import com.arttraining.api.pojo.WorksAttchment;
 import com.arttraining.api.service.impl.AssessmentService;
 import com.arttraining.api.service.impl.CouponService;
 import com.arttraining.api.service.impl.OrdersService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.commons.util.ConfigUtil;
@@ -60,7 +62,89 @@ public class OrdersController {
 	private AssessmentService assessmentService;
 	@Resource
 	private CouponService couponService;
+	@Resource
+	private TokenService tokenService;
 	
+	/***
+	 * 用于获取订单剩余时间
+	 * 传递的参数:order_id订单ID
+	 * order_number 订单编号
+	 */
+	@RequestMapping(value = "/remaining/time", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object remainingTime(HttpServletRequest request, HttpServletResponse response){
+		String errorCode = "";
+		String errorMsg = "";
+		
+		//以下参数是必选参数
+		String order_id=request.getParameter("order_id");
+		String order_number=request.getParameter("order_number");
+		
+		ServerLog.getLogger().warn("order_id:"+order_id+"-order_number:"+order_number);
+		
+		OrderRemainTimeBean remain=new OrderRemainTimeBean();
+		
+		if(order_id==null || order_number==null) {
+			errorCode = "20032";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(order_id.equals("") || order_number.equals("")) {
+			errorCode = "20032";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(!NumberUtil.isInteger(order_id)) {
+			errorCode = "20033";
+			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		} else {
+			//订单ID
+			Integer i_order_id=Integer.valueOf(order_id);
+			//依据订单ID去获取订单详情
+			Order order=this.ordersService.selectByOrderNumber(order_number);
+			if(order!=null) {
+				//订单状态
+				Integer order_status=order.getStatus();
+				//如果订单状态为0 表示还处于待支付的状态 继续判断是否超过交易时间 
+				if(order_status==0) {
+					//如果订单状态为0 判断支付时间是否已经过期 如果过期 则更改相应的代码
+					//如果已经错过支付时间 则关闭交易 如果有涉及到优惠券
+					Date currentDate = new Date();
+					Date payDate= order.getActiveTime();
+					long diff=TimeUtil.isOverTime(payDate, currentDate);
+					//当前时间减去有效时间 如果<0 表示支付超时
+					if(diff<0) {
+						//如果支付超时 关闭交易 将订单状态改为2 
+						//依据优惠券的type来执行的处理
+						Integer coupon_id=order.getCouponId();
+						Integer coupon_type=order.getCouponType();
+						Order upd_order=new Order();
+						upd_order.setId(i_order_id);
+						upd_order.setStatus(2);
+						//coffee add 1215 新增取消交易时间
+						upd_order.setCancelTime(currentDate);
+						//end
+						//则用户未选择优惠券抵用券
+						Map<String, Object> map=new HashMap<String, Object>();
+						if(coupon_id>0) {
+							map.put("coupon_id", coupon_id);
+							map.put("coupon_type", coupon_type);
+						} 
+						try {
+							this.ordersService.updateOrderAndCoupon(upd_order, map, coupon_id);
+						} catch (Exception e) {
+							System.out.println("2222===");
+						}
+					} 
+				} else {
+					errorCode = "20065";
+					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20065;
+				}
+			}
+		}
+		
+		remain.setError_code(errorCode);
+		remain.setError_msg(errorMsg);
+		
+		Gson gson=new Gson();
+		ServerLog.getLogger().warn(gson.toJson(remain));
+		return gson.toJson(remain);
+	}
 	/***
 	 * 订单取消接口
 	 * 传递的参数:access_token--验证
@@ -91,40 +175,46 @@ public class OrdersController {
 			errorCode = "20033";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
-			//用户ID
-			//Integer i_uid=Integer.valueOf(uid);
-			//订单ID
-			Integer i_order_id=Integer.valueOf(order_id);
-			//依据订单ID去查找订单信息
-			Order order=this.ordersService.selectByOrderNumber(order_number);
-			if(order!=null) {
-				Integer status=order.getStatus();
-				Integer coupon_id=order.getCouponId();
-				Integer coupon_type=order.getCouponType();
-				//订单状态为0 待支付
-				if(status==0) {
-					Order upd_order=new Order();
-					upd_order.setId(i_order_id);
-					upd_order.setStatus(2);
-					Date time =new Date();
-					upd_order.setCancelTime(time);
-					//判断是否恢复优惠券信息
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("order_id", i_order_id);
-					map.put("coupon_id", coupon_id);
-					map.put("coupon_type", coupon_type);
-					try {
-						this.ordersService.updateOrderAndCoupon(upd_order, map, coupon_id);
-						errorCode = "0";
-						errorMsg = "ok";
-					} catch (Exception e) {
-						errorCode = "20063";
-						errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20063;
+			boolean tokenFlag = tokenService.checkToken(access_token);
+			if (tokenFlag) {
+				//用户ID
+				//Integer i_uid=Integer.valueOf(uid);
+				//订单ID
+				Integer i_order_id=Integer.valueOf(order_id);
+				//依据订单ID去查找订单信息
+				Order order=this.ordersService.selectByOrderNumber(order_number);
+				if(order!=null) {
+					Integer status=order.getStatus();
+					Integer coupon_id=order.getCouponId();
+					Integer coupon_type=order.getCouponType();
+					//订单状态为0 待支付
+					if(status==0) {
+						Order upd_order=new Order();
+						upd_order.setId(i_order_id);
+						upd_order.setStatus(2);
+						Date time =new Date();
+						upd_order.setCancelTime(time);
+						//判断是否恢复优惠券信息
+						Map<String, Object> map = new HashMap<String, Object>();
+						map.put("order_id", i_order_id);
+						map.put("coupon_id", coupon_id);
+						map.put("coupon_type", coupon_type);
+						try {
+							this.ordersService.updateOrderAndCoupon(upd_order, map, coupon_id);
+							errorCode = "0";
+							errorMsg = "ok";
+						} catch (Exception e) {
+							errorCode = "20063";
+							errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20063;
+						}
 					}
+				} else {
+					errorCode = "20063";
+					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20063;
 				}
 			} else {
-				errorCode = "20063";
-				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20063;
+				errorCode = "20028";
+				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 			}
 		}
 		JSONObject jsonObject = new JSONObject();
@@ -187,111 +277,118 @@ public class OrdersController {
 				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 			}
 			else {
-				Integer i_status=null;
-				if(status==null || status.equals("") || !NumberUtil.isInteger(status)) {
-					i_status=null;
-				}
-				else 
-					i_status = Integer.valueOf(status);
-				//用户ID 
-				Integer i_uid = Integer.valueOf(uid);
-				//依据用户ID去查询相应的订单列表
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("uid", i_uid);
-				map.put("offset", offset);
-				map.put("limit",limit);
-				map.put("status", i_status);
-				List<OrderListMyBean> orderList = this.ordersService.getMyListOrderByUid(map);
-				if(orderList.size()>0) {
-					//循环读取list 依次查询作品信息
-					for (OrderListMyBean order : orderList) {
-						Integer type = order.getOrder_type();
-						Integer order_id = order.getOrder_id();
-						String order_number=order.getOrder_number();
-						map.put("type", type);
-						map.put("order_id", order_id);
-						map.put("order_number", order_number);
-						//coffee add 1129 判断订单状态是否为1
-						Integer order_status=order.getOrder_status();
-						System.out.println("fffff==="+order_status);
-						if(order_status==1) {
-							//如果状态为1 表示订单已支付状态 然后我去查看测评状态
-							Integer[] ass_status={ConfigUtil.STATUS_3,ConfigUtil.STATUS_4,ConfigUtil.STATUS_5};
-							for (Integer ass : ass_status) {
-								map.put("ass_status",ass);
-								Integer ass_num= this.assessmentService.getAssStatusByOrderId(map);
-								if(ass_num>0) {
-									//如果存在测评数量 则更改订单状态
-									order.setOrder_status(ass);
-									if(ass==ConfigUtil.STATUS_5) {
-										order.setAss_num(ass_num);
-									}
-									break;
-								}
-							}
-						} else if(order_status==0) {
-							//如果订单状态为0 判断支付时间是否已经过期 如果过期 则更改相应的代码
-							//如果已经错过支付时间 则关闭交易 如果有涉及到优惠券
-							Date currentDate = new Date();
-							System.out.println("hhhhh1==="+currentDate.getTime());
-							System.out.println("hhhhh22==="+order.getActive_time());
-							Date payDate= TimeUtil.strToDate(order.getActive_time());
-							System.out.println("hhhhh2==="+payDate.getTime());
-							long diff=TimeUtil.isOverTime(payDate, currentDate);
-							System.out.println("1111===");
-							//当前时间减去有效时间 如果>0 表示支付超时
-							if(diff<0) {
-								//如果支付超时 关闭交易 将订单状态改为2 
-								//依据优惠券的type来执行的处理
-								order.setOrder_status(2);
-								Integer coupon_id=order.getCoupon_id();
-								Integer coupon_type=order.getCoupon_type();
-								Order upd_order=new Order();
-								upd_order.setId(order_id);
-								upd_order.setStatus(2);
-								//System.out.println("2222===");
-								//则用户未选择优惠券抵用券
-								if(coupon_id>0) {
-									map.put("coupon_id", coupon_id);
-									map.put("coupon_type", coupon_type);
-								} 
-								try {
-									this.ordersService.updateOrderAndCoupon(upd_order, map, coupon_id);
-									System.out.println("333===");
-								} catch (Exception e) {
-									System.out.println("444===");
-								}
-							} else {
-								//如果支付未超时 则直接返回有效时间 和剩余支付时间
-								Integer remain=Integer.valueOf(String.valueOf(diff));
-								order.setRemaining_time(remain);
-								System.out.println("555===");
-							}
-							System.out.println("==="+diff);	
-						}
-						//coffee add 1208 状态为1的订单 表示已支付 去查询名师测评详情列表
-						System.out.println("=========");	
-						List<AssTecListBean> ass_tec_list=this.assessmentService.getAssTecListByOrderId(map);
-						System.out.println("==="+ass_tec_list.size());	
-						order.setAss_tec_list(ass_tec_list);
-						//end
-						//获取作品相关的信息
-						OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);
-						if(work!=null) {
-							order.setWork_id(work.getWork_id());
-							order.setWork_title(work.getWork_title());
-							order.setWork_pic(work.getWork_pic());
-						}
+				boolean tokenFlag = tokenService.checkToken(access_token);
+				if (tokenFlag) {
+					Integer i_status=null;
+					if(status==null || status.equals("") || !NumberUtil.isInteger(status)) {
+						i_status=null;
 					}
-					orderMyBean.setOrders(orderList);
-					errorCode = "0";
-					errorMsg = "ok";
+					else 
+						i_status = Integer.valueOf(status);
+					//用户ID 
+					Integer i_uid = Integer.valueOf(uid);
+					//依据用户ID去查询相应的订单列表
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("uid", i_uid);
+					map.put("offset", offset);
+					map.put("limit",limit);
+					map.put("status", i_status);
+					List<OrderListMyBean> orderList = this.ordersService.getMyListOrderByUid(map);
+					if(orderList.size()>0) {
+						//循环读取list 依次查询作品信息
+						for (OrderListMyBean order : orderList) {
+							Integer type = order.getOrder_type();
+							Integer order_id = order.getOrder_id();
+							String order_number=order.getOrder_number();
+							map.put("type", type);
+							map.put("order_id", order_id);
+							map.put("order_number", order_number);
+							//coffee add 1129 判断订单状态是否为1
+							Integer order_status=order.getOrder_status();
+							System.out.println("fffff==="+order_status);
+							if(order_status==1) {
+								//如果状态为1 表示订单已支付状态 然后我去查看测评状态
+								Integer[] ass_status={ConfigUtil.STATUS_3,ConfigUtil.STATUS_4,ConfigUtil.STATUS_5};
+								for (Integer ass : ass_status) {
+									map.put("ass_status",ass);
+									Integer ass_num= this.assessmentService.getAssStatusByOrderId(map);
+									if(ass_num>0) {
+										//如果存在测评数量 则更改订单状态
+										order.setOrder_status(ass);
+										if(ass==ConfigUtil.STATUS_5) {
+											order.setAss_num(ass_num);
+										}
+										break;
+									}
+								}
+							} else if(order_status==0) {
+								//如果订单状态为0 判断支付时间是否已经过期 如果过期 则更改相应的代码
+								//如果已经错过支付时间 则关闭交易 如果有涉及到优惠券
+								Date currentDate = new Date();
+								System.out.println("hhhhh1==="+currentDate.getTime());
+								System.out.println("hhhhh22==="+order.getActive_time());
+								Date payDate= TimeUtil.strToDate(order.getActive_time());
+								System.out.println("hhhhh2==="+payDate.getTime());
+								long diff=TimeUtil.isOverTime(payDate, currentDate);
+								System.out.println("1111===");
+								//当前时间减去有效时间 如果>0 表示支付超时
+								if(diff<0) {
+									//如果支付超时 关闭交易 将订单状态改为2 
+									//依据优惠券的type来执行的处理
+									order.setOrder_status(2);
+									Integer coupon_id=order.getCoupon_id();
+									Integer coupon_type=order.getCoupon_type();
+									Order upd_order=new Order();
+									upd_order.setId(order_id);
+									upd_order.setStatus(2);
+									upd_order.setCancelTime(currentDate);
+									//System.out.println("2222===");
+									//则用户未选择优惠券抵用券
+									if(coupon_id>0) {
+										map.put("coupon_id", coupon_id);
+										map.put("coupon_type", coupon_type);
+									} 
+									try {
+										this.ordersService.updateOrderAndCoupon(upd_order, map, coupon_id);
+										System.out.println("333===");
+									} catch (Exception e) {
+										System.out.println("444===");
+									}
+								} else {
+									//如果支付未超时 则直接返回有效时间 和剩余支付时间
+									Integer remain=Integer.valueOf(String.valueOf(diff));
+									order.setRemaining_time(remain);
+									System.out.println("555===");
+								}
+								System.out.println("==="+diff);	
+							}
+							//coffee add 1208 状态为1的订单 表示已支付 去查询名师测评详情列表
+							System.out.println("=========");	
+							List<AssTecListBean> ass_tec_list=this.assessmentService.getAssTecListByOrderId(map);
+							System.out.println("==="+ass_tec_list.size());	
+							order.setAss_tec_list(ass_tec_list);
+							//end
+							//获取作品相关的信息
+							OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);
+							if(work!=null) {
+								order.setWork_id(work.getWork_id());
+								order.setWork_title(work.getWork_title());
+								order.setWork_pic(work.getWork_pic());
+							}
+						}
+						orderMyBean.setOrders(orderList);
+						errorCode = "0";
+						errorMsg = "ok";
+					}
+					else {
+						errorCode = "20007";
+						errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+					}
+				} else {
+					errorCode = "20028";
+					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 				}
-				else {
-					errorCode = "20007";
-					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
-				}
-		  }
+			} 
 		}
 		orderMyBean.setError_code(errorCode);
 		orderMyBean.setError_msg(errorMsg);
@@ -328,58 +425,63 @@ public class OrdersController {
 			errorCode = "20033";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
-			//用户ID和订单ID
-			Integer i_uid = Integer.valueOf(uid);
-			Integer i_order_id=Integer.valueOf(order_id);
-			//查询某个订单ID对应的测评列表信息
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("order_id", i_order_id);
-			map.put("uid", i_uid);
-			assReBean = this.ordersService.getAssListByShow(map);
-			if(assReBean==null) {
-				assReBean = new AssessmentListReBean();
-				errorCode = "20007";
-				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
-			}
-			else {
-				List<AssessmentListBean> assessments=assReBean.getAssessments();
-				//判断测评信息是否为空
-				if(assessments.size()>0) {
-					map.put("order_number", assReBean.getOrder_number());
-					//coffee add 1129 判断订单状态是否为1
-					Integer order_status=assReBean.getOrder_status();
-					if(order_status==1) {
-						//如果状态为1 表示订单已支付状态 然后我去查看测评状态
-						Integer[] ass_status={ConfigUtil.STATUS_3,ConfigUtil.STATUS_4,ConfigUtil.STATUS_5};
-						for (Integer ass : ass_status) {
-							map.put("ass_status",ass);
-							Integer ass_num= this.assessmentService.getAssStatusByOrderId(map);
-							if(ass_num>0) {
-								//如果存在测评数量 则更改订单状态
-								assReBean.setOrder_status(ass);
-								if(ass==ConfigUtil.STATUS_5) {
-									assReBean.setAss_num(ass_num);
-								}
-								break;
-							}
-						}
-					}			
-					//循环读取测评信息 从而名师头像
-					for (AssessmentListBean ass : assessments) {
-						Integer tid = ass.getTec_id();
-						String pic = this.ordersService.getTecPicById(tid);
-						ass.setTec_pic(pic);
-					}
-					assReBean.setAssessments(assessments);
-					errorCode = "0";
-					errorMsg = "ok";
-				}
-				else {
+			boolean tokenFlag = tokenService.checkToken(access_token);
+			if (tokenFlag) {
+				//用户ID和订单ID
+				Integer i_uid = Integer.valueOf(uid);
+				Integer i_order_id=Integer.valueOf(order_id);
+				//查询某个订单ID对应的测评列表信息
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("order_id", i_order_id);
+				map.put("uid", i_uid);
+				assReBean = this.ordersService.getAssListByShow(map);
+				if(assReBean==null) {
+					assReBean = new AssessmentListReBean();
 					errorCode = "20007";
 					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 				}
-			}
-			
+				else {
+					List<AssessmentListBean> assessments=assReBean.getAssessments();
+					//判断测评信息是否为空
+					if(assessments.size()>0) {
+						map.put("order_number", assReBean.getOrder_number());
+						//coffee add 1129 判断订单状态是否为1
+						Integer order_status=assReBean.getOrder_status();
+						if(order_status==1) {
+							//如果状态为1 表示订单已支付状态 然后我去查看测评状态
+							Integer[] ass_status={ConfigUtil.STATUS_3,ConfigUtil.STATUS_4,ConfigUtil.STATUS_5};
+							for (Integer ass : ass_status) {
+								map.put("ass_status",ass);
+								Integer ass_num= this.assessmentService.getAssStatusByOrderId(map);
+								if(ass_num>0) {
+									//如果存在测评数量 则更改订单状态
+									assReBean.setOrder_status(ass);
+									if(ass==ConfigUtil.STATUS_5) {
+										assReBean.setAss_num(ass_num);
+									}
+									break;
+								}
+							}
+						}			
+						//循环读取测评信息 从而名师头像
+						for (AssessmentListBean ass : assessments) {
+							Integer tid = ass.getTec_id();
+							String pic = this.ordersService.getTecPicById(tid);
+							ass.setTec_pic(pic);
+						}
+						assReBean.setAssessments(assessments);
+						errorCode = "0";
+						errorMsg = "ok";
+					}
+					else {
+						errorCode = "20007";
+						errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+					}
+				 }
+				} else {
+					errorCode = "20028";
+					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
+				}
 		}
 		assReBean.setError_code(errorCode);
 		assReBean.setError_msg(errorMsg);
@@ -513,7 +615,8 @@ public class OrdersController {
 		}
 		//coffee add
 		// todo:判断token是否有效
-		boolean tokenFlag = TokenUtil.checkToken(accessToken);
+		//boolean tokenFlag = TokenUtil.checkToken(accessToken);
+		boolean tokenFlag = tokenService.checkToken(accessToken);
 		if (tokenFlag) {
 			//TokenUtil.delayTokenDeadline(accessToken);//token延时
 			totalPay = Double.parseDouble(totalStr);
@@ -699,7 +802,8 @@ public class OrdersController {
 		} else {
 			//coffee begin
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(accessToken);
+			//boolean tokenFlag = TokenUtil.checkToken(accessToken);
+			boolean tokenFlag = tokenService.checkToken(accessToken);
 			if (tokenFlag) {
 				System.out.println("进入订单更新3："+TimeUtil.getTimeStamp());
 				//1.依据订单号获取订单信息

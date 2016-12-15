@@ -22,6 +22,7 @@ import com.arttraining.api.bean.FollowFansBean;
 import com.arttraining.api.bean.FollowUserBean;
 import com.arttraining.api.pojo.Follow;
 import com.arttraining.api.service.impl.FollowService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
@@ -34,6 +35,8 @@ import com.arttraining.commons.util.TokenUtil;
 public class FollowController {
 	@Resource
 	private FollowService followService;
+	@Resource
+	private TokenService tokenService;
 	
 	/**
 	 * 添加关注
@@ -71,7 +74,8 @@ public class FollowController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID和关注信息ID
 				Integer i_uid = Integer.valueOf(uid);

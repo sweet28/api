@@ -281,7 +281,7 @@
 	s.id as owner,s.name as owner_name,s.city_name as city,
 	s.head_pic as owner_head_pic
 	from
-	(select foreign_key,visitor,order_code
+	(select distinct foreign_key,visitor
 	from t_yp_bbs_comment
 	where is_deleted=0 and visitor=#{uid,jdbcType=INTEGER} 
 	and visitor_type='stu'
@@ -301,7 +301,6 @@
 	where <include refid="select_userstu_where"></include>
 	and id=#{uid,jdbcType=INTEGER}) s
 	where c.foreign_key = b.id and c.visitor=s.id
-	order by c.order_code desc
   </select>
   
   <!-- coffee add 1108 查询指定用户发帖详情 默认10条记录 -->

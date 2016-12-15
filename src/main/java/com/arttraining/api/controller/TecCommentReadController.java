@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.pojo.CommentRead;
 import com.arttraining.api.pojo.WorksTecComment;
 import com.arttraining.api.service.impl.TecCommentReadService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
@@ -29,6 +30,8 @@ import com.arttraining.commons.util.TokenUtil;
 public class TecCommentReadController {
 	@Resource
 	private TecCommentReadService tecCommentReadService;
+	@Resource
+	private TokenService tokenService;
 	
 	/**
 	 * 收看/听老师点评信息时调用的接口
@@ -66,7 +69,8 @@ public class TecCommentReadController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//用户ID
 				Integer i_uid=Integer.valueOf(uid);

@@ -18,6 +18,7 @@ import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.bean.TecherShowOrgBean;
 import com.arttraining.api.pojo.UserTech;
 import com.arttraining.api.service.impl.AssessmentService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserOrgService;
 import com.arttraining.api.service.impl.UserTecService;
 import com.arttraining.commons.util.ConfigUtil;
@@ -36,6 +37,8 @@ public class MasterController {
 	private UserOrgService userOrgService;
 	@Resource
 	private AssessmentService assessmentService;
+	@Resource
+	private TokenService tokenService;
 	
 	/***
 	 * 根据名师ID获取名师详情
@@ -164,7 +167,8 @@ public class MasterController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;		
 		} else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				//登录用户ID
 				Integer i_uid = Integer.valueOf(uid);

@@ -1,5 +1,6 @@
 package com.arttraining.api.controller;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.TokenUtil;
@@ -18,6 +20,9 @@ import com.qiniu.util.Auth;
 @Controller
 @RequestMapping("/upload")
 public class UploadController {
+	@Resource
+	private TokenService tokenService;
+	
 	// 依据用户uid查询爱好者用户信息
 	@RequestMapping(value = "/get_token/qiniu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object getQiniuToken(HttpServletRequest request, HttpServletResponse response) {
@@ -46,7 +51,8 @@ public class UploadController {
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			}else{
 				// todo:判断token是否有效
-				boolean tokenFlag = TokenUtil.checkToken(accessToken);
+				//boolean tokenFlag = TokenUtil.checkToken(accessToken);
+				boolean tokenFlag = this.tokenService.checkToken(accessToken);
 				if (tokenFlag) {
 					String buketPath = "";
 					switch (Integer.parseInt(buketType)) {
@@ -126,7 +132,8 @@ public class UploadController {
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			}else{
 				// todo:判断token是否有效
-				boolean tokenFlag = TokenUtil.checkToken(accessToken);
+				//boolean tokenFlag = TokenUtil.checkToken(accessToken);
+				boolean tokenFlag = this.tokenService.checkToken(accessToken);
 				if (tokenFlag) {
 
 					System.out.println(attType + ":type:::url:" + attUrl);

@@ -10,7 +10,7 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_10007 = "不支持的MediaType (%s)";
 	public static String ERROR_MSG_ZH_10008 = "参数错误，请参考API文档";
 	public static String ERROR_MSG_ZH_10009 = "任务过多，系统繁忙";
-	public static String ERROR_MSG_ZH_10010 = "任务超时,请稍后重试。";
+	public static String ERROR_MSG_ZH_10010 = "任务超时,请稍后重试";
 	public static String ERROR_MSG_ZH_10011 = "RPC错误";
 	public static String ERROR_MSG_ZH_10012 = "非法请求";
 	public static String ERROR_MSG_ZH_10013 = "不合法的用户";
@@ -65,33 +65,34 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20038 = "动态不存在";
 	public static String ERROR_MSG_ZH_20039 = "转发动态失败";
 	
-	public static String ERROR_MSG_ZH_20040 = "注册失败，请检查网络是否通畅。";
-	public static String ERROR_MSG_ZH_20041 = "创建小组失败,请检查网络是否畅通。";
+	public static String ERROR_MSG_ZH_20040 = "注册失败，请检查网络是否通畅";
+	public static String ERROR_MSG_ZH_20041 = "创建小组失败,请检查网络是否畅通";
 	public static String ERROR_MSG_ZH_20042 = "已经创建该小组";
-	public static String ERROR_MSG_ZH_20043 = "加入小组失败,请检查网络是否畅通。";
+	public static String ERROR_MSG_ZH_20043 = "加入小组失败,请检查网络是否畅通";
 
 	public static String ERROR_MSG_ZH_20044 = "请输入正确的手机号码";
 	public static String ERROR_MSG_ZH_20045 = "邀请码为空，请输入邀请码";
 	public static String ERROR_MSG_ZH_20046 = "验证码发送间隔为60s，请稍后发送";
 	public static String ERROR_MSG_ZH_20047 = "验证码发送失败，请检查手机号码通信是否畅通，并重新发送";
 	public static String ERROR_MSG_ZH_20048 = "验证码失效，请重新发送验证码";
-	public static String ERROR_MSG_ZH_20049 = "验证码不正确，请重新输入。";
+	public static String ERROR_MSG_ZH_20049 = "验证码不正确，请重新输入";
 	
-	public static String ERROR_MSG_ZH_20050 = "评论失败,请检查网络是否畅通。";
-	public static String ERROR_MSG_ZH_20051 = "建议反馈发送失败,请检查网络是否畅通。";
-	public static String ERROR_MSG_ZH_20052 = "添加关注失败,请检查网络是否畅通。";
-	public static String ERROR_MSG_ZH_20053 = "添加收藏失败,请检查网络是否畅通。";
-	public static String ERROR_MSG_ZH_20054 = "查看详情失败,请检查网络是否畅通。";
+	public static String ERROR_MSG_ZH_20050 = "评论失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20051 = "建议反馈发送失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20052 = "添加关注失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20053 = "添加收藏失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20054 = "查看详情失败,请检查网络是否畅通";
 	public static String ERROR_MSG_ZH_20055 = "已经关注了";
 	
-	public static String ERROR_MSG_ZH_20056 = "退出失败,请检查网络是否通畅。";
-	public static String ERROR_MSG_ZH_20057 = "点评失败,请检查网络是否通畅。";
+	public static String ERROR_MSG_ZH_20056 = "退出失败,请检查网络是否通畅";
+	public static String ERROR_MSG_ZH_20057 = "点评失败,请检查网络是否通畅";
 	public static String ERROR_MSG_ZH_20058 = "已经点评了";
-	public static String ERROR_MSG_ZH_20059 = "优惠券兑换码已失效 。";
-	public static String ERROR_MSG_ZH_20060 = "优惠券兑换码无效 。";
+	public static String ERROR_MSG_ZH_20059 = "优惠券兑换码已失效 ";
+	public static String ERROR_MSG_ZH_20060 = "优惠券兑换码无效 ";
 	
-	public static String ERROR_MSG_ZH_20061 = "已经收藏了 。";
-	public static String ERROR_MSG_ZH_20062 = "版本已是最新的了哟 。";
-	public static String ERROR_MSG_ZH_20063 = "取消订单失败,请检查网络是否畅通 。";
-	public static String ERROR_MSG_ZH_20064 = "收听点评失败了,请检查网络是否畅通 。";
+	public static String ERROR_MSG_ZH_20061 = "已经收藏了 ";
+	public static String ERROR_MSG_ZH_20062 = "版本已是最新的了哟 ";
+	public static String ERROR_MSG_ZH_20063 = "取消订单失败,请检查网络是否畅通 ";
+	public static String ERROR_MSG_ZH_20064 = "收听点评失败了,请检查网络是否畅通 ";
+	public static String ERROR_MSG_ZH_20065 = "订单已支付了哟 ";
 }

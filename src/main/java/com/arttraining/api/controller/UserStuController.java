@@ -21,6 +21,7 @@ import com.arttraining.api.pojo.SMSCheckCode;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.FollowService;
 import com.arttraining.api.service.impl.SMSService;
+import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
@@ -42,6 +43,8 @@ public class UserStuController {
 	private FollowService followService;
 	@Resource
 	private SMSService smsService;
+	@Resource
+	private TokenService tokenService;
 	
 	
 	/*@RequestMapping(value = "/test", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -181,7 +184,8 @@ public class UserStuController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				Integer i_uid = Integer.valueOf(uid);
 				UserStu userStu = new UserStu();
@@ -252,7 +256,8 @@ public class UserStuController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				Integer i_uid = Integer.valueOf(uid);
 				
@@ -354,7 +359,8 @@ public class UserStuController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				Integer i_uid = Integer.valueOf(uid);
 				UserStu userStu = new UserStu();
@@ -449,7 +455,8 @@ public class UserStuController {
 		}
 		else {
 			// todo:判断token是否有效
-			boolean tokenFlag = TokenUtil.checkToken(access_token);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
 				Integer i_uid = Integer.valueOf(uid);
 				Integer i_city_id=null;
