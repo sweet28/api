@@ -15,15 +15,18 @@ import com.arttraining.api.dao.AssessmentsMapper;
 import com.arttraining.api.dao.CouponMapper;
 import com.arttraining.api.dao.OrderMapper;
 import com.arttraining.api.dao.UserStuMapper;
+import com.arttraining.api.dao.UserTechMapper;
 import com.arttraining.api.dao.WorksAttchmentMapper;
 import com.arttraining.api.dao.WorksMapper;
 import com.arttraining.api.pojo.Assessments;
 import com.arttraining.api.pojo.Coupon;
 import com.arttraining.api.pojo.Order;
 import com.arttraining.api.pojo.UserStu;
+import com.arttraining.api.pojo.UserTech;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksAttchment;
 import com.arttraining.api.service.IOrdersService;
+import com.arttraining.commons.util.JPushClientUtil;
 
 @Service("OrdersService")
 public class OrdersService implements IOrdersService{
@@ -41,6 +44,8 @@ public class OrdersService implements IOrdersService{
 	private CouponMapper couponDao;
 	@Resource
 	private ScoreRecordService scoreRecordService;
+	@Resource
+	private UserTechMapper userTecDao;
 
 	@Override
 	public int insert(Order order) {
@@ -183,13 +188,56 @@ public class OrdersService implements IOrdersService{
 		Integer order_id=order.getId();
 		this.assDao.updateWorkAttrByOrderId(order_id);
 		
-		//3.关闭交易的话 恢复积分表 coffee add 1214
-		Map<String, Object> info_map=new HashMap<String, Object>();
-		info_map.put("order_id", order_id);
-		this.scoreRecordService.insertAndBackScoreRecord(info_map);
+		//3.关闭交易的话 恢复积分表 coffee add 1214 关闭交易(尚未支付 并不需要恢复积分)
+//		Map<String, Object> info_map=new HashMap<String, Object>();
+//		info_map.put("order_id", order_id);
+//		this.scoreRecordService.insertAndBackScoreRecord(info_map);
 		//end 
 		
 		return 0;
+	}
+
+	@Override
+	public void pushMsgAndAlertToTec(String order_number) {
+		// TODO Auto-generated method stub
+		//1.首先依据订单编号获取订单详情
+		List<Assessments> assList=this.assDao.selectAssListByOrderNum(order_number);
+		if(assList.size()>0) {
+			for (Assessments ass : assList) {
+				Integer tec_id=ass.getTecId();
+				UserTech tec=this.userTecDao.selectByPrimaryKey(tec_id);
+				Integer role=tec.getRole();
+				String user_type="";
+				switch (role) {
+				case 0:
+					user_type="ms";
+					break;
+				case 1:
+					user_type="zj";
+					break;
+				case 2:
+					user_type="iartschool";
+					break;	
+				case 3:
+					user_type="dr";
+					break;
+				default:
+					break;
+				}
+				//coffee add 1215 新增推送信息
+				String push_type="alert_msg";
+				String alias=""+tec_id;
+				String alert=tec.getName()+"老师,您好 "+ass.getStuName()+"同学请您帮忙点评他的作品哟";
+				String push_content="";
+				String push_content_type="";
+				//封装额外的数据
+				String type="stu_ass";
+				String value=""+ass.getWorkId();
+				String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+				JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, push_content_type, extra_value);
+				//end
+			}
+		}
 	}
 
 }

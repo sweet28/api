@@ -107,6 +107,4 @@ public class ConfigUtil {
 	
 	//设置支付时间在30分钟以内
 	public static Integer PAY_TIME=30;
-	
-	
 }

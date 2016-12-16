@@ -55,6 +55,7 @@ import com.arttraining.api.service.impl.WorksTecCommentService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.ImageUtil;
+import com.arttraining.commons.util.JPushClientUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.Random;
 import com.arttraining.commons.util.ServerLog;
@@ -794,6 +795,25 @@ public class StatusesController {
 					UserStu user = new UserStu();
 					user.setId(i_uid);
 					user.setBbsNum(1);
+					
+					//coffee add 1215 新增推送信息
+					Map<String, Object> push_map=new HashMap<String, Object>();
+					push_map.put("user_type", "stu");
+					push_map.put("push_type", "alert_msg");
+					String alias=""+bbs.getOwner();
+					push_map.put("alias",alias );
+					String alert="亲,有人转发了你的帖子哟";
+					push_map.put("alert",alert);
+					String extra_key="";
+					push_map.put("extra_key",extra_key);
+					String extra_value="";
+					push_map.put("extra_value",extra_value);
+					String content=alert;
+					push_map.put("content",content);
+					String content_type="";
+					push_map.put("content_type",content_type);
+					JPushClientUtil.push_all_alias_alert_msg(push_map);
+					//end
 					
 					try {
 						this.bbsForwardService.insertOneBBSForward(bbsForward, bbsNew,user,bbsAttachment);
@@ -1814,6 +1834,24 @@ public class StatusesController {
 					statusAttachment.setCreateTime(Timestamp.valueOf(time));
 					statusAttachment.setOrderCode(time);
 					
+					//coffee add 1215 新增推送信息
+					Map<String, Object> push_map=new HashMap<String, Object>();
+					push_map.put("user_type", "stu");
+					push_map.put("push_type", "alert_msg");
+					String alias=""+status.getOwner();
+					push_map.put("alias",alias );
+					String alert="亲,有人转发了你的动态哟";
+					push_map.put("alert",alert);
+					String extra_key="";
+					push_map.put("extra_key",extra_key);
+					String extra_value="";
+					push_map.put("extra_value",extra_value);
+					String content=alert;
+					push_map.put("content",content);
+					String content_type="";
+					push_map.put("content_type",content_type);
+					JPushClientUtil.push_all_alias_alert_msg(push_map);
+					//end
 					try {
 						this.statusForwardService.insertOneStatusForward(statusForward, statusNew, statusAttachment);
 						errorCode = "0";

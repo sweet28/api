@@ -38,4 +38,7 @@ public interface AssessmentsMapper {
     List<AssTecListBean> selectAssTecListByOrderId(Map<String, Object> map);
     //关闭交易时将作品附件表设置为失效--order/cancel  order/listMy接口调用
     int updateWorkAttrByOrderId(Integer order_id);
+    
+    //依据订单编号来获取全部的测评列表信息 
+    List<Assessments> selectAssListByOrderNum(String order_number);
 }

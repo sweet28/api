@@ -46,7 +46,6 @@ import com.arttraining.commons.util.IdWorker;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
-import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
 
 @Controller
@@ -130,7 +129,13 @@ public class OrdersController {
 						} catch (Exception e) {
 							System.out.println("2222===");
 						}
-					} 
+					} else {
+						//如果支付未超时 则直接返回有效时间 和剩余支付时间
+						Integer remain_time=Integer.valueOf(String.valueOf(diff));
+						remain.setRemaining_time(remain_time);
+					}
+					errorCode = "0";
+					errorMsg = "ok";
 				} else {
 					errorCode = "20065";
 					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20065;
@@ -695,7 +700,8 @@ public class OrdersController {
 				ass.setStuName(userStu.getName());
 				ass.setStatus(ConfigUtil.STATUS_0);
 				ass.setTecId(jo.getIntValue("tec_id"));
-				ass.setTecName(jo.getString("tec_name"));
+				//ass.setTecName(jo.getString("tec_name"));
+				ass.setTecName(jo.getString("name"));
 				ass.setCodes(idWorker.nextId() + "");
 				//新增order_code
 				ass.setOrderCode(time);
@@ -872,6 +878,9 @@ public class OrdersController {
 						System.out.println("进入订单更新5："+TimeUtil.getTimeStamp());
 						errorCode = "0";
 						errorMsg = "ok";
+						//coffee add 1215 新增推送信息
+						this.ordersService.pushMsgAndAlertToTec(orderNum);
+						//end
 					} catch (Exception e) {
 						// TODO: handle exception
 						System.out.println("进入订单更新6："+TimeUtil.getTimeStamp());

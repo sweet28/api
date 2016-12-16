@@ -37,8 +37,8 @@ public class ScoreRecordService implements IScoreRecordService {
 		Order order=this.orderDao.selectByOrderNumber(order_number);
 		//如果订单存在
 		if(order!=null) {
-			Integer coupon_pay=order.getCouponType();
-			if(coupon_pay!=3) {
+//			Integer coupon_type=order.getCouponType();
+//			if(coupon_type!=3) {
 				//1.首先新增积分表
 				ScoreRecord score=new ScoreRecord();
 				//用户ID和用户类型
@@ -76,25 +76,16 @@ public class ScoreRecordService implements IScoreRecordService {
 				score.setOrderCode(time);
 				score.setOrderId(order.getId());
 				score.setOrderNumber(order_number);
-				
+					
 				this.soreRecordDao.insertSelective(score);
 				//2.然后修改爱好者/老师用户积分信息
-				if(user_type.equals("stu")) {
-					int money=consume_money.intValue();
-					UserStu stu=new UserStu();
-					stu.setId(user_id);
-					stu.setScore(money);
-					this.userStuDao.updateByPrimaryKeySelective(stu);
-				} else if(user_type.equals("tec")) {
-					int money=consume_money.intValue();
-					UserTech tec = new UserTech();
-					tec.setId(user_id);
-					tec.setScore(money);
-					this.userTecDao.updateByPrimaryKeySelective(tec);
-				}
+				int money=consume_money.intValue();
+				UserStu stu=new UserStu();
+				stu.setId(user_id);
+				stu.setScore(money);
+				this.userStuDao.updateByPrimaryKeySelective(stu);
 			}
-		}
-		
+	 //}
 		return 0;
 	}
 
@@ -105,39 +96,39 @@ public class ScoreRecordService implements IScoreRecordService {
 		Integer order_id=(Integer)map.get("order_id");
 		Order order=this.orderDao.selectByPrimaryKey(order_id);
 		if(order!=null) {
-			Integer coupon_type=order.getCouponType();
-			if(coupon_type!=3) {
-				ScoreRecord score=this.soreRecordDao.selectScoreRecordByOrderId(order_id);
-				//2.然后将对应的积分记录标识为撤销积分操作 新增撤销时间和备注(关闭交易)
-				if(score!=null) {
-					Integer score_id=score.getId();
-					Date date = new Date();
-					ScoreRecord upd_score=new ScoreRecord();
-					upd_score.setId(score_id);
-					upd_score.setIsDeleted(1);
-					upd_score.setDeleteTime(date);
-					upd_score.setRemarks("close deal");
-					this.soreRecordDao.updateByPrimaryKeySelective(upd_score);
+//			Integer coupon_type=order.getCouponType();
+//			if(coupon_type!=3) {
+			ScoreRecord score=this.soreRecordDao.selectScoreRecordByOrderId(order_id);
+			//2.然后将对应的积分记录标识为撤销积分操作 新增撤销时间和备注(关闭交易)
+			if(score!=null) {
+				Integer score_id=score.getId();
+				Date date = new Date();
+				ScoreRecord upd_score=new ScoreRecord();
+				upd_score.setId(score_id);
+				upd_score.setIsDeleted(1);
+				upd_score.setDeleteTime(date);
+				upd_score.setRemarks("close deal");
+				this.soreRecordDao.updateByPrimaryKeySelective(upd_score);
 					
-					Integer user_id=score.getUserId();
-					String user_type=score.getUserType();
-					Double consume_money=score.getConsumeMoney();
-					int money=-(consume_money.intValue());
-					//3.然后修改爱好者/老师用户积分信息
-					if(user_type.equals("stu")) {
-						UserStu stu=new UserStu();
-						stu.setId(user_id);
-						stu.setScore(money);
-						this.userStuDao.updateByPrimaryKeySelective(stu);
-					} else if(user_type.equals("tec")) {
-						UserTech tec = new UserTech();
-						tec.setId(user_id);
-						tec.setScore(money);
-						this.userTecDao.updateByPrimaryKeySelective(tec);
-					}
+				Integer user_id=score.getUserId();
+				String user_type=score.getUserType();
+				Double consume_money=score.getConsumeMoney();
+				int money=-(consume_money.intValue());
+				//3.然后修改爱好者/老师用户积分信息
+				if(user_type.equals("stu")) {
+					UserStu stu=new UserStu();
+					stu.setId(user_id);
+					stu.setScore(money);
+					this.userStuDao.updateByPrimaryKeySelective(stu);
+				} else if(user_type.equals("tec")) {
+					UserTech tec = new UserTech();
+					tec.setId(user_id);
+					tec.setScore(money);
+					this.userTecDao.updateByPrimaryKeySelective(tec);
 				}
 			}
 		}
+		//}
 		return 0;
 	}
 

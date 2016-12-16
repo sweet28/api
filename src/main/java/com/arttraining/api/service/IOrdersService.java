@@ -39,4 +39,7 @@ public interface IOrdersService {
     
     //恢复优惠券状态
     int updateOrderAndCoupon(Order order,Map<String, Object> map,Integer flag);
+    
+    //推送测评消息给老师
+    void pushMsgAndAlertToTec(String order_number);
 }
