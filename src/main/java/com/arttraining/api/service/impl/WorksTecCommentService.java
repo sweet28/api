@@ -53,6 +53,12 @@ public class WorksTecCommentService implements IWorksTecCommentService {
 		//最后修改作品测评表中的状态信息
 		this.assessmentsDao.updateByPrimaryKeySelective(ass);
 		
+		//coffee add 1216 老师点评时 即修改作品的发布状态
+		Works upd_work = new Works();
+		upd_work.setId(work.getId());
+		upd_work.setIsPublic(1);
+		this.worksDao.updateByPrimaryKeySelective(upd_work);
+		//end
 	}
 
 	@Override
