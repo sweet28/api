@@ -240,7 +240,7 @@ public class CommentController {
 				String user_type="stu";
 				String push_type="alert_msg";
 				String alias=""+owner;
-				UserStu push_user=this.userStuService.getUserStuById(owner);
+				UserStu push_user=this.userStuService.getUserStuById(i_uid);
 				String alert="亲,"+push_user.getName()+"评论了你的帖子哟";
 				String push_content="";
 				String content_type="";
@@ -560,7 +560,7 @@ public class CommentController {
 				String user_type="stu";
 				String push_type="alert_msg";
 				String alias=""+owner;
-				UserStu push_user=this.userStuService.getUserStuById(owner);
+				UserStu push_user=this.userStuService.getUserStuById(i_uid);
 				String alert="亲,"+push_user.getName()+"评论了你的动态哟";
 				String push_content="";
 				String content_type="";
@@ -882,7 +882,7 @@ public class CommentController {
 				String user_type="stu";
 				String push_type="alert_msg";
 				String alias=""+owner;
-				UserStu push_user=this.userStuService.getUserStuById(owner);
+				UserStu push_user=this.userStuService.getUserStuById(i_uid);
 				String alert="亲,"+push_user.getName()+"评论了你的作品哟";
 				String push_content="";
 				String content_type="";
