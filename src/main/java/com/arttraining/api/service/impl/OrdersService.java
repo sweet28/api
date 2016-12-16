@@ -120,6 +120,9 @@ public class OrdersService implements IOrdersService{
 		if(user!=null) {
 			this.userStuDao.updateNumberBySelective(user);
 			user_id=user.getId();
+			//coffee add 1215 新增推送信息
+			this.pushMsgAndAlertToTec(orderNumber);
+			//end
 		} 
 		//5.修改优惠券使用信息
 		if(coupon!=null) {
@@ -227,6 +230,7 @@ public class OrdersService implements IOrdersService{
 				//coffee add 1215 新增推送信息
 				String push_type="alert_msg";
 				String alias=""+tec_id;
+				System.out.println("1111=="+tec_id);
 				String alert=tec.getName()+"老师,您好 "+ass.getStuName()+"同学请您帮忙点评他的作品哟";
 				String push_content="";
 				String push_content_type="";

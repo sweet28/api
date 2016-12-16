@@ -878,9 +878,6 @@ public class OrdersController {
 						System.out.println("进入订单更新5："+TimeUtil.getTimeStamp());
 						errorCode = "0";
 						errorMsg = "ok";
-						//coffee add 1215 新增推送信息
-						this.ordersService.pushMsgAndAlertToTec(orderNum);
-						//end
 					} catch (Exception e) {
 						// TODO: handle exception
 						System.out.println("进入订单更新6："+TimeUtil.getTimeStamp());

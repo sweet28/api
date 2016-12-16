@@ -46,7 +46,7 @@ public class JPushClientUtil {
 		 */
 //		private static long timeToLive =  60 * 60 * 24;  
 //		public static void main(String[] args) {
-//			jpush = new JPushClient(AHZ_MASTERSECRET,AHZ_APPKEY,3);
+//			jpush = new JPushClient(MS_MASTERSECRET,MS_APPKEY,3);
 //			//生成推送的内容，这里我们先测试全部推送  
 //	        PushPayload payload=buildPushObject_all_all_alert("云互艺测试");
 //	      
