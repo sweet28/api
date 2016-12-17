@@ -237,18 +237,20 @@ public class CommentController {
 				}
 				
 				//coffee add 1215 新增推送信息
-				String user_type="stu";
-				String push_type="alert_msg";
-				String alias=""+owner;
-				UserStu push_user=this.userStuService.getUserStuById(i_uid);
-				String alert="亲,"+push_user.getName()+"评论了你的帖子哟";
-				String push_content="";
-				String content_type="";
-				//封装额外的数据
-				String type="comment_bbs";
-				String value=""+i_status_id;
-				String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-				JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				if(owner!=i_uid) {
+					String user_type="stu";
+					String push_type="alert_msg";
+					String alias=""+owner;
+					UserStu push_user=this.userStuService.getUserStuById(i_uid);
+					String alert="亲,"+push_user.getName()+"评论了你的帖子哟";
+					String push_content="";
+					String content_type="";
+					//封装额外的数据
+					String type="comment_bbs";
+					String value=""+i_status_id;
+					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				}
 				//end
 				
 				try {
@@ -352,18 +354,20 @@ public class CommentController {
 					user.setCommentNum(1);
 				}
 				//coffee add 1215 新增推送信息
-				String user_type="stu";
-				String push_type="alert_msg";
-				String alias=""+i_comm_uid;
-				UserStu push_user=this.userStuService.getUserStuById(i_uid);
-				String alert="亲,"+push_user.getName()+"回复了你的帖子哟";
-				String push_content="";
-				String content_type="";
-				//封装额外的数据
-				String type="reply_bbs";
-				String value=""+i_status_id;
-				String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-				JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				if(i_comm_uid!=i_uid) {
+					String user_type="stu";
+					String push_type="alert_msg";
+					String alias=""+i_comm_uid;
+					UserStu push_user=this.userStuService.getUserStuById(i_uid);
+					String alert="亲,"+push_user.getName()+"回复了你的帖子哟";
+					String push_content="";
+					String content_type="";
+					//封装额外的数据
+					String type="reply_bbs";
+					String value=""+i_status_id;
+					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				}
 				//end
 				
 				try {
@@ -557,18 +561,20 @@ public class CommentController {
 				}
 				
 				//coffee add 1215 新增推送信息
-				String user_type="stu";
-				String push_type="alert_msg";
-				String alias=""+owner;
-				UserStu push_user=this.userStuService.getUserStuById(i_uid);
-				String alert="亲,"+push_user.getName()+"评论了你的动态哟";
-				String push_content="";
-				String content_type="";
-				//封装额外的数据
-				String type="comment_gstus";
-				String value=""+i_status_id;
-				String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-				JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				if(owner!=i_uid) {
+					String user_type="stu";
+					String push_type="alert_msg";
+					String alias=""+owner;
+					UserStu push_user=this.userStuService.getUserStuById(i_uid);
+					String alert="亲,"+push_user.getName()+"评论了你的动态哟";
+					String push_content="";
+					String content_type="";
+					//封装额外的数据
+					String type="comment_gstus";
+					String value=""+i_status_id;
+					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				}
 				//end
 				
 				try {
@@ -669,18 +675,20 @@ public class CommentController {
 					user.setCommentNum(1);
 				}
 				//coffee add 1215 新增推送信息
-				String user_type="stu";
-				String push_type="alert_msg";
-				String alias=""+i_comm_uid;
-				UserStu push_user=this.userStuService.getUserStuById(i_uid);
-				String alert="亲,"+push_user.getName()+"回复了你的动态哟";
-				String push_content="";
-				String content_type="";
-				//封装额外的数据
-				String type="reply_gstus";
-				String value=""+i_status_id;
-				String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-				JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				if(i_comm_uid!=i_uid) {
+					String user_type="stu";
+					String push_type="alert_msg";
+					String alias=""+i_comm_uid;
+					UserStu push_user=this.userStuService.getUserStuById(i_uid);
+					String alert="亲,"+push_user.getName()+"回复了你的动态哟";
+					String push_content="";
+					String content_type="";
+					//封装额外的数据
+					String type="reply_gstus";
+					String value=""+i_status_id;
+					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				}
 				//end
 				
 				try {
@@ -879,18 +887,20 @@ public class CommentController {
 				}
 				
 				//coffee add 1215 新增推送信息
-				String user_type="stu";
-				String push_type="alert_msg";
-				String alias=""+owner;
-				UserStu push_user=this.userStuService.getUserStuById(i_uid);
-				String alert="亲,"+push_user.getName()+"评论了你的作品哟";
-				String push_content="";
-				String content_type="";
-				//封装额外的数据
-				String type="comment_work";
-				String value=""+i_status_id;
-				String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-				JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				if(owner!=i_uid) {
+					String user_type="stu";
+					String push_type="alert_msg";
+					String alias=""+owner;
+					UserStu push_user=this.userStuService.getUserStuById(i_uid);
+					String alert="亲,"+push_user.getName()+"评论了你的作品哟";
+					String push_content="";
+					String content_type="";
+					//封装额外的数据
+					String type="comment_work";
+					String value=""+i_status_id;
+					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				}
 				//end
 				
 				try {
@@ -992,18 +1002,20 @@ public class CommentController {
 					user.setCommentNum(1);
 				}
 				//coffee add 1215 新增推送信息
-				String user_type="stu";
-				String push_type="alert_msg";
-				String alias=""+i_comm_uid;
-				UserStu push_user=this.userStuService.getUserStuById(i_uid);
-				String alert="亲,"+push_user.getName()+"回复了你的作品哟";
-				String push_content="";
-				String content_type="";
-				//封装额外的数据
-				String type="reply_work";
-				String value=""+i_status_id;
-				String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-				JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				if(i_comm_uid!=i_uid) {
+					String user_type="stu";
+					String push_type="alert_msg";
+					String alias=""+i_comm_uid;
+					UserStu push_user=this.userStuService.getUserStuById(i_uid);
+					String alert="亲,"+push_user.getName()+"回复了你的作品哟";
+					String push_content="";
+					String content_type="";
+					//封装额外的数据
+					String type="reply_work";
+					String value=""+i_status_id;
+					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				}
 				//end
 				
 				try {
