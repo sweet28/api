@@ -43,6 +43,7 @@ import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.IdWorker;
+import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
@@ -376,9 +377,16 @@ public class OrdersController {
 							//获取作品相关的信息
 							OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);
 							if(work!=null) {
-								order.setWork_id(work.getWork_id());
-								order.setWork_title(work.getWork_title());
-								order.setWork_pic(work.getWork_pic());
+								Integer work_id=work.getWork_id();
+								String work_title=work.getWork_title();
+								String work_pic=work.getWork_pic();
+								order.setWork_id(work_id);
+								order.setWork_title(work_title);
+								if(work_pic==null || work_pic.equals("")) {
+									String work_attr=this.ordersService.getWorkAttById(work_id);
+									work_pic=ImageUtil.parseWorkPicPath(work_attr);
+								} 
+								order.setWork_pic(work_pic);
 							}
 						}
 						orderMyBean.setOrders(orderList);

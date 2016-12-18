@@ -32,4 +32,7 @@ public interface OrderMapper {
     AssessmentListReBean selectAssListByShow(Map<String, Object> map);
     //根据ID名师头像-- orders/show接口调用 
     String selectTecPicById(Integer id);
+
+    //依据作品ID获取作品封面信息
+    String selectWorkAttById(Integer work_id);
 }

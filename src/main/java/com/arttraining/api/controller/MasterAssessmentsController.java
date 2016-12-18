@@ -124,9 +124,19 @@ public class MasterAssessmentsController {
 							//获取作品相关的信息
 							OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);
 							if(work!=null) {
-								assessment.setWork_id(work.getWork_id());
-								assessment.setWork_title(work.getWork_title());
-								assessment.setWork_pic(work.getWork_pic());
+//								assessment.setWork_id(work.getWork_id());
+//								assessment.setWork_title(work.getWork_title());
+//								assessment.setWork_pic(work.getWork_pic());
+								Integer work_id=work.getWork_id();
+								String work_title=work.getWork_title();
+								String work_pic=work.getWork_pic();
+								assessment.setWork_id(work_id);
+								assessment.setWork_title(work_title);
+								if(work_pic==null || work_pic.equals("")) {
+									String work_attr=this.ordersService.getWorkAttById(work_id);
+									work_pic=ImageUtil.parseWorkPicPath(work_attr);
+								} 
+								assessment.setWork_pic(work_pic);
 							}
 						}
 						assessmentReBean.setAssessments(assessmentList);
@@ -222,9 +232,19 @@ public class MasterAssessmentsController {
 							//获取作品相关的信息
 							OrderWorkBean work = this.ordersService.getWorkInfoByListMy(map);
 							if(work!=null) {
-								assessment.setWork_id(work.getWork_id());
-								assessment.setWork_title(work.getWork_title());
-								assessment.setWork_pic(work.getWork_pic());
+//								assessment.setWork_id(work.getWork_id());
+//								assessment.setWork_title(work.getWork_title());
+//								assessment.setWork_pic(work.getWork_pic());
+								Integer work_id=work.getWork_id();
+								String work_title=work.getWork_title();
+								String work_pic=work.getWork_pic();
+								assessment.setWork_id(work_id);
+								assessment.setWork_title(work_title);
+								if(work_pic==null || work_pic.equals("")) {
+									String work_attr=this.ordersService.getWorkAttById(work_id);
+									work_pic=ImageUtil.parseWorkPicPath(work_attr);
+								} 
+								assessment.setWork_pic(work_pic);
 							}
 						}
 						assessmentReBean.setAssessments(assessmentList);

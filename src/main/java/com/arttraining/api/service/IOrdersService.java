@@ -42,4 +42,6 @@ public interface IOrdersService {
     
     //推送测评消息给老师
     void pushMsgAndAlertToTec(String order_number);
+    //依据作品ID获取作品封面信息
+    String getWorkAttById(Integer work_id);
 }

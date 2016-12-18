@@ -244,4 +244,10 @@ public class OrdersService implements IOrdersService{
 		}
 	}
 
+	@Override
+	public String getWorkAttById(Integer work_id) {
+		// TODO Auto-generated method stub
+		return this.orderDao.selectWorkAttById(work_id);
+	}
+
 }

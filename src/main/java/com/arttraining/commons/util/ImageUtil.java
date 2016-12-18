@@ -9,6 +9,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.HomePageAttBean;
 
 public class ImageUtil {
+	//传递store_path 解析
+	public static String parseWorkPicPath(String store_path) {
+		String path="";
+		//首先判断是否是Json
+		JSONArray jsonArray = JSONArray.parseArray(store_path);
+		JSONObject jsonObject=jsonArray.getJSONObject(0);
+		path=jsonObject.getString("store_path");
+		return path;
+	}
 	//封装一个方法用于解析json数据 然后将其拆解
 	public static List<HomePageAttBean> parseAttPathByType(Integer att_id,String att_type,
 				String duration,String thumbnail,String store_path,Integer type) {

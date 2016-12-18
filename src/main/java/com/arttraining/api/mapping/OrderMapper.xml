@@ -75,6 +75,14 @@
     	</when>
     </choose>
   </select>
+  <!-- coffee add 1218 作品上传图片时 返回封面 -->
+   <select id="selectWorkAttById" resultType="java.lang.String" parameterType="java.lang.Integer" >
+	    select store_path
+	    from t_yp_works_att 
+	    where foreign_key=#{work_id,jdbcType=INTEGER}
+	    and type='pic'
+	    and is_deleted=0
+  </select>
   
   <!-- coffee add 根据ID获取订单详情信息 orders/show接口调用 -->
    <resultMap id="ShowOrderResultMap" type="com.arttraining.api.bean.AssessmentListReBean" >
