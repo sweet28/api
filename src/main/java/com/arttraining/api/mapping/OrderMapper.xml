@@ -80,7 +80,6 @@
 	    select store_path
 	    from t_yp_works_att 
 	    where foreign_key=#{work_id,jdbcType=INTEGER}
-	    and type='pic'
 	    and is_deleted=0
   </select>
   

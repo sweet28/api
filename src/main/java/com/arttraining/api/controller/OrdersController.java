@@ -39,6 +39,7 @@ import com.arttraining.api.service.impl.CouponService;
 import com.arttraining.api.service.impl.OrdersService;
 import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
+import com.arttraining.api.service.impl.WorksAttchmentService;
 import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
@@ -64,6 +65,8 @@ public class OrdersController {
 	private CouponService couponService;
 	@Resource
 	private TokenService tokenService;
+	@Resource
+	private WorksAttchmentService worksAttchmentService;
 	
 	/***
 	 * 用于获取订单剩余时间
@@ -383,8 +386,13 @@ public class OrdersController {
 								order.setWork_id(work_id);
 								order.setWork_title(work_title);
 								if(work_pic==null || work_pic.equals("")) {
-									String work_attr=this.ordersService.getWorkAttById(work_id);
-									work_pic=ImageUtil.parseWorkPicPath(work_attr);
+									//String work_attr=this.ordersService.getWorkAttById(work_id);
+									WorksAttchment attr=this.worksAttchmentService.getOneAttByWorkId(work_id);
+									if(attr!=null) {
+										if(attr.getType().equals("pic")) {
+											work_pic=ImageUtil.parseWorkPicPath(attr.getStorePath());
+										}
+									}
 								} 
 								order.setWork_pic(work_pic);
 							}

@@ -16,6 +16,7 @@ public class ImageUtil {
 		JSONArray jsonArray = JSONArray.parseArray(store_path);
 		JSONObject jsonObject=jsonArray.getJSONObject(0);
 		path=jsonObject.getString("store_path");
+		path=ImageUtil.parsePicPath(path, 6);
 		return path;
 	}
 	//封装一个方法用于解析json数据 然后将其拆解

@@ -130,12 +130,19 @@ public class MasterAssessmentsController {
 								Integer work_id=work.getWork_id();
 								String work_title=work.getWork_title();
 								String work_pic=work.getWork_pic();
+								System.out.println("work_id:"+work_id+"-work_title:"+work_title+"-work_pic:"+work_pic);
 								assessment.setWork_id(work_id);
 								assessment.setWork_title(work_title);
 								if(work_pic==null || work_pic.equals("")) {
-									String work_attr=this.ordersService.getWorkAttById(work_id);
-									work_pic=ImageUtil.parseWorkPicPath(work_attr);
+									//String work_attr=this.ordersService.getWorkAttById(work_id);
+									WorksAttchment attr=this.worksAttchmentService.getOneAttByWorkId(work_id);
+									if(attr!=null) {
+										if(attr.getType().equals("pic")) {
+											work_pic=ImageUtil.parseWorkPicPath(attr.getStorePath());
+										}
+									}
 								} 
+								System.out.println("work_pic:"+work_pic);
 								assessment.setWork_pic(work_pic);
 							}
 						}
@@ -241,8 +248,13 @@ public class MasterAssessmentsController {
 								assessment.setWork_id(work_id);
 								assessment.setWork_title(work_title);
 								if(work_pic==null || work_pic.equals("")) {
-									String work_attr=this.ordersService.getWorkAttById(work_id);
-									work_pic=ImageUtil.parseWorkPicPath(work_attr);
+									//String work_attr=this.ordersService.getWorkAttById(work_id);
+									WorksAttchment attr=this.worksAttchmentService.getOneAttByWorkId(work_id);
+									if(attr!=null) {
+										if(attr.getType().equals("pic")) {
+											work_pic=ImageUtil.parseWorkPicPath(attr.getStorePath());
+										}
+									}
 								} 
 								assessment.setWork_pic(work_pic);
 							}
