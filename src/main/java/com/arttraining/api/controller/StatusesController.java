@@ -481,6 +481,9 @@ public class StatusesController {
 		//定义一个首页列表对象
 		List<Object> statusesList = new ArrayList<Object>();
 		//以下参数是必选参数
+		//coffee add 1220
+		String access_token=request.getParameter("access_token");
+		//end
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
 		//以下参数用于分页
@@ -489,14 +492,14 @@ public class StatusesController {
 		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
 		
-		ServerLog.getLogger().warn("uid:"+uid+"-utype:"+utype+"-self:"+self);
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-self:"+self);
 		
 		//如果用户id 默认查询uid=0 即尚未登录的用户
-		if(uid==null || utype==null) {
+		if(access_token==null || uid==null || utype==null) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
-		else if(uid.equals("") || utype.equals("")) {
+		else if(access_token.equals("") || uid.equals("") || utype.equals("")) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -505,81 +508,89 @@ public class StatusesController {
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
-			if(self==null || self.equals("")) {
-				offset=-1;
-			}
-			else if(!NumberUtil.isInteger(uid)) {
-				offset=-10;
-			}
-			else 
-				offset=Integer.valueOf(self);
-			
-			if(offset==-10) {
-				errorCode="20033";
-				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
-			}
-			else {
-			Integer i_uid = Integer.valueOf(uid);	
-			//1. 查询该用户10条帖子详情
-			List<HomePageStatusesBean> bbsList = this.bbsService.getBBSListByUid(i_uid, offset, limit);
-			if(bbsList.size()==0) {
-				bbsList = new ArrayList<HomePageStatusesBean>();
-			}
-			else {
-			//填充帖子详情信息
-			for (HomePageStatusesBean bbs : bbsList) {
-			   Integer s_id = bbs.getStus_id();
-			   
-			   //这里传递的是当前登录用户的ID和类型
-			   Map<String, Object> map = new HashMap<String, Object>();  
-		       map.put("s_id", s_id);  
-		       map.put("u_id", i_uid);
-		       map.put("u_type", utype);
-		       
-		       HomeLikeOrCommentBean isExistLike= this.bbsService.getIsLikeOrCommentOrAtt(map);
-		       bbs.setIs_like((String)map.get("is_like"));
-			   bbs.setIs_comment((String)map.get("is_comment"));
-			   
-			   if(isExistLike!=null) {
-					String att_type = isExistLike.getAtt_type();
-					if(att_type!=null && !att_type.equals("")) {
-						Integer att_id = isExistLike.getAtt_id();
-						String duration= isExistLike.getDuration();
-						String thumbnail=isExistLike.getThumbnail();
-						String store_path=isExistLike.getStore_path();
-						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,1);
-						bbs.setAtt(attList);
+			// todo:判断token是否有效
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
+			if (tokenFlag) {	
+				if(self==null || self.equals("")) {
+					offset=-1;
+				}
+				else if(!NumberUtil.isInteger(uid)) {
+					offset=-10;
+				}
+				else 
+					offset=Integer.valueOf(self);
+				
+				if(offset==-10) {
+					errorCode="20033";
+					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+				}
+				else {
+					Integer i_uid = Integer.valueOf(uid);	
+					//1. 查询该用户10条帖子详情
+					List<HomePageStatusesBean> bbsList = this.bbsService.getBBSListByUid(i_uid, offset, limit);
+					if(bbsList.size()==0) {
+						bbsList = new ArrayList<HomePageStatusesBean>();
 					}
-			   }
-				statusesList.add(bbs);
-			}
-		  }
-			//2.查询广告信息
-//			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
-//			boolean isExistAd = false;
-//			if(ad!=null) {
-//				isExistAd=true;
-//			}
-			//3.查询主题信息
-			//HomePageThemeBean theme = new HomePageThemeBean();
+					else {
+					//填充帖子详情信息
+					for (HomePageStatusesBean bbs : bbsList) {
+					   Integer s_id = bbs.getStus_id();
+					   
+					   //这里传递的是当前登录用户的ID和类型
+					   Map<String, Object> map = new HashMap<String, Object>();  
+				       map.put("s_id", s_id);  
+				       map.put("u_id", i_uid);
+				       map.put("u_type", utype);
+				       
+				       HomeLikeOrCommentBean isExistLike= this.bbsService.getIsLikeOrCommentOrAtt(map);
+				       bbs.setIs_like((String)map.get("is_like"));
+					   bbs.setIs_comment((String)map.get("is_comment"));
+					   
+					   if(isExistLike!=null) {
+							String att_type = isExistLike.getAtt_type();
+							if(att_type!=null && !att_type.equals("")) {
+								Integer att_id = isExistLike.getAtt_id();
+								String duration= isExistLike.getDuration();
+								String thumbnail=isExistLike.getThumbnail();
+								String store_path=isExistLike.getStore_path();
+								List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,1);
+								bbs.setAtt(attList);
+							}
+					   }
+						statusesList.add(bbs);
+					}
+				  }
+					//2.查询广告信息
+		//			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
+		//			boolean isExistAd = false;
+		//			if(ad!=null) {
+		//				isExistAd=true;
+		//			}
+					//3.查询主题信息
+					//HomePageThemeBean theme = new HomePageThemeBean();
 			
-			if(statusesList.size()>0) {
-//				if(isExistAd) {
-//					if(statusesList.size()>4) {
-//						statusesList.add(3,ad);
-//					}
-//					else {
-//						statusesList.add(ad);					
-//					}
-//				}
-				errorCode="0";
-				errorMessage="ok";
+					if(statusesList.size()>0) {
+		//				if(isExistAd) {
+		//					if(statusesList.size()>4) {
+		//						statusesList.add(3,ad);
+		//					}
+		//					else {
+		//						statusesList.add(ad);					
+		//					}
+		//				}
+						errorCode="0";
+						errorMessage="ok";
+					}
+					else {
+						errorCode="20007";
+						errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+					}
+				  }
+			} else {
+				errorCode="20028";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 			}
-			else {
-				errorCode="20007";
-				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
-			}
-		  }
 		}
 
 		HomePageBean homepage = new HomePageBean();
@@ -606,21 +617,24 @@ public class StatusesController {
 		List<Object> statusesList = new ArrayList<Object>();
 		
 		//以下参数是必选参数
+		//coffee add 1220
+		String access_token=request.getParameter("access_token");
+		//end
 		String uid = request.getParameter("uid");
 		String utype = request.getParameter("utype");
 		//以下参数用于分页
 		String self = request.getParameter("self");
 		
-		ServerLog.getLogger().warn("uid:"+uid+"-utype:"+utype+"-self:"+self);
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-self:"+self);
 		
 		Integer offset = -1;		
 		Integer limit = ConfigUtil.PAGESIZE;
 		//如果用户id 默认查询uid=0 即尚未登录的用户
-		if(uid==null || utype==null) {
+		if(access_token==null || uid==null || utype==null) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
-		else if(uid.equals("") || utype.equals("")) {
+		else if(access_token.equals("") || uid.equals("") || utype.equals("")) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -629,81 +643,88 @@ public class StatusesController {
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
 		else {
-			if(self==null || self.equals("")) {
-				offset=-1;
-			}
-			else if(!NumberUtil.isInteger(uid)) {
-				offset=-10;
-			}
-			else 
-				offset=Integer.valueOf(self);
-			
-			if(offset==-10) {
-				errorCode="20033";
-				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
-			}
-			else {
-			Integer i_uid = Integer.valueOf(uid);	
-			List<HomePageStatusesBean> worksList = this.worksService.getWorkListByUid(i_uid, offset, limit);
-			if(worksList.size()==0) {
-				
-				worksList = new ArrayList<HomePageStatusesBean>();
-			}
-			else {
-				//填充作品详情信息
-				for (HomePageStatusesBean work : worksList) {		
-					Integer s_id = work.getStus_id();
-					
-					//传递的是当前登录用户的ID和类型
-					Map<String, Object> map = new HashMap<String, Object>();  
-					map.put("s_id", s_id);  
-					map.put("u_id", i_uid);
-					map.put("u_type", utype);
-					
-					HomeLikeOrCommentBean isExistLike = this.worksService.getIsLikeOrCommentOrAtt(map);
-					work.setIs_like((String)map.get("is_like"));
-					work.setIs_comment((String)map.get("is_comment"));	   
-					if(isExistLike!=null) {
-						String att_type = isExistLike.getAtt_type();
-						if(att_type!=null && !att_type.equals("")) {
-							Integer att_id = isExistLike.getAtt_id();
-							String duration= isExistLike.getDuration();
-							String thumbnail=isExistLike.getThumbnail();
-							String store_path=isExistLike.getStore_path();
-							List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,6);
-							work.setAtt(attList);
-						}
-				   }
-					statusesList.add(work);
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
+			if (tokenFlag) {	
+				if(self==null || self.equals("")) {
+					offset=-1;
 				}
-			  }
-			//2.查询广告信息
-//			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
-//			boolean isExistAd = false;
-//			if(ad!=null) {
-//				isExistAd=true;
-//			}
-			//3.查询主题信息
-			//HomePageThemeBean theme = new HomePageThemeBean();
-			
-		    if(statusesList.size()>0) {
-//				if(isExistAd) {
-//					if(statusesList.size()>4) {
-//						statusesList.add(3,ad);
-//					}
-//					else {
-//						statusesList.add(ad);
-//					}
-//				}
-				errorCode="0";
-				errorMessage="ok";
+				else if(!NumberUtil.isInteger(uid)) {
+					offset=-10;
+				}
+				else 
+					offset=Integer.valueOf(self);
+				
+				if(offset==-10) {
+					errorCode="20033";
+					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+				}
+				else {
+				Integer i_uid = Integer.valueOf(uid);	
+				List<HomePageStatusesBean> worksList = this.worksService.getWorkListByUid(i_uid, offset, limit);
+				if(worksList.size()==0) {
+					
+					worksList = new ArrayList<HomePageStatusesBean>();
+				}
+				else {
+					//填充作品详情信息
+					for (HomePageStatusesBean work : worksList) {		
+						Integer s_id = work.getStus_id();
+						
+						//传递的是当前登录用户的ID和类型
+						Map<String, Object> map = new HashMap<String, Object>();  
+						map.put("s_id", s_id);  
+						map.put("u_id", i_uid);
+						map.put("u_type", utype);
+						
+						HomeLikeOrCommentBean isExistLike = this.worksService.getIsLikeOrCommentOrAtt(map);
+						work.setIs_like((String)map.get("is_like"));
+						work.setIs_comment((String)map.get("is_comment"));	   
+						if(isExistLike!=null) {
+							String att_type = isExistLike.getAtt_type();
+							if(att_type!=null && !att_type.equals("")) {
+								Integer att_id = isExistLike.getAtt_id();
+								String duration= isExistLike.getDuration();
+								String thumbnail=isExistLike.getThumbnail();
+								String store_path=isExistLike.getStore_path();
+								List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,6);
+								work.setAtt(attList);
+							}
+					   }
+						statusesList.add(work);
+					}
+				  }
+					//2.查询广告信息
+		//			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
+		//			boolean isExistAd = false;
+		//			if(ad!=null) {
+		//				isExistAd=true;
+		//			}
+					//3.查询主题信息
+					//HomePageThemeBean theme = new HomePageThemeBean();
+				
+				    if(statusesList.size()>0) {
+		//				if(isExistAd) {
+		//					if(statusesList.size()>4) {
+		//						statusesList.add(3,ad);
+		//					}
+		//					else {
+		//						statusesList.add(ad);
+		//					}
+		//				}
+						errorCode="0";
+						errorMessage="ok";
+					}
+					else {
+						errorCode="20007";
+						errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+					}
+				  }
+				} else {
+						errorCode="20028";
+						errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
+				}
 			}
-			else {
-				errorCode="20007";
-				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
-			}
-		  }
-		}
 		HomePageBean homepage = new HomePageBean();
 		homepage.setError_code(errorCode);
 		homepage.setError_msg(errorMessage);
@@ -1643,6 +1664,9 @@ public class StatusesController {
 		//定义一个首页列表对象
 		List<Object> gstusList = new ArrayList<Object>();
 		
+		//coffee add 1220
+		String access_token=request.getParameter("access_token");
+		//end
 		String group_id = request.getParameter("group_id");
 		//以下2个参数是不可选参数
 		String uid = request.getParameter("uid");
@@ -1652,12 +1676,12 @@ public class StatusesController {
 		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
 		//如果用户id 默认查询uid=0 即尚未登录的用户
-		if(group_id==null || uid==null || utype==null) {
+		if(access_token==null || group_id==null || uid==null || utype==null) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
 		else
-		if(group_id.equals("") || uid.equals("") || utype.equals("")) {
+		if(access_token.equals("") || group_id.equals("") || uid.equals("") || utype.equals("")) {
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -1666,84 +1690,91 @@ public class StatusesController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 		}
 		else {
-			if(self==null || self.equals("")) {
-				offset = -1;
+			//boolean tokenFlag = TokenUtil.checkToken(access_token);
+			boolean tokenFlag = this.tokenService.checkToken(access_token);
+			if (tokenFlag) {	
+				if(self==null || self.equals("")) {
+					offset = -1;
+				}
+				else if(!NumberUtil.isInteger(self)) {
+					offset = -10;
+				}
+				else
+					offset = Integer.valueOf(self);
+				
+				if(offset == -10) {
+					errorCode = "20033";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
+				}
+				else {
+				//小组id
+				Integer i_group_id = Integer.valueOf(group_id);
+				//用户id
+				Integer i_uid = Integer.valueOf(uid);
+				//1. 查询指定用户 所在小组发的10条动态列表信息
+				List<HomePageStatusesBean> statusList = this.statusesService.getStatusesListByUidAndGid(i_uid, i_group_id, offset, limit);
+				if(statusList.size()==0) {
+					statusList = new ArrayList<HomePageStatusesBean>();
+				}
+				else {
+				//填充帖子详情信息
+				for (HomePageStatusesBean status : statusList) {
+				   Integer s_id = status.getStus_id();
+				   
+				   //传递当前登录用户的ID和类型
+				   Map<String, Object> map = new HashMap<String, Object>();  
+				   map.put("s_id", s_id);  
+				   map.put("u_id", i_uid);
+				   map.put("u_type", utype);
+				   
+			       HomeLikeOrCommentBean isExistLike = this.statusesService.getIsLikeOrCommentOrAtt(map);
+			       status.setIs_like((String)map.get("is_like"));
+			       status.setIs_comment((String)map.get("is_comment"));
+				   
+			       if(isExistLike!=null) {
+						String att_type = isExistLike.getAtt_type();
+						if(att_type!=null && !att_type.equals("")) {
+							Integer att_id = isExistLike.getAtt_id();
+							String duration= isExistLike.getDuration();
+							String thumbnail=isExistLike.getThumbnail();
+							String store_path=isExistLike.getStore_path();
+							List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,3);
+							status.setAtt(attList);
+						}
+				   }
+			       gstusList.add(status);
+				}
+			  }
+	//			//2.查询广告信息
+	//			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
+	//			boolean isExistAd = false;
+	//			if(ad!=null) {
+	//				isExistAd=true;
+	//			}
+				//3.查询主题信息
+				//HomePageThemeBean theme = new HomePageThemeBean();
+				
+				if(gstusList.size()>0) {
+	//				if(isExistAd) {
+	//					if(gstusList.size()>4) {
+	//						gstusList.add(3,ad);
+	//					}
+	//					else {
+	//						gstusList.add(ad);
+	//					}
+	//				}
+					errorCode="0";
+					errorMessage="ok";
+				}
+				else {
+					errorCode="20007";
+					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				}
+			  }
+			} else {
+				errorCode = "20028";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;	
 			}
-			else if(!NumberUtil.isInteger(self)) {
-				offset = -10;
-			}
-			else
-				offset = Integer.valueOf(self);
-			
-			if(offset == -10) {
-				errorCode = "20033";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
-			}
-			else {
-			//小组id
-			Integer i_group_id = Integer.valueOf(group_id);
-			//用户id
-			Integer i_uid = Integer.valueOf(uid);
-			//1. 查询指定用户 所在小组发的10条动态列表信息
-			List<HomePageStatusesBean> statusList = this.statusesService.getStatusesListByUidAndGid(i_uid, i_group_id, offset, limit);
-			if(statusList.size()==0) {
-				statusList = new ArrayList<HomePageStatusesBean>();
-			}
-			else {
-			//填充帖子详情信息
-			for (HomePageStatusesBean status : statusList) {
-			   Integer s_id = status.getStus_id();
-			   
-			   //传递当前登录用户的ID和类型
-			   Map<String, Object> map = new HashMap<String, Object>();  
-			   map.put("s_id", s_id);  
-			   map.put("u_id", i_uid);
-			   map.put("u_type", utype);
-			   
-		       HomeLikeOrCommentBean isExistLike = this.statusesService.getIsLikeOrCommentOrAtt(map);
-		       status.setIs_like((String)map.get("is_like"));
-		       status.setIs_comment((String)map.get("is_comment"));
-			   
-		       if(isExistLike!=null) {
-					String att_type = isExistLike.getAtt_type();
-					if(att_type!=null && !att_type.equals("")) {
-						Integer att_id = isExistLike.getAtt_id();
-						String duration= isExistLike.getDuration();
-						String thumbnail=isExistLike.getThumbnail();
-						String store_path=isExistLike.getStore_path();
-						List<HomePageAttBean> attList = this.parseAttPath(att_id, att_type, duration, thumbnail, store_path,3);
-						status.setAtt(attList);
-					}
-			   }
-		       gstusList.add(status);
-			}
-		  }
-//			//2.查询广告信息
-//			HomePageAdvertiseBean ad = this.adService.getOneAdByHomepage();
-//			boolean isExistAd = false;
-//			if(ad!=null) {
-//				isExistAd=true;
-//			}
-			//3.查询主题信息
-			//HomePageThemeBean theme = new HomePageThemeBean();
-			
-			if(gstusList.size()>0) {
-//				if(isExistAd) {
-//					if(gstusList.size()>4) {
-//						gstusList.add(3,ad);
-//					}
-//					else {
-//						gstusList.add(ad);
-//					}
-//				}
-				errorCode="0";
-				errorMessage="ok";
-			}
-			else {
-				errorCode="20007";
-				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
-			}
-		  }
 		}
 
 		HomePageBean homepage = new HomePageBean();

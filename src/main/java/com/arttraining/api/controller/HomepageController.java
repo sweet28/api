@@ -18,9 +18,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.HomeLikeOrCommentBean;
 import com.arttraining.api.bean.HomePageAdvertiseBean;
 import com.arttraining.api.bean.HomePageAttBean;
+import com.arttraining.api.bean.HomePageInfoBean;
 import com.arttraining.api.bean.HomePageTecCommentBean;
 import com.arttraining.api.bean.HomePageWorkBean;
+import com.arttraining.api.bean.MasterInfoListBean;
 import com.arttraining.api.service.impl.AdvertiseService;
+import com.arttraining.api.service.impl.InformationForTecService;
 import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.api.service.impl.WorksTecCommentService;
@@ -42,6 +45,8 @@ public class HomepageController {
 	private AdvertiseService advertiseService;
 	@Resource
 	private TokenService tokenService;
+	@Resource
+	private InformationForTecService informationForTecService;
 	
 	/***
 	 * 获取首页作品列表接口
@@ -139,20 +144,33 @@ public class HomepageController {
 				   }
 				   statusesList.add(work);
 			   }
-			  //获取广告信息
+			//获取广告信息
 			HomePageAdvertiseBean ad = this.advertiseService.getOneAdByHomepage();	
 			boolean ad_flag=false;
 			if(ad!=null) {
 				ad_flag=true;
 			}
+			//获取资讯列表信息
+			HomePageInfoBean info = null;
+			List<MasterInfoListBean> info_list= this.informationForTecService.getInfoListByHomePage();
+			if(info_list.size()>0) {
+				info=new HomePageInfoBean();
+				info.setInfo_list(info_list);
+			}
 			if(statusesList.size()>0) {
-				if(statusesList.size()>5) {
+				if(statusesList.size()>6) {
 					if(ad_flag) {
 						statusesList.add(5, ad);
+						if(info!=null) {
+							statusesList.add(6,info);
+						}
 					} else {
 						statusesList.add(ad);
+						statusesList.add(info);
 					}
+					
 				}
+				
 				errorCode="0";
 				errorMessage="ok";
 			} else {

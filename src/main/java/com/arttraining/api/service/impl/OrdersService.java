@@ -14,6 +14,7 @@ import com.arttraining.api.bean.OrderWorkBean;
 import com.arttraining.api.dao.AssessmentsMapper;
 import com.arttraining.api.dao.CouponMapper;
 import com.arttraining.api.dao.OrderMapper;
+import com.arttraining.api.dao.TokenMapper;
 import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.dao.UserTechMapper;
 import com.arttraining.api.dao.WorksAttchmentMapper;
@@ -21,6 +22,7 @@ import com.arttraining.api.dao.WorksMapper;
 import com.arttraining.api.pojo.Assessments;
 import com.arttraining.api.pojo.Coupon;
 import com.arttraining.api.pojo.Order;
+import com.arttraining.api.pojo.Token;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.UserTech;
 import com.arttraining.api.pojo.Works;
@@ -46,6 +48,8 @@ public class OrdersService implements IOrdersService{
 	private ScoreRecordService scoreRecordService;
 	@Resource
 	private UserTechMapper userTecDao;
+	@Resource
+	private TokenMapper tokenDao;
 
 	@Override
 	public int insert(Order order) {
@@ -229,16 +233,24 @@ public class OrdersService implements IOrdersService{
 				}
 				//coffee add 1215 新增推送信息
 				String push_type="alert_msg";
-				String alias=""+tec_id;
-				System.out.println("1111=="+tec_id);
-				String alert=tec.getName()+"老师,您好 "+ass.getStuName()+"同学请您帮忙点评他的作品哟";
-				String push_content="";
-				String push_content_type="";
-				//封装额外的数据
-				String type="stu_ass";
-				String value=""+ass.getWorkId();
-				String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-				JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, push_content_type, extra_value);
+				//String alias=""+tec_id;
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("user_id", tec_id);
+				map.put("user_type", "tec");
+				Token t= this.tokenDao.selectOneTokenInfo(map);
+				String alias="";
+				if(t!=null) {
+					alias=t.getToken();
+					System.out.println("1111=="+tec_id);
+					String alert=tec.getName()+"老师,您好 "+ass.getStuName()+"同学请您帮忙点评他的作品哟";
+					String push_content="";
+					String push_content_type="";
+					//封装额外的数据
+					String type="stu_ass";
+					String value=""+ass.getWorkId();
+					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, push_content_type, extra_value);
+				}
 				//end
 			}
 		}

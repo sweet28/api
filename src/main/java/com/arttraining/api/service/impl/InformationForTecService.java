@@ -26,5 +26,10 @@ public class InformationForTecService implements IInformationForTecService {
 		// TODO Auto-generated method stub
 		return this.informationForTecDao.selectInfoShowByMaster(id);
 	}
+	@Override
+	public List<MasterInfoListBean> getInfoListByHomePage() {
+		// TODO Auto-generated method stub
+		return this.informationForTecDao.selectInfoListByHomePage();
+	}
 
 }

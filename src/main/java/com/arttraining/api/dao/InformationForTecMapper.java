@@ -23,4 +23,6 @@ public interface InformationForTecMapper {
     List<MasterInfoListBean> selectInfoListByMaster(Map<String, Object> map);
     //名师端资讯详情接口--info/master/show接口调用
     MasterInfoShowBean selectInfoShowByMaster(Integer id);
+    //爱好者首页返回资讯列表信息
+    List<MasterInfoListBean> selectInfoListByHomePage();
 }

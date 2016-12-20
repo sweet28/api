@@ -25,6 +25,7 @@ import com.arttraining.api.pojo.BBS;
 import com.arttraining.api.pojo.BBSComment;
 import com.arttraining.api.pojo.Statuses;
 import com.arttraining.api.pojo.StatusesComment;
+import com.arttraining.api.pojo.Token;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksComment;
@@ -238,21 +239,27 @@ public class CommentController {
 				
 				//coffee add 1215 新增推送信息
 				if(owner!=i_uid) {
-					String user_type="stu";
-					String push_type="alert_msg";
-					String alias=""+owner;
-					UserStu push_user=this.userStuService.getUserStuById(i_uid);
-					String alert="亲,"+push_user.getName()+"评论了你的帖子哟";
-					String push_content="";
-					String content_type="";
-					//封装额外的数据
-					String type="comment_bbs";
-					String value=""+i_status_id;
-					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
-				}
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("user_id", owner);
+					map.put("user_type", "stu");
+					Token t=this.tokenService.getOneTokenInfo(map);
+					String alias="";
+					if(t!=null) {
+						alias=t.getToken();
+						String user_type="stu";
+						String push_type="alert_msg";
+						UserStu push_user=this.userStuService.getUserStuById(i_uid);
+						String alert="亲,"+push_user.getName()+"评论了你的帖子哟";
+						String push_content="";
+						String content_type="";
+						//封装额外的数据
+						String type="comment_bbs";
+						String value=""+i_status_id;
+						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+						}
+					}
 				//end
-				
 				try {
 					this.bbsCommentService.insertAndUpdateBBSComment(bbsComment, i_status_id, user);
 					errorCode="0";
@@ -355,19 +362,26 @@ public class CommentController {
 				}
 				//coffee add 1215 新增推送信息
 				if(i_comm_uid!=i_uid) {
-					String user_type="stu";
-					String push_type="alert_msg";
-					String alias=""+i_comm_uid;
-					UserStu push_user=this.userStuService.getUserStuById(i_uid);
-					String alert="亲,"+push_user.getName()+"回复了你的帖子哟";
-					String push_content="";
-					String content_type="";
-					//封装额外的数据
-					String type="reply_bbs";
-					String value=""+i_status_id;
-					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
-				}
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("user_id", i_comm_uid);
+					map.put("user_type", "stu");
+					Token t=this.tokenService.getOneTokenInfo(map);
+					String alias="";
+					if(t!=null) {
+						String user_type="stu";
+						String push_type="alert_msg";
+						alias=t.getToken();
+						UserStu push_user=this.userStuService.getUserStuById(i_uid);
+						String alert="亲,"+push_user.getName()+"回复了你的帖子哟";
+						String push_content="";
+						String content_type="";
+						//封装额外的数据
+						String type="reply_bbs";
+						String value=""+i_status_id;
+						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+						}
+					}
 				//end
 				
 				try {
@@ -562,18 +576,25 @@ public class CommentController {
 				
 				//coffee add 1215 新增推送信息
 				if(owner!=i_uid) {
-					String user_type="stu";
-					String push_type="alert_msg";
-					String alias=""+owner;
-					UserStu push_user=this.userStuService.getUserStuById(i_uid);
-					String alert="亲,"+push_user.getName()+"评论了你的动态哟";
-					String push_content="";
-					String content_type="";
-					//封装额外的数据
-					String type="comment_gstus";
-					String value=""+i_status_id;
-					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("user_id", owner);
+					map.put("user_type", "stu");
+					Token t=this.tokenService.getOneTokenInfo(map);
+					String alias="";
+					if(t!=null) {
+						alias=t.getToken();
+						String user_type="stu";
+						String push_type="alert_msg";
+						UserStu push_user=this.userStuService.getUserStuById(i_uid);
+						String alert="亲,"+push_user.getName()+"评论了你的动态哟";
+						String push_content="";
+						String content_type="";
+						//封装额外的数据
+						String type="comment_gstus";
+						String value=""+i_status_id;
+						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+					}
 				}
 				//end
 				
@@ -676,18 +697,25 @@ public class CommentController {
 				}
 				//coffee add 1215 新增推送信息
 				if(i_comm_uid!=i_uid) {
-					String user_type="stu";
-					String push_type="alert_msg";
-					String alias=""+i_comm_uid;
-					UserStu push_user=this.userStuService.getUserStuById(i_uid);
-					String alert="亲,"+push_user.getName()+"回复了你的动态哟";
-					String push_content="";
-					String content_type="";
-					//封装额外的数据
-					String type="reply_gstus";
-					String value=""+i_status_id;
-					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("user_id", i_comm_uid);
+					map.put("user_type", "stu");
+					Token t=this.tokenService.getOneTokenInfo(map);
+					String alias="";
+					if(t!=null) {
+						alias=t.getToken();
+						String user_type="stu";
+						String push_type="alert_msg";
+						UserStu push_user=this.userStuService.getUserStuById(i_uid);
+						String alert="亲,"+push_user.getName()+"回复了你的动态哟";
+						String push_content="";
+						String content_type="";
+						//封装额外的数据
+						String type="reply_gstus";
+						String value=""+i_status_id;
+						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+					}
 				}
 				//end
 				
@@ -888,18 +916,25 @@ public class CommentController {
 				
 				//coffee add 1215 新增推送信息
 				if(owner!=i_uid) {
-					String user_type="stu";
-					String push_type="alert_msg";
-					String alias=""+owner;
-					UserStu push_user=this.userStuService.getUserStuById(i_uid);
-					String alert="亲,"+push_user.getName()+"评论了你的作品哟";
-					String push_content="";
-					String content_type="";
-					//封装额外的数据
-					String type="comment_work";
-					String value=""+i_status_id;
-					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("user_id", owner);
+					map.put("user_type", "stu");
+					Token t=this.tokenService.getOneTokenInfo(map);
+					String alias="";
+					if(t!=null) {
+						alias=t.getToken();
+						String user_type="stu";
+						String push_type="alert_msg";
+						UserStu push_user=this.userStuService.getUserStuById(i_uid);
+						String alert="亲,"+push_user.getName()+"评论了你的作品哟";
+						String push_content="";
+						String content_type="";
+						//封装额外的数据
+						String type="comment_work";
+						String value=""+i_status_id;
+						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+					}
 				}
 				//end
 				
@@ -1003,18 +1038,25 @@ public class CommentController {
 				}
 				//coffee add 1215 新增推送信息
 				if(i_comm_uid!=i_uid) {
-					String user_type="stu";
-					String push_type="alert_msg";
-					String alias=""+i_comm_uid;
-					UserStu push_user=this.userStuService.getUserStuById(i_uid);
-					String alert="亲,"+push_user.getName()+"回复了你的作品哟";
-					String push_content="";
-					String content_type="";
-					//封装额外的数据
-					String type="reply_work";
-					String value=""+i_status_id;
-					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+					Map<String, Object> map = new HashMap<String, Object>();
+					map.put("user_id", i_comm_uid);
+					map.put("user_type", "stu");
+					Token t=this.tokenService.getOneTokenInfo(map);
+					String alias="";
+					if(t!=null) {
+						alias=t.getToken();
+						String user_type="stu";
+						String push_type="alert_msg";
+						UserStu push_user=this.userStuService.getUserStuById(i_uid);
+						String alert="亲,"+push_user.getName()+"回复了你的作品哟";
+						String push_content="";
+						String content_type="";
+						//封装额外的数据
+						String type="reply_work";
+						String value=""+i_status_id;
+						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+					}
 				}
 				//end
 				
