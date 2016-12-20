@@ -67,14 +67,16 @@ public class TecherController {
 				role=0;
 			} else if(identity.equals("zj")) {
 				role=1;
-			} else if(identity.equals("dr")) {
+			} else if(identity.equals("iartschool")) {
 				role=2;
+			} else if(identity.equals("dr")) {
+				role=3;
 			}
 		}
 		//end
 		List<TecherListBean> teacherList = new ArrayList<TecherListBean>();
 		ServerLog.getLogger().warn("self:"+self+"-college:"+college+"-spec:"+spec+
-				"-city:"+city+"-provinces:"+provinces+"-identity:"+identity);
+				"-city:"+city+"-provinces:"+provinces+"-identity:"+identity+"-role:"+role);
 		
 		Integer offset=-1;
 		Integer limit=ConfigUtil.PAGESIZE;

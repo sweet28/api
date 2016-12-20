@@ -16,22 +16,26 @@
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="priority" property="priority" jdbcType="VARCHAR" />
     <result column="is_publish" property="isPublish" jdbcType="INTEGER" />
+    <result column="browse_num" property="browseNum" jdbcType="INTEGER" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="city_father" property="cityFather" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    title, content, pic, url, priority, is_publish
+    title, content, pic, url, priority, is_publish, browse_num, city, city_father
   </sql>
   
   <!-- coffee add 1103 查询艺培头条列表 information/list接口调用 -->
   <resultMap id="ListResultMap" type="com.arttraining.api.bean.InformationListBean" >
     <id column="id" property="info_id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="select_information_where">
   	 is_publish=1 and is_deleted=0
   </sql>
   <select id="selectInformationList" resultMap="ListResultMap">
-    select id as info_id,title
+    select id as info_id,title,url
     from t_yp_information
     where <include refid="select_information_where"></include>
     order by order_code desc
@@ -54,6 +58,23 @@
     and  id=#{id,jdbcType=INTEGER}
   </select>
   
+  <!-- coffee add 1220 首页获取资讯接口 -->
+  <resultMap id="InfoListResultMap" type="com.arttraining.api.bean.MasterInfoListBean" >
+    <id column="id" property="info_id" jdbcType="INTEGER" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectInfoListByHomePage" resultMap="InfoListResultMap">
+    select id,create_time,title,pic,url,browse_num
+    from t_yp_information
+    where is_publish=1 and is_deleted=0
+    order by order_code desc
+    limit 0,3
+  </select>
+  
   <!-- end -->
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -71,12 +92,14 @@
       create_time, order_code, delete_time, 
       remarks, attachment, title, 
       content, pic, url, 
-      priority, is_publish)
+      priority, is_publish, browse_num, 
+      city, city_father)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{priority,jdbcType=VARCHAR}, #{isPublish,jdbcType=INTEGER})
+      #{priority,jdbcType=VARCHAR}, #{isPublish,jdbcType=INTEGER}, #{browseNum,jdbcType=INTEGER}, 
+      #{city,jdbcType=VARCHAR}, #{cityFather,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Information" >
     insert into t_yp_information
@@ -123,6 +146,15 @@
       <if test="isPublish != null" >
         is_publish,
       </if>
+      <if test="browseNum != null" >
+        browse_num,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="cityFather != null" >
+        city_father,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -166,6 +198,15 @@
       </if>
       <if test="isPublish != null" >
         #{isPublish,jdbcType=INTEGER},
+      </if>
+       <if test="browseNum != null" >
+        #{browseNum,jdbcType=INTEGER},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="cityFather != null" >
+        #{cityFather,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -211,6 +252,15 @@
       <if test="isPublish != null" >
         is_publish = #{isPublish,jdbcType=INTEGER},
       </if>
+      <if test="browseNum != null" >
+        browse_num = #{browseNum,jdbcType=INTEGER},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="cityFather != null" >
+        city_father = #{cityFather,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -228,7 +278,10 @@
       pic = #{pic,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       priority = #{priority,jdbcType=VARCHAR},
-      is_publish = #{isPublish,jdbcType=INTEGER}
+      is_publish = #{isPublish,jdbcType=INTEGER},
+      browse_num = #{browseNum,jdbcType=INTEGER},
+      city = #{city,jdbcType=VARCHAR},
+      city_father = #{cityFather,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

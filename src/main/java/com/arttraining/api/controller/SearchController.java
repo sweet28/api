@@ -128,7 +128,7 @@ public class SearchController {
 			}
 		}
 		//end
-		ServerLog.getLogger().warn("key:"+key+"-self:"+self+"-spec:"+spec+"-identity:"+identity);
+		ServerLog.getLogger().warn("key:"+key+"-self:"+self+"-spec:"+spec+"-identity:"+identity+"-role:"+role);
 		
 		SearchTecReBean tecReBean = new SearchTecReBean();
 		

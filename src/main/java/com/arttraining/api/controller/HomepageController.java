@@ -23,7 +23,7 @@ import com.arttraining.api.bean.HomePageTecCommentBean;
 import com.arttraining.api.bean.HomePageWorkBean;
 import com.arttraining.api.bean.MasterInfoListBean;
 import com.arttraining.api.service.impl.AdvertiseService;
-import com.arttraining.api.service.impl.InformationForTecService;
+import com.arttraining.api.service.impl.InformationService;
 import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.api.service.impl.WorksTecCommentService;
@@ -46,7 +46,7 @@ public class HomepageController {
 	@Resource
 	private TokenService tokenService;
 	@Resource
-	private InformationForTecService informationForTecService;
+	private InformationService informationService;
 	
 	/***
 	 * 获取首页作品列表接口
@@ -144,48 +144,58 @@ public class HomepageController {
 				   }
 				   statusesList.add(work);
 			   }
-			//获取广告信息
-			HomePageAdvertiseBean ad = this.advertiseService.getOneAdByHomepage();	
-			boolean ad_flag=false;
-			if(ad!=null) {
-				ad_flag=true;
 			}
-			//获取资讯列表信息
-			HomePageInfoBean info = null;
-			List<MasterInfoListBean> info_list= this.informationForTecService.getInfoListByHomePage();
-			if(info_list.size()>0) {
-				info=new HomePageInfoBean();
-				info.setInfo_list(info_list);
-			}
-			if(statusesList.size()>0) {
-				if(statusesList.size()>6) {
-					if(ad_flag) {
-						statusesList.add(5, ad);
-						if(info!=null) {
-							statusesList.add(6,info);
-						}
-					} else {
-						statusesList.add(ad);
-						statusesList.add(info);
-					}
-					
+			if(offset==-1) {
+				//获取广告信息
+				HomePageAdvertiseBean ad = this.advertiseService.getOneAdByHomepage();	
+				boolean ad_flag=false;
+				if(ad!=null) {
+					ad_flag=true;
 				}
-				
-				errorCode="0";
-				errorMessage="ok";
+				//获取资讯列表信息
+				HomePageInfoBean info = null;
+				List<MasterInfoListBean> info_list= this.informationService.getInfoListByHomePage();
+				if(info_list.size()>0) {
+					info=new HomePageInfoBean();
+					info.setInfo_list(info_list);
+				}
+				if(statusesList.size()>0) {
+					if(statusesList.size()>4) {
+						if(ad_flag) {
+							statusesList.add(3, ad);
+							if(info!=null) {
+								statusesList.add(4,info);
+							}
+						} else {
+							statusesList.add(ad);
+							statusesList.add(info);
+						}	
+					}
+					errorCode="0";
+					errorMessage="ok";
+				} else {
+					errorCode = "20007";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				}
 			} else {
-				errorCode = "20007";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				if(statusesList.size()>0) {
+					errorCode="0";
+					errorMessage="ok";
+				}
+				else {
+					errorCode="20007";
+					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				}
 			}
-		}
-	  }
-	 JSONObject jsonObject = new JSONObject();
-	 jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
-	 jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
-	 jsonObject.put("statuses", statusesList);
-			
-	 ServerLog.getLogger().warn(jsonObject.toString());
-			
-	 return jsonObject;
+		  }
+		
+		 JSONObject jsonObject = new JSONObject();
+		 jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+		 jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
+		 jsonObject.put("statuses", statusesList);
+				
+		 ServerLog.getLogger().warn(jsonObject.toString());
+				
+		 return jsonObject;
 	}
 }

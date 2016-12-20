@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.arttraining.api.bean.InformationListBean;
 import com.arttraining.api.bean.InformationShowBean;
+import com.arttraining.api.bean.MasterInfoListBean;
 import com.arttraining.api.dao.InformationMapper;
 import com.arttraining.api.service.IInformationService;
 
@@ -26,6 +27,12 @@ public class InformationService implements IInformationService {
 	public InformationShowBean getOneInformation(Integer id) {
 		// TODO Auto-generated method stub
 		return this.informationDao.selectOneInformation(id);
+	}
+
+	@Override
+	public List<MasterInfoListBean> getInfoListByHomePage() {
+		// TODO Auto-generated method stub
+		return this.informationDao.selectInfoListByHomePage();
 	}
 
 }

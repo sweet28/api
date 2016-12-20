@@ -31,6 +31,13 @@ public class Information {
 
     private Integer isPublish;
 
+    private Integer browseNum;
+
+    private String city;
+
+    private String cityFather;
+
+    
     public Integer getId() {
         return id;
     }
@@ -142,4 +149,29 @@ public class Information {
     public void setIsPublish(Integer isPublish) {
         this.isPublish = isPublish;
     }
+
+	public Integer getBrowseNum() {
+		return browseNum;
+	}
+
+	public void setBrowseNum(Integer browseNum) {
+		this.browseNum = browseNum;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCityFather() {
+		return cityFather;
+	}
+
+	public void setCityFather(String cityFather) {
+		this.cityFather = cityFather;
+	}
+    
 }

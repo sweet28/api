@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.arttraining.api.bean.InformationListBean;
 import com.arttraining.api.bean.InformationShowBean;
+import com.arttraining.api.bean.MasterInfoListBean;
 import com.arttraining.api.pojo.Information;
 
 public interface InformationMapper {
@@ -22,4 +23,7 @@ public interface InformationMapper {
     List<InformationListBean> selectInformationList();
     //依据头条ID查询某一个头条信息--information/show
     InformationShowBean selectOneInformation(Integer id);
+    
+    //爱好者首页返回资讯列表信息
+    List<MasterInfoListBean> selectInfoListByHomePage();
 }

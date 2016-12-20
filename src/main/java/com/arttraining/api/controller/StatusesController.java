@@ -457,7 +457,6 @@ public class StatusesController {
 			 }
 		  }
 		}
-	
 		HomePageBean homepage = new HomePageBean();
 		homepage.setError_code(errorCode);
 		homepage.setError_msg(errorMessage);
