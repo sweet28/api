@@ -749,7 +749,7 @@ public class OrdersController {
 				jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMsg);
 				jsonObject.put("order_number", orderNum);
 				jsonObject.put("create_time", time);
-				jsonObject.put("order_id", orderId);
+				jsonObject.put("order_id", orderId+"");
 				ServerLog.getLogger().warn(jsonObject.toString());
 				//System.out.println(TimeUtil.getTimeStamp()+"-订单创建8-"+jsonObject);
 				return jsonObject;
