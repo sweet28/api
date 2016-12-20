@@ -27,8 +27,10 @@ public class JPushClientUtil {
 		private static final String AHZ_APPKEY ="0e14cc079e593485ecdbbc94";
 		private static final String AHZ_MASTERSECRET = "fbfc1983b6848108d6652f3d";
 		//2.云互艺名师端  appKey/masterSecret
-		private static final String MS_APPKEY ="175d8ea025b468b82598ab90";
-		private static final String MS_MASTERSECRET = "86d1f423ce59274f12601619";
+//		private static final String MS_APPKEY ="175d8ea025b468b82598ab90";
+//		private static final String MS_MASTERSECRET = "86d1f423ce59274f12601619";
+		private static final String MS_APPKEY ="722ef0657ea474313d7612da";
+		private static final String MS_MASTERSECRET = "428456b07d5b834f3117f77d";
 		//3.云互艺达人端  appKey/masterSecret
 		private static final String DR_APPKEY ="722ef0657ea474313d7612da";
 		private static final String DR_MASTERSECRET = "428456b07d5b834f3117f77d";
