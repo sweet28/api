@@ -494,11 +494,11 @@ public class StatusesController {
 		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-self:"+self);
 		
 		//如果用户id 默认查询uid=0 即尚未登录的用户
-		if(access_token==null || uid==null || utype==null) {
+		if(uid==null || utype==null) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
-		else if(access_token.equals("") || uid.equals("") || utype.equals("")) {
+		else if(uid.equals("") || utype.equals("")) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
@@ -509,7 +509,8 @@ public class StatusesController {
 		else {
 			// todo:判断token是否有效
 			//boolean tokenFlag = TokenUtil.checkToken(access_token);
-			boolean tokenFlag = this.tokenService.checkToken(access_token);
+			// boolean tokenFlag = this.tokenService.checkToken(access_token);
+			boolean tokenFlag = true;
 			if (tokenFlag) {	
 				if(self==null || self.equals("")) {
 					offset=-1;
