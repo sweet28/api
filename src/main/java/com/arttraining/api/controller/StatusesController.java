@@ -290,7 +290,7 @@ public class StatusesController {
 		jsonObject.put("uid", 0);
 		jsonObject.put("user_code", "");
 		jsonObject.put("name", "");
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 	}
 	
@@ -1673,6 +1673,8 @@ public class StatusesController {
 		String utype = request.getParameter("utype");
 		String self = request.getParameter("self");
 		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-group_id:"+group_id+"-uid:"+uid
+				+"-utype:"+utype+"-self:"+self);
 		Integer offset = -1;
 		Integer limit = ConfigUtil.PAGESIZE;
 		//如果用户id 默认查询uid=0 即尚未登录的用户
@@ -1782,7 +1784,7 @@ public class StatusesController {
 		homepage.setError_msg(errorMessage);
 		homepage.setStatuses(gstusList);
 		Gson gson = new Gson();
-		
+		ServerLog.getLogger().warn(gson.toJson(homepage));
 		return gson.toJson(homepage);
 	}
 	/**

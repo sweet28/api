@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TokenUtil;
 import com.qiniu.util.Auth;
 
@@ -38,6 +39,7 @@ public class UploadController {
 		uid = request.getParameter("uid");
 		buketType = request.getParameter("buket_type");
 		
+		ServerLog.getLogger().warn("access_token:"+accessToken+"-uid:"+uid+"-buketType:"+buketType);
 		if(ConfigUtil.CODE_TYPE.equals(ConfigUtil.CODE_TYPE_DEV)){
 			buketType = "0";
 		}
@@ -105,7 +107,8 @@ public class UploadController {
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
 		jsonObject.put(ConfigUtil.PARAMETER_QINIU_TOKEN, QNToken);
-		System.out.println("银子来了3："+jsonObject.toJSONString());
+		//System.out.println("银子来了3："+jsonObject.toJSONString());
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 
 	}
@@ -123,6 +126,7 @@ public class UploadController {
 		
 		accessToken = request.getParameter("access_token");
 		uid = request.getParameter("uid");
+		ServerLog.getLogger().warn("access_token:"+accessToken+"-uid:"+uid);
 		if(accessToken == null || uid == null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -151,7 +155,8 @@ public class UploadController {
 		jsonObject.put(ConfigUtil.PARAMETER_UID, uid);
 		jsonObject.put(ConfigUtil.PARAMETER_USER_CODE, "");
 		jsonObject.put(ConfigUtil.PARAMETER_NAME, "");
-		System.out.println("银子来了C："+jsonObject.toJSONString());
+		//System.out.println("银子来了C："+jsonObject.toJSONString());
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 
 	}

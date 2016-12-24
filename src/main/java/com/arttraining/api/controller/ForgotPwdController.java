@@ -20,6 +20,7 @@ import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.PhoneUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 
@@ -48,8 +49,8 @@ public class ForgotPwdController {
 		//String code_type = request.getParameter("code_type");
 		String code_type ="identity_code";
 		//end
-		
-		System.out.println("进入忘记密码："+account+TimeUtil.getTimeStamp());
+		ServerLog.getLogger().warn("mobile:"+account+"-new_pwd:"+pwd);
+		//System.out.println("进入忘记密码："+account+TimeUtil.getTimeStamp());
 		if(account == null || pwd == null){
 			System.out.println("进入忘记密码2222："+account+TimeUtil.getTimeStamp());
 			errorCode = "20032";
@@ -122,7 +123,7 @@ public class ForgotPwdController {
 		jsonObject.put("uid",i_uid);
 		jsonObject.put("user_code", accessToken);
 		jsonObject.put("name", "");
-		
+		ServerLog.getLogger().warn(jsonObject.toString());
 		return jsonObject;
 		
 //		simReBean.setError_code(errorCode);

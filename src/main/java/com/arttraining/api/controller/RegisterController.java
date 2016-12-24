@@ -23,6 +23,7 @@ import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.PhoneUtil;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
@@ -46,7 +47,8 @@ public class RegisterController {
 		String account = "";
 		
 		account = request.getParameter("mobile");
-		System.out.println("进入注册验证："+account+TimeUtil.getTimeStamp());
+		ServerLog.getLogger().warn("mobile:"+account);
+		//System.out.println("进入注册验证："+account+TimeUtil.getTimeStamp());
 		if(account == null){
 			errorCode = "20032";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -70,7 +72,7 @@ public class RegisterController {
 		
 		simReBean.setError_code(errorCode);
 		simReBean.setError_msg(errorMsg);
-
+		ServerLog.getLogger().warn(gson.toJson(simReBean));
 		return gson.toJson(simReBean);
 	}
 	
@@ -90,20 +92,20 @@ public class RegisterController {
 		String code_type ="reg_code";
 		//end
 				
-		System.out.println("进入注册"+TimeUtil.getTimeStamp());
+		//System.out.println("进入注册"+TimeUtil.getTimeStamp());
 		
 		moblie = request.getParameter("mobile");
 		pwd = request.getParameter("psw");
 		name = request.getParameter("name");
-		
+		ServerLog.getLogger().warn("mobile:"+moblie+"-psw:"+pwd+"-name:"+name);
 		if(moblie == null || pwd == null){
 			SimpleReBean simReBean = new SimpleReBean();
 			errorCode = "20032";
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-
-			System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}else if(moblie.equals("") || pwd.equals("")){
 			SimpleReBean simReBean = new SimpleReBean();
@@ -111,8 +113,8 @@ public class RegisterController {
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-
-			System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}else if(PhoneUtil.isMobile(moblie)){
 			UserStu userStu = null;
@@ -123,8 +125,8 @@ public class RegisterController {
 				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20024;
 				simReBean.setError_code(errorCode);
 				simReBean.setError_msg(errorMsg);
-
-				System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
+				ServerLog.getLogger().warn(gson.toJson(simReBean));
+				//System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
 				return gson.toJson(simReBean);
 			}else{
 				//coffee add  这里去短信验证码中去手机号最近一次使用的使用时间
@@ -145,8 +147,8 @@ public class RegisterController {
 						SimpleReBean simReBean = new SimpleReBean();
 						simReBean.setError_code(errorCode);
 						simReBean.setError_msg(errorMsg);
-						
-						System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
+						ServerLog.getLogger().warn(gson.toJson(simReBean));
+						//System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
 						return gson.toJson(simReBean);
 					}
 					else {
@@ -210,7 +212,8 @@ public class RegisterController {
 							loginBean.setAccess_token(accessToken);
 							loginBean.setError_code(errorCode);
 							loginBean.setError_msg(errorMsg);
-							System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(loginBean));
+							ServerLog.getLogger().warn(gson.toJson(loginBean));
+							//System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(loginBean));
 							return gson.toJson(loginBean);
 							
 						} else {
@@ -220,8 +223,8 @@ public class RegisterController {
 							SimpleReBean simReBean = new SimpleReBean();
 							simReBean.setError_code(errorCode);
 							simReBean.setError_msg(errorMsg);
-
-							System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
+							ServerLog.getLogger().warn(gson.toJson(simReBean));
+							//System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
 							return gson.toJson(simReBean);
 						}
 					}
@@ -232,8 +235,8 @@ public class RegisterController {
 					SimpleReBean simReBean = new SimpleReBean();
 					simReBean.setError_code(errorCode);
 					simReBean.setError_msg(errorMsg);
-					
-					System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
+					ServerLog.getLogger().warn(gson.toJson(simReBean));
+					//System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
 					return gson.toJson(simReBean);
 				}
 			}
@@ -245,8 +248,8 @@ public class RegisterController {
 			SimpleReBean simReBean = new SimpleReBean();
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-
-			System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		}
 	}

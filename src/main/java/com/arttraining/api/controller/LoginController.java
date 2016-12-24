@@ -25,6 +25,7 @@ import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.MD5;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
@@ -52,7 +53,9 @@ public class LoginController {
 		
 		name = request.getParameter("name");
 		pwd = request.getParameter("pwd");
-		System.out.println("登录："+name+"-"+pwd+"-"+TimeUtil.getTimeStamp());
+		
+		ServerLog.getLogger().warn("name:"+name+"-pwd:"+pwd);
+		//System.out.println("登录："+name+"-"+pwd+"-"+TimeUtil.getTimeStamp());
 		if(name == null || pwd == null){
 			System.out.println("登录1"+"-"+TimeUtil.getTimeStamp());
 			errorCode = "20032";
@@ -142,7 +145,8 @@ public class LoginController {
 		loginBean.setAccess_token(accessToken);
 		loginBean.setError_code(errorCode);
 		loginBean.setError_msg(errorMessage);
-		System.out.println(gson.toJson(loginBean)+"-"+TimeUtil.getTimeStamp());
+		ServerLog.getLogger().warn(gson.toJson(loginBean));
+		//System.out.println(gson.toJson(loginBean)+"-"+TimeUtil.getTimeStamp());
 		return gson.toJson(loginBean);
 
 	}
@@ -158,7 +162,7 @@ public class LoginController {
 		String accessToken = "";
 		
 		accessToken = request.getParameter("access_token");
-		
+		ServerLog.getLogger().warn("access_token:"+accessToken);
 		if(accessToken == null){
 			errorCode = "20032";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
@@ -192,7 +196,7 @@ public class LoginController {
 
 		reBean.setError_code(errorCode);
 		reBean.setError_msg(errorMessage);
-		
+		ServerLog.getLogger().warn(gson.toJson(reBean));
 		return gson.toJson(reBean);
 
 	}

@@ -21,6 +21,7 @@ import com.arttraining.commons.util.DaYuServiceUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.PhoneUtil;
 import com.arttraining.commons.util.Random;
+import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.google.gson.Gson;
 import com.taobao.api.ApiException;
@@ -46,8 +47,8 @@ public class SMSController {
 		
 		mobile = request.getParameter("mobile");
 		codeType = request.getParameter("code_type");
-		
-		System.out.println("进入验证码发送"+TimeUtil.getTimeStamp()+mobile+"-"+codeType);
+		ServerLog.getLogger().warn("mobile:"+mobile+"-code_type:"+codeType);
+		//System.out.println("进入验证码发送"+TimeUtil.getTimeStamp()+mobile+"-"+codeType);
 		
 		if(mobile == null || codeType == null){
 			errorCode = "20032";
@@ -140,7 +141,7 @@ public class SMSController {
 		
 		simReBean.setError_code(errorCode);
 		simReBean.setError_msg(errorMsg);
-
+		ServerLog.getLogger().warn(gson.toJson(simReBean));
 		return gson.toJson(simReBean);
 	}
 	
@@ -157,8 +158,8 @@ public class SMSController {
 		mobile = request.getParameter("mobile");
 		codeType = request.getParameter("code_type");
 		smsCode = request.getParameter("ver_code");
-
-		System.out.println("进入验证码验证"+TimeUtil.getTimeStamp()+mobile+"-"+codeType+"-"+smsCode);
+		ServerLog.getLogger().warn("mobile:"+mobile+"-code_type:"+codeType+"-ver_code:"+smsCode);
+		//System.out.println("进入验证码验证"+TimeUtil.getTimeStamp()+mobile+"-"+codeType+"-"+smsCode);
 		
 		if(mobile == null || codeType == null){
 			System.out.println("验证码验证1");
@@ -167,7 +168,8 @@ public class SMSController {
 			
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println("验证码验证8"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println("验证码验证8"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		} else if (mobile.equals("") || codeType.equals("")) {
 			System.out.println("验证码验证2");
@@ -176,7 +178,8 @@ public class SMSController {
 			
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println("验证码验证8"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println("验证码验证8"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		} else if (smsCode.equals("") || smsCode.equals("")) {
 			System.out.println("验证码验证3");
@@ -185,7 +188,8 @@ public class SMSController {
 			
 			simReBean.setError_code(errorCode);
 			simReBean.setError_msg(errorMsg);
-			System.out.println("验证码验证8"+gson.toJson(simReBean));
+			ServerLog.getLogger().warn(gson.toJson(simReBean));
+			//System.out.println("验证码验证8"+gson.toJson(simReBean));
 			return gson.toJson(simReBean);
 		} else{
 			System.out.println("验证码验证4");
@@ -208,7 +212,8 @@ public class SMSController {
 					
 					simReBean.setError_code(errorCode);
 					simReBean.setError_msg(errorMsg);
-					System.out.println("验证码验证8"+gson.toJson(simReBean));
+					ServerLog.getLogger().warn(gson.toJson(simReBean));
+					//System.out.println("验证码验证8"+gson.toJson(simReBean));
 					return gson.toJson(simReBean);
 				}else{
 					System.out.println("验证码验证6");
@@ -221,7 +226,8 @@ public class SMSController {
 					//end
 					simReBean.setError_code(errorCode);
 					simReBean.setError_msg(errorMsg);
-					System.out.println("验证码验证8"+gson.toJson(simReBean));
+					ServerLog.getLogger().warn(gson.toJson(simReBean));
+					//System.out.println("验证码验证8"+gson.toJson(simReBean));
 					return gson.toJson(simReBean);
 				}
 			}else{
@@ -231,7 +237,8 @@ public class SMSController {
 				
 				simReBean.setError_code(errorCode);
 				simReBean.setError_msg(errorMsg);
-				System.out.println("验证码验证8"+gson.toJson(simReBean));
+				ServerLog.getLogger().warn(gson.toJson(simReBean));
+				//System.out.println("验证码验证8"+gson.toJson(simReBean));
 				return gson.toJson(simReBean);
 			}
 		}
