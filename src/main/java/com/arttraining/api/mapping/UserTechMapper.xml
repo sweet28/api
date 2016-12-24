@@ -325,6 +325,11 @@
         <include refid="select_tec_where"></include>) 
         and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
     </if> 
+    <if test="key !=null"> 
+    	and (school_name like '%${key}%' or name like '%${key}%'
+    	or city_name like '%${key}%' or city_father like '%${key}%'
+    	or specialty_name like '%${key}%' or skill like '%${key}%') 
+    </if>
     <if test="college !=null"> and school_name = #{college,jdbcType=VARCHAR} </if>
     <if test="spec !=null"> and specialty_name = #{spec,jdbcType=VARCHAR} </if>
     <if test="city !=null"> and city_name = #{city,jdbcType=VARCHAR}</if>

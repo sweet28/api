@@ -73,9 +73,11 @@ public class TecherController {
 				role=3;
 			}
 		}
+		//coffee add 1224
+		String key = request.getParameter("key");
 		//end
 		List<TecherListBean> teacherList = new ArrayList<TecherListBean>();
-		ServerLog.getLogger().warn("self:"+self+"-college:"+college+"-spec:"+spec+
+		ServerLog.getLogger().warn("key:"+key+"-self:"+self+"-college:"+college+"-spec:"+spec+
 				"-city:"+city+"-provinces:"+provinces+"-identity:"+identity+"-role:"+role);
 		
 		Integer offset=-1;
@@ -106,6 +108,7 @@ public class TecherController {
 			map.put("offset", offset);
 			map.put("limit", limit);
 			map.put("identity", role);
+			map.put("key", key);
 			
 			teacherList = this.userTecService.getTecherListBySelective(map);
 			if(teacherList.size()>0) {
