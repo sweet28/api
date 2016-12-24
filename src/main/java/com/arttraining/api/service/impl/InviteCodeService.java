@@ -28,11 +28,13 @@ public class InviteCodeService implements IInviteCodeService{
 	}
 
 	@Override
-	public void update(InviteCode inviteCode, Coupon coupon) {
+	public void updateCodeAndCoupon(InviteCode inviteCode, Coupon coupon) {
 		//1.先修改邀请码表
 		this.inviteCodeDao.updateByPrimaryKeySelective(inviteCode);
 		//2.然后修改优惠券
+		System.out.println("33333");
 		this.couponDao.insertSelective(coupon);
+		System.out.println("44444");
 	}
 
 	

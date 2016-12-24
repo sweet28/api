@@ -37,7 +37,8 @@ public class Coupon {
 
     private String userType;
     
-    private Date use_time;
+    private Date useTime;
+    private Double usageValue;
 
     public Integer getId() {
         return id;
@@ -174,13 +175,21 @@ public class Coupon {
     public void setUserType(String userType) {
         this.userType = userType == null ? null : userType.trim();
     }
-
-	public Date getUse_time() {
-		return use_time;
+    
+	public Date getUseTime() {
+		return useTime;
 	}
 
-	public void setUse_time(Date use_time) {
-		this.use_time = use_time;
+	public void setUseTime(Date useTime) {
+		this.useTime = useTime;
+	}
+
+	public Double getUsageValue() {
+		return usageValue;
+	}
+
+	public void setUsageValue(Double usageValue) {
+		this.usageValue = usageValue;
 	}
     
 }

@@ -16,6 +16,7 @@ import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.pojo.Coupon;
 import com.arttraining.api.pojo.InviteCode;
 import com.arttraining.api.pojo.UserStu;
+import com.arttraining.api.service.impl.CouponService;
 import com.arttraining.api.service.impl.InviteCodeService;
 import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
@@ -23,7 +24,6 @@ import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
-import com.arttraining.commons.util.TokenUtil;
 import com.google.gson.Gson;
 
 @Controller
@@ -35,6 +35,8 @@ public class InviteCodeController {
 	private UserStuService userStuService;
 	@Resource
 	private TokenService tokenService;
+	@Resource
+	private CouponService couponService;
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object createInviteCode(HttpServletRequest request, HttpServletResponse response){
@@ -121,6 +123,7 @@ public class InviteCodeController {
 						update_invCode.setUseTime(Timestamp.valueOf(time));
 						update_invCode.setId(invCode.getId());
 						//生成优惠券
+						System.out.println("111111");
 						Coupon coupon = new Coupon();
 						coupon.setCreateTime(Timestamp.valueOf(time));
 						coupon.setOrderCode(time);
@@ -135,8 +138,19 @@ public class InviteCodeController {
 						if(type!=null && NumberUtil.isInteger(type)) {
 							coupon.setType(Integer.valueOf(type));
 						}
+//						System.out.println("time:"+time+"-setExpiryDate:"+invCode.getExpiryDate()+
+//								"-setFaceValue:"+invCode.getFaceValue()+"-setName:"+invCode.getRemarks()+
+//								"-setDescribel:"+invCode.getDescribel()+"-type:"+type);
+//						String sql="insert into t_yp_coupon(order_code,"
+//								+ "face_value,face_value_type,type,name,describel,user_id,user_type) "
+//								+ " values('"+time+"','"+invCode.getFaceValue()+"',"
+//								+ "'"+invCode.getFaceValueType()+"','"+invCode.getRemarks()+"',"
+//								+ "'"+invCode.getDescribel()+"','"+i_uid+"','stu')";
+						//System.out.println("11111===="+sql);
 						try {
-							this.invCodeService.update(update_invCode, coupon);
+							this.invCodeService.updateCodeAndCoupon(update_invCode, coupon);
+							//int i=this.couponService.insertOneCoupon(coupon);
+							//System.out.println("2222"+i);
 							errorCode = "0";
 							errorMsg = "ok";	
 						} catch (Exception e) {

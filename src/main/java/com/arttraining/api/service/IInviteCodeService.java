@@ -6,7 +6,7 @@ import com.arttraining.api.pojo.InviteCode;
 public interface IInviteCodeService {
 	public int insert(InviteCode inviteCode);
 	
-	public void update(InviteCode inviteCode, Coupon coupon);
+	public void updateCodeAndCoupon(InviteCode inviteCode, Coupon coupon);
 
 	public InviteCode selectByCode(String inviteCode);
 }

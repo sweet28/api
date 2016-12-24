@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.arttraining.api.bean.CouponsListBean;
 import com.arttraining.api.dao.CouponMapper;
+import com.arttraining.api.pojo.Coupon;
 import com.arttraining.api.service.ICouponService;
 
 @Service("couponService")
@@ -26,6 +27,13 @@ public class CouponService implements ICouponService {
 	public int updateOneCouponInfoByOrderId(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return this.couponDao.updateCouponInfoByOrderId(map);
+	}
+
+	@Override
+	public int insertOneCoupon(Coupon coupon) {
+		// TODO Auto-generated method stub
+		//return this.couponDao.insertSelective(coupon);
+		return this.couponDao.insert(coupon);
 	}
 
 	
