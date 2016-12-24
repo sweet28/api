@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.arttraining.api.bean.RandomBean;
 import com.arttraining.api.bean.TecherListBean;
 import com.arttraining.api.pojo.UserTech;
 
@@ -41,5 +42,10 @@ public interface UserTechMapper {
     //根据名师账号密码登录APP--login/master/login接口调用
     UserTech selectMasterInfoByName(String account);
     int updateMasterInfoByPrimaryKeySelective(UserTech record);
+    //end
+    
+    //coffee add 1224 随机推荐机制
+    List<RandomBean> selectTecListByWeight();
+    TecherListBean selectOneTecherByListIndex(Integer id);
     //end
 }

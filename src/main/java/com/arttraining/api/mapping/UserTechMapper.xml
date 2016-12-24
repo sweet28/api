@@ -339,6 +339,29 @@
     order by order_code
     limit #{limit,jdbcType=INTEGER}
   </select>
+  
+  <!-- coffee and 1224 首页随机查找2位名师 -->
+  <resultMap id="WeightListResultMap" type="com.arttraining.api.bean.RandomBean">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="weight" property="weight" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectTecListByWeight" resultMap="WeightListResultMap">
+   select id,1 as weight
+    from t_yp_user_tech
+    where role=0
+    <include refid="select_tec_where"></include>
+  </select>
+  <select id="selectOneTecherByListIndex" resultMap="TecListResultMap" parameterType="java.lang.Integer">
+    select id, head_pic, name, skill as specialty_name, title,
+    authentication, browse_num, fans_num, ass_pay,attachment,introduction,
+    case   
+        when role=0 then 'ms'  
+        when role=1 then 'zj' 
+        when role=2 then 'iartschool' 
+        else 'dr' end identity 
+    from t_yp_user_tech
+    where role=0 and id=#{id,jdbcType=INTEGER}
+  </select>
   <!-- coffee add 1112 -techer/list/index接口调用 默认显示2条数据 -->
   <select id="selectTecherListIndexBySelective" resultMap="TecListResultMap">
     select id, head_pic, name, skill as specialty_name, title,
@@ -347,7 +370,7 @@
         when role=0 then 'ms'  
         when role=1 then 'zj' 
         when role=2 then 'iartschool' 
-        else 'dr' end identity  
+        else 'dr' end identity 
     from t_yp_user_tech
     where 1=1 and role=0
     <include refid="select_tec_where"></include>

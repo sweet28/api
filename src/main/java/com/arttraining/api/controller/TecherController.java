@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.arttraining.api.bean.RandomBean;
 import com.arttraining.api.bean.TecherListBean;
 import com.arttraining.api.bean.TecherShowBean;
 import com.arttraining.api.bean.TecherShowOrgBean;
@@ -27,6 +28,7 @@ import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.Random;
+import com.arttraining.commons.util.RandomnNumberUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.google.gson.Gson;
 
@@ -145,7 +147,7 @@ public class TecherController {
 		String self=request.getParameter("self");
 		ServerLog.getLogger().warn("self:"+self);
 		
-		Integer offset=-1;
+		//Integer offset=-1;
 		Integer limit = ConfigUtil.HOMEPAGE_PAGESIZE;
 		if(self==null || self.equals("")) {
 			errorCode = "20032";
@@ -157,14 +159,29 @@ public class TecherController {
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
 		}
 		else {
+			//System.out.println("00000");
+			//首先获取所有名师
+			List<RandomBean> randomList=this.userTecService.getTecListByWeight();
+			//System.out.println("11111");
+			//1.初始化/排序名师数据
+			RandomnNumberUtil.init(randomList);
+			//System.out.println("22222");
+			//2.取出名师数据
+			for(int i=0;i<limit;i++) {
+				RandomBean random=RandomnNumberUtil.getRandom();
+				Integer id = random.getId();
+				TecherListBean tec=this.userTecService.getOneTecherByListIndex(id);
+				teacherList.add(tec);
+			}
+			//System.out.println("33333");
 			//在这里查询总的名师个数
-			Integer tecNum = this.userTecService.countTecherNumer();
-			Integer page=tecNum/limit;
-			offset=Integer.valueOf(self)-1;
-			//如果当前页>=名师数量
-			offset = (offset+page)%page*limit;
-			
-			teacherList = this.userTecService.getTecherListIndexBySelective(offset,limit);
+//			Integer tecNum = this.userTecService.countTecherNumer();
+//			Integer page=tecNum/limit;
+//			offset=Integer.valueOf(self)-1;
+//			//如果当前页>=名师数量
+//			offset = (offset+page)%page*limit;
+//			
+//			teacherList = this.userTecService.getTecherListIndexBySelective(offset,limit);
 			if(teacherList.size()>0) {
 				errorCode = "0";
 				errorMessage = "ok";	

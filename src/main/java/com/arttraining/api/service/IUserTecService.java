@@ -3,6 +3,7 @@ package com.arttraining.api.service;
 import java.util.List;
 import java.util.Map;
 
+import com.arttraining.api.bean.RandomBean;
 import com.arttraining.api.bean.TecherListBean;
 import com.arttraining.api.pojo.UserTech;
 
@@ -28,5 +29,10 @@ public interface IUserTecService {
     int updateMasterInfoBySelective(UserTech record);
     //设置名师信息时执行的方法--masters/set_info接口调用
     int updateMasterInfoByPrimaryKeySelective(UserTech record);
+    //end
+    
+    //coffee add 1224 名师随机推荐机制
+    List<RandomBean> getTecListByWeight();
+    TecherListBean getOneTecherByListIndex(Integer id);
     //end
 }

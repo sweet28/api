@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.arttraining.api.bean.RandomBean;
 import com.arttraining.api.bean.TecherListBean;
 import com.arttraining.api.dao.UserTechMapper;
 import com.arttraining.api.pojo.UserTech;
@@ -69,6 +70,19 @@ public class UserTecService implements IUserTecService {
 	public int updateMasterInfoByPrimaryKeySelective(UserTech record) {
 		// TODO Auto-generated method stub
 		return this.userTecDao.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public List<RandomBean> getTecListByWeight() {
+		// TODO Auto-generated method stub
+		//System.out.println("55555");
+		return this.userTecDao.selectTecListByWeight();
+	}
+
+	@Override
+	public TecherListBean getOneTecherByListIndex(Integer id) {
+		// TODO Auto-generated method stub
+		return this.userTecDao.selectOneTecherByListIndex(id);
 	}
 
 }
