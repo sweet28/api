@@ -298,8 +298,7 @@
 	where is_deleted=0) b, 
 	(select identity_name,city_name,head_pic,name,id
 	from t_yp_user_stu
-	where <include refid="select_userstu_where"></include>
-	and id=#{uid,jdbcType=INTEGER}) s
+	where <include refid="select_userstu_where"></include>) s
 	where c.foreign_key = b.id and c.host=s.id
   </select>
   
