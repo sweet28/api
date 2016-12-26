@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.VoteCheerMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.VoteCheer" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="cheer_id" property="cheerId" jdbcType="INTEGER" />
+    <result column="cheer_type" property="cheerType" jdbcType="VARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+    <result column="content_type" property="contentType" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="duration" property="duration" jdbcType="VARCHAR" />
+    <result column="act_id" property="actId" jdbcType="INTEGER" />
+    <result column="act_type" property="actType" jdbcType="VARCHAR" />
+    <result column="cheer_name" property="cheerName" jdbcType="VARCHAR" />
+    <result column="head_pic" property="headPic" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.arttraining.api.pojo.VoteCheer" extends="BaseResultMap" >
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    cheer_id, cheer_type, thumbnail, content_type, content, duration, act_id, act_type, 
+    cheer_name, head_pic
+  </sql>
+  <sql id="Blob_Column_List" >
+    introduction
+  </sql>
+  
+  <!-- coffee add 1225 用于获取专题活动视频宣传列表信息 cheer/act/list接口调用 -->
+   <select id="selectCheerListByActId" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_yp_vote_cheer
+    where is_deleted=0
+    and act_id=#{act_id,jdbcType=INTEGER}
+    and act_type=#{act_type,jdbcType=VARCHAR}
+  </select>
+  <!-- end -->
+  
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_yp_vote_cheer
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_vote_cheer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.VoteCheer" >
+    insert into t_yp_vote_cheer (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, cheer_id, 
+      cheer_type, thumbnail, content_type, 
+      content, duration, act_id, 
+      act_type, cheer_name, head_pic, 
+      introduction)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{cheerId,jdbcType=INTEGER}, 
+      #{cheerType,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{contentType,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{duration,jdbcType=VARCHAR}, #{actId,jdbcType=INTEGER}, 
+      #{actType,jdbcType=VARCHAR}, #{cheerName,jdbcType=VARCHAR}, #{headPic,jdbcType=VARCHAR}, 
+      #{introduction,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.VoteCheer" >
+    insert into t_yp_vote_cheer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="cheerId != null" >
+        cheer_id,
+      </if>
+      <if test="cheerType != null" >
+        cheer_type,
+      </if>
+      <if test="thumbnail != null" >
+        thumbnail,
+      </if>
+      <if test="contentType != null" >
+        content_type,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="duration != null" >
+        duration,
+      </if>
+      <if test="actId != null" >
+        act_id,
+      </if>
+      <if test="actType != null" >
+        act_type,
+      </if>
+      <if test="cheerName != null" >
+        cheer_name,
+      </if>
+      <if test="headPic != null" >
+        head_pic,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="cheerId != null" >
+        #{cheerId,jdbcType=INTEGER},
+      </if>
+      <if test="cheerType != null" >
+        #{cheerType,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbnail != null" >
+        #{thumbnail,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null" >
+        #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="actId != null" >
+        #{actId,jdbcType=INTEGER},
+      </if>
+      <if test="actType != null" >
+        #{actType,jdbcType=VARCHAR},
+      </if>
+      <if test="cheerName != null" >
+        #{cheerName,jdbcType=VARCHAR},
+      </if>
+      <if test="headPic != null" >
+        #{headPic,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.VoteCheer" >
+    update t_yp_vote_cheer
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="cheerId != null" >
+        cheer_id = #{cheerId,jdbcType=INTEGER},
+      </if>
+      <if test="cheerType != null" >
+        cheer_type = #{cheerType,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbnail != null" >
+        thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      </if>
+      <if test="contentType != null" >
+        content_type = #{contentType,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="duration != null" >
+        duration = #{duration,jdbcType=VARCHAR},
+      </if>
+      <if test="actId != null" >
+        act_id = #{actId,jdbcType=INTEGER},
+      </if>
+      <if test="actType != null" >
+        act_type = #{actType,jdbcType=VARCHAR},
+      </if>
+      <if test="cheerName != null" >
+        cheer_name = #{cheerName,jdbcType=VARCHAR},
+      </if>
+      <if test="headPic != null" >
+        head_pic = #{headPic,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.arttraining.api.pojo.VoteCheer" >
+    update t_yp_vote_cheer
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      cheer_id = #{cheerId,jdbcType=INTEGER},
+      cheer_type = #{cheerType,jdbcType=VARCHAR},
+      thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      content_type = #{contentType,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=VARCHAR},
+      act_id = #{actId,jdbcType=INTEGER},
+      act_type = #{actType,jdbcType=VARCHAR},
+      cheer_name = #{cheerName,jdbcType=VARCHAR},
+      head_pic = #{headPic,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.VoteCheer" >
+    update t_yp_vote_cheer
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      cheer_id = #{cheerId,jdbcType=INTEGER},
+      cheer_type = #{cheerType,jdbcType=VARCHAR},
+      thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      content_type = #{contentType,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      duration = #{duration,jdbcType=VARCHAR},
+      act_id = #{actId,jdbcType=INTEGER},
+      act_type = #{actType,jdbcType=VARCHAR},
+      cheer_name = #{cheerName,jdbcType=VARCHAR},
+      head_pic = #{headPic,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
