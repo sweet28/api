@@ -361,6 +361,7 @@
         else 'dr' end identity 
     from t_yp_user_tech
     where role=0 and id=#{id,jdbcType=INTEGER}
+    <include refid="select_tec_where"></include>
   </select>
   <!-- coffee add 1112 -techer/list/index接口调用 默认显示2条数据 -->
   <select id="selectTecherListIndexBySelective" resultMap="TecListResultMap">
