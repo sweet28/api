@@ -8,5 +8,7 @@ import com.arttraining.api.pojo.ActivityVote;
 public interface IVoteService {
 	 //用于获取投票列表信息 vote/act/list接口调用 
     List<ActivityVote> getVoteListByActId(Map<String, Object> map);
+    //依据vote_id来获取投票详情
+    ActivityVote getOneVoteById(Integer id);
 
 }

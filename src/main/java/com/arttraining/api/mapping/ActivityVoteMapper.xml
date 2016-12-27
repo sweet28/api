@@ -373,7 +373,7 @@
         foreign_key = #{foreignKey,jdbcType=INTEGER},
       </if>
       <if test="popularNum != null" >
-        popular_num = #{popularNum,jdbcType=INTEGER},
+        popular_num = popular_num+#{popularNum,jdbcType=INTEGER},
       </if>
       <if test="headPic != null" >
         head_pic = #{headPic,jdbcType=VARCHAR},

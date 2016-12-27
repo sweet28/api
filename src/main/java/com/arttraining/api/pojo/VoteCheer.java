@@ -128,7 +128,8 @@ public class VoteCheer {
     }
 
     public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail == null ? null : thumbnail.trim();
+        //this.thumbnail = thumbnail == null ? null : thumbnail.trim();
+    	this.thumbnail=ImageUtil.parsePicPath(thumbnail, 4);
     }
 
     public String getContentType() {

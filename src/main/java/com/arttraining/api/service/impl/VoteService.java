@@ -22,4 +22,10 @@ public class VoteService implements IVoteService {
 		return this.voteDao.selectVoteListByActId(map);
 	}
 
+	@Override
+	public ActivityVote getOneVoteById(Integer id) {
+		// TODO Auto-generated method stub
+		return this.voteDao.selectByPrimaryKey(id);
+	}
+
 }

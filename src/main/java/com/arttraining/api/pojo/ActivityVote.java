@@ -136,7 +136,8 @@ public class ActivityVote {
     }
 
     public void setAttachment(String attachment) {
-        this.attachment = attachment == null ? null : attachment.trim();
+        //this.attachment = attachment == null ? null : attachment.trim();
+    	this.attachment=ImageUtil.parsePicPath(attachment, 4);
     }
 
     public Integer getPlayerId() {

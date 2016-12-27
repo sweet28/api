@@ -95,4 +95,5 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20063 = "取消订单失败,请检查网络是否畅通 ";
 	public static String ERROR_MSG_ZH_20064 = "收听点评失败了,请检查网络是否畅通 ";
 	public static String ERROR_MSG_ZH_20065 = "订单已支付了哟 ";
+	public static String ERROR_MSG_ZH_20066 = "小主,你今天已经投票过了哟 ";
 }
