@@ -53,6 +53,7 @@ import com.arttraining.api.service.impl.WorksCommentService;
 import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.api.service.impl.WorksTecCommentService;
 import com.arttraining.commons.util.ConfigUtil;
+import com.arttraining.commons.util.EmojiUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.JPushClientUtil;
@@ -90,6 +91,8 @@ public class StatusesController {
 	private WorksTecCommentService workTecCommentService;
 	@Resource
 	private TokenService tokenService;
+	
+	public String emoji = "";
 	
 	/**
 	 * 发布帖子
@@ -135,45 +138,52 @@ public class StatusesController {
 			//boolean tokenFlag = TokenUtil.checkToken(access_token);
 			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
-				Date date = new Date();
-				String time = TimeUtil.getTimeByDate(date);
-				
-				//用户id
-				Integer i_uid = Integer.valueOf(uid);
-				//新增帖子信息
-				BBS bbs = new BBS();
-				bbs.setOwner(i_uid);
-				bbs.setOwnerType(utype);
-				bbs.setTitle(title);
-				bbs.setContent(content);
-				bbs.setCreateTime(Timestamp.valueOf(time));
-				bbs.setOrderCode(time);
-				bbs.setAttachment(thumbnail);
-				
-				//新增帖子对应的附件信息
-				BBSAttachment bbsAttr = null;
-				if(attr_type!=null && !attr_type.equals("")) {
-					bbsAttr = new BBSAttachment();
-					bbsAttr.setStorePath(attr);
-					bbsAttr.setCreateTime(Timestamp.valueOf(time));
-					bbsAttr.setType(attr_type);
-					bbsAttr.setDuration(duration);
-					bbsAttr.setOrderCode(time);
-					bbsAttr.setThumbnail(thumbnail);
-				}
-				//发布帖子时 更新用户发帖量
-				UserStu user = new UserStu();
-				user.setId(i_uid);
-				user.setBbsNum(1);
-				
-				try {
-					this.bbsService.insertBBSAndInsertAttr(bbs, bbsAttr,user);
-					errorCode = "0";
-					errorMessage = "ok";
+				title = EmojiUtil.resolveToNullFromEmoji(title);
+				content = EmojiUtil.resolveToNullFromEmoji(content);
+				if(!"".equals(content.trim())){
+					Date date = new Date();
+					String time = TimeUtil.getTimeByDate(date);
 					
-				}catch(Exception e) {
-					errorCode = "20037";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20037;
+					//用户id
+					Integer i_uid = Integer.valueOf(uid);
+					//新增帖子信息
+					BBS bbs = new BBS();
+					bbs.setOwner(i_uid);
+					bbs.setOwnerType(utype);
+					bbs.setTitle(title);
+					bbs.setContent(content);
+					bbs.setCreateTime(Timestamp.valueOf(time));
+					bbs.setOrderCode(time);
+					bbs.setAttachment(thumbnail);
+					
+					//新增帖子对应的附件信息
+					BBSAttachment bbsAttr = null;
+					if(attr_type!=null && !attr_type.equals("")) {
+						bbsAttr = new BBSAttachment();
+						bbsAttr.setStorePath(attr);
+						bbsAttr.setCreateTime(Timestamp.valueOf(time));
+						bbsAttr.setType(attr_type);
+						bbsAttr.setDuration(duration);
+						bbsAttr.setOrderCode(time);
+						bbsAttr.setThumbnail(thumbnail);
+					}
+					//发布帖子时 更新用户发帖量
+					UserStu user = new UserStu();
+					user.setId(i_uid);
+					user.setBbsNum(1);
+					
+					try {
+						this.bbsService.insertBBSAndInsertAttr(bbs, bbsAttr,user);
+						errorCode = "0";
+						errorMessage = "ok";
+						
+					}catch(Exception e) {
+						errorCode = "20037";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20037;
+					}
+				}else{
+					errorCode = "20067";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20067;
 				}
 			}
 			else {
@@ -221,6 +231,9 @@ public class StatusesController {
 		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype+"-title:"+title+
 				"-content:"+content+"-attr:"+attr+"-attr_type:"+attr_type+"-duration:"+duration+"-group_id:"+group_id+
 				"-thumbnail:"+thumbnail);
+		
+		title = EmojiUtil.resolveToNullFromEmoji(title);
+		content = EmojiUtil.resolveToNullFromEmoji(content);
 		
 		if(access_token==null || uid==null || utype==null || content==null || group_id==null) {
 			errorCode = "20032";

@@ -38,6 +38,7 @@ import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.api.service.impl.WorksCommentService;
 import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.commons.util.ConfigUtil;
+import com.arttraining.commons.util.EmojiUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.JPushClientUtil;
 import com.arttraining.commons.util.NumberUtil;
@@ -202,71 +203,83 @@ public class CommentController {
 			//boolean tokenFlag = TokenUtil.checkToken(access_token);
 			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
-				//用户ID和动态ID
-				Integer i_uid = Integer.valueOf(uid);
-				Integer i_status_id = Integer.valueOf(status_id);
-				
-				Date date = new Date();
-				String time = TimeUtil.getTimeByDate(date);
-				
-				//首先依据帖子ID 获取首页帖子相关信息
-				BBS bbs = this.bbsSerivce.getBBSById(i_status_id);
-				Integer owner=0;
-				String owner_type="";
-				if(bbs!=null) {
-					owner=bbs.getOwner();
-					owner_type=bbs.getOwnerType();
-				}
-				//新增帖子评论信息
-				BBSComment bbsComment = new BBSComment();
-				bbsComment.setContent(content);
-				bbsComment.setCreateTime(Timestamp.valueOf(time));
-				bbsComment.setForeignKey(i_status_id);
-				bbsComment.setHost(owner);
-				bbsComment.setHostType(owner_type);
-				bbsComment.setType("comment");
-				bbsComment.setVisitor(i_uid);
-				bbsComment.setVisitorType(utype);
-				bbsComment.setOrderCode(time);
-				
-				//更新爱好者用户表中的评论数(这里的评论数指的是被评论数)
-				UserStu user = null;
-				if(owner_type!=null && owner_type.equals("stu")) {
-					user=new UserStu();
-					user.setId(owner);
-					user.setCommentNum(1);
-				}
-				
-				//coffee add 1215 新增推送信息
-				if(owner!=i_uid) {
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("user_id", owner);
-					map.put("user_type", "stu");
-					Token t=this.tokenService.getOneTokenInfo(map);
-					String alias="";
-					if(t!=null) {
-						alias=t.getToken();
-						String user_type="stu";
-						String push_type="alert_msg";
-						UserStu push_user=this.userStuService.getUserStuById(i_uid);
-						String alert="亲,"+push_user.getName()+"评论了你的帖子哟";
-						String push_content="";
-						String content_type="";
-						//封装额外的数据
-						String type="comment_bbs";
-						String value=""+i_status_id;
-						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				content = EmojiUtil.resolveToNullFromEmoji(content);
+				if (!"".equals(content.trim())) {
+					// 用户ID和动态ID
+					Integer i_uid = Integer.valueOf(uid);
+					Integer i_status_id = Integer.valueOf(status_id);
+
+					Date date = new Date();
+					String time = TimeUtil.getTimeByDate(date);
+
+					// 首先依据帖子ID 获取首页帖子相关信息
+					BBS bbs = this.bbsSerivce.getBBSById(i_status_id);
+					Integer owner = 0;
+					String owner_type = "";
+					if (bbs != null) {
+						owner = bbs.getOwner();
+						owner_type = bbs.getOwnerType();
+					}
+					// 新增帖子评论信息
+					BBSComment bbsComment = new BBSComment();
+					bbsComment.setContent(content);
+					bbsComment.setCreateTime(Timestamp.valueOf(time));
+					bbsComment.setForeignKey(i_status_id);
+					bbsComment.setHost(owner);
+					bbsComment.setHostType(owner_type);
+					bbsComment.setType("comment");
+					bbsComment.setVisitor(i_uid);
+					bbsComment.setVisitorType(utype);
+					bbsComment.setOrderCode(time);
+
+					// 更新爱好者用户表中的评论数(这里的评论数指的是被评论数)
+					UserStu user = null;
+					if (owner_type != null && owner_type.equals("stu")) {
+						user = new UserStu();
+						user.setId(owner);
+						user.setCommentNum(1);
+					}
+
+					// coffee add 1215 新增推送信息
+					if (owner != i_uid) {
+						Map<String, Object> map = new HashMap<String, Object>();
+						map.put("user_id", owner);
+						map.put("user_type", "stu");
+						Token t = this.tokenService.getOneTokenInfo(map);
+						String alias = "";
+						if (t != null) {
+							alias = t.getToken();
+							String user_type = "stu";
+							String push_type = "alert_msg";
+							UserStu push_user = this.userStuService
+									.getUserStuById(i_uid);
+							String alert = "亲," + push_user.getName()
+									+ "评论了你的帖子哟";
+							String push_content = "";
+							String content_type = "";
+							// 封装额外的数据
+							String type = "comment_bbs";
+							String value = "" + i_status_id;
+							String extra_value = JPushClientUtil
+									.eclose_push_extra_json_data(type, value);
+							JPushClientUtil.enclose_push_data_alias(user_type,
+									push_type, alias, alert, push_content,
+									content_type, extra_value);
 						}
 					}
-				//end
-				try {
-					this.bbsCommentService.insertAndUpdateBBSComment(bbsComment, i_status_id, user);
-					errorCode="0";
-					errorMessage="ok";
-				} catch (Exception e) {
-					errorCode="20050";
-					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20050;
+					// end
+					try {
+						this.bbsCommentService.insertAndUpdateBBSComment(
+								bbsComment, i_status_id, user);
+						errorCode = "0";
+						errorMessage = "ok";
+					} catch (Exception e) {
+						errorCode = "20050";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20050;
+					}
+				}else{
+					errorCode = "20067";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20067;
 				}
 			}
 			else {
@@ -879,72 +892,84 @@ public class CommentController {
 			//boolean tokenFlag = TokenUtil.checkToken(access_token);
 			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
-				//用户ID和动态ID
-				Integer i_uid = Integer.valueOf(uid);
-				Integer i_status_id = Integer.valueOf(status_id);
-				
-				Date date = new Date();
-				String time = TimeUtil.getTimeByDate(date);
-				
-				//首先依据帖子ID 获取首页帖子相关信息
-				Works work = this.workService.getWorksById(i_status_id);
-				Integer owner=0;
-				String owner_type="";
-				if(work!=null) {
-					owner=work.getOwner();
-					owner_type=work.getOwnerType();
-				}
-				//新增作品评论信息
-				WorksComment workComment = new WorksComment();
-				workComment.setContent(content);
-				workComment.setCreateTime(Timestamp.valueOf(time));
-				workComment.setForeignKey(i_status_id);
-				workComment.setHost(owner);
-				workComment.setHostType(owner_type);
-				workComment.setType("comment");
-				workComment.setVisitor(i_uid);
-				workComment.setVisitorType(utype);
-				workComment.setOrderCode(time);
-				
-				//更新爱好者用户表中的评论数(这里的评论数指的是被评论数)
-				UserStu user = null;
-				if(owner_type!=null && owner_type.equals("stu")) {
-					user=new UserStu();
-					user.setId(owner);
-					user.setCommentNum(1);
-				}
-				
-				//coffee add 1215 新增推送信息
-				if(owner!=i_uid) {
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put("user_id", owner);
-					map.put("user_type", "stu");
-					Token t=this.tokenService.getOneTokenInfo(map);
-					String alias="";
-					if(t!=null) {
-						alias=t.getToken();
-						String user_type="stu";
-						String push_type="alert_msg";
-						UserStu push_user=this.userStuService.getUserStuById(i_uid);
-						String alert="亲,"+push_user.getName()+"评论了你的作品哟";
-						String push_content="";
-						String content_type="";
-						//封装额外的数据
-						String type="comment_work";
-						String value=""+i_status_id;
-						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
+				content = EmojiUtil.resolveToNullFromEmoji(content);
+				if (!"".equals(content.trim())) {
+					// 用户ID和动态ID
+					Integer i_uid = Integer.valueOf(uid);
+					Integer i_status_id = Integer.valueOf(status_id);
+
+					Date date = new Date();
+					String time = TimeUtil.getTimeByDate(date);
+
+					// 首先依据帖子ID 获取首页帖子相关信息
+					Works work = this.workService.getWorksById(i_status_id);
+					Integer owner = 0;
+					String owner_type = "";
+					if (work != null) {
+						owner = work.getOwner();
+						owner_type = work.getOwnerType();
 					}
-				}
-				//end
-				
-				try {
-					this.workCommentService.insertAndUpdateWorkComment(workComment, i_status_id,user);
-					errorCode="0";
-					errorMessage="ok";
-				} catch (Exception e) {
-					errorCode="20050";
-					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20050;
+					// 新增作品评论信息
+					WorksComment workComment = new WorksComment();
+					workComment.setContent(content);
+					workComment.setCreateTime(Timestamp.valueOf(time));
+					workComment.setForeignKey(i_status_id);
+					workComment.setHost(owner);
+					workComment.setHostType(owner_type);
+					workComment.setType("comment");
+					workComment.setVisitor(i_uid);
+					workComment.setVisitorType(utype);
+					workComment.setOrderCode(time);
+
+					// 更新爱好者用户表中的评论数(这里的评论数指的是被评论数)
+					UserStu user = null;
+					if (owner_type != null && owner_type.equals("stu")) {
+						user = new UserStu();
+						user.setId(owner);
+						user.setCommentNum(1);
+					}
+
+					// coffee add 1215 新增推送信息
+					if (owner != i_uid) {
+						Map<String, Object> map = new HashMap<String, Object>();
+						map.put("user_id", owner);
+						map.put("user_type", "stu");
+						Token t = this.tokenService.getOneTokenInfo(map);
+						String alias = "";
+						if (t != null) {
+							alias = t.getToken();
+							String user_type = "stu";
+							String push_type = "alert_msg";
+							UserStu push_user = this.userStuService
+									.getUserStuById(i_uid);
+							String alert = "亲," + push_user.getName()
+									+ "评论了你的作品哟";
+							String push_content = "";
+							String content_type = "";
+							// 封装额外的数据
+							String type = "comment_work";
+							String value = "" + i_status_id;
+							String extra_value = JPushClientUtil
+									.eclose_push_extra_json_data(type, value);
+							JPushClientUtil.enclose_push_data_alias(user_type,
+									push_type, alias, alert, push_content,
+									content_type, extra_value);
+						}
+					}
+					// end
+
+					try {
+						this.workCommentService.insertAndUpdateWorkComment(
+								workComment, i_status_id, user);
+						errorCode = "0";
+						errorMessage = "ok";
+					} catch (Exception e) {
+						errorCode = "20050";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20050;
+					}
+				} else {
+					errorCode = "20067";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20067;
 				}
 			}
 			else {
