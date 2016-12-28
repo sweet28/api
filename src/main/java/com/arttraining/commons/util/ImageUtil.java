@@ -29,19 +29,33 @@ public class ImageUtil {
 		//首先判断是否是Json
 		JSONArray jsonArray = JSONArray.parseArray(store_path);
 		for (Iterator iterator = jsonArray.iterator(); iterator.hasNext();) {
-		        JSONObject jsonObject=(JSONObject)iterator.next();
-		        h = new HomePageAttBean();
-		        h.setAtt_id(att_id);
-		        h.setAtt_type(att_type);
-		          
-		        h.setDuration(duration);
-		        path = jsonObject.getString("store_path");
-		        path=ImageUtil.parsePicPath(path, type);
-		        h.setStore_path(path);
-		        thumbnail=ImageUtil.parsePicPath(thumbnail, type);
-		        h.setThumbnail(thumbnail);
-		        attList.add(h);
-		    }
+			JSONObject jsonObject = (JSONObject) iterator.next();
+			h = new HomePageAttBean();
+			h.setAtt_id(att_id);
+			h.setAtt_type(att_type);
+
+			h.setDuration(duration);
+			path = jsonObject.getString("store_path");
+			path = ImageUtil.parsePicPath(path, type);
+
+			String tmpPath = path;
+			if (att_type.equals("pic")) {
+				path = path + "-1024X768";
+			}
+
+			h.setStore_path(path);
+			thumbnail = ImageUtil.parsePicPath(thumbnail, type);
+
+			if (att_type.equals("pic")) {
+				thumbnail = tmpPath + "-400X247";
+			}
+			if (att_type.equals("video")) {
+				thumbnail = thumbnail + "-400X247";
+			}
+
+			h.setThumbnail(thumbnail);
+			attList.add(h);
+		}
 		return attList;
 	}
 	// 封装一个方法用于解析json数据 然后将其拆解
