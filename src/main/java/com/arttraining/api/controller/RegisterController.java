@@ -161,7 +161,7 @@ public class RegisterController {
 								+ ConfigUtil.MD5_PWD_STR);
 						userStu2.setUserMobile(moblie);
 						userStu2.setPwd(pwd);
-						
+						userStu2.setCreateTime(TimeUtil.getTimeStamp());
 						
 						userStu2.setTitle("normal");//master：达人、brother：师哥师姐、nomal：一般等
 						if (name != null && !("").equals(userStu2)) {
