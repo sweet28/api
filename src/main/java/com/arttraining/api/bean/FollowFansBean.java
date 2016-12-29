@@ -1,6 +1,5 @@
 package com.arttraining.api.bean;
 
-import com.arttraining.commons.util.ImageUtil;
 
 public class FollowFansBean {
 	private Integer follow_id;
@@ -32,8 +31,8 @@ public class FollowFansBean {
 		return head_pic;
 	}
 	public void setHead_pic(String head_pic) {
-		//this.head_pic = head_pic;
-		this.head_pic=ImageUtil.parsePicPath(head_pic, 5);
+		this.head_pic = head_pic;
+		//this.head_pic=ImageUtil.parsePicPath(head_pic, 5);
 	}
 	public Integer getUid() {
 		return uid;

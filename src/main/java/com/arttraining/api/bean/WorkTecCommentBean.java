@@ -12,6 +12,7 @@ public class WorkTecCommentBean {
 	private String duration;
 	private String attr;
 	private Integer listen_num;
+	private Integer tec_id;
 	//end
 	
 	public String getType() {
@@ -64,6 +65,12 @@ public class WorkTecCommentBean {
 	}
 	public void setListen_num(Integer listen_num) {
 		this.listen_num = listen_num;
+	}
+	public Integer getTec_id() {
+		return tec_id;
+	}
+	public void setTec_id(Integer tec_id) {
+		this.tec_id = tec_id;
 	}
 
 }

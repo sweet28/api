@@ -203,10 +203,12 @@
     <result column="comm_time" property="comm_time" jdbcType="VARCHAR" />
     <result column="attr" property="attr" jdbcType="VARCHAR" />
     <result column="listen_num" property="listen_num" jdbcType="INTEGER" />
+    <result column="tec_id" property="tec_id" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectTecCommentByWorkShow" resultMap="TecCommentResultMap">
  	select id as comm_id,content_type,content,type,remarks as duration,
- 	attachment as attr,create_time as comm_time,listen_num
+ 	attachment as attr,create_time as comm_time,listen_num,
+ 	#{uid,jdbcType=INTEGER} 'tec_id'
 	from t_yp_works_tec_comment
 	where foreign_key=#{fid,jdbcType=INTEGER}
 	and ((visitor_type='tec' and visitor=#{uid,jdbcType=INTEGER})
