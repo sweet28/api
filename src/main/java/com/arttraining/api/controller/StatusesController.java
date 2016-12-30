@@ -138,7 +138,9 @@ public class StatusesController {
 			//boolean tokenFlag = TokenUtil.checkToken(access_token);
 			boolean tokenFlag = this.tokenService.checkToken(access_token);
 			if (tokenFlag) {
-				title = EmojiUtil.resolveToNullFromEmoji(title);
+				if(title != null){
+					title = EmojiUtil.resolveToNullFromEmoji(title);
+				}
 				content = EmojiUtil.resolveToNullFromEmoji(content);
 				if(!"".equals(content.trim())){
 					Date date = new Date();

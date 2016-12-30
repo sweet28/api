@@ -149,49 +149,50 @@ public class TecherController {
 		
 		//Integer offset=-1;
 		Integer limit = ConfigUtil.HOMEPAGE_PAGESIZE;
-		if(self==null || self.equals("")) {
-			errorCode = "20032";
-			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;	
+		// if(self==null || self.equals("")) {
+		// errorCode = "20032";
+		// errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		// }
+		// else //如果传递的self不是数值字符串 返回-10
+		// if(!NumberUtil.isInteger(self)){
+		// errorCode = "20033";
+		// errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		// }
+		// else {
+		// System.out.println("00000");
+		// 首先获取所有名师
+		List<RandomBean> randomList = this.userTecService.getTecListByWeight();
+		// System.out.println("11111");
+		// 1.初始化/排序名师数据
+		RandomnNumberUtil.init(randomList);
+		// System.out.println("22222");
+		// 2.取出名师数据
+		for (int i = 0; i < limit; i++) {
+			RandomBean random = RandomnNumberUtil.getRandom();
+			Integer id = random.getId();
+			TecherListBean tec = this.userTecService
+					.getOneTecherByListIndex(id);
+			teacherList.add(tec);
 		}
-		else //如果传递的self不是数值字符串  返回-10
-		if(!NumberUtil.isInteger(self)){
-			errorCode = "20033";
-			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;	
+		// System.out.println("33333");
+		// 在这里查询总的名师个数
+		// Integer tecNum = this.userTecService.countTecherNumer();
+		// Integer page=tecNum/limit;
+		// offset=Integer.valueOf(self)-1;
+		// //如果当前页>=名师数量
+		// offset = (offset+page)%page*limit;
+		//
+		// teacherList =
+		// this.userTecService.getTecherListIndexBySelective(offset,limit);
+		if (teacherList.size() > 0) {
+			errorCode = "0";
+			errorMessage = "ok";
+		} else {
+			teacherList = new ArrayList<TecherListBean>();
+			errorCode = "20007";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 		}
-		else {
-			//System.out.println("00000");
-			//首先获取所有名师
-			List<RandomBean> randomList=this.userTecService.getTecListByWeight();
-			//System.out.println("11111");
-			//1.初始化/排序名师数据
-			RandomnNumberUtil.init(randomList);
-			//System.out.println("22222");
-			//2.取出名师数据
-			for(int i=0;i<limit;i++) {
-				RandomBean random=RandomnNumberUtil.getRandom();
-				Integer id = random.getId();
-				TecherListBean tec=this.userTecService.getOneTecherByListIndex(id);
-				teacherList.add(tec);
-			}
-			//System.out.println("33333");
-			//在这里查询总的名师个数
-//			Integer tecNum = this.userTecService.countTecherNumer();
-//			Integer page=tecNum/limit;
-//			offset=Integer.valueOf(self)-1;
-//			//如果当前页>=名师数量
-//			offset = (offset+page)%page*limit;
-//			
-//			teacherList = this.userTecService.getTecherListIndexBySelective(offset,limit);
-			if(teacherList.size()>0) {
-				errorCode = "0";
-				errorMessage = "ok";	
-			}
-			else {
-				teacherList = new ArrayList<TecherListBean>();
-				errorCode = "20007";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;	
-			}
-		}
+		// }
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
 		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
