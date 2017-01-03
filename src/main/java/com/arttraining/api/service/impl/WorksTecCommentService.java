@@ -14,9 +14,11 @@ import com.arttraining.api.bean.MasterCommentUserBean;
 import com.arttraining.api.bean.WorkCommentTecInfoBean;
 import com.arttraining.api.bean.WorkTecCommentBean;
 import com.arttraining.api.dao.AssessmentsMapper;
+import com.arttraining.api.dao.UserTechMapper;
 import com.arttraining.api.dao.WorksMapper;
 import com.arttraining.api.dao.WorksTecCommentMapper;
 import com.arttraining.api.pojo.Assessments;
+import com.arttraining.api.pojo.UserTech;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksTecComment;
 import com.arttraining.api.service.IWorksTecCommentService;
@@ -29,6 +31,8 @@ public class WorksTecCommentService implements IWorksTecCommentService {
 	private WorksMapper worksDao;
 	@Resource
 	private AssessmentsMapper assessmentsDao;
+	@Resource
+	private UserTechMapper userTecDao;
 	
 	@Override
 	public List<WorkCommentTecInfoBean> getUserInfoByWorkShow(Integer fid) {
@@ -58,6 +62,13 @@ public class WorksTecCommentService implements IWorksTecCommentService {
 		upd_work.setId(work.getId());
 		upd_work.setIsPublic(1);
 		this.worksDao.updateByPrimaryKeySelective(upd_work);
+		//end
+		
+		//coffee add 0103 更新老师表中的点评数量
+		UserTech upd_tec=new UserTech();
+		upd_tec.setId(comment.getVisitor());
+		upd_tec.setCommentNum(1);
+		this.userTecDao.updateNumberBySelective(upd_tec);
 		//end
 	}
 
@@ -101,6 +112,13 @@ public class WorksTecCommentService implements IWorksTecCommentService {
 		this.worksTecCommentDao.insertSelective(comment);
 		//然后更新作品点评表
 		this.worksDao.updateNumberBySelective(work);
+		
+		//coffee add 0103 更新老师表中的点评数量
+		UserTech upd_tec=new UserTech();
+		upd_tec.setId(comment.getVisitor());
+		upd_tec.setCommentNum(1);
+		this.userTecDao.updateNumberBySelective(upd_tec);
+		//end
 	}
 
 	@Override
