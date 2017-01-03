@@ -22,16 +22,14 @@ import com.arttraining.api.dao.WorksMapper;
 import com.arttraining.api.pojo.Assessments;
 import com.arttraining.api.pojo.Coupon;
 import com.arttraining.api.pojo.Order;
-import com.arttraining.api.pojo.Token;
 import com.arttraining.api.pojo.UserStu;
-import com.arttraining.api.pojo.UserTech;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksAttchment;
 import com.arttraining.api.service.IOrdersService;
-import com.arttraining.commons.util.JPushClientUtil;
+import com.arttraining.commons.util.ImageUtil;
 
-@Service("OrdersService")
-public class OrdersService implements IOrdersService{
+@Service("OrdersServiceV2")
+public class OrdersServiceV2 implements IOrdersService{
 	@Resource
 	private OrderMapper orderDao;
 	@Resource
@@ -50,6 +48,8 @@ public class OrdersService implements IOrdersService{
 	private UserTechMapper userTecDao;
 	@Resource
 	private TokenMapper tokenDao;
+	@Resource
+	private JPushClientService jPushClientService;
 
 	@Override
 	public int insert(Order order) {
@@ -111,6 +111,13 @@ public class OrdersService implements IOrdersService{
 				work.setAttachment(workAtt.getThumbnail());
 				//work.setIsPublic(1);
 				this.workDao.updateByPrimaryKeySelective(work);
+			} else {
+				if(workAtt.getType()!=null && workAtt.getType().equals("pic")) {
+					String path=workAtt.getStorePath();
+					path=ImageUtil.parseStatusThumbnail(path, "");
+					work.setAttachment(path);
+					this.workDao.updateByPrimaryKeySelective(work);
+				}
 			}
 			//4.修改作品附件的信息
 			workAtt.setForeignKey(workId);
@@ -212,45 +219,27 @@ public class OrdersService implements IOrdersService{
 		if(assList.size()>0) {
 			for (Assessments ass : assList) {
 				Integer tec_id=ass.getTecId();
-				UserTech tec=this.userTecDao.selectByPrimaryKey(tec_id);
-				Integer role=tec.getRole();
-				String user_type="";
-				switch (role) {
-				case 0:
-					user_type="ms";
-					break;
-				case 1:
-					user_type="zj";
-					break;
-				case 2:
-					user_type="iartschool";
-					break;	
-				case 3:
-					user_type="dr";
-					break;
-				default:
-					break;
-				}
-				//coffee add 1215 新增推送信息
-				String push_type="alert_msg";
-				//String alias=""+tec_id;
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("user_id", tec_id);
-				map.put("user_type", "tec");
-				Token t= this.tokenDao.selectOneTokenInfo(map);
-				String alias="";
-				if(t!=null) {
-					alias=t.getToken();
-					System.out.println("1111=="+tec_id);
-					String alert=tec.getName()+"老师,您好 "+ass.getStuName()+"同学请您帮忙点评他的作品哟";
-					String push_content="";
-					String push_content_type="";
-					//封装额外的数据
-					String type="stu_ass";
-					String value=""+ass.getWorkId();
-					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, push_content_type, extra_value);
-				}
+				
+//				UserTech tec=this.userTecDao.selectByPrimaryKey(tec_id);
+//				String user_type="tec";
+//				//coffee add 1215 新增推送信息
+//				String push_type="alert_msg";
+//				Map<String, Object> map = new HashMap<String, Object>();
+//				map.put("user_id", tec_id);
+//				map.put("user_type", "tec");
+//				Token t= this.tokenDao.selectOneTokenInfo(map);
+//				String alias="";
+//				if(t!=null) {
+//					alias=t.getToken();
+//					String alert=tec.getName()+"老师,您好 "+ass.getStuName()+"同学请您帮忙点评他的作品哟";
+//					String push_content="";
+//					String push_content_type="";
+//					//封装额外的数据
+//					String type="stu_ass";
+//					String value=""+ass.getWorkId();
+//					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+//					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, push_content_type, extra_value);
+//				}
 				//end
 			}
 		}
@@ -265,7 +254,26 @@ public class OrdersService implements IOrdersService{
 	@Override
 	public void pushMsgAndAlertToTecV2(String order_number, Integer uid) {
 		// TODO Auto-generated method stub
-		
+		//1.首先依据订单编号获取订单详情
+		List<Assessments> assList=this.assDao.selectAssListByOrderNum(order_number);
+		if(assList.size()>0) {
+			//先推送消息给学生 用于通知作品数量
+			Map<String, Object> param = new HashMap<String, Object>();
+			String type="stu_ass";
+			String stu_type="stu";
+			param.put("stu_id", uid);
+			this.jPushClientService.encloseMsgPush(stu_type, uid, type, null);
+			//老师消息推送
+			for (Assessments ass : assList) {
+				Integer tec_id=ass.getTecId();
+				String tec_type="tec";
+				param.put("stu_name", ass.getStuName());
+				param.put("tec_name", ass.getTecName());
+				param.put("work_id", ass.getWorkId());
+				param.put("tec_id", tec_id);
+				this.jPushClientService.encloseMsgPush(tec_type, tec_id, type, param);
+			}
+		}
 	}
 
 }

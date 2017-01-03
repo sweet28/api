@@ -44,6 +44,7 @@ import com.arttraining.api.service.impl.AdvertiseService;
 import com.arttraining.api.service.impl.BBSCommentService;
 import com.arttraining.api.service.impl.BBSForwardService;
 import com.arttraining.api.service.impl.BBSService;
+import com.arttraining.api.service.impl.JPushClientService;
 import com.arttraining.api.service.impl.StatusCommentService;
 import com.arttraining.api.service.impl.StatusesForwardService;
 import com.arttraining.api.service.impl.StatusesService;
@@ -91,6 +92,9 @@ public class StatusesController {
 	private WorksTecCommentService workTecCommentService;
 	@Resource
 	private TokenService tokenService;
+	
+	@Resource
+	private JPushClientService jPushClientService;
 	
 	public String emoji = "";
 	
@@ -168,6 +172,11 @@ public class StatusesController {
 						bbsAttr.setDuration(duration);
 						bbsAttr.setOrderCode(time);
 						bbsAttr.setThumbnail(thumbnail);
+						//如果是图片 则需要获取第一张图片的封面
+						if(attr_type.equals("pic")) {
+							String path=ImageUtil.parseStatusThumbnail(attr, "");
+							bbs.setAttachment(path);
+						}
 					}
 					//发布帖子时 更新用户发帖量
 					UserStu user = new UserStu();
@@ -178,7 +187,11 @@ public class StatusesController {
 						this.bbsService.insertBBSAndInsertAttr(bbs, bbsAttr,user);
 						errorCode = "0";
 						errorMessage = "ok";
-						
+						// coffee add 0102  新增推送信息
+						//1.先给关注人推送Msg消息
+						String type = "publish_bbs";
+						this.jPushClientService.encloseMsgPush(utype, i_uid, type, null);
+						//end
 					}catch(Exception e) {
 						errorCode = "20037";
 						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20037;

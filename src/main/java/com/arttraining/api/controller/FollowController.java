@@ -22,6 +22,7 @@ import com.arttraining.api.bean.FollowFansBean;
 import com.arttraining.api.bean.FollowUserBean;
 import com.arttraining.api.pojo.Follow;
 import com.arttraining.api.service.impl.FollowService;
+import com.arttraining.api.service.impl.JPushClientService;
 import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
@@ -37,6 +38,8 @@ public class FollowController {
 	private FollowService followService;
 	@Resource
 	private TokenService tokenService;
+	@Resource
+	private JPushClientService jPushClientService;
 	
 	/**
 	 * 添加关注
@@ -128,6 +131,20 @@ public class FollowController {
 						//this.followService.insertOneFollowAndUpdateNum(follow, follow_user, fan_user);
 						errorCode = "0";
 						errorMessage = "ok";
+						// coffee add 0102  新增推送信息
+						//1.先给关注人推送Msg消息
+						String msg_type = "follow";
+						Map<String, Object> param = new HashMap<String, Object>();
+						param.put("uid", i_uid);
+						param.put("utype", utype);
+						param.put("fan_id", host_id);
+						param.put("fan_type", type);
+						param.put("follow_type", "follow");
+						this.jPushClientService.encloseMsgPush(utype, i_uid, msg_type, param);
+						//2.然后给被关注人推送Msg消息
+						param.put("follow_type", "fans");
+						this.jPushClientService.encloseMsgPush(type, host_id, msg_type, param);
+						//end
 					} catch (Exception e) {
 						errorCode = "20052";
 						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20052;

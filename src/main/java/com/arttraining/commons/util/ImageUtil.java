@@ -9,6 +9,32 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.HomePageAttBean;
 
 public class ImageUtil {
+	//依据动态类型和store_path来解析相应的封面
+	public static String parseStatusThumbnail(String store_path,String type) {
+		String path="";
+		if(type.equals("")) {
+			//首先判断是否是Json
+			JSONArray jsonArray = JSONArray.parseArray(store_path);
+			JSONObject jsonObject=jsonArray.getJSONObject(0);
+			path=jsonObject.getString("store_path");
+		} else {
+			switch (type) {
+			case "status":
+				path=ImageUtil.parsePicPath(path, 1);
+				break;
+			case "g_stus":
+				path=ImageUtil.parsePicPath(path, 3);
+				break;
+			case "work":
+				path=ImageUtil.parsePicPath(path, 6);
+				break;
+			default:
+				break;
+			}
+		}
+		return path;
+	}
+	
 	//传递store_path 解析
 	public static String parseWorkPicPath(String store_path) {
 		String path="";

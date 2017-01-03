@@ -107,4 +107,6 @@ public class ConfigUtil {
 	
 	//设置支付时间在30分钟以内
 	public static Integer PAY_TIME=30;
+	//设置已读消息列表分页大小
+	public static Integer MSG_PAGESIZE=20;
 }

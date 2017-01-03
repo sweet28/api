@@ -4,7 +4,9 @@ package com.arttraining.api.controller;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +24,13 @@ import com.arttraining.api.pojo.BBS;
 import com.arttraining.api.pojo.BBSLike;
 import com.arttraining.api.pojo.Statuses;
 import com.arttraining.api.pojo.StatusesLike;
+import com.arttraining.api.pojo.Token;
+import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.pojo.Works;
 import com.arttraining.api.pojo.WorksLike;
 import com.arttraining.api.service.impl.BBSLikeService;
 import com.arttraining.api.service.impl.BBSService;
+import com.arttraining.api.service.impl.JPushClientService;
 import com.arttraining.api.service.impl.StatusesLikeService;
 import com.arttraining.api.service.impl.StatusesService;
 import com.arttraining.api.service.impl.TokenService;
@@ -34,6 +39,8 @@ import com.arttraining.api.service.impl.WorksLikeService;
 import com.arttraining.api.service.impl.WorksService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.JPushClientUtil;
+import com.arttraining.commons.util.JPushClientUtilV2;
 import com.arttraining.commons.util.NumberUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
@@ -58,6 +65,8 @@ public class LikeController {
 	private StatusesService statusesService;
 	@Resource
 	private TokenService tokenService;
+	@Resource
+	private JPushClientService jPushClientService;
 	
 	/***
 	 * 根据ID获取点赞用户头像列表
@@ -585,6 +594,42 @@ public class LikeController {
 							errorCode = "0";
 							errorMessage = "ok";
 							
+							// coffee add 1215 新增推送信息
+							Integer owner=bbs.getOwner();
+							String owner_type=bbs.getOwnerType();
+							//如果自己给自己点赞 则不需要推送消息
+							if (owner != i_uid) {
+								String type = "like_bbs";
+								Map<String, Object> param = new HashMap<String, Object>();
+								//点赞人ID
+								param.put("uid", i_uid);
+								param.put("utype", utype);
+								param.put("like_id", i_like_id);
+								this.jPushClientService.encloseMsgPush(owner_type, owner, type, param);
+//								//首先获取发布帖子的人最新token
+//								Map<String, Object> map = new HashMap<String, Object>();
+//								map.put("user_id", owner);
+//								map.put("user_type", owner_type);
+//								Token t = this.tokenService.getOneTokenInfo(map);
+//								//如果存在token 则进行别名消息推送
+//								if (t != null) {
+//									String alias = t.getToken();
+//									String user_type = owner_type;
+//									String push_type = "msg";
+//									String alert = "";
+//									String push_content = "";
+//									String content_type = "";
+//									String alert_extra="";
+//									// 封装额外的数据 begin
+//									String type = "like_bbs";
+//									String extra_value=this.jPushClientService.insertMsgPushByLike(type, i_like_id, "status", i_uid, utype);
+//									//end
+//									JPushClientUtilV2.enclose_push_data_aliasV2(user_type, push_type, 
+//											alias, alert, push_content, content_type, extra_value, alert_extra);
+//								}
+							}
+							// end
+							
 						} catch (Exception e) {
 							errorCode = "20034";
 							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20034;
@@ -683,6 +728,42 @@ public class LikeController {
 							errorCode = "0";
 							errorMessage = "ok";
 							
+							// coffee add 1215 新增推送信息
+							Integer owner=works.getOwner();
+							String owner_type=works.getOwnerType();
+							//如果自己给自己点赞 则不需要推送消息
+							if (owner != i_uid) {
+								String type = "like_work";
+								Map<String, Object> param = new HashMap<String, Object>();
+								param.put("uid", i_uid);
+								param.put("utype", utype);
+								param.put("like_id", i_like_id);
+								this.jPushClientService.encloseMsgPush(owner_type, owner, type, param);
+								//首先获取发布帖子的人最新token
+//								Map<String, Object> map = new HashMap<String, Object>();
+//								map.put("user_id", owner);
+//								map.put("user_type", owner_type);
+//								Token t = this.tokenService.getOneTokenInfo(map);
+//								//如果存在token 则进行别名消息推送
+//								if (t != null) {
+//									String alias = t.getToken();
+//									String user_type = owner_type;
+//									String push_type = "msg";
+//									String alert = "";
+//									String push_content = "";
+//									String content_type = "";
+//									String alert_extra="";
+//									// 封装额外的数据 begin
+//									String type = "like_work";
+//									String extra_value=this.jPushClientService.insertMsgPushByLike(type, i_like_id, "work", i_uid, utype);
+//									//end
+//									JPushClientUtilV2.enclose_push_data_aliasV2(user_type, 
+//											push_type, alias, alert, push_content, 
+//											content_type, extra_value, alert_extra);
+//								}
+							}
+							// end
+							
 						} catch (Exception e) {
 							errorCode = "20034";
 							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20034;
@@ -779,6 +860,42 @@ public class LikeController {
 							//添加点赞成功
 							errorCode = "0";
 							errorMessage = "ok";
+							
+							// coffee add 1215 新增推送信息
+							Integer owner=statuses.getOwner();
+							String owner_type=statuses.getOwnerType();
+							//如果自己给自己点赞 则不需要推送消息
+							if (owner != i_uid) {
+								String type = "like_gstus";
+								Map<String, Object> param = new HashMap<String, Object>();
+								param.put("uid", i_uid);
+								param.put("utype", utype);
+								param.put("like_id", i_like_id);
+								this.jPushClientService.encloseMsgPush(owner_type, owner, type, param);
+							/*	//首先获取发布帖子的人最新token
+								Map<String, Object> map = new HashMap<String, Object>();
+								map.put("user_id", owner);
+								map.put("user_type", owner_type);
+								Token t = this.tokenService.getOneTokenInfo(map);
+								//如果存在token 则进行别名消息推送
+								if (t != null) {
+									String alias = t.getToken();
+									String user_type = owner_type;
+									String push_type = "msg";
+									String alert = "";
+									String push_content = "";
+									String content_type = "";
+									String alert_extra="";
+									// 封装额外的数据 begin
+									String type = "like_gstus";
+									String extra_value=this.jPushClientService.insertMsgPushByLike(type, i_like_id, "g_stus", i_uid, utype);
+									//end
+									JPushClientUtilV2.enclose_push_data_aliasV2(user_type, push_type, alias,
+											alert, push_content, content_type, 
+											extra_value, alert_extra);
+								}*/
+							}
+							// end
 							
 						} catch (Exception e) {
 							errorCode = "20034";
