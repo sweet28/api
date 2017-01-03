@@ -309,8 +309,22 @@ public class FavoritesController {
 		          h.setDuration(duration);
 		          path = jsonObject.getString("store_path");
 		          path=ImageUtil.parsePicPath(path, type);
+		          
+		          String tmpPath = path;
+		          if(att_type.equals("pic")){
+		        	  path = path + "-1024X768";
+		          }
+		          
 		          h.setStore_path(path);
 		          thumbnail=ImageUtil.parsePicPath(thumbnail, type);
+		          
+		          if(att_type.equals("pic")){
+		        	  thumbnail = tmpPath + "-400X247";
+		          }
+		          if(att_type.equals("video")){
+		        	  thumbnail = thumbnail + "-400X247";
+		          }
+		          
 		          h.setThumbnail(thumbnail);
 		          attList.add(h);
 		    }
