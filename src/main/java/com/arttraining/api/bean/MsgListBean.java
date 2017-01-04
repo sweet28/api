@@ -31,6 +31,9 @@ public class MsgListBean {
 	private String b_name;
 	//被回复人头像
 	private String b_head_pic;
+	//coffee add 0104
+	private String status_content;
+	//end
 	
 	
 	public Integer getMsg_id() {
@@ -123,4 +126,11 @@ public class MsgListBean {
 	public void setB_head_pic(String b_head_pic) {
 		this.b_head_pic = b_head_pic;
 	}
+	public String getStatus_content() {
+		return status_content;
+	}
+	public void setStatus_content(String status_content) {
+		this.status_content = status_content;
+	}
+	
 }

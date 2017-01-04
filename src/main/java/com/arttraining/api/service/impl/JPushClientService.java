@@ -76,11 +76,23 @@ public class JPushClientService implements IJPushClientService {
 			owner=bbs.getOwner();
 			owner_type=bbs.getOwnerType();
 			attr=bbs.getAttachment();
+			//coffee add 0104
+			String content=this.bbsDao.selectBBSAttrInfoById(status_id);
+			if(content==null || content.trim().equals("")) {
+				msg.setAttachment(bbs.getContent());
+			}
+			//end
 		} else if(status_type.equals("g_stus")) {
 			Statuses status = this.statusDao.selectByPrimaryKey(status_id);
 			owner=status.getOwner();
 			owner_type=status.getOwnerType();
 			attr=status.getAttachment();
+			//coffee add 0104
+			String content=this.statusDao.selectStatusAttrInfoById(status_id);
+			if(content==null || content.trim().equals("")) {
+				msg.setAttachment(status.getContent());
+			}
+			//end
 		} else if(status_type.equals("work")) {
 			Works work = this.workDao.selectByPrimaryKey(status_id);
 			owner=work.getOwner();
@@ -159,9 +171,21 @@ public class JPushClientService implements IJPushClientService {
 		if(comm_status_type.equals("status")) {
 			BBS bbs = this.bbsDao.selectByPrimaryKey(comm_status_id);
 			attr=bbs.getAttachment();
+			//coffee add 0104
+			String content=this.bbsDao.selectBBSAttrInfoById(comm_status_id);
+			if(content==null || content.trim().equals("")) {
+				msg.setAttachment(bbs.getContent());
+			}
+			//end
 		} else if(comm_status_type.equals("g_stus")) {
 			Statuses status = this.statusDao.selectByPrimaryKey(comm_status_id);
 			attr=status.getAttachment();
+			//coffee add 0104
+			String content=this.statusDao.selectStatusAttrInfoById(comm_status_id);
+			if(content==null || content.trim().equals("")) {
+				msg.setAttachment(status.getContent());
+			}
+			//end
 		} else if(comm_status_type.equals("work")) {
 			Works work = this.workDao.selectByPrimaryKey(comm_status_id);
 			attr=work.getAttachment();

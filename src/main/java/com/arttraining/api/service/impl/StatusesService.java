@@ -86,4 +86,10 @@ public class StatusesService implements IStatusesService {
 		return this.statusesDao.updateNumberBySelective(record);
 	}
 
+	@Override
+	public String getStatusAttrInfoById(Integer id) {
+		// TODO Auto-generated method stub
+		return this.statusesDao.selectStatusAttrInfoById(id);
+	}
+
 }

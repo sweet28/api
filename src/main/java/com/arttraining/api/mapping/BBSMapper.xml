@@ -38,6 +38,17 @@
   <sql id="select_userstu_where" >
        is_lock=0 and is_deleted=0
   </sql>
+  <!-- coffee add 0104 依据帖子ID来判断是否发送帖子附件 -->
+  <select id="selectBBSAttrInfoById" resultType="java.lang.String" parameterType="java.lang.Integer">
+	select b.content
+	from (select id,content
+	      from t_yp_bbs
+	      where id= #{id,jdbcType=INTEGER} and is_deleted=0) b,
+	     (select id,foreign_key
+	      from t_yp_bbs_att
+	      where foreign_key = #{id,jdbcType=INTEGER} and is_deleted=0) a
+	where b.id=a.foreign_key
+  </select>
   <!-- coffee add 更新帖子相关数量 -->
    <update id="updateNumberBySelective" parameterType="com.arttraining.api.pojo.BBS" >
     update t_yp_bbs

@@ -124,6 +124,7 @@ public class MessageController {
 								msg.setStatus_id(status_id);
 								msg.setStatus_type(status_type);
 								msg.setStatus_pic(status_pic);
+								msg.setStatus_content(push.getAttachment());
 								
 								msg_list.add(msg);
 							}
@@ -159,8 +160,14 @@ public class MessageController {
 			String access_token = request.getParameter("access_token");
 			String uid = request.getParameter("uid");
 			String utype=request.getParameter("utype");
+			//以下是不可选参数
+			String self=request.getParameter("self");
 			
-			ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+"-utype:"+utype);
+			ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+
+					"-utype:"+utype+"-self:"+self);
+			
+			Integer limit=ConfigUtil.MSG_PAGESIZE;
+			Integer offset=-1;
 			
 			MsgListReBean msgReBean = new MsgListReBean();
 			if(access_token==null || uid==null || utype==null) {
@@ -174,69 +181,88 @@ public class MessageController {
 				errorCode = "20033";
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 			} else {
-				boolean tokenFlag = this.tokenService.checkToken(access_token);
-				if (tokenFlag) {
-					//1.先去查询uid/utype对应的所有未读消息列表
-					Integer i_uid=Integer.valueOf(uid);
-					List<MessagePush> pushList=this.messagePushService.getUnreadMsgListByUid(i_uid, utype);
-					if(pushList.size()>0) {
-						List<MsgListBean> msg_list = new ArrayList<MsgListBean>();
-						//循环读取消息列表
-						for (MessagePush push : pushList) {
-							MsgListBean msg = new MsgListBean();
-							
-							String time=TimeUtil.getTimeByDate(push.getCreateTime());
-							msg.setMsg_time(time);
-							msg.setMsg_id(push.getId());
-							msg.setMsg_content(push.getMsgContent());
-							msg.setMsg_type(push.getMsgType());
-							//评论人/点赞人...
-							Integer visitor=push.getVisitor();
-							String visitor_type=push.getVisitorType();
-							MsgUserBean visitor_user = this.messagePushService.getMsgUserInfoByUid(visitor, visitor_type);
-							msg.setUid(visitor);
-							msg.setUtype(visitor_type);
-							msg.setName(visitor_user.getName());
-							msg.setHead_pic(visitor_user.getHead_pic());
-							//被回复人/类型
-							Integer b_uid=push.getOwnerId();
-							String b_utype=push.getOwnerType();
-							MsgUserBean b_user = this.messagePushService.getMsgUserInfoByUid(b_uid, b_utype);
-							msg.setB_uid(b_uid);
-							msg.setB_utype(b_utype);
-							msg.setB_name(b_user.getName());
-							msg.setB_head_pic(b_user.getHead_pic());
-							
-							//动态类型信息 ID/封面/类型
-							Integer status_id=push.getStatusId();
-							String status_type=push.getStatusType();
-							String status_pic=push.getStatusPic();
-							status_pic=ImageUtil.parseStatusThumbnail(status_pic, status_type);
-							msg.setStatus_id(status_id);
-							msg.setStatus_type(status_type);
-							msg.setStatus_pic(status_pic);
-							
-							msg_list.add(msg);
+				if(self==null || self.equals("")) {
+					offset=-1;
+				} else if(!NumberUtil.isInteger(self)) {
+					offset=-10;
+				} else {
+					offset=Integer.valueOf(self);
+				}
+				if(offset==-10) {
+					errorCode = "20033";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+				} else {
+					boolean tokenFlag = this.tokenService.checkToken(access_token);
+					if (tokenFlag) {
+						//1.先去查询uid/utype对应的所有未读消息列表
+						Integer i_uid=Integer.valueOf(uid);
+						Map<String, Object> map=new HashMap<String, Object>();
+						map.put("uid", i_uid);
+						map.put("utype", utype);
+						map.put("limit", limit);
+						map.put("offset", offset);
+						List<MessagePush> pushList=this.messagePushService.getMoreMsgListByUid(map);
+						if(pushList.size()>0) {
+							List<MsgListBean> msg_list = new ArrayList<MsgListBean>();
+							//循环读取消息列表
+							for (MessagePush push : pushList) {
+								MsgListBean msg = new MsgListBean();
+								
+								String time=TimeUtil.getTimeByDate(push.getCreateTime());
+								msg.setMsg_time(time);
+								msg.setMsg_id(push.getId());
+								msg.setMsg_content(push.getMsgContent());
+								msg.setMsg_type(push.getMsgType());
+								//评论人/点赞人...
+								Integer visitor=push.getVisitor();
+								String visitor_type=push.getVisitorType();
+								MsgUserBean visitor_user = this.messagePushService.getMsgUserInfoByUid(visitor, visitor_type);
+								msg.setUid(visitor);
+								msg.setUtype(visitor_type);
+								msg.setName(visitor_user.getName());
+								msg.setHead_pic(visitor_user.getHead_pic());
+								//被回复人/类型
+								Integer b_uid=push.getOwnerId();
+								String b_utype=push.getOwnerType();
+								MsgUserBean b_user = this.messagePushService.getMsgUserInfoByUid(b_uid, b_utype);
+								msg.setB_uid(b_uid);
+								msg.setB_utype(b_utype);
+								msg.setB_name(b_user.getName());
+								msg.setB_head_pic(b_user.getHead_pic());
+								
+								//动态类型信息 ID/封面/类型
+								Integer status_id=push.getStatusId();
+								String status_type=push.getStatusType();
+								String status_pic=push.getStatusPic();
+								status_pic=ImageUtil.parseStatusThumbnail(status_pic, status_type);
+								msg.setStatus_id(status_id);
+								msg.setStatus_type(status_type);
+								msg.setStatus_pic(status_pic);
+								msg.setStatus_content(push.getAttachment());
+								
+								msg_list.add(msg);
+							}
+							msgReBean.setMsg_list(msg_list);
+							if(offset==-1) {
+								//将该用户所有未读的消息设置为已读 begin
+								MessagePush upd_msg = new MessagePush();
+								upd_msg.setOwnerId(i_uid);
+								upd_msg.setOwnerType(utype);
+								upd_msg.setIsRead(1);
+								this.messagePushService.updateAllMsgReadStatusByUid(upd_msg);
+								//end
+							}
+							errorCode="0";
+							errorMessage="ok";
+						} else {
+							errorCode = "20007";
+							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 						}
-						msgReBean.setMsg_list(msg_list);
-						//将该用户所有未读的消息设置为已读 begin
-						MessagePush upd_msg = new MessagePush();
-						upd_msg.setOwnerId(i_uid);
-						upd_msg.setOwnerType(utype);
-						upd_msg.setIsRead(1);
-						this.messagePushService.updateAllMsgReadStatusByUid(upd_msg);
-						//end
-						errorCode="0";
-						errorMessage="ok";
 						
 					} else {
-						errorCode = "20007";
-						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+						errorCode = "20028";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 					}
-					
-				} else {
-					errorCode = "20028";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
 				}
 			}
 			msgReBean.setError_code(errorCode);

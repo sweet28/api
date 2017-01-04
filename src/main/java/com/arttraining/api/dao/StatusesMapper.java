@@ -53,4 +53,7 @@ public interface StatusesMapper {
     int updateStatusCommNumByPrimaryKey(Integer id);
     //更新小组动态数量
     int updateNumberBySelective(Statuses record);
+    
+    //coffee add 0104 依据帖子ID来判断是否发送帖子附件
+    String selectStatusAttrInfoById(Integer id);  
 }

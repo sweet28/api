@@ -33,4 +33,7 @@ public interface IBBSService {
     List<HomePageStatusesBean> getBBSListByMyComment(@Param("uid")Integer uid,
     		@Param("offset")Integer offset,
     		@Param("limit")Integer limit);
+    
+    //coffee add 0104 依据帖子ID来判断是否发送帖子附件
+    String getBBSAttrInfoById(Integer id);
 }

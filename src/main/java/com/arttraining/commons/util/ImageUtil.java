@@ -18,6 +18,7 @@ public class ImageUtil {
 			JSONObject jsonObject=jsonArray.getJSONObject(0);
 			path=jsonObject.getString("store_path");
 		} else {
+			path = store_path;
 			switch (type) {
 			case "status":
 				path=ImageUtil.parsePicPath(path, 1);

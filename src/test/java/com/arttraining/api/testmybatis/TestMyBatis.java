@@ -39,22 +39,22 @@ public class TestMyBatis {
 
 	@Test
 	public void test() {
-		try {
-	 		//修改
-	 		 UserStu useStu = new UserStu();
-		     useStu.setName("44");
-		     useStu.setId(2);
-		        //插入
-		      UserStu useStu1 = new UserStu();
-		      useStu1.setName("654");
-		      useStu1.setId(10);
-		      logger.info(JSON.toJSONString(useStu1));
-		      //this.userService.delAndUpdate(useStu, useStu1);
-		      System.out.println("true");
-		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println("false");
-		}
+//		try {
+//	 		//修改
+//	 		 UserStu useStu = new UserStu();
+//		     useStu.setName("44");
+//		     useStu.setId(2);
+//		        //插入
+//		      UserStu useStu1 = new UserStu();
+//		      useStu1.setName("654");
+//		      useStu1.setId(10);
+//		      logger.info(JSON.toJSONString(useStu1));
+//		      //this.userService.delAndUpdate(useStu, useStu1);
+//		      System.out.println("true");
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println("false");
+//		}
 		//List<InformationListBean> informationList = this.informationService.getInformationList();
 		//InformationShowBean informationShow = this.informationService.getOneInformation(1);
 		

@@ -39,6 +39,18 @@
   <sql id="select_userstu_where" >
        is_lock=0 and is_deleted=0
   </sql>
+   <!-- coffee add 0104 依据动态ID来判断是否发送动态附件 -->
+  <select id="selectStatusAttrInfoById" resultType="java.lang.String" parameterType="java.lang.Integer">
+	select s.content
+	from (select id,content
+	      from t_yp_statuses
+	      where id= #{id,jdbcType=INTEGER} and is_deleted=0) s,
+	     (select id,foreign_key
+	      from t_yp_statuses_att
+	      where foreign_key = #{id,jdbcType=INTEGER} and is_deleted=0) a
+	where s.id=a.foreign_key
+  </select>
+  
   <!-- coffee add 更新小组动态数量 -->
   <update id="updateNumberBySelective" parameterType="com.arttraining.api.pojo.Statuses" >
     update t_yp_statuses

@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.ThirdLoginMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.ThirdLogin" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="openid" property="openid" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="access_token" property="accessToken" jdbcType="VARCHAR" />
+    <result column="refresh_token" property="refreshToken" jdbcType="VARCHAR" />
+    <result column="expiration" property="expiration" jdbcType="VARCHAR" />
+    <result column="iconurl" property="iconurl" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="gender" property="gender" jdbcType="VARCHAR" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <result column="followers_count" property="followersCount" jdbcType="INTEGER" />
+    <result column="friends_count" property="friendsCount" jdbcType="INTEGER" />
+    <result column="is_yellow_year_vip" property="isYellowYearVip" jdbcType="VARCHAR" />
+    <result column="yellow_vip_level" property="yellowVipLevel" jdbcType="VARCHAR" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <result column="middle_name" property="middleName" jdbcType="VARCHAR" />
+    <result column="headline" property="headline" jdbcType="VARCHAR" />
+    <result column="login_way" property="loginWay" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, openid, uid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    access_token, refresh_token, expiration, iconurl, name, gender, location, followers_count, 
+    friends_count, is_yellow_year_vip, yellow_vip_level, country_code, country, city, 
+    province, first_name, last_name, middle_name, headline, login_way
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_third_login
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_third_login
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.ThirdLogin" >
+    insert into t_yp_third_login (id, openid, uid, 
+      is_deleted, create_time, order_code, 
+      delete_time, remarks, attachment, 
+      access_token, refresh_token, expiration, 
+      iconurl, name, gender, 
+      location, followers_count, friends_count, 
+      is_yellow_year_vip, yellow_vip_level, country_code, 
+      country, city, province, 
+      first_name, last_name, middle_name, 
+      headline, login_way)
+    values (#{id,jdbcType=INTEGER}, #{openid,jdbcType=VARCHAR}, #{uid,jdbcType=VARCHAR}, 
+      #{isDeleted,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, 
+      #{deleteTime,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, 
+      #{accessToken,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR}, #{expiration,jdbcType=VARCHAR}, 
+      #{iconurl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+      #{location,jdbcType=VARCHAR}, #{followersCount,jdbcType=INTEGER}, #{friendsCount,jdbcType=INTEGER}, 
+      #{isYellowYearVip,jdbcType=VARCHAR}, #{yellowVipLevel,jdbcType=VARCHAR}, #{countryCode,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, 
+      #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{middleName,jdbcType=VARCHAR}, 
+      #{headline,jdbcType=VARCHAR}, #{loginWay,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.ThirdLogin" >
+    insert into t_yp_third_login
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="openid != null" >
+        openid,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="accessToken != null" >
+        access_token,
+      </if>
+      <if test="refreshToken != null" >
+        refresh_token,
+      </if>
+      <if test="expiration != null" >
+        expiration,
+      </if>
+      <if test="iconurl != null" >
+        iconurl,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="gender != null" >
+        gender,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+      <if test="followersCount != null" >
+        followers_count,
+      </if>
+      <if test="friendsCount != null" >
+        friends_count,
+      </if>
+      <if test="isYellowYearVip != null" >
+        is_yellow_year_vip,
+      </if>
+      <if test="yellowVipLevel != null" >
+        yellow_vip_level,
+      </if>
+      <if test="countryCode != null" >
+        country_code,
+      </if>
+      <if test="country != null" >
+        country,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="firstName != null" >
+        first_name,
+      </if>
+      <if test="lastName != null" >
+        last_name,
+      </if>
+      <if test="middleName != null" >
+        middle_name,
+      </if>
+      <if test="headline != null" >
+        headline,
+      </if>
+      <if test="loginWay != null" >
+        login_way,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openid != null" >
+        #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null" >
+        #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="refreshToken != null" >
+        #{refreshToken,jdbcType=VARCHAR},
+      </if>
+      <if test="expiration != null" >
+        #{expiration,jdbcType=VARCHAR},
+      </if>
+      <if test="iconurl != null" >
+        #{iconurl,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="followersCount != null" >
+        #{followersCount,jdbcType=INTEGER},
+      </if>
+      <if test="friendsCount != null" >
+        #{friendsCount,jdbcType=INTEGER},
+      </if>
+      <if test="isYellowYearVip != null" >
+        #{isYellowYearVip,jdbcType=VARCHAR},
+      </if>
+      <if test="yellowVipLevel != null" >
+        #{yellowVipLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="firstName != null" >
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="middleName != null" >
+        #{middleName,jdbcType=VARCHAR},
+      </if>
+      <if test="headline != null" >
+        #{headline,jdbcType=VARCHAR},
+      </if>
+      <if test="loginWay != null" >
+        #{loginWay,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.ThirdLogin" >
+    update t_yp_third_login
+    <set >
+      <if test="openid != null" >
+        openid = #{openid,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="accessToken != null" >
+        access_token = #{accessToken,jdbcType=VARCHAR},
+      </if>
+      <if test="refreshToken != null" >
+        refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      </if>
+      <if test="expiration != null" >
+        expiration = #{expiration,jdbcType=VARCHAR},
+      </if>
+      <if test="iconurl != null" >
+        iconurl = #{iconurl,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        gender = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        location = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="followersCount != null" >
+        followers_count = #{followersCount,jdbcType=INTEGER},
+      </if>
+      <if test="friendsCount != null" >
+        friends_count = #{friendsCount,jdbcType=INTEGER},
+      </if>
+      <if test="isYellowYearVip != null" >
+        is_yellow_year_vip = #{isYellowYearVip,jdbcType=VARCHAR},
+      </if>
+      <if test="yellowVipLevel != null" >
+        yellow_vip_level = #{yellowVipLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        country_code = #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null" >
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="firstName != null" >
+        first_name = #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        last_name = #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="middleName != null" >
+        middle_name = #{middleName,jdbcType=VARCHAR},
+      </if>
+      <if test="headline != null" >
+        headline = #{headline,jdbcType=VARCHAR},
+      </if>
+      <if test="loginWay != null" >
+        login_way = #{loginWay,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.ThirdLogin" >
+    update t_yp_third_login
+    set openid = #{openid,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      access_token = #{accessToken,jdbcType=VARCHAR},
+      refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      expiration = #{expiration,jdbcType=VARCHAR},
+      iconurl = #{iconurl,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      gender = #{gender,jdbcType=VARCHAR},
+      location = #{location,jdbcType=VARCHAR},
+      followers_count = #{followersCount,jdbcType=INTEGER},
+      friends_count = #{friendsCount,jdbcType=INTEGER},
+      is_yellow_year_vip = #{isYellowYearVip,jdbcType=VARCHAR},
+      yellow_vip_level = #{yellowVipLevel,jdbcType=VARCHAR},
+      country_code = #{countryCode,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      first_name = #{firstName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR},
+      middle_name = #{middleName,jdbcType=VARCHAR},
+      headline = #{headline,jdbcType=VARCHAR},
+      login_way = #{loginWay,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -34,4 +34,7 @@ public interface IStatusesService {
     
     //更新小组动态数量
     int updateStatusNumber(Statuses record);
+    
+    //coffee add 0104 依据帖子ID来判断是否发送帖子附件
+    String getStatusAttrInfoById(Integer id);  
 }

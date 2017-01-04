@@ -84,5 +84,10 @@ public class BBSService implements IBBSService {
 		return this.bbsDao.selectBBSListByMyComment(uid, offset, limit);
 	}
 
+	@Override
+	public String getBBSAttrInfoById(Integer id) {
+		// TODO Auto-generated method stub
+		return this.bbsDao.selectBBSAttrInfoById(id);
+	}
 	
 }
