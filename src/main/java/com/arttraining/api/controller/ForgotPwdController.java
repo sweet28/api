@@ -48,6 +48,7 @@ public class ForgotPwdController {
 		//coffee add 
 		//String code_type = request.getParameter("code_type");
 		String code_type ="identity_code";
+		String login_way="yhy";
 		//end
 		ServerLog.getLogger().warn("mobile:"+account+"-new_pwd:"+pwd);
 		//System.out.println("进入忘记密码："+account+TimeUtil.getTimeStamp());
@@ -62,7 +63,8 @@ public class ForgotPwdController {
 		} else if(PhoneUtil.isMobile(account)){
 			System.out.println("进入忘记密码444："+account+TimeUtil.getTimeStamp());
 			UserStu userStu = null;
-			userStu = this.userStuService.getUserStuByAccount(account);
+			userStu = this.userStuService.getUserByMobileAndRemarks(account, login_way);
+			//userStu = this.userStuService.getUserStuByAccount(account);
 			if(userStu != null){
 				System.out.println("进入忘记密码555："+account+TimeUtil.getTimeStamp());
 				pwd = MD5.encodeString(MD5.encodeString(pwd

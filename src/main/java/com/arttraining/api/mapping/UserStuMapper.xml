@@ -278,6 +278,16 @@
     <include refid="select_userstu_where"></include>
   </select>
   <!-- end -->
+  <!-- coffee add 0105 依据手机号和登录方式来获取爱好者用户信息 -->
+   <select id="selectUserByMobileAndRemarks" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_user_stu
+    where user_mobile = #{user_mobile,jdbcType=VARCHAR}
+    and remarks= #{remarks,jdbcType=VARCHAR}
+    <include refid="select_userstu_where"></include>
+  </select>
+  <!-- end -->
   
   <select id="selectUserByAccount" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -286,6 +296,19 @@
     where user_mobile = #{user_mobile,jdbcType=VARCHAR}
     <include refid="select_userstu_where"></include>
   </select>
+  
+  <!-- coffee add 0104 依据uid和remarks来获取爱好者用户信息 -->
+   <select id="selectUserStuByUidAndRemarks" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_user_stu
+    where uid = #{uid,jdbcType=VARCHAR}
+    <if test="remarks !=null">
+    	and remarks= #{remarks,jdbcType=VARCHAR}
+    </if>
+    <include refid="select_userstu_where"></include>
+  </select>
+  <!-- end -->
   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

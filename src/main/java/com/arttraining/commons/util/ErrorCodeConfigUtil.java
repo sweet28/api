@@ -98,4 +98,6 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20066 = "小主,你今天已经投票过了哟 ";
 	
 	public static String ERROR_MSG_ZH_20067 = "小主,还不能发表情哟 ";
+	public static String ERROR_MSG_ZH_20068 = "该手机号已经被绑定了哟 ";
+	public static String ERROR_MSG_ZH_20069 = "请先选择第三方登录哟 ";
 }

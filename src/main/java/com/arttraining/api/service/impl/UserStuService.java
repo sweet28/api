@@ -113,5 +113,17 @@ public class UserStuService implements IUserStuService{
 		// TODO Auto-generated method stub
 		return this.userStuDao.updateNumberBySelective(record);
 	}
+
+	@Override
+	public UserStu getUserStuByUidAndRemarks(String uid, String remarks) {
+		// TODO Auto-generated method stub
+		return this.userStuDao.selectUserStuByUidAndRemarks(uid, remarks);
+	}
+
+	@Override
+	public UserStu getUserByMobileAndRemarks(String user_mobile, String remarks) {
+		// TODO Auto-generated method stub
+		return this.userStuDao.selectUserByMobileAndRemarks(user_mobile, remarks);
+	}
 	
 }

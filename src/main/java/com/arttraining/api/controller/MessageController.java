@@ -201,8 +201,10 @@ public class MessageController {
 						map.put("utype", utype);
 						map.put("limit", limit);
 						map.put("offset", offset);
+						System.out.println("111111");
 						List<MessagePush> pushList=this.messagePushService.getMoreMsgListByUid(map);
 						if(pushList.size()>0) {
+							System.out.println("222222");
 							List<MsgListBean> msg_list = new ArrayList<MsgListBean>();
 							//循环读取消息列表
 							for (MessagePush push : pushList) {
@@ -242,6 +244,7 @@ public class MessageController {
 								
 								msg_list.add(msg);
 							}
+							System.out.println("33333");
 							msgReBean.setMsg_list(msg_list);
 							if(offset==-1) {
 								//将该用户所有未读的消息设置为已读 begin

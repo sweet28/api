@@ -47,6 +47,9 @@ public class RegisterController {
 		String account = "";
 		
 		account = request.getParameter("mobile");
+		//coffee add 0105
+		String login_way="yhy";
+		//end
 		ServerLog.getLogger().warn("mobile:"+account);
 		//System.out.println("进入注册验证："+account+TimeUtil.getTimeStamp());
 		if(account == null){
@@ -57,7 +60,8 @@ public class RegisterController {
 			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		} else if(PhoneUtil.isMobile(account)){
 			UserStu userStu = null;
-			userStu = this.userStuService.getUserStuByAccount(account);
+			userStu = this.userStuService.getUserByMobileAndRemarks(account, login_way);
+			//userStu = this.userStuService.getUserStuByAccount(account);
 			if(userStu != null){
 				errorCode = "20024";
 				errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20024;
@@ -93,7 +97,9 @@ public class RegisterController {
 		//end
 				
 		//System.out.println("进入注册"+TimeUtil.getTimeStamp());
-		
+		//coffee 0105
+		String login_way="yhy";
+		//end
 		moblie = request.getParameter("mobile");
 		pwd = request.getParameter("psw");
 		name = request.getParameter("name");
@@ -118,7 +124,8 @@ public class RegisterController {
 			return gson.toJson(simReBean);
 		}else if(PhoneUtil.isMobile(moblie)){
 			UserStu userStu = null;
-			userStu = this.userStuService.getUserStuByAccount(moblie);
+			userStu=this.userStuService.getUserByMobileAndRemarks(moblie, login_way);
+			//userStu = this.userStuService.getUserStuByAccount(moblie);
 			if(userStu != null){
 				SimpleReBean simReBean = new SimpleReBean();
 				errorCode = "20024";
@@ -162,14 +169,13 @@ public class RegisterController {
 						userStu2.setUserMobile(moblie);
 						userStu2.setPwd(pwd);
 						userStu2.setCreateTime(TimeUtil.getTimeStamp());
-						
+						userStu2.setRemarks(login_way);
 						userStu2.setTitle("normal");//master：达人、brother：师哥师姐、nomal：一般等
 						if (name != null && !("").equals(userStu2)) {
 							userStu2.setName(name);
 						}else{
 							String hidden_mobile=PhoneUtil.hiddenPhoneNumber(moblie);
 							userStu2.setName(hidden_mobile);
-							//userStu2.setName(mobile);
 						}
 						int result = 0;
 						result = this.userStuService.insert(userStu2);
@@ -180,8 +186,8 @@ public class RegisterController {
 							this.smsService.update(smsCCode);
 							//end
 							
-							UserStu userBean = this.userStuService.getUserStuByAccount(moblie);
-							
+							UserStu userBean = this.userStuService.getUserByMobileAndRemarks(moblie, login_way);
+							//UserStu userBean = this.userStuService.getUserStuByAccount(moblie);
 							accessToken = TokenUtil.generateToken(moblie);
 							errorCode = "0";
 							errorMsg = "ok";
@@ -190,11 +196,7 @@ public class RegisterController {
 							loginBean.setCity(userBean.getCityName());
 							loginBean.setEmail(userBean.getEmail());
 							String headPic = userBean.getHeadPic();
-							if(!"".equals(headPic) && null != headPic){
-								headPic = ImageUtil.parseQiNiuPath(headPic, 5);
-								
-								loginBean.setHead_pic(headPic);
-							}
+							loginBean.setHead_pic(headPic);
 							loginBean.setIdentity(userBean.getIdentityName());
 							loginBean.setIntentional_college(userBean.getIntentionalCollegeName());
 							loginBean.setMobile(userBean.getUserMobile());
@@ -208,6 +210,16 @@ public class RegisterController {
 							loginBean.setUid(userBean.getId());
 							loginBean.setUser_code(userBean.getUserCode());
 							loginBean.setTitle(userBean.getTitle());
+							
+							//coffee add
+							loginBean.setBbs_num(userBean.getBbsNum());
+							loginBean.setComment_num(userBean.getCommentNum());
+							loginBean.setFans_num(userBean.getFansNum());
+							loginBean.setFavorite_num(userBean.getFavoriteNum());
+							loginBean.setFollow_num(userBean.getFollowNum());
+							loginBean.setGroup_num(userBean.getGroupNum());
+							loginBean.setWork_num(userBean.getWorkNum());
+							//end
 							
 							loginBean.setAccess_token(accessToken);
 							loginBean.setError_code(errorCode);

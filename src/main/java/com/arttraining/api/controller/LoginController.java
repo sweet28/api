@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.bean.LoginBean;
+import com.arttraining.api.bean.LoginBeanV2;
 import com.arttraining.api.bean.SimpleReBean;
 import com.arttraining.api.bean.UserStuShowBean;
 import com.arttraining.api.pojo.Token;
@@ -43,7 +44,7 @@ public class LoginController {
 		String name = "";
 		String pwd = "";
 		
-		LoginBean loginBean = new LoginBean();
+	    LoginBean loginBean = new LoginBean();
 		Gson gson = new Gson();
 		UserStu userStu = null;
 		
@@ -53,6 +54,9 @@ public class LoginController {
 		
 		name = request.getParameter("name");
 		pwd = request.getParameter("pwd");
+		//coffee add
+		String login_way="yhy";
+		//end
 		
 		ServerLog.getLogger().warn("name:"+name+"-pwd:"+pwd);
 		//System.out.println("登录："+name+"-"+pwd+"-"+TimeUtil.getTimeStamp());
@@ -68,7 +72,8 @@ public class LoginController {
 				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 			}else{
 				System.out.println("登录4"+"-"+TimeUtil.getTimeStamp());
-				userStu = this.userStuService.getUserStuByAccount(name);
+				userStu = this.userStuService.getUserByMobileAndRemarks(name, login_way);
+				//userStu = this.userStuService.getUserStuByAccount(name);
 				if(userStu==null) {
 					System.out.println("登录5"+"-"+TimeUtil.getTimeStamp());
 					//如果查询不存在uid 则重新赋值一个对象
@@ -136,6 +141,13 @@ public class LoginController {
 						loginBean.setFollow_num(userStu.getFollowNum());
 						loginBean.setGroup_num(userStu.getGroupNum());
 						loginBean.setWork_num(userStu.getWorkNum());
+						//end
+						
+						//coffee add 0104  修改最近一次登录时间
+						UserStu upd_user=new UserStu();
+						upd_user.setId(user_id);
+						upd_user.setLastLoginTime(date);
+						this.userStuService.updateUserStuBySelective(upd_user);
 						//end
 					}
 				}

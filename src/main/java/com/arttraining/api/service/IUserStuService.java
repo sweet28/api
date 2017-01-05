@@ -55,5 +55,11 @@ public interface IUserStuService {
     
     //转发动态或者发布动态时修改数量
     int updateUserNumber(UserStu record);
+    
+    //coffee add 0104 依据uid和remarks来获取爱好者用户信息
+    UserStu getUserStuByUidAndRemarks(String uid,String remarks);
+    
+    //coffee add 0105 依据手机号和登录方式来获取爱好者用户信息
+    UserStu getUserByMobileAndRemarks(String user_mobile,String remarks);
 
 }

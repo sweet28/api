@@ -64,4 +64,12 @@ public interface UserStuMapper {
     
     //转发动态或者发布动态时修改数量
     int updateNumberBySelective(UserStu record);
+    
+    //coffee add 0104 依据uid和remarks来获取爱好者用户信息
+    UserStu selectUserStuByUidAndRemarks(@Param("uid") String uid,
+    						@Param("remarks") String remarks);
+    
+    //coffee add 0105 依据手机号和登录方式来获取爱好者用户信息
+    UserStu selectUserByMobileAndRemarks(@Param("user_mobile") String user_mobile,
+			@Param("remarks") String remarks);
 }

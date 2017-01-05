@@ -23,6 +23,10 @@ public class SignleUploadPresenter {
 		String buketPath = "";
 		String QNToken="";
 		
+		if(ConfigUtil.CODE_TYPE.equals(ConfigUtil.CODE_TYPE_DEV)){
+			buketType = 0;
+		}
+		
 		switch (buketType) {
 		case 0:
 			buketPath = ConfigUtil.QINIU_BUCKET;
