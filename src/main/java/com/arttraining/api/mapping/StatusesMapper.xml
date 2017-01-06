@@ -316,7 +316,7 @@
 		  from t_yp_statuses
 	      where is_deleted=0 and owner_type='stu' and group_id=#{gid,jdbcType=INTEGER}
 	      <if test="offset !=-1">
-	      	and order_code <![CDATA[ <= ]]>(seelct order_code from t_yp_statuses
+	      	and order_code <![CDATA[ <= ]]>(select order_code from t_yp_statuses
 	      	where is_deleted=0 and id=#{offset,jdbcType=INTEGER})
 	      	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
 	      </if>

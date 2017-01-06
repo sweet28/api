@@ -11,7 +11,7 @@
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
     <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
     <result column="pic" property="pic" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
     <result column="priority" property="priority" jdbcType="VARCHAR" />
@@ -25,21 +25,42 @@
     title, content, pic, url, priority, is_publish, browse_num, city, city_father
   </sql>
   
+  
   <!-- coffee add 1103 查询艺培头条列表 information/list接口调用 -->
   <resultMap id="ListResultMap" type="com.arttraining.api.bean.InformationListBean" >
     <id column="id" property="info_id" jdbcType="INTEGER" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
     <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
   </resultMap>
   <sql id="select_information_where">
   	 is_publish=1 and is_deleted=0
   </sql>
   <select id="selectInformationList" resultMap="ListResultMap">
-    select id as info_id,title,url
+    select id,create_time,title,pic,url,browse_num
     from t_yp_information
     where <include refid="select_information_where"></include>
     order by order_code desc
     limit 0,3
+  </select>
+  <!-- coffee add 0106 依据传递的头条消息类型来查询相应的头条列表信息 -->
+  <select id="selectInformationListByType" resultMap="ListResultMap">
+    select id,create_time,title,pic,url,browse_num
+    from t_yp_information
+    where <include refid="select_information_where"></include>
+    <if test="type !=null">
+    	and attachment= #{type,jdbcType=VARCHAR}
+    </if>
+    <if test="offset !=-1">
+	     and order_code <![CDATA[ <= ]]>(select order_code from t_yp_information
+	     where <include refid="select_information_where"></include>
+	     and id= #{offset,jdbcType=INTEGER})
+	     and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+	</if>
+    order by order_code desc
+    limit #{limit,jdbcType=INTEGER}
   </select>
   
   <!-- 依据头条id来查询对应的头条信息 information/show接口调用 -->
@@ -47,12 +68,13 @@
     <id column="id" property="info_id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
-    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
     <result column="pic" property="pic" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectOneInformation" resultMap="ShowResultMap" parameterType="java.lang.Integer">
-    select id as info_id,title,create_time,content,pic,url
+    select id,title,create_time,content,pic,url,browse_num
     from t_yp_information
     where <include refid="select_information_where"></include>
     and  id=#{id,jdbcType=INTEGER}
@@ -97,7 +119,7 @@
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR}, #{pic,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
       #{priority,jdbcType=VARCHAR}, #{isPublish,jdbcType=INTEGER}, #{browseNum,jdbcType=INTEGER}, 
       #{city,jdbcType=VARCHAR}, #{cityFather,jdbcType=VARCHAR})
   </insert>
@@ -185,7 +207,7 @@
         #{title,jdbcType=VARCHAR},
       </if>
       <if test="content != null" >
-        #{content,jdbcType=VARCHAR},
+        #{content,jdbcType=LONGVARCHAR},
       </if>
       <if test="pic != null" >
         #{pic,jdbcType=VARCHAR},
@@ -238,7 +260,7 @@
         title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="content != null" >
-        content = #{content,jdbcType=VARCHAR},
+        content = #{content,jdbcType=LONGVARCHAR},
       </if>
       <if test="pic != null" >
         pic = #{pic,jdbcType=VARCHAR},
@@ -253,7 +275,7 @@
         is_publish = #{isPublish,jdbcType=INTEGER},
       </if>
       <if test="browseNum != null" >
-        browse_num = #{browseNum,jdbcType=INTEGER},
+        browse_num = browse_num+ #{browseNum,jdbcType=INTEGER},
       </if>
       <if test="city != null" >
         city = #{city,jdbcType=VARCHAR},
@@ -274,12 +296,12 @@
       remarks = #{remarks,jdbcType=VARCHAR},
       attachment = #{attachment,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR},
       pic = #{pic,jdbcType=VARCHAR},
       url = #{url,jdbcType=VARCHAR},
       priority = #{priority,jdbcType=VARCHAR},
       is_publish = #{isPublish,jdbcType=INTEGER},
-      browse_num = #{browseNum,jdbcType=INTEGER},
+      browse_num = browse_num+ #{browseNum,jdbcType=INTEGER},
       city = #{city,jdbcType=VARCHAR},
       city_father = #{cityFather,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

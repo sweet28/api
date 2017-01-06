@@ -104,9 +104,12 @@ public class ConfigUtil {
 	
 	//忘记密码 修改密码 注册时差 验证码验证成功有效期
 	public static long VERIFY_TIME=120; 
-	
 	//设置支付时间在30分钟以内
 	public static Integer PAY_TIME=30;
+	
 	//设置已读消息列表分页大小
 	public static Integer MSG_PAGESIZE=20;
+	//设置艺培头条/资讯分页大小
+	public static Integer INFO_PAGESIZE=30;
+	
 }

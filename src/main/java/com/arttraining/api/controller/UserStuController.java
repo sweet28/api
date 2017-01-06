@@ -20,6 +20,7 @@ import com.arttraining.api.pojo.Follow;
 import com.arttraining.api.pojo.SMSCheckCode;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.FollowService;
+import com.arttraining.api.service.impl.MessagePushService;
 import com.arttraining.api.service.impl.SMSService;
 import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
@@ -45,6 +46,8 @@ public class UserStuController {
 	private SMSService smsService;
 	@Resource
 	private TokenService tokenService;
+	@Resource
+	private MessagePushService messagePushService;
 	
 	
 	/*@RequestMapping(value = "/test", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -558,6 +561,11 @@ public class UserStuController {
 			//用户ID
 			Integer i_uid = Integer.valueOf(uid);
 			userNum = this.userStuService.getUserNumberByUid(i_uid);
+			//coffee add 0105 
+			String utype="stu";
+			Integer msg_num = this.messagePushService.getUnreadMsgByUid(i_uid, utype);
+			userNum.setMsg_num(msg_num);
+			//end
 //			if(userNum==null) {
 //				userNum = new UserNumberBean();
 //				errorCode = "20007";

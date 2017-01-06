@@ -11,6 +11,7 @@ public class InformationShowBean {
 	private String content;
 	private String pic;
 	private String url;
+	private Integer browse_num;
 	
 	public InformationShowBean() {
 		this.info_id = 0;
@@ -19,6 +20,7 @@ public class InformationShowBean {
 		this.content = "";
 		this.pic = "";
 		this.url = "";
+		this.browse_num=0;
 	}
 	public String getError_code() {
 		return error_code;
@@ -68,4 +70,11 @@ public class InformationShowBean {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	public Integer getBrowse_num() {
+		return browse_num;
+	}
+	public void setBrowse_num(Integer browse_num) {
+		this.browse_num = browse_num;
+	}
+	
 }

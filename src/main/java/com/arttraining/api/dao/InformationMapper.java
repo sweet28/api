@@ -1,6 +1,7 @@
 package com.arttraining.api.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.arttraining.api.bean.InformationListBean;
 import com.arttraining.api.bean.InformationShowBean;
@@ -26,4 +27,6 @@ public interface InformationMapper {
     
     //爱好者首页返回资讯列表信息
     List<MasterInfoListBean> selectInfoListByHomePage();
+    //coffee add 0106 依据传递的头条消息类型来查询相应的头条列表信息
+    List<InformationListBean> selectInformationListByType(Map<String, Object> map);
 }

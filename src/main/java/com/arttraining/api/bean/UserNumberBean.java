@@ -10,6 +10,9 @@ public class UserNumberBean {
 	private Integer follow_num;
 	private Integer fans_num;
 	private Integer work_num;
+	//coffee add 0105
+	private Integer msg_num;
+	//end
 	
 	
 	public UserNumberBean() {
@@ -20,6 +23,7 @@ public class UserNumberBean {
 		this.follow_num = 0;
 		this.fans_num = 0;
 		this.work_num=0;
+		this.msg_num=0;
 	}
 	public String getError_code() {
 		return error_code;
@@ -74,6 +78,12 @@ public class UserNumberBean {
 	}
 	public void setWork_num(Integer work_num) {
 		this.work_num = work_num;
+	}
+	public Integer getMsg_num() {
+		return msg_num;
+	}
+	public void setMsg_num(Integer msg_num) {
+		this.msg_num = msg_num;
 	}
 	
 }

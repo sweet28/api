@@ -48,4 +48,10 @@ public class MessagePushService implements IMessagePushService {
 		return this.msgDao.selectMoreMsgListByUid(map);
 	}
 
+	@Override
+	public int getUnreadMsgByUid(Integer owner, String owner_type) {
+		// TODO Auto-generated method stub
+		return this.msgDao.selectUnreadMsgByUid(owner, owner_type);
+	}
+
 }

@@ -3,6 +3,8 @@ package com.arttraining.api.service;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.arttraining.api.bean.MsgUserBean;
 import com.arttraining.api.pojo.MessagePush;
 
@@ -19,4 +21,7 @@ public interface IMessagePushService {
     
     //coffee add 0102 查看更多消息列表信息 message/list/more接口调用
     List<MessagePush> getMoreMsgListByUid(Map<String, Object> map);
+    
+    //coffee 1230  查询当前用户未读的推送消息数
+    int getUnreadMsgByUid(Integer owner,String owner_type);
 }
