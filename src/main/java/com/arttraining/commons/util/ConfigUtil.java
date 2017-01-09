@@ -3,6 +3,31 @@ package com.arttraining.commons.util;
 import com.qiniu.util.StringMap;
 
 public class ConfigUtil {
+	//coffee:七牛云直播密钥
+	public static String QINIU_LIVE_AK="ZqROaKfnfjygnaWWfYjPUkqvrSdlAHOrJgnz0SDu";
+	public static String QINIU_LIVE_SK="LvxeWmiHaXfqCP3AwXO_GWkKEPC6fyA0_xL6186W";
+	//七牛云直播空间
+	public static String QINIU_LIVE_HUBNAME= "yhy-live";
+	//七牛云直播API访问域名
+	public static String QINIU_API_HOST="pili.qiniuapi.com";
+	//流前缀名
+	public static String QINIU_LIVE_STREAM_PREFIX="yhy";
+	//生成推流地址的有效时长 单位秒
+	public static Integer QINIU_LIVE_EXPIRES=3600;
+	//生成推流地址域名
+	public static String LIVE_RTMP_PUBLISH_URL="pili-publish.artforyou.cn";
+	//生成RTMP直播地址域名
+	public static String LIVE_RTMP_PLAY_URL="pili-live-rtmp.artforyou.cn";
+	//生成HLS直播地址域名
+	public static String LIVE_HLS_PLAY_URL="pili-live-hls.artforyou.cn";
+	//生成HDL直播地址域名
+	public static String LIVE_HDL_PLAY_URL="pili-live-hdl.artforyou.cn";
+	//生成截图封面直播地址域名
+	public static String LIVE_SNAPSHOT_PLAY_URL="pili-live-snapshot.artforyou.cn";
+	//设置直播开启间隔
+	public static long LIVE_INTERVAL=1;
+	//end
+	
 	// todo:七牛云密钥
 	public static String QINIU_AK = "4NLPjCaLLjYCXYUQ-Jl5iW5Ceknmux9iDRDtQ2vX";
 	public static String QINIU_SK = "ZxF06uDuQ_ZQVKsNSQykLN1YwWYrC1lFTunBUFf6";

@@ -33,24 +33,25 @@
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="pic" property="pic" jdbcType="VARCHAR" />
     <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="attachment" property="info_type" jdbcType="VARCHAR" />
     <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
   </resultMap>
   <sql id="select_information_where">
   	 is_publish=1 and is_deleted=0
   </sql>
   <select id="selectInformationList" resultMap="ListResultMap">
-    select id,create_time,title,pic,url,browse_num
+    select id,create_time,title,pic,url,browse_num,attachment
     from t_yp_information
     where <include refid="select_information_where"></include>
     order by order_code desc
-    limit 0,3
+    limit 0,4
   </select>
   <!-- coffee add 0106 依据传递的头条消息类型来查询相应的头条列表信息 -->
   <select id="selectInformationListByType" resultMap="ListResultMap">
-    select id,create_time,title,pic,url,browse_num
+    select id,create_time,title,pic,url,browse_num,attachment
     from t_yp_information
     where <include refid="select_information_where"></include>
-    <if test="type !=null">
+    <if test="type!=null and type!=''">
     	and attachment= #{type,jdbcType=VARCHAR}
     </if>
     <if test="offset !=-1">
@@ -79,24 +80,6 @@
     where <include refid="select_information_where"></include>
     and  id=#{id,jdbcType=INTEGER}
   </select>
-  
-  <!-- coffee add 1220 首页获取资讯接口 -->
-  <resultMap id="InfoListResultMap" type="com.arttraining.api.bean.MasterInfoListBean" >
-    <id column="id" property="info_id" jdbcType="INTEGER" />
-    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
-    <result column="title" property="title" jdbcType="VARCHAR" />
-    <result column="pic" property="pic" jdbcType="VARCHAR" />
-    <result column="url" property="url" jdbcType="VARCHAR" />
-    <result column="browse_num" property="browse_num" jdbcType="INTEGER" />
-  </resultMap>
-  <select id="selectInfoListByHomePage" resultMap="InfoListResultMap">
-    select id,create_time,title,pic,url,browse_num
-    from t_yp_information
-    where is_publish=1 and is_deleted=0
-    order by order_code desc
-    limit 0,3
-  </select>
-  
   <!-- end -->
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

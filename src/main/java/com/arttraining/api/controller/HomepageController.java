@@ -21,7 +21,7 @@ import com.arttraining.api.bean.HomePageAttBean;
 import com.arttraining.api.bean.HomePageInfoBean;
 import com.arttraining.api.bean.HomePageTecCommentBean;
 import com.arttraining.api.bean.HomePageWorkBean;
-import com.arttraining.api.bean.MasterInfoListBean;
+import com.arttraining.api.bean.InformationListBean;
 import com.arttraining.api.service.impl.AdvertiseService;
 import com.arttraining.api.service.impl.InformationService;
 import com.arttraining.api.service.impl.TokenService;
@@ -103,6 +103,18 @@ public class HomepageController {
 			}
 			//用户ID
 			Integer i_uid = Integer.valueOf(uid);
+			//coffee add 0109
+			if(offset==-1) {
+				//获取资讯列表信息
+				HomePageInfoBean info = null;
+				List<InformationListBean> info_list= this.informationService.getInfoListByHomePage();
+				if(info_list.size()>0) {
+					info=new HomePageInfoBean();
+					info.setInfo_list(info_list);
+					statusesList.add(info);
+				}
+			}
+			//end
 			//填充作品详情信息
 			Map<String, Object> work_map = new HashMap<String, Object>();  
 			work_map.put("limit", limit);  
@@ -153,22 +165,22 @@ public class HomepageController {
 					ad_flag=true;
 				}
 				//获取资讯列表信息
-				HomePageInfoBean info = null;
-				List<MasterInfoListBean> info_list= this.informationService.getInfoListByHomePage();
-				if(info_list.size()>0) {
-					info=new HomePageInfoBean();
-					info.setInfo_list(info_list);
-				}
+//				HomePageInfoBean info = null;
+//				List<MasterInfoListBean> info_list= this.informationService.getInfoListByHomePage();
+//				if(info_list.size()>0) {
+//					info=new HomePageInfoBean();
+//					info.setInfo_list(info_list);
+//				}
 				if(statusesList.size()>0) {
-					if(statusesList.size()>4) {
+					if(statusesList.size()>7) {
 						if(ad_flag) {
-							statusesList.add(3, ad);
-							if(info!=null) {
-								statusesList.add(4,info);
-							}
+							statusesList.add(6, ad);
+//							if(info!=null) {
+//								statusesList.add(4,info);
+//							}
 						} else {
 							statusesList.add(ad);
-							statusesList.add(info);
+							//statusesList.add(info);
 						}	
 					}
 					errorCode="0";

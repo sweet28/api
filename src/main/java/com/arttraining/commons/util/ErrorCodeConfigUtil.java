@@ -95,9 +95,14 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20063 = "取消订单失败,请检查网络是否畅通 ";
 	public static String ERROR_MSG_ZH_20064 = "收听点评失败了,请检查网络是否畅通 ";
 	public static String ERROR_MSG_ZH_20065 = "订单已支付了哟 ";
-	public static String ERROR_MSG_ZH_20066 = "小主,你今天已经投票过了哟 ";
 	
+	public static String ERROR_MSG_ZH_20066 = "小主,你今天已经投票过了哟 ";
 	public static String ERROR_MSG_ZH_20067 = "小主,还不能发表情哟 ";
 	public static String ERROR_MSG_ZH_20068 = "该手机号已经被绑定了哟 ";
 	public static String ERROR_MSG_ZH_20069 = "请先选择第三方登录哟 ";
+	public static String ERROR_MSG_ZH_20070 = "开启直播失败,请检查网络是否畅通";
+	
+	public static String ERROR_MSG_ZH_20071 = "加入直播房间失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20072 = "退出直播房间失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20073 = "直播评论失败,请检查网络是否畅通";
 }

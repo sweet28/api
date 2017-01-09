@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.arttraining.api.bean.InformationListBean;
 import com.arttraining.api.bean.InformationShowBean;
-import com.arttraining.api.bean.MasterInfoListBean;
 import com.arttraining.api.pojo.Information;
 
 public interface IInformationService {
@@ -14,7 +13,7 @@ public interface IInformationService {
 	//依据头条ID查询头条信息
 	InformationShowBean getOneInformation(Integer id);
 	//爱好者首页返回资讯列表信息
-    List<MasterInfoListBean> getInfoListByHomePage();  
+    List<InformationListBean> getInfoListByHomePage();  
     //coffee add 0106 依据传递的头条消息类型来查询相应的头条列表信息
     List<InformationListBean> getInformationListByType(Map<String, Object> map);
     

@@ -7,6 +7,9 @@ public class InformationListBean {
 	private String url;
 	private Integer browse_num;
 	private String create_time;
+	//coffee add 0109 新增资讯类型
+	private String info_type;
+	//end
 	
 	
 	public Integer getInfo_id() {
@@ -44,5 +47,11 @@ public class InformationListBean {
 	}
 	public void setCreate_time(String create_time) {
 		this.create_time = create_time;
+	}
+	public String getInfo_type() {
+		return info_type;
+	}
+	public void setInfo_type(String info_type) {
+		this.info_type = info_type;
 	}	
 }
