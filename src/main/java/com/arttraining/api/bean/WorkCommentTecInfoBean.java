@@ -3,16 +3,16 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class WorkCommentTecInfoBean {
-	private Integer tec_id;
+	private int tec_id;
 	private String name;
 	private String city;
 	private String school;
 	private String identity;
 	private String tec_pic;
-	public Integer getTec_id() {
+	public int getTec_id() {
 		return tec_id;
 	}
-	public void setTec_id(Integer tec_id) {
+	public void setTec_id(int tec_id) {
 		this.tec_id = tec_id;
 	}
 	public String getName() {

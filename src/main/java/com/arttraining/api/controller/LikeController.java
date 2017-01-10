@@ -598,7 +598,7 @@ public class LikeController {
 							Integer owner=bbs.getOwner();
 							String owner_type=bbs.getOwnerType();
 							//如果自己给自己点赞 则不需要推送消息
-							if (owner != i_uid) {
+							if (owner.intValue() != i_uid.intValue()) {
 								String type = "like_bbs";
 								Map<String, Object> param = new HashMap<String, Object>();
 								//点赞人ID
@@ -732,7 +732,7 @@ public class LikeController {
 							Integer owner=works.getOwner();
 							String owner_type=works.getOwnerType();
 							//如果自己给自己点赞 则不需要推送消息
-							if (owner != i_uid) {
+							if (owner.intValue() != i_uid.intValue()) {
 								String type = "like_work";
 								Map<String, Object> param = new HashMap<String, Object>();
 								param.put("uid", i_uid);
@@ -865,7 +865,7 @@ public class LikeController {
 							Integer owner=statuses.getOwner();
 							String owner_type=statuses.getOwnerType();
 							//如果自己给自己点赞 则不需要推送消息
-							if (owner != i_uid) {
+							if (owner.intValue() != i_uid.intValue()) {
 								String type = "like_gstus";
 								Map<String, Object> param = new HashMap<String, Object>();
 								param.put("uid", i_uid);

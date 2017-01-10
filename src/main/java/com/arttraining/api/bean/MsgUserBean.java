@@ -3,14 +3,14 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class MsgUserBean {
-	private Integer uid;
+	private int uid;
 	private String utype;
 	private String name;
 	private String head_pic;
-	public Integer getUid() {
+	public int getUid() {
 		return uid;
 	}
-	public void setUid(Integer uid) {
+	public void setUid(int uid) {
 		this.uid = uid;
 	}
 	public String getUtype() {

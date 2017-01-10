@@ -4,11 +4,11 @@ import com.arttraining.commons.util.ImageUtil;
 
 public class MasterCommentListBean {
 	//评论ID
-	private Integer comm_id;
+	private int comm_id;
 	//评论人类型
 	private String type;
 	//评论人ID
-	private Integer visitor_id;
+	private int visitor_id;
 	//评论人
 	private String name;
 	//爱好者  名师头像
@@ -41,10 +41,10 @@ public class MasterCommentListBean {
 		this.comm_time = "";
 	}
 	
-	public Integer getComm_id() {
+	public int getComm_id() {
 		return comm_id;
 	}
-	public void setComm_id(Integer comm_id) {
+	public void setComm_id(int comm_id) {
 		this.comm_id = comm_id;
 	}
 	public String getType() {
@@ -53,10 +53,10 @@ public class MasterCommentListBean {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Integer getVisitor_id() {
+	public int getVisitor_id() {
 		return visitor_id;
 	}
-	public void setVisitor_id(Integer visitor_id) {
+	public void setVisitor_id(int visitor_id) {
 		this.visitor_id = visitor_id;
 	}
 	public String getName() {

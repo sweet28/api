@@ -1,21 +1,21 @@
 package com.arttraining.api.bean;
 
 public class ProvinceListBean {
-	private Integer pro_id;
-	private Integer father_id;
+	private int pro_id;
+	private int father_id;
 	private String name;
-	private Integer level;
+	private int level;
 	
-	public Integer getPro_id() {
+	public int getPro_id() {
 		return pro_id;
 	}
-	public void setPro_id(Integer pro_id) {
+	public void setPro_id(int pro_id) {
 		this.pro_id = pro_id;
 	}
-	public Integer getFather_id() {
+	public int getFather_id() {
 		return father_id;
 	}
-	public void setFather_id(Integer father_id) {
+	public void setFather_id(int father_id) {
 		this.father_id = father_id;
 	}
 	public String getName() {
@@ -24,10 +24,10 @@ public class ProvinceListBean {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getLevel() {
+	public int getLevel() {
 		return level;
 	}
-	public void setLevel(Integer level) {
+	public void setLevel(int level) {
 		this.level = level;
 	}
 }

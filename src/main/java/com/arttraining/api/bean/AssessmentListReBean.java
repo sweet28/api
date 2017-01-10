@@ -6,14 +6,14 @@ import java.util.List;
 public class AssessmentListReBean {
 	private String error_code;
 	private String error_msg;
-	private Integer order_type;
+	private int order_type;
 	private String order_number;
-	private Integer order_id;
-	private Integer order_status;
+	private int order_id;
+	private int order_status;
     private String order_time;
-    private Integer order_element_num;
+    private int order_element_num;
     private Double order_total_price;
-    private Integer ass_num;
+    private int ass_num;
     private List<AssessmentListBean> assessments;
     
 	public AssessmentListReBean() {
@@ -39,10 +39,10 @@ public class AssessmentListReBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getOrder_type() {
+	public int getOrder_type() {
 		return order_type;
 	}
-	public void setOrder_type(Integer order_type) {
+	public void setOrder_type(int order_type) {
 		this.order_type = order_type;
 	}
 	public String getOrder_number() {
@@ -51,16 +51,16 @@ public class AssessmentListReBean {
 	public void setOrder_number(String order_number) {
 		this.order_number = order_number;
 	}
-	public Integer getOrder_id() {
+	public int getOrder_id() {
 		return order_id;
 	}
-	public void setOrder_id(Integer order_id) {
+	public void setOrder_id(int order_id) {
 		this.order_id = order_id;
 	}
-	public Integer getOrder_status() {
+	public int getOrder_status() {
 		return order_status;
 	}
-	public void setOrder_status(Integer order_status) {
+	public void setOrder_status(int order_status) {
 		this.order_status = order_status;
 	}
 	public String getOrder_time() {
@@ -69,10 +69,10 @@ public class AssessmentListReBean {
 	public void setOrder_time(String order_time) {
 		this.order_time = order_time;
 	}
-	public Integer getOrder_element_num() {
+	public int getOrder_element_num() {
 		return order_element_num;
 	}
-	public void setOrder_element_num(Integer order_element_num) {
+	public void setOrder_element_num(int order_element_num) {
 		this.order_element_num = order_element_num;
 	}
 	
@@ -88,10 +88,10 @@ public class AssessmentListReBean {
 	public void setAssessments(List<AssessmentListBean> assessments) {
 		this.assessments = assessments;
 	}
-	public Integer getAss_num() {
+	public int getAss_num() {
 		return ass_num;
 	}
-	public void setAss_num(Integer ass_num) {
+	public void setAss_num(int ass_num) {
 		this.ass_num = ass_num;
 	}
     

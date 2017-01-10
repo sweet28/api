@@ -3,19 +3,19 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class InstitutionsShowBean {
-	private Integer institution_id;
+	private int institution_id;
 	private String name;
 	private String institution_pic;
 	private String admissions_guide;
-	private Integer follow_num;
-	private Integer browse_num;
+	private int follow_num;
+	private int browse_num;
 	private String city;
 	private String province;
 	private String school_type;
 	private String school_grade;
 	private String school_batch;
 	private String school_score;
-	private Integer enrollment_num;
+	private int enrollment_num;
 	private String introduction;
 	private String admission_line;
 	private String enrollment_plan;
@@ -23,10 +23,10 @@ public class InstitutionsShowBean {
 	private String video;
 	
 	
-	public Integer getInstitution_id() {
+	public int getInstitution_id() {
 		return institution_id;
 	}
-	public void setInstitution_id(Integer institution_id) {
+	public void setInstitution_id(int institution_id) {
 		this.institution_id = institution_id;
 	}
 	public String getName() {
@@ -47,16 +47,16 @@ public class InstitutionsShowBean {
 	public void setAdmissions_guide(String admissions_guide) {
 		this.admissions_guide = admissions_guide;
 	}
-	public Integer getFollow_num() {
+	public int getFollow_num() {
 		return follow_num;
 	}
-	public void setFollow_num(Integer follow_num) {
+	public void setFollow_num(int follow_num) {
 		this.follow_num = follow_num;
 	}
-	public Integer getBrowse_num() {
+	public int getBrowse_num() {
 		return browse_num;
 	}
-	public void setBrowse_num(Integer browse_num) {
+	public void setBrowse_num(int browse_num) {
 		this.browse_num = browse_num;
 	}
 	public String getCity() {
@@ -95,10 +95,10 @@ public class InstitutionsShowBean {
 	public void setSchool_score(String school_score) {
 		this.school_score = school_score;
 	}
-	public Integer getEnrollment_num() {
+	public int getEnrollment_num() {
 		return enrollment_num;
 	}
-	public void setEnrollment_num(Integer enrollment_num) {
+	public void setEnrollment_num(int enrollment_num) {
 		this.enrollment_num = enrollment_num;
 	}
 	public String getIntroduction() {

@@ -3,7 +3,7 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class OrderWorkBean {
-	private Integer work_id;
+	private int work_id;
 	private String work_title;
 	private String work_pic;
 	
@@ -12,10 +12,10 @@ public class OrderWorkBean {
 		this.work_title = "";
 		this.work_pic = "";
 	}
-	public Integer getWork_id() {
+	public int getWork_id() {
 		return work_id;
 	}
-	public void setWork_id(Integer work_id) {
+	public void setWork_id(int work_id) {
 		this.work_id = work_id;
 	}
 	public String getWork_title() {

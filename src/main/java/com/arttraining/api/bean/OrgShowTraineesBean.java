@@ -3,15 +3,15 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class OrgShowTraineesBean {
-	private Integer tra_id;
+	private int tra_id;
 	private String tra_name;
 	private String tra_pic;
 	private String tra_school;
 	
-	public Integer getTra_id() {
+	public int getTra_id() {
 		return tra_id;
 	}
-	public void setTra_id(Integer tra_id) {
+	public void setTra_id(int tra_id) {
 		this.tra_id = tra_id;
 	}
 	public String getTra_name() {

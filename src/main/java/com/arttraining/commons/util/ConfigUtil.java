@@ -13,7 +13,7 @@ public class ConfigUtil {
 	//流前缀名
 	public static String QINIU_LIVE_STREAM_PREFIX="yhy";
 	//生成推流地址的有效时长 单位秒
-	public static Integer QINIU_LIVE_EXPIRES=3600;
+	public static int QINIU_LIVE_EXPIRES=3600;
 	//生成推流地址域名
 	public static String LIVE_RTMP_PUBLISH_URL="pili-publish.artforyou.cn";
 	//生成RTMP直播地址域名
@@ -102,42 +102,44 @@ public class ConfigUtil {
 	public static String ALIDAYU_SMS_CODE_TYPE_ACTIVITY = "activity_code";// 发送活动验证的验证码
 
 	// 分页时 默认显示记录条数
-	public static Integer PAGESIZE = 10;
+	public static int PAGESIZE = 10;
 	// 广告 默认显示的记录条数
-	public static Integer ADVERTISE_PAGESIZE = 2;
+	public static int ADVERTISE_PAGESIZE = 2;
 	// 首页名师 默认显示记录条数
-	public static Integer HOMEPAGE_PAGESIZE = 2;
+	public static int HOMEPAGE_PAGESIZE = 2;
 	// 首页作品 默认显示2条记录数
-	public static Integer HOMEWORK_PAGESIZE = 6;
+	public static int HOMEWORK_PAGESIZE = 6;
 
 	// 帖子/小组动态名师点评显示的记录数
-	public static Integer DIANPING_PAGESIZE = 1;
+	public static int DIANPING_PAGESIZE = 1;
 	//定义2015/1/1时间戳
 	public static long DEFINE_TIMESTAMP=1420041600;
 	
 	//生成随机数的最大和最小值
-	public static Integer RANDOM_MAXVALUE=30;
-	public static Integer RANDOM_MINVALUE=5;
+	public static int RANDOM_MAXVALUE=30;
+	public static int RANDOM_MINVALUE=5;
 	
 	//订单和测评状态
-	public static Integer STATUS_0=0;//待支付
-	public static Integer STATUS_1=1;//已支付
-	public static Integer STATUS_2=2;//取消交易
-	public static Integer STATUS_3=3;//作品待上传
-	public static Integer STATUS_4=4;//作品待测评
-	public static Integer STATUS_5=5;//已测评
+	public static int STATUS_0=0;//待支付
+	public static int STATUS_1=1;//已支付
+	public static int STATUS_2=2;//取消交易
+	public static int STATUS_3=3;//作品待上传
+	public static int STATUS_4=4;//作品待测评
+	public static int STATUS_5=5;//已测评
 	
 	//忘记密码 修改密码 注册时差 验证码验证成功有效期
 	public static long VERIFY_TIME=120; 
 	//设置支付时间在30分钟以内
-	public static Integer PAY_TIME=30;
+	public static int PAY_TIME=30;
 	
 	//设置已读消息列表分页大小
-	public static Integer MSG_PAGESIZE=20;
+	public static int MSG_PAGESIZE=20;
 	//设置艺培头条/资讯分页大小
-	public static Integer INFO_PAGESIZE=30;
+	public static int INFO_PAGESIZE=30;
 	
 	//设置直播成员列表大小
-	public static Integer MEMBER_PAGESIZE=15;
+	public static int MEMBER_PAGESIZE=15;
+	//设置直播评论列表大小
+	public static int COMMENT_PAGESIZE=5;
 	
 }

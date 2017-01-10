@@ -3,7 +3,7 @@ package com.arttraining.api.bean;
 public class OrderRemainTimeBean {
 	private String error_code;
 	private String error_msg;
-	private Integer remaining_time;
+	private int remaining_time;
 	
 	
 	public OrderRemainTimeBean() {
@@ -21,10 +21,10 @@ public class OrderRemainTimeBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getRemaining_time() {
+	public int getRemaining_time() {
 		return remaining_time;
 	}
-	public void setRemaining_time(Integer remaining_time) {
+	public void setRemaining_time(int remaining_time) {
 		this.remaining_time = remaining_time;
 	}
 	

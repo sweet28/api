@@ -1,16 +1,16 @@
 package com.arttraining.api.bean;
 
 public class OrgShowCourseBean {
-	private Integer course_id;
+	private int course_id;
 	private String course_name;
 	private String course_intro;
 	private Double course_pay;
 	private String course_pay_zh;
 	
-	public Integer getCourse_id() {
+	public int getCourse_id() {
 		return course_id;
 	}
-	public void setCourse_id(Integer course_id) {
+	public void setCourse_id(int course_id) {
 		this.course_id = course_id;
 	}
 	public String getCourse_name() {

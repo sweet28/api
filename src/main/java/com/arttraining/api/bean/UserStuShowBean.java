@@ -5,7 +5,7 @@ import com.arttraining.commons.util.ImageUtil;
 public class UserStuShowBean {
 	private String error_code;
 	private String error_msg;
-	private Integer uid;
+	private int uid;
 	private String user_code;
 	private String name;
 	private String mobile;
@@ -19,8 +19,8 @@ public class UserStuShowBean {
 	private String school;
 	private String email;
 	private String title;
-	private Integer score;
-	private Integer rank;
+	private int score;
+	private int rank;
 	private String is_follow;
 	
 	public UserStuShowBean(){
@@ -66,10 +66,10 @@ public class UserStuShowBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getUid() {
+	public int getUid() {
 		return uid;
 	}
-	public void setUid(Integer uid) {
+	public void setUid(int uid) {
 		this.uid = uid;
 	}
 	public String getUser_code() {
@@ -151,16 +151,16 @@ public class UserStuShowBean {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Integer getScore() {
+	public int getScore() {
 		return score;
 	}
-	public void setScore(Integer score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
-	public Integer getRank() {
+	public int getRank() {
 		return rank;
 	}
-	public void setRank(Integer rank) {
+	public void setRank(int rank) {
 		this.rank = rank;
 	}
 

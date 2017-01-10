@@ -7,12 +7,12 @@ public class WorkTecCommentBean {
 	private String content;
 	private String comm_type;
 	//coffee add
-	private Integer comm_id;
+	private int comm_id;
 	private String comm_time;
 	private String duration;
 	private String attr;
-	private Integer listen_num;
-	private Integer tec_id;
+	private int listen_num;
+	private int tec_id;
 	//end
 	
 	public String getType() {
@@ -36,10 +36,10 @@ public class WorkTecCommentBean {
 	public void setComm_type(String comm_type) {
 		this.comm_type = comm_type;
 	}
-	public Integer getComm_id() {
+	public int getComm_id() {
 		return comm_id;
 	}
-	public void setComm_id(Integer comm_id) {
+	public void setComm_id(int comm_id) {
 		this.comm_id = comm_id;
 	}
 	public String getComm_time() {
@@ -60,16 +60,16 @@ public class WorkTecCommentBean {
 	public void setAttr(String attr) {
 		this.attr = ImageUtil.parsePicPath(attr, 6);
 	}
-	public Integer getListen_num() {
+	public int getListen_num() {
 		return listen_num;
 	}
-	public void setListen_num(Integer listen_num) {
+	public void setListen_num(int listen_num) {
 		this.listen_num = listen_num;
 	}
-	public Integer getTec_id() {
+	public int getTec_id() {
 		return tec_id;
 	}
-	public void setTec_id(Integer tec_id) {
+	public void setTec_id(int tec_id) {
 		this.tec_id = tec_id;
 	}
 

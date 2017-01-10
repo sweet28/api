@@ -1,20 +1,20 @@
 package com.arttraining.api.bean;
 
 public class CouponsListBean {
-	private Integer coupon_id;
+	private int coupon_id;
 	private String coupon_name;
 	private String destribe;
 	private Double face_value;
 	private String expiry_date;
-	private Integer coupon_type;
-	private Integer is_used;
+	private int coupon_type;
+	private int is_used;
 	private Double usage_value;
 	private String use_time;
 	
-	public Integer getCoupon_id() {
+	public int getCoupon_id() {
 		return coupon_id;
 	}
-	public void setCoupon_id(Integer coupon_id) {
+	public void setCoupon_id(int coupon_id) {
 		this.coupon_id = coupon_id;
 	}
 	public String getCoupon_name() {
@@ -47,16 +47,16 @@ public class CouponsListBean {
 	public void setExpiry_date(String expiry_date) {
 		this.expiry_date = expiry_date;
 	}
-	public Integer getCoupon_type() {
+	public int getCoupon_type() {
 		return coupon_type;
 	}
-	public void setCoupon_type(Integer coupon_type) {
+	public void setCoupon_type(int coupon_type) {
 		this.coupon_type = coupon_type;
 	}
-	public Integer getIs_used() {
+	public int getIs_used() {
 		return is_used;
 	}
-	public void setIs_used(Integer is_used) {
+	public void setIs_used(int is_used) {
 		this.is_used = is_used;
 	}
 	public String getUse_time() {

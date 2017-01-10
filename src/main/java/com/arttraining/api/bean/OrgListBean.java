@@ -3,13 +3,13 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class OrgListBean {
-	private Integer org_id;
+	private int org_id;
 	private String name;
 	private String pic;
-	private Integer comment;
-	private Integer fans_num;
+	private int comment;
+	private int fans_num;
 	private String auth;
-	private Integer sign_up;
+	private int sign_up;
 	private String city;
 	private String province;
 	
@@ -25,10 +25,10 @@ public class OrgListBean {
 		this.province = "";
 	}
 	
-	public Integer getOrg_id() {
+	public int getOrg_id() {
 		return org_id;
 	}
-	public void setOrg_id(Integer org_id) {
+	public void setOrg_id(int org_id) {
 		this.org_id = org_id;
 	}
 	public String getName() {
@@ -43,16 +43,16 @@ public class OrgListBean {
 	public void setPic(String pic) {
 		this.pic = ImageUtil.parsePicPath(pic,5);
 	}
-	public Integer getComment() {
+	public int getComment() {
 		return comment;
 	}
-	public void setComment(Integer comment) {
+	public void setComment(int comment) {
 		this.comment = comment;
 	}
-	public Integer getFans_num() {
+	public int getFans_num() {
 		return fans_num;
 	}
-	public void setFans_num(Integer fans_num) {
+	public void setFans_num(int fans_num) {
 		this.fans_num = fans_num;
 	}
 	public String getAuth() {
@@ -61,10 +61,10 @@ public class OrgListBean {
 	public void setAuth(String auth) {
 		this.auth = auth;
 	}
-	public Integer getSign_up() {
+	public int getSign_up() {
 		return sign_up;
 	}
-	public void setSign_up(Integer sign_up) {
+	public void setSign_up(int sign_up) {
 		this.sign_up = sign_up;
 	}
 	public String getCity() {

@@ -3,19 +3,19 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class MasterCourseListBean {
-	private Integer course_id;
+	private int course_id;
 	private String course_name;
 	private String course_intro;
 	private Double course_pay;
 	private String course_pay_zh;
 	private String pic;
-	private Integer person_num;
+	private int person_num;
 	
 	
-	public Integer getCourse_id() {
+	public int getCourse_id() {
 		return course_id;
 	}
-	public void setCourse_id(Integer course_id) {
+	public void setCourse_id(int course_id) {
 		this.course_id = course_id;
 	}
 	public String getCourse_name() {
@@ -48,10 +48,10 @@ public class MasterCourseListBean {
 	public void setPic(String pic) {
 		this.pic = ImageUtil.parsePicPath(pic, 2);
 	}
-	public Integer getPerson_num() {
+	public int getPerson_num() {
 		return person_num;
 	}
-	public void setPerson_num(Integer person_num) {
+	public void setPerson_num(int person_num) {
 		this.person_num = person_num;
 	}
 	

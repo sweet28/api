@@ -3,15 +3,15 @@ package com.arttraining.api.bean;
 public class UserNumberBean {
 	private String error_code;
 	private String error_msg;
-	private Integer bbs_num;
-	private Integer group_num;
-	private Integer favorite_num;
-	private Integer comment_num;
-	private Integer follow_num;
-	private Integer fans_num;
-	private Integer work_num;
+	private int bbs_num;
+	private int group_num;
+	private int favorite_num;
+	private int comment_num;
+	private int follow_num;
+	private int fans_num;
+	private int work_num;
 	//coffee add 0105
-	private Integer msg_num;
+	private int msg_num;
 	//end
 	
 	
@@ -37,52 +37,52 @@ public class UserNumberBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getBbs_num() {
+	public int getBbs_num() {
 		return bbs_num;
 	}
-	public void setBbs_num(Integer bbs_num) {
+	public void setBbs_num(int bbs_num) {
 		this.bbs_num = bbs_num;
 	}
-	public Integer getGroup_num() {
+	public int getGroup_num() {
 		return group_num;
 	}
-	public void setGroup_num(Integer group_num) {
+	public void setGroup_num(int group_num) {
 		this.group_num = group_num;
 	}
-	public Integer getFavorite_num() {
+	public int getFavorite_num() {
 		return favorite_num;
 	}
-	public void setFavorite_num(Integer favorite_num) {
+	public void setFavorite_num(int favorite_num) {
 		this.favorite_num = favorite_num;
 	}
-	public Integer getComment_num() {
+	public int getComment_num() {
 		return comment_num;
 	}
-	public void setComment_num(Integer comment_num) {
+	public void setComment_num(int comment_num) {
 		this.comment_num = comment_num;
 	}
-	public Integer getFollow_num() {
+	public int getFollow_num() {
 		return follow_num;
 	}
-	public void setFollow_num(Integer follow_num) {
+	public void setFollow_num(int follow_num) {
 		this.follow_num = follow_num;
 	}
-	public Integer getFans_num() {
+	public int getFans_num() {
 		return fans_num;
 	}
-	public void setFans_num(Integer fans_num) {
+	public void setFans_num(int fans_num) {
 		this.fans_num = fans_num;
 	}
-	public Integer getWork_num() {
+	public int getWork_num() {
 		return work_num;
 	}
-	public void setWork_num(Integer work_num) {
+	public void setWork_num(int work_num) {
 		this.work_num = work_num;
 	}
-	public Integer getMsg_num() {
+	public int getMsg_num() {
 		return msg_num;
 	}
-	public void setMsg_num(Integer msg_num) {
+	public void setMsg_num(int msg_num) {
 		this.msg_num = msg_num;
 	}
 	

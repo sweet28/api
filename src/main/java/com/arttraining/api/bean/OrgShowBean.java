@@ -8,13 +8,13 @@ import com.arttraining.commons.util.ImageUtil;
 public class OrgShowBean {
 	private String error_code;
 	private String error_msg;
-	private Integer org_id;
+	private int org_id;
 	private String name;
-	private Integer comment;
-	private Integer fans_num;
+	private int comment;
+	private int fans_num;
 	private String auth;
-	private Integer sign_up;
-	private Integer browse_num;
+	private int sign_up;
+	private int browse_num;
 	private String introduction;
 	private String remarks;
 	private String city;
@@ -67,11 +67,11 @@ public class OrgShowBean {
 		this.error_msg = error_msg;
 	}
 
-	public Integer getOrg_id() {
+	public int getOrg_id() {
 		return org_id;
 	}
 
-	public void setOrg_id(Integer org_id) {
+	public void setOrg_id(int org_id) {
 		this.org_id = org_id;
 	}
 
@@ -83,19 +83,19 @@ public class OrgShowBean {
 		this.name = name;
 	}
 
-	public Integer getComment() {
+	public int getComment() {
 		return comment;
 	}
 
-	public void setComment(Integer comment) {
+	public void setComment(int comment) {
 		this.comment = comment;
 	}
 
-	public Integer getFans_num() {
+	public int getFans_num() {
 		return fans_num;
 	}
 
-	public void setFans_num(Integer fans_num) {
+	public void setFans_num(int fans_num) {
 		this.fans_num = fans_num;
 	}
 
@@ -107,19 +107,19 @@ public class OrgShowBean {
 		this.auth = auth;
 	}
 
-	public Integer getSign_up() {
+	public int getSign_up() {
 		return sign_up;
 	}
 
-	public void setSign_up(Integer sign_up) {
+	public void setSign_up(int sign_up) {
 		this.sign_up = sign_up;
 	}
 
-	public Integer getBrowse_num() {
+	public int getBrowse_num() {
 		return browse_num;
 	}
 
-	public void setBrowse_num(Integer browse_num) {
+	public void setBrowse_num(int browse_num) {
 		this.browse_num = browse_num;
 	}
 

@@ -3,18 +3,18 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class GroupListMyBean {
-	private Integer group_id;
+	private int group_id;
 	private String name;
 	private String introduce;
-	private Integer grade;
-	private Integer users_num;
+	private int grade;
+	private int users_num;
 	private String pic;
-	private Integer verify_status;
+	private int verify_status;
 	
-	public Integer getGroup_id() {
+	public int getGroup_id() {
 		return group_id;
 	}
-	public void setGroup_id(Integer group_id) {
+	public void setGroup_id(int group_id) {
 		this.group_id = group_id;
 	}
 	public String getName() {
@@ -29,16 +29,16 @@ public class GroupListMyBean {
 	public void setIntroduce(String introduce) {
 		this.introduce = introduce;
 	}
-	public Integer getGrade() {
+	public int getGrade() {
 		return grade;
 	}
-	public void setGrade(Integer grade) {
+	public void setGrade(int grade) {
 		this.grade = grade;
 	}
-	public Integer getUsers_num() {
+	public int getUsers_num() {
 		return users_num;
 	}
-	public void setUsers_num(Integer users_num) {
+	public void setUsers_num(int users_num) {
 		this.users_num = users_num;
 	}
 	public String getPic() {
@@ -47,10 +47,10 @@ public class GroupListMyBean {
 	public void setPic(String pic) {
 		this.pic = ImageUtil.parsePicPath(pic,3);
 	}
-	public Integer getVerify_status() {
+	public int getVerify_status() {
 		return verify_status;
 	}
-	public void setVerify_status(Integer verify_status) {
+	public void setVerify_status(int verify_status) {
 		this.verify_status = verify_status;
 	}
 }

@@ -132,7 +132,8 @@ public class OrdersServiceV2 implements IOrdersService{
 			this.userStuDao.updateNumberBySelective(user);
 			user_id=user.getId();
 			//coffee add 1215 新增推送信息
-			this.pushMsgAndAlertToTec(orderNumber);
+			//this.pushMsgAndAlertToTec(orderNumber);
+			this.pushMsgAndAlertToTecV2(orderNumber, user_id);
 			//end
 		} 
 		//5.修改优惠券使用信息

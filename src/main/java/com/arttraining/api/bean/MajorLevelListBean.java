@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MajorLevelListBean {
-	private Integer major_id;
+	private int major_id;
 	private String major_name;
-	private Integer father_id;
+	private int father_id;
 	private String father_name;
-	private Integer level;
+	private int level;
 	private List<MajorLevelListBean> son_majors;
 	
 	public MajorLevelListBean() {
 		this.son_majors = new ArrayList<MajorLevelListBean>();
 	}
 
-	public Integer getMajor_id() {
+	public int getMajor_id() {
 		return major_id;
 	}
 
-	public void setMajor_id(Integer major_id) {
+	public void setMajor_id(int major_id) {
 		this.major_id = major_id;
 	}
 
@@ -31,11 +31,11 @@ public class MajorLevelListBean {
 		this.major_name = major_name;
 	}
 
-	public Integer getFather_id() {
+	public int getFather_id() {
 		return father_id;
 	}
 
-	public void setFather_id(Integer father_id) {
+	public void setFather_id(int father_id) {
 		this.father_id = father_id;
 	}
 
@@ -47,11 +47,11 @@ public class MajorLevelListBean {
 		this.father_name = father_name;
 	}
 
-	public Integer getLevel() {
+	public int getLevel() {
 		return level;
 	}
 
-	public void setLevel(Integer level) {
+	public void setLevel(int level) {
 		this.level = level;
 	}
 

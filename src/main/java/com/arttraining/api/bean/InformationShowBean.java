@@ -5,13 +5,13 @@ import com.arttraining.commons.util.ImageUtil;
 public class InformationShowBean {
 	private String error_code;
 	private String error_msg;
-	private Integer info_id;
+	private int info_id;
 	private String title;
 	private String create_time;
 	private String content;
 	private String pic;
 	private String url;
-	private Integer browse_num;
+	private int browse_num;
 	
 	public InformationShowBean() {
 		this.info_id = 0;
@@ -34,10 +34,10 @@ public class InformationShowBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getInfo_id() {
+	public int getInfo_id() {
 		return info_id;
 	}
-	public void setInfo_id(Integer info_id) {
+	public void setInfo_id(int info_id) {
 		this.info_id = info_id;
 	}
 	public String getTitle() {
@@ -70,10 +70,10 @@ public class InformationShowBean {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public Integer getBrowse_num() {
+	public int getBrowse_num() {
 		return browse_num;
 	}
-	public void setBrowse_num(Integer browse_num) {
+	public void setBrowse_num(int browse_num) {
 		this.browse_num = browse_num;
 	}
 	

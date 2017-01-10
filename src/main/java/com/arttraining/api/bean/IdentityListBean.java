@@ -1,13 +1,13 @@
 package com.arttraining.api.bean;
 
 public class IdentityListBean {
-	private Integer identity_id;
+	private int identity_id;
 	private String identity_name;
 	
-	public Integer getIdentity_id() {
+	public int getIdentity_id() {
 		return identity_id;
 	}
-	public void setIdentity_id(Integer identity_id) {
+	public void setIdentity_id(int identity_id) {
 		this.identity_id = identity_id;
 	}
 	public String getIdentity_name() {

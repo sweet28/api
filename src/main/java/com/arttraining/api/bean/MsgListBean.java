@@ -2,9 +2,9 @@ package com.arttraining.api.bean;
 
 public class MsgListBean {
 	//消息ID
-	private Integer msg_id;
+	private int msg_id;
 	//用户ID 
-	private Integer uid;
+	private int uid;
 	//用户类型
 	private String utype;
 	//姓名
@@ -18,13 +18,13 @@ public class MsgListBean {
 	//消息内容
 	private String msg_content;
 	//动态ID
-	private Integer status_id;
+	private int status_id;
 	//动态类型
 	private String status_type;
 	//封面
 	private String status_pic;
 	//被回复人ID
-	private Integer b_uid;
+	private int b_uid;
 	//被回复人类型
 	private String b_utype;
 	//被回复人姓名
@@ -36,16 +36,16 @@ public class MsgListBean {
 	//end
 	
 	
-	public Integer getMsg_id() {
+	public int getMsg_id() {
 		return msg_id;
 	}
-	public void setMsg_id(Integer msg_id) {
+	public void setMsg_id(int msg_id) {
 		this.msg_id = msg_id;
 	}
-	public Integer getUid() {
+	public int getUid() {
 		return uid;
 	}
-	public void setUid(Integer uid) {
+	public void setUid(int uid) {
 		this.uid = uid;
 	}
 	public String getUtype() {
@@ -84,10 +84,10 @@ public class MsgListBean {
 	public void setMsg_content(String msg_content) {
 		this.msg_content = msg_content;
 	}
-	public Integer getStatus_id() {
+	public int getStatus_id() {
 		return status_id;
 	}
-	public void setStatus_id(Integer status_id) {
+	public void setStatus_id(int status_id) {
 		this.status_id = status_id;
 	}
 	public String getStatus_type() {
@@ -102,10 +102,10 @@ public class MsgListBean {
 	public void setStatus_pic(String status_pic) {
 		this.status_pic = status_pic;
 	}
-	public Integer getB_uid() {
+	public int getB_uid() {
 		return b_uid;
 	}
-	public void setB_uid(Integer b_uid) {
+	public void setB_uid(int b_uid) {
 		this.b_uid = b_uid;
 	}
 	public String getB_utype() {

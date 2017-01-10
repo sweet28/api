@@ -3,22 +3,22 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class AssessmentListBean {
-	private Integer ass_id;
+	private int ass_id;
 	private String order_number;
-	private Integer order_id;
+	private int order_id;
 	private String codes;
 	private String ass_time;
-	private Integer status;
-	private Integer stu_id;
+	private int status;
+	private int stu_id;
 	private String stu;
-	private Integer tec_id;
+	private int tec_id;
 	private String tec;
 	private String tec_pic;
 	
-	public Integer getAss_id() {
+	public int getAss_id() {
 		return ass_id;
 	}
-	public void setAss_id(Integer ass_id) {
+	public void setAss_id(int ass_id) {
 		this.ass_id = ass_id;
 	}
 	public String getOrder_number() {
@@ -27,10 +27,10 @@ public class AssessmentListBean {
 	public void setOrder_number(String order_number) {
 		this.order_number = order_number;
 	}
-	public Integer getOrder_id() {
+	public int getOrder_id() {
 		return order_id;
 	}
-	public void setOrder_id(Integer order_id) {
+	public void setOrder_id(int order_id) {
 		this.order_id = order_id;
 	}
 	public String getCodes() {
@@ -45,16 +45,16 @@ public class AssessmentListBean {
 	public void setAss_time(String ass_time) {
 		this.ass_time = ass_time;
 	}
-	public Integer getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(Integer status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
-	public Integer getStu_id() {
+	public int getStu_id() {
 		return stu_id;
 	}
-	public void setStu_id(Integer stu_id) {
+	public void setStu_id(int stu_id) {
 		this.stu_id = stu_id;
 	}
 	public String getStu() {
@@ -63,10 +63,10 @@ public class AssessmentListBean {
 	public void setStu(String stu) {
 		this.stu = stu;
 	}
-	public Integer getTec_id() {
+	public int getTec_id() {
 		return tec_id;
 	}
-	public void setTec_id(Integer tec_id) {
+	public void setTec_id(int tec_id) {
 		this.tec_id = tec_id;
 	}
 	public String getTec() {

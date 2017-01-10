@@ -3,7 +3,7 @@ package com.arttraining.api.bean;
 public class VersionUpdateBean {
 	private String error_code;
 	private String error_msg;
-	private Integer version_no;
+	private int version_no;
 	private String version_name;
 	private String update_time;
 	private String version_url;
@@ -29,10 +29,10 @@ public class VersionUpdateBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getVersion_no() {
+	public int getVersion_no() {
 		return version_no;
 	}
-	public void setVersion_no(Integer version_no) {
+	public void setVersion_no(int version_no) {
 		this.version_no = version_no;
 	}
 	public String getVersion_name() {

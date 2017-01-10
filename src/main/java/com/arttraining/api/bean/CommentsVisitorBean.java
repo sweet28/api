@@ -3,8 +3,8 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class CommentsVisitorBean {
-	private Integer comment_id;
-	private Integer user_id;
+	private int comment_id;
+	private int user_id;
 	private String user_type;
 	private String user_pic;
 	private String name;
@@ -13,19 +13,19 @@ public class CommentsVisitorBean {
 	private String identity;
 	private String content;
 	private String comm_type;
-	private Integer host_id;
+	private int host_id;
 	private String host_type;
 	
-	public Integer getComment_id() {
+	public int getComment_id() {
 		return comment_id;
 	}
-	public void setComment_id(Integer comment_id) {
+	public void setComment_id(int comment_id) {
 		this.comment_id = comment_id;
 	}
-	public Integer getUser_id() {
+	public int getUser_id() {
 		return user_id;
 	}
-	public void setUser_id(Integer user_id) {
+	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
 	public String getUser_type() {
@@ -76,10 +76,10 @@ public class CommentsVisitorBean {
 	public void setComm_type(String comm_type) {
 		this.comm_type = comm_type;
 	}
-	public Integer getHost_id() {
+	public int getHost_id() {
 		return host_id;
 	}
-	public void setHost_id(Integer host_id) {
+	public void setHost_id(int host_id) {
 		this.host_id = host_id;
 	}
 	public String getHost_type() {

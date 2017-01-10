@@ -6,9 +6,9 @@ import java.util.List;
 import com.arttraining.commons.util.ImageUtil;
 
 public class HomePageWorkBean {
-	private Integer stus_id;
+	private int stus_id;
 	private String stus_type;
-	private Integer owner;
+	private int owner;
 	private String owner_type;
 	private String owner_name;
 	private String owner_head_pic;
@@ -18,9 +18,9 @@ public class HomePageWorkBean {
 	private String identity;
 	private String title;
 	private String content;
-	private Integer browse_num;
-	private Integer comment_num;
-	private Integer like_num;
+	private int browse_num;
+	private int comment_num;
+	private int like_num;
 	private String is_like;
 	private String is_comment;
 	private String remarks;
@@ -53,11 +53,11 @@ public class HomePageWorkBean {
 		this.tec_comment_list=new ArrayList<HomePageTecCommentBean>();
 	}
 
-	public Integer getStus_id() {
+	public int getStus_id() {
 		return stus_id;
 	}
 
-	public void setStus_id(Integer stus_id) {
+	public void setStus_id(int stus_id) {
 		this.stus_id = stus_id;
 	}
 
@@ -69,11 +69,11 @@ public class HomePageWorkBean {
 		this.stus_type = stus_type;
 	}
 
-	public Integer getOwner() {
+	public int getOwner() {
 		return owner;
 	}
 
-	public void setOwner(Integer owner) {
+	public void setOwner(int owner) {
 		this.owner = owner;
 	}
 
@@ -149,27 +149,27 @@ public class HomePageWorkBean {
 		this.content = content;
 	}
 
-	public Integer getBrowse_num() {
+	public int getBrowse_num() {
 		return browse_num;
 	}
 
-	public void setBrowse_num(Integer browse_num) {
+	public void setBrowse_num(int browse_num) {
 		this.browse_num = browse_num;
 	}
 
-	public Integer getComment_num() {
+	public int getComment_num() {
 		return comment_num;
 	}
 
-	public void setComment_num(Integer comment_num) {
+	public void setComment_num(int comment_num) {
 		this.comment_num = comment_num;
 	}
 
-	public Integer getLike_num() {
+	public int getLike_num() {
 		return like_num;
 	}
 
-	public void setLike_num(Integer like_num) {
+	public void setLike_num(int like_num) {
 		this.like_num = like_num;
 	}
 

@@ -1,7 +1,7 @@
 package com.arttraining.api.bean;
 
 public class HomeLikeOrCommentBean {
-	private Integer att_id;
+	private int att_id;
 	private String duration;
 	private String att_type;
 	private String thumbnail;
@@ -15,10 +15,10 @@ public class HomeLikeOrCommentBean {
 		this.store_path = "";
 	}
 	
-	public Integer getAtt_id() {
+	public int getAtt_id() {
 		return att_id;
 	}
-	public void setAtt_id(Integer att_id) {
+	public void setAtt_id(int att_id) {
 		this.att_id = att_id;
 	}
 	public String getDuration() {

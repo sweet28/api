@@ -6,7 +6,7 @@ import java.util.List;
 public class FavoritesListReBean {
 	private String error_code;
 	private String error_msg;
-	private Integer uid;
+	private int uid;
 	private String user_code;
 	private String name;
 	private List<FavoritesListBean> favorites;
@@ -30,10 +30,10 @@ public class FavoritesListReBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getUid() {
+	public int getUid() {
 		return uid;
 	}
-	public void setUid(Integer uid) {
+	public void setUid(int uid) {
 		this.uid = uid;
 	}
 	public String getUser_code() {

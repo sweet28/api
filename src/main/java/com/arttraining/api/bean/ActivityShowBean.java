@@ -8,7 +8,7 @@ import com.arttraining.commons.util.ImageUtil;
 public class ActivityShowBean {
 	private String error_code;
 	private String error_msg;
-	private Integer activ_id;
+	private int activ_id;
 	private String pic;
 	private String title;
 	private String create_time;
@@ -18,7 +18,7 @@ public class ActivityShowBean {
 	private String sign_end_time;
 	private String money;
 	private String address;
-	private Integer sign_num;
+	private int sign_num;
 	private String content;
     private List<ActivityOrgBean> activ_org;
     
@@ -52,10 +52,10 @@ public class ActivityShowBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getActiv_id() {
+	public int getActiv_id() {
 		return activ_id;
 	}
-	public void setActiv_id(Integer activ_id) {
+	public void setActiv_id(int activ_id) {
 		this.activ_id = activ_id;
 	}
 	public String getPic() {
@@ -116,11 +116,11 @@ public class ActivityShowBean {
 		this.address = address;
 	}
 	
-	public Integer getSign_num() {
+	public int getSign_num() {
 		return sign_num;
 	}
 
-	public void setSign_num(Integer sign_num) {
+	public void setSign_num(int sign_num) {
 		this.sign_num = sign_num;
 	}
 

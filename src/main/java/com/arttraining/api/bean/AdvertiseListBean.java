@@ -3,15 +3,15 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class AdvertiseListBean {
-	private Integer ad_id;
+	private int ad_id;
 	private String title;
 	private String pic;
 	private String url;
 	
-	public Integer getAd_id() {
+	public int getAd_id() {
 		return ad_id;
 	}
-	public void setAd_id(Integer ad_id) {
+	public void setAd_id(int ad_id) {
 		this.ad_id = ad_id;
 	}
 	public String getTitle() {

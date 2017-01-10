@@ -1,14 +1,14 @@
 package com.arttraining.api.bean;
 
 public class InstitutionConditionBean {
-	private Integer cid;
+	private int cid;
 	private String name;
 	private String type;
 	
-	public Integer getCid() {
+	public int getCid() {
 		return cid;
 	}
-	public void setCid(Integer cid) {
+	public void setCid(int cid) {
 		this.cid = cid;
 	}
 	public String getName() {

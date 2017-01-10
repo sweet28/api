@@ -105,4 +105,5 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20071 = "加入直播房间失败,请检查网络是否畅通";
 	public static String ERROR_MSG_ZH_20072 = "退出直播房间失败,请检查网络是否畅通";
 	public static String ERROR_MSG_ZH_20073 = "直播评论失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20074 = "直播点赞失败,请检查网络是否畅通";
 }

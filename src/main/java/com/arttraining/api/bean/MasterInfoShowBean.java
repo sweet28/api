@@ -5,12 +5,12 @@ import com.arttraining.commons.util.ImageUtil;
 public class MasterInfoShowBean {
 	private String error_code;
 	private String error_msg;
-	private Integer info_id;
+	private int info_id;
 	private String pic;
 	private String title;
 	private String url;
 	private String content;
-	private Integer browse_num;
+	private int browse_num;
 	private String create_time;
 	
 	public MasterInfoShowBean() {
@@ -25,10 +25,10 @@ public class MasterInfoShowBean {
 		this.create_time = "";
 	}
 	
-	public Integer getInfo_id() {
+	public int getInfo_id() {
 		return info_id;
 	}
-	public void setInfo_id(Integer info_id) {
+	public void setInfo_id(int info_id) {
 		this.info_id = info_id;
 	}
 	public String getPic() {
@@ -49,10 +49,10 @@ public class MasterInfoShowBean {
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public Integer getBrowse_num() {
+	public int getBrowse_num() {
 		return browse_num;
 	}
-	public void setBrowse_num(Integer browse_num) {
+	public void setBrowse_num(int browse_num) {
 		this.browse_num = browse_num;
 	}
 	public String getCreate_time() {

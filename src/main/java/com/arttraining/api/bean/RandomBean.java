@@ -1,19 +1,19 @@
 package com.arttraining.api.bean;
 
 public class RandomBean implements Comparable<RandomBean> {
-	private Integer id;
-	private Integer weight;
+	private int id;
+	private int weight;
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-	public Integer getWeight() {
+	public int getWeight() {
 		return weight;
 	}
-	public void setWeight(Integer weight) {
+	public void setWeight(int weight) {
 		this.weight = weight;
 	}
 	@Override

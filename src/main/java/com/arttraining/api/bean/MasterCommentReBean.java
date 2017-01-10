@@ -9,8 +9,8 @@ public class MasterCommentReBean {
 	private String error_code;
 	private String error_msg;
 	private String type;
-	private Integer stus_id;
-	private Integer owner;
+	private int stus_id;
+	private int owner;
 	private String owner_type;
 	private String owner_name;
 	private String owner_head_pic;
@@ -20,12 +20,12 @@ public class MasterCommentReBean {
 	private String identity;
 	private String title;
 	private String content;
-	private Integer browse_num;
-	private Integer comment_num;
-	private Integer like_num;
+	private int browse_num;
+	private int comment_num;
+	private int like_num;
 	//coffee add 1201
-	private Integer ass_id;
-	private Integer tec_comment_num;
+	private int ass_id;
+	private int tec_comment_num;
 	//end
 	private List<HomePageAttBean> att;
 	private List<MasterCommentListBean> tec_comments_list;
@@ -70,16 +70,16 @@ public class MasterCommentReBean {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public Integer getStus_id() {
+	public int getStus_id() {
 		return stus_id;
 	}
-	public void setStus_id(Integer stus_id) {
+	public void setStus_id(int stus_id) {
 		this.stus_id = stus_id;
 	}
-	public Integer getOwner() {
+	public int getOwner() {
 		return owner;
 	}
-	public void setOwner(Integer owner) {
+	public void setOwner(int owner) {
 		this.owner = owner;
 	}
 	public String getOwner_type() {
@@ -136,22 +136,22 @@ public class MasterCommentReBean {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Integer getBrowse_num() {
+	public int getBrowse_num() {
 		return browse_num;
 	}
-	public void setBrowse_num(Integer browse_num) {
+	public void setBrowse_num(int browse_num) {
 		this.browse_num = browse_num;
 	}
-	public Integer getComment_num() {
+	public int getComment_num() {
 		return comment_num;
 	}
-	public void setComment_num(Integer comment_num) {
+	public void setComment_num(int comment_num) {
 		this.comment_num = comment_num;
 	}
-	public Integer getLike_num() {
+	public int getLike_num() {
 		return like_num;
 	}
-	public void setLike_num(Integer like_num) {
+	public void setLike_num(int like_num) {
 		this.like_num = like_num;
 	}
 	public List<HomePageAttBean> getAtt() {
@@ -167,19 +167,19 @@ public class MasterCommentReBean {
 		this.tec_comments_list = tec_comments_list;
 	}
 
-	public Integer getAss_id() {
+	public int getAss_id() {
 		return ass_id;
 	}
 
-	public void setAss_id(Integer ass_id) {
+	public void setAss_id(int ass_id) {
 		this.ass_id = ass_id;
 	}
 
-	public Integer getTec_comment_num() {
+	public int getTec_comment_num() {
 		return tec_comment_num;
 	}
 
-	public void setTec_comment_num(Integer tec_comment_num) {
+	public void setTec_comment_num(int tec_comment_num) {
 		this.tec_comment_num = tec_comment_num;
 	}
 	

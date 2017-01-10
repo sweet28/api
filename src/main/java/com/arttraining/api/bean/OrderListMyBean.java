@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderListMyBean {
-	private Integer order_type;
+	private int order_type;
 	private String order_number;
-	private Integer order_id;
-	private Integer order_status;
+	private int order_id;
+	private int order_status;
 	private String order_time;
-	private Integer order_element_num;
+	private int order_element_num;
 	private Double order_total_price;
-	private Integer work_id;
+	private int work_id;
 	private String work_title;
 	private String work_pic;
-	private Integer ass_num;
+	private int ass_num;
 	//coffee add 1208
 	private String active_time;
-	private Integer remaining_time;
-	private Integer coupon_id;
-	private Integer coupon_type;
+	private int remaining_time;
+	private int coupon_id;
+	private int coupon_type;
 	private List<AssTecListBean> ass_tec_list;
 	//end
 
@@ -41,10 +41,10 @@ public class OrderListMyBean {
 		this.remaining_time=0;
 		this.ass_tec_list = new ArrayList<AssTecListBean>();
 	}
-	public Integer getOrder_type() {
+	public int getOrder_type() {
 		return order_type;
 	}
-	public void setOrder_type(Integer order_type) {
+	public void setOrder_type(int order_type) {
 		this.order_type = order_type;
 	}
 	public String getOrder_number() {
@@ -53,16 +53,16 @@ public class OrderListMyBean {
 	public void setOrder_number(String order_number) {
 		this.order_number = order_number;
 	}
-	public Integer getOrder_id() {
+	public int getOrder_id() {
 		return order_id;
 	}
-	public void setOrder_id(Integer order_id) {
+	public void setOrder_id(int order_id) {
 		this.order_id = order_id;
 	}
-	public Integer getOrder_status() {
+	public int getOrder_status() {
 		return order_status;
 	}
-	public void setOrder_status(Integer order_status) {
+	public void setOrder_status(int order_status) {
 		this.order_status = order_status;
 	}
 	public String getOrder_time() {
@@ -71,10 +71,10 @@ public class OrderListMyBean {
 	public void setOrder_time(String order_time) {
 		this.order_time = order_time;
 	}
-	public Integer getOrder_element_num() {
+	public int getOrder_element_num() {
 		return order_element_num;
 	}
-	public void setOrder_element_num(Integer order_element_num) {
+	public void setOrder_element_num(int order_element_num) {
 		this.order_element_num = order_element_num;
 	}
 	public Double getOrder_total_price() {
@@ -83,10 +83,10 @@ public class OrderListMyBean {
 	public void setOrder_total_price(Double order_total_price) {
 		this.order_total_price = order_total_price;
 	}
-	public Integer getWork_id() {
+	public int getWork_id() {
 		return work_id;
 	}
-	public void setWork_id(Integer work_id) {
+	public void setWork_id(int work_id) {
 		this.work_id = work_id;
 	}
 	public String getWork_title() {
@@ -101,10 +101,10 @@ public class OrderListMyBean {
 	public void setWork_pic(String work_pic) {
 		this.work_pic = work_pic;
 	}
-	public Integer getAss_num() {
+	public int getAss_num() {
 		return ass_num;
 	}
-	public void setAss_num(Integer ass_num) {
+	public void setAss_num(int ass_num) {
 		this.ass_num = ass_num;
 	}
 	public String getActive_time() {
@@ -114,22 +114,22 @@ public class OrderListMyBean {
 		this.active_time = active_time;
 	}
 	
-	public Integer getRemaining_time() {
+	public int getRemaining_time() {
 		return remaining_time;
 	}
-	public void setRemaining_time(Integer remaining_time) {
+	public void setRemaining_time(int remaining_time) {
 		this.remaining_time = remaining_time;
 	}
-	public Integer getCoupon_id() {
+	public int getCoupon_id() {
 		return coupon_id;
 	}
-	public void setCoupon_id(Integer coupon_id) {
+	public void setCoupon_id(int coupon_id) {
 		this.coupon_id = coupon_id;
 	}
-	public Integer getCoupon_type() {
+	public int getCoupon_type() {
 		return coupon_type;
 	}
-	public void setCoupon_type(Integer coupon_type) {
+	public void setCoupon_type(int coupon_type) {
 		this.coupon_type = coupon_type;
 	}
 	public List<AssTecListBean> getAss_tec_list() {

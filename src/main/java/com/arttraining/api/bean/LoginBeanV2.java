@@ -6,7 +6,7 @@ public class LoginBeanV2 {
 	private String error_code;
 	private String error_msg;
 	private String access_token;
-	private Integer uid;
+	private int uid;
 	private String user_code;
 	private String name;
 	private String mobile;
@@ -19,17 +19,17 @@ public class LoginBeanV2 {
 	private String specialty;
 	private String school;
 	private String email;
-	private Integer score;
-	private Integer rank;
+	private int score;
+	private int rank;
 	private String title;
 	//coffee add
-	private Integer bbs_num;
-	private Integer group_num;
-	private Integer favorite_num;
-	private Integer comment_num;
-	private Integer follow_num;
-	private Integer fans_num;
-	private Integer work_num;
+	private int bbs_num;
+	private int group_num;
+	private int favorite_num;
+	private int comment_num;
+	private int follow_num;
+	private int fans_num;
+	private int work_num;
 	private String is_bind;
 	//end
 	public LoginBeanV2() {
@@ -78,10 +78,10 @@ public class LoginBeanV2 {
 	public void setAccess_token(String access_token) {
 		this.access_token = access_token;
 	}
-	public Integer getUid() {
+	public int getUid() {
 		return uid;
 	}
-	public void setUid(Integer uid) {
+	public void setUid(int uid) {
 		this.uid = uid;
 	}
 	public String getUser_code() {
@@ -156,16 +156,16 @@ public class LoginBeanV2 {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public Integer getScore() {
+	public int getScore() {
 		return score;
 	}
-	public void setScore(Integer score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
-	public Integer getRank() {
+	public int getRank() {
 		return rank;
 	}
-	public void setRank(Integer rank) {
+	public void setRank(int rank) {
 		this.rank = rank;
 	}
 	public String getTitle() {
@@ -174,46 +174,46 @@ public class LoginBeanV2 {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Integer getBbs_num() {
+	public int getBbs_num() {
 		return bbs_num;
 	}
-	public void setBbs_num(Integer bbs_num) {
+	public void setBbs_num(int bbs_num) {
 		this.bbs_num = bbs_num;
 	}
-	public Integer getGroup_num() {
+	public int getGroup_num() {
 		return group_num;
 	}
-	public void setGroup_num(Integer group_num) {
+	public void setGroup_num(int group_num) {
 		this.group_num = group_num;
 	}
-	public Integer getFavorite_num() {
+	public int getFavorite_num() {
 		return favorite_num;
 	}
-	public void setFavorite_num(Integer favorite_num) {
+	public void setFavorite_num(int favorite_num) {
 		this.favorite_num = favorite_num;
 	}
-	public Integer getComment_num() {
+	public int getComment_num() {
 		return comment_num;
 	}
-	public void setComment_num(Integer comment_num) {
+	public void setComment_num(int comment_num) {
 		this.comment_num = comment_num;
 	}
-	public Integer getFollow_num() {
+	public int getFollow_num() {
 		return follow_num;
 	}
-	public void setFollow_num(Integer follow_num) {
+	public void setFollow_num(int follow_num) {
 		this.follow_num = follow_num;
 	}
-	public Integer getFans_num() {
+	public int getFans_num() {
 		return fans_num;
 	}
-	public void setFans_num(Integer fans_num) {
+	public void setFans_num(int fans_num) {
 		this.fans_num = fans_num;
 	}
-	public Integer getWork_num() {
+	public int getWork_num() {
 		return work_num;
 	}
-	public void setWork_num(Integer work_num) {
+	public void setWork_num(int work_num) {
 		this.work_num = work_num;
 	}
 	public String getIs_bind() {

@@ -3,17 +3,17 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class InstitutionsListBean {
-	private Integer institution_id;
+	private int institution_id;
 	private String name;
 	private String institution_pic;
 	private String admissions_guide;
-	private Integer follow_num;
-	private Integer browse_num;
+	private int follow_num;
+	private int browse_num;
 	
-	public Integer getInstitution_id() {
+	public int getInstitution_id() {
 		return institution_id;
 	}
-	public void setInstitution_id(Integer institution_id) {
+	public void setInstitution_id(int institution_id) {
 		this.institution_id = institution_id;
 	}
 	public String getName() {
@@ -34,16 +34,16 @@ public class InstitutionsListBean {
 	public void setAdmissions_guide(String admissions_guide) {
 		this.admissions_guide = admissions_guide;
 	}
-	public Integer getFollow_num() {
+	public int getFollow_num() {
 		return follow_num;
 	}
-	public void setFollow_num(Integer follow_num) {
+	public void setFollow_num(int follow_num) {
 		this.follow_num = follow_num;
 	}
-	public Integer getBrowse_num() {
+	public int getBrowse_num() {
 		return browse_num;
 	}
-	public void setBrowse_num(Integer browse_num) {
+	public void setBrowse_num(int browse_num) {
 		this.browse_num = browse_num;
 	}
 	

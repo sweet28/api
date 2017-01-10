@@ -7,13 +7,13 @@ public class MasterLoginBean {
 	private String error_msg;
 	private String access_token;
 	private String user_code;
-	private Integer uid;
+	private int uid;
 	private String name;
 	private String pic;
-	private Integer comment;
-	private Integer fans_num;
+	private int comment;
+	private int fans_num;
 	private String auth;
-	private Integer browse_num;
+	private int browse_num;
 	private String city;
 	private String college;
 	private Double ass_pay;
@@ -23,8 +23,8 @@ public class MasterLoginBean {
 	private String identity;
 	private String email;
 	private String mobile;
-	private Integer score;
-	private Integer rank;
+	private int score;
+	private int rank;
 	private String sex;
 	private TecherShowOrgBean org;
 	
@@ -77,10 +77,10 @@ public class MasterLoginBean {
 	public void setUser_code(String user_code) {
 		this.user_code = user_code;
 	}
-	public Integer getUid() {
+	public int getUid() {
 		return uid;
 	}
-	public void setUid(Integer uid) {
+	public void setUid(int uid) {
 		this.uid = uid;
 	}
 	public String getName() {
@@ -95,16 +95,16 @@ public class MasterLoginBean {
 	public void setPic(String pic) {
 		this.pic = ImageUtil.parsePicPath(pic, 5);
 	}
-	public Integer getComment() {
+	public int getComment() {
 		return comment;
 	}
-	public void setComment(Integer comment) {
+	public void setComment(int comment) {
 		this.comment = comment;
 	}
-	public Integer getFans_num() {
+	public int getFans_num() {
 		return fans_num;
 	}
-	public void setFans_num(Integer fans_num) {
+	public void setFans_num(int fans_num) {
 		this.fans_num = fans_num;
 	}
 	public String getAuth() {
@@ -113,10 +113,10 @@ public class MasterLoginBean {
 	public void setAuth(String auth) {
 		this.auth = auth;
 	}
-	public Integer getBrowse_num() {
+	public int getBrowse_num() {
 		return browse_num;
 	}
-	public void setBrowse_num(Integer browse_num) {
+	public void setBrowse_num(int browse_num) {
 		this.browse_num = browse_num;
 	}
 	public String getCity() {
@@ -173,16 +173,16 @@ public class MasterLoginBean {
 	public void setMobile(String mobile) {
 		this.mobile = mobile;
 	}
-	public Integer getScore() {
+	public int getScore() {
 		return score;
 	}
-	public void setScore(Integer score) {
+	public void setScore(int score) {
 		this.score = score;
 	}
-	public Integer getRank() {
+	public int getRank() {
 		return rank;
 	}
-	public void setRank(Integer rank) {
+	public void setRank(int rank) {
 		this.rank = rank;
 	}
 

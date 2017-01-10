@@ -2,9 +2,9 @@ package com.arttraining.api.bean;
 
 
 public class FollowFansBean {
-	private Integer follow_id;
+	private int follow_id;
 	private String head_pic;
-	private Integer uid;
+	private int uid;
 	private String utype;
 	private String name;
 	private String time;
@@ -21,10 +21,10 @@ public class FollowFansBean {
 		this.city = "";
 		this.identity = "";
 	}
-	public Integer getFollow_id() {
+	public int getFollow_id() {
 		return follow_id;
 	}
-	public void setFollow_id(Integer follow_id) {
+	public void setFollow_id(int follow_id) {
 		this.follow_id = follow_id;
 	}
 	public String getHead_pic() {
@@ -34,10 +34,10 @@ public class FollowFansBean {
 		this.head_pic = head_pic;
 		//this.head_pic=ImageUtil.parsePicPath(head_pic, 5);
 	}
-	public Integer getUid() {
+	public int getUid() {
 		return uid;
 	}
-	public void setUid(Integer uid) {
+	public void setUid(int uid) {
 		this.uid = uid;
 	}
 	public String getUtype() {

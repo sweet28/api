@@ -5,7 +5,7 @@ import com.arttraining.commons.util.ImageUtil;
 public class BannerShowBean {
 	private String error_code;
 	private String error_msg;
-	private Integer banner_id;
+	private int banner_id;
 	private String title;
 	private String create_time;
 	private String content;
@@ -33,10 +33,10 @@ public class BannerShowBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getBanner_id() {
+	public int getBanner_id() {
 		return banner_id;
 	}
-	public void setBanner_id(Integer banner_id) {
+	public void setBanner_id(int banner_id) {
 		this.banner_id = banner_id;
 	}
 	public String getTitle() {

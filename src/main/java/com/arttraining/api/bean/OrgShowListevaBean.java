@@ -8,7 +8,7 @@ public class OrgShowListevaBean {
 	private Double result_score;
 	private Double teachers_score;
 	private Double environment_score;
-	private Integer uid;
+	private int uid;
 	private String name;
 	private String pic;
 	private String content;
@@ -44,10 +44,10 @@ public class OrgShowListevaBean {
 	public void setEnvironment_score(Double environment_score) {
 		this.environment_score = environment_score;
 	}
-	public Integer getUid() {
+	public int getUid() {
 		return uid;
 	}
-	public void setUid(Integer uid) {
+	public void setUid(int uid) {
 		this.uid = uid;
 	}
 	public String getName() {

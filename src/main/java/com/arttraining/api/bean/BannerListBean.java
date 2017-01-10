@@ -4,15 +4,15 @@ import com.arttraining.commons.util.ImageUtil;
 
 
 public class BannerListBean {
-	private Integer banner_id;
+	private int banner_id;
 	private String title;
 	private String pic;
 	private String url;
 
-	public Integer getBanner_id() {
+	public int getBanner_id() {
 		return banner_id;
 	}
-	public void setBanner_id(Integer banner_id) {
+	public void setBanner_id(int banner_id) {
 		this.banner_id = banner_id;
 	}
 	public String getTitle() {

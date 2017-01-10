@@ -6,8 +6,8 @@ import java.util.List;
 public class CommentStatusListBean {
 	private String error_code;
 	private String error_msg;
-	private Integer stus_id;
-	private Integer comment_num;
+	private int stus_id;
+	private int comment_num;
 	private List<CommentsBean> comments;
 	
 	public CommentStatusListBean() {
@@ -30,16 +30,16 @@ public class CommentStatusListBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getStus_id() {
+	public int getStus_id() {
 		return stus_id;
 	}
-	public void setStus_id(Integer stus_id) {
+	public void setStus_id(int stus_id) {
 		this.stus_id = stus_id;
 	}
-	public Integer getComment_num() {
+	public int getComment_num() {
 		return comment_num;
 	}
-	public void setComment_num(Integer comment_num) {
+	public void setComment_num(int comment_num) {
 		this.comment_num = comment_num;
 	}
 	public List<CommentsBean> getComments() {

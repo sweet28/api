@@ -5,7 +5,7 @@ import com.arttraining.commons.util.ImageUtil;
 public class AdvertiseShowBean {
 	private String error_code;
 	private String error_msg;
-	private Integer ad_id;
+	private int ad_id;
 	private String title;
 	private String pic;
 	private String url;
@@ -25,10 +25,10 @@ public class AdvertiseShowBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getAd_id() {
+	public int getAd_id() {
 		return ad_id;
 	}
-	public void setAd_id(Integer ad_id) {
+	public void setAd_id(int ad_id) {
 		this.ad_id = ad_id;
 	}
 	public String getTitle() {

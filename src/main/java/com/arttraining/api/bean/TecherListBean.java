@@ -3,11 +3,11 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class TecherListBean {
-	private Integer tec_id;
+	private int tec_id;
 	private String name;
 	private String pic;
-	private Integer comment;
-	private Integer fans_num;
+	private int comment;
+	private int fans_num;
 	private String auth;
 	private Double ass_pay;
 	private String title;
@@ -34,10 +34,10 @@ public class TecherListBean {
 		this.bg_pic="";
 		this.introduction="";
 	}
-	public Integer getTec_id() {
+	public int getTec_id() {
 		return tec_id;
 	}
-	public void setTec_id(Integer tec_id) {
+	public void setTec_id(int tec_id) {
 		this.tec_id = tec_id;
 	}
 	public String getName() {
@@ -52,16 +52,16 @@ public class TecherListBean {
 	public void setPic(String pic) {
 		this.pic = ImageUtil.parsePicPath(pic,5);
 	}
-	public Integer getComment() {
+	public int getComment() {
 		return comment;
 	}
-	public void setComment(Integer comment) {
+	public void setComment(int comment) {
 		this.comment = comment;
 	}
-	public Integer getFans_num() {
+	public int getFans_num() {
 		return fans_num;
 	}
-	public void setFans_num(Integer fans_num) {
+	public void setFans_num(int fans_num) {
 		this.fans_num = fans_num;
 	}
 	public String getAuth() {

@@ -3,26 +3,26 @@ package com.arttraining.api.bean;
 import com.arttraining.commons.util.ImageUtil;
 
 public class HomePageTecCommentBean {
-	private Integer tec_id;
+	private int tec_id;
 	private String name;
 	private String title;
 	private String identity;
 	private String city;
 	private String school;
 	private String tec_pic;
-	private Integer comm_id;
+	private int comm_id;
 	private String comm_time;
 	private String type;
 	private String comm_type;
 	private String content;
 	private String duration;
 	private String thumbnail;
-	private Integer listen_num;
+	private int listen_num;
 	
-	public Integer getTec_id() {
+	public int getTec_id() {
 		return tec_id;
 	}
-	public void setTec_id(Integer tec_id) {
+	public void setTec_id(int tec_id) {
 		this.tec_id = tec_id;
 	}
 	public String getName() {
@@ -100,16 +100,16 @@ public class HomePageTecCommentBean {
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = ImageUtil.parsePicPath(thumbnail, 6);
 	}
-	public Integer getListen_num() {
+	public int getListen_num() {
 		return listen_num;
 	}
-	public void setListen_num(Integer listen_num) {
+	public void setListen_num(int listen_num) {
 		this.listen_num = listen_num;
 	}
-	public Integer getComm_id() {
+	public int getComm_id() {
 		return comm_id;
 	}
-	public void setComm_id(Integer comm_id) {
+	public void setComm_id(int comm_id) {
 		this.comm_id = comm_id;
 	}
 	

@@ -5,8 +5,8 @@ import com.arttraining.commons.util.ImageUtil;
 public class HomePageThemeListBean {
 	private String pic;
 	private String title;
-	private Integer thm_id;
-	private Integer num;
+	private int thm_id;
+	private int num;
 	
 	
 	public String getPic() {
@@ -21,16 +21,16 @@ public class HomePageThemeListBean {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Integer getThm_id() {
+	public int getThm_id() {
 		return thm_id;
 	}
-	public void setThm_id(Integer thm_id) {
+	public void setThm_id(int thm_id) {
 		this.thm_id = thm_id;
 	}
-	public Integer getNum() {
+	public int getNum() {
 		return num;
 	}
-	public void setNum(Integer num) {
+	public void setNum(int num) {
 		this.num = num;
 	}
 

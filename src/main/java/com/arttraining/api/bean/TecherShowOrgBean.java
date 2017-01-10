@@ -2,7 +2,7 @@ package com.arttraining.api.bean;
 
 public class TecherShowOrgBean {
 	private String name;
-	private Integer org_id;
+	private int org_id;
 	private String auth;
 	
 	public TecherShowOrgBean() {
@@ -16,10 +16,10 @@ public class TecherShowOrgBean {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getOrg_id() {
+	public int getOrg_id() {
 		return org_id;
 	}
-	public void setOrg_id(Integer org_id) {
+	public void setOrg_id(int org_id) {
 		this.org_id = org_id;
 	}
 	public String getAuth() {

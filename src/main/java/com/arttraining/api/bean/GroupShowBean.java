@@ -8,15 +8,15 @@ import com.arttraining.commons.util.ImageUtil;
 public class GroupShowBean {
 	private String error_code;
 	private String error_msg;
-	private Integer group_id;
+	private int group_id;
 	private String name;
 	private String introduce;
-	private Integer grade;
-	private Integer users_num;
+	private int grade;
+	private int users_num;
 	private String pic;
 	private String number;
 	private String owner_type;
-	private Integer owner;
+	private int owner;
 	private String owner_name;
 	private String owner_pic;
 	private String create_time;
@@ -54,10 +54,10 @@ public class GroupShowBean {
 	public void setError_msg(String error_msg) {
 		this.error_msg = error_msg;
 	}
-	public Integer getGroup_id() {
+	public int getGroup_id() {
 		return group_id;
 	}
-	public void setGroup_id(Integer group_id) {
+	public void setGroup_id(int group_id) {
 		this.group_id = group_id;
 	}
 	public String getName() {
@@ -72,16 +72,16 @@ public class GroupShowBean {
 	public void setIntroduce(String introduce) {
 		this.introduce = introduce;
 	}
-	public Integer getGrade() {
+	public int getGrade() {
 		return grade;
 	}
-	public void setGrade(Integer grade) {
+	public void setGrade(int grade) {
 		this.grade = grade;
 	}
-	public Integer getUsers_num() {
+	public int getUsers_num() {
 		return users_num;
 	}
-	public void setUsers_num(Integer users_num) {
+	public void setUsers_num(int users_num) {
 		this.users_num = users_num;
 	}
 	public String getPic() {
@@ -102,10 +102,10 @@ public class GroupShowBean {
 	public void setOwner_type(String owner_type) {
 		this.owner_type = owner_type;
 	}
-	public Integer getOwner() {
+	public int getOwner() {
 		return owner;
 	}
-	public void setOwner(Integer owner) {
+	public void setOwner(int owner) {
 		this.owner = owner;
 	}
 	public String getOwner_name() {

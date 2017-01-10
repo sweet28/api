@@ -241,7 +241,7 @@ public class CommentController {
 					}
 
 					// coffee add 1215 新增推送信息
-					if (owner != i_uid) {
+					if (owner.intValue() != i_uid.intValue()) {
 						Map<String, Object> map = new HashMap<String, Object>();
 						map.put("user_id", owner);
 						map.put("user_type", "stu");
@@ -374,7 +374,7 @@ public class CommentController {
 					user.setCommentNum(1);
 				}
 				//coffee add 1215 新增推送信息
-				if(i_comm_uid!=i_uid) {
+				if(i_comm_uid.intValue() !=i_uid.intValue()) {
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("user_id", i_comm_uid);
 					map.put("user_type", "stu");
@@ -588,7 +588,7 @@ public class CommentController {
 				}
 				
 				//coffee add 1215 新增推送信息
-				if(owner!=i_uid) {
+				if(owner.intValue() != i_uid.intValue()) {
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("user_id", owner);
 					map.put("user_type", "stu");
@@ -709,7 +709,7 @@ public class CommentController {
 					user.setCommentNum(1);
 				}
 				//coffee add 1215 新增推送信息
-				if(i_comm_uid!=i_uid) {
+				if(i_comm_uid.intValue() !=i_uid.intValue()) {
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("user_id", i_comm_uid);
 					map.put("user_type", "stu");
@@ -930,7 +930,7 @@ public class CommentController {
 					}
 
 					// coffee add 1215 新增推送信息
-					if (owner != i_uid) {
+					if (owner.intValue() != i_uid.intValue()) {
 						Map<String, Object> map = new HashMap<String, Object>();
 						map.put("user_id", owner);
 						map.put("user_type", "stu");
@@ -1062,7 +1062,7 @@ public class CommentController {
 					user.setCommentNum(1);
 				}
 				//coffee add 1215 新增推送信息
-				if(i_comm_uid!=i_uid) {
+				if(i_comm_uid.intValue() !=i_uid.intValue()) {
 					Map<String, Object> map = new HashMap<String, Object>();
 					map.put("user_id", i_comm_uid);
 					map.put("user_type", "stu");
