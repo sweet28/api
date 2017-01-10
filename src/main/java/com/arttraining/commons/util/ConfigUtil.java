@@ -137,4 +137,7 @@ public class ConfigUtil {
 	//设置艺培头条/资讯分页大小
 	public static Integer INFO_PAGESIZE=30;
 	
+	//设置直播成员列表大小
+	public static Integer MEMBER_PAGESIZE=15;
+	
 }

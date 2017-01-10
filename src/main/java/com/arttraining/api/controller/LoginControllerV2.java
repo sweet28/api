@@ -25,7 +25,6 @@ import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
-import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.PhoneUtil;
 import com.arttraining.commons.util.Random;
@@ -562,9 +561,13 @@ public class LoginControllerV2 {
 						errorCode="0";
 						errorMessage="ok";
 					} else {
+						is_bind="no";
+						
+						errorCode="0";
+						errorMessage="ok";
 						//如果查询不存在uid 则重新赋值一个对象
-						errorCode = "20022";
-						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20022;	
+//						errorCode = "20022";
+//						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20022;	
 					}
 				} else {//如果尚未用QQ进行第三方登录过 
 					//则先进行在第三方登录表中新增一条记录
