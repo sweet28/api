@@ -263,7 +263,7 @@ public class OrdersServiceV2 implements IOrdersService{
 			String type="stu_ass";
 			String stu_type="stu";
 			param.put("stu_id", uid);
-			this.jPushClientService.encloseMsgPush(stu_type, uid, type, null);
+			this.jPushClientService.encloseMsgPush(stu_type, uid, type, param);
 			//老师消息推送
 			for (Assessments ass : assList) {
 				Integer tec_id=ass.getTecId();

@@ -150,7 +150,7 @@ public class InviteCodeUtil {
 //		}
 
 		for(int i = 1; i <= 100; i++){
-			System.out.println(toSerialCode(i,6,"@"));
+			System.out.println(toSerialCode(i,6,ConfigUtil.USER_FLAG_STU));
 		}
 	}
 

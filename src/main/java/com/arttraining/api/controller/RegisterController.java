@@ -20,7 +20,9 @@ import com.arttraining.api.service.impl.SMSService;
 import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.IdWorker;
 import com.arttraining.commons.util.ImageUtil;
+import com.arttraining.commons.util.InviteCodeUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.PhoneUtil;
 import com.arttraining.commons.util.ServerLog;
@@ -171,6 +173,20 @@ public class RegisterController {
 						userStu2.setCreateTime(TimeUtil.getTimeStamp());
 						userStu2.setRemarks(login_way);
 						userStu2.setTitle("normal");//master：达人、brother：师哥师姐、nomal：一般等
+						
+						String inviteCode = "";
+						String memberCode = "";
+						inviteCode = InviteCodeUtil.toSerialCode(0, 7, ConfigUtil.USER_FLAG_STU);
+						IdWorker idWorker = new IdWorker(0, 0);
+						memberCode = idWorker.nextId() + "";
+						
+						if(!"".equals(inviteCode)){
+							userStu2.setUid(inviteCode);
+						}
+						if(!"".equals(memberCode)){
+							userStu2.setUserCode(memberCode);
+						}
+						
 						if (name != null && !("").equals(userStu2)) {
 							userStu2.setName(name);
 						}else{

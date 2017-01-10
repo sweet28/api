@@ -142,4 +142,11 @@ public class ConfigUtil {
 	//设置直播评论列表大小
 	public static int COMMENT_PAGESIZE=5;
 	
+	/*
+	 * 邀请码/会员号类型前置标记
+	 */
+	public static String USER_FLAG_STU = "@";
+	public static String USER_FLAG_TEC = "#";
+	public static String USER_FLAG_ORG = "$";
+	
 }
