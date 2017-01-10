@@ -136,7 +136,8 @@ public class OrdersController {
 						}
 					} else {
 						//如果支付未超时 则直接返回有效时间 和剩余支付时间
-						Integer remain_time=Integer.valueOf(String.valueOf(diff));
+						//Integer remain_time=Integer.valueOf(String.valueOf(diff));
+						int remain_time=Integer.parseInt(String.valueOf(diff));
 						remain.setRemaining_time(remain_time);
 					}
 					errorCode = "0";
@@ -366,7 +367,8 @@ public class OrdersController {
 									}
 								} else {
 									//如果支付未超时 则直接返回有效时间 和剩余支付时间
-									Integer remain=Integer.valueOf(String.valueOf(diff));
+									int remain=Integer.parseInt(String.valueOf(diff));
+									//Integer remain=Integer.valueOf(String.valueOf(diff));
 									order.setRemaining_time(remain);
 									System.out.println("555===");
 								}
