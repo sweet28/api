@@ -145,61 +145,64 @@ public class StatusesController {
 				if(title != null){
 					title = EmojiUtil.resolveToNullFromEmoji(title);
 				}
-				content = EmojiUtil.resolveToNullFromEmoji(content);
-				if(!"".equals(content.trim())){
-					Date date = new Date();
-					String time = TimeUtil.getTimeByDate(date);
-					
-					//用户id
-					Integer i_uid = Integer.valueOf(uid);
-					//新增帖子信息
-					BBS bbs = new BBS();
-					bbs.setOwner(i_uid);
-					bbs.setOwnerType(utype);
-					bbs.setTitle(title);
-					bbs.setContent(content);
-					bbs.setCreateTime(Timestamp.valueOf(time));
-					bbs.setOrderCode(time);
-					bbs.setAttachment(thumbnail);
-					
-					//新增帖子对应的附件信息
-					BBSAttachment bbsAttr = null;
-					if(attr_type!=null && !attr_type.equals("")) {
-						bbsAttr = new BBSAttachment();
-						bbsAttr.setStorePath(attr);
-						bbsAttr.setCreateTime(Timestamp.valueOf(time));
-						bbsAttr.setType(attr_type);
-						bbsAttr.setDuration(duration);
-						bbsAttr.setOrderCode(time);
-						bbsAttr.setThumbnail(thumbnail);
-						//如果是图片 则需要获取第一张图片的封面
-						if(attr_type.equals("pic")) {
-							String path=ImageUtil.parseStatusThumbnail(attr, "");
-							bbs.setAttachment(path);
-						}
-					}
-					//发布帖子时 更新用户发帖量
-					UserStu user = new UserStu();
-					user.setId(i_uid);
-					user.setBbsNum(1);
-					
-					try {
-						this.bbsService.insertBBSAndInsertAttr(bbs, bbsAttr,user);
-						errorCode = "0";
-						errorMessage = "ok";
-						// coffee add 0102  新增推送信息
-						//1.先给关注人推送Msg消息
-						String type = "publish_bbs";
-						this.jPushClientService.encloseMsgPush(utype, i_uid, type, null);
-						//end
-					}catch(Exception e) {
-						errorCode = "20037";
-						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20037;
-					}
-				}else{
-					errorCode = "20067";
-					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20067;
+				if(content != null && !"".equals(content.trim())){
+					content = EmojiUtil.resolveToNullFromEmoji(content);
 				}
+				// if(!"".equals(content.trim())){
+				Date date = new Date();
+				String time = TimeUtil.getTimeByDate(date);
+
+				// 用户id
+				Integer i_uid = Integer.valueOf(uid);
+				// 新增帖子信息
+				BBS bbs = new BBS();
+				bbs.setOwner(i_uid);
+				bbs.setOwnerType(utype);
+				bbs.setTitle(title);
+				bbs.setContent(content);
+				bbs.setCreateTime(Timestamp.valueOf(time));
+				bbs.setOrderCode(time);
+				bbs.setAttachment(thumbnail);
+
+				// 新增帖子对应的附件信息
+				BBSAttachment bbsAttr = null;
+				if (attr_type != null && !attr_type.equals("")) {
+					bbsAttr = new BBSAttachment();
+					bbsAttr.setStorePath(attr);
+					bbsAttr.setCreateTime(Timestamp.valueOf(time));
+					bbsAttr.setType(attr_type);
+					bbsAttr.setDuration(duration);
+					bbsAttr.setOrderCode(time);
+					bbsAttr.setThumbnail(thumbnail);
+					// 如果是图片 则需要获取第一张图片的封面
+					if (attr_type.equals("pic")) {
+						String path = ImageUtil.parseStatusThumbnail(attr, "");
+						bbs.setAttachment(path);
+					}
+				}
+				// 发布帖子时 更新用户发帖量
+				UserStu user = new UserStu();
+				user.setId(i_uid);
+				user.setBbsNum(1);
+
+				try {
+					this.bbsService.insertBBSAndInsertAttr(bbs, bbsAttr, user);
+					errorCode = "0";
+					errorMessage = "ok";
+					// coffee add 0102 新增推送信息
+					// 1.先给关注人推送Msg消息
+					String type = "publish_bbs";
+					this.jPushClientService.encloseMsgPush(utype, i_uid, type,
+							null);
+					// end
+				} catch (Exception e) {
+					errorCode = "20037";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20037;
+				}
+				// }else{
+				// errorCode = "20067";
+				// errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20067;
+				// }
 			}
 			else {
 				errorCode = "20028";
