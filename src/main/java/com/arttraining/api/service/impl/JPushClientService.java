@@ -166,7 +166,6 @@ public class JPushClientService implements IJPushClientService {
 		msg.setOwnerId(owner);
 		msg.setOwnerType(owner_type);
 		msg.setMsgContent(comm_content);
-		
 		String attr="";
 		if(comm_status_type.equals("status")) {
 			BBS bbs = this.bbsDao.selectByPrimaryKey(comm_status_id);
