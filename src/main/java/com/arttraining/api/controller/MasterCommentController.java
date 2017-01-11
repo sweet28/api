@@ -154,33 +154,32 @@ public class MasterCommentController {
 					ass.setAssTime(Timestamp.valueOf(time));
 					ass.setStatus(ConfigUtil.STATUS_5);
 					//end
-					
-					//coffee add 1215 新增推送信息
-					Map<String, Object> com_map = new HashMap<String, Object>();
-					com_map.put("user_id", i_uid);
-					com_map.put("user_type", "stu");
-					Token t=this.tokenService.getOneTokenInfo(com_map);
-					String alias="";
-					if(t!=null) {
-						alias=t.getToken();
-						String user_type="stu";
-						String push_type="alert_msg";
-						UserTech push_user = this.userTecService.getOneUserTecById(i_tec_id);
-						String alert="亲,"+push_user.getName()+"老师点评了你的作品哟";
-						String push_content="";
-						String push_content_type="";
-						//封装额外的数据
-						String type="tec_comment";
-						String value=""+i_work_id;
-						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, push_content_type, extra_value);
-					}
-					//end
-					
+
 					try {
 						this.worksTecCommentService.insertTecCommentAndUpdateNum(tecComment, works,ass);
 						errorCode = "0";
-						errorMessage = "ok";	
+						errorMessage = "ok";
+						//coffee add 1215 新增推送信息
+						Map<String, Object> com_map = new HashMap<String, Object>();
+						com_map.put("user_id", i_uid);
+						com_map.put("user_type", "stu");
+						Token t=this.tokenService.getOneTokenInfo(com_map);
+						String alias="";
+						if(t!=null) {
+							alias=t.getToken();
+							String user_type="stu";
+							String push_type="alert_msg";
+							UserTech push_user = this.userTecService.getOneUserTecById(i_tec_id);
+							String alert="亲,"+push_user.getName()+"老师点评了你的作品哟";
+							String push_content="";
+							String push_content_type="";
+							//封装额外的数据
+							String type="tec_comment";
+							String value=""+i_work_id;
+							String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+							JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, push_content_type, extra_value);
+						}
+						//end
 					} catch (Exception e) {
 						errorCode = "20057";
 						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20057;	
@@ -282,32 +281,31 @@ public class MasterCommentController {
 				works.setTecCommentNum(1);
 				//end 
 				
-				//coffee add 1215 新增推送信息
-				Map<String, Object> com_map = new HashMap<String, Object>();
-				com_map.put("user_id", i_uid);
-				com_map.put("user_type", "stu");
-				Token t=this.tokenService.getOneTokenInfo(com_map);
-				String alias="";
-				if(t!=null) {
-					alias=t.getToken();
-					String user_type="stu";
-					String push_type="alert_msg";
-					UserTech push_user = this.userTecService.getOneUserTecById(i_tec_id);
-					String alert="亲,"+push_user.getName()+"老师点评了你的作品哟";
-					String push_content="";
-					String push_content_type="";
-					//封装额外的数据
-					String type="tec_reply";
-					String value=""+i_work_id;
-					String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-					JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, push_content_type, extra_value);
-				}
-				//end
-				
 				try {
 					this.worksTecCommentService.insertTecCommentAndUpdateNumByReply(tecComment,works);
 					errorCode = "0";
 					errorMessage = "ok";	
+					//coffee add 1215 新增推送信息
+					Map<String, Object> com_map = new HashMap<String, Object>();
+					com_map.put("user_id", i_uid);
+					com_map.put("user_type", "stu");
+					Token t=this.tokenService.getOneTokenInfo(com_map);
+					String alias="";
+					if(t!=null) {
+						alias=t.getToken();
+						String user_type="stu";
+						String push_type="alert_msg";
+						UserTech push_user = this.userTecService.getOneUserTecById(i_tec_id);
+						String alert="亲,"+push_user.getName()+"老师点评了你的作品哟";
+						String push_content="";
+						String push_content_type="";
+						//封装额外的数据
+						String type="tec_reply";
+						String value=""+i_work_id;
+						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
+						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, push_content_type, extra_value);
+					}
+					//end
 				} catch (Exception e) {
 					errorCode = "20057";
 					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20057;	

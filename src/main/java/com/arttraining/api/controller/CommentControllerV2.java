@@ -242,51 +242,25 @@ public class CommentControllerV2 {
 						user.setId(owner);
 						user.setCommentNum(1);
 					}
-
-					// coffee add 1215 新增推送信息
-					if (owner.intValue() != i_uid.intValue()) {
-						String type="comment_bbs";
-						Map<String, Object> param = new HashMap<String, Object>();
-						param.put("owner", owner);
-						param.put("owner_type", owner_type);
-						param.put("uid", i_uid);
-						param.put("utype", utype);
-						param.put("content", content);
-						param.put("status_id", i_status_id);
-						param.put("status_type", "status");
-						this.jPushClientService.encloseMsgPush(owner_type, owner, type, param);
-						
-//						Map<String, Object> map = new HashMap<String, Object>();
-//						map.put("user_id", owner);
-//						map.put("user_type", "stu");
-//						Token t = this.tokenService.getOneTokenInfo(map);
-//						String alias = "";
-//						if (t != null) {
-//							alias = t.getToken();
-//							String user_type = "stu";
-//							String push_type = "alert_msg";
-//							UserStu push_user = this.userStuService
-//									.getUserStuById(i_uid);
-//							String alert = "亲," + push_user.getName()
-//									+ "评论了你的帖子哟";
-//							String push_content = "";
-//							String content_type = "";
-//							// 封装额外的数据
-//							String type = "comment_bbs";
-//							String value = "" + i_status_id;
-//							String extra_value = JPushClientUtil
-//									.eclose_push_extra_json_data(type, value);
-//							JPushClientUtil.enclose_push_data_alias(user_type,
-//									push_type, alias, alert, push_content,
-//									content_type, extra_value);
-//						}
-					}
-					// end
 					try {
 						this.bbsCommentService.insertAndUpdateBBSComment(
 								bbsComment, i_status_id, user);
 						errorCode = "0";
 						errorMessage = "ok";
+						// coffee add 1215 新增推送信息
+						if (owner.intValue() != i_uid.intValue()) {
+							String type="comment_bbs";
+							Map<String, Object> param = new HashMap<String, Object>();
+							param.put("owner", owner);
+							param.put("owner_type", owner_type);
+							param.put("uid", i_uid);
+							param.put("utype", utype);
+							param.put("content", content);
+							param.put("status_id", i_status_id);
+							param.put("status_type", "status");
+							this.jPushClientService.encloseMsgPush(owner_type, owner, type, param);
+						}
+						// end
 					} catch (Exception e) {
 						errorCode = "20050";
 						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20050;
@@ -367,7 +341,6 @@ public class CommentControllerV2 {
 				
 				Date date = new Date();
 				String time = TimeUtil.getTimeByDate(date);
-				
 				//新增帖子评论信息
 				BBSComment bbsComment = new BBSComment();
 				bbsComment.setContent(content);
@@ -387,45 +360,24 @@ public class CommentControllerV2 {
 					user.setId(i_comm_uid);
 					user.setCommentNum(1);
 				}
-				//coffee add 1215 新增推送信息
-				if(i_comm_uid.intValue()!=i_uid.intValue()) {
-					String type="reply_bbs";
-					Map<String, Object> param = new HashMap<String, Object>();
-					param.put("owner", i_comm_uid);
-					param.put("owner_type", comm_u_type);
-					param.put("uid", i_uid);
-					param.put("utype", utype);
-					param.put("content", content);
-					param.put("status_id", status_id);
-					param.put("status_type", "status");
-					this.jPushClientService.encloseMsgPush(comm_u_type, i_comm_uid, type, param);
-					
-//					Map<String, Object> map = new HashMap<String, Object>();
-//					map.put("user_id", i_comm_uid);
-//					map.put("user_type", "stu");
-//					Token t=this.tokenService.getOneTokenInfo(map);
-//					String alias="";
-//					if(t!=null) {
-//						String user_type="stu";
-//						String push_type="alert_msg";
-//						alias=t.getToken();
-//						UserStu push_user=this.userStuService.getUserStuById(i_uid);
-//						String alert="亲,"+push_user.getName()+"回复了你的帖子哟";
-//						String push_content="";
-//						String content_type="";
-//						//封装额外的数据
-//						String type="reply_bbs";
-//						String value=""+i_status_id;
-//						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-//						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
-//						}
-					}
-				//end
-				
 				try {
 					this.bbsCommentService.insertAndUpdateBBSComment(bbsComment, i_status_id,user);
 					errorCode="0";
 					errorMessage="ok";
+					//coffee add 1215 新增推送信息
+					if(i_comm_uid.intValue()!=i_uid.intValue()) {
+						String type="reply_bbs";
+						Map<String, Object> param = new HashMap<String, Object>();
+						param.put("owner", i_comm_uid);
+						param.put("owner_type", comm_u_type);
+						param.put("uid", i_uid);
+						param.put("utype", utype);
+						param.put("content", content);
+						param.put("status_id", i_status_id);
+						param.put("status_type", "status");
+						this.jPushClientService.encloseMsgPush(comm_u_type, i_comm_uid, type, param);
+					}
+					//end
 				} catch (Exception e) {
 					errorCode="20050";
 					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20050;
@@ -611,46 +563,25 @@ public class CommentControllerV2 {
 					user.setId(owner);
 					user.setCommentNum(1);
 				}
-				
-				//coffee add 1215 新增推送信息
-				if(owner.intValue() !=i_uid.intValue()) {
-					String type="comment_gstus";
-					Map<String, Object> param = new HashMap<String, Object>();
-					param.put("owner", owner);
-					param.put("owner_type", owner_type);
-					param.put("uid", i_uid);
-					param.put("utype", utype);
-					param.put("content", content);
-					param.put("status_id", status_id);
-					param.put("status_type", "g_stus");
-					this.jPushClientService.encloseMsgPush(owner_type, owner, type, param);
-					
-//					Map<String, Object> map = new HashMap<String, Object>();
-//					map.put("user_id", owner);
-//					map.put("user_type", "stu");
-//					Token t=this.tokenService.getOneTokenInfo(map);
-//					String alias="";
-//					if(t!=null) {
-//						alias=t.getToken();
-//						String user_type="stu";
-//						String push_type="alert_msg";
-//						UserStu push_user=this.userStuService.getUserStuById(i_uid);
-//						String alert="亲,"+push_user.getName()+"评论了你的动态哟";
-//						String push_content="";
-//						String content_type="";
-//						//封装额外的数据
-//						String type="comment_gstus";
-//						String value=""+i_status_id;
-//						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-//						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
-//					}
-				}
-				//end
-				
+
 				try {
 					this.statusCommentService.insertAndUpdateStatusComment(statusComment, i_status_id,user);
 					errorCode="0";
 					errorMessage="ok";
+					//coffee add 1215 新增推送信息
+					if(owner.intValue() !=i_uid.intValue()) {
+						String type="comment_gstus";
+						Map<String, Object> param = new HashMap<String, Object>();
+						param.put("owner", owner);
+						param.put("owner_type", owner_type);
+						param.put("uid", i_uid);
+						param.put("utype", utype);
+						param.put("content", content);
+						param.put("status_id", i_status_id);
+						param.put("status_type", "g_stus");
+						this.jPushClientService.encloseMsgPush(owner_type, owner, type, param);
+					}
+					//end
 				} catch (Exception e) {
 					errorCode="20050";
 					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20050;
@@ -744,44 +675,24 @@ public class CommentControllerV2 {
 					user.setId(i_comm_uid);
 					user.setCommentNum(1);
 				}
-				//coffee add 1215 新增推送信息
-				if(i_comm_uid.intValue() !=i_uid.intValue()) {
-					String type="reply_gstus";
-					Map<String, Object> param = new HashMap<String, Object>();
-					param.put("owner", i_comm_uid);
-					param.put("owner_type", comm_u_type);
-					param.put("uid", i_uid);
-					param.put("utype", utype);
-					param.put("content", content);
-					param.put("status_id", status_id);
-					param.put("status_type", "g_stus");
-					this.jPushClientService.encloseMsgPush(comm_u_type, i_comm_uid, type, param);
-//					Map<String, Object> map = new HashMap<String, Object>();
-//					map.put("user_id", i_comm_uid);
-//					map.put("user_type", "stu");
-//					Token t=this.tokenService.getOneTokenInfo(map);
-//					String alias="";
-//					if(t!=null) {
-//						alias=t.getToken();
-//						String user_type="stu";
-//						String push_type="alert_msg";
-//						UserStu push_user=this.userStuService.getUserStuById(i_uid);
-//						String alert="亲,"+push_user.getName()+"回复了你的动态哟";
-//						String push_content="";
-//						String content_type="";
-//						//封装额外的数据
-//						String type="reply_gstus";
-//						String value=""+i_status_id;
-//						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-//						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
-//					}
-				}
-				//end
-				
 				try {
 					this.statusCommentService.insertAndUpdateStatusComment(statusComment, i_status_id,user);
 					errorCode="0";
 					errorMessage="ok";
+					//coffee add 1215 新增推送信息
+					if(i_comm_uid.intValue() !=i_uid.intValue()) {
+						String type="reply_gstus";
+						Map<String, Object> param = new HashMap<String, Object>();
+						param.put("owner", i_comm_uid);
+						param.put("owner_type", comm_u_type);
+						param.put("uid", i_uid);
+						param.put("utype", utype);
+						param.put("content", content);
+						param.put("status_id", i_status_id);
+						param.put("status_type", "g_stus");
+						this.jPushClientService.encloseMsgPush(comm_u_type, i_comm_uid, type, param);
+					}
+					//end
 				} catch (Exception e) {
 					errorCode="20050";
 					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20050;
@@ -974,52 +885,25 @@ public class CommentControllerV2 {
 						user.setId(owner);
 						user.setCommentNum(1);
 					}
-
-					// coffee add 1215 新增推送信息
-					if (owner.intValue() != i_uid.intValue()) {
-						String type="comment_work";
-						Map<String, Object> param = new HashMap<String, Object>();
-						param.put("owner", owner);
-						param.put("owner_type", owner_type);
-						param.put("uid", i_uid);
-						param.put("utype", utype);
-						param.put("content", content);
-						param.put("status_id", status_id);
-						param.put("status_type", "work");
-						this.jPushClientService.encloseMsgPush(owner_type, owner, type, param);
-						
-//						Map<String, Object> map = new HashMap<String, Object>();
-//						map.put("user_id", owner);
-//						map.put("user_type", "stu");
-//						Token t = this.tokenService.getOneTokenInfo(map);
-//						String alias = "";
-//						if (t != null) {
-//							alias = t.getToken();
-//							String user_type = "stu";
-//							String push_type = "alert_msg";
-//							UserStu push_user = this.userStuService
-//									.getUserStuById(i_uid);
-//							String alert = "亲," + push_user.getName()
-//									+ "评论了你的作品哟";
-//							String push_content = "";
-//							String content_type = "";
-//							// 封装额外的数据
-//							String type = "comment_work";
-//							String value = "" + i_status_id;
-//							String extra_value = JPushClientUtil
-//									.eclose_push_extra_json_data(type, value);
-//							JPushClientUtil.enclose_push_data_alias(user_type,
-//									push_type, alias, alert, push_content,
-//									content_type, extra_value);
-//						}
-					}
-					// end
-
 					try {
 						this.workCommentService.insertAndUpdateWorkComment(
 								workComment, i_status_id, user);
 						errorCode = "0";
 						errorMessage = "ok";
+						// coffee add 1215 新增推送信息
+						if (owner.intValue() != i_uid.intValue()) {
+							String type="comment_work";
+							Map<String, Object> param = new HashMap<String, Object>();
+							param.put("owner", owner);
+							param.put("owner_type", owner_type);
+							param.put("uid", i_uid);
+							param.put("utype", utype);
+							param.put("content", content);
+							param.put("status_id", i_status_id);
+							param.put("status_type", "work");
+							this.jPushClientService.encloseMsgPush(owner_type, owner, type, param);
+						}
+						// end
 					} catch (Exception e) {
 						errorCode = "20050";
 						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20050;
@@ -1118,45 +1002,24 @@ public class CommentControllerV2 {
 					user.setId(i_comm_uid);
 					user.setCommentNum(1);
 				}
-				//coffee add 1215 新增推送信息
-				if(i_comm_uid.intValue() !=i_uid.intValue()) {
-					String type="reply_work";
-					Map<String, Object> param = new HashMap<String, Object>();
-					param.put("owner", i_comm_uid);
-					param.put("owner_type", comm_u_type);
-					param.put("uid", i_uid);
-					param.put("utype", utype);
-					param.put("content", content);
-					param.put("status_id", status_id);
-					param.put("status_type", "work");
-					this.jPushClientService.encloseMsgPush(comm_u_type, i_comm_uid, type, param);
-					
-//					Map<String, Object> map = new HashMap<String, Object>();
-//					map.put("user_id", i_comm_uid);
-//					map.put("user_type", "stu");
-//					Token t=this.tokenService.getOneTokenInfo(map);
-//					String alias="";
-//					if(t!=null) {
-//						alias=t.getToken();
-//						String user_type="stu";
-//						String push_type="alert_msg";
-//						UserStu push_user=this.userStuService.getUserStuById(i_uid);
-//						String alert="亲,"+push_user.getName()+"回复了你的作品哟";
-//						String push_content="";
-//						String content_type="";
-//						//封装额外的数据
-//						String type="reply_work";
-//						String value=""+i_status_id;
-//						String extra_value=JPushClientUtil.eclose_push_extra_json_data(type, value);
-//						JPushClientUtil.enclose_push_data_alias(user_type, push_type, alias, alert, push_content, content_type, extra_value);
-//					}
-				}
-				//end
-				
 				try {
 					this.workCommentService.insertAndUpdateWorkComment(workComment, i_status_id, user);
 					errorCode="0";
 					errorMessage="ok";
+					//coffee add 1215 新增推送信息
+					if(i_comm_uid.intValue() !=i_uid.intValue()) {
+						String type="reply_work";
+						Map<String, Object> param = new HashMap<String, Object>();
+						param.put("owner", i_comm_uid);
+						param.put("owner_type", comm_u_type);
+						param.put("uid", i_uid);
+						param.put("utype", utype);
+						param.put("content", content);
+						param.put("status_id", i_status_id);
+						param.put("status_type", "work");
+						this.jPushClientService.encloseMsgPush(comm_u_type, i_comm_uid, type, param);
+					}
+					//end
 				} catch (Exception e) {
 					errorCode="20050";
 					errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20050;
