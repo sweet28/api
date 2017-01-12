@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.LiveMemberMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.LiveMember" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="ownerType" jdbcType="VARCHAR" />
+    <result column="host" property="host" jdbcType="INTEGER" />
+    <result column="host_type" property="hostType" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="live_operation" property="liveOperation" jdbcType="VARCHAR" />
+    <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    owner, owner_type, host, host_type, type, live_operation, foreign_key
+  </sql>
+  
+  <!-- coffee add 0111 判断是否加入该直播房间 -->
+  <select id="selectLiveMemberInfoByRoomId" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_live_member
+    where is_deleted=0
+    and foreign_key=#{room_id,jdbcType=INTEGER}
+    and type='member'
+    and host=#{uid,jdbcType=INTEGER}
+    and host_type=#{utype,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- coffee 0109 获取直播成员列表信息 live/member/list接口调用 -->
+  <resultMap id="MemberResultMap" type="com.arttraining.api.beanv2.LiveMemberBean">
+    <id column="id" property="member_id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="utype" property="utype" jdbcType="VARCHAR" />
+    <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="member_type" property="member_type" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectLiveMemberByRoomId" resultMap="MemberResultMap" parameterType="java.util.Map" >
+    select d.host as uid,d.host_type as utype,d.type as member_type,
+    d.id,u.head_pic,u.name
+    from (select host,host_type,type,id,create_time
+    from t_yp_live_member
+    where foreign_key = #{room_id,jdbcType=INTEGER}
+    and live_operation='join' and type='member'
+    and is_deleted=0
+    <if test="offset !=-1">
+    	and order_code &gt; (select order_code from t_yp_live_detail
+    	where id = #{offset,jdbcType=INTEGER})
+    </if>
+    order by order_code asc
+    limit #{limit,jdbcType=INTEGER}) d,
+    (select id,name,head_pic
+    from t_yp_user_stu
+    where is_deleted=0 and is_lock=0
+    <if test="name !=null">
+    	and name= #{name,jdbcType=VARCHAR}
+    </if>) u
+    where d.host=u.id
+    order by d.create_time asc
+  </select>
+  <!-- coffee add 获取主播基本信息 live/member/list接口调用-->
+  <select id="selectLiveOwnerByRoomId" resultMap="MemberResultMap" parameterType="java.util.Map">
+    <choose>
+    	<when test="utype=='tec'">
+    		select d.host as uid,d.host_type as utype,d.type as member_type,
+		    d.id,t.head_pic,t.name
+		    from (select host,host_type,type,id
+		    from t_yp_live_member
+		    where foreign_key = #{room_id,jdbcType=INTEGER}
+		    and type='owner'
+		    and owner=#{uid,jdbcType=INTEGER}
+		    and owner_type='tec'
+		    and is_deleted=0) d,
+		    (select id,name,head_pic
+		    from t_yp_user_tech
+		    where is_deleted=0 and is_lock=0
+		    and id=#{uid,jdbcType=INTEGER}
+		    <if test="name !=null">
+    			and name= #{name,jdbcType=VARCHAR}
+   			</if>) t
+		    where d.host=t.id
+    	</when>
+    	<when test="utype=='stu'">
+    		select d.host as uid,d.host_type as utype,d.type as member_type,
+		    d.id,u.head_pic,u.name
+		    from (select host,host_type,type,id
+		    from t_yp_live_member
+		    where foreign_key = #{room_id,jdbcType=INTEGER}
+		    and type='owner'
+		    and owner=#{uid,jdbcType=INTEGER}
+		    and owner_type='stu'
+		    and is_deleted=0) d,
+		    (select id,name,head_pic
+		    from t_yp_user_stu
+		    where is_deleted=0 and is_lock=0
+		    and id=#{uid,jdbcType=INTEGER}
+		    <if test="name !=null">
+    			and name= #{name,jdbcType=VARCHAR}
+   			</if>) u
+		    where d.host=u.id
+    	</when>
+    </choose>
+   
+  </select> 
+  <!-- end -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_live_member
+    where id = #{id,jdbcType=INTEGER}
+    and is_deleted=0
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_live_member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.LiveMember" >
+    insert into t_yp_live_member (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, owner, 
+      owner_type, host, host_type, 
+      type, live_operation, foreign_key
+      )
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{owner,jdbcType=INTEGER}, 
+      #{ownerType,jdbcType=VARCHAR}, #{host,jdbcType=INTEGER}, #{hostType,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{liveOperation,jdbcType=VARCHAR}, #{foreignKey,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.LiveMember" >
+    insert into t_yp_live_member
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="ownerType != null" >
+        owner_type,
+      </if>
+      <if test="host != null" >
+        host,
+      </if>
+      <if test="hostType != null" >
+        host_type,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="liveOperation != null" >
+        live_operation,
+      </if>
+      <if test="foreignKey != null" >
+        foreign_key,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="ownerType != null" >
+        #{ownerType,jdbcType=VARCHAR},
+      </if>
+      <if test="host != null" >
+        #{host,jdbcType=INTEGER},
+      </if>
+      <if test="hostType != null" >
+        #{hostType,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="liveOperation != null" >
+        #{liveOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignKey != null" >
+        #{foreignKey,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.LiveMember" >
+    update t_yp_live_member
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="owner != null" >
+        owner = #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="ownerType != null" >
+        owner_type = #{ownerType,jdbcType=VARCHAR},
+      </if>
+      <if test="host != null" >
+        host = #{host,jdbcType=INTEGER},
+      </if>
+      <if test="hostType != null" >
+        host_type = #{hostType,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="liveOperation != null" >
+        live_operation = #{liveOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignKey != null" >
+        foreign_key = #{foreignKey,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.LiveMember" >
+    update t_yp_live_member
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      owner = #{owner,jdbcType=INTEGER},
+      owner_type = #{ownerType,jdbcType=VARCHAR},
+      host = #{host,jdbcType=INTEGER},
+      host_type = #{hostType,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      live_operation = #{liveOperation,jdbcType=VARCHAR},
+      foreign_key = #{foreignKey,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

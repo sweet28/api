@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.LiveAuthMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.LiveAuth" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="is_publish" property="isPublish" jdbcType="INTEGER" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="ownerType" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="work_place" property="workPlace" jdbcType="VARCHAR" />
+    <result column="work_year" property="workYear" jdbcType="INTEGER" />
+    <result column="birth" property="birth" jdbcType="VARCHAR" />
+    <result column="id_number" property="idNumber" jdbcType="VARCHAR" />
+    <result column="id_number_pic" property="idNumberPic" jdbcType="VARCHAR" />
+    <result column="teaching_certify_pic" property="teachingCertifyPic" jdbcType="VARCHAR" />
+    <result column="graduate_certify_pic" property="graduateCertifyPic" jdbcType="VARCHAR" />
+    <result column="industry_certify_pic" property="industryCertifyPic" jdbcType="VARCHAR" />
+    <result column="other_certify_pic" property="otherCertifyPic" jdbcType="VARCHAR" />
+    <result column="remarks1" property="remarks1" jdbcType="VARCHAR" />
+    <result column="remarks2" property="remarks2" jdbcType="VARCHAR" />
+    <result column="remarks3" property="remarks3" jdbcType="VARCHAR" />
+    <result column="remarks4" property="remarks4" jdbcType="VARCHAR" />
+    <result column="remarks5" property="remarks5" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.arttraining.api.pojo.LiveAuthWithBLOBs" extends="BaseResultMap" >
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="resume" property="resume" jdbcType="LONGVARCHAR" />
+    <result column="win_price" property="winPrice" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    is_publish, owner, owner_type, address, work_place, work_year, birth, id_number, 
+    id_number_pic, teaching_certify_pic, graduate_certify_pic, industry_certify_pic, 
+    other_certify_pic, remarks1, remarks2, remarks3, remarks4, remarks5
+  </sql>
+  <sql id="Blob_Column_List" >
+    introduction, resume, win_price
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_yp_live_auth
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_live_auth
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.LiveAuthWithBLOBs" >
+    insert into t_yp_live_auth (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, is_publish, 
+      owner, owner_type, address, 
+      work_place, work_year, birth, 
+      id_number, id_number_pic, teaching_certify_pic, 
+      graduate_certify_pic, industry_certify_pic, 
+      other_certify_pic, remarks1, remarks2, 
+      remarks3, remarks4, remarks5, 
+      introduction, resume, win_price
+      )
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{isPublish,jdbcType=INTEGER}, 
+      #{owner,jdbcType=INTEGER}, #{ownerType,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{workPlace,jdbcType=VARCHAR}, #{workYear,jdbcType=INTEGER}, #{birth,jdbcType=VARCHAR}, 
+      #{idNumber,jdbcType=VARCHAR}, #{idNumberPic,jdbcType=VARCHAR}, #{teachingCertifyPic,jdbcType=VARCHAR}, 
+      #{graduateCertifyPic,jdbcType=VARCHAR}, #{industryCertifyPic,jdbcType=VARCHAR}, 
+      #{otherCertifyPic,jdbcType=VARCHAR}, #{remarks1,jdbcType=VARCHAR}, #{remarks2,jdbcType=VARCHAR}, 
+      #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, #{remarks5,jdbcType=VARCHAR}, 
+      #{introduction,jdbcType=LONGVARCHAR}, #{resume,jdbcType=LONGVARCHAR}, #{winPrice,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.LiveAuthWithBLOBs" >
+    insert into t_yp_live_auth
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="isPublish != null" >
+        is_publish,
+      </if>
+      <if test="owner != null" >
+        owner,
+      </if>
+      <if test="ownerType != null" >
+        owner_type,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="workPlace != null" >
+        work_place,
+      </if>
+      <if test="workYear != null" >
+        work_year,
+      </if>
+      <if test="birth != null" >
+        birth,
+      </if>
+      <if test="idNumber != null" >
+        id_number,
+      </if>
+      <if test="idNumberPic != null" >
+        id_number_pic,
+      </if>
+      <if test="teachingCertifyPic != null" >
+        teaching_certify_pic,
+      </if>
+      <if test="graduateCertifyPic != null" >
+        graduate_certify_pic,
+      </if>
+      <if test="industryCertifyPic != null" >
+        industry_certify_pic,
+      </if>
+      <if test="otherCertifyPic != null" >
+        other_certify_pic,
+      </if>
+      <if test="remarks1 != null" >
+        remarks1,
+      </if>
+      <if test="remarks2 != null" >
+        remarks2,
+      </if>
+      <if test="remarks3 != null" >
+        remarks3,
+      </if>
+      <if test="remarks4 != null" >
+        remarks4,
+      </if>
+      <if test="remarks5 != null" >
+        remarks5,
+      </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
+      <if test="resume != null" >
+        resume,
+      </if>
+      <if test="winPrice != null" >
+        win_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="isPublish != null" >
+        #{isPublish,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null" >
+        #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="ownerType != null" >
+        #{ownerType,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="workPlace != null" >
+        #{workPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="workYear != null" >
+        #{workYear,jdbcType=INTEGER},
+      </if>
+      <if test="birth != null" >
+        #{birth,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumberPic != null" >
+        #{idNumberPic,jdbcType=VARCHAR},
+      </if>
+      <if test="teachingCertifyPic != null" >
+        #{teachingCertifyPic,jdbcType=VARCHAR},
+      </if>
+      <if test="graduateCertifyPic != null" >
+        #{graduateCertifyPic,jdbcType=VARCHAR},
+      </if>
+      <if test="industryCertifyPic != null" >
+        #{industryCertifyPic,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCertifyPic != null" >
+        #{otherCertifyPic,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks1 != null" >
+        #{remarks1,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks2 != null" >
+        #{remarks2,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks3 != null" >
+        #{remarks3,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks4 != null" >
+        #{remarks4,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks5 != null" >
+        #{remarks5,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="resume != null" >
+        #{resume,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="winPrice != null" >
+        #{winPrice,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.LiveAuthWithBLOBs" >
+    update t_yp_live_auth
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="isPublish != null" >
+        is_publish = #{isPublish,jdbcType=INTEGER},
+      </if>
+      <if test="owner != null" >
+        owner = #{owner,jdbcType=INTEGER},
+      </if>
+      <if test="ownerType != null" >
+        owner_type = #{ownerType,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="workPlace != null" >
+        work_place = #{workPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="workYear != null" >
+        work_year = #{workYear,jdbcType=INTEGER},
+      </if>
+      <if test="birth != null" >
+        birth = #{birth,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumber != null" >
+        id_number = #{idNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="idNumberPic != null" >
+        id_number_pic = #{idNumberPic,jdbcType=VARCHAR},
+      </if>
+      <if test="teachingCertifyPic != null" >
+        teaching_certify_pic = #{teachingCertifyPic,jdbcType=VARCHAR},
+      </if>
+      <if test="graduateCertifyPic != null" >
+        graduate_certify_pic = #{graduateCertifyPic,jdbcType=VARCHAR},
+      </if>
+      <if test="industryCertifyPic != null" >
+        industry_certify_pic = #{industryCertifyPic,jdbcType=VARCHAR},
+      </if>
+      <if test="otherCertifyPic != null" >
+        other_certify_pic = #{otherCertifyPic,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks1 != null" >
+        remarks1 = #{remarks1,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks2 != null" >
+        remarks2 = #{remarks2,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks3 != null" >
+        remarks3 = #{remarks3,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks4 != null" >
+        remarks4 = #{remarks4,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks5 != null" >
+        remarks5 = #{remarks5,jdbcType=VARCHAR},
+      </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="resume != null" >
+        resume = #{resume,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="winPrice != null" >
+        win_price = #{winPrice,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.arttraining.api.pojo.LiveAuthWithBLOBs" >
+    update t_yp_live_auth
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      is_publish = #{isPublish,jdbcType=INTEGER},
+      owner = #{owner,jdbcType=INTEGER},
+      owner_type = #{ownerType,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      work_place = #{workPlace,jdbcType=VARCHAR},
+      work_year = #{workYear,jdbcType=INTEGER},
+      birth = #{birth,jdbcType=VARCHAR},
+      id_number = #{idNumber,jdbcType=VARCHAR},
+      id_number_pic = #{idNumberPic,jdbcType=VARCHAR},
+      teaching_certify_pic = #{teachingCertifyPic,jdbcType=VARCHAR},
+      graduate_certify_pic = #{graduateCertifyPic,jdbcType=VARCHAR},
+      industry_certify_pic = #{industryCertifyPic,jdbcType=VARCHAR},
+      other_certify_pic = #{otherCertifyPic,jdbcType=VARCHAR},
+      remarks1 = #{remarks1,jdbcType=VARCHAR},
+      remarks2 = #{remarks2,jdbcType=VARCHAR},
+      remarks3 = #{remarks3,jdbcType=VARCHAR},
+      remarks4 = #{remarks4,jdbcType=VARCHAR},
+      remarks5 = #{remarks5,jdbcType=VARCHAR},
+      introduction = #{introduction,jdbcType=LONGVARCHAR},
+      resume = #{resume,jdbcType=LONGVARCHAR},
+      win_price = #{winPrice,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.LiveAuth" >
+    update t_yp_live_auth
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      is_publish = #{isPublish,jdbcType=INTEGER},
+      owner = #{owner,jdbcType=INTEGER},
+      owner_type = #{ownerType,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      work_place = #{workPlace,jdbcType=VARCHAR},
+      work_year = #{workYear,jdbcType=INTEGER},
+      birth = #{birth,jdbcType=VARCHAR},
+      id_number = #{idNumber,jdbcType=VARCHAR},
+      id_number_pic = #{idNumberPic,jdbcType=VARCHAR},
+      teaching_certify_pic = #{teachingCertifyPic,jdbcType=VARCHAR},
+      graduate_certify_pic = #{graduateCertifyPic,jdbcType=VARCHAR},
+      industry_certify_pic = #{industryCertifyPic,jdbcType=VARCHAR},
+      other_certify_pic = #{otherCertifyPic,jdbcType=VARCHAR},
+      remarks1 = #{remarks1,jdbcType=VARCHAR},
+      remarks2 = #{remarks2,jdbcType=VARCHAR},
+      remarks3 = #{remarks3,jdbcType=VARCHAR},
+      remarks4 = #{remarks4,jdbcType=VARCHAR},
+      remarks5 = #{remarks5,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
