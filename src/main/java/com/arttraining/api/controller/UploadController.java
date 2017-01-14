@@ -79,6 +79,9 @@ public class UploadController {
 					case 6:
 						buketPath = ConfigUtil.QINIU_BUCKET_WORKS;
 						break;
+					case 7:
+						buketPath = ConfigUtil.QINIU_BUCKET_LIVE_COM_URL;
+						break;
 					default:
 						break;
 					}
