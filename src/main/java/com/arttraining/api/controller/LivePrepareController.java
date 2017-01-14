@@ -39,57 +39,57 @@ public class LivePrepareController {
 	/***
 	 * 设置直播课表
 	 */
-	@RequestMapping(value = "/timetable/set", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public @ResponseBody Object timeTableSet(HttpServletRequest request, HttpServletResponse response) {
-		String errorCode = "";
-		String errorMessage = "";
-		
-		//以下是必选参数
-		String access_token=request.getParameter("access_token"); 
-		String uid=request.getParameter("uid");
-		String utype=request.getParameter("utype");
-		String room_id=request.getParameter("room_id");		
-		String name=request.getParameter("name");		
-		String introduction=request.getParameter("introduction");		
-		String major_one=request.getParameter("major_one");		
-		String major_two=request.getParameter("major_two");		
-		String live_type=request.getParameter("live_type");		
-		//以下不是必选参数
-		String price=request.getParameter("price");	
-		
-		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid
-				+"-utype:"+utype+"-room_id:"+room_id+"-name:"+name
-				+"-introduction:"+introduction+"-major_one:"+major_one
-				+"-major_two:"+major_two+"-live_type:"+live_type+"-price:"+price);
-		
-		if(access_token==null  || uid==null || utype==null
-				|| room_id==null || name==null 
-				|| introduction==null || major_one==null
-				|| major_two==null || live_type==null) {
-			errorCode = "20032";
-			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
-		} else if(access_token.equals("") || uid.equals("") 
-				|| utype.equals("") || room_id.equals("")
-				|| name.equals("") || introduction.equals("")
-				|| major_one.equals("") || major_two.equals("")
-				|| live_type.equals("")) {
-			errorCode = "20032";
-			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
-		} else if(!NumberUtil.isInteger(uid)) {
-			errorCode = "20033";
-			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
-		} else {
-			boolean tokenFlag = tokenService.checkToken(access_token);
-			if (tokenFlag) {
-				
-			} else {
-				errorCode = "20028";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
-			}
-		}
-		
-	}
-	
+//	@RequestMapping(value = "/timetable/set", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	public @ResponseBody Object timeTableSet(HttpServletRequest request, HttpServletResponse response) {
+//		String errorCode = "";
+//		String errorMessage = "";
+//		
+//		//以下是必选参数
+//		String access_token=request.getParameter("access_token"); 
+//		String uid=request.getParameter("uid");
+//		String utype=request.getParameter("utype");
+//		String room_id=request.getParameter("room_id");		
+//		String name=request.getParameter("name");		
+//		String introduction=request.getParameter("introduction");		
+//		String major_one=request.getParameter("major_one");		
+//		String major_two=request.getParameter("major_two");		
+//		String live_type=request.getParameter("live_type");		
+//		//以下不是必选参数
+//		String price=request.getParameter("price");	
+//		
+//		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid
+//				+"-utype:"+utype+"-room_id:"+room_id+"-name:"+name
+//				+"-introduction:"+introduction+"-major_one:"+major_one
+//				+"-major_two:"+major_two+"-live_type:"+live_type+"-price:"+price);
+//		
+//		if(access_token==null  || uid==null || utype==null
+//				|| room_id==null || name==null 
+//				|| introduction==null || major_one==null
+//				|| major_two==null || live_type==null) {
+//			errorCode = "20032";
+//			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+//		} else if(access_token.equals("") || uid.equals("") 
+//				|| utype.equals("") || room_id.equals("")
+//				|| name.equals("") || introduction.equals("")
+//				|| major_one.equals("") || major_two.equals("")
+//				|| live_type.equals("")) {
+//			errorCode = "20032";
+//			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+//		} else if(!NumberUtil.isInteger(uid)) {
+//			errorCode = "20033";
+//			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+//		} else {
+//			boolean tokenFlag = tokenService.checkToken(access_token);
+//			if (tokenFlag) {
+//				
+//			} else {
+//				errorCode = "20028";
+//				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
+//			}
+//		}
+//		
+//	}
+//	
 	/**
 	 * 设置直播间信息
 	 */
