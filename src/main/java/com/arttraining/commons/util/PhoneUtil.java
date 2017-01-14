@@ -6,15 +6,19 @@ import java.util.regex.Pattern;
 public class PhoneUtil {
 	/**
 	 * 手机号验证
-	 * 
 	 * @param  str
 	 * @return 验证通过返回true
+	 * 大陆手机号码11位数，匹配格式：前三位固定格式+后8位任意数 
+     * 此方法中前三位格式有: 13+任意数  15+除4的任意数  18+除1和4的任意数  17+除9的任意数  147 
+     * 
 	 */
 	public static boolean isMobile(String str) { 
 		Pattern p = null;
 		Matcher m = null;
 		boolean b = false; 
-		p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
+		//p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
+		String regExp = "^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(147))\\d{8}$";  
+		p = Pattern.compile(regExp);  
 		m = p.matcher(str);
 		b = m.matches(); 
 		return b;

@@ -1,5 +1,7 @@
 package com.arttraining.api.dao;
 
+import java.util.Map;
+
 import com.arttraining.api.pojo.LiveTimeTable;
 
 public interface LiveTimeTableMapper {
@@ -16,4 +18,7 @@ public interface LiveTimeTableMapper {
     int updateByPrimaryKeyWithBLOBs(LiveTimeTable record);
 
     int updateByPrimaryKey(LiveTimeTable record);
+    
+    //coffee add 0113 判断是否设置过相同课表名称
+    LiveTimeTable selectLiveTimeTableByUid(Map<String, Object> map);
 }

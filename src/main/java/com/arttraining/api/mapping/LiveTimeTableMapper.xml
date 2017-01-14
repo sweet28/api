@@ -17,6 +17,9 @@
     <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="room_id" property="roomId" jdbcType="INTEGER" />
     <result column="is_free" property="isFree" jdbcType="INTEGER" />
+    <result column="major_one" property="majorOne" jdbcType="INTEGER" />
+    <result column="major_two" property="majorTwo" jdbcType="INTEGER" />
+    <result column="live_type" property="liveType" jdbcType="INTEGER" />
     <result column="remarks1" property="remarks1" jdbcType="VARCHAR" />
     <result column="remarks2" property="remarks2" jdbcType="VARCHAR" />
     <result column="remarks3" property="remarks3" jdbcType="VARCHAR" />
@@ -28,12 +31,36 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    is_publish, owner, owner_type, name, price, room_id, is_free, remarks1, remarks2, 
-    remarks3, remarks4, remarks5
+    is_publish, owner, owner_type, name, price, room_id, is_free, major_one, major_two, 
+    live_type, remarks1, remarks2, remarks3, remarks4, remarks5
   </sql>
   <sql id="Blob_Column_List" >
     introduction
   </sql>
+  
+  <!-- coffee add 0113 判断是否设置过相同课表名称 -->
+   <select id="selectLiveTimeTableByUid" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_yp_live_timetable
+    where is_deleted=0
+    <if test="room_id !=null">
+     	and room_id=#{room_id,jdbcType=INTEGER}
+    </if>
+    <if test="name !=null">
+    	and name=#{name,jdbcType=VARCHAR}
+    </if>
+    <if test="owner !=null">
+    	and owner=#{uid,jdbcType=INTEGER}
+    </if>
+    <if test="owner_type !=null">
+    	and owner_type=#{utype,jdbcType=VARCHAR}
+    </if>
+  </select>
+  <!-- end -->
+  
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -52,6 +79,7 @@
       remarks, attachment, is_publish, 
       owner, owner_type, name, 
       price, room_id, is_free, 
+      major_one, major_two, live_type, 
       remarks1, remarks2, remarks3, 
       remarks4, remarks5, introduction
       )
@@ -60,6 +88,7 @@
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{isPublish,jdbcType=INTEGER}, 
       #{owner,jdbcType=INTEGER}, #{ownerType,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{price,jdbcType=DOUBLE}, #{roomId,jdbcType=INTEGER}, #{isFree,jdbcType=INTEGER}, 
+      #{majorOne,jdbcType=INTEGER}, #{majorTwo,jdbcType=INTEGER}, #{liveType,jdbcType=INTEGER}, 
       #{remarks1,jdbcType=VARCHAR}, #{remarks2,jdbcType=VARCHAR}, #{remarks3,jdbcType=VARCHAR}, 
       #{remarks4,jdbcType=VARCHAR}, #{remarks5,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR}
       )
@@ -111,6 +140,15 @@
       </if>
       <if test="isFree != null" >
         is_free,
+      </if>
+      <if test="majorOne != null" >
+        major_one,
+      </if>
+      <if test="majorTwo != null" >
+        major_two,
+      </if>
+      <if test="liveType != null" >
+        live_type,
       </if>
       <if test="remarks1 != null" >
         remarks1,
@@ -177,6 +215,15 @@
       <if test="isFree != null" >
         #{isFree,jdbcType=INTEGER},
       </if>
+      <if test="majorOne != null" >
+        #{majorOne,jdbcType=INTEGER},
+      </if>
+      <if test="majorTwo != null" >
+        #{majorTwo,jdbcType=INTEGER},
+      </if>
+      <if test="liveType != null" >
+        #{liveType,jdbcType=INTEGER},
+      </if>
       <if test="remarks1 != null" >
         #{remarks1,jdbcType=VARCHAR},
       </if>
@@ -242,6 +289,15 @@
       <if test="isFree != null" >
         is_free = #{isFree,jdbcType=INTEGER},
       </if>
+      <if test="majorOne != null" >
+        major_one = #{majorOne,jdbcType=INTEGER},
+      </if>
+      <if test="majorTwo != null" >
+        major_two = #{majorTwo,jdbcType=INTEGER},
+      </if>
+      <if test="liveType != null" >
+        live_type = #{liveType,jdbcType=INTEGER},
+      </if>
       <if test="remarks1 != null" >
         remarks1 = #{remarks1,jdbcType=VARCHAR},
       </if>
@@ -279,6 +335,9 @@
       price = #{price,jdbcType=DOUBLE},
       room_id = #{roomId,jdbcType=INTEGER},
       is_free = #{isFree,jdbcType=INTEGER},
+      major_one = #{majorOne,jdbcType=INTEGER},
+      major_two = #{majorTwo,jdbcType=INTEGER},
+      live_type = #{liveType,jdbcType=INTEGER},
       remarks1 = #{remarks1,jdbcType=VARCHAR},
       remarks2 = #{remarks2,jdbcType=VARCHAR},
       remarks3 = #{remarks3,jdbcType=VARCHAR},
@@ -303,6 +362,9 @@
       price = #{price,jdbcType=DOUBLE},
       room_id = #{roomId,jdbcType=INTEGER},
       is_free = #{isFree,jdbcType=INTEGER},
+      major_one = #{majorOne,jdbcType=INTEGER},
+      major_two = #{majorTwo,jdbcType=INTEGER},
+      live_type = #{liveType,jdbcType=INTEGER},
       remarks1 = #{remarks1,jdbcType=VARCHAR},
       remarks2 = #{remarks2,jdbcType=VARCHAR},
       remarks3 = #{remarks3,jdbcType=VARCHAR},

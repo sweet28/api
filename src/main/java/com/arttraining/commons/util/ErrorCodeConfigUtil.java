@@ -107,4 +107,12 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20073 = "直播评论失败,请检查网络是否畅通";
 	public static String ERROR_MSG_ZH_20074 = "直播点赞失败,请检查网络是否畅通";
 	public static String ERROR_MSG_ZH_20075 = "退出直播失败,请检查网络是否畅通";
+	
+	public static String ERROR_MSG_ZH_20076 = "退出直播失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20077 = "该手机号已经绑定了";
+	public static String ERROR_MSG_ZH_20078 = "绑定手机号失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20079 = "直播资质认证失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20080 = "请先进行直播资质认证哟";
+	
+	public static String ERROR_MSG_ZH_20081 = "您的直播资质认证还在审核中,请耐心等待哟";
 }

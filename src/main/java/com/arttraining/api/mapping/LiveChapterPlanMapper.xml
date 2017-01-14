@@ -17,11 +17,13 @@
     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="duration" property="duration" jdbcType="VARCHAR" />
-    <result column="live_price" property="livePrice" jdbcType="DOUBLE" />
-    <result column="record_price" property="recordPrice" jdbcType="DOUBLE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="room_id" property="roomId" jdbcType="INTEGER" />
     <result column="timetable_id" property="timetableId" jdbcType="INTEGER" />
     <result column="is_free" property="isFree" jdbcType="INTEGER" />
+    <result column="live_status" property="liveStatus" jdbcType="INTEGER" />
+    <result column="buy_number" property="buyNumber" jdbcType="INTEGER" />
+    <result column="browse_number" property="browseNumber" jdbcType="INTEGER" />
     <result column="hd_url" property="hdUrl" jdbcType="VARCHAR" />
     <result column="sd_url" property="sdUrl" jdbcType="VARCHAR" />
     <result column="fluent_url" property="fluentUrl" jdbcType="VARCHAR" />
@@ -36,9 +38,9 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    is_publish, owner, owner_type, name, start_time, end_time, duration, live_price, 
-    record_price, room_id, timetable_id, is_free, hd_url, sd_url, fluent_url, remarks1, 
-    remarks2, remarks3, remarks4, remarks5
+    is_publish, owner, owner_type, name, start_time, end_time, duration, price, room_id, 
+    timetable_id, is_free, live_status, buy_number, browse_number, hd_url, sd_url, fluent_url, 
+    remarks1, remarks2, remarks3, remarks4, remarks5
   </sql>
   <sql id="Blob_Column_List" >
     introduction
@@ -61,21 +63,23 @@
       remarks, attachment, is_publish, 
       owner, owner_type, name, 
       start_time, end_time, duration, 
-      live_price, record_price, room_id, 
-      timetable_id, is_free, hd_url, 
-      sd_url, fluent_url, remarks1, 
-      remarks2, remarks3, remarks4, 
-      remarks5, introduction)
+      price, room_id, timetable_id, 
+      is_free, live_status, buy_number, 
+      browse_number, hd_url, sd_url, 
+      fluent_url, remarks1, remarks2, 
+      remarks3, remarks4, remarks5, 
+      introduction)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{isPublish,jdbcType=INTEGER}, 
       #{owner,jdbcType=INTEGER}, #{ownerType,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{duration,jdbcType=VARCHAR}, 
-      #{livePrice,jdbcType=DOUBLE}, #{recordPrice,jdbcType=DOUBLE}, #{roomId,jdbcType=INTEGER}, 
-      #{timetableId,jdbcType=INTEGER}, #{isFree,jdbcType=INTEGER}, #{hdUrl,jdbcType=VARCHAR}, 
-      #{sdUrl,jdbcType=VARCHAR}, #{fluentUrl,jdbcType=VARCHAR}, #{remarks1,jdbcType=VARCHAR}, 
-      #{remarks2,jdbcType=VARCHAR}, #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, 
-      #{remarks5,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR})
+      #{price,jdbcType=DOUBLE}, #{roomId,jdbcType=INTEGER}, #{timetableId,jdbcType=INTEGER}, 
+      #{isFree,jdbcType=INTEGER}, #{liveStatus,jdbcType=INTEGER}, #{buyNumber,jdbcType=INTEGER}, 
+      #{browseNumber,jdbcType=INTEGER}, #{hdUrl,jdbcType=VARCHAR}, #{sdUrl,jdbcType=VARCHAR}, 
+      #{fluentUrl,jdbcType=VARCHAR}, #{remarks1,jdbcType=VARCHAR}, #{remarks2,jdbcType=VARCHAR}, 
+      #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, #{remarks5,jdbcType=VARCHAR}, 
+      #{introduction,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.LiveChapterPlan" >
     insert into t_yp_live_chapter_plan
@@ -125,11 +129,8 @@
       <if test="duration != null" >
         duration,
       </if>
-      <if test="livePrice != null" >
-        live_price,
-      </if>
-      <if test="recordPrice != null" >
-        record_price,
+      <if test="price != null" >
+        price,
       </if>
       <if test="roomId != null" >
         room_id,
@@ -139,6 +140,15 @@
       </if>
       <if test="isFree != null" >
         is_free,
+      </if>
+      <if test="liveStatus != null" >
+        live_status,
+      </if>
+      <if test="buyNumber != null" >
+        buy_number,
+      </if>
+      <if test="browseNumber != null" >
+        browse_number,
       </if>
       <if test="hdUrl != null" >
         hd_url,
@@ -214,11 +224,8 @@
       <if test="duration != null" >
         #{duration,jdbcType=VARCHAR},
       </if>
-      <if test="livePrice != null" >
-        #{livePrice,jdbcType=DOUBLE},
-      </if>
-      <if test="recordPrice != null" >
-        #{recordPrice,jdbcType=DOUBLE},
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
       </if>
       <if test="roomId != null" >
         #{roomId,jdbcType=INTEGER},
@@ -228,6 +235,15 @@
       </if>
       <if test="isFree != null" >
         #{isFree,jdbcType=INTEGER},
+      </if>
+      <if test="liveStatus != null" >
+        #{liveStatus,jdbcType=INTEGER},
+      </if>
+      <if test="buyNumber != null" >
+        #{buyNumber,jdbcType=INTEGER},
+      </if>
+      <if test="browseNumber != null" >
+        #{browseNumber,jdbcType=INTEGER},
       </if>
       <if test="hdUrl != null" >
         #{hdUrl,jdbcType=VARCHAR},
@@ -303,11 +319,8 @@
       <if test="duration != null" >
         duration = #{duration,jdbcType=VARCHAR},
       </if>
-      <if test="livePrice != null" >
-        live_price = #{livePrice,jdbcType=DOUBLE},
-      </if>
-      <if test="recordPrice != null" >
-        record_price = #{recordPrice,jdbcType=DOUBLE},
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
       </if>
       <if test="roomId != null" >
         room_id = #{roomId,jdbcType=INTEGER},
@@ -317,6 +330,15 @@
       </if>
       <if test="isFree != null" >
         is_free = #{isFree,jdbcType=INTEGER},
+      </if>
+      <if test="liveStatus != null" >
+        live_status = #{liveStatus,jdbcType=INTEGER},
+      </if>
+      <if test="buyNumber != null" >
+        buy_number = #{buyNumber,jdbcType=INTEGER},
+      </if>
+      <if test="browseNumber != null" >
+        browse_number = #{browseNumber,jdbcType=INTEGER},
       </if>
       <if test="hdUrl != null" >
         hd_url = #{hdUrl,jdbcType=VARCHAR},
@@ -364,11 +386,13 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       duration = #{duration,jdbcType=VARCHAR},
-      live_price = #{livePrice,jdbcType=DOUBLE},
-      record_price = #{recordPrice,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DOUBLE},
       room_id = #{roomId,jdbcType=INTEGER},
       timetable_id = #{timetableId,jdbcType=INTEGER},
       is_free = #{isFree,jdbcType=INTEGER},
+      live_status = #{liveStatus,jdbcType=INTEGER},
+      buy_number = #{buyNumber,jdbcType=INTEGER},
+      browse_number = #{browseNumber,jdbcType=INTEGER},
       hd_url = #{hdUrl,jdbcType=VARCHAR},
       sd_url = #{sdUrl,jdbcType=VARCHAR},
       fluent_url = #{fluentUrl,jdbcType=VARCHAR},
@@ -396,11 +420,13 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       duration = #{duration,jdbcType=VARCHAR},
-      live_price = #{livePrice,jdbcType=DOUBLE},
-      record_price = #{recordPrice,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DOUBLE},
       room_id = #{roomId,jdbcType=INTEGER},
       timetable_id = #{timetableId,jdbcType=INTEGER},
       is_free = #{isFree,jdbcType=INTEGER},
+      live_status = #{liveStatus,jdbcType=INTEGER},
+      buy_number = #{buyNumber,jdbcType=INTEGER},
+      browse_number = #{browseNumber,jdbcType=INTEGER},
       hd_url = #{hdUrl,jdbcType=VARCHAR},
       sd_url = #{sdUrl,jdbcType=VARCHAR},
       fluent_url = #{fluentUrl,jdbcType=VARCHAR},

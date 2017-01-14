@@ -128,6 +128,9 @@ public class ImageUtil {
 		case 6:
 			pre_path=ConfigUtil.QINIU_BUCKET_WORKS_COM_URL;
 			break;
+		case 7:
+			pre_path=ConfigUtil.QINIU_BUCKET_LIVE_COM_URL;
+			break;
 		default:
 			break;
 		}
@@ -171,6 +174,9 @@ public class ImageUtil {
 				break;
 			case 6:
 				pre_path=ConfigUtil.QINIU_BUCKET_WORKS_COM_URL;
+				break;
+			case 7:
+				pre_path=ConfigUtil.QINIU_BUCKET_LIVE_COM_URL;
 				break;
 			default:
 				break;

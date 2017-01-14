@@ -33,15 +33,19 @@ public class LiveChapterPlan {
 
     private String duration;
 
-    private Double livePrice;
-
-    private Double recordPrice;
+    private Double price;
 
     private Integer roomId;
 
     private Integer timetableId;
 
     private Integer isFree;
+
+    private Integer liveStatus;
+
+    private Integer buyNumber;
+
+    private Integer browseNumber;
 
     private String hdUrl;
 
@@ -181,20 +185,12 @@ public class LiveChapterPlan {
         this.duration = duration == null ? null : duration.trim();
     }
 
-    public Double getLivePrice() {
-        return livePrice;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setLivePrice(Double livePrice) {
-        this.livePrice = livePrice;
-    }
-
-    public Double getRecordPrice() {
-        return recordPrice;
-    }
-
-    public void setRecordPrice(Double recordPrice) {
-        this.recordPrice = recordPrice;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public Integer getRoomId() {
@@ -219,6 +215,30 @@ public class LiveChapterPlan {
 
     public void setIsFree(Integer isFree) {
         this.isFree = isFree;
+    }
+
+    public Integer getLiveStatus() {
+        return liveStatus;
+    }
+
+    public void setLiveStatus(Integer liveStatus) {
+        this.liveStatus = liveStatus;
+    }
+
+    public Integer getBuyNumber() {
+        return buyNumber;
+    }
+
+    public void setBuyNumber(Integer buyNumber) {
+        this.buyNumber = buyNumber;
+    }
+
+    public Integer getBrowseNumber() {
+        return browseNumber;
+    }
+
+    public void setBrowseNumber(Integer browseNumber) {
+        this.browseNumber = browseNumber;
     }
 
     public String getHdUrl() {

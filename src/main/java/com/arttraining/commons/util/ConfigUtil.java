@@ -60,6 +60,10 @@ public class ConfigUtil {
 	//todo:作品存储及访问--6
 	public static String QINIU_BUCKET_WORKS = "artforyou-works";// 空间名
 	public static String QINIU_BUCKET_WORKS_COM_URL = "http://oh0u47h9e.bkt.clouddn.com";
+	//todo:直播存储及访问--7
+	public static String QINIU_BUCKET_LIVE = "artforyou-works";// 空间名
+	public static String QINIU_BUCKET_LIVE_COM_URL = "http://ohcetam7j.bkt.clouddn.com";
+	
 	
 	public static String PARAMETER_ERROR_CODE = "error_code";
 	public static String PARAMETER_ERROR_MSG = "error_msg";
@@ -85,6 +89,11 @@ public class ConfigUtil {
 	public static String ALIDAYU_SMS_FREE_SIGN_NAME_CHANGE = "变更验证";
 	public static String ALIDAYU_SMS_FREE_SIGN_NAME_IDENTITY = "身份验证";
 	public static String ALIDAYU_SMS_FREE_SIGN_NAME_ACTIVITY = "活动验证";
+	//coffee add 0113
+	public static String ALIDAYU_SMS_FREE_SIGN_NAME_BIND = "绑定验证";
+	public static String ALIDAYU_SMS_TEMPLATE_CODE_BIND = "SMS_41600023";// 身份验证验证码模板ID
+	public static String ALIDAYU_SMS_CODE_TYPE_BIND = "bind_code";// 绑定验证
+	//end
 	public static String ALIDAYU_SMS_TEMPLATE_CODE_IDENTITY = "SMS_11625303";// 身份验证验证码模板ID
 	public static String ALIDAYU_SMS_TEMPLATE_CODE_LOGIN = "SMS_11625301";// 登录确认验证码模板ID
 	public static String ALIDAYU_SMS_TEMPLATE_CODE_LOGIN_REEOR = "SMS_11625300";// 登录异常验证码模板ID
@@ -100,7 +109,8 @@ public class ConfigUtil {
 	public static String ALIDAYU_SMS_CODE_TYPE_CHANGE = "change_code";// 发送变更身份的验证码
 	public static String ALIDAYU_SMS_CODE_TYPE_IDENTITY = "identity_code";// 发送身份验证的验证码6
 	public static String ALIDAYU_SMS_CODE_TYPE_ACTIVITY = "activity_code";// 发送活动验证的验证码
-
+	
+	
 	// 分页时 默认显示记录条数
 	public static int PAGESIZE = 10;
 	// 广告 默认显示的记录条数

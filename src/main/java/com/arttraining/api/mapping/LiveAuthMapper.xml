@@ -13,9 +13,10 @@
     <result column="is_publish" property="isPublish" jdbcType="INTEGER" />
     <result column="owner" property="owner" jdbcType="INTEGER" />
     <result column="owner_type" property="ownerType" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="work_place" property="workPlace" jdbcType="VARCHAR" />
-    <result column="work_year" property="workYear" jdbcType="INTEGER" />
+    <result column="work_year" property="workYear" jdbcType="VARCHAR" />
     <result column="birth" property="birth" jdbcType="VARCHAR" />
     <result column="id_number" property="idNumber" jdbcType="VARCHAR" />
     <result column="id_number_pic" property="idNumberPic" jdbcType="VARCHAR" />
@@ -36,13 +37,27 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    is_publish, owner, owner_type, address, work_place, work_year, birth, id_number, 
+    is_publish, owner, owner_type, city, address, work_place, work_year, birth, id_number, 
     id_number_pic, teaching_certify_pic, graduate_certify_pic, industry_certify_pic, 
     other_certify_pic, remarks1, remarks2, remarks3, remarks4, remarks5
   </sql>
   <sql id="Blob_Column_List" >
     introduction, resume, win_price
   </sql>
+
+  <!-- coffee add 0112 依据用户ID和类型来判断是否进行了直播资质认证-->
+  <select id="selectLiveAuthByUid" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_yp_live_auth
+    where owner = #{uid,jdbcType=INTEGER}
+    and owner_type=#{utype,jdbcType=VARCHAR}
+    and is_deleted=0
+  </select>
+  <!-- end -->
+  
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
@@ -59,25 +74,25 @@
     insert into t_yp_live_auth (id, uuid, is_deleted, 
       create_time, order_code, delete_time, 
       remarks, attachment, is_publish, 
-      owner, owner_type, address, 
-      work_place, work_year, birth, 
-      id_number, id_number_pic, teaching_certify_pic, 
-      graduate_certify_pic, industry_certify_pic, 
-      other_certify_pic, remarks1, remarks2, 
-      remarks3, remarks4, remarks5, 
-      introduction, resume, win_price
-      )
+      owner, owner_type, city, 
+      address, work_place, work_year, 
+      birth, id_number, id_number_pic, 
+      teaching_certify_pic, graduate_certify_pic, 
+      industry_certify_pic, other_certify_pic, remarks1, 
+      remarks2, remarks3, remarks4, 
+      remarks5, introduction, resume, 
+      win_price)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{isPublish,jdbcType=INTEGER}, 
-      #{owner,jdbcType=INTEGER}, #{ownerType,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{workPlace,jdbcType=VARCHAR}, #{workYear,jdbcType=INTEGER}, #{birth,jdbcType=VARCHAR}, 
-      #{idNumber,jdbcType=VARCHAR}, #{idNumberPic,jdbcType=VARCHAR}, #{teachingCertifyPic,jdbcType=VARCHAR}, 
-      #{graduateCertifyPic,jdbcType=VARCHAR}, #{industryCertifyPic,jdbcType=VARCHAR}, 
-      #{otherCertifyPic,jdbcType=VARCHAR}, #{remarks1,jdbcType=VARCHAR}, #{remarks2,jdbcType=VARCHAR}, 
-      #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, #{remarks5,jdbcType=VARCHAR}, 
-      #{introduction,jdbcType=LONGVARCHAR}, #{resume,jdbcType=LONGVARCHAR}, #{winPrice,jdbcType=LONGVARCHAR}
-      )
+      #{owner,jdbcType=INTEGER}, #{ownerType,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{workPlace,jdbcType=VARCHAR}, #{workYear,jdbcType=VARCHAR}, 
+      #{birth,jdbcType=VARCHAR}, #{idNumber,jdbcType=VARCHAR}, #{idNumberPic,jdbcType=VARCHAR}, 
+      #{teachingCertifyPic,jdbcType=VARCHAR}, #{graduateCertifyPic,jdbcType=VARCHAR}, 
+      #{industryCertifyPic,jdbcType=VARCHAR}, #{otherCertifyPic,jdbcType=VARCHAR}, #{remarks1,jdbcType=VARCHAR}, 
+      #{remarks2,jdbcType=VARCHAR}, #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, 
+      #{remarks5,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR}, #{resume,jdbcType=LONGVARCHAR}, 
+      #{winPrice,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.LiveAuthWithBLOBs" >
     insert into t_yp_live_auth
@@ -114,6 +129,9 @@
       </if>
       <if test="ownerType != null" >
         owner_type,
+      </if>
+      <if test="city != null" >
+        city,
       </if>
       <if test="address != null" >
         address,
@@ -204,6 +222,9 @@
       <if test="ownerType != null" >
         #{ownerType,jdbcType=VARCHAR},
       </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
       </if>
@@ -293,6 +314,9 @@
       <if test="ownerType != null" >
         owner_type = #{ownerType,jdbcType=VARCHAR},
       </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
@@ -300,7 +324,7 @@
         work_place = #{workPlace,jdbcType=VARCHAR},
       </if>
       <if test="workYear != null" >
-        work_year = #{workYear,jdbcType=INTEGER},
+        work_year = #{workYear,jdbcType=VARCHAR},
       </if>
       <if test="birth != null" >
         birth = #{birth,jdbcType=VARCHAR},
@@ -362,9 +386,10 @@
       is_publish = #{isPublish,jdbcType=INTEGER},
       owner = #{owner,jdbcType=INTEGER},
       owner_type = #{ownerType,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       work_place = #{workPlace,jdbcType=VARCHAR},
-      work_year = #{workYear,jdbcType=INTEGER},
+      work_year = #{workYear,jdbcType=VARCHAR},
       birth = #{birth,jdbcType=VARCHAR},
       id_number = #{idNumber,jdbcType=VARCHAR},
       id_number_pic = #{idNumberPic,jdbcType=VARCHAR},
@@ -394,9 +419,10 @@
       is_publish = #{isPublish,jdbcType=INTEGER},
       owner = #{owner,jdbcType=INTEGER},
       owner_type = #{ownerType,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       work_place = #{workPlace,jdbcType=VARCHAR},
-      work_year = #{workYear,jdbcType=INTEGER},
+      work_year = #{workYear,jdbcType=VARCHAR},
       birth = #{birth,jdbcType=VARCHAR},
       id_number = #{idNumber,jdbcType=VARCHAR},
       id_number_pic = #{idNumberPic,jdbcType=VARCHAR},

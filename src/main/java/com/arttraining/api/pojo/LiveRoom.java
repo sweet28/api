@@ -33,6 +33,10 @@ public class LiveRoom {
 
     private String liveType;
 
+    private Integer majorOne;
+
+    private Integer majorTwo;
+
     private String remarks1;
 
     private String remarks2;
@@ -161,6 +165,22 @@ public class LiveRoom {
 
     public void setLiveType(String liveType) {
         this.liveType = liveType == null ? null : liveType.trim();
+    }
+
+    public Integer getMajorOne() {
+        return majorOne;
+    }
+
+    public void setMajorOne(Integer majorOne) {
+        this.majorOne = majorOne;
+    }
+
+    public Integer getMajorTwo() {
+        return majorTwo;
+    }
+
+    public void setMajorTwo(Integer majorTwo) {
+        this.majorTwo = majorTwo;
     }
 
     public String getRemarks1() {

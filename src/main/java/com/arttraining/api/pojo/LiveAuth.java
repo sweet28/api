@@ -25,11 +25,13 @@ public class LiveAuth {
 
     private String ownerType;
 
+    private String city;
+
     private String address;
 
     private String workPlace;
 
-    private Integer workYear;
+    private String workYear;
 
     private String birth;
 
@@ -143,6 +145,14 @@ public class LiveAuth {
         this.ownerType = ownerType == null ? null : ownerType.trim();
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
+    }
+
     public String getAddress() {
         return address;
     }
@@ -159,12 +169,12 @@ public class LiveAuth {
         this.workPlace = workPlace == null ? null : workPlace.trim();
     }
 
-    public Integer getWorkYear() {
+    public String getWorkYear() {
         return workYear;
     }
 
-    public void setWorkYear(Integer workYear) {
-        this.workYear = workYear;
+    public void setWorkYear(String workYear) {
+    	this.workYear = workYear == null ? null : workYear.trim();
     }
 
     public String getBirth() {

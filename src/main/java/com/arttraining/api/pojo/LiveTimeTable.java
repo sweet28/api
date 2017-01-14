@@ -33,6 +33,12 @@ public class LiveTimeTable {
 
     private Integer isFree;
 
+    private Integer majorOne;
+
+    private Integer majorTwo;
+
+    private Integer liveType;
+
     private String remarks1;
 
     private String remarks2;
@@ -163,6 +169,30 @@ public class LiveTimeTable {
 
     public void setIsFree(Integer isFree) {
         this.isFree = isFree;
+    }
+
+    public Integer getMajorOne() {
+        return majorOne;
+    }
+
+    public void setMajorOne(Integer majorOne) {
+        this.majorOne = majorOne;
+    }
+
+    public Integer getMajorTwo() {
+        return majorTwo;
+    }
+
+    public void setMajorTwo(Integer majorTwo) {
+        this.majorTwo = majorTwo;
+    }
+
+    public Integer getLiveType() {
+        return liveType;
+    }
+
+    public void setLiveType(Integer liveType) {
+        this.liveType = liveType;
     }
 
     public String getRemarks1() {
