@@ -105,6 +105,17 @@ public class JPushClientUtilV2 {
 			push_all_alias_alert_msgV2(push_map);
 		}
 		
+		//封装Map对象--广播所有设备和平台alert通知消息 2017/02/13
+		public static void enclose_broadcast_alert_data(String user_type,String push_type,
+				String alert,String alert_extra) {
+			Map<String, Object> push_map=new HashMap<String, Object>();
+			push_map.put("user_type", user_type);
+			push_map.put("push_type", push_type);
+			push_map.put("alert",alert);
+			push_map.put("alert_extra",alert_extra);
+			push_all_alias_alert_msgV2(push_map);
+		}
+		
 		//进行推送的关键在于构建一个 PushPayload对象
 		//方法一:推送自定义消息msg和用户手机消息框内容
 		public static void push_all_alias_alert_msgV2(Map<String, Object> map) {
@@ -125,6 +136,9 @@ public class JPushClientUtilV2 {
 	        	payload=buildPushObject_all_alias_msgV2(map);
 	        } else if(push_type.equals("alert_msg")) {
 	        	payload=buildPushObject_all_alias_alert_msgV2(map);
+	        }//广播alert通知 
+	        else if(push_type.equals("alert_broadcast")) {
+	        	payload=buildPushObject_broadcast_alert(map);
 	        }
 	        try {
 	            PushResult result = jpush.sendPush(payload);
@@ -210,6 +224,28 @@ public class JPushClientUtilV2 {
 					.setPlatform(Platform.all())
 					.setAudience(Audience.alias(alias))
 					//Audience设置为all,说明采用广播方式推送,所有用户都可以接收到
+					.setNotification(Notification.newBuilder()
+									.setAlert(alert)
+									.addPlatformNotification(
+											AndroidNotification.newBuilder()
+													.setTitle(TITLE)
+													.addExtra(ALERT_KEY, alert_extra)
+													.build())
+									.addPlatformNotification(
+											IosNotification.newBuilder()
+											.addExtra(ALERT_KEY, alert_extra)
+											.build())
+									.build())
+									.build();
+		}
+		//2017-02-13 采用广播方式推送,所有用户都可以接收到alert内容通知
+		public static PushPayload buildPushObject_broadcast_alert(Map<String, Object> map) {
+			String alert=(String)map.get("alert");
+			String alert_extra=(String)map.get("alert_extra");
+			
+			return PushPayload.newBuilder()
+					.setPlatform(Platform.all())
+					.setAudience(Audience.all())
 					.setNotification(Notification.newBuilder()
 									.setAlert(alert)
 									.addPlatformNotification(

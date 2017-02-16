@@ -14,4 +14,7 @@ public interface IMajorService {
     List<MajorLevelListBean> getMajorNodeByFid(Integer father_id);
     //获取所有一级专业列表ID--major/list接口调用
     List<Integer> getAllOneLevelMajor();
+    
+    //获取所有二级专业列表 依据一级专业ID major/list/level_two接口
+    List<MajorListBean> getTwoLevelMajorByList(Integer father_id);
 }

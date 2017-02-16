@@ -1,9 +1,13 @@
 package com.arttraining.api.service;
 
+import java.util.List;
 import java.util.Map;
 
+import com.arttraining.api.beanv2.LiveTypeList;
 import com.arttraining.api.pojo.LiveAuthWithBLOBs;
+import com.arttraining.api.pojo.LiveChapterPlan;
 import com.arttraining.api.pojo.LiveRoom;
+import com.arttraining.api.pojo.LiveRoomHistory;
 import com.arttraining.api.pojo.LiveTimeTable;
 
 public interface ILivePrepareService {
@@ -25,5 +29,23 @@ public interface ILivePrepareService {
     
     //课表设置调用方法
     //coffee add 0113 判断是否设置过相同课表名称
-    LiveTimeTable getLiveTimeTableByUid(Map<String, Object> map);
+    //LiveTimeTable getLiveTimeTableByUid(Map<String, Object> map);
+    //coffee add 0114 新增一条课表信息
+    int insertOneLiveTimeTable(LiveTimeTable timeTable);
+    
+    //课时设置调用方法
+    //coffee add 0114 判断是否重复新增课时信息
+    LiveChapterPlan getChapterPlanByUid(Map<String, Object> map);
+    //coffee add 0114 新增一条课时信息
+    //int insertOneLiveChapterPlan(LiveChapterPlan chapter,LiveRoom room);
+    int insertOneLiveChapterPlan(LiveChapterPlan chapter);  
+    
+    //直播间历史记录调用方法
+    //coffee add 0114 新增一条直播间历史记录
+    int insertOneLiveRoomHistory(LiveRoomHistory history);
+    
+    //直播类型调用方法
+    //coffee add 0117 直播类型列表 prepare/live/type/list接口调用
+    List<LiveTypeList> getLivesTypeList();
+    
 }

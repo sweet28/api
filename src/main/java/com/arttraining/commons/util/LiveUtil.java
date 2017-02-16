@@ -34,7 +34,8 @@ public class LiveUtil {
 		Hub hub = cli.newHub(hubName);
 		Stream stream = hub.get(key); 
 		//保存直播回放
-		String fname=stream.save(start, end);
+		//String fname=stream.save(start, end);
+		String fname=stream.save(0,0);
 		return fname;		
 	}
 	/***

@@ -34,6 +34,29 @@ public class VoteController {
 	@Resource
 	private VoteRecordService voteRecordService;
 	
+	@RequestMapping(value = "/test", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object test(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "pxh";
+		String errorMessage = "hehe";
+		
+		List<String> test=new ArrayList<String>();
+		test.add("111");
+		test.add("222");
+		test.add("333");
+		test.add("444");
+		//以下是必选参数
+		String callbackparam=request.getParameter("callbackparam");
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
+		jsonObject.put("test_list", test);
+
+		ServerLog.getLogger().warn(jsonObject.toString());
+		String jsonResult=callbackparam+"("+jsonObject.toString()+")";
+		return jsonResult;		
+				
+	}
+	
 	/***
 	 * 投票时新增票数
 	 * act_vote_id--活动ID

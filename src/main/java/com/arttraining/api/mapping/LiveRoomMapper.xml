@@ -19,176 +19,158 @@
     <result column="live_type" property="liveType" jdbcType="VARCHAR" />
     <result column="major_one" property="majorOne" jdbcType="INTEGER" />
     <result column="major_two" property="majorTwo" jdbcType="INTEGER" />
+    <result column="browse_number" property="browseNumber" jdbcType="INTEGER" />
+    <result column="like_number" property="likeNumber" jdbcType="INTEGER" />
+    <result column="follow_number" property="followNumber" jdbcType="INTEGER" />
+    <result column="pre_number" property="preNumber" jdbcType="INTEGER" />
+    <result column="chapter_number" property="chapterNumber" jdbcType="INTEGER" />
     <result column="remarks1" property="remarks1" jdbcType="VARCHAR" />
     <result column="remarks2" property="remarks2" jdbcType="VARCHAR" />
     <result column="remarks3" property="remarks3" jdbcType="VARCHAR" />
     <result column="remarks4" property="remarks4" jdbcType="VARCHAR" />
     <result column="remarks5" property="remarks5" jdbcType="VARCHAR" />
+    <result column="pre_time" property="preTime" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     is_publish, owner, owner_type, live_name, thumbnail, live_speciality, live_type, 
-    major_one, major_two, remarks1, remarks2, remarks3, remarks4, remarks5
+    major_one, major_two, browse_number, like_number, follow_number, pre_number, chapter_number, 
+    remarks1, remarks2, remarks3, remarks4, remarks5,pre_time
   </sql>
   
-  <!-- coffee add 0113 判断教师是否设置过直播间 -->
+  <!-- coffee add 0216 修改预告数量 -->
+   <update id="updatePreNumByRoomId" parameterType="com.arttraining.api.pojo.LiveRoom" >
+    update t_yp_live_room
+    set pre_number = pre_number+#{preNumber,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+   <!-- coffee add 0117 依据直播间ID来查询对应的直播信息 -->
+   <resultMap id="RoomResultMap" type="com.arttraining.api.beanv2.OpenClassEnterLiveBean" >
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="owner_type" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
+    <result column="like_number" property="like_number" jdbcType="INTEGER" />
+    <result column="follow_number" property="follow_number" jdbcType="INTEGER" />
+    <result column="chapter_number" property="chapter_number" jdbcType="INTEGER" />
+    <result column="pre_time" property="pre_time" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectLiveRoomInfoById" resultMap="RoomResultMap" parameterType="java.util.Map">
+    select r.owner,r.owner_type,r.like_number,
+    r.chapter_number,r.pre_time,u.name,u.head_pic,
+    u.fans_num as follow_number
+    from (select owner,owner_type,like_number,
+    chapter_number,pre_time
+    from t_yp_live_room
+    where id = #{room_id,jdbcType=INTEGER}
+    and is_deleted=0 and is_publish=2) r,
+    (select id,name,head_pic,fans_num
+    from t_yp_user_tech
+    where is_deleted=0 and is_lock=0
+    and id= #{uid,jdbcType=INTEGER}) u
+    where r.owner=u.id
+  </select>
+  
+   <!-- coffee add 0116 直播列表open/class/live/list接口调用 -->
+   <resultMap id="LiveResultMap" type="com.arttraining.api.beanv2.OpenClassLiveListBean" >
+    <id column="id" property="room_id" jdbcType="INTEGER" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="owner_type" jdbcType="VARCHAR" />
+    <result column="live_name" property="live_name" jdbcType="VARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+    <result column="browse_number" property="browse_number" jdbcType="INTEGER" />
+    <result column="chapter_number" property="chapter_number" jdbcType="INTEGER" />
+    <result column="pre_time" property="pre_time" jdbcType="VARCHAR" />
+    <result column="live_status" property="live_status" jdbcType="INTEGER" />
+    <result column="chapter_name" property="chapter_name" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectRoomLiveListByPre" resultMap="LiveResultMap" parameterType="java.util.Map" >
+   select r.id,r.owner,r.owner_type,r.live_name,r.thumbnail,
+    r.browse_number,r.chapter_number,r.pre_time,u.name,
+    0 as live_status,'' as chapter_name
+    from (select id,owner,owner_type,live_name,thumbnail,
+    browse_number,chapter_number,pre_time
+    from t_yp_live_room
+    where is_deleted=0 and is_publish=2
+    and pre_number&gt;0
+    and chapter_number &gt;0
+   <if test="offset !=-1">
+    	and pre_time <![CDATA[ >= ]]>(select pre_time from t_yp_live_room
+    	where id=#{offset,jdbcType=INTEGER})
+    	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+   </if>
+   <if test="major_one !=null and major_one!=0">
+   		and major_one=#{major_one,jdbcType=INTEGER}
+   </if>
+   <if test="major_two !=null and major_two!=0">
+   		and major_two=#{major_two,jdbcType=INTEGER}
+   </if>
+   <if test="live_type !=null and live_type!=0">
+   		and live_type=#{live_type,jdbcType=INTEGER}
+   </if>
+    order by pre_time asc
+    limit #{limit,jdbcType=INTEGER}) r,
+    (select id,name 
+    from t_yp_user_tech
+    where is_deleted=0 and is_lock=0) u
+    where r.owner=u.id
+    order by r.pre_time asc
+  </select>
+  <!-- coffee add 0116 获取已经完结的直播课列表 --> 
+  <select id="selectRoomLiveListByFinish" resultMap="LiveResultMap" parameterType="java.util.Map" >
+   select r.id,r.owner,r.owner_type,r.live_name,r.thumbnail,
+   r.browse_number,r.chapter_number,r.pre_time,u.name,
+   2 as live_status,'' as chapter_name
+   from (select id,owner,owner_type,live_name,thumbnail,
+   browse_number,chapter_number,pre_time,create_time
+   from t_yp_live_room 
+   where is_deleted=0 and is_publish=2
+   and pre_number=0
+   and chapter_number &gt;0
+   <if test="offset !=-1">
+   		and pre_time <![CDATA[ <= ]]> (select pre_time from t_yp_live_room
+    	where id=#{offset,jdbcType=INTEGER})
+    	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
+   </if>
+  <if test="major_one !=null and major_one!=0">
+   		and major_one=#{major_one,jdbcType=INTEGER}
+   </if>
+   <if test="major_two !=null and major_two!=0">
+   		and major_two=#{major_two,jdbcType=INTEGER}
+   </if>
+   <if test="live_type !=null and live_type!=0">
+   		and live_type=#{live_type,jdbcType=INTEGER}
+   </if>
+   order by pre_time desc
+   limit #{limit,jdbcType=INTEGER}) r,
+    (select id,name 
+    from t_yp_user_tech
+    where is_deleted=0 and is_lock=0) u
+    where r.owner=u.id
+    order by r.pre_time desc
+   </select>
+   
+   <!-- coffee add 0113 判断教师是否设置过直播间 -->
    <select id="selectLiveRoomByUid" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_yp_live_room
-    where is_deleted=0
+    where is_deleted=0 and is_publish=2
     and owner = #{uid,jdbcType=INTEGER}
     and owner_type=#{utype,jdbcType=VARCHAR}
   </select>
   
-  <insert id="insertLiveRoom" parameterType="com.arttraining.api.pojo.LiveRoom" 
-  	useGeneratedKeys="true" keyProperty="id">
-    insert into t_yp_live_room
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="uuid != null" >
-        uuid,
-      </if>
-      <if test="isDeleted != null" >
-        is_deleted,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="orderCode != null" >
-        order_code,
-      </if>
-      <if test="deleteTime != null" >
-        delete_time,
-      </if>
-      <if test="remarks != null" >
-        remarks,
-      </if>
-      <if test="attachment != null" >
-        attachment,
-      </if>
-      <if test="isPublish != null" >
-        is_publish,
-      </if>
-      <if test="owner != null" >
-        owner,
-      </if>
-      <if test="ownerType != null" >
-        owner_type,
-      </if>
-      <if test="liveName != null" >
-        live_name,
-      </if>
-      <if test="thumbnail != null" >
-        thumbnail,
-      </if>
-      <if test="liveSpeciality != null" >
-        live_speciality,
-      </if>
-      <if test="liveType != null" >
-        live_type,
-      </if>
-      <if test="majorOne != null" >
-        major_one,
-      </if>
-      <if test="majorTwo != null" >
-        major_two,
-      </if>
-      <if test="remarks1 != null" >
-        remarks1,
-      </if>
-      <if test="remarks2 != null" >
-        remarks2,
-      </if>
-      <if test="remarks3 != null" >
-        remarks3,
-      </if>
-      <if test="remarks4 != null" >
-        remarks4,
-      </if>
-      <if test="remarks5 != null" >
-        remarks5,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="uuid != null" >
-        #{uuid,jdbcType=VARCHAR},
-      </if>
-      <if test="isDeleted != null" >
-        #{isDeleted,jdbcType=INTEGER},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="orderCode != null" >
-        #{orderCode,jdbcType=VARCHAR},
-      </if>
-      <if test="deleteTime != null" >
-        #{deleteTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="remarks != null" >
-        #{remarks,jdbcType=VARCHAR},
-      </if>
-      <if test="attachment != null" >
-        #{attachment,jdbcType=VARCHAR},
-      </if>
-      <if test="isPublish != null" >
-        #{isPublish,jdbcType=INTEGER},
-      </if>
-      <if test="owner != null" >
-        #{owner,jdbcType=INTEGER},
-      </if>
-      <if test="ownerType != null" >
-        #{ownerType,jdbcType=VARCHAR},
-      </if>
-      <if test="liveName != null" >
-        #{liveName,jdbcType=VARCHAR},
-      </if>
-      <if test="thumbnail != null" >
-        #{thumbnail,jdbcType=VARCHAR},
-      </if>
-      <if test="liveSpeciality != null" >
-        #{liveSpeciality,jdbcType=VARCHAR},
-      </if>
-      <if test="liveType != null" >
-        #{liveType,jdbcType=VARCHAR},
-      </if>
-      <if test="majorOne != null" >
-        #{majorOne,jdbcType=INTEGER},
-      </if>
-      <if test="majorTwo != null" >
-        #{majorTwo,jdbcType=INTEGER},
-      </if>
-      <if test="remarks1 != null" >
-        #{remarks1,jdbcType=VARCHAR},
-      </if>
-      <if test="remarks2 != null" >
-        #{remarks2,jdbcType=VARCHAR},
-      </if>
-      <if test="remarks3 != null" >
-        #{remarks3,jdbcType=VARCHAR},
-      </if>
-      <if test="remarks4 != null" >
-        #{remarks4,jdbcType=VARCHAR},
-      </if>
-      <if test="remarks5 != null" >
-        #{remarks5,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <!-- end -->
-  
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_yp_live_room
     where id = #{id,jdbcType=INTEGER}
+    and is_deleted=0 and is_publish=2
   </select>
+  <!-- end -->
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_live_room
     where id = #{id,jdbcType=INTEGER}
@@ -199,17 +181,21 @@
       remarks, attachment, is_publish, 
       owner, owner_type, live_name, 
       thumbnail, live_speciality, live_type, 
-      major_one, major_two, remarks1, 
-      remarks2, remarks3, remarks4, 
-      remarks5)
+      major_one, major_two, browse_number, 
+      like_number, follow_number, pre_number, 
+      chapter_number, remarks1, remarks2, 
+      remarks3, remarks4, remarks5,pre_time
+      )
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{isPublish,jdbcType=INTEGER}, 
       #{owner,jdbcType=INTEGER}, #{ownerType,jdbcType=VARCHAR}, #{liveName,jdbcType=VARCHAR}, 
       #{thumbnail,jdbcType=VARCHAR}, #{liveSpeciality,jdbcType=VARCHAR}, #{liveType,jdbcType=VARCHAR}, 
-      #{majorOne,jdbcType=INTEGER}, #{majorTwo,jdbcType=INTEGER}, #{remarks1,jdbcType=VARCHAR}, 
-      #{remarks2,jdbcType=VARCHAR}, #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, 
-      #{remarks5,jdbcType=VARCHAR})
+      #{majorOne,jdbcType=INTEGER}, #{majorTwo,jdbcType=INTEGER}, #{browseNumber,jdbcType=INTEGER}, 
+      #{likeNumber,jdbcType=INTEGER}, #{followNumber,jdbcType=INTEGER}, #{preNumber,jdbcType=INTEGER}, 
+      #{chapterNumber,jdbcType=INTEGER}, #{remarks1,jdbcType=VARCHAR}, #{remarks2,jdbcType=VARCHAR}, 
+      #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, #{remarks5,jdbcType=VARCHAR}
+      ,#{preTime,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.LiveRoom" >
     insert into t_yp_live_room
@@ -265,6 +251,21 @@
       <if test="majorTwo != null" >
         major_two,
       </if>
+      <if test="browseNumber != null" >
+        browse_number,
+      </if>
+      <if test="likeNumber != null" >
+        like_number,
+      </if>
+      <if test="followNumber != null" >
+        follow_number,
+      </if>
+      <if test="preNumber != null" >
+        pre_number,
+      </if>
+      <if test="chapterNumber != null" >
+        chapter_number,
+      </if>
       <if test="remarks1 != null" >
         remarks1,
       </if>
@@ -279,6 +280,9 @@
       </if>
       <if test="remarks5 != null" >
         remarks5,
+      </if>
+      <if test="preTime != null" >
+        pre_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -333,6 +337,21 @@
       <if test="majorTwo != null" >
         #{majorTwo,jdbcType=INTEGER},
       </if>
+      <if test="browseNumber != null" >
+        #{browseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="likeNumber != null" >
+        #{likeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="followNumber != null" >
+        #{followNumber,jdbcType=INTEGER},
+      </if>
+      <if test="preNumber != null" >
+        #{preNumber,jdbcType=INTEGER},
+      </if>
+      <if test="chapterNumber != null" >
+        #{chapterNumber,jdbcType=INTEGER},
+      </if>
       <if test="remarks1 != null" >
         #{remarks1,jdbcType=VARCHAR},
       </if>
@@ -347,6 +366,9 @@
       </if>
       <if test="remarks5 != null" >
         #{remarks5,jdbcType=VARCHAR},
+      </if>
+      <if test="preTime != null" >
+        #{preTime,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -401,6 +423,21 @@
       <if test="majorTwo != null" >
         major_two = #{majorTwo,jdbcType=INTEGER},
       </if>
+      <if test="browseNumber != null" >
+        browse_number = browse_number+#{browseNumber,jdbcType=INTEGER},
+      </if>
+      <if test="likeNumber != null" >
+        like_number = like_number+#{likeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="followNumber != null" >
+        follow_number = follow_number+#{followNumber,jdbcType=INTEGER},
+      </if>
+      <if test="preNumber != null" >
+       pre_number = pre_number+#{preNumber,jdbcType=INTEGER},
+      </if>
+      <if test="chapterNumber != null" >
+        chapter_number = chapter_number+#{chapterNumber,jdbcType=INTEGER},
+      </if>
       <if test="remarks1 != null" >
         remarks1 = #{remarks1,jdbcType=VARCHAR},
       </if>
@@ -416,8 +453,12 @@
       <if test="remarks5 != null" >
         remarks5 = #{remarks5,jdbcType=VARCHAR},
       </if>
+       <if test="preTime != null" >
+        pre_time=#{preTime,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
+     and pre_number <![CDATA[ <> ]]> 0
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.LiveRoom" >
     update t_yp_live_room
@@ -437,11 +478,17 @@
       live_type = #{liveType,jdbcType=VARCHAR},
       major_one = #{majorOne,jdbcType=INTEGER},
       major_two = #{majorTwo,jdbcType=INTEGER},
+      browse_number = browse_number+#{browseNumber,jdbcType=INTEGER},
+      like_number = like_number+#{likeNumber,jdbcType=INTEGER},
+      follow_number = follow_number+#{followNumber,jdbcType=INTEGER},
+      pre_number = pre_number+#{preNumber,jdbcType=INTEGER},
+      chapter_number = chapter_number+#{chapterNumber,jdbcType=INTEGER},
       remarks1 = #{remarks1,jdbcType=VARCHAR},
       remarks2 = #{remarks2,jdbcType=VARCHAR},
       remarks3 = #{remarks3,jdbcType=VARCHAR},
       remarks4 = #{remarks4,jdbcType=VARCHAR},
-      remarks5 = #{remarks5,jdbcType=VARCHAR}
+      remarks5 = #{remarks5,jdbcType=VARCHAR},
+      pre_time=#{preTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

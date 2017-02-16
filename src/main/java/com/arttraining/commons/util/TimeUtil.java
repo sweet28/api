@@ -8,6 +8,20 @@ import java.util.Date;
 
 public class TimeUtil {
 	/***
+	 * 将string类型转换成指定格式的类型
+	 */
+	public static Date strToDateByFormat(String str) {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date date=null;
+		try {
+			date = format.parse(str);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return date;
+	}
+	/***
 	 * 将string类型转换成date类型
 	 */
 	public static Date strToDate(String str) {

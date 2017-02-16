@@ -92,7 +92,15 @@ public class Random {
    		}
    		return resultStr;
    	}
-   	
+   	/***
+   	 * 随机生成1个1-10的数字
+   	 */
+   	public static Integer randomInt1To10() {
+   		Integer max= 1;
+   		Integer min= 10;
+   		Integer num = (int) (Math.random() * (max - min)) + min;
+   		return num;
+   	}
    	/***
    	 * 随机生成1个10--100的数字
    	 * @param args

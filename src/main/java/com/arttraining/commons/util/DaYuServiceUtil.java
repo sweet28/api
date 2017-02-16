@@ -33,8 +33,8 @@ public class DaYuServiceUtil {
 			freeSingName = ConfigUtil.ALIDAYU_SMS_FREE_SIGN_NAME_IDENTITY;
 			templateCode = ConfigUtil.ALIDAYU_SMS_TEMPLATE_CODE_IDENTITY;
 		}else if(codeType.equals(ConfigUtil.ALIDAYU_SMS_CODE_TYPE_BIND)) {
-			freeSingName = ConfigUtil.ALIDAYU_SMS_FREE_SIGN_NAME_BIND;
-			templateCode = ConfigUtil.ALIDAYU_SMS_TEMPLATE_CODE_BIND;
+			freeSingName = ConfigUtil.ALIDAYU_SMS_FREE_SIGN_NAME_IDENTITY;
+			templateCode = ConfigUtil.ALIDAYU_SMS_TEMPLATE_CODE_IDENTITY;
 		}
 		
 		String code = Random.randomCommonStr(ConfigUtil.ALIDAYU_SMS_CHECK_CODE_LENGTH);

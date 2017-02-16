@@ -8,7 +8,7 @@ public class LiveMemberBean {
 	private String utype;
 	private String name;
 	private String head_pic;
-	private String member_type;
+
 	public int getMember_id() {
 		return member_id;
 	}
@@ -38,11 +38,5 @@ public class LiveMemberBean {
 	}
 	public void setHead_pic(String head_pic) {
 		this.head_pic = ImageUtil.parsePicPath(head_pic, 5);
-	}
-	public String getMember_type() {
-		return member_type;
-	}
-	public void setMember_type(String member_type) {
-		this.member_type = member_type;
 	}
 }

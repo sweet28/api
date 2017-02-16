@@ -61,7 +61,7 @@ public class ConfigUtil {
 	public static String QINIU_BUCKET_WORKS = "artforyou-works";// 空间名
 	public static String QINIU_BUCKET_WORKS_COM_URL = "http://oh0u47h9e.bkt.clouddn.com";
 	//todo:直播存储及访问--7
-	public static String QINIU_BUCKET_LIVE = "artforyou-works";// 空间名
+	public static String QINIU_BUCKET_LIVE = "artforyou-live";// 空间名
 	public static String QINIU_BUCKET_LIVE_COM_URL = "http://ohcetam7j.bkt.clouddn.com";
 	
 	

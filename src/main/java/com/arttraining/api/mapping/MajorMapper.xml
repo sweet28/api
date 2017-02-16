@@ -30,6 +30,16 @@
     order by order_code
   </select>
   
+  <!-- coffee add 获取二级专业列表major/list/level_two接口调用 -->
+  <select id="selectTwoLevelMajorByList" resultMap="MajorListResultMap" parameterType="java.lang.Integer">
+    select id,name,father_id,father_name,level
+    from t_yp_major
+    where is_deleted=0 and level=2
+    and father_id=#{father_id,jdbcType=INTEGER}
+    order by order_code
+  </select>
+  
+  
   <!-- coffee add 获取专业列表 major/list接口调用 -->
    <resultMap id="MajorTreeResultMap" type="com.arttraining.api.bean.MajorLevelListBean" >
     <id column="id" property="major_id" jdbcType="INTEGER" />

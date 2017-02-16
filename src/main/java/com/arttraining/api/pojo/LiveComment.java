@@ -32,6 +32,7 @@ public class LiveComment {
     private String content;
 
     private Integer foreignKey;
+    private Integer buyNumber;
 
     public Integer getId() {
         return id;
@@ -152,4 +153,13 @@ public class LiveComment {
     public void setForeignKey(Integer foreignKey) {
         this.foreignKey = foreignKey;
     }
+
+	public Integer getBuyNumber() {
+		return buyNumber;
+	}
+
+	public void setBuyNumber(Integer buyNumber) {
+		this.buyNumber = buyNumber;
+	}
+    
 }

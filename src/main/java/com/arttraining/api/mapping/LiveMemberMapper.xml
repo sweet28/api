@@ -42,41 +42,38 @@
     <result column="utype" property="utype" jdbcType="VARCHAR" />
     <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="member_type" property="member_type" jdbcType="VARCHAR" />
   </resultMap>
   <select id="selectLiveMemberByRoomId" resultMap="MemberResultMap" parameterType="java.util.Map" >
-    select d.host as uid,d.host_type as utype,d.type as member_type,
+    select d.host as uid,d.host_type as utype,
     d.id,u.head_pic,u.name
-    from (select host,host_type,type,id,create_time
+    from (select host,host_type,id,create_time
     from t_yp_live_member
     where foreign_key = #{room_id,jdbcType=INTEGER}
-    and live_operation='join' and type='member'
     and is_deleted=0
     <if test="offset !=-1">
-    	and order_code &gt; (select order_code from t_yp_live_detail
+    	and create_time &lt; (select create_time from t_yp_live_detail
     	where id = #{offset,jdbcType=INTEGER})
     </if>
-    order by order_code asc
+    order by create_time desc
     limit #{limit,jdbcType=INTEGER}) d,
     (select id,name,head_pic
     from t_yp_user_stu
     where is_deleted=0 and is_lock=0
     <if test="name !=null">
-    	and name= #{name,jdbcType=VARCHAR}
+    	and name like '%${name}%'
     </if>) u
     where d.host=u.id
-    order by d.create_time asc
+    order by d.create_time desc
   </select>
   <!-- coffee add 获取主播基本信息 live/member/list接口调用-->
   <select id="selectLiveOwnerByRoomId" resultMap="MemberResultMap" parameterType="java.util.Map">
     <choose>
     	<when test="utype=='tec'">
-    		select d.host as uid,d.host_type as utype,d.type as member_type,
+    		select d.host as uid,d.host_type as utype,
 		    d.id,t.head_pic,t.name
-		    from (select host,host_type,type,id
+		    from (select host,host_type,id
 		    from t_yp_live_member
 		    where foreign_key = #{room_id,jdbcType=INTEGER}
-		    and type='owner'
 		    and owner=#{uid,jdbcType=INTEGER}
 		    and owner_type='tec'
 		    and is_deleted=0) d,
@@ -90,12 +87,11 @@
 		    where d.host=t.id
     	</when>
     	<when test="utype=='stu'">
-    		select d.host as uid,d.host_type as utype,d.type as member_type,
+    		select d.host as uid,d.host_type as utype,
 		    d.id,u.head_pic,u.name
-		    from (select host,host_type,type,id
+		    from (select host,host_type,id
 		    from t_yp_live_member
 		    where foreign_key = #{room_id,jdbcType=INTEGER}
-		    and type='owner'
 		    and owner=#{uid,jdbcType=INTEGER}
 		    and owner_type='stu'
 		    and is_deleted=0) d,

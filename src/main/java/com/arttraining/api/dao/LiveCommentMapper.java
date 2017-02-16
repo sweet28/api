@@ -18,6 +18,8 @@ public interface LiveCommentMapper {
     int updateByPrimaryKeySelective(LiveComment record);
 
     int updateByPrimaryKey(LiveComment record);
-    //coffee add 0110 返回直播房间评论信息列表 live/comment/list接口调用
+    //coffee add 0110 返回直播房间评论信息列表 open/class/comment/list接口调用
     List<LiveCommentBean> selectLiveCommentByRoomId(Map<String, Object> map);
+    //coffee add 0215 依据主播ID和课时ID来获取赠送礼物数 
+    int selectLiveGiftNumber(Map<String, Object> map);
 }

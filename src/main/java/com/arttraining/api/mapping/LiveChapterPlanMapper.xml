@@ -17,7 +17,8 @@
     <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
     <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="duration" property="duration" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="live_price" property="livePrice" jdbcType="DOUBLE" />
+    <result column="record_price" property="recordPrice" jdbcType="DOUBLE" />
     <result column="room_id" property="roomId" jdbcType="INTEGER" />
     <result column="timetable_id" property="timetableId" jdbcType="INTEGER" />
     <result column="is_free" property="isFree" jdbcType="INTEGER" />
@@ -32,27 +33,160 @@
     <result column="remarks3" property="remarks3" jdbcType="VARCHAR" />
     <result column="remarks4" property="remarks4" jdbcType="VARCHAR" />
     <result column="remarks5" property="remarks5" jdbcType="VARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+    <result column="share_path" property="sharePath" jdbcType="VARCHAR" />
+    <result column="is_private" property="isPrivate" jdbcType="INTEGER" />
+    <result column="stream_key" property="streamKey" jdbcType="VARCHAR" />
+    <result column="publish_url" property="publishUrl" jdbcType="VARCHAR" />
+    <result column="rtmp_url" property="rtmpUrl" jdbcType="VARCHAR" />
+    <result column="hls_url" property="hlsUrl" jdbcType="VARCHAR" />
+    <result column="hdl_url" property="hdlUrl" jdbcType="VARCHAR" />
+    <result column="snapshot_url" property="snapshotUrl" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.arttraining.api.pojo.LiveChapterPlan" extends="BaseResultMap" >
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    is_publish, owner, owner_type, name, start_time, end_time, duration, price, room_id, 
-    timetable_id, is_free, live_status, buy_number, browse_number, hd_url, sd_url, fluent_url, 
-    remarks1, remarks2, remarks3, remarks4, remarks5
+    is_publish, owner, owner_type, name, start_time, end_time, duration, live_price, 
+    record_price, room_id, timetable_id, is_free, live_status, buy_number, browse_number, 
+    hd_url, sd_url, fluent_url, remarks1, remarks2, remarks3, remarks4, remarks5, thumbnail, 
+    share_path, is_private, stream_key, publish_url, rtmp_url, hls_url, hdl_url, snapshot_url
   </sql>
   <sql id="Blob_Column_List" >
     introduction
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  
+  <!-- coffee add 0119 依据主播ID和类型判断是否存在预告课时信息 -->
+  <select id="selectChapterInfoByOwner" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_yp_live_chapter_plan
+    where is_deleted=0 and is_publish=2
+    <if test="live_status !=null">
+    	 and live_status=#{live_status,jdbcType=INTEGER}
+    </if>
+    <if test="uid !=null">
+    	and owner=#{uid,jdbcType=INTEGER}
+    </if>
+    <if test="utype !=null">
+    	and owner_type= #{utype,jdbcType=VARCHAR}
+    </if>
+  	<if test="room_id !=null">
+  		and room_id=#{room_id,jdbcType=INTEGER}
+  	</if> 
+  	<if test="stream !=null">
+  		and stream_key<![CDATA[ <> ]]>#{stream,jdbcType=VARCHAR}
+  	</if>
+  	<choose>
+  		<when test="live_status==2">
+  			order by start_time desc
+  		</when>
+  		<otherwise>
+  			order by start_time asc
+  		</otherwise>
+  	</choose>
+  	limit 0,1
+  </select>
+  
+  <!-- coffee add 0117 房间ID 主播ID和类型去查询信息 -->
+   <select id="selectChapterPlanByPreTime" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_yp_live_chapter_plan
+    where is_deleted=0 and is_publish=2
+    <if test="uid !=null">
+    	and owner=#{uid,jdbcType=INTEGER}
+    </if>
+    <if test="utype !=null">
+    	and owner_type= #{utype,jdbcType=VARCHAR}
+    </if>
+  	<if test="room_id !=null">
+  		and room_id=#{room_id,jdbcType=INTEGER}
+  	</if> 
+  	<if test="pre_time !=null and pre_time !=''">
+  		 <![CDATA[ and DATE_FORMAT(start_time, '%Y-%m-%d %H:%i')= DATE_FORMAT(#{pre_time,jdbcType=VARCHAR}, '%Y-%m-%d %H:%i') ]]>
+  	</if>
+   
+   </select>
+  
+  <!-- coffee add 0114 判断是否重复新增课时信息 -->
+  <select id="selectChapterPlanByUid" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_yp_live_chapter_plan
+    where is_deleted=0
+    <if test="uid !=null">
+    	and owner=#{uid,jdbcType=INTEGER}
+    </if>
+    <if test="utype !=null">
+    	and owner_type= #{utype,jdbcType=VARCHAR}
+    </if>
+  	<if test="timetable_id !=null">
+  		and timetable_id=#{timetable_id,jdbcType=INTEGER}
+  	</if>
+  	<if test="room_id !=null">
+  		and room_id=#{room_id,jdbcType=INTEGER}
+  	</if>
+  	<if test="name !=null">
+  		and name=#{name,jdbcType=VARCHAR}
+  	</if>
+  </select>
+  
+   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from t_yp_live_chapter_plan
     where id = #{id,jdbcType=INTEGER}
+    and is_deleted=0 and is_publish=2
   </select>
+  
+  <!-- coffee add 0119 按照课时开始时间升序排列获取所有课时信息 -->
+   <resultMap id="ChapterResultMap" type="com.arttraining.api.beanv2.LiveChapterListBean" >
+    <id column="id" property="chapter_id" jdbcType="INTEGER" />
+    <result column="name" property="chapter_name" jdbcType="VARCHAR" />
+    <result column="start_time" property="start_time" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="end_time" jdbcType="TIMESTAMP" />
+    <result column="live_price" property="live_price" jdbcType="DOUBLE" />
+    <result column="record_price" property="record_price" jdbcType="DOUBLE" />
+    <result column="is_free" property="is_free" jdbcType="INTEGER" />
+    <result column="thumbnail" property="thumbnail" jdbcType="INTEGER" />
+    <result column="live_status" property="live_status" jdbcType="INTEGER" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="record_url" property="record_url" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectChapterListById" resultMap="ChapterResultMap" parameterType="java.util.Map" >
+    select id,name,start_time,end_time,
+    live_price,record_price,is_free,
+    snapshot_url as thumbnail,
+    introduction,live_status,
+    sd_url as record_url
+    from t_yp_live_chapter_plan
+    where is_deleted=0 and is_publish=2
+    <if test="uid !=null">
+    	and owner=#{uid,jdbcType=INTEGER}
+    </if>
+    <if test="utype !=null">
+    	and owner_type= #{utype,jdbcType=VARCHAR}
+    </if>
+  	<if test="room_id !=null">
+  		and room_id=#{room_id,jdbcType=INTEGER}
+  	</if>
+  	<if test="timetable_id !=null">
+  		and timetable_id=#{timetable_id,jdbcType=INTEGER}
+  	</if>
+  	order by start_time asc
+  </select>
+  <!-- end -->
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_yp_live_chapter_plan
     where id = #{id,jdbcType=INTEGER}
@@ -63,23 +197,29 @@
       remarks, attachment, is_publish, 
       owner, owner_type, name, 
       start_time, end_time, duration, 
-      price, room_id, timetable_id, 
-      is_free, live_status, buy_number, 
-      browse_number, hd_url, sd_url, 
-      fluent_url, remarks1, remarks2, 
-      remarks3, remarks4, remarks5, 
-      introduction)
+      live_price, record_price, room_id, 
+      timetable_id, is_free, live_status, 
+      buy_number, browse_number, hd_url, 
+      sd_url, fluent_url, remarks1, 
+      remarks2, remarks3, remarks4, 
+      remarks5, thumbnail, share_path, 
+      is_private, stream_key, publish_url, 
+      rtmp_url, hls_url, hdl_url, 
+      snapshot_url, introduction)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{isPublish,jdbcType=INTEGER}, 
       #{owner,jdbcType=INTEGER}, #{ownerType,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{duration,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DOUBLE}, #{roomId,jdbcType=INTEGER}, #{timetableId,jdbcType=INTEGER}, 
-      #{isFree,jdbcType=INTEGER}, #{liveStatus,jdbcType=INTEGER}, #{buyNumber,jdbcType=INTEGER}, 
-      #{browseNumber,jdbcType=INTEGER}, #{hdUrl,jdbcType=VARCHAR}, #{sdUrl,jdbcType=VARCHAR}, 
-      #{fluentUrl,jdbcType=VARCHAR}, #{remarks1,jdbcType=VARCHAR}, #{remarks2,jdbcType=VARCHAR}, 
-      #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, #{remarks5,jdbcType=VARCHAR}, 
-      #{introduction,jdbcType=LONGVARCHAR})
+      #{livePrice,jdbcType=DOUBLE}, #{recordPrice,jdbcType=DOUBLE}, #{roomId,jdbcType=INTEGER}, 
+      #{timetableId,jdbcType=INTEGER}, #{isFree,jdbcType=INTEGER}, #{liveStatus,jdbcType=INTEGER}, 
+      #{buyNumber,jdbcType=INTEGER}, #{browseNumber,jdbcType=INTEGER}, #{hdUrl,jdbcType=VARCHAR}, 
+      #{sdUrl,jdbcType=VARCHAR}, #{fluentUrl,jdbcType=VARCHAR}, #{remarks1,jdbcType=VARCHAR}, 
+      #{remarks2,jdbcType=VARCHAR}, #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, 
+      #{remarks5,jdbcType=VARCHAR}, #{thumbnail,jdbcType=VARCHAR}, #{sharePath,jdbcType=VARCHAR}, 
+      #{isPrivate,jdbcType=INTEGER}, #{streamKey,jdbcType=VARCHAR}, #{publishUrl,jdbcType=VARCHAR}, 
+      #{rtmpUrl,jdbcType=VARCHAR}, #{hlsUrl,jdbcType=VARCHAR}, #{hdlUrl,jdbcType=VARCHAR}, 
+      #{snapshotUrl,jdbcType=VARCHAR}, #{introduction,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.LiveChapterPlan" >
     insert into t_yp_live_chapter_plan
@@ -129,8 +269,11 @@
       <if test="duration != null" >
         duration,
       </if>
-      <if test="price != null" >
-        price,
+      <if test="livePrice != null" >
+        live_price,
+      </if>
+      <if test="recordPrice != null" >
+        record_price,
       </if>
       <if test="roomId != null" >
         room_id,
@@ -173,6 +316,33 @@
       </if>
       <if test="remarks5 != null" >
         remarks5,
+      </if>
+      <if test="thumbnail != null" >
+        thumbnail,
+      </if>
+      <if test="sharePath != null" >
+        share_path,
+      </if>
+      <if test="isPrivate != null" >
+        is_private,
+      </if>
+      <if test="streamKey != null" >
+        stream_key,
+      </if>
+      <if test="publishUrl != null" >
+        publish_url,
+      </if>
+      <if test="rtmpUrl != null" >
+        rtmp_url,
+      </if>
+      <if test="hlsUrl != null" >
+        hls_url,
+      </if>
+      <if test="hdlUrl != null" >
+        hdl_url,
+      </if>
+      <if test="snapshotUrl != null" >
+        snapshot_url,
       </if>
       <if test="introduction != null" >
         introduction,
@@ -224,8 +394,11 @@
       <if test="duration != null" >
         #{duration,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
-        #{price,jdbcType=DOUBLE},
+      <if test="livePrice != null" >
+        #{livePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="recordPrice != null" >
+        #{recordPrice,jdbcType=DOUBLE},
       </if>
       <if test="roomId != null" >
         #{roomId,jdbcType=INTEGER},
@@ -268,6 +441,33 @@
       </if>
       <if test="remarks5 != null" >
         #{remarks5,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbnail != null" >
+        #{thumbnail,jdbcType=VARCHAR},
+      </if>
+      <if test="sharePath != null" >
+        #{sharePath,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrivate != null" >
+        #{isPrivate,jdbcType=INTEGER},
+      </if>
+      <if test="streamKey != null" >
+        #{streamKey,jdbcType=VARCHAR},
+      </if>
+      <if test="publishUrl != null" >
+        #{publishUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="rtmpUrl != null" >
+        #{rtmpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="hlsUrl != null" >
+        #{hlsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="hdlUrl != null" >
+        #{hdlUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="snapshotUrl != null" >
+        #{snapshotUrl,jdbcType=VARCHAR},
       </if>
       <if test="introduction != null" >
         #{introduction,jdbcType=LONGVARCHAR},
@@ -319,8 +519,11 @@
       <if test="duration != null" >
         duration = #{duration,jdbcType=VARCHAR},
       </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DOUBLE},
+      <if test="livePrice != null" >
+        live_price = #{livePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="recordPrice != null" >
+        record_price = #{recordPrice,jdbcType=DOUBLE},
       </if>
       <if test="roomId != null" >
         room_id = #{roomId,jdbcType=INTEGER},
@@ -335,10 +538,10 @@
         live_status = #{liveStatus,jdbcType=INTEGER},
       </if>
       <if test="buyNumber != null" >
-        buy_number = #{buyNumber,jdbcType=INTEGER},
+        buy_number = buy_number+#{buyNumber,jdbcType=INTEGER},
       </if>
       <if test="browseNumber != null" >
-        browse_number = #{browseNumber,jdbcType=INTEGER},
+        browse_number = browse_number+#{browseNumber,jdbcType=INTEGER},
       </if>
       <if test="hdUrl != null" >
         hd_url = #{hdUrl,jdbcType=VARCHAR},
@@ -364,6 +567,33 @@
       <if test="remarks5 != null" >
         remarks5 = #{remarks5,jdbcType=VARCHAR},
       </if>
+      <if test="thumbnail != null" >
+        thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      </if>
+      <if test="sharePath != null" >
+        share_path = #{sharePath,jdbcType=VARCHAR},
+      </if>
+      <if test="isPrivate != null" >
+        is_private = #{isPrivate,jdbcType=INTEGER},
+      </if>
+      <if test="streamKey != null" >
+        stream_key = #{streamKey,jdbcType=VARCHAR},
+      </if>
+      <if test="publishUrl != null" >
+        publish_url = #{publishUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="rtmpUrl != null" >
+        rtmp_url = #{rtmpUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="hlsUrl != null" >
+        hls_url = #{hlsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="hdlUrl != null" >
+        hdl_url = #{hdlUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="snapshotUrl != null" >
+        snapshot_url = #{snapshotUrl,jdbcType=VARCHAR},
+      </if>
       <if test="introduction != null" >
         introduction = #{introduction,jdbcType=LONGVARCHAR},
       </if>
@@ -386,13 +616,14 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       duration = #{duration,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DOUBLE},
+      live_price = #{livePrice,jdbcType=DOUBLE},
+      record_price = #{recordPrice,jdbcType=DOUBLE},
       room_id = #{roomId,jdbcType=INTEGER},
       timetable_id = #{timetableId,jdbcType=INTEGER},
       is_free = #{isFree,jdbcType=INTEGER},
       live_status = #{liveStatus,jdbcType=INTEGER},
-      buy_number = #{buyNumber,jdbcType=INTEGER},
-      browse_number = #{browseNumber,jdbcType=INTEGER},
+      buy_number = buy_number+#{buyNumber,jdbcType=INTEGER},
+      browse_number = browse_number+#{browseNumber,jdbcType=INTEGER},
       hd_url = #{hdUrl,jdbcType=VARCHAR},
       sd_url = #{sdUrl,jdbcType=VARCHAR},
       fluent_url = #{fluentUrl,jdbcType=VARCHAR},
@@ -401,6 +632,15 @@
       remarks3 = #{remarks3,jdbcType=VARCHAR},
       remarks4 = #{remarks4,jdbcType=VARCHAR},
       remarks5 = #{remarks5,jdbcType=VARCHAR},
+      thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      share_path = #{sharePath,jdbcType=VARCHAR},
+      is_private = #{isPrivate,jdbcType=INTEGER},
+      stream_key = #{streamKey,jdbcType=VARCHAR},
+      publish_url = #{publishUrl,jdbcType=VARCHAR},
+      rtmp_url = #{rtmpUrl,jdbcType=VARCHAR},
+      hls_url = #{hlsUrl,jdbcType=VARCHAR},
+      hdl_url = #{hdlUrl,jdbcType=VARCHAR},
+      snapshot_url = #{snapshotUrl,jdbcType=VARCHAR},
       introduction = #{introduction,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -420,13 +660,14 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       duration = #{duration,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DOUBLE},
+      live_price = #{livePrice,jdbcType=DOUBLE},
+      record_price = #{recordPrice,jdbcType=DOUBLE},
       room_id = #{roomId,jdbcType=INTEGER},
       timetable_id = #{timetableId,jdbcType=INTEGER},
       is_free = #{isFree,jdbcType=INTEGER},
       live_status = #{liveStatus,jdbcType=INTEGER},
-      buy_number = #{buyNumber,jdbcType=INTEGER},
-      browse_number = #{browseNumber,jdbcType=INTEGER},
+      buy_number = buy_number+#{buyNumber,jdbcType=INTEGER},
+      browse_number = browse_number+#{browseNumber,jdbcType=INTEGER},
       hd_url = #{hdUrl,jdbcType=VARCHAR},
       sd_url = #{sdUrl,jdbcType=VARCHAR},
       fluent_url = #{fluentUrl,jdbcType=VARCHAR},
@@ -434,7 +675,16 @@
       remarks2 = #{remarks2,jdbcType=VARCHAR},
       remarks3 = #{remarks3,jdbcType=VARCHAR},
       remarks4 = #{remarks4,jdbcType=VARCHAR},
-      remarks5 = #{remarks5,jdbcType=VARCHAR}
+      remarks5 = #{remarks5,jdbcType=VARCHAR},
+      thumbnail = #{thumbnail,jdbcType=VARCHAR},
+      share_path = #{sharePath,jdbcType=VARCHAR},
+      is_private = #{isPrivate,jdbcType=INTEGER},
+      stream_key = #{streamKey,jdbcType=VARCHAR},
+      publish_url = #{publishUrl,jdbcType=VARCHAR},
+      rtmp_url = #{rtmpUrl,jdbcType=VARCHAR},
+      hls_url = #{hlsUrl,jdbcType=VARCHAR},
+      hdl_url = #{hdlUrl,jdbcType=VARCHAR},
+      snapshot_url = #{snapshotUrl,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

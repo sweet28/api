@@ -18,7 +18,7 @@ public class HomePageTecCommentBean {
 	private String duration;
 	private String thumbnail;
 	private int listen_num;
-	
+
 	public int getTec_id() {
 		return tec_id;
 	}

@@ -20,6 +20,22 @@
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     visitor, visitor_type, host, host_type, foreign_key
   </sql>
+  
+  <!-- coffee add 0118 判断登录用户是否重复进入直播间进行点赞 -->
+  <select id="selectIsExistLike" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_live_like
+    where is_deleted=0
+    and visitor = #{uid,jdbcType=INTEGER}
+    and visitor_type= #{utype,jdbcType=VARCHAR}
+    and host= #{id,jdbcType=INTEGER}
+    and host_type= #{type,jdbcType=VARCHAR}
+    and foreign_key= #{room_id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- end -->
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

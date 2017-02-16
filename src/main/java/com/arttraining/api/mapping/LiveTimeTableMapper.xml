@@ -38,26 +38,32 @@
     introduction
   </sql>
   
-  <!-- coffee add 0113 判断是否设置过相同课表名称 -->
-   <select id="selectLiveTimeTableByUid" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
+  <!-- coffee add 0113 老师查看课程列表 masters/live/timetable/list接口调用 -->
+   <resultMap id="TimeTableResultMap" type="com.arttraining.api.beanv2.LiveTimeTableBean" >
+    <id column="id" property="timetable_id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="is_free" property="is_free" jdbcType="INTEGER" />
+    <result column="major_one" property="major_one" jdbcType="INTEGER" />
+    <result column="major_two" property="major_two" jdbcType="INTEGER" />
+    <result column="live_type" property="live_type" jdbcType="INTEGER" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+  </resultMap>
+   <select id="selectLiveTimeTableByUid" resultMap="TimeTableResultMap" parameterType="java.util.Map" >
+    select id,name,price,is_free,
+    major_one,major_two,live_type,introduction
     from t_yp_live_timetable
-    where is_deleted=0
+    where is_deleted=0 and is_publish=2
     <if test="room_id !=null">
      	and room_id=#{room_id,jdbcType=INTEGER}
     </if>
-    <if test="name !=null">
-    	and name=#{name,jdbcType=VARCHAR}
-    </if>
-    <if test="owner !=null">
+    <if test="uid !=null">
     	and owner=#{uid,jdbcType=INTEGER}
     </if>
-    <if test="owner_type !=null">
+    <if test="utype !=null">
     	and owner_type=#{utype,jdbcType=VARCHAR}
     </if>
+    order by create_time asc
   </select>
   <!-- end -->
   

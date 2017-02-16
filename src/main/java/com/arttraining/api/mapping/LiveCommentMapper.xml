@@ -17,39 +17,64 @@
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
+    <result column="buy_number" property="buyNumber" jdbcType="INTEGER" />
+    
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    visitor, visitor_type, host, host_type, type, content, foreign_key
+    visitor, visitor_type, host, host_type, type, content, foreign_key,buy_number
   </sql>
   
-  <!-- coffee add 0110 返回直播房间评论信息列表 live/comment/list接口调用-->
+  <!-- coffee add 0215 依据主播ID和课时ID来获取赠送礼物数 -->
+  <select id="selectLiveGiftNumber" resultType="java.lang.Integer" parameterType="java.util.Map" >
+    select sum(buy_number)
+    from t_yp_live_comment
+    where is_deleted=0
+    and remarks='gift'
+    <if test="chapter_id !=null">
+    	and foreign_key=#{chapter_id,jdbcType=INTEGER}
+    </if>
+    <if test="uid !=null">
+    	and host=#{uid,jdbcType=INTEGER}
+    </if>
+    <if test="utype !=null">
+    	and host_type=#{utype,jdbcType=VARCHAR}
+    </if>
+  </select>
+  
+  <!-- coffee add 0110 返回直播房间评论信息列表 open/class/comment/list接口调用-->
   <resultMap id="CommentResultMap" type="com.arttraining.api.beanv2.LiveCommentBean" >
     <id column="comm_id" property="comm_id" jdbcType="INTEGER" />
     <result column="uid" property="uid" jdbcType="INTEGER" />
     <result column="utype" property="utype" jdbcType="VARCHAR" />
     <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="remarks" property="type" jdbcType="VARCHAR" />
+    <result column="buy_number" property="gift_num" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectLiveCommentByRoomId" resultMap="CommentResultMap" parameterType="java.util.Map" >
-  select c.id as comm_id,c.visitor as uid,c.content,u.name
-  from (select id,visitor,visitor_type,content,create_time
+  select c.id as comm_id,c.visitor as uid,
+  c.visitor_type as utype,c.content,u.name,
+  c.remarks,c.buy_number
+  from (select id,visitor,visitor_type,content,
+  create_time,remarks,buy_number
   from t_yp_live_comment
   where is_deleted=0
-  and foreign_key=#{room_id,jdbcType=INTEGER}
-  and host=#{uid,jdbcType=INTEGER}
-  and host_type=#{utype,jdbcType=VARCHAR}
+  and foreign_key=#{chapter_id,jdbcType=INTEGER}
   <if test="offset !=-1">
-  	and create_time &lt;(select create_time from t_yp_live_comment
-  	where id=#{offset,jdbcType=INTEGER} and is_deleted=0)
+  	and create_time &gt;(select create_time from t_yp_live_comment
+  	where id=#{offset,jdbcType=INTEGER})
   </if>
-  order by create_time desc
-  limit #{limit,jdbcType=INTEGER}) c,
+  <if test="start_time !=null and end_time!=null">
+  	and <![CDATA[ DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s')>= DATE_FORMAT(#{start_time,jdbcType=VARCHAR}, '%Y-%m-%d %H:%i:%s')]]> 
+  	and <![CDATA[ DATE_FORMAT(create_time, '%Y-%m-%d %H:%i:%s')<= DATE_FORMAT(#{end_time,jdbcType=VARCHAR}, '%Y-%m-%d %H:%i:%s')]]> 
+  </if>
+  order by create_time asc) c,
   (select id,name
   from t_yp_user_stu 
   where is_lock=0 and is_deleted=0) u
   where c.visitor=u.id
-  order by c.create_time desc
+  order by c.create_time asc
   </select>
   <!-- end -->
   
@@ -68,13 +93,14 @@
       create_time, order_code, delete_time, 
       remarks, attachment, visitor, 
       visitor_type, host, host_type, 
-      type, content, foreign_key
+      type, content, foreign_key,buy_number
       )
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
       #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{visitor,jdbcType=INTEGER}, 
       #{visitorType,jdbcType=VARCHAR}, #{host,jdbcType=INTEGER}, #{hostType,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{foreignKey,jdbcType=INTEGER}
+      #{type,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{foreignKey,jdbcType=INTEGER},
+      #{buyNumber,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.arttraining.api.pojo.LiveComment" >
@@ -125,6 +151,9 @@
       <if test="foreignKey != null" >
         foreign_key,
       </if>
+      <if test="buyNumber != null" >
+        buy_number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -171,6 +200,9 @@
       </if>
       <if test="foreignKey != null" >
         #{foreignKey,jdbcType=INTEGER},
+      </if>
+      <if test="buyNumber != null" >
+        #{buyNumber,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -219,6 +251,9 @@
       <if test="foreignKey != null" >
         foreign_key = #{foreignKey,jdbcType=INTEGER},
       </if>
+      <if test="buyNumber != null" >
+        buy_number=buy_number+#{buyNumber,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -237,7 +272,8 @@
       host_type = #{hostType,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
-      foreign_key = #{foreignKey,jdbcType=INTEGER}
+      foreign_key = #{foreignKey,jdbcType=INTEGER},
+      buy_number=buy_number+#{buyNumber,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

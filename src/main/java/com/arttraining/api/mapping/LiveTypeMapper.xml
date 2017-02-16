@@ -17,6 +17,21 @@
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
     name, level
   </sql>
+  
+  <!-- coffee add 0117 直播类型列表 prepare/live/type/list接口调用-->
+  <resultMap id="TypeResultMap" type="com.arttraining.api.beanv2.LiveTypeList" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="selectLivesTypeList" resultMap="TypeResultMap" >
+    select id,name,level
+    from t_yp_live_type
+    where is_deleted=0
+  </select>
+  
+  <!-- end -->
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />

@@ -115,4 +115,16 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20080 = "请先进行直播资质认证哟";
 	
 	public static String ERROR_MSG_ZH_20081 = "您的直播资质认证还在审核中,请耐心等待哟";
+	public static String ERROR_MSG_ZH_20082 = "您设置过相同名称的课表哟";
+	public static String ERROR_MSG_ZH_20083 = "课表设置失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20084 = "您设置过相同名称的课时哟";
+	public static String ERROR_MSG_ZH_20085 = "课时计划设置失败,请检查网络是否畅通";
+	
+	public static String ERROR_MSG_ZH_20086 = "您已经设置过直播间了哟";
+	public static String ERROR_MSG_ZH_20087 = "直播间编辑失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20088 = "还未设置直播间哟";
+	public static String ERROR_MSG_ZH_20089 = "还未设置直播课时哟";
+	public static String ERROR_MSG_ZH_20090 = "需要先付费购买直播课时哟";
+	
+	public static String ERROR_MSG_ZH_20091 = "进入直播间失败,请检查网络是否畅通";
 }

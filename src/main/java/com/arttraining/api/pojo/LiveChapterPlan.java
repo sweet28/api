@@ -33,7 +33,9 @@ public class LiveChapterPlan {
 
     private String duration;
 
-    private Double price;
+    private Double livePrice;
+
+    private Double recordPrice;
 
     private Integer roomId;
 
@@ -62,6 +64,24 @@ public class LiveChapterPlan {
     private String remarks4;
 
     private String remarks5;
+
+    private String thumbnail;
+
+    private String sharePath;
+
+    private Integer isPrivate;
+
+    private String streamKey;
+
+    private String publishUrl;
+
+    private String rtmpUrl;
+
+    private String hlsUrl;
+
+    private String hdlUrl;
+
+    private String snapshotUrl;
 
     private String introduction;
 
@@ -185,12 +205,20 @@ public class LiveChapterPlan {
         this.duration = duration == null ? null : duration.trim();
     }
 
-    public Double getPrice() {
-        return price;
+    public Double getLivePrice() {
+        return livePrice;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setLivePrice(Double livePrice) {
+        this.livePrice = livePrice;
+    }
+
+    public Double getRecordPrice() {
+        return recordPrice;
+    }
+
+    public void setRecordPrice(Double recordPrice) {
+        this.recordPrice = recordPrice;
     }
 
     public Integer getRoomId() {
@@ -303,6 +331,78 @@ public class LiveChapterPlan {
 
     public void setRemarks5(String remarks5) {
         this.remarks5 = remarks5 == null ? null : remarks5.trim();
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail == null ? null : thumbnail.trim();
+    }
+
+    public String getSharePath() {
+        return sharePath;
+    }
+
+    public void setSharePath(String sharePath) {
+        this.sharePath = sharePath == null ? null : sharePath.trim();
+    }
+
+    public Integer getIsPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(Integer isPrivate) {
+        this.isPrivate = isPrivate;
+    }
+
+    public String getStreamKey() {
+        return streamKey;
+    }
+
+    public void setStreamKey(String streamKey) {
+        this.streamKey = streamKey == null ? null : streamKey.trim();
+    }
+
+    public String getPublishUrl() {
+        return publishUrl;
+    }
+
+    public void setPublishUrl(String publishUrl) {
+        this.publishUrl = publishUrl == null ? null : publishUrl.trim();
+    }
+
+    public String getRtmpUrl() {
+        return rtmpUrl;
+    }
+
+    public void setRtmpUrl(String rtmpUrl) {
+        this.rtmpUrl = rtmpUrl == null ? null : rtmpUrl.trim();
+    }
+
+    public String getHlsUrl() {
+        return hlsUrl;
+    }
+
+    public void setHlsUrl(String hlsUrl) {
+        this.hlsUrl = hlsUrl == null ? null : hlsUrl.trim();
+    }
+
+    public String getHdlUrl() {
+        return hdlUrl;
+    }
+
+    public void setHdlUrl(String hdlUrl) {
+        this.hdlUrl = hdlUrl == null ? null : hdlUrl.trim();
+    }
+
+    public String getSnapshotUrl() {
+        return snapshotUrl;
+    }
+
+    public void setSnapshotUrl(String snapshotUrl) {
+        this.snapshotUrl = snapshotUrl == null ? null : snapshotUrl.trim();
     }
 
     public String getIntroduction() {

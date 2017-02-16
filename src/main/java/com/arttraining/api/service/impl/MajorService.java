@@ -40,4 +40,10 @@ public class MajorService implements IMajorService {
 		return this.majorDao.selectAllOneLevelMajor();
 	}
 
+	@Override
+	public List<MajorListBean> getTwoLevelMajorByList(Integer father_id) {
+		// TODO Auto-generated method stub
+		return this.majorDao.selectTwoLevelMajorByList(father_id);
+	}
+
 }

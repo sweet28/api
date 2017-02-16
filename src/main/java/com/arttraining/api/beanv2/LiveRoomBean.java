@@ -8,13 +8,11 @@ public class LiveRoomBean {
 	private int room_id;
 	private String live_name;
 	private String thumbnail;
-	private int is_publish;
 	
 	public LiveRoomBean() {
 		this.room_id=0;
 		this.live_name = "";
 		this.thumbnail = "";
-		this.is_publish=0;
 	}
 	public String getError_code() {
 		return error_code;
@@ -46,12 +44,6 @@ public class LiveRoomBean {
 	}
 	public void setThumbnail(String thumbnail) {
 		this.thumbnail = ImageUtil.parsePicPath(thumbnail, 7);
-	}
-	public int getIs_publish() {
-		return is_publish;
-	}
-	public void setIs_publish(int is_publish) {
-		this.is_publish = is_publish;
 	}
 	
 }

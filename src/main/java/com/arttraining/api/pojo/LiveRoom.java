@@ -37,6 +37,16 @@ public class LiveRoom {
 
     private Integer majorTwo;
 
+    private Integer browseNumber;
+
+    private Integer likeNumber;
+
+    private Integer followNumber;
+
+    private Integer preNumber;
+
+    private Integer chapterNumber;
+
     private String remarks1;
 
     private String remarks2;
@@ -46,6 +56,7 @@ public class LiveRoom {
     private String remarks4;
 
     private String remarks5;
+    private String preTime;
 
     public Integer getId() {
         return id;
@@ -183,6 +194,46 @@ public class LiveRoom {
         this.majorTwo = majorTwo;
     }
 
+    public Integer getBrowseNumber() {
+        return browseNumber;
+    }
+
+    public void setBrowseNumber(Integer browseNumber) {
+        this.browseNumber = browseNumber;
+    }
+
+    public Integer getLikeNumber() {
+        return likeNumber;
+    }
+
+    public void setLikeNumber(Integer likeNumber) {
+        this.likeNumber = likeNumber;
+    }
+
+    public Integer getFollowNumber() {
+        return followNumber;
+    }
+
+    public void setFollowNumber(Integer followNumber) {
+        this.followNumber = followNumber;
+    }
+
+    public Integer getPreNumber() {
+        return preNumber;
+    }
+
+    public void setPreNumber(Integer preNumber) {
+        this.preNumber = preNumber;
+    }
+
+    public Integer getChapterNumber() {
+        return chapterNumber;
+    }
+
+    public void setChapterNumber(Integer chapterNumber) {
+        this.chapterNumber = chapterNumber;
+    }
+
     public String getRemarks1() {
         return remarks1;
     }
@@ -222,4 +273,14 @@ public class LiveRoom {
     public void setRemarks5(String remarks5) {
         this.remarks5 = remarks5 == null ? null : remarks5.trim();
     }
+
+	public String getPreTime() {
+		return preTime;
+	}
+
+	public void setPreTime(String preTime) {
+		this.preTime = preTime;
+	}
+
+    
 }
