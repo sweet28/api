@@ -1,0 +1,528 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.OrderCourseMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.OrderCourse" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="code_number" property="codeNumber" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+    <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="auditor" property="auditor" jdbcType="VARCHAR" />
+    <result column="member_discount" property="memberDiscount" jdbcType="DOUBLE" />
+    <result column="member_rate" property="memberRate" jdbcType="VARCHAR" />
+    <result column="coupon_pay" property="couponPay" jdbcType="DOUBLE" />
+    <result column="final_pay" property="finalPay" jdbcType="DOUBLE" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="trade_id" property="tradeId" jdbcType="VARCHAR" />
+    <result column="order_detail_num" property="orderDetailNum" jdbcType="INTEGER" />
+    <result column="active_time" property="activeTime" jdbcType="TIMESTAMP" />
+    <result column="remaining_time" property="remainingTime" jdbcType="TIMESTAMP" />
+    <result column="coupon_id" property="couponId" jdbcType="INTEGER" />
+    <result column="coupon_type" property="couponType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    code_number, user_id, type, status, pay_time, cancel_time, money, auditor, member_discount, 
+    member_rate, coupon_pay, final_pay, pay_type, trade_id, order_detail_num, active_time, 
+    remaining_time, coupon_id, coupon_type
+  </sql>
+  
+  <!-- coffee add 0215 课时免费时进入直播 自动添加课时订单和详情记录 -->
+  <insert id="insertOrderCourseSelective" parameterType="com.arttraining.api.pojo.OrderCourse" 
+  	useGeneratedKeys="true" keyProperty="id">
+    insert into t_yp_order_course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="codeNumber != null" >
+        code_number,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="cancelTime != null" >
+        cancel_time,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="auditor != null" >
+        auditor,
+      </if>
+      <if test="memberDiscount != null" >
+        member_discount,
+      </if>
+      <if test="memberRate != null" >
+        member_rate,
+      </if>
+      <if test="couponPay != null" >
+        coupon_pay,
+      </if>
+      <if test="finalPay != null" >
+        final_pay,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="tradeId != null" >
+        trade_id,
+      </if>
+      <if test="orderDetailNum != null" >
+        order_detail_num,
+      </if>
+      <if test="activeTime != null" >
+        active_time,
+      </if>
+      <if test="remainingTime != null" >
+        remaining_time,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="couponType != null" >
+        coupon_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="codeNumber != null" >
+        #{codeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelTime != null" >
+        #{cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="auditor != null" >
+        #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="memberDiscount != null" >
+        #{memberDiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="memberRate != null" >
+        #{memberRate,jdbcType=VARCHAR},
+      </if>
+      <if test="couponPay != null" >
+        #{couponPay,jdbcType=DOUBLE},
+      </if>
+      <if test="finalPay != null" >
+        #{finalPay,jdbcType=DOUBLE},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeId != null" >
+        #{tradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDetailNum != null" >
+        #{orderDetailNum,jdbcType=INTEGER},
+      </if>
+      <if test="activeTime != null" >
+        #{activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remainingTime != null" >
+        #{remainingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponType != null" >
+        #{couponType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_order_course
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_order_course
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.OrderCourse" >
+    insert into t_yp_order_course (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, code_number, 
+      user_id, type, status, 
+      pay_time, cancel_time, money, 
+      auditor, member_discount, member_rate, 
+      coupon_pay, final_pay, pay_type, 
+      trade_id, order_detail_num, active_time, 
+      remaining_time, coupon_id, coupon_type
+      )
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{codeNumber,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{payTime,jdbcType=TIMESTAMP}, #{cancelTime,jdbcType=TIMESTAMP}, #{money,jdbcType=DOUBLE}, 
+      #{auditor,jdbcType=VARCHAR}, #{memberDiscount,jdbcType=DOUBLE}, #{memberRate,jdbcType=VARCHAR}, 
+      #{couponPay,jdbcType=DOUBLE}, #{finalPay,jdbcType=DOUBLE}, #{payType,jdbcType=VARCHAR}, 
+      #{tradeId,jdbcType=VARCHAR}, #{orderDetailNum,jdbcType=INTEGER}, #{activeTime,jdbcType=TIMESTAMP}, 
+      #{remainingTime,jdbcType=TIMESTAMP}, #{couponId,jdbcType=INTEGER}, #{couponType,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.OrderCourse" >
+    insert into t_yp_order_course
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="codeNumber != null" >
+        code_number,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="payTime != null" >
+        pay_time,
+      </if>
+      <if test="cancelTime != null" >
+        cancel_time,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="auditor != null" >
+        auditor,
+      </if>
+      <if test="memberDiscount != null" >
+        member_discount,
+      </if>
+      <if test="memberRate != null" >
+        member_rate,
+      </if>
+      <if test="couponPay != null" >
+        coupon_pay,
+      </if>
+      <if test="finalPay != null" >
+        final_pay,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="tradeId != null" >
+        trade_id,
+      </if>
+      <if test="orderDetailNum != null" >
+        order_detail_num,
+      </if>
+      <if test="activeTime != null" >
+        active_time,
+      </if>
+      <if test="remainingTime != null" >
+        remaining_time,
+      </if>
+      <if test="couponId != null" >
+        coupon_id,
+      </if>
+      <if test="couponType != null" >
+        coupon_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="codeNumber != null" >
+        #{codeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelTime != null" >
+        #{cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="auditor != null" >
+        #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="memberDiscount != null" >
+        #{memberDiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="memberRate != null" >
+        #{memberRate,jdbcType=VARCHAR},
+      </if>
+      <if test="couponPay != null" >
+        #{couponPay,jdbcType=DOUBLE},
+      </if>
+      <if test="finalPay != null" >
+        #{finalPay,jdbcType=DOUBLE},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeId != null" >
+        #{tradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDetailNum != null" >
+        #{orderDetailNum,jdbcType=INTEGER},
+      </if>
+      <if test="activeTime != null" >
+        #{activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remainingTime != null" >
+        #{remainingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponId != null" >
+        #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponType != null" >
+        #{couponType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.OrderCourse" >
+    update t_yp_order_course
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="codeNumber != null" >
+        code_number = #{codeNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelTime != null" >
+        cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="auditor != null" >
+        auditor = #{auditor,jdbcType=VARCHAR},
+      </if>
+      <if test="memberDiscount != null" >
+        member_discount = #{memberDiscount,jdbcType=DOUBLE},
+      </if>
+      <if test="memberRate != null" >
+        member_rate = #{memberRate,jdbcType=VARCHAR},
+      </if>
+      <if test="couponPay != null" >
+        coupon_pay = #{couponPay,jdbcType=DOUBLE},
+      </if>
+      <if test="finalPay != null" >
+        final_pay = #{finalPay,jdbcType=DOUBLE},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeId != null" >
+        trade_id = #{tradeId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDetailNum != null" >
+        order_detail_num = #{orderDetailNum,jdbcType=INTEGER},
+      </if>
+      <if test="activeTime != null" >
+        active_time = #{activeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remainingTime != null" >
+        remaining_time = #{remainingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="couponId != null" >
+        coupon_id = #{couponId,jdbcType=INTEGER},
+      </if>
+      <if test="couponType != null" >
+        coupon_type = #{couponType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.OrderCourse" >
+    update t_yp_order_course
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      code_number = #{codeNumber,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      pay_time = #{payTime,jdbcType=TIMESTAMP},
+      cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+      money = #{money,jdbcType=DOUBLE},
+      auditor = #{auditor,jdbcType=VARCHAR},
+      member_discount = #{memberDiscount,jdbcType=DOUBLE},
+      member_rate = #{memberRate,jdbcType=VARCHAR},
+      coupon_pay = #{couponPay,jdbcType=DOUBLE},
+      final_pay = #{finalPay,jdbcType=DOUBLE},
+      pay_type = #{payType,jdbcType=VARCHAR},
+      trade_id = #{tradeId,jdbcType=VARCHAR},
+      order_detail_num = #{orderDetailNum,jdbcType=INTEGER},
+      active_time = #{activeTime,jdbcType=TIMESTAMP},
+      remaining_time = #{remainingTime,jdbcType=TIMESTAMP},
+      coupon_id = #{couponId,jdbcType=INTEGER},
+      coupon_type = #{couponType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
