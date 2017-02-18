@@ -86,6 +86,24 @@
     <result column="live_status" property="live_status" jdbcType="INTEGER" />
     <result column="chapter_name" property="chapter_name" jdbcType="VARCHAR" />
   </resultMap>
+  <!-- coffee add 0217 首页新增直播列表接口 -->
+  <select id="selectRoomLiveListByHome" resultMap="LiveResultMap" parameterType="java.lang.Integer" >
+   select r.id,r.owner,r.owner_type,r.live_name,r.thumbnail,
+    r.browse_number,r.chapter_number,r.pre_time,u.name,
+    -1 as live_status,'' as chapter_name
+    from (select id,owner,owner_type,live_name,thumbnail,
+    browse_number,chapter_number,pre_time,order_code
+    from t_yp_live_room
+    where is_deleted=0 and is_publish=2
+    order by order_code desc
+    limit #{limit,jdbcType=INTEGER}) r,
+    (select id,name 
+    from t_yp_user_tech
+    where is_deleted=0 and is_lock=0) u
+    where r.owner=u.id
+    order by r.order_code desc
+  </select>
+  
   <select id="selectRoomLiveListByPre" resultMap="LiveResultMap" parameterType="java.util.Map" >
    select r.id,r.owner,r.owner_type,r.live_name,r.thumbnail,
     r.browse_number,r.chapter_number,r.pre_time,u.name,

@@ -355,4 +355,10 @@ public class OpenClassLiveService implements IOpenClassLiveService {
 		return this.roomDao.updatePreNumByRoomId(record);
 	}
 
+	@Override
+	public List<OpenClassLiveListBean> getRoomLiveListByHome(Integer limit) {
+		// TODO Auto-generated method stub
+		return this.roomDao.selectRoomLiveListByHome(limit);
+	}
+
 }

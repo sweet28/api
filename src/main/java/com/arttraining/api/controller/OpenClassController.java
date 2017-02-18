@@ -56,6 +56,63 @@ public class OpenClassController {
 	private OrderCourseService orderCourseService;
 	
 	/**
+	 * 首页新增直播列表接口
+	 */
+	@RequestMapping(value = "/live/home", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object liveHome(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		
+		OpenClassLiveListReBean liveBean = new OpenClassLiveListReBean();
+		
+		//分页所用数据
+		Integer limit=ConfigUtil.HOMELIVE_PAGESIZE;
+		
+		//首先去查询指定大小的直播间信息 按照order_code降序排列
+		List<OpenClassLiveListBean> liveList= this.openClassLiveService.getRoomLiveListByHome(limit);
+		int liveSize=liveList.size();
+		
+		if(liveSize==0) {
+			liveList=new ArrayList<OpenClassLiveListBean>();
+			errorCode = "20007";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+		} else {
+			if(liveSize%2!=0) {//奇数直播大小
+				liveList.remove(liveSize-1);
+			} 
+			Map<String, Object> map = new HashMap<String, Object>();
+			//查询预告直播状态和直播课时名称
+			for (OpenClassLiveListBean live : liveList) {
+				Integer owner=live.getOwner();
+				String owner_type=live.getOwner_type();
+				Integer i_room_id=live.getRoom_id();
+				String pre_time=live.getPre_time();
+				
+				map.put("uid", owner);
+				map.put("utype", owner_type);
+				map.put("room_id", i_room_id);
+				map.put("pre_time", pre_time);
+				
+				LiveChapterPlan chapter=this.openClassLiveService.getChapterPlanByPreTime(map);
+				if(chapter!=null) {
+					live.setLive_status(chapter.getLiveStatus());
+					live.setChapter_name(chapter.getName());
+					live.setChapter_id(chapter.getId());
+				}
+			}
+			liveBean.setOpenclass_list(liveList);
+			errorCode="0";
+			errorMessage="ok";
+		}
+		liveBean.setError_code(errorCode);
+		liveBean.setError_msg(errorMessage);
+		
+		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(liveBean));
+		return gson.toJson(liveBean);
+	}
+	
+	/**
 	 * 用于获取所有的直播礼物列表
 	 */
 	@RequestMapping(value = "/gift/list", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

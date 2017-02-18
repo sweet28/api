@@ -35,4 +35,7 @@ public interface LiveRoomMapper {
     OpenClassEnterLiveBean selectLiveRoomInfoById(Map<String, Object> map);
     //coffee add 0216 修改直播预告课时数
     int updatePreNumByRoomId(LiveRoom record);
+    
+    //coffee add 0217 首页新增直播列表接口 
+    List<OpenClassLiveListBean> selectRoomLiveListByHome(Integer limit);
 }
