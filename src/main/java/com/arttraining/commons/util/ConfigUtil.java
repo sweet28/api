@@ -26,6 +26,8 @@ public class ConfigUtil {
 	public static String LIVE_SNAPSHOT_PLAY_URL="pili-live-snapshot.artforyou.cn";
 	//设置直播开启间隔
 	public static long LIVE_INTERVAL=1;
+	//设置保存视频链接的前缀URL
+	public static String LIVE_SAVE_VIDEO_URL="http://oixoq3vkj.bkt.clouddn.com";
 	//end
 	
 	// todo:七牛云密钥

@@ -38,6 +38,7 @@ import com.arttraining.api.pojo.LiveMember;
 import com.arttraining.api.pojo.LiveRoom;
 import com.arttraining.api.pojo.UserTech;
 import com.arttraining.api.service.IOpenClassLiveService;
+import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.LiveUtil;
 import com.arttraining.commons.util.Random;
 import com.arttraining.commons.util.TimeUtil;
@@ -294,17 +295,18 @@ public class OpenClassLiveService implements IOpenClassLiveService {
 			long startTime=startDate.getTime();
 			long endTime = date.getTime();
 			long  diff = (endTime - startTime)/1000;
-			System.out.println("startTime:"+startTime+"-endTime:"+endTime+"-diff:"+diff);
+			//System.out.println("startTime:"+startTime+"-endTime:"+endTime+"-diff:"+diff);
 			//直播时长
 			int duration=Integer.parseInt(String.valueOf(diff));
-			System.out.println("duration:"+duration);
+			//System.out.println("duration:"+duration);
 			//保存直播数据的回放路径
 			String fname="";
-			System.out.println(curr_chapter.getStreamKey());
+			//System.out.println(curr_chapter.getStreamKey());
 			//判断直播时长是否小于5分钟 如果小于5分钟 将不会保存直播数据
-			//if(duration>300) {
+			if(duration>300) {
 				try {
 					fname=LiveUtil.saveLiveStream(curr_chapter.getStreamKey(), startTime, endTime);
+					fname=ConfigUtil.LIVE_SAVE_VIDEO_URL+"/"+fname;
 					upd_chapter.setSdUrl(fname);
 					upd_chapter.setDuration(String.valueOf(diff));
 				} catch (PiliException e) {
@@ -312,7 +314,7 @@ public class OpenClassLiveService implements IOpenClassLiveService {
 					e.printStackTrace();
 					fname="";
 				}
-			//}
+			}
 		}
 		//修改课时信息 begin
 		this.chapterDao.updateByPrimaryKeySelective(upd_chapter);
