@@ -132,7 +132,9 @@ public class OrdersControllerV2 {
 							//支付时间
 							order.setPayTime(TimeUtil.getTimeStamp());
 							//支付类型(微信支付还是支付宝支付)
-							order.setPayType(payType);
+							if(payType != null && !("").equals(payType)){
+								order.setPayType(payType);
+							}
 							//测评时间
 							ass.setPayTime(TimeUtil.getTimeStamp());
 							//测评状态 判断是否支付
