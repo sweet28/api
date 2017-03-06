@@ -95,13 +95,11 @@
     browse_number,chapter_number,pre_time,order_code
     from t_yp_live_room
     where is_deleted=0 and is_publish=2
-    order by order_code desc
     limit #{limit,jdbcType=INTEGER}) r,
     (select id,name 
     from t_yp_user_tech
     where is_deleted=0 and is_lock=0) u
     where r.owner=u.id
-    order by r.order_code desc
   </select>
   
   <select id="selectRoomLiveListByPre" resultMap="LiveResultMap" parameterType="java.util.Map" >
