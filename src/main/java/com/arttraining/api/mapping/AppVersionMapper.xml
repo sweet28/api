@@ -18,10 +18,11 @@
     <result column="app_type" property="appType" jdbcType="VARCHAR" />
   </resultMap>
   <!-- coffee add 1201 app版本更新 version/update接口调用-->
-   <select id="selectOneVersionInfo" resultMap="BaseResultMap" >
+   <select id="selectOneVersionInfo" resultMap="BaseResultMap" parameterType="java.lang.String"  >
     select 
     <include refid="Base_Column_List" />
     from t_yp_app_version
+    where app_type=#{app_type,jdbcType=VARCHAR}
     order by create_time desc
     limit 0,1
   </select>

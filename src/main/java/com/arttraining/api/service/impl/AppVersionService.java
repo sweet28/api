@@ -14,9 +14,9 @@ public class AppVersionService implements IAppVersionService {
 	private AppVersionMapper appVersionDao;
 
 	@Override
-	public AppVersion getOneVersionInfo() {
+	public AppVersion getOneVersionInfo(String app_type) {
 		// TODO Auto-generated method stub
-		return this.appVersionDao.selectOneVersionInfo();
+		return this.appVersionDao.selectOneVersionInfo(app_type);
 	}
 
 }

@@ -39,8 +39,10 @@ public class VersionController {
 		//以下是必选参数
 		String version_no=request.getParameter("version_no");
 		String version_name=request.getParameter("version_name");
+		String app_type=request.getParameter("app_type");
 		
-		ServerLog.getLogger().warn("version_no:"+version_no+"-version_name:"+version_name);
+		ServerLog.getLogger().warn("version_no:"+version_no+"-version_name:"+version_name+
+				"-app_type:"+app_type);
 		VersionUpdateBean versionReBean = new VersionUpdateBean();
 		
 		if(version_no==null || version_name==null) {
@@ -53,10 +55,13 @@ public class VersionController {
 			errorCode = "20033";
 			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		} else {
+			if(app_type==null || app_type.equals("")) {
+				app_type="stu";
+			}
 			//版本号ID
 			Integer i_version_no=Integer.valueOf(version_no);
 			//获取最新的一条版本信息
-			AppVersion version=this.appVersionService.getOneVersionInfo();
+			AppVersion version=this.appVersionService.getOneVersionInfo(app_type);
 			if(version!=null) {
 				Integer db_version=version.getVersionNo();
 				if(db_version>i_version_no) {
