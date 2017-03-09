@@ -727,24 +727,7 @@ public class MasterOpenClassController {
 					masterEnterBean.setCurr_time(enterBean.getCurr_time());
 					//end
 					Integer live_status=-1;
-					//4.如果存在预告课时 则直接查询课时信息
-					map.put("live_status", 0);
-					LiveChapterPlan chapter0=this.openClassLiveService.getChapterInfoByOwner(map);
-					if(chapter0!=null) {
-						live_status=0;
-						masterEnterBean.setChapter_id(chapter0.getId());
-						masterEnterBean.setChapter_name(chapter0.getName());
-						masterEnterBean.setIs_talk(chapter0.getRemarks3());
-					} 
-					//如果存在正在直播课时 则直接查询课时信息
-					map.put("live_status", 1);
-					LiveChapterPlan chapter1=this.openClassLiveService.getChapterInfoByOwner(map);
-					if(chapter1!=null) {
-						live_status=1;
-						masterEnterBean.setChapter_id(chapter1.getId());
-						masterEnterBean.setChapter_name(chapter1.getName());
-						masterEnterBean.setIs_talk(chapter1.getRemarks3());
-					}
+					Boolean flag=false;
 					map.put("live_status", 2);
 					LiveChapterPlan chapter2=this.openClassLiveService.getChapterInfoByOwner(map);
 					if(chapter2!=null) {
@@ -753,8 +736,8 @@ public class MasterOpenClassController {
 						Date end=chapter2.getEndTime();
 						//获取当前时间
 						Date current=new Date();
-						System.out.println(current.getTime()+"=="+
-								start.getTime()+"=="+end.getTime());
+						//System.out.println(current.getTime()+"=="+
+								//start.getTime()+"=="+end.getTime());
 						//如果当前时间在直播开始和结束时间之内 则允许再次开播
 						if(current.getTime()>=start.getTime() 
 								&& current.getTime()<=end.getTime()) {
@@ -763,7 +746,32 @@ public class MasterOpenClassController {
 							masterEnterBean.setChapter_name(chapter2.getName());
 							masterEnterBean.setIs_talk(chapter2.getRemarks3());
 						} else {
-							live_status=2;
+							flag=true;
+						}
+					} else {
+						flag=true;
+					}
+					if(flag) {
+						//如果存在正在直播课时 则直接查询课时信息
+						map.put("live_status", 1);
+						LiveChapterPlan chapter1=this.openClassLiveService.getChapterInfoByOwner(map);
+						if(chapter1!=null) {
+							live_status=1;
+							masterEnterBean.setChapter_id(chapter1.getId());
+							masterEnterBean.setChapter_name(chapter1.getName());
+							masterEnterBean.setIs_talk(chapter1.getRemarks3());
+						} else {
+							//4.如果存在预告课时 则直接查询课时信息
+							map.put("live_status", 0);
+							LiveChapterPlan chapter0=this.openClassLiveService.getChapterInfoByOwner(map);
+							if(chapter0!=null) {
+								live_status=0;
+								masterEnterBean.setChapter_id(chapter0.getId());
+								masterEnterBean.setChapter_name(chapter0.getName());
+								masterEnterBean.setIs_talk(chapter0.getRemarks3());
+							} else {
+								live_status=2;
+							}
 						}
 					}
 					masterEnterBean.setLive_status(live_status);
