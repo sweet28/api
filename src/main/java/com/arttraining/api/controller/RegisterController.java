@@ -17,11 +17,12 @@ import com.arttraining.api.pojo.SMSCheckCode;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.InviteCodeService;
 import com.arttraining.api.service.impl.SMSService;
+import com.arttraining.api.service.impl.ScoreService;
 import com.arttraining.api.service.impl.UserStuService;
+import com.arttraining.api.service.impl.WalletService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.IdWorker;
-import com.arttraining.commons.util.ImageUtil;
 import com.arttraining.commons.util.InviteCodeUtil;
 import com.arttraining.commons.util.MD5;
 import com.arttraining.commons.util.PhoneUtil;
@@ -39,6 +40,11 @@ public class RegisterController {
 	private InviteCodeService invCodeService;
 	@Resource
 	private SMSService smsService;
+	
+	@Resource
+	private ScoreService scoreService;
+	@Resource
+	private WalletService walletService;
 	
 	@RequestMapping(value = "/is_reg", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object isRegister(HttpServletRequest request, HttpServletResponse response){
@@ -240,6 +246,15 @@ public class RegisterController {
 							loginBean.setAccess_token(accessToken);
 							loginBean.setError_code(errorCode);
 							loginBean.setError_msg(errorMsg);
+							
+							//coffee add 0301 如果记录过该登录用户的积分信息 则不插入 否则进行插入
+							this.scoreService.recordUserScoreInfoByRegister(userBean.getId(), "stu");
+							//end
+							
+							//coffee add 0302 如果记录过该登录用户的云币信息 则不插入 否则进行插入
+							this.walletService.recordUserCloudMoneyByLogin(userBean.getId(), "stu");
+							//end
+							
 							ServerLog.getLogger().warn(gson.toJson(loginBean));
 							//System.out.println(TimeUtil.getTimeStamp()+"-"+gson.toJson(loginBean));
 							return gson.toJson(loginBean);

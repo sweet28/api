@@ -8,12 +8,28 @@ public class OpenClassBeingLiveBean extends OpenClassEnterLiveBean {
 	private String snapshot_url;
 	private String chapter_name;
 	private String is_talk;
+	//coffee add 0314
+	private double live_price;
+	private double record_price;
+	private int order_status;
+	//coffee add 0321
+	private String live_name;
+	private String introduction;
+	//coffee add 0327
+	private int is_free;
+	//end
 	
 	public OpenClassBeingLiveBean() {
 		this.play_url = "";
 		this.snapshot_url = "";
 		this.chapter_name = "";
 		this.is_talk="";
+		this.live_price=0.0;
+		this.record_price=0.0;
+		this.order_status=-1;
+		this.live_name="";
+		this.introduction="";
+		this.is_free=0;
 	}
 	
 	public String getError_code() {
@@ -59,6 +75,54 @@ public class OpenClassBeingLiveBean extends OpenClassEnterLiveBean {
 
 	public void setIs_talk(String is_talk) {
 		this.is_talk = is_talk;
+	}
+
+	public double getLive_price() {
+		return live_price;
+	}
+
+	public void setLive_price(double live_price) {
+		this.live_price = live_price;
+	}
+
+	public double getRecord_price() {
+		return record_price;
+	}
+
+	public void setRecord_price(double record_price) {
+		this.record_price = record_price;
+	}
+
+	public int getOrder_status() {
+		return order_status;
+	}
+
+	public void setOrder_status(int order_status) {
+		this.order_status = order_status;
+	}
+
+	public String getLive_name() {
+		return live_name;
+	}
+
+	public void setLive_name(String live_name) {
+		this.live_name = live_name;
+	}
+
+	public String getIntroduction() {
+		return introduction;
+	}
+
+	public void setIntroduction(String introduction) {
+		this.introduction = introduction;
+	}
+
+	public int getIs_free() {
+		return is_free;
+	}
+
+	public void setIs_free(int is_free) {
+		this.is_free = is_free;
 	}
 	
 }

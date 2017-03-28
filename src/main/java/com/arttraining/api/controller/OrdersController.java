@@ -555,8 +555,8 @@ public class OrdersController {
 		//coffee add
 		String coupon_id=request.getParameter("coupon_id");
 		String coupon_type=request.getParameter("coupon_type");
-		Integer i_coupon_id=null;
-		Integer i_coupon_type=null;
+		Integer i_coupon_id=0;
+		Integer i_coupon_type=0;
 		//end
 		
 		ServerLog.getLogger().warn("uid:"+uid+"-token:"+accessToken+"-type:"+assType+"-total:"+totalStr+"-coupon:"+couponStr+"-final:"+finalStr+"-tec:"+teaArr+

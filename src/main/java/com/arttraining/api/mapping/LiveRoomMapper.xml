@@ -475,7 +475,6 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
-     and pre_number <![CDATA[ <> ]]> 0
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.LiveRoom" >
     update t_yp_live_room

@@ -8,6 +8,7 @@ public class LiveGiftListBean {
 	private String pic;
 	private String type;
 	private double price;
+	private int score;
 	
 	public int getGift_id() {
 		return gift_id;
@@ -38,6 +39,12 @@ public class LiveGiftListBean {
 	}
 	public void setPrice(double price) {
 		this.price = price;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
 	

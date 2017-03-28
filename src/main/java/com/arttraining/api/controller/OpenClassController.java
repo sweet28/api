@@ -33,10 +33,11 @@ import com.arttraining.api.pojo.LiveComment;
 import com.arttraining.api.pojo.LiveDetail;
 import com.arttraining.api.pojo.LiveGift;
 import com.arttraining.api.pojo.LiveRoom;
-import com.arttraining.api.pojo.OrderCourseDetail;
+import com.arttraining.api.pojo.Wallet;
 import com.arttraining.api.service.impl.OpenClassLiveService;
 import com.arttraining.api.service.impl.OrderCourseService;
 import com.arttraining.api.service.impl.TokenService;
+import com.arttraining.api.service.impl.WalletService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.ImageUtil;
@@ -54,6 +55,97 @@ public class OpenClassController {
 	private OpenClassLiveService openClassLiveService;
 	@Resource
 	private OrderCourseService orderCourseService;
+	@Resource
+	private WalletService walletService;
+	
+	
+	/**
+	 * 购买直播课程调用的接口
+	 */
+	@RequestMapping(value = "/buy/chapter", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object buyChapter(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		
+		//以下是必选参数
+		String access_token=request.getParameter("access_token");
+		String uid=request.getParameter("uid");
+		String utype=request.getParameter("utype");
+		String room_id=request.getParameter("room_id");
+		String chapter_id=request.getParameter("chapter_id");
+		String buy_type=request.getParameter("buy_type");
+		
+		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+
+				"-utype:"+utype+"-chapter_id:"+chapter_id+"-room_id:"+room_id+
+				"-buy_type:"+buy_type);
+		
+		if(access_token==null || uid==null || utype==null 
+				|| room_id==null || chapter_id==null || buy_type==null) {
+			errorCode = "20032";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(access_token.equals("") || uid.equals("") 
+				|| utype.equals("") || chapter_id.equals("") 	
+				|| room_id.equals("") || buy_type.equals("")) {
+			errorCode = "20032";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(!NumberUtil.isInteger(uid) 
+				|| !NumberUtil.isInteger(chapter_id) 
+				|| !NumberUtil.isInteger(room_id)) {
+			errorCode = "20033";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		} else {
+			boolean tokenFlag = tokenService.checkToken(access_token);
+			if (tokenFlag) {
+				//直播间ID
+				Integer i_room_id=Integer.valueOf(room_id);
+				//课时ID
+				Integer i_chapter_id=Integer.valueOf(chapter_id);
+				//用户ID
+				Integer i_uid=Integer.valueOf(uid);
+				//1.依据直播间ID来获取直播间信息
+				LiveRoom room=this.openClassLiveService.getLiveRoomById(i_room_id);
+				if(room!=null) {
+					//2.依据课时ID来查询课时信息
+					LiveChapterPlan chapter=this.openClassLiveService.getChapterPlan(i_chapter_id);
+					if(chapter!=null) {
+						//课时费用
+						Double chapter_price=0.0;
+						if(buy_type.equals("live")) {
+							chapter_price=chapter.getLivePrice();
+						} else if(buy_type.equals("record")) {
+							chapter_price=chapter.getRecordPrice();
+						}
+						Wallet wallet=this.walletService.getCloudMoneyByUid(i_uid, utype);
+						if(wallet!=null) {
+							//当前用户的云币
+							Double cloud_money=wallet.getCloudMoney();
+							if(chapter_price.doubleValue()<=cloud_money.doubleValue()) {
+								//如果用户的云币足够支付课时的价格 则扣除相应的用户云币信息
+								this.walletService.updateCloudAndDetailInfoByConsume(i_uid, utype, cloud_money, chapter_price);
+								errorCode="0";
+								errorMessage="ok";
+							} else {
+								errorCode = "20093";
+								errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20093;
+							}
+						}
+					} 
+				} else {
+					errorCode = "20088";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20088;
+				}
+			} else {
+					errorCode = "20028";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
+			}
+		}
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
+		jsonObject.put("data","");
+		ServerLog.getLogger().warn(jsonObject.toString());
+		return jsonObject;
+	}
 	
 	/**
 	 * 首页新增直播列表接口
@@ -355,21 +447,12 @@ public class OpenClassController {
 							if(chapter_list.size()>0) {
 								//循环读取课时信息
 								for (LiveChapterListBean liveChapter : chapter_list) {
-									Integer is_free=liveChapter.getIs_free();
-									//收费
-									if(is_free==0) {
-										Integer id=liveChapter.getChapter_id();
-										map.put("uid", i_uid);
-										map.put("chapter_id", id);
-										OrderCourseDetail detail=this.orderCourseService.getIsExistCourseDetailById(map);
-										if(detail!=null) {
-											liveChapter.setOrder_status(1);
-										} else {
-											liveChapter.setOrder_status(0);
-										}
-									}//免费 
-									else if(is_free==1) {
+									Integer id=liveChapter.getChapter_id();
+									boolean flag=this.orderCourseService.getIsBuyChapterById(i_uid, id);
+									if(flag) {
 										liveChapter.setOrder_status(1);
+									} else {
+										liveChapter.setOrder_status(0);
 									}
 								}
 								timetable.setChapter_list(chapter_list);
@@ -847,21 +930,12 @@ public class OpenClassController {
 						if(chapter_list.size()>0) {
 							//循环读取课时信息
 							for (LiveChapterListBean liveChapter : chapter_list) {
-								Integer is_free=liveChapter.getIs_free();
-								//收费
-								if(is_free==0) {
-									Integer id=liveChapter.getChapter_id();
-									map.put("uid", i_uid);
-									map.put("chapter_id", id);
-									OrderCourseDetail detail=this.orderCourseService.getIsExistCourseDetailById(map);
-									if(detail!=null) {
-										liveChapter.setOrder_status(1);
-									} else {
-										liveChapter.setOrder_status(0);
-									}
-								}//免费 
-								else if(is_free==1) {
+								Integer id=liveChapter.getChapter_id();
+								boolean flag=this.orderCourseService.getIsBuyChapterById(i_uid, id);
+								if(flag) {
 									liveChapter.setOrder_status(1);
+								} else {
+									liveChapter.setOrder_status(0);
 								}
 							}
 							finishBean.setChapter_list(chapter_list);
@@ -956,6 +1030,8 @@ public class OpenClassController {
 						beingBean.setChapter_number(enterBean.getChapter_number());
 						beingBean.setPre_time(enterBean.getPre_time());
 						beingBean.setCurr_time(enterBean.getCurr_time());
+						//coffee add 0321
+						beingBean.setLive_name(room.getLiveName());
 						//end
 						
 						//4.依据课时ID 查询相应的课时信息
@@ -965,6 +1041,18 @@ public class OpenClassController {
 							beingBean.setSnapshot_url(chapter.getSnapshotUrl());
 							beingBean.setChapter_name(chapter.getName());
 							beingBean.setIs_talk(chapter.getRemarks3());
+							//coffee add 0314
+							beingBean.setLive_price(chapter.getLivePrice());
+							beingBean.setRecord_price(chapter.getRecordPrice());
+							beingBean.setIs_free(chapter.getIsFree());
+							boolean is_buy=this.orderCourseService.getIsBuyChapterById(i_uid, i_chapter_id);
+							if(is_buy) {
+								beingBean.setOrder_status(1);
+							} else 
+								beingBean.setOrder_status(0);
+							//coffee add 0321 
+							beingBean.setIntroduction(chapter.getIntroduction());
+							//end
 							//coffee add 0120 增加直播课时的浏览量
 							LiveChapterPlan upd_chapter=new LiveChapterPlan();
 							upd_chapter.setId(i_chapter_id);
@@ -1069,26 +1157,28 @@ public class OpenClassController {
 						if(chapter!=null) {
 							waitBean.setChapter_id(i_chapter_id);
 							waitBean.setChapter_name(chapter.getName());
+							//coffee add 0314
+							waitBean.setLive_price(chapter.getLivePrice());
+							waitBean.setRecord_price(chapter.getRecordPrice());
+							waitBean.setIs_free(chapter.getIsFree());
+							boolean is_buy=this.orderCourseService.getIsBuyChapterById(i_uid, i_chapter_id);
+							if(is_buy) {
+								waitBean.setOrder_status(1);
+							} else 
+								waitBean.setOrder_status(0);
+							//end
+							map.put("chapter_id", i_chapter_id);
 							//继续获取其他课时列表信息 按照课时开课的顺序
 							List<LiveChapterListBean> chapter_list=this.openClassLiveService.getChapterListById(map);
 							if(chapter_list.size()>0) {
 								//循环读取课时信息
 								for (LiveChapterListBean liveChapter : chapter_list) {
-									Integer is_free=liveChapter.getIs_free();
-									//收费
-									if(is_free==0) {
-										Integer id=liveChapter.getChapter_id();
-										map.put("uid", i_uid);
-										map.put("chapter_id", id);
-										OrderCourseDetail detail=this.orderCourseService.getIsExistCourseDetailById(map);
-										if(detail!=null) {
-											liveChapter.setOrder_status(1);
-										} else {
-											liveChapter.setOrder_status(0);
-										}
-									}//免费 
-									else if(is_free==1) {
+									Integer id=liveChapter.getChapter_id();
+									boolean flag=this.orderCourseService.getIsBuyChapterById(i_uid, id);
+									if(flag) {
 										liveChapter.setOrder_status(1);
+									} else {
+										liveChapter.setOrder_status(0);
 									}
 								}
 								waitBean.setChapter_list(chapter_list);
@@ -1153,8 +1243,6 @@ public class OpenClassController {
 		} else {
 			boolean tokenFlag = tokenService.checkToken(access_token);
 			if (tokenFlag) {
-				//用户ID 
-				Integer i_uid=Integer.valueOf(uid);
 				//直播间ID
 				Integer i_room_id=Integer.valueOf(room_id);
 				//1.先依据直播间ID来获取直播间信息
@@ -1174,57 +1262,8 @@ public class OpenClassController {
 					if(chapter!=null) {
 						chapter_id=chapter.getId();
 						live_status=chapter.getLiveStatus();
-						Integer is_free=chapter.getIsFree();
-						if(live_status==1) {
-							//如果课时正在直播 判断用户是否付费
-							map.put("uid", i_uid);
-							map.put("chapter_id", chapter_id);
-							OrderCourseDetail detail=this.orderCourseService.getIsExistCourseDetailById(map);
-							if(detail!=null) {
-								errorCode="0";
-								errorMessage="ok";
-							} else {
-								//如果没付费 则继续判断课时是否收费 
-								//如果课时收费 则提示收费信息 否则默认添加一条购买课时订单信息和详情信息
-								if(is_free==0) {
-									errorCode = "20090";
-									errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20090;
-								} else {
-									//begin 0215
-									map.put("chapter_name", chapter.getName());
-									this.orderCourseService.insertCourseAndDetailOrder(map);
-									//end
-									errorCode="0";
-									errorMessage="ok";
-								}
-							}
-						} else {
-							errorCode="0";
-							errorMessage="ok";
-						}
-//						if(is_free==0) {
-//							// 1--表示正在直播 
-//							if(live_status==1) {
-//								//继续判断用户是否付费
-//								map.put("uid", i_uid);
-//								map.put("chapter_id", chapter_id);
-//								OrderCourseDetail detail=this.orderCourseService.getIsExistCourseDetailById(map);
-//								if(detail!=null) {
-//									errorCode="0";
-//									errorMessage="ok";
-//								} else {
-//									errorCode = "20090";
-//									errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20090;
-//								}
-//							} else {
-//								errorCode="0";
-//								errorMessage="ok";
-//							}
-//						} else {
-//							//如果免费 且是正在直播 则默认添加一条购买课时订单信息和详情信息
-//							errorCode="0";
-//							errorMessage="ok";
-//						}
+						errorCode="0";
+						errorMessage="ok";
 					} else {
 						errorCode = "20089";
 						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20089;
@@ -1261,9 +1300,10 @@ public class OpenClassController {
 		String major_two=request.getParameter("major_two");
 		String live_type=request.getParameter("live_type");
 		String self=request.getParameter("self");
+		String live_status=request.getParameter("live_status");
 		
 		ServerLog.getLogger().warn("major_one:"+major_one+"-major_two:"+major_two
-				+"-live_type:"+live_type+"-self:"+self);
+				+"-live_type:"+live_type+"-self:"+self+"-live_status:"+live_status);
 		
 		OpenClassLiveListReBean liveBean = new OpenClassLiveListReBean();
 		//分页所用数据
@@ -1276,88 +1316,108 @@ public class OpenClassController {
 		//定义一个已完结的数量
 		Integer finish_limit=0;
 		
-		if(self==null || self.equals("")) {
-			offset=-1;
-		} else if(!NumberUtil.isInteger(self)) {
-			offset=-10;
-		} else {
-			offset=Integer.valueOf(self);
-		}
-		if(offset==-10) {
-			errorCode = "20033";
-			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
-		} else {
-			if(major_one!=null && NumberUtil.isInteger(major_one)) {
-				i_major_one=Integer.valueOf(major_one);
+//		if(live_status==null || live_status.equals("")) {
+//			errorCode = "20032";
+//			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+//		} else if(!NumberUtil.isInteger(live_status)) {
+//			errorCode = "20033";
+//			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+//		} else {
+			if(self==null || self.equals("")) {
+				offset=-1;
+			} else if(!NumberUtil.isInteger(self)) {
+				offset=-10;
+			} else {
+				offset=Integer.valueOf(self);
 			}
-			if(major_two!=null && NumberUtil.isInteger(major_two)) {
-				i_major_two=Integer.valueOf(major_two);
-			}
-			if(live_type!=null && NumberUtil.isInteger(live_type)) {
-				i_live_type=Integer.valueOf(live_type);
-			}
-			//直播列表
-			List<OpenClassLiveListBean> liveList=new ArrayList<OpenClassLiveListBean>();
-			//end
-			Map<String, Object> map=new HashMap<String, Object>();
-			map.put("offset", offset);
-			map.put("limit", limit);
-			map.put("major_one", i_major_one);
-			map.put("major_two", i_major_two);
-			map.put("live_type", i_live_type);
-			//首先去分页查询直播间是否存在有尚未直播 且按照预告时间先后升序排序
-			List<OpenClassLiveListBean> preList = this.openClassLiveService.getRoomLiveListByPre(map);
-			Integer preSize=preList.size();
-			//如果有预告片
-			if(preSize>0) {
-				//查询预告直播状态和直播课时名称
-				for (OpenClassLiveListBean live : preList) {
-					Integer owner=live.getOwner();
-					String owner_type=live.getOwner_type();
-					Integer i_room_id=live.getRoom_id();
-					String pre_time=live.getPre_time();
-					
-					map.put("uid", owner);
-					map.put("utype", owner_type);
-					map.put("room_id", i_room_id);
-					map.put("pre_time", pre_time);
-					
-					LiveChapterPlan chapter=this.openClassLiveService.getChapterPlanByPreTime(map);
-					if(chapter!=null) {
-						live.setLive_status(chapter.getLiveStatus());
-						live.setChapter_name(chapter.getName());
-						live.setChapter_id(chapter.getId());
-					}
+			if(offset==-10) {
+				errorCode = "20033";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+			} else {
+				if(major_one!=null && NumberUtil.isInteger(major_one)) {
+					i_major_one=Integer.valueOf(major_one);
 				}
-				//继续判断是否小于10 如果小于10 则将已经完结凑成10大小
-				if(preSize<10) {
-					finish_limit=limit-preSize;
-					map.put("offset", -1);
-					map.put("limit", finish_limit);
+				if(major_two!=null && NumberUtil.isInteger(major_two)) {
+					i_major_two=Integer.valueOf(major_two);
+				}
+				if(live_type!=null && NumberUtil.isInteger(live_type)) {
+					i_live_type=Integer.valueOf(live_type);
+				}
+				//直播列表
+				List<OpenClassLiveListBean> liveList=new ArrayList<OpenClassLiveListBean>();
+				//end
+				Integer status=0;
+				if(live_status!=null && NumberUtil.isInteger(live_status)) {
+					status=Integer.valueOf(live_status);
+				}
+				Map<String, Object> map=new HashMap<String, Object>();
+				map.put("offset", offset);
+				map.put("limit", limit);
+				map.put("major_one", i_major_one);
+				map.put("major_two", i_major_two);
+				map.put("live_type", i_live_type);
+				
+				if(status==0 || status==1) {
+					//首先去分页查询直播间是否存在有尚未直播 且按照预告时间先后升序排序
+					List<OpenClassLiveListBean> preList = this.openClassLiveService.getRoomLiveListByPre(map);
+					Integer preSize=preList.size();
+					//如果有预告片
+					if(preSize>0) {
+						//查询预告直播状态和直播课时名称
+						for (OpenClassLiveListBean live : preList) {
+							Integer owner=live.getOwner();
+							String owner_type=live.getOwner_type();
+							Integer i_room_id=live.getRoom_id();
+							String pre_time=live.getPre_time();
+							
+							map.put("uid", owner);
+							map.put("utype", owner_type);
+							map.put("room_id", i_room_id);
+							map.put("pre_time", pre_time);
+							
+							LiveChapterPlan chapter=this.openClassLiveService.getChapterPlanByPreTime(map);
+							if(chapter!=null) {
+								live.setLive_status(chapter.getLiveStatus());
+								live.setChapter_name(chapter.getName());
+								live.setChapter_id(chapter.getId());
+							}
+						}
+						//继续判断是否小于10 如果小于10 则将已经完结凑成10大小
+						if(preSize<10) {
+							finish_limit=limit-preSize;
+							map.put("offset", -1);
+							map.put("limit", finish_limit);
+							List<OpenClassLiveListBean> finishList=this.openClassLiveService.getRoomLiveListByFinish(map);
+							liveList.addAll(preList);
+							if(finishList.size()>0) {
+								liveList.addAll(finishList);
+							}
+						} else {
+							liveList.addAll(preList);
+						}
+					} else {
+						List<OpenClassLiveListBean> finishList=this.openClassLiveService.getRoomLiveListByFinish(map);
+						if(finishList.size()>0) {
+							liveList.addAll(finishList);
+						}
+					}
+				} else {
 					List<OpenClassLiveListBean> finishList=this.openClassLiveService.getRoomLiveListByFinish(map);
-					liveList.addAll(preList);
 					if(finishList.size()>0) {
 						liveList.addAll(finishList);
 					}
+				}
+				if(liveList.size()>0) {
+					//继续去判断课时直播状态
+					liveBean.setOpenclass_list(liveList);
+					errorCode="0";
+					errorMessage="ok";
 				} else {
-					liveList.addAll(preList);
-				}
-			} else {
-				List<OpenClassLiveListBean> finishList=this.openClassLiveService.getRoomLiveListByFinish(map);
-				if(finishList.size()>0) {
-					liveList.addAll(finishList);
+					errorCode = "20007";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
 				}
 			}
-			if(liveList.size()>0) {
-				//继续去判断课时直播状态
-				liveBean.setOpenclass_list(liveList);
-				errorCode="0";
-				errorMessage="ok";
-			} else {
-				errorCode = "20007";
-				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
-			}
-		}
+//		}
 		liveBean.setError_code(errorCode);
 		liveBean.setError_msg(errorMessage);
 		

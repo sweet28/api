@@ -81,7 +81,7 @@
   		and stream_key<![CDATA[ <> ]]>#{stream,jdbcType=VARCHAR}
   	</if>
   	<choose>
-  		<when test="live_status==2">
+  		<when test="live_status !=null and live_status==2">
   			order by start_time desc
   		</when>
   		<otherwise>
@@ -162,13 +162,14 @@
     <result column="live_status" property="live_status" jdbcType="INTEGER" />
     <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
     <result column="record_url" property="record_url" jdbcType="VARCHAR" />
+    <result column="buy_number" property="buy_number" jdbcType="INTEGER" />
   </resultMap>
   <select id="selectChapterListById" resultMap="ChapterResultMap" parameterType="java.util.Map" >
     select id,name,start_time,end_time,
     live_price,record_price,is_free,
     snapshot_url as thumbnail,
     introduction,live_status,
-    sd_url as record_url
+    sd_url as record_url,buy_number
     from t_yp_live_chapter_plan
     where is_deleted=0 and is_publish=2
     <if test="uid !=null">
@@ -183,7 +184,13 @@
   	<if test="timetable_id !=null">
   		and timetable_id=#{timetable_id,jdbcType=INTEGER}
   	</if>
-  	order by start_time asc
+  	<choose>
+  		<when test="chapter_id !=null">
+  			and id <![CDATA[ <> ]]> #{chapter_id,jdbcType=INTEGER}
+  			order by start_time desc 
+  		</when>
+  		<otherwise> order by start_time asc </otherwise>
+  	</choose>
   </select>
   <!-- end -->
 

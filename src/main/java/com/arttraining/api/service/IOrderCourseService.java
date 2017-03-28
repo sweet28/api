@@ -12,4 +12,8 @@ public interface IOrderCourseService {
     
     //如果课时免费 也将其生成一条课时订单和详情记录
     int insertCourseAndDetailOrder(Map<String, Object> map);
+    
+    //coffee add 0314 封装一个方法用于判断是否购买了课时
+    boolean getIsBuyChapterById(Integer uid, Integer chapter_id);
+    //end
 }

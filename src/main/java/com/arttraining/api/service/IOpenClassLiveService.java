@@ -78,4 +78,8 @@ public interface IOpenClassLiveService {
     int updateOnePreNumByRoomId(LiveRoom record);
     //coffee add 0217 首页新增直播列表接口 
     List<OpenClassLiveListBean> getRoomLiveListByHome(Integer limit);
+    
+    //coffee add 0315 老师端关闭直播间时 更新最新预告时间
+    void updateRoomPreTimeById(LiveRoom room,Integer chapter_id);
+    //end
 }

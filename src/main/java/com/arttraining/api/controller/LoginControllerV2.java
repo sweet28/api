@@ -20,9 +20,11 @@ import com.arttraining.api.pojo.ThirdLogin;
 import com.arttraining.api.pojo.Token;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.impl.SMSService;
+import com.arttraining.api.service.impl.ScoreService;
 import com.arttraining.api.service.impl.ThirdLoginService;
 import com.arttraining.api.service.impl.TokenService;
 import com.arttraining.api.service.impl.UserStuService;
+import com.arttraining.api.service.impl.WalletService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.MD5;
@@ -46,6 +48,12 @@ public class LoginControllerV2 {
 	private ThirdLoginService thirdLoginService;
 	@Resource
 	private SMSService smsService;
+	
+	@Resource
+	private ScoreService scoreService;
+	
+	@Resource
+	private WalletService walletService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object loginYHY(HttpServletRequest request, HttpServletResponse response) {
@@ -156,6 +164,14 @@ public class LoginControllerV2 {
 						upd_user.setId(user_id);
 						upd_user.setLastLoginTime(date);
 						this.userStuService.updateUserStuBySelective(upd_user);
+						//end
+						
+						//coffee add 0301 如果记录过该登录用户的积分信息 则不插入 否则进行插入
+						this.scoreService.recordUserScoreInfoByLogin(user_id, user_type);
+						//end
+						
+						//coffee add 0302 如果记录过该登录用户的云币信息 则不插入 否则进行插入
+						this.walletService.recordUserCloudMoneyByLogin(user_id, user_type);
 						//end
 					}
 				}
@@ -335,6 +351,15 @@ public class LoginControllerV2 {
 								//end
 								loginBean.setError_code(errorCode);
 								loginBean.setError_msg(errorMsg);
+								
+								//coffee add 0301 如果记录过该登录用户的积分信息 则不插入 否则进行插入
+								this.scoreService.recordUserScoreInfoByRegister(user_id,user_type);
+								//end
+								
+								//coffee add 0302 如果记录过该登录用户的云币信息 则不插入 否则进行插入
+								this.walletService.recordUserCloudMoneyByLogin(user_id, user_type);
+								//end
+								
 								ServerLog.getLogger().warn(gson.toJson(loginBean));
 								return gson.toJson(loginBean);
 							
@@ -661,6 +686,15 @@ public class LoginControllerV2 {
 		upd_user.setLastLoginTime(date);
 		this.userStuService.updateUserStuBySelective(upd_user);
 		//end
+		
+		//coffee add 0301 如果记录过该登录用户的积分信息 则不插入 否则进行插入
+		this.scoreService.recordUserScoreInfoByLogin(user_id, user_type);
+		//end
+		
+		//coffee add 0302 如果记录过该登录用户的云币信息 则不插入 否则进行插入
+		this.walletService.recordUserCloudMoneyByLogin(user_id, user_type);
+		//end
+		
 		return loginBean;
 	}
 

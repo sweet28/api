@@ -6,8 +6,23 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 public class NumberUtil {
+	/**
+	 * 将Double对象保留2位小数
+	 */
+	public static Double formatDouble1(Double number) {
+		double d=0.0;
+		if(number!=null) {
+			d=number.doubleValue();
+		}
+		return Double.parseDouble(new DecimalFormat("#.00").format(d));
+	}
+	public static double formatDouble2(double d) {
+		return new BigDecimal(d).setScale(2, BigDecimal.ROUND_UP).doubleValue();
+	}
 	/**
 	 * 判断字符串是否是整数
 	 */

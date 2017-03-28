@@ -379,6 +379,7 @@ public class MasterOpenClassController {
 						LiveRoom upd_room=new LiveRoom();
 						upd_room.setId(chapter.getRoomId());
 						upd_room.setPreNumber(1);
+						upd_room.setPreTime(TimeUtil.getTimeByDate(chapter.getStartTime()));
 						this.openClassLiveService.updateOnePreNumByRoomId(upd_room);
 					}
 				}
@@ -745,6 +746,7 @@ public class MasterOpenClassController {
 							masterEnterBean.setChapter_id(chapter2.getId());
 							masterEnterBean.setChapter_name(chapter2.getName());
 							masterEnterBean.setIs_talk(chapter2.getRemarks3());
+							masterEnterBean.setPre_time(TimeUtil.getTimeByDate(chapter2.getStartTime()));
 						} else {
 							flag=true;
 						}

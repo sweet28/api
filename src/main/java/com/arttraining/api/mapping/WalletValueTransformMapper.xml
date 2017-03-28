@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.WalletValueTransformMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.WalletValueTransform" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="cloud_money" property="cloudMoney" jdbcType="DOUBLE" />
+    <result column="bystr1" property="bystr1" jdbcType="VARCHAR" />
+    <result column="bystr2" property="bystr2" jdbcType="VARCHAR" />
+    <result column="bystr3" property="bystr3" jdbcType="VARCHAR" />
+    <result column="byint1" property="byint1" jdbcType="INTEGER" />
+    <result column="byint2" property="byint2" jdbcType="INTEGER" />
+    <result column="byint3" property="byint3" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    money, cloud_money, bystr1, bystr2, bystr3, byint1, byint2, byint3
+  </sql>
+  
+   <!-- coffee add 0302 查询云币和售价转换的列表信息-->
+  <resultMap id="ListResultMap" type="com.arttraining.api.beanv2.CloudTranformMoneyBean" >
+    <id column="id" property="tranform_id" jdbcType="INTEGER" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="cloud_money" property="cloud_money" jdbcType="DOUBLE" />
+  </resultMap>
+  <select id="selectWalletMoneyList" resultMap="ListResultMap">
+    select id,money,cloud_money
+    from t_yp_wallet_value_transform
+    where is_deleted=0
+    order by create_time asc
+  </select>
+  
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_wallet_value_transform
+    where id = #{id,jdbcType=INTEGER}
+    and is_deleted=0
+  </select>
+  <!-- end -->
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_wallet_value_transform
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.WalletValueTransform" >
+    insert into t_yp_wallet_value_transform (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, money, 
+      cloud_money, bystr1, bystr2, 
+      bystr3, byint1, byint2, 
+      byint3)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{money,jdbcType=DOUBLE}, 
+      #{cloudMoney,jdbcType=DOUBLE}, #{bystr1,jdbcType=VARCHAR}, #{bystr2,jdbcType=VARCHAR}, 
+      #{bystr3,jdbcType=VARCHAR}, #{byint1,jdbcType=INTEGER}, #{byint2,jdbcType=INTEGER}, 
+      #{byint3,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.WalletValueTransform" >
+    insert into t_yp_wallet_value_transform
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="cloudMoney != null" >
+        cloud_money,
+      </if>
+      <if test="bystr1 != null" >
+        bystr1,
+      </if>
+      <if test="bystr2 != null" >
+        bystr2,
+      </if>
+      <if test="bystr3 != null" >
+        bystr3,
+      </if>
+      <if test="byint1 != null" >
+        byint1,
+      </if>
+      <if test="byint2 != null" >
+        byint2,
+      </if>
+      <if test="byint3 != null" >
+        byint3,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="cloudMoney != null" >
+        #{cloudMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="bystr1 != null" >
+        #{bystr1,jdbcType=VARCHAR},
+      </if>
+      <if test="bystr2 != null" >
+        #{bystr2,jdbcType=VARCHAR},
+      </if>
+      <if test="bystr3 != null" >
+        #{bystr3,jdbcType=VARCHAR},
+      </if>
+      <if test="byint1 != null" >
+        #{byint1,jdbcType=INTEGER},
+      </if>
+      <if test="byint2 != null" >
+        #{byint2,jdbcType=INTEGER},
+      </if>
+      <if test="byint3 != null" >
+        #{byint3,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.WalletValueTransform" >
+    update t_yp_wallet_value_transform
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="cloudMoney != null" >
+        cloud_money = #{cloudMoney,jdbcType=DOUBLE},
+      </if>
+      <if test="bystr1 != null" >
+        bystr1 = #{bystr1,jdbcType=VARCHAR},
+      </if>
+      <if test="bystr2 != null" >
+        bystr2 = #{bystr2,jdbcType=VARCHAR},
+      </if>
+      <if test="bystr3 != null" >
+        bystr3 = #{bystr3,jdbcType=VARCHAR},
+      </if>
+      <if test="byint1 != null" >
+        byint1 = #{byint1,jdbcType=INTEGER},
+      </if>
+      <if test="byint2 != null" >
+        byint2 = #{byint2,jdbcType=INTEGER},
+      </if>
+      <if test="byint3 != null" >
+        byint3 = #{byint3,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.WalletValueTransform" >
+    update t_yp_wallet_value_transform
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      money = #{money,jdbcType=DOUBLE},
+      cloud_money = #{cloudMoney,jdbcType=DOUBLE},
+      bystr1 = #{bystr1,jdbcType=VARCHAR},
+      bystr2 = #{bystr2,jdbcType=VARCHAR},
+      bystr3 = #{bystr3,jdbcType=VARCHAR},
+      byint1 = #{byint1,jdbcType=INTEGER},
+      byint2 = #{byint2,jdbcType=INTEGER},
+      byint3 = #{byint3,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

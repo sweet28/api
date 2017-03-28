@@ -39,6 +39,136 @@
     bak3, bak4, bak5
   </sql>
   
+  <!-- coffee add 0323 查看我的直播课程列表 -->
+  <resultMap id="ChapterListResultMap" type="com.arttraining.api.beanv2.LiveChapterOrderListBean" >
+    <result column="id" property="buy_id" jdbcType="INTEGER" />
+    <result column="order_number" property="order_number" jdbcType="VARCHAR" />
+    <result column="chapter_id" property="chapter_id" jdbcType="INTEGER" />
+    <result column="chapter_name" property="chapter_name" jdbcType="VARCHAR" />
+    <result column="sd_url" property="record_url" jdbcType="VARCHAR" />
+    <result column="money" property="chapter_price" jdbcType="DOUBLE" />
+    <result column="pay_time" property="buy_time" jdbcType="TIMESTAMP" />
+    <result column="live_status" property="live_status" jdbcType="INTEGER" />
+    <result column="room_id" property="room_id" jdbcType="INTEGER" />
+    <result column="start_time" property="start_time" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="selectLiveChapterOrderListByUid" resultMap="ChapterListResultMap" parameterType="java.util.Map" >
+    select o.id,o.order_number,o.chapter_id,
+    o.chapter_name,o.money,o.pay_time,
+    l.live_status,l.start_time,l.room_id,l.sd_url
+    from (select id,order_number,chapter_id,
+    chapter_name,money,pay_time
+    from t_yp_order_course_detail
+    where is_deleted=0 and type=11 
+    and status=1 and is_pay=1
+    and stu_id= #{uid,jdbcType=INTEGER}
+    <if test="offset !=-1">
+    	and pay_time <![CDATA[ <= ]]> (select pay_time from t_yp_order_course_detail
+    	where id=#{offset,jdbcType=INTEGER})
+    </if>
+	order by pay_time desc 
+	limit #{limit,jdbcType=INTEGER}) o,
+	(select id,live_status,start_time,room_id,sd_url
+	from t_yp_live_chapter_plan
+	where is_deleted=0 and is_publish=2) l
+	where o.chapter_id=l.id
+	order by o.pay_time desc 
+  </select>
+  
+  <!-- coffee add 0322 修改直播课时订单信息 -->
+  <update id="updateCourseDetailByOrderId" parameterType="com.arttraining.api.pojo.OrderCourseDetail" >
+    update t_yp_order_course_detail
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="stuId != null" >
+        stu_id = #{stuId,jdbcType=INTEGER},
+      </if>
+      <if test="stuName != null" >
+        stu_name = #{stuName,jdbcType=VARCHAR},
+      </if>
+      <if test="tecId != null" >
+        tec_id = #{tecId,jdbcType=INTEGER},
+      </if>
+      <if test="tecName != null" >
+        tec_name = #{tecName,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="courseName != null" >
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterId != null" >
+        chapter_id = #{chapterId,jdbcType=INTEGER},
+      </if>
+      <if test="chapterName != null" >
+        chapter_name = #{chapterName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="isPay != null" >
+        is_pay = #{isPay,jdbcType=INTEGER},
+      </if>
+      <if test="payTime != null" >
+        pay_time = #{payTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cancelTime != null" >
+        cancel_time = #{cancelTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null" >
+        bak4 = #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null" >
+        bak5 = #{bak5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where is_deleted=0 
+    and order_id = #{orderId,jdbcType=INTEGER}
+    and order_number=#{orderNumber,jdbcType=VARCHAR}
+  </update>
+  
   <!-- coffee add 0122 判断爱好者端是否购买相应的课时 type 1(购买课程) 11(购买课时) 2(一对一预约课程直播)-->
   <select id="selectIsExistCourseDetailById" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select 

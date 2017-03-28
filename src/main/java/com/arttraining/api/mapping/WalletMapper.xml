@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.arttraining.api.dao.LiveGiftMapper" >
-  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.LiveGift" >
+<mapper namespace="com.arttraining.api.dao.WalletMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.Wallet" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="uuid" property="uuid" jdbcType="VARCHAR" />
     <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
@@ -10,75 +10,57 @@
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="attachment" property="attachment" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="DOUBLE" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="store_path" property="storePath" jdbcType="VARCHAR" />
-    <result column="foreign_key" property="foreignKey" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="cloud_money" property="cloudMoney" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
-    name, price, type, store_path, foreign_key
+    user_id, user_type, cloud_money
   </sql>
-  
-  <!-- coffee add 0208 获取直播间的礼物列表 -->
-  <resultMap id="GiftResultMap" type="com.arttraining.api.beanv2.LiveGiftListBean" >
-    <id column="id" property="gift_id" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="price" property="price" jdbcType="DOUBLE" />
-    <result column="type" property="type" jdbcType="VARCHAR" />
-    <result column="store_path" property="pic" jdbcType="VARCHAR" />
-    <result column="foreign_key" property="score" jdbcType="INTEGER" />
-  </resultMap>
-  <select id="selectLiveGiftList" resultMap="GiftResultMap">
-    select id,name,price,type,store_path,foreign_key
-    from t_yp_live_gift
-    where is_deleted=0
-    order by order_code desc
-  </select>
-
-  <!-- coffee add 0208 依据礼物ID来获取礼物图片 -->
-  <select id="selectGiftPicById" resultType="java.lang.String" parameterType="java.lang.Integer" >
-    select store_path
-    from t_yp_live_gift
-    where is_deleted=0 and
-    id = #{id,jdbcType=INTEGER}
-  </select>
-
-  <!-- coffee add 0209 依据礼物ID来获取礼物信息 -->
-  <select id="selectGiftInfoById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <!-- coffee add 0302 修改云币信息 -->
+   <update id="updateCloudMoneyByUid" parameterType="com.arttraining.api.pojo.Wallet" >
+    update t_yp_wallet
+    set  cloud_money = cloud_money+#{cloudMoney,jdbcType=DOUBLE}
+    where is_deleted=0 
+    and user_id = #{userId,jdbcType=INTEGER}
+    and user_type = #{userType,jdbcType=VARCHAR}
+   </update>
+   
+  <!-- coffee add 0302 依据用户ID和类型查询云币信息 -->
+  <select id="selectCloudMoneyByUid" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from t_yp_live_gift
-    where is_deleted=0 and
-    id = #{id,jdbcType=INTEGER}
+    from t_yp_wallet
+    where is_deleted=0 
+    and user_id = #{uid,jdbcType=INTEGER}
+    and user_type = #{utype,jdbcType=VARCHAR}
   </select>
-  <!-- end -->
   
+  <!-- end -->
+   
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_yp_live_gift
+    from t_yp_wallet
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_yp_live_gift
+    delete from t_yp_wallet
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.arttraining.api.pojo.LiveGift" >
-    insert into t_yp_live_gift (id, uuid, is_deleted, 
+  <insert id="insert" parameterType="com.arttraining.api.pojo.Wallet" >
+    insert into t_yp_wallet (id, uuid, is_deleted, 
       create_time, order_code, delete_time, 
-      remarks, attachment, name, 
-      price, type, store_path, 
-      foreign_key)
+      remarks, attachment, user_id, 
+      user_type, cloud_money)
     values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
-      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DOUBLE}, #{type,jdbcType=VARCHAR}, #{storePath,jdbcType=VARCHAR}, 
-      #{foreignKey,jdbcType=INTEGER})
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{userType,jdbcType=VARCHAR}, #{cloudMoney,jdbcType=DOUBLE})
   </insert>
-  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.LiveGift" >
-    insert into t_yp_live_gift
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.Wallet" >
+    insert into t_yp_wallet
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -104,20 +86,14 @@
       <if test="attachment != null" >
         attachment,
       </if>
-      <if test="name != null" >
-        name,
+      <if test="userId != null" >
+        user_id,
       </if>
-      <if test="price != null" >
-        price,
+      <if test="userType != null" >
+        user_type,
       </if>
-      <if test="type != null" >
-        type,
-      </if>
-      <if test="storePath != null" >
-        store_path,
-      </if>
-      <if test="foreignKey != null" >
-        foreign_key,
+      <if test="cloudMoney != null" >
+        cloud_money,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -145,25 +121,19 @@
       <if test="attachment != null" >
         #{attachment,jdbcType=VARCHAR},
       </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="price != null" >
-        #{price,jdbcType=DOUBLE},
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
       </if>
-      <if test="type != null" >
-        #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="storePath != null" >
-        #{storePath,jdbcType=VARCHAR},
-      </if>
-      <if test="foreignKey != null" >
-        #{foreignKey,jdbcType=INTEGER},
+      <if test="cloudMoney != null" >
+        #{cloudMoney,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.LiveGift" >
-    update t_yp_live_gift
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.Wallet" >
+    update t_yp_wallet
     <set >
       <if test="uuid != null" >
         uuid = #{uuid,jdbcType=VARCHAR},
@@ -186,26 +156,20 @@
       <if test="attachment != null" >
         attachment = #{attachment,jdbcType=VARCHAR},
       </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="price != null" >
-        price = #{price,jdbcType=DOUBLE},
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR},
       </if>
-      <if test="type != null" >
-        type = #{type,jdbcType=VARCHAR},
-      </if>
-      <if test="storePath != null" >
-        store_path = #{storePath,jdbcType=VARCHAR},
-      </if>
-      <if test="foreignKey != null" >
-        foreign_key = #{foreignKey,jdbcType=INTEGER},
+      <if test="cloudMoney != null" >
+        cloud_money = #{cloudMoney,jdbcType=DOUBLE},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.LiveGift" >
-    update t_yp_live_gift
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.Wallet" >
+    update t_yp_wallet
     set uuid = #{uuid,jdbcType=VARCHAR},
       is_deleted = #{isDeleted,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -213,11 +177,9 @@
       delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       remarks = #{remarks,jdbcType=VARCHAR},
       attachment = #{attachment,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      price = #{price,jdbcType=DOUBLE},
-      type = #{type,jdbcType=VARCHAR},
-      store_path = #{storePath,jdbcType=VARCHAR},
-      foreign_key = #{foreignKey,jdbcType=INTEGER}
+      user_id = #{userId,jdbcType=INTEGER},
+      user_type = #{userType,jdbcType=VARCHAR},
+      cloud_money = #{cloudMoney,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

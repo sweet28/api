@@ -1,6 +1,7 @@
 package com.arttraining.api.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -89,4 +90,18 @@ public class OrderCourseService implements IOrderCourseService{
 		return 0;
 	}
 
+	@Override
+	public boolean getIsBuyChapterById(Integer uid,Integer chapter_id) {
+		// TODO Auto-generated method stub
+		boolean flag=false;
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("uid", uid);
+		map.put("chapter_id", chapter_id);
+		//先去判断用户是否购买 如果购买则返回true 
+		OrderCourseDetail detail=this.getIsExistCourseDetailById(map);
+		if(detail!=null) {
+			flag=true;
+		} 
+		return flag;
+	}
 }

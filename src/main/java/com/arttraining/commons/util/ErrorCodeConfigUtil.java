@@ -127,4 +127,6 @@ public class ErrorCodeConfigUtil {
 	public static String ERROR_MSG_ZH_20090 = "需要先付费购买直播课时哟";
 	
 	public static String ERROR_MSG_ZH_20091 = "进入直播间失败,请检查网络是否畅通";
+	public static String ERROR_MSG_ZH_20092 = "您当前的积分不足哟";
+	public static String ERROR_MSG_ZH_20093 = "您当前的云币不足";
 }

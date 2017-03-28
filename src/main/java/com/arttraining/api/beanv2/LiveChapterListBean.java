@@ -14,6 +14,8 @@ public class LiveChapterListBean {
 	private String introduction;
 	private String record_url;
 	private int order_status;
+	//coffee add 0320
+	private int buy_number;
 	//end
 	
 	public int getChapter_id() {
@@ -93,6 +95,12 @@ public class LiveChapterListBean {
 	}
 	public void setOrder_status(int order_status) {
 		this.order_status = order_status;
+	}
+	public int getBuy_number() {
+		return buy_number;
+	}
+	public void setBuy_number(int buy_number) {
+		this.buy_number = buy_number;
 	}
 	
 }

@@ -255,39 +255,14 @@ public class OpenClassLiveService implements IOpenClassLiveService {
 	@Override
 	public void updateLiveRoomAndChapterInfo(LiveRoom room,Integer chapter_id) {
 		// TODO Auto-generated method stub
-		//主播ID和类型
-		Integer owner=room.getOwner();
-		String owner_type=room.getOwnerType();
-		Integer room_id=room.getId();
-		
 		//获取当前日期
 		Date date=new Date();
 		String time=TimeUtil.getTimeByDate(date);
-		
-		//2.查询课时计划表中是否存在下一个预告课时 如果存在 则获取课时预告直播时间 begin
-		Map<String, Object> map=new HashMap<String, Object>();
-		map.put("uid", owner);
-		map.put("utype", owner_type);
-		map.put("room_id", room_id);
-		map.put("live_status", 0);
-		LiveChapterPlan chapter=this.chapterDao.selectChapterInfoByOwner(map);
-		//如果存在预告课时 
-		Integer pre_number=-1;
-		//修改直播间信息
-		LiveRoom upd_room=new LiveRoom();
-		upd_room.setId(room_id);
-		if(chapter!=null) {
-			pre_number=0;
-			upd_room.setPreTime(TimeUtil.getTimeByDate(chapter.getStartTime()));
-		} 
-		upd_room.setPreNumber(pre_number);
-		this.roomDao.updateByPrimaryKeySelective(upd_room);
 		//4.在课时计划表中记录关闭直播时间 同时修改课时直播状态为2
 		LiveChapterPlan upd_chapter=new LiveChapterPlan();
 		upd_chapter.setId(chapter_id);
 		upd_chapter.setRemarks2(time);
 		upd_chapter.setLiveStatus(2);
-		
 		//3.保存视频信息 
 		LiveChapterPlan curr_chapter=this.chapterDao.selectByPrimaryKey(chapter_id);
 		if(curr_chapter!=null) {
@@ -295,13 +270,10 @@ public class OpenClassLiveService implements IOpenClassLiveService {
 			long startTime=startDate.getTime();
 			long endTime = date.getTime();
 			long  diff = (endTime - startTime)/1000;
-			//System.out.println("startTime:"+startTime+"-endTime:"+endTime+"-diff:"+diff);
 			//直播时长
 			int duration=Integer.parseInt(String.valueOf(diff));
-			//System.out.println("duration:"+duration);
 			//保存直播数据的回放路径
 			String fname="";
-			//System.out.println(curr_chapter.getStreamKey());
 			//判断直播时长是否小于5分钟 如果小于5分钟 将不会保存直播数据
 			if(duration>300) {
 				try {
@@ -318,6 +290,9 @@ public class OpenClassLiveService implements IOpenClassLiveService {
 		}
 		//修改课时信息 begin
 		this.chapterDao.updateByPrimaryKeySelective(upd_chapter);
+		//end
+		//coffee add 0315 修改直播预告时间
+		this.updateRoomPreTimeById(room, chapter_id);
 		//end
 	}
 
@@ -354,13 +329,41 @@ public class OpenClassLiveService implements IOpenClassLiveService {
 	@Override
 	public int updateOnePreNumByRoomId(LiveRoom record) {
 		// TODO Auto-generated method stub
-		return this.roomDao.updatePreNumByRoomId(record);
+		return this.roomDao.updateByPrimaryKeySelective(record);
+		//return this.roomDao.updatePreNumByRoomId(record);
 	}
 
 	@Override
 	public List<OpenClassLiveListBean> getRoomLiveListByHome(Integer limit) {
 		// TODO Auto-generated method stub
 		return this.roomDao.selectRoomLiveListByHome(limit);
+	}
+
+	@Override
+	public void updateRoomPreTimeById(LiveRoom room, Integer chapter_id) {
+		// TODO Auto-generated method stub
+		//主播ID和类型
+		Integer owner=room.getOwner();
+		String owner_type=room.getOwnerType();
+		Integer room_id=room.getId();
+		
+		//2.查询课时计划表中是否存在下一个预告课时 如果存在 则获取课时预告直播时间 begin
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("uid", owner);
+		map.put("utype", owner_type);
+		map.put("room_id", room_id);
+		map.put("live_status", 0);
+		LiveChapterPlan chapter=this.chapterDao.selectChapterInfoByOwner(map);
+		//如果存在预告课时 
+		Integer pre_number=-1;
+		//修改直播间信息
+		LiveRoom upd_room=new LiveRoom();
+		upd_room.setId(room_id);
+		if(chapter!=null) {
+			upd_room.setPreTime(TimeUtil.getTimeByDate(chapter.getStartTime()));
+		} 
+		upd_room.setPreNumber(pre_number);
+		this.roomDao.updateByPrimaryKeySelective(upd_room);
 	}
 
 }
