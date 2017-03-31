@@ -101,6 +101,7 @@
     from t_yp_user_tech
     where is_deleted=0 and is_lock=0) u
     where r.owner=u.id
+    order by r.pre_time asc
   </select>
   
   <select id="selectRoomLiveListByPre" resultMap="LiveResultMap" parameterType="java.util.Map" >
@@ -113,11 +114,6 @@
     where is_deleted=0 and is_publish=2
     and pre_number&gt;0
     and chapter_number &gt;0
-   <if test="offset !=-1">
-    	and pre_time <![CDATA[ >= ]]>(select pre_time from t_yp_live_room
-    	where id=#{offset,jdbcType=INTEGER})
-    	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
-   </if>
    <if test="major_one !=null and major_one!=0">
    		and major_one=#{major_one,jdbcType=INTEGER}
    </if>
@@ -128,7 +124,7 @@
    		and live_type=#{live_type,jdbcType=INTEGER}
    </if>
     order by pre_time asc
-    limit #{limit,jdbcType=INTEGER}) r,
+    limit #{pre_page,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}) r,
     (select id,name 
     from t_yp_user_tech
     where is_deleted=0 and is_lock=0) u
@@ -146,11 +142,6 @@
    where is_deleted=0 and is_publish=2
    and pre_number=0
    and chapter_number &gt;0
-   <if test="offset !=-1">
-   		and pre_time <![CDATA[ <= ]]> (select pre_time from t_yp_live_room
-    	where id=#{offset,jdbcType=INTEGER})
-    	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
-   </if>
   <if test="major_one !=null and major_one!=0">
    		and major_one=#{major_one,jdbcType=INTEGER}
    </if>
@@ -161,7 +152,7 @@
    		and live_type=#{live_type,jdbcType=INTEGER}
    </if>
    order by pre_time desc
-   limit #{limit,jdbcType=INTEGER}) r,
+   limit #{finish_page,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}) r,
     (select id,name 
     from t_yp_user_tech
     where is_deleted=0 and is_lock=0) u

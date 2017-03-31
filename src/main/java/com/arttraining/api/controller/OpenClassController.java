@@ -1301,9 +1301,18 @@ public class OpenClassController {
 		String live_type=request.getParameter("live_type");
 		String self=request.getParameter("self");
 		String live_status=request.getParameter("live_status");
+		//coffee add 0331 
+		//预告课时、正在直播课时分页当前页码
+		String pre_page=request.getParameter("pre_page");
+		String finish_page=request.getParameter("finish_page");
+		String page_limit=request.getParameter("page_limit");
+		//end
+		
 		
 		ServerLog.getLogger().warn("major_one:"+major_one+"-major_two:"+major_two
-				+"-live_type:"+live_type+"-self:"+self+"-live_status:"+live_status);
+				+"-live_type:"+live_type+"-self:"+self+"-live_status:"+live_status
+				+"-pre_page:"+pre_page+"-finish_page:"+finish_page
+				+"-page_limit:"+page_limit);
 		
 		OpenClassLiveListReBean liveBean = new OpenClassLiveListReBean();
 		//分页所用数据
@@ -1315,11 +1324,12 @@ public class OpenClassController {
 		Integer i_live_type=0;
 		//定义一个已完结的数量
 		Integer finish_limit=0;
-		
-//		if(live_status==null || live_status.equals("")) {
+		Integer i_pre_page=1;
+		Integer i_finish_page=0;
+//		if(page==null || page.equals("")) {
 //			errorCode = "20032";
 //			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
-//		} else if(!NumberUtil.isInteger(live_status)) {
+//		} else if(!NumberUtil.isInteger(page)) {
 //			errorCode = "20033";
 //			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 //		} else {
@@ -1350,14 +1360,28 @@ public class OpenClassController {
 				if(live_status!=null && NumberUtil.isInteger(live_status)) {
 					status=Integer.valueOf(live_status);
 				}
+				//coffee add 0331 预告或正在直播课时当前页码
+				
+				if(pre_page!=null && NumberUtil.isInteger(pre_page)) {
+					i_pre_page=Integer.valueOf(pre_page);
+				}
+				//直播完结的当前页码
+				if(finish_page!=null && NumberUtil.isInteger(finish_page)) {
+					i_finish_page=Integer.valueOf(finish_page);
+				}
+				//end
 				Map<String, Object> map=new HashMap<String, Object>();
 				map.put("offset", offset);
 				map.put("limit", limit);
 				map.put("major_one", i_major_one);
 				map.put("major_two", i_major_two);
 				map.put("live_type", i_live_type);
-				
+
 				if(status==0 || status==1) {
+					//coffee add 0331
+					
+					map.put("pre_page", (i_pre_page-1)*limit);
+					//end
 					//首先去分页查询直播间是否存在有尚未直播 且按照预告时间先后升序排序
 					List<OpenClassLiveListBean> preList = this.openClassLiveService.getRoomLiveListByPre(map);
 					Integer preSize=preList.size();
@@ -1384,6 +1408,10 @@ public class OpenClassController {
 						}
 						//继续判断是否小于10 如果小于10 则将已经完结凑成10大小
 						if(preSize<10) {
+							//coffee add 0331
+							i_finish_page=1;
+							map.put("finish_page",0);
+							//end
 							finish_limit=limit-preSize;
 							map.put("offset", -1);
 							map.put("limit", finish_limit);
@@ -1396,12 +1424,27 @@ public class OpenClassController {
 							liveList.addAll(preList);
 						}
 					} else {
+						//coffee add 0331
+						i_finish_page=1;
+						map.put("finish_page", 0);
+						map.put("limit", limit);
+						//end
 						List<OpenClassLiveListBean> finishList=this.openClassLiveService.getRoomLiveListByFinish(map);
 						if(finishList.size()>0) {
 							liveList.addAll(finishList);
 						}
 					}
 				} else {
+					//coffee add 0331
+					Integer i_page_limit=0;
+					if(page_limit!=null && NumberUtil.isInteger(page_limit)) {
+						i_page_limit=Integer.valueOf(page_limit);
+					}
+					map.put("limit", limit);
+					//如果等于0
+					i_page_limit=i_page_limit+(i_finish_page-1)*limit;
+					map.put("finish_page",i_page_limit);
+					//end
 					List<OpenClassLiveListBean> finishList=this.openClassLiveService.getRoomLiveListByFinish(map);
 					if(finishList.size()>0) {
 						liveList.addAll(finishList);
@@ -1420,6 +1463,9 @@ public class OpenClassController {
 //		}
 		liveBean.setError_code(errorCode);
 		liveBean.setError_msg(errorMessage);
+		liveBean.setPre_page(i_pre_page);
+		liveBean.setFinish_page(i_finish_page);
+		liveBean.setPage_limit(finish_limit);
 		
 		Gson gson = new Gson();
 		ServerLog.getLogger().warn(gson.toJson(liveBean));
