@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.arttraining.api.beanv2.CloudHelpRechargeBean;
 import com.arttraining.api.beanv2.CloudMoneyDetailBean;
 import com.arttraining.api.beanv2.CloudTranformMoneyBean;
 import com.arttraining.api.beanv2.WalletOrderBean;
@@ -27,11 +28,13 @@ import com.arttraining.api.pojo.WalletOrder;
 import com.arttraining.api.pojo.WalletValueTransform;
 import com.arttraining.api.service.impl.OpenClassLiveService;
 import com.arttraining.api.service.impl.TokenService;
+import com.arttraining.api.service.impl.UserStuService;
 import com.arttraining.api.service.impl.WalletService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.IdWorker;
 import com.arttraining.commons.util.NumberUtil;
+import com.arttraining.commons.util.PhoneUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 
@@ -44,6 +47,50 @@ public class WalletController {
 	private TokenService tokenService;
 	@Resource
 	private OpenClassLiveService openClassLiveService;
+	@Resource
+	private UserStuService userStuService;
+	
+	/**
+	 * 帮好友充值云币
+	 */
+	@RequestMapping(value = "/help/recharge", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object helpRecharge(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		
+		String telephone=request.getParameter("telephone");
+		
+		ServerLog.getLogger().warn("telephone:"+telephone);
+		
+		List<CloudHelpRechargeBean> helpBean=new ArrayList<CloudHelpRechargeBean>();
+		
+		if(telephone==null || telephone.equals("")) {
+			errorCode="20032";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(!PhoneUtil.isMobile(telephone)) {
+			errorCode="20044";
+			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20044;
+		} else {
+			//依据传递的电话号码来查询相应的用户信息
+			helpBean=this.userStuService.getHelpUserByMobile(telephone);
+			if(helpBean.size()>0) {
+				errorCode="0";
+				errorMessage="ok";
+			} else {
+				helpBean=new ArrayList<CloudHelpRechargeBean>();
+				errorCode="20007";
+				errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+			}
+		}
+		
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
+		jsonObject.put("data",helpBean);
+		ServerLog.getLogger().warn(jsonObject.toString());
+		return jsonObject;
+	}
+	
 	/**
 	 * 直播赠送礼物的接口(付费礼物)
 	 */
@@ -328,18 +375,17 @@ public class WalletController {
 		
 		Double cloud_money=0.0;
 		
-		if(access_token==null || orderId==null || uid==null
+		if(access_token==null || orderId==null 
 				|| orderNum==null || payType==null) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
 		else if(access_token.equals("") || payType.equals("") 
-				|| orderId.equals("") || orderNum.equals("") || uid.equals("")) {
+				|| orderId.equals("") || orderNum.equals("")) {
 			errorCode="20032";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
 		}
-		else if(!NumberUtil.isInteger(orderId)
-				|| !NumberUtil.isInteger(uid)) {
+		else if(!NumberUtil.isInteger(orderId)) {
 			errorCode="20033";
 			errorMessage=ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
 		}
@@ -350,11 +396,15 @@ public class WalletController {
 				//订单ID
 				Integer i_order_id=Integer.valueOf(orderId);
 				//用户ID
-				Integer i_uid=Integer.valueOf(uid);
+				//Integer i_uid=Integer.valueOf(uid);
+				Integer i_uid=0;
 				
 				WalletOrder order=this.walletService.getOneWalletInfoById(i_order_id, orderNum);
 				if(order!=null) {
 					cloud_money=order.getBydouble1();
+					//coffee add 0407
+					i_uid=Integer.valueOf(order.getUserId());
+					//end
 					//获取当前时间
 					Date date=new Date();
 					//修改订单状态信息
@@ -363,6 +413,8 @@ public class WalletController {
 					upd_order.setPayType(payType);
 					upd_order.setStatus(ConfigUtil.STATUS_1);
 					upd_order.setId(i_order_id);
+					upd_order.setUserId(order.getUserId());
+					upd_order.setByint2(order.getByint2());
 					
 					//修改钱包信息
 					Wallet upd_wallet=new Wallet();
@@ -506,10 +558,13 @@ public class WalletController {
 		String access_token = request.getParameter("access_token");
 		String uid = request.getParameter("uid");
 		String transform_id = request.getParameter("transform_id");
+		//coffee add 0407 
+		String charge_uid = request.getParameter("charge_uid");
+		//end
 		
 		
 		ServerLog.getLogger().warn("uid:"+uid+"-access_token:"+access_token+
-				"-transform_id:"+transform_id);
+				"-transform_id:"+transform_id+"-charge_uid:"+charge_uid);
 		
 		WalletOrderBean wallet=new WalletOrderBean();
 		
@@ -544,7 +599,7 @@ public class WalletController {
 					finalPay=value.getMoney();
 					//新增充值订单信息
 					WalletOrder order=new WalletOrder();
-					order.setUserId(uid);
+					
 					IdWorker idWorker = new IdWorker(0, 0);
 					String orderNum = idWorker.nextId() + "";
 					// 创建时间
@@ -561,6 +616,14 @@ public class WalletController {
 					//order.setActiveTime(TimeUtil.getTimeByMinute(pay_time));
 					order.setByint1(tid);
 					order.setBydouble1(icloud);
+					//coffee add 0407
+					if(charge_uid!=null && NumberUtil.isInteger(charge_uid)) {
+						order.setUserId(charge_uid);
+					} else {
+						order.setUserId(uid);
+					}
+					order.setByint2(Integer.valueOf(uid));
+					//end
 					try {
 						int orderId=this.walletService.insertCloudMoneyByRecharge(order);
 						errorCode = "0";

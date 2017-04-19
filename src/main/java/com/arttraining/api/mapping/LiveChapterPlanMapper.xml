@@ -56,6 +56,47 @@
   <sql id="Blob_Column_List" >
     introduction
   </sql>
+  <!--  coffee add 0414 爱好者端查询课时直播历史列表信息-->
+  <resultMap id="HistoryListResultMap" type="com.arttraining.api.beanv2.LiveHistoryBean" >
+    <result column="chapter_id" property="chapter_id" jdbcType="INTEGER" />
+    <result column="owner" property="owner" jdbcType="INTEGER" />
+    <result column="owner_type" property="owner_type" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
+    <result column="chapter_name" property="chapter_name" jdbcType="VARCHAR" />
+    <result column="start_time" property="start_time" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="end_time" jdbcType="TIMESTAMP" />
+    <result column="live_price" property="live_price" jdbcType="DOUBLE" />
+    <result column="record_price" property="record_price" jdbcType="DOUBLE" />
+    <result column="room_id" property="room_id" jdbcType="INTEGER" />
+    <result column="is_free" property="is_free" jdbcType="INTEGER" />
+    <result column="live_status" property="live_status" jdbcType="INTEGER" />
+    <result column="browse_number" property="browse_number" jdbcType="INTEGER" />
+    <result column="fans_number" property="fans_number" jdbcType="INTEGER" />
+    <result column="introduction" property="introduction" jdbcType="LONGVARCHAR" />
+    <result column="thumbnail" property="thumbnail" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectLiveHistoryChapterList" resultMap="HistoryListResultMap" parameterType="java.util.Map" >
+    select c.id as chapter_id,c.name as chapter_name,
+    c.owner,c.owner_type,c.start_time,c.end_time,
+    c.live_price,c.record_price,c.browse_number,
+    c.room_id,c.is_free,c.introduction,c.remarks1 as thumbnail,
+    c.remarks2,u.name,u.head_pic,u.fans_num
+    from (select id,name,owner,owner_type,start_time,
+    end_time,live_price,record_price,browse_number,
+    room_id,is_free,introduction,remarks2,
+    live_status,remarks1
+    from t_yp_live_chapter_plan
+    where is_deleted=0 and is_publish=2
+    and live_status=2
+    order by remarks2 desc
+    limit #{page,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}) c,
+    (select id,name,head_pic,fans_num
+    from t_yp_user_tech
+    where is_deleted=0) u
+    where c.owner=u.id
+    order by c.remarks2 desc
+  </select>
   
   <!-- coffee add 0119 依据主播ID和类型判断是否存在预告课时信息 -->
   <select id="selectChapterInfoByOwner" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map" >

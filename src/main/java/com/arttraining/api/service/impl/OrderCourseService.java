@@ -97,11 +97,15 @@ public class OrderCourseService implements IOrderCourseService{
 		Map<String, Object> map=new HashMap<String, Object>();
 		map.put("uid", uid);
 		map.put("chapter_id", chapter_id);
+		System.out.println("=====7777777");
 		//先去判断用户是否购买 如果购买则返回true 
 		OrderCourseDetail detail=this.getIsExistCourseDetailById(map);
+		System.out.println("=====999999");
 		if(detail!=null) {
+			System.out.println("=====111111111");
 			flag=true;
 		} 
+		System.out.println("=====8888888");
 		return flag;
 	}
 }

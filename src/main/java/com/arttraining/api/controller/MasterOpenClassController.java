@@ -379,8 +379,17 @@ public class MasterOpenClassController {
 						LiveRoom upd_room=new LiveRoom();
 						upd_room.setId(chapter.getRoomId());
 						upd_room.setPreNumber(1);
+						//coffee add 0413
+						upd_room.setRemarks1("L");
+						//end
 						upd_room.setPreTime(TimeUtil.getTimeByDate(chapter.getStartTime()));
 						this.openClassLiveService.updateOnePreNumByRoomId(upd_room);
+					} else {
+						//2.修改直播间备注信息
+						LiveRoom upd_room2=new LiveRoom();
+						upd_room2.setId(chapter.getRoomId());
+						upd_room2.setRemarks1("L");
+						this.openClassLiveService.updateLiveRoomInfoById(upd_room2);
 					}
 				}
 				//1.确认开启直播
@@ -388,6 +397,7 @@ public class MasterOpenClassController {
 				upd_chapter.setId(i_chapter_id);
 				upd_chapter.setLiveStatus(1);
 				this.openClassLiveService.updateChapterInfo(upd_chapter);
+				
 				errorCode="0";
 				errorMessage="ok";
 			} else {

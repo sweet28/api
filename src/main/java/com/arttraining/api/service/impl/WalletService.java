@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.arttraining.api.beanv2.CloudMoneyDetailBean;
 import com.arttraining.api.beanv2.CloudTranformMoneyBean;
+import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.dao.WalletDetailMapper;
 import com.arttraining.api.dao.WalletMapper;
 import com.arttraining.api.dao.WalletOrderMapper;
@@ -31,6 +32,8 @@ public class WalletService implements IWalletService {
 	private WalletMapper walletDao;
 	@Resource
 	private WalletDetailMapper detailDao;
+	@Resource
+	private UserStuMapper stuDao;
 	
 	@Override
 	public List<CloudTranformMoneyBean> getWalletMoneyList() {
@@ -64,6 +67,16 @@ public class WalletService implements IWalletService {
 		Wallet w = this.getCloudMoneyByUid(wallet.getUserId(), wallet.getUserType());
 		double curr_money=0.0;
 		if(w!=null) {
+			//coffee add 0407
+			Integer byint2=order.getByint2();
+			String flag="";
+			if(byint2.intValue()==wallet.getUserId().intValue()) {
+				flag="充值云币";
+			} else {
+				String name=stuDao.selectUserNameById(byint2);
+				flag=name+"好友帮助你充值云币";
+			}
+			//end
 			//3.最后新增云币消费详情信息
 			Date date = new Date();
 			WalletDetail detail=new WalletDetail();
@@ -77,7 +90,8 @@ public class WalletService implements IWalletService {
 			//end
 			detail.setCurrCloudMoney(curr_money);
 			detail.setCloudMoney(wallet.getCloudMoney());
-			detail.setCloudFlag("充值云币");
+			//detail.setCloudFlag("充值云币");
+			detail.setCloudFlag(flag);
 			this.detailDao.insertSelective(detail);
 		}
 		return 0;

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.AdmissionScoreMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.AdmissionScore" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uuid" property="uuid" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="year" property="year" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="culture_score" property="cultureScore" jdbcType="DOUBLE" />
+    <result column="art_score" property="artScore" jdbcType="DOUBLE" />
+    <result column="remarks1" property="remarks1" jdbcType="VARCHAR" />
+    <result column="remarks2" property="remarks2" jdbcType="VARCHAR" />
+    <result column="remarks3" property="remarks3" jdbcType="VARCHAR" />
+    <result column="remarks4" property="remarks4" jdbcType="VARCHAR" />
+    <result column="remarks5" property="remarks5" jdbcType="VARCHAR" />
+    <result column="bydouble1" property="bydouble1" jdbcType="DOUBLE" />
+    <result column="bydouble2" property="bydouble2" jdbcType="DOUBLE" />
+    <result column="bydouble3" property="bydouble3" jdbcType="DOUBLE" />
+    <result column="bydouble4" property="bydouble4" jdbcType="DOUBLE" />
+    <result column="bydouble5" property="bydouble5" jdbcType="DOUBLE" />
+    <result column="byint1" property="byint1" jdbcType="INTEGER" />
+    <result column="byint2" property="byint2" jdbcType="INTEGER" />
+    <result column="byint3" property="byint3" jdbcType="INTEGER" />
+    <result column="byint4" property="byint4" jdbcType="INTEGER" />
+    <result column="byint5" property="byint5" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uuid, is_deleted, create_time, order_code, delete_time, remarks, attachment, 
+    year, province, category, batch, culture_score, art_score, remarks1, remarks2, remarks3, 
+    remarks4, remarks5, bydouble1, bydouble2, bydouble3, bydouble4, bydouble5, byint1, 
+    byint2, byint3, byint4, byint5
+  </sql>
+  
+  <!-- coffee add 0415 查看历年来各批次艺术类高校(专业)录取最低控制分数线接口列表信息 -->
+  <resultMap id="BatchListResultMap" type="com.arttraining.api.beanv3.EntranceAdmissionBean" >
+    <id column="id" property="admission_id" jdbcType="INTEGER" />
+    <result column="year" property="year" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="category" property="category" jdbcType="VARCHAR" />
+    <result column="batch" property="batch" jdbcType="VARCHAR" />
+    <result column="culture_score" property="culture_score" jdbcType="DOUBLE" />
+    <result column="art_score" property="art_score" jdbcType="DOUBLE" />
+    <result column="remarks1" property="data_source" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectBatchScoreList" resultMap="BatchListResultMap" parameterType="java.lang.String" >
+    select id,year,province,category,
+    batch,culture_score,art_score,remarks1
+    from t_yp_admission_score
+    where is_deleted=0
+    and province=#{province,jdbcType=VARCHAR}
+  </select>
+  <!-- end -->
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_admission_score
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_yp_admission_score
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.AdmissionScore" >
+    insert into t_yp_admission_score (id, uuid, is_deleted, 
+      create_time, order_code, delete_time, 
+      remarks, attachment, year, 
+      province, category, batch, 
+      culture_score, art_score, remarks1, 
+      remarks2, remarks3, remarks4, 
+      remarks5, bydouble1, bydouble2, 
+      bydouble3, bydouble4, bydouble5, 
+      byint1, byint2, byint3, 
+      byint4, byint5)
+    values (#{id,jdbcType=INTEGER}, #{uuid,jdbcType=VARCHAR}, #{isDeleted,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{orderCode,jdbcType=VARCHAR}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{remarks,jdbcType=VARCHAR}, #{attachment,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{category,jdbcType=VARCHAR}, #{batch,jdbcType=VARCHAR}, 
+      #{cultureScore,jdbcType=DOUBLE}, #{artScore,jdbcType=DOUBLE}, #{remarks1,jdbcType=VARCHAR}, 
+      #{remarks2,jdbcType=VARCHAR}, #{remarks3,jdbcType=VARCHAR}, #{remarks4,jdbcType=VARCHAR}, 
+      #{remarks5,jdbcType=VARCHAR}, #{bydouble1,jdbcType=DOUBLE}, #{bydouble2,jdbcType=DOUBLE}, 
+      #{bydouble3,jdbcType=DOUBLE}, #{bydouble4,jdbcType=DOUBLE}, #{bydouble5,jdbcType=DOUBLE}, 
+      #{byint1,jdbcType=INTEGER}, #{byint2,jdbcType=INTEGER}, #{byint3,jdbcType=INTEGER}, 
+      #{byint4,jdbcType=INTEGER}, #{byint5,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.AdmissionScore" >
+    insert into t_yp_admission_score
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uuid != null" >
+        uuid,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="orderCode != null" >
+        order_code,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="year != null" >
+        year,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="category != null" >
+        category,
+      </if>
+      <if test="batch != null" >
+        batch,
+      </if>
+      <if test="cultureScore != null" >
+        culture_score,
+      </if>
+      <if test="artScore != null" >
+        art_score,
+      </if>
+      <if test="remarks1 != null" >
+        remarks1,
+      </if>
+      <if test="remarks2 != null" >
+        remarks2,
+      </if>
+      <if test="remarks3 != null" >
+        remarks3,
+      </if>
+      <if test="remarks4 != null" >
+        remarks4,
+      </if>
+      <if test="remarks5 != null" >
+        remarks5,
+      </if>
+      <if test="bydouble1 != null" >
+        bydouble1,
+      </if>
+      <if test="bydouble2 != null" >
+        bydouble2,
+      </if>
+      <if test="bydouble3 != null" >
+        bydouble3,
+      </if>
+      <if test="bydouble4 != null" >
+        bydouble4,
+      </if>
+      <if test="bydouble5 != null" >
+        bydouble5,
+      </if>
+      <if test="byint1 != null" >
+        byint1,
+      </if>
+      <if test="byint2 != null" >
+        byint2,
+      </if>
+      <if test="byint3 != null" >
+        byint3,
+      </if>
+      <if test="byint4 != null" >
+        byint4,
+      </if>
+      <if test="byint5 != null" >
+        byint5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uuid != null" >
+        #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="cultureScore != null" >
+        #{cultureScore,jdbcType=DOUBLE},
+      </if>
+      <if test="artScore != null" >
+        #{artScore,jdbcType=DOUBLE},
+      </if>
+      <if test="remarks1 != null" >
+        #{remarks1,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks2 != null" >
+        #{remarks2,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks3 != null" >
+        #{remarks3,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks4 != null" >
+        #{remarks4,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks5 != null" >
+        #{remarks5,jdbcType=VARCHAR},
+      </if>
+      <if test="bydouble1 != null" >
+        #{bydouble1,jdbcType=DOUBLE},
+      </if>
+      <if test="bydouble2 != null" >
+        #{bydouble2,jdbcType=DOUBLE},
+      </if>
+      <if test="bydouble3 != null" >
+        #{bydouble3,jdbcType=DOUBLE},
+      </if>
+      <if test="bydouble4 != null" >
+        #{bydouble4,jdbcType=DOUBLE},
+      </if>
+      <if test="bydouble5 != null" >
+        #{bydouble5,jdbcType=DOUBLE},
+      </if>
+      <if test="byint1 != null" >
+        #{byint1,jdbcType=INTEGER},
+      </if>
+      <if test="byint2 != null" >
+        #{byint2,jdbcType=INTEGER},
+      </if>
+      <if test="byint3 != null" >
+        #{byint3,jdbcType=INTEGER},
+      </if>
+      <if test="byint4 != null" >
+        #{byint4,jdbcType=INTEGER},
+      </if>
+      <if test="byint5 != null" >
+        #{byint5,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.AdmissionScore" >
+    update t_yp_admission_score
+    <set >
+      <if test="uuid != null" >
+        uuid = #{uuid,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderCode != null" >
+        order_code = #{orderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null" >
+        year = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="category != null" >
+        category = #{category,jdbcType=VARCHAR},
+      </if>
+      <if test="batch != null" >
+        batch = #{batch,jdbcType=VARCHAR},
+      </if>
+      <if test="cultureScore != null" >
+        culture_score = #{cultureScore,jdbcType=DOUBLE},
+      </if>
+      <if test="artScore != null" >
+        art_score = #{artScore,jdbcType=DOUBLE},
+      </if>
+      <if test="remarks1 != null" >
+        remarks1 = #{remarks1,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks2 != null" >
+        remarks2 = #{remarks2,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks3 != null" >
+        remarks3 = #{remarks3,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks4 != null" >
+        remarks4 = #{remarks4,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks5 != null" >
+        remarks5 = #{remarks5,jdbcType=VARCHAR},
+      </if>
+      <if test="bydouble1 != null" >
+        bydouble1 = #{bydouble1,jdbcType=DOUBLE},
+      </if>
+      <if test="bydouble2 != null" >
+        bydouble2 = #{bydouble2,jdbcType=DOUBLE},
+      </if>
+      <if test="bydouble3 != null" >
+        bydouble3 = #{bydouble3,jdbcType=DOUBLE},
+      </if>
+      <if test="bydouble4 != null" >
+        bydouble4 = #{bydouble4,jdbcType=DOUBLE},
+      </if>
+      <if test="bydouble5 != null" >
+        bydouble5 = #{bydouble5,jdbcType=DOUBLE},
+      </if>
+      <if test="byint1 != null" >
+        byint1 = #{byint1,jdbcType=INTEGER},
+      </if>
+      <if test="byint2 != null" >
+        byint2 = #{byint2,jdbcType=INTEGER},
+      </if>
+      <if test="byint3 != null" >
+        byint3 = #{byint3,jdbcType=INTEGER},
+      </if>
+      <if test="byint4 != null" >
+        byint4 = #{byint4,jdbcType=INTEGER},
+      </if>
+      <if test="byint5 != null" >
+        byint5 = #{byint5,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.AdmissionScore" >
+    update t_yp_admission_score
+    set uuid = #{uuid,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      order_code = #{orderCode,jdbcType=VARCHAR},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      category = #{category,jdbcType=VARCHAR},
+      batch = #{batch,jdbcType=VARCHAR},
+      culture_score = #{cultureScore,jdbcType=DOUBLE},
+      art_score = #{artScore,jdbcType=DOUBLE},
+      remarks1 = #{remarks1,jdbcType=VARCHAR},
+      remarks2 = #{remarks2,jdbcType=VARCHAR},
+      remarks3 = #{remarks3,jdbcType=VARCHAR},
+      remarks4 = #{remarks4,jdbcType=VARCHAR},
+      remarks5 = #{remarks5,jdbcType=VARCHAR},
+      bydouble1 = #{bydouble1,jdbcType=DOUBLE},
+      bydouble2 = #{bydouble2,jdbcType=DOUBLE},
+      bydouble3 = #{bydouble3,jdbcType=DOUBLE},
+      bydouble4 = #{bydouble4,jdbcType=DOUBLE},
+      bydouble5 = #{bydouble5,jdbcType=DOUBLE},
+      byint1 = #{byint1,jdbcType=INTEGER},
+      byint2 = #{byint2,jdbcType=INTEGER},
+      byint3 = #{byint3,jdbcType=INTEGER},
+      byint4 = #{byint4,jdbcType=INTEGER},
+      byint5 = #{byint5,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -90,9 +90,9 @@
   <select id="selectRoomLiveListByHome" resultMap="LiveResultMap" parameterType="java.lang.Integer" >
    select r.id,r.owner,r.owner_type,r.live_name,r.thumbnail,
     r.browse_number,r.chapter_number,r.pre_time,u.name,
-    -1 as live_status,'' as chapter_name
+    -1 as live_status,'' as chapter_name,r.remarks1
     from (select id,owner,owner_type,live_name,thumbnail,
-    browse_number,chapter_number,pre_time,order_code
+    browse_number,chapter_number,pre_time,order_code,remarks1
     from t_yp_live_room
     where is_deleted=0 and is_publish=2
     and pre_number<![CDATA[ <> ]]>0
@@ -101,7 +101,7 @@
     from t_yp_user_tech
     where is_deleted=0 and is_lock=0) u
     where r.owner=u.id
-    order by r.pre_time asc
+    order by r.remarks1 asc,r.pre_time asc
   </select>
   
   <select id="selectRoomLiveListByPre" resultMap="LiveResultMap" parameterType="java.util.Map" >
@@ -131,6 +131,38 @@
     where r.owner=u.id
     order by r.pre_time asc
   </select>
+  
+  <!-- coffee add 0413 获取正在直播/预告课时列表-->
+  <select id="selectRoomLiveListByPreV2" resultMap="LiveResultMap" parameterType="java.util.Map" >
+   select r.id,r.owner,r.owner_type,r.live_name,r.thumbnail,
+    r.browse_number,r.chapter_number,r.pre_time,u.name,
+    0 as live_status,'' as chapter_name,r.remarks1
+    from (select id,owner,owner_type,live_name,thumbnail,
+    browse_number,chapter_number,pre_time,remarks1
+    from t_yp_live_room
+    where is_deleted=0 and is_publish=2
+    and remarks1 <![CDATA[ <> ]]> ''
+    and pre_number&gt;0
+    and chapter_number &gt;0
+   <if test="major_one !=null and major_one!=0">
+   		and major_one=#{major_one,jdbcType=INTEGER}
+   </if>
+   <if test="major_two !=null and major_two!=0">
+   		and major_two=#{major_two,jdbcType=INTEGER}
+   </if>
+   <if test="live_type !=null and live_type!=0">
+   		and live_type=#{live_type,jdbcType=INTEGER}
+   </if>
+    order by remarks1 asc,pre_time asc
+    limit #{page,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}) r,
+    (select id,name 
+    from t_yp_user_tech
+    where is_deleted=0 and is_lock=0) u
+    where r.owner=u.id
+    order by r.remarks1 asc,r.pre_time asc
+  </select>
+  
+  
   <!-- coffee add 0116 获取已经完结的直播课列表 --> 
   <select id="selectRoomLiveListByFinish" resultMap="LiveResultMap" parameterType="java.util.Map" >
    select r.id,r.owner,r.owner_type,r.live_name,r.thumbnail,
@@ -466,6 +498,9 @@
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
+    <if test="preNumber !=null and preNumber ==-1">
+    	and pre_number <![CDATA[<>]]>0
+    </if>
   </update>
   <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.LiveRoom" >
     update t_yp_live_room

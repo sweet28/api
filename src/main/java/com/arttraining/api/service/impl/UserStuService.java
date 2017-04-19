@@ -10,6 +10,7 @@ import com.arttraining.api.bean.LikeUserBean;
 import com.arttraining.api.bean.LikeUserPicBean;
 import com.arttraining.api.bean.UserNumberBean;
 import com.arttraining.api.bean.UserStuShowBean;
+import com.arttraining.api.beanv2.CloudHelpRechargeBean;
 import com.arttraining.api.dao.UserStuMapper;
 import com.arttraining.api.pojo.UserStu;
 import com.arttraining.api.service.IUserStuService;
@@ -124,6 +125,12 @@ public class UserStuService implements IUserStuService{
 	public UserStu getUserByMobileAndRemarks(String user_mobile, String remarks) {
 		// TODO Auto-generated method stub
 		return this.userStuDao.selectUserByMobileAndRemarks(user_mobile, remarks);
+	}
+
+	@Override
+	public List<CloudHelpRechargeBean> getHelpUserByMobile(String telephone) {
+		// TODO Auto-generated method stub
+		return this.userStuDao.selectHelpUserByMobile(telephone);
 	}
 	
 }

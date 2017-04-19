@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.arttraining.api.beanv2.LiveChapterListBean;
 import com.arttraining.api.beanv2.LiveCommentBean;
 import com.arttraining.api.beanv2.LiveGiftListBean;
+import com.arttraining.api.beanv2.LiveHistoryBean;
 import com.arttraining.api.beanv2.LiveMemberBean;
 import com.arttraining.api.beanv2.LiveTimeTableBean;
 import com.arttraining.api.beanv2.LiveTypeList;
@@ -356,14 +357,36 @@ public class OpenClassLiveService implements IOpenClassLiveService {
 		LiveChapterPlan chapter=this.chapterDao.selectChapterInfoByOwner(map);
 		//如果存在预告课时 
 		Integer pre_number=-1;
+		String remarks1="";
 		//修改直播间信息
 		LiveRoom upd_room=new LiveRoom();
 		upd_room.setId(room_id);
 		if(chapter!=null) {
 			upd_room.setPreTime(TimeUtil.getTimeByDate(chapter.getStartTime()));
+			remarks1="P";
 		} 
+		upd_room.setRemarks1(remarks1);
 		upd_room.setPreNumber(pre_number);
 		this.roomDao.updateByPrimaryKeySelective(upd_room);
 	}
 
+	@Override
+	public List<OpenClassLiveListBean> getRoomLiveListByPreV2(
+			Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.roomDao.selectRoomLiveListByPreV2(map);
+	}
+
+	@Override
+	public int updateLiveRoomInfoById(LiveRoom room) {
+		// TODO Auto-generated method stub
+		return this.roomDao.updateByPrimaryKeySelective(room);
+	}
+
+	@Override
+	public List<LiveHistoryBean> getLiveHistoryChapterList(
+			Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return this.chapterDao.selectLiveHistoryChapterList(map);
+	}
 }

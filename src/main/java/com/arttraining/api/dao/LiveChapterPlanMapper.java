@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.arttraining.api.beanv2.LiveChapterListBean;
+import com.arttraining.api.beanv2.LiveHistoryBean;
 import com.arttraining.api.pojo.LiveChapterPlan;
 
 public interface LiveChapterPlanMapper {
@@ -30,4 +31,6 @@ public interface LiveChapterPlanMapper {
     List<LiveChapterListBean> selectChapterListById(Map<String, Object> map);
     //coffee add 0119 依据主播ID和类型判断是否存在预告课时信息
     LiveChapterPlan selectChapterInfoByOwner(Map<String, Object> map);
+    //coffee add 0414 爱好者端查询课时直播历史列表信息
+    List<LiveHistoryBean> selectLiveHistoryChapterList(Map<String, Object> map);
 }

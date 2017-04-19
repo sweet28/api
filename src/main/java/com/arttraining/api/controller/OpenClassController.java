@@ -19,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.api.beanv2.LiveChapterListBean;
 import com.arttraining.api.beanv2.LiveCommentBean;
 import com.arttraining.api.beanv2.LiveGiftListBean;
+import com.arttraining.api.beanv2.LiveHistoryBean;
 import com.arttraining.api.beanv2.LiveMemberBean;
 import com.arttraining.api.beanv2.LiveTimeTableBean;
 import com.arttraining.api.beanv2.LiveTypeList;
@@ -28,6 +29,7 @@ import com.arttraining.api.beanv2.OpenClassFinishLiveBean;
 import com.arttraining.api.beanv2.OpenClassLiveListBean;
 import com.arttraining.api.beanv2.OpenClassLiveListReBean;
 import com.arttraining.api.beanv2.OpenClassWaitLiveBean;
+import com.arttraining.api.beanv2.WatchHistoryBean;
 import com.arttraining.api.pojo.LiveChapterPlan;
 import com.arttraining.api.pojo.LiveComment;
 import com.arttraining.api.pojo.LiveDetail;
@@ -1013,7 +1015,9 @@ public class OpenClassController {
 					Integer owner=room.getOwner();
 					String owner_type=room.getOwnerType();
 					try {
+						//System.out.println("=====00000");
 						this.openClassLiveService.insertFollowLikeAndUpdateRoom(room, i_uid, utype);
+						//System.out.println("=====11111");
 						//3.获取直播间信息
 						Map<String, Object> map=new HashMap<String, Object>();
 						map.put("uid", owner);
@@ -1033,7 +1037,7 @@ public class OpenClassController {
 						//coffee add 0321
 						beingBean.setLive_name(room.getLiveName());
 						//end
-						
+						//System.out.println("=====2222");
 						//4.依据课时ID 查询相应的课时信息
 						LiveChapterPlan chapter=this.openClassLiveService.getChapterPlan(i_chapter_id);
 						if(chapter!=null) {
@@ -1045,20 +1049,25 @@ public class OpenClassController {
 							beingBean.setLive_price(chapter.getLivePrice());
 							beingBean.setRecord_price(chapter.getRecordPrice());
 							beingBean.setIs_free(chapter.getIsFree());
+							//System.out.println("=====33333333");
 							boolean is_buy=this.orderCourseService.getIsBuyChapterById(i_uid, i_chapter_id);
+							//System.out.println("====="+is_buy);
 							if(is_buy) {
 								beingBean.setOrder_status(1);
 							} else 
 								beingBean.setOrder_status(0);
+							//System.out.println("=====6666666");
 							//coffee add 0321 
 							beingBean.setIntroduction(chapter.getIntroduction());
 							//end
+						
 							//coffee add 0120 增加直播课时的浏览量
 							LiveChapterPlan upd_chapter=new LiveChapterPlan();
 							upd_chapter.setId(i_chapter_id);
 							upd_chapter.setBrowseNumber(1);
 							this.openClassLiveService.updateChapterInfo(upd_chapter);
 							//end
+							//System.out.println("=====4444");
 						}
 						errorCode="0";
 						errorMessage="ok";
@@ -1470,5 +1479,232 @@ public class OpenClassController {
 		Gson gson = new Gson();
 		ServerLog.getLogger().warn(gson.toJson(liveBean));
 		return gson.toJson(liveBean);
+	}
+	/***
+	 * 爱好者端直播列表版本2
+	 */
+	@RequestMapping(value = "/live/list_v2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object liveLisV2(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		
+		//以下不是必选参数
+		String major_one=request.getParameter("major_one");
+		String major_two=request.getParameter("major_two");
+		String live_type=request.getParameter("live_type");
+		String self=request.getParameter("self");
+		String page=request.getParameter("page");
+		//end
+		
+		ServerLog.getLogger().warn("major_one:"+major_one+"-major_two:"+major_two
+				+"-live_type:"+live_type+"-self:"+self+"-page:"+page);
+		
+		OpenClassLiveListReBean liveBean = new OpenClassLiveListReBean();
+		//分页所用数据
+		Integer limit=ConfigUtil.PAGESIZE;
+		//Integer limit=2;
+		Integer i_major_one=0;
+		Integer i_major_two=0;
+		Integer i_live_type=0;
+		//定义一个已完结的数量
+		Integer i_page=1;
+		if(page!=null && NumberUtil.isInteger(page)) {
+			if(!page.equals("0")) {
+				i_page=Integer.valueOf(page);
+			}
+		} 
+		
+		if(major_one!=null && NumberUtil.isInteger(major_one)) {
+			i_major_one=Integer.valueOf(major_one);
+		}
+		if(major_two!=null && NumberUtil.isInteger(major_two)) {
+			i_major_two=Integer.valueOf(major_two);
+		}
+		if(live_type!=null && NumberUtil.isInteger(live_type)) {
+			i_live_type=Integer.valueOf(live_type);
+		}
+		//end
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("limit", limit);
+		map.put("page", (i_page-1)*limit);
+		map.put("major_one", i_major_one);
+		map.put("major_two", i_major_two);
+		map.put("live_type", i_live_type);
+		
+		//首先去分页查询直播间是否存在有尚未直播 且按照预告时间先后升序排序
+		List<OpenClassLiveListBean> liveList = this.openClassLiveService.getRoomLiveListByPreV2(map);
+		//如果有预告片
+		if(liveList.size()>0) {
+			//查询预告直播状态和直播课时名称
+			for (OpenClassLiveListBean live : liveList) {
+				Integer owner=live.getOwner();
+				String owner_type=live.getOwner_type();
+				Integer i_room_id=live.getRoom_id();
+				String pre_time=live.getPre_time();
+							
+				map.put("uid", owner);
+				map.put("utype", owner_type);
+				map.put("room_id", i_room_id);
+				map.put("pre_time", pre_time);
+							
+				LiveChapterPlan chapter=this.openClassLiveService.getChapterPlanByPreTime(map);
+				if(chapter!=null) {
+					live.setLive_status(chapter.getLiveStatus());
+					live.setChapter_name(chapter.getName());
+					live.setChapter_id(chapter.getId());
+				}
+			}	
+			liveBean.setOpenclass_list(liveList);	
+			errorCode="0";
+			errorMessage="ok";
+		} else {
+			errorCode = "20007";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+		}
+		liveBean.setError_code(errorCode);
+		liveBean.setError_msg(errorMessage);
+		liveBean.setPre_page(0);
+		liveBean.setFinish_page(0);
+		liveBean.setPage_limit(0);
+		
+		Gson gson = new Gson();
+		ServerLog.getLogger().warn(gson.toJson(liveBean));
+		return gson.toJson(liveBean);
+	}
+	/**
+	 * 爱好者新增直播回放列表接口
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value = "/live/history", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object liveHistory(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		
+		//以下不是必选参数
+		String major_one=request.getParameter("major_one");
+		String major_two=request.getParameter("major_two");
+		String live_type=request.getParameter("live_type");
+		String self=request.getParameter("self");
+		String page=request.getParameter("page");
+		//end
+				
+		ServerLog.getLogger().warn("-major_one:"+major_one+"-major_two:"+major_two
+				+"-live_type:"+live_type+"-self:"+self+"-page:"+page);
+		
+		List<LiveHistoryBean> historyList=new ArrayList<LiveHistoryBean>();
+		
+		//分页所用数据
+		Integer limit=ConfigUtil.PAGESIZE;
+		//Integer limit=2;
+		Integer i_major_one=0;
+		Integer i_major_two=0;
+		Integer i_live_type=0;
+		//定义一个已完结的数量
+		Integer i_page=1;
+		
+		if(page!=null && NumberUtil.isInteger(page)) {
+			if(!page.equals("0")) {
+				i_page=Integer.valueOf(page);
+			}
+		} 	
+		if(major_one!=null && NumberUtil.isInteger(major_one)) {
+			i_major_one=Integer.valueOf(major_one);
+		}
+		if(major_two!=null && NumberUtil.isInteger(major_two)) {
+			i_major_two=Integer.valueOf(major_two);
+		}
+		if(live_type!=null && NumberUtil.isInteger(live_type)) {
+			i_live_type=Integer.valueOf(live_type);
+		}
+		//end
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("limit", limit);
+		map.put("page", (i_page-1)*limit);
+		map.put("major_one", i_major_one);
+		map.put("major_two", i_major_two);
+		map.put("live_type", i_live_type);		
+			
+		historyList=this.openClassLiveService.getLiveHistoryChapterList(map);
+		if(historyList.size()>0) {
+			errorCode="0";
+			errorMessage="ok";
+		} else {
+			errorCode = "20007";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+		}
+
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
+		jsonObject.put("data", historyList);
+		
+		ServerLog.getLogger().warn(jsonObject.toString());
+		return jsonObject;
+	}
+	
+	@RequestMapping(value = "/watch/history", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody Object watchHistory(HttpServletRequest request, HttpServletResponse response) {
+		String errorCode = "";
+		String errorMessage = "";
+		//以下是必选参数
+		String uid=request.getParameter("uid");
+		String utype=request.getParameter("utype");
+		String access_token=request.getParameter("access_token");
+		String chapter_id=request.getParameter("chapter_id");
+		
+		ServerLog.getLogger().warn("-uid:"+uid+"-utype:"+utype
+				+"-access_token:"+access_token+"-chapter_id:"+chapter_id);
+		
+		WatchHistoryBean watch=new WatchHistoryBean();
+		
+		if(uid==null || utype==null || access_token==null
+				|| chapter_id==null) {
+			errorCode = "20032";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(access_token.equals("") || uid.equals("")
+				|| utype.equals("") || chapter_id==null) {
+			errorCode = "20032";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+		} else if(!NumberUtil.isInteger(uid)
+				|| !NumberUtil.isInteger(chapter_id)) {
+			errorCode = "20033";
+			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+		} else {
+			boolean tokenFlag = tokenService.checkToken(access_token);
+			if (tokenFlag) {
+				//用户ID
+				Integer i_uid=Integer.valueOf(uid);
+				//课时ID
+				Integer i_chapter_id=Integer.valueOf(chapter_id);
+				LiveChapterPlan chapter=this.openClassLiveService.getChapterPlan(i_chapter_id);
+				if(chapter!=null) {
+					watch.setIs_free(chapter.getIsFree());
+					watch.setRecord_url(chapter.getSdUrl());
+					boolean flag=this.orderCourseService.getIsBuyChapterById(i_uid, i_chapter_id);
+					if(flag) {
+						watch.setOrder_status(1);
+					} else {
+						watch.setOrder_status(0);
+					}
+					errorCode="0";
+					errorMessage="ok";
+				} else {
+					errorCode = "20007";
+					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20007;
+				}
+			} else {
+				errorCode = "20028";
+				errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
+			}
+		}
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+		jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
+		jsonObject.put("data", watch);
+		
+		ServerLog.getLogger().warn(jsonObject.toString());
+		return jsonObject;
 	}
 }

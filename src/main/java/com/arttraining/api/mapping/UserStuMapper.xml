@@ -80,6 +80,24 @@
     <include refid="select_userstu_where"></include>
   </update>
   
+  <!-- coffee add 0407 依据手机号查询对应的用户列表信息 -->
+  <resultMap id="HelpUserResultMap" type="com.arttraining.api.beanv2.CloudHelpRechargeBean" >
+    <id column="id" property="uid" jdbcType="INTEGER" />
+    <result column="utype" property="utype" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="head_pic" property="head_pic" jdbcType="VARCHAR" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="login_type" property="login_type" jdbcType="VARCHAR" />
+  </resultMap>
+   <select id="selectHelpUserByMobile" resultMap="HelpUserResultMap" parameterType="java.lang.String" >
+	  select id,'stu' as utype,name,
+	  sex,user_mobile as telephone,
+	  head_pic,remarks as login_type
+	  from t_yp_user_stu
+	  where user_mobile=#{telephone,jdbcType=VARCHAR}
+	  <include refid="select_userstu_where"></include>
+   </select>
   
   <!-- coffee add 根据用户ID获取用户数目信息 users/num接口调用-->
    <resultMap id="UserNumResultMap" type="com.arttraining.api.bean.UserNumberBean" >

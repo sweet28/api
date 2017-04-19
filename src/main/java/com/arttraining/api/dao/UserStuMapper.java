@@ -8,6 +8,7 @@ import com.arttraining.api.bean.LikeUserBean;
 import com.arttraining.api.bean.LikeUserPicBean;
 import com.arttraining.api.bean.UserNumberBean;
 import com.arttraining.api.bean.UserStuShowBean;
+import com.arttraining.api.beanv2.CloudHelpRechargeBean;
 import com.arttraining.api.pojo.UserStu;
 
 public interface UserStuMapper {
@@ -72,4 +73,7 @@ public interface UserStuMapper {
     //coffee add 0105 依据手机号和登录方式来获取爱好者用户信息
     UserStu selectUserByMobileAndRemarks(@Param("user_mobile") String user_mobile,
 			@Param("remarks") String remarks);
+    
+    //coffee add 0407 依据手机号查询对应的用户列表信息
+    List<CloudHelpRechargeBean> selectHelpUserByMobile(String telephone);
 }

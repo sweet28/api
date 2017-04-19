@@ -65,6 +65,7 @@
     <if test="offset !=-1">
     	and pay_time <![CDATA[ <= ]]> (select pay_time from t_yp_order_course_detail
     	where id=#{offset,jdbcType=INTEGER})
+    	and id <![CDATA[ <> ]]> #{offset,jdbcType=INTEGER}
     </if>
 	order by pay_time desc 
 	limit #{limit,jdbcType=INTEGER}) o,

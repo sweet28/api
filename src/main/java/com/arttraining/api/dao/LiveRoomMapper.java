@@ -38,4 +38,7 @@ public interface LiveRoomMapper {
     
     //coffee add 0217 首页新增直播列表接口 
     List<OpenClassLiveListBean> selectRoomLiveListByHome(Integer limit);
+    
+    //coffee add 0413 直播列表open/class/live/list接口调用
+    List<OpenClassLiveListBean> selectRoomLiveListByPreV2(Map<String, Object> map);
 }

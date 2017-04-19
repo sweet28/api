@@ -6,6 +6,7 @@ import java.util.Map;
 import com.arttraining.api.beanv2.LiveChapterListBean;
 import com.arttraining.api.beanv2.LiveCommentBean;
 import com.arttraining.api.beanv2.LiveGiftListBean;
+import com.arttraining.api.beanv2.LiveHistoryBean;
 import com.arttraining.api.beanv2.LiveMemberBean;
 import com.arttraining.api.beanv2.LiveTimeTableBean;
 import com.arttraining.api.beanv2.LiveTypeList;
@@ -19,6 +20,12 @@ import com.arttraining.api.pojo.LiveRoom;
 
 public interface IOpenClassLiveService {
 	//爱好者端 直播列表调用方法 begin
+	//coffee add 0413
+	List<OpenClassLiveListBean> getRoomLiveListByPreV2(Map<String, Object> map);
+	int updateLiveRoomInfoById(LiveRoom room);
+	List<LiveHistoryBean> getLiveHistoryChapterList(Map<String, Object> map);
+	//end
+	
     //coffee add 0116 直播列表open/class/live/list接口调用
     List<OpenClassLiveListBean> getRoomLiveListByPre(Map<String, Object> map);
     List<OpenClassLiveListBean> getRoomLiveListByFinish(Map<String, Object> map);
@@ -82,4 +89,5 @@ public interface IOpenClassLiveService {
     //coffee add 0315 老师端关闭直播间时 更新最新预告时间
     void updateRoomPreTimeById(LiveRoom room,Integer chapter_id);
     //end
+   
 }

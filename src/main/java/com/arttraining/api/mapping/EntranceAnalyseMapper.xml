@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.arttraining.api.dao.EntranceAnalyseMapper" >
+  <resultMap id="BaseResultMap" type="com.arttraining.api.pojo.EntranceAnalyse" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="CF001" property="cf001" jdbcType="VARCHAR" />
+    <result column="CF002" property="cf002" jdbcType="VARCHAR" />
+    <result column="CF003" property="cf003" jdbcType="VARCHAR" />
+    <result column="CF004" property="cf004" jdbcType="VARCHAR" />
+    <result column="CF005" property="cf005" jdbcType="VARCHAR" />
+    <result column="CF006" property="cf006" jdbcType="VARCHAR" />
+    <result column="CF007" property="cf007" jdbcType="VARCHAR" />
+    <result column="CF008" property="cf008" jdbcType="VARCHAR" />
+    <result column="CF009" property="cf009" jdbcType="VARCHAR" />
+    <result column="CF010" property="cf010" jdbcType="VARCHAR" />
+    <result column="CF011" property="cf011" jdbcType="VARCHAR" />
+    <result column="CF012" property="cf012" jdbcType="VARCHAR" />
+    <result column="CF013" property="cf013" jdbcType="VARCHAR" />
+    <result column="CF014" property="cf014" jdbcType="VARCHAR" />
+    <result column="CF015" property="cf015" jdbcType="VARCHAR" />
+    <result column="CF016" property="cf016" jdbcType="VARCHAR" />
+    <result column="CF017" property="cf017" jdbcType="VARCHAR" />
+    <result column="CF018" property="cf018" jdbcType="VARCHAR" />
+    <result column="CF019" property="cf019" jdbcType="VARCHAR" />
+    <result column="CF020" property="cf020" jdbcType="VARCHAR" />
+    <result column="CF021" property="cf021" jdbcType="VARCHAR" />
+    <result column="CF022" property="cf022" jdbcType="VARCHAR" />
+    <result column="CF023" property="cf023" jdbcType="VARCHAR" />
+    <result column="CF024" property="cf024" jdbcType="VARCHAR" />
+    <result column="CF025" property="cf025" jdbcType="VARCHAR" />
+    <result column="IF001" property="if001" jdbcType="INTEGER" />
+    <result column="IF002" property="if002" jdbcType="INTEGER" />
+    <result column="IF003" property="if003" jdbcType="INTEGER" />
+    <result column="IF004" property="if004" jdbcType="INTEGER" />
+    <result column="IF005" property="if005" jdbcType="INTEGER" />
+    <result column="IF006" property="if006" jdbcType="INTEGER" />
+    <result column="IF007" property="if007" jdbcType="INTEGER" />
+    <result column="IF008" property="if008" jdbcType="INTEGER" />
+    <result column="IF009" property="if009" jdbcType="INTEGER" />
+    <result column="IF010" property="if010" jdbcType="INTEGER" />
+    <result column="IF011" property="if011" jdbcType="INTEGER" />
+    <result column="IF012" property="if012" jdbcType="INTEGER" />
+    <result column="IF013" property="if013" jdbcType="INTEGER" />
+    <result column="IF014" property="if014" jdbcType="INTEGER" />
+    <result column="IF015" property="if015" jdbcType="INTEGER" />
+    <result column="DF001" property="df001" jdbcType="DOUBLE" />
+    <result column="DF002" property="df002" jdbcType="DOUBLE" />
+    <result column="DF003" property="df003" jdbcType="DOUBLE" />
+    <result column="DF004" property="df004" jdbcType="DOUBLE" />
+    <result column="DF005" property="df005" jdbcType="DOUBLE" />
+    <result column="DF006" property="df006" jdbcType="DOUBLE" />
+    <result column="DF007" property="df007" jdbcType="DOUBLE" />
+    <result column="DF008" property="df008" jdbcType="DOUBLE" />
+    <result column="DF009" property="df009" jdbcType="DOUBLE" />
+    <result column="DF010" property="df010" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, CF001, CF002, CF003, CF004, CF005, CF006, CF007, CF008, CF009, CF010, CF011, 
+    CF012, CF013, CF014, CF015, CF016, CF017, CF018, CF019, CF020, CF021, CF022, CF023, 
+    CF024, CF025, IF001, IF002, IF003, IF004, IF005, IF006, IF007, IF008, IF009, IF010, 
+    IF011, IF012, IF013, IF014, IF015, DF001, DF002, DF003, DF004, DF005, DF006, DF007, 
+    DF008, DF009, DF010
+  </sql>
+  
+  <!-- coffee add 0417 输入省术科统考成绩和文化成绩 推荐相应的院校列表 -->
+   <resultMap id="CollegeListResultMap" type="com.arttraining.api.beanv3.EntranceCollegeBean" >
+    <id column="id" property="college_id" jdbcType="BIGINT" />
+    <result column="CF002" property="province" jdbcType="VARCHAR" />
+    <result column="CF003" property="college_name" jdbcType="VARCHAR" />
+    <result column="CF004" property="college_code" jdbcType="VARCHAR" />
+    <result column="CF006" property="level" jdbcType="VARCHAR" />
+    <result column="CF009" property="website" jdbcType="VARCHAR" />
+    <result column="CF010" property="entroller_rule" jdbcType="VARCHAR" />
+    <result column="CF011" property="college_logo" jdbcType="VARCHAR" />
+    <result column="DF001" property="p_major_score" jdbcType="DOUBLE" />
+    <result column="DF002" property="p_culture_score" jdbcType="DOUBLE" />
+    <result column="DF003" property="c_major_score" jdbcType="DOUBLE" />
+    <result column="DF004" property="c_culture_score" jdbcType="DOUBLE" />
+    <result column="score" property="score" jdbcType="DOUBLE" />
+  </resultMap>
+  <select id="selectCollegeList" resultMap="CollegeListResultMap" parameterType="java.util.Map" >
+    select 
+    id,CF002,CF003,CF004,CF006,CF009,CF010,CF011,
+    DF001,DF002,DF003,DF004,
+    CASE IF001
+    	 WHEN 1 THEN ((#{major_score,jdbcType=DOUBLE} *DF005+#{culture_score,jdbcType=DOUBLE}*DF006)-DF007) 
+    	 WHEN 2 THEN ((#{culture_score,jdbcType=DOUBLE}*DF006)-DF007)
+    	 ELSE '0.00' END score
+	from t_yp_entrance_analyse
+	where CF008=#{year,jdbcType=VARCHAR} 
+	AND DF001 <![CDATA[ <= ]]> #{major_score,jdbcType=DOUBLE} 
+	AND DF002 <![CDATA[ <= ]]> #{culture_score,jdbcType=DOUBLE}
+	AND CF005=#{province,jdbcType=VARCHAR} 
+	AND CF007 REGEXP #{category,jdbcType=VARCHAR} 
+  </select>
+  
+  <!-- end -->
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_yp_entrance_analyse
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_yp_entrance_analyse
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.arttraining.api.pojo.EntranceAnalyse" >
+    insert into t_yp_entrance_analyse (id, CF001, CF002, 
+      CF003, CF004, CF005, 
+      CF006, CF007, CF008, 
+      CF009, CF010, CF011, 
+      CF012, CF013, CF014, 
+      CF015, CF016, CF017, 
+      CF018, CF019, CF020, 
+      CF021, CF022, CF023, 
+      CF024, CF025, IF001, 
+      IF002, IF003, IF004, 
+      IF005, IF006, IF007, 
+      IF008, IF009, IF010, 
+      IF011, IF012, IF013, 
+      IF014, IF015, DF001, 
+      DF002, DF003, DF004, DF005, 
+      DF006, DF007, DF008, DF009, 
+      DF010)
+    values (#{id,jdbcType=BIGINT}, #{cf001,jdbcType=VARCHAR}, #{cf002,jdbcType=VARCHAR}, 
+      #{cf003,jdbcType=VARCHAR}, #{cf004,jdbcType=VARCHAR}, #{cf005,jdbcType=VARCHAR}, 
+      #{cf006,jdbcType=VARCHAR}, #{cf007,jdbcType=VARCHAR}, #{cf008,jdbcType=VARCHAR}, 
+      #{cf009,jdbcType=VARCHAR}, #{cf010,jdbcType=VARCHAR}, #{cf011,jdbcType=VARCHAR}, 
+      #{cf012,jdbcType=VARCHAR}, #{cf013,jdbcType=VARCHAR}, #{cf014,jdbcType=VARCHAR}, 
+      #{cf015,jdbcType=VARCHAR}, #{cf016,jdbcType=VARCHAR}, #{cf017,jdbcType=VARCHAR}, 
+      #{cf018,jdbcType=VARCHAR}, #{cf019,jdbcType=VARCHAR}, #{cf020,jdbcType=VARCHAR}, 
+      #{cf021,jdbcType=VARCHAR}, #{cf022,jdbcType=VARCHAR}, #{cf023,jdbcType=VARCHAR}, 
+      #{cf024,jdbcType=VARCHAR}, #{cf025,jdbcType=VARCHAR}, #{if001,jdbcType=INTEGER}, 
+      #{if002,jdbcType=INTEGER}, #{if003,jdbcType=INTEGER}, #{if004,jdbcType=INTEGER}, 
+      #{if005,jdbcType=INTEGER}, #{if006,jdbcType=INTEGER}, #{if007,jdbcType=INTEGER}, 
+      #{if008,jdbcType=INTEGER}, #{if009,jdbcType=INTEGER}, #{if010,jdbcType=INTEGER}, 
+      #{if011,jdbcType=INTEGER}, #{if012,jdbcType=INTEGER}, #{if013,jdbcType=INTEGER}, 
+      #{if014,jdbcType=INTEGER}, #{if015,jdbcType=INTEGER}, #{df001,jdbcType=DOUBLE}, 
+      #{df002,jdbcType=DOUBLE}, #{df003,jdbcType=DOUBLE}, #{df004,jdbcType=DOUBLE}, #{df005,jdbcType=DOUBLE}, 
+      #{df006,jdbcType=DOUBLE}, #{df007,jdbcType=DOUBLE}, #{df008,jdbcType=DOUBLE}, #{df009,jdbcType=DOUBLE}, 
+      #{df010,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.arttraining.api.pojo.EntranceAnalyse" >
+    insert into t_yp_entrance_analyse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cf001 != null" >
+        CF001,
+      </if>
+      <if test="cf002 != null" >
+        CF002,
+      </if>
+      <if test="cf003 != null" >
+        CF003,
+      </if>
+      <if test="cf004 != null" >
+        CF004,
+      </if>
+      <if test="cf005 != null" >
+        CF005,
+      </if>
+      <if test="cf006 != null" >
+        CF006,
+      </if>
+      <if test="cf007 != null" >
+        CF007,
+      </if>
+      <if test="cf008 != null" >
+        CF008,
+      </if>
+      <if test="cf009 != null" >
+        CF009,
+      </if>
+      <if test="cf010 != null" >
+        CF010,
+      </if>
+      <if test="cf011 != null" >
+        CF011,
+      </if>
+      <if test="cf012 != null" >
+        CF012,
+      </if>
+      <if test="cf013 != null" >
+        CF013,
+      </if>
+      <if test="cf014 != null" >
+        CF014,
+      </if>
+      <if test="cf015 != null" >
+        CF015,
+      </if>
+      <if test="cf016 != null" >
+        CF016,
+      </if>
+      <if test="cf017 != null" >
+        CF017,
+      </if>
+      <if test="cf018 != null" >
+        CF018,
+      </if>
+      <if test="cf019 != null" >
+        CF019,
+      </if>
+      <if test="cf020 != null" >
+        CF020,
+      </if>
+      <if test="cf021 != null" >
+        CF021,
+      </if>
+      <if test="cf022 != null" >
+        CF022,
+      </if>
+      <if test="cf023 != null" >
+        CF023,
+      </if>
+      <if test="cf024 != null" >
+        CF024,
+      </if>
+      <if test="cf025 != null" >
+        CF025,
+      </if>
+      <if test="if001 != null" >
+        IF001,
+      </if>
+      <if test="if002 != null" >
+        IF002,
+      </if>
+      <if test="if003 != null" >
+        IF003,
+      </if>
+      <if test="if004 != null" >
+        IF004,
+      </if>
+      <if test="if005 != null" >
+        IF005,
+      </if>
+      <if test="if006 != null" >
+        IF006,
+      </if>
+      <if test="if007 != null" >
+        IF007,
+      </if>
+      <if test="if008 != null" >
+        IF008,
+      </if>
+      <if test="if009 != null" >
+        IF009,
+      </if>
+      <if test="if010 != null" >
+        IF010,
+      </if>
+      <if test="if011 != null" >
+        IF011,
+      </if>
+      <if test="if012 != null" >
+        IF012,
+      </if>
+      <if test="if013 != null" >
+        IF013,
+      </if>
+      <if test="if014 != null" >
+        IF014,
+      </if>
+      <if test="if015 != null" >
+        IF015,
+      </if>
+      <if test="df001 != null" >
+        DF001,
+      </if>
+      <if test="df002 != null" >
+        DF002,
+      </if>
+      <if test="df003 != null" >
+        DF003,
+      </if>
+      <if test="df004 != null" >
+        DF004,
+      </if>
+      <if test="df005 != null" >
+        DF005,
+      </if>
+      <if test="df006 != null" >
+        DF006,
+      </if>
+      <if test="df007 != null" >
+        DF007,
+      </if>
+      <if test="df008 != null" >
+        DF008,
+      </if>
+      <if test="df009 != null" >
+        DF009,
+      </if>
+      <if test="df010 != null" >
+        DF010,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="cf001 != null" >
+        #{cf001,jdbcType=VARCHAR},
+      </if>
+      <if test="cf002 != null" >
+        #{cf002,jdbcType=VARCHAR},
+      </if>
+      <if test="cf003 != null" >
+        #{cf003,jdbcType=VARCHAR},
+      </if>
+      <if test="cf004 != null" >
+        #{cf004,jdbcType=VARCHAR},
+      </if>
+      <if test="cf005 != null" >
+        #{cf005,jdbcType=VARCHAR},
+      </if>
+      <if test="cf006 != null" >
+        #{cf006,jdbcType=VARCHAR},
+      </if>
+      <if test="cf007 != null" >
+        #{cf007,jdbcType=VARCHAR},
+      </if>
+      <if test="cf008 != null" >
+        #{cf008,jdbcType=VARCHAR},
+      </if>
+      <if test="cf009 != null" >
+        #{cf009,jdbcType=VARCHAR},
+      </if>
+      <if test="cf010 != null" >
+        #{cf010,jdbcType=VARCHAR},
+      </if>
+      <if test="cf011 != null" >
+        #{cf011,jdbcType=VARCHAR},
+      </if>
+      <if test="cf012 != null" >
+        #{cf012,jdbcType=VARCHAR},
+      </if>
+      <if test="cf013 != null" >
+        #{cf013,jdbcType=VARCHAR},
+      </if>
+      <if test="cf014 != null" >
+        #{cf014,jdbcType=VARCHAR},
+      </if>
+      <if test="cf015 != null" >
+        #{cf015,jdbcType=VARCHAR},
+      </if>
+      <if test="cf016 != null" >
+        #{cf016,jdbcType=VARCHAR},
+      </if>
+      <if test="cf017 != null" >
+        #{cf017,jdbcType=VARCHAR},
+      </if>
+      <if test="cf018 != null" >
+        #{cf018,jdbcType=VARCHAR},
+      </if>
+      <if test="cf019 != null" >
+        #{cf019,jdbcType=VARCHAR},
+      </if>
+      <if test="cf020 != null" >
+        #{cf020,jdbcType=VARCHAR},
+      </if>
+      <if test="cf021 != null" >
+        #{cf021,jdbcType=VARCHAR},
+      </if>
+      <if test="cf022 != null" >
+        #{cf022,jdbcType=VARCHAR},
+      </if>
+      <if test="cf023 != null" >
+        #{cf023,jdbcType=VARCHAR},
+      </if>
+      <if test="cf024 != null" >
+        #{cf024,jdbcType=VARCHAR},
+      </if>
+      <if test="cf025 != null" >
+        #{cf025,jdbcType=VARCHAR},
+      </if>
+      <if test="if001 != null" >
+        #{if001,jdbcType=INTEGER},
+      </if>
+      <if test="if002 != null" >
+        #{if002,jdbcType=INTEGER},
+      </if>
+      <if test="if003 != null" >
+        #{if003,jdbcType=INTEGER},
+      </if>
+      <if test="if004 != null" >
+        #{if004,jdbcType=INTEGER},
+      </if>
+      <if test="if005 != null" >
+        #{if005,jdbcType=INTEGER},
+      </if>
+      <if test="if006 != null" >
+        #{if006,jdbcType=INTEGER},
+      </if>
+      <if test="if007 != null" >
+        #{if007,jdbcType=INTEGER},
+      </if>
+      <if test="if008 != null" >
+        #{if008,jdbcType=INTEGER},
+      </if>
+      <if test="if009 != null" >
+        #{if009,jdbcType=INTEGER},
+      </if>
+      <if test="if010 != null" >
+        #{if010,jdbcType=INTEGER},
+      </if>
+      <if test="if011 != null" >
+        #{if011,jdbcType=INTEGER},
+      </if>
+      <if test="if012 != null" >
+        #{if012,jdbcType=INTEGER},
+      </if>
+      <if test="if013 != null" >
+        #{if013,jdbcType=INTEGER},
+      </if>
+      <if test="if014 != null" >
+        #{if014,jdbcType=INTEGER},
+      </if>
+      <if test="if015 != null" >
+        #{if015,jdbcType=INTEGER},
+      </if>
+      <if test="df001 != null" >
+        #{df001,jdbcType=DOUBLE},
+      </if>
+      <if test="df002 != null" >
+        #{df002,jdbcType=DOUBLE},
+      </if>
+      <if test="df003 != null" >
+        #{df003,jdbcType=DOUBLE},
+      </if>
+      <if test="df004 != null" >
+        #{df004,jdbcType=DOUBLE},
+      </if>
+      <if test="df005 != null" >
+        #{df005,jdbcType=DOUBLE},
+      </if>
+      <if test="df006 != null" >
+        #{df006,jdbcType=DOUBLE},
+      </if>
+      <if test="df007 != null" >
+        #{df007,jdbcType=DOUBLE},
+      </if>
+      <if test="df008 != null" >
+        #{df008,jdbcType=DOUBLE},
+      </if>
+      <if test="df009 != null" >
+        #{df009,jdbcType=DOUBLE},
+      </if>
+      <if test="df010 != null" >
+        #{df010,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.arttraining.api.pojo.EntranceAnalyse" >
+    update t_yp_entrance_analyse
+    <set >
+      <if test="cf001 != null" >
+        CF001 = #{cf001,jdbcType=VARCHAR},
+      </if>
+      <if test="cf002 != null" >
+        CF002 = #{cf002,jdbcType=VARCHAR},
+      </if>
+      <if test="cf003 != null" >
+        CF003 = #{cf003,jdbcType=VARCHAR},
+      </if>
+      <if test="cf004 != null" >
+        CF004 = #{cf004,jdbcType=VARCHAR},
+      </if>
+      <if test="cf005 != null" >
+        CF005 = #{cf005,jdbcType=VARCHAR},
+      </if>
+      <if test="cf006 != null" >
+        CF006 = #{cf006,jdbcType=VARCHAR},
+      </if>
+      <if test="cf007 != null" >
+        CF007 = #{cf007,jdbcType=VARCHAR},
+      </if>
+      <if test="cf008 != null" >
+        CF008 = #{cf008,jdbcType=VARCHAR},
+      </if>
+      <if test="cf009 != null" >
+        CF009 = #{cf009,jdbcType=VARCHAR},
+      </if>
+      <if test="cf010 != null" >
+        CF010 = #{cf010,jdbcType=VARCHAR},
+      </if>
+      <if test="cf011 != null" >
+        CF011 = #{cf011,jdbcType=VARCHAR},
+      </if>
+      <if test="cf012 != null" >
+        CF012 = #{cf012,jdbcType=VARCHAR},
+      </if>
+      <if test="cf013 != null" >
+        CF013 = #{cf013,jdbcType=VARCHAR},
+      </if>
+      <if test="cf014 != null" >
+        CF014 = #{cf014,jdbcType=VARCHAR},
+      </if>
+      <if test="cf015 != null" >
+        CF015 = #{cf015,jdbcType=VARCHAR},
+      </if>
+      <if test="cf016 != null" >
+        CF016 = #{cf016,jdbcType=VARCHAR},
+      </if>
+      <if test="cf017 != null" >
+        CF017 = #{cf017,jdbcType=VARCHAR},
+      </if>
+      <if test="cf018 != null" >
+        CF018 = #{cf018,jdbcType=VARCHAR},
+      </if>
+      <if test="cf019 != null" >
+        CF019 = #{cf019,jdbcType=VARCHAR},
+      </if>
+      <if test="cf020 != null" >
+        CF020 = #{cf020,jdbcType=VARCHAR},
+      </if>
+      <if test="cf021 != null" >
+        CF021 = #{cf021,jdbcType=VARCHAR},
+      </if>
+      <if test="cf022 != null" >
+        CF022 = #{cf022,jdbcType=VARCHAR},
+      </if>
+      <if test="cf023 != null" >
+        CF023 = #{cf023,jdbcType=VARCHAR},
+      </if>
+      <if test="cf024 != null" >
+        CF024 = #{cf024,jdbcType=VARCHAR},
+      </if>
+      <if test="cf025 != null" >
+        CF025 = #{cf025,jdbcType=VARCHAR},
+      </if>
+      <if test="if001 != null" >
+        IF001 = #{if001,jdbcType=INTEGER},
+      </if>
+      <if test="if002 != null" >
+        IF002 = #{if002,jdbcType=INTEGER},
+      </if>
+      <if test="if003 != null" >
+        IF003 = #{if003,jdbcType=INTEGER},
+      </if>
+      <if test="if004 != null" >
+        IF004 = #{if004,jdbcType=INTEGER},
+      </if>
+      <if test="if005 != null" >
+        IF005 = #{if005,jdbcType=INTEGER},
+      </if>
+      <if test="if006 != null" >
+        IF006 = #{if006,jdbcType=INTEGER},
+      </if>
+      <if test="if007 != null" >
+        IF007 = #{if007,jdbcType=INTEGER},
+      </if>
+      <if test="if008 != null" >
+        IF008 = #{if008,jdbcType=INTEGER},
+      </if>
+      <if test="if009 != null" >
+        IF009 = #{if009,jdbcType=INTEGER},
+      </if>
+      <if test="if010 != null" >
+        IF010 = #{if010,jdbcType=INTEGER},
+      </if>
+      <if test="if011 != null" >
+        IF011 = #{if011,jdbcType=INTEGER},
+      </if>
+      <if test="if012 != null" >
+        IF012 = #{if012,jdbcType=INTEGER},
+      </if>
+      <if test="if013 != null" >
+        IF013 = #{if013,jdbcType=INTEGER},
+      </if>
+      <if test="if014 != null" >
+        IF014 = #{if014,jdbcType=INTEGER},
+      </if>
+      <if test="if015 != null" >
+        IF015 = #{if015,jdbcType=INTEGER},
+      </if>
+      <if test="df001 != null" >
+        DF001 = #{df001,jdbcType=DOUBLE},
+      </if>
+      <if test="df002 != null" >
+        DF002 = #{df002,jdbcType=DOUBLE},
+      </if>
+      <if test="df003 != null" >
+        DF003 = #{df003,jdbcType=DOUBLE},
+      </if>
+      <if test="df004 != null" >
+        DF004 = #{df004,jdbcType=DOUBLE},
+      </if>
+      <if test="df005 != null" >
+        DF005 = #{df005,jdbcType=DOUBLE},
+      </if>
+      <if test="df006 != null" >
+        DF006 = #{df006,jdbcType=DOUBLE},
+      </if>
+      <if test="df007 != null" >
+        DF007 = #{df007,jdbcType=DOUBLE},
+      </if>
+      <if test="df008 != null" >
+        DF008 = #{df008,jdbcType=DOUBLE},
+      </if>
+      <if test="df009 != null" >
+        DF009 = #{df009,jdbcType=DOUBLE},
+      </if>
+      <if test="df010 != null" >
+        DF010 = #{df010,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.arttraining.api.pojo.EntranceAnalyse" >
+    update t_yp_entrance_analyse
+    set CF001 = #{cf001,jdbcType=VARCHAR},
+      CF002 = #{cf002,jdbcType=VARCHAR},
+      CF003 = #{cf003,jdbcType=VARCHAR},
+      CF004 = #{cf004,jdbcType=VARCHAR},
+      CF005 = #{cf005,jdbcType=VARCHAR},
+      CF006 = #{cf006,jdbcType=VARCHAR},
+      CF007 = #{cf007,jdbcType=VARCHAR},
+      CF008 = #{cf008,jdbcType=VARCHAR},
+      CF009 = #{cf009,jdbcType=VARCHAR},
+      CF010 = #{cf010,jdbcType=VARCHAR},
+      CF011 = #{cf011,jdbcType=VARCHAR},
+      CF012 = #{cf012,jdbcType=VARCHAR},
+      CF013 = #{cf013,jdbcType=VARCHAR},
+      CF014 = #{cf014,jdbcType=VARCHAR},
+      CF015 = #{cf015,jdbcType=VARCHAR},
+      CF016 = #{cf016,jdbcType=VARCHAR},
+      CF017 = #{cf017,jdbcType=VARCHAR},
+      CF018 = #{cf018,jdbcType=VARCHAR},
+      CF019 = #{cf019,jdbcType=VARCHAR},
+      CF020 = #{cf020,jdbcType=VARCHAR},
+      CF021 = #{cf021,jdbcType=VARCHAR},
+      CF022 = #{cf022,jdbcType=VARCHAR},
+      CF023 = #{cf023,jdbcType=VARCHAR},
+      CF024 = #{cf024,jdbcType=VARCHAR},
+      CF025 = #{cf025,jdbcType=VARCHAR},
+      IF001 = #{if001,jdbcType=INTEGER},
+      IF002 = #{if002,jdbcType=INTEGER},
+      IF003 = #{if003,jdbcType=INTEGER},
+      IF004 = #{if004,jdbcType=INTEGER},
+      IF005 = #{if005,jdbcType=INTEGER},
+      IF006 = #{if006,jdbcType=INTEGER},
+      IF007 = #{if007,jdbcType=INTEGER},
+      IF008 = #{if008,jdbcType=INTEGER},
+      IF009 = #{if009,jdbcType=INTEGER},
+      IF010 = #{if010,jdbcType=INTEGER},
+      IF011 = #{if011,jdbcType=INTEGER},
+      IF012 = #{if012,jdbcType=INTEGER},
+      IF013 = #{if013,jdbcType=INTEGER},
+      IF014 = #{if014,jdbcType=INTEGER},
+      IF015 = #{if015,jdbcType=INTEGER},
+      DF001 = #{df001,jdbcType=DOUBLE},
+      DF002 = #{df002,jdbcType=DOUBLE},
+      DF003 = #{df003,jdbcType=DOUBLE},
+      DF004 = #{df004,jdbcType=DOUBLE},
+      DF005 = #{df005,jdbcType=DOUBLE},
+      DF006 = #{df006,jdbcType=DOUBLE},
+      DF007 = #{df007,jdbcType=DOUBLE},
+      DF008 = #{df008,jdbcType=DOUBLE},
+      DF009 = #{df009,jdbcType=DOUBLE},
+      DF010 = #{df010,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
