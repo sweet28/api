@@ -237,9 +237,6 @@ public class OpenClassController {
 		
 	}
 	
-	/**
-	 * 直播期间赠送礼物时调用的接口
-	 */
 	@RequestMapping(value = "/give/gift", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object giveGift(HttpServletRequest request, HttpServletResponse response) {
 		String errorCode = "";
@@ -284,42 +281,61 @@ public class OpenClassController {
 				//用户ID
 				Integer i_uid=Integer.valueOf(uid);
 				//赠送礼物ID
-				//Integer i_gift_id=Integer.valueOf(gift_id);
+				Integer i_gift_id=Integer.valueOf(gift_id);
 				//赠送礼物数量
 				Integer gift_num=Integer.valueOf(number);
 				//1.依据直播间ID来获取直播间信息
 				LiveRoom room=this.openClassLiveService.getLiveRoomById(i_room_id);
 				if(room!=null) {
-					Integer owner=room.getOwner();
-					String owner_type=room.getOwnerType();
-							
-					//新增一条直播评论信息
-					LiveComment comment=new LiveComment();
-					//获取当前时间
-					Date date = new Date();
-					String time=TimeUtil.getTimeByDate(date);
-					comment.setVisitor(i_uid);
-					comment.setVisitorType(utype);
-					comment.setHost(owner);
-					comment.setHostType(owner_type);
-					comment.setForeignKey(i_chapter_id);
-					comment.setCreateTime(date);
-					comment.setOrderCode(time);
-					comment.setContent(gift_id);
-					comment.setType("comment");
-					comment.setBuyNumber(gift_num);
-					comment.setRemarks("gift");
-					
-				try {
-						this.openClassLiveService.insertLiveComment(comment);
-						errorCode = "0";
-						errorMessage = "ok";
-					} catch (Exception e) {
-						// TODO: handle exception
-						errorCode = "20073";
-						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20073;
+					boolean flag=true;
+					//coffee add 0427 新增判断用户是否有足够云币支付礼物价格
+					Wallet wallet=this.walletService.getCloudMoneyByUid(i_uid, utype);
+					if(wallet!=null) {
+						Double money=wallet.getCloudMoney();
+						LiveGift gift=this.openClassLiveService.getGiftInfoById(i_gift_id);
+						if(gift!=null) {
+							Double price=gift.getPrice()*gift_num;
+							if(money.doubleValue()>=price.doubleValue()) {
+								flag=false;
+							} 
+						}
+					} 
+					if(flag) {
+						errorCode = "20094";
+						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20094;
+					} else { 
+						//end
+						Integer owner=room.getOwner();
+						String owner_type=room.getOwnerType();
+								
+						//新增一条直播评论信息
+						LiveComment comment=new LiveComment();
+						//获取当前时间
+						Date date = new Date();
+						String time=TimeUtil.getTimeByDate(date);
+						comment.setVisitor(i_uid);
+						comment.setVisitorType(utype);
+						comment.setHost(owner);
+						comment.setHostType(owner_type);
+						comment.setForeignKey(i_chapter_id);
+						comment.setCreateTime(date);
+						comment.setOrderCode(time);
+						comment.setContent(gift_id);
+						comment.setType("comment");
+						comment.setBuyNumber(gift_num);
+						comment.setRemarks("gift");
+						
+					try {
+							this.openClassLiveService.insertLiveComment(comment);
+							errorCode = "0";
+							errorMessage = "ok";
+						} catch (Exception e) {
+							// TODO: handle exception
+							errorCode = "20073";
+							errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20073;
+						}
 					}
-				} else {
+				}else {
 						errorCode = "20088";
 						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20088;
 					}
@@ -336,6 +352,105 @@ public class OpenClassController {
 			return jsonObject;
 	}
 	
+	/**
+	 * 直播期间赠送礼物时调用的接口
+	 */
+//	@RequestMapping(value = "/give/gift", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	public @ResponseBody Object giveGift(HttpServletRequest request, HttpServletResponse response) {
+//		String errorCode = "";
+//		String errorMessage = "";
+//		
+//		//以下是必选参数
+//		String access_token=request.getParameter("access_token");
+//		String uid=request.getParameter("uid");
+//		String utype=request.getParameter("utype");
+//		String room_id=request.getParameter("room_id");
+//		String chapter_id=request.getParameter("chapter_id");
+//		String gift_id=request.getParameter("gift_id");
+//		String number=request.getParameter("number");
+//						
+//		ServerLog.getLogger().warn("access_token:"+access_token+"-uid:"+uid+
+//						"-utype:"+utype+"-chapter_id:"+chapter_id+"-gift_id:"+gift_id
+//						+"-number:"+number+"-room_id:"+room_id);
+//		if(access_token==null || uid==null || utype==null || room_id==null
+//				|| chapter_id==null || gift_id==null || number==null) {
+//			errorCode = "20032";
+//			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+//		} else if(access_token.equals("") || uid.equals("") 
+//				|| utype.equals("") || chapter_id.equals("") 
+//				|| gift_id.equals("")
+//				|| room_id.equals("") || number.equals("")) {
+//			errorCode = "20032";
+//			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20032;
+//		} else if(!NumberUtil.isInteger(uid) 
+//				|| !NumberUtil.isInteger(chapter_id) 
+//				|| !NumberUtil.isInteger(room_id)
+//				|| !NumberUtil.isInteger(gift_id)
+//				|| !NumberUtil.isInteger(number)) {
+//			errorCode = "20033";
+//			errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20033;
+//		} else {
+//			boolean tokenFlag = tokenService.checkToken(access_token);
+//			if (tokenFlag) {
+//				//直播间ID
+//				Integer i_room_id=Integer.valueOf(room_id);
+//				//课时ID
+//				Integer i_chapter_id=Integer.valueOf(chapter_id);
+//				//用户ID
+//				Integer i_uid=Integer.valueOf(uid);
+//				//赠送礼物ID
+//				//Integer i_gift_id=Integer.valueOf(gift_id);
+//				//赠送礼物数量
+//				Integer gift_num=Integer.valueOf(number);
+//				//1.依据直播间ID来获取直播间信息
+//				LiveRoom room=this.openClassLiveService.getLiveRoomById(i_room_id);
+//				if(room!=null) {
+//					Integer owner=room.getOwner();
+//					String owner_type=room.getOwnerType();
+//							
+//					//新增一条直播评论信息
+//					LiveComment comment=new LiveComment();
+//					//获取当前时间
+//					Date date = new Date();
+//					String time=TimeUtil.getTimeByDate(date);
+//					comment.setVisitor(i_uid);
+//					comment.setVisitorType(utype);
+//					comment.setHost(owner);
+//					comment.setHostType(owner_type);
+//					comment.setForeignKey(i_chapter_id);
+//					comment.setCreateTime(date);
+//					comment.setOrderCode(time);
+//					comment.setContent(gift_id);
+//					comment.setType("comment");
+//					comment.setBuyNumber(gift_num);
+//					comment.setRemarks("gift");
+//					
+//				try {
+//						this.openClassLiveService.insertLiveComment(comment);
+//						errorCode = "0";
+//						errorMessage = "ok";
+//					} catch (Exception e) {
+//						// TODO: handle exception
+//						errorCode = "20073";
+//						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20073;
+//					}
+//				} else {
+//						errorCode = "20088";
+//						errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20088;
+//					}
+//			} else {
+//					errorCode = "20028";
+//					errorMessage = ErrorCodeConfigUtil.ERROR_MSG_ZH_20028;
+//				}
+//			}
+//			JSONObject jsonObject = new JSONObject();
+//			jsonObject.put(ConfigUtil.PARAMETER_ERROR_CODE, errorCode);
+//			jsonObject.put(ConfigUtil.PARAMETER_ERROR_MSG, errorMessage);
+//				
+//			ServerLog.getLogger().warn(jsonObject.toString());
+//			return jsonObject;
+//	}
+//	
 	/**
 	 * 爱好者端获取直播是否禁言状态
 	 */
@@ -672,7 +787,8 @@ public class OpenClassController {
 		List<LiveMemberBean> member_list=new ArrayList<LiveMemberBean>();
 		
 		Integer offset=-1;
-		Integer limit=ConfigUtil.MEMBER_PAGESIZE;
+		//Integer limit=ConfigUtil.MEMBER_PAGESIZE;
+		Integer limit=2;
 		
 		if(access_token==null || room_id==null) {
 			errorCode = "20032";

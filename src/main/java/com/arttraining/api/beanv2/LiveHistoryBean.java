@@ -122,8 +122,6 @@ public class LiveHistoryBean {
 		return thumbnail;
 	}
 	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
+		this.thumbnail = ImageUtil.parsePicPath(thumbnail, 5);
 	}
-	
-	
 }

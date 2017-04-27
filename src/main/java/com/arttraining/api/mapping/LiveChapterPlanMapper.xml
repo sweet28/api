@@ -80,12 +80,12 @@
     select c.id as chapter_id,c.name as chapter_name,
     c.owner,c.owner_type,c.start_time,c.end_time,
     c.live_price,c.record_price,c.browse_number,
-    c.room_id,c.is_free,c.introduction,c.remarks1 as thumbnail,
+    c.room_id,c.is_free,c.introduction,r.thumbnail,
     c.remarks2,u.name,u.head_pic,u.fans_num
     from (select id,name,owner,owner_type,start_time,
     end_time,live_price,record_price,browse_number,
     room_id,is_free,introduction,remarks2,
-    live_status,remarks1
+    live_status
     from t_yp_live_chapter_plan
     where is_deleted=0 and is_publish=2
     and live_status=2
@@ -93,8 +93,11 @@
     limit #{page,jdbcType=INTEGER},#{limit,jdbcType=INTEGER}) c,
     (select id,name,head_pic,fans_num
     from t_yp_user_tech
-    where is_deleted=0) u
-    where c.owner=u.id
+    where is_deleted=0) u,
+    (select id,thumbnail
+    from t_yp_live_room
+    where is_deleted=0) r
+    where c.owner=u.id and c.room_id=r.id
     order by c.remarks2 desc
   </select>
   

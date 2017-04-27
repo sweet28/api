@@ -96,6 +96,7 @@
     from t_yp_live_room
     where is_deleted=0 and is_publish=2
     and pre_number<![CDATA[ <> ]]>0
+    order by remarks1 asc,pre_time asc
     limit #{limit,jdbcType=INTEGER}) r,
     (select id,name 
     from t_yp_user_tech
