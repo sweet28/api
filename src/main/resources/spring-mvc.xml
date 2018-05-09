@@ -35,7 +35,8 @@
 		location="/css/" /> -->
 
 	<!-- 自动扫描该包，使SpringMVC认为包下用了@controller注解的类是控制器 -->
-	<context:component-scan base-package="com.arttraining.api">  
+	<context:component-scan base-package="com.*.api">  
+<!-- 	<context:component-scan base-package="com.carpi.api">   -->
     	<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>   
 	</context:component-scan> 
 	<!--  <context:component-scan base-package="com.arttraining.api.controller" />-->
@@ -78,7 +79,7 @@
 	</bean>
 	
 	<!-- 全局异常处理 coffee add 1123-->
-    <bean id="exceptionHandler" class="com.arttraining.commons.util.DefaultExceptionHandler" />
+<!--     <bean id="exceptionHandler" class="com.arttraining.commons.util.DefaultExceptionHandler" /> -->
         
 	<!-- redis
 	<context:property-placeholder location="classpath:redis.properties" />    

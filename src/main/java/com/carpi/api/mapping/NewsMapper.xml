@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.carpi.api.dao.NewsMapper" >
+  <resultMap id="BaseResultMap" type="com.carpi.api.pojo.News" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="delete_date" property="deleteDate" jdbcType="TIMESTAMP" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="fens_user_id" property="fensUserId" jdbcType="INTEGER" />
+    <result column="read_state" property="readState" jdbcType="INTEGER" />
+    <result column="conent" property="conent" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bak1, bak2, bak3, is_delete, create_date, creater, delete_date, attachment, fens_user_id, 
+    read_state, conent
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.carpi.api.pojo.News" >
+    insert into news (id, bak1, bak2, 
+      bak3, is_delete, create_date, 
+      creater, delete_date, attachment, 
+      fens_user_id, read_state, conent
+      )
+    values (#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
+      #{bak3,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{creater,jdbcType=VARCHAR}, #{deleteDate,jdbcType=TIMESTAMP}, #{attachment,jdbcType=VARCHAR}, 
+      #{fensUserId,jdbcType=INTEGER}, #{readState,jdbcType=INTEGER}, #{conent,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.carpi.api.pojo.News" >
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+      <if test="bak3 != null" >
+        bak3,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="deleteDate != null" >
+        delete_date,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id,
+      </if>
+      <if test="readState != null" >
+        read_state,
+      </if>
+      <if test="conent != null" >
+        conent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="fensUserId != null" >
+        #{fensUserId,jdbcType=INTEGER},
+      </if>
+      <if test="readState != null" >
+        #{readState,jdbcType=INTEGER},
+      </if>
+      <if test="conent != null" >
+        #{conent,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.News" >
+    update news
+    <set >
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id = #{fensUserId,jdbcType=INTEGER},
+      </if>
+      <if test="readState != null" >
+        read_state = #{readState,jdbcType=INTEGER},
+      </if>
+      <if test="conent != null" >
+        conent = #{conent,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.News" >
+    update news
+    set bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR},
+      delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      fens_user_id = #{fensUserId,jdbcType=INTEGER},
+      read_state = #{readState,jdbcType=INTEGER},
+      conent = #{conent,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

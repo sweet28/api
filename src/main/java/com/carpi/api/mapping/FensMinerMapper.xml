@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.carpi.api.dao.FensMinerMapper" >
+  <resultMap id="BaseResultMap" type="com.carpi.api.pojo.FensMiner" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="delete_date" property="deleteDate" jdbcType="TIMESTAMP" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="miner_type" property="minerType" jdbcType="INTEGER" />
+    <result column="miner_id" property="minerId" jdbcType="INTEGER" />
+    <result column="fens_user_id" property="fensUserId" jdbcType="INTEGER" />
+    <result column="miner_computing_power" property="minerComputingPower" jdbcType="DOUBLE" />
+    <result column="total_revenue" property="totalRevenue" jdbcType="DOUBLE" />
+    <result column="able_earn" property="ableEarn" jdbcType="DOUBLE" />
+    <result column="lock_earn" property="lockEarn" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bak1, bak2, bak3, is_delete, create_date, creater, delete_date, attachment, miner_type, 
+    miner_id, fens_user_id, miner_computing_power, total_revenue, able_earn, lock_earn
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fens_miner
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fens_miner
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.carpi.api.pojo.FensMiner" >
+    insert into fens_miner (id, bak1, bak2, 
+      bak3, is_delete, create_date, 
+      creater, delete_date, attachment, 
+      miner_type, miner_id, fens_user_id, 
+      miner_computing_power, total_revenue, able_earn, 
+      lock_earn)
+    values (#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
+      #{bak3,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{creater,jdbcType=VARCHAR}, #{deleteDate,jdbcType=TIMESTAMP}, #{attachment,jdbcType=VARCHAR}, 
+      #{minerType,jdbcType=INTEGER}, #{minerId,jdbcType=INTEGER}, #{fensUserId,jdbcType=INTEGER}, 
+      #{minerComputingPower,jdbcType=DOUBLE}, #{totalRevenue,jdbcType=DOUBLE}, #{ableEarn,jdbcType=DOUBLE}, 
+      #{lockEarn,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.carpi.api.pojo.FensMiner" >
+    insert into fens_miner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+      <if test="bak3 != null" >
+        bak3,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="deleteDate != null" >
+        delete_date,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="minerType != null" >
+        miner_type,
+      </if>
+      <if test="minerId != null" >
+        miner_id,
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id,
+      </if>
+      <if test="minerComputingPower != null" >
+        miner_computing_power,
+      </if>
+      <if test="totalRevenue != null" >
+        total_revenue,
+      </if>
+      <if test="ableEarn != null" >
+        able_earn,
+      </if>
+      <if test="lockEarn != null" >
+        lock_earn,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="minerType != null" >
+        #{minerType,jdbcType=INTEGER},
+      </if>
+      <if test="minerId != null" >
+        #{minerId,jdbcType=INTEGER},
+      </if>
+      <if test="fensUserId != null" >
+        #{fensUserId,jdbcType=INTEGER},
+      </if>
+      <if test="minerComputingPower != null" >
+        #{minerComputingPower,jdbcType=DOUBLE},
+      </if>
+      <if test="totalRevenue != null" >
+        #{totalRevenue,jdbcType=DOUBLE},
+      </if>
+      <if test="ableEarn != null" >
+        #{ableEarn,jdbcType=DOUBLE},
+      </if>
+      <if test="lockEarn != null" >
+        #{lockEarn,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.FensMiner" >
+    update fens_miner
+    <set >
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="minerType != null" >
+        miner_type = #{minerType,jdbcType=INTEGER},
+      </if>
+      <if test="minerId != null" >
+        miner_id = #{minerId,jdbcType=INTEGER},
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id = #{fensUserId,jdbcType=INTEGER},
+      </if>
+      <if test="minerComputingPower != null" >
+        miner_computing_power = #{minerComputingPower,jdbcType=DOUBLE},
+      </if>
+      <if test="totalRevenue != null" >
+        total_revenue = #{totalRevenue,jdbcType=DOUBLE},
+      </if>
+      <if test="ableEarn != null" >
+        able_earn = #{ableEarn,jdbcType=DOUBLE},
+      </if>
+      <if test="lockEarn != null" >
+        lock_earn = #{lockEarn,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.FensMiner" >
+    update fens_miner
+    set bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR},
+      delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      miner_type = #{minerType,jdbcType=INTEGER},
+      miner_id = #{minerId,jdbcType=INTEGER},
+      fens_user_id = #{fensUserId,jdbcType=INTEGER},
+      miner_computing_power = #{minerComputingPower,jdbcType=DOUBLE},
+      total_revenue = #{totalRevenue,jdbcType=DOUBLE},
+      able_earn = #{ableEarn,jdbcType=DOUBLE},
+      lock_earn = #{lockEarn,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

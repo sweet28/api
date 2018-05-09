@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.carpi.api.dao.FensTeamMapper" >
+  <resultMap id="BaseResultMap" type="com.carpi.api.pojo.FensTeam" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="delete_date" property="deleteDate" jdbcType="TIMESTAMP" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="invitee_id" property="inviteeId" jdbcType="INTEGER" />
+    <result column="invitee_name" property="inviteeName" jdbcType="VARCHAR" />
+    <result column="invitee_phone" property="inviteePhone" jdbcType="VARCHAR" />
+    <result column="invitee_computing_power" property="inviteeComputingPower" jdbcType="DOUBLE" />
+    <result column="earning_power" property="earningPower" jdbcType="DOUBLE" />
+    <result column="fens_user_id" property="fensUserId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bak1, bak2, bak3, is_delete, create_date, creater, delete_date, attachment, invitee_id, 
+    invitee_name, invitee_phone, invitee_computing_power, earning_power, fens_user_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fens_team
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fens_team
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.carpi.api.pojo.FensTeam" >
+    insert into fens_team (id, bak1, bak2, 
+      bak3, is_delete, create_date, 
+      creater, delete_date, attachment, 
+      invitee_id, invitee_name, invitee_phone, 
+      invitee_computing_power, earning_power, fens_user_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
+      #{bak3,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{creater,jdbcType=VARCHAR}, #{deleteDate,jdbcType=TIMESTAMP}, #{attachment,jdbcType=VARCHAR}, 
+      #{inviteeId,jdbcType=INTEGER}, #{inviteeName,jdbcType=VARCHAR}, #{inviteePhone,jdbcType=VARCHAR}, 
+      #{inviteeComputingPower,jdbcType=DOUBLE}, #{earningPower,jdbcType=DOUBLE}, #{fensUserId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.carpi.api.pojo.FensTeam" >
+    insert into fens_team
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+      <if test="bak3 != null" >
+        bak3,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="deleteDate != null" >
+        delete_date,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="inviteeId != null" >
+        invitee_id,
+      </if>
+      <if test="inviteeName != null" >
+        invitee_name,
+      </if>
+      <if test="inviteePhone != null" >
+        invitee_phone,
+      </if>
+      <if test="inviteeComputingPower != null" >
+        invitee_computing_power,
+      </if>
+      <if test="earningPower != null" >
+        earning_power,
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteeId != null" >
+        #{inviteeId,jdbcType=INTEGER},
+      </if>
+      <if test="inviteeName != null" >
+        #{inviteeName,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteePhone != null" >
+        #{inviteePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteeComputingPower != null" >
+        #{inviteeComputingPower,jdbcType=DOUBLE},
+      </if>
+      <if test="earningPower != null" >
+        #{earningPower,jdbcType=DOUBLE},
+      </if>
+      <if test="fensUserId != null" >
+        #{fensUserId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.FensTeam" >
+    update fens_team
+    <set >
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteeId != null" >
+        invitee_id = #{inviteeId,jdbcType=INTEGER},
+      </if>
+      <if test="inviteeName != null" >
+        invitee_name = #{inviteeName,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteePhone != null" >
+        invitee_phone = #{inviteePhone,jdbcType=VARCHAR},
+      </if>
+      <if test="inviteeComputingPower != null" >
+        invitee_computing_power = #{inviteeComputingPower,jdbcType=DOUBLE},
+      </if>
+      <if test="earningPower != null" >
+        earning_power = #{earningPower,jdbcType=DOUBLE},
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id = #{fensUserId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.FensTeam" >
+    update fens_team
+    set bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR},
+      delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      invitee_id = #{inviteeId,jdbcType=INTEGER},
+      invitee_name = #{inviteeName,jdbcType=VARCHAR},
+      invitee_phone = #{inviteePhone,jdbcType=VARCHAR},
+      invitee_computing_power = #{inviteeComputingPower,jdbcType=DOUBLE},
+      earning_power = #{earningPower,jdbcType=DOUBLE},
+      fens_user_id = #{fensUserId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

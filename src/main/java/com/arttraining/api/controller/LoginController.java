@@ -39,7 +39,7 @@ public class LoginController {
 	@Resource
 	private TokenService tokenService;
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/login", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	public @ResponseBody Object loginYHY(HttpServletRequest request, HttpServletResponse response) {
 		String name = "";
 		String pwd = "";

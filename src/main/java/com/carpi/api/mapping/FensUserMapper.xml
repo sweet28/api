@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.carpi.api.dao.FensUserMapper">
+	<resultMap id="BaseResultMap" type="com.carpi.api.pojo.FensUser">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="bak1" property="bak1" jdbcType="VARCHAR" />
+		<result column="bak2" property="bak2" jdbcType="VARCHAR" />
+		<result column="bak3" property="bak3" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="creater" property="creater" jdbcType="VARCHAR" />
+		<result column="delete_date" property="deleteDate" jdbcType="TIMESTAMP" />
+		<result column="attachment" property="attachment" jdbcType="VARCHAR" />
+		<result column="referee_phone" property="refereePhone"
+			jdbcType="VARCHAR" />
+		<result column="referee_id" property="refereeId" jdbcType="INTEGER" />
+		<result column="country_region" property="countryRegion"
+			jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="pwd" property="pwd" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="capital_pwd" property="capitalPwd" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, bak1, bak2, bak3, is_delete, create_date, creater,
+		delete_date,
+		attachment, referee_phone,
+		referee_id, country_region,
+		phone, name, pwd, email, capital_pwd
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from fens_user
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from
+		fens_user
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.carpi.api.pojo.FensUser">
+		insert into fens_user (id,
+		bak1, bak2,
+		bak3, is_delete, create_date,
+		creater, delete_date,
+		attachment,
+		referee_phone, referee_id, country_region,
+		phone, name, pwd,
+		email,
+		capital_pwd)
+		values (#{id,jdbcType=INTEGER},
+		#{bak1,jdbcType=VARCHAR},
+		#{bak2,jdbcType=VARCHAR},
+		#{bak3,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{creater,jdbcType=VARCHAR},
+		#{deleteDate,jdbcType=TIMESTAMP},
+		#{attachment,jdbcType=VARCHAR},
+		#{refereePhone,jdbcType=VARCHAR}, #{refereeId,jdbcType=INTEGER},
+		#{countryRegion,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{pwd,jdbcType=VARCHAR},
+		#{email,jdbcType=VARCHAR},
+		#{capitalPwd,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.carpi.api.pojo.FensUser">
+		insert into fens_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="bak1 != null">
+				bak1,
+			</if>
+			<if test="bak2 != null">
+				bak2,
+			</if>
+			<if test="bak3 != null">
+				bak3,
+			</if>
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="deleteDate != null">
+				delete_date,
+			</if>
+			<if test="attachment != null">
+				attachment,
+			</if>
+			<if test="refereePhone != null">
+				referee_phone,
+			</if>
+			<if test="refereeId != null">
+				referee_id,
+			</if>
+			<if test="countryRegion != null">
+				country_region,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="pwd != null">
+				pwd,
+			</if>
+			<if test="email != null">
+				email,
+			</if>
+			<if test="capitalPwd != null">
+				capital_pwd,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="bak1 != null">
+				#{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				#{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				#{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				#{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				#{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="refereePhone != null">
+				#{refereePhone,jdbcType=VARCHAR},
+			</if>
+			<if test="refereeId != null">
+				#{refereeId,jdbcType=INTEGER},
+			</if>
+			<if test="countryRegion != null">
+				#{countryRegion,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pwd != null">
+				#{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				#{email,jdbcType=VARCHAR},
+			</if>
+			<if test="capitalPwd != null">
+				#{capitalPwd,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.FensUser">
+		update fens_user
+		<set>
+			<if test="bak1 != null">
+				bak1 = #{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				bak2 = #{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				bak3 = #{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				attachment = #{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="refereePhone != null">
+				referee_phone = #{refereePhone,jdbcType=VARCHAR},
+			</if>
+			<if test="refereeId != null">
+				referee_id = #{refereeId,jdbcType=INTEGER},
+			</if>
+			<if test="countryRegion != null">
+				country_region = #{countryRegion,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="pwd != null">
+				pwd = #{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="email != null">
+				email = #{email,jdbcType=VARCHAR},
+			</if>
+			<if test="capitalPwd != null">
+				capital_pwd = #{capitalPwd,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.FensUser">
+		update fens_user
+		set bak1 = #{bak1,jdbcType=VARCHAR},
+		bak2 = #{bak2,jdbcType=VARCHAR},
+		bak3 = #{bak3,jdbcType=VARCHAR},
+		is_delete =
+		#{isDelete,jdbcType=INTEGER},
+		create_date =
+		#{createDate,jdbcType=TIMESTAMP},
+		creater =
+		#{creater,jdbcType=VARCHAR},
+		delete_date =
+		#{deleteDate,jdbcType=TIMESTAMP},
+		attachment =
+		#{attachment,jdbcType=VARCHAR},
+		referee_phone =
+		#{refereePhone,jdbcType=VARCHAR},
+		referee_id =
+		#{refereeId,jdbcType=INTEGER},
+		country_region =
+		#{countryRegion,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		pwd = #{pwd,jdbcType=VARCHAR},
+		email =
+		#{email,jdbcType=VARCHAR},
+		capital_pwd = #{capitalPwd,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectRegister" parameterType="com.carpi.api.pojo.FensUser"
+		resultType="com.carpi.api.pojo.FensUser">
+		select
+		<include refid="Base_Column_List" />
+		from fens_user where phone = #{phone,jdbcType=VARCHAR}
+	</select>
+	
+	<select id="selectReferee" parameterType="com.carpi.api.pojo.FensUser"
+		resultType="com.carpi.api.pojo.FensUser">
+		select
+		<include refid="Base_Column_List" />
+		from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR}
+	</select>
+</mapper>

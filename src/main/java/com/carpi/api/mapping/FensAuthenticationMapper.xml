@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.carpi.api.dao.FensAuthenticationMapper" >
+  <resultMap id="BaseResultMap" type="com.carpi.api.pojo.FensAuthentication" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="delete_date" property="deleteDate" jdbcType="TIMESTAMP" />
+    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
+    <result column="fens_user_id" property="fensUserId" jdbcType="INTEGER" />
+    <result column="card_type" property="cardType" jdbcType="INTEGER" />
+    <result column="card_number" property="cardNumber" jdbcType="VARCHAR" />
+    <result column="card_frontpic" property="cardFrontpic" jdbcType="VARCHAR" />
+    <result column="card_behindpic" property="cardBehindpic" jdbcType="VARCHAR" />
+    <result column="card_userpic" property="cardUserpic" jdbcType="VARCHAR" />
+    <result column="goole_private_key" property="goolePrivateKey" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bak1, bak2, bak3, is_delete, create_date, creater, delete_date, attachment, fens_user_id, 
+    card_type, card_number, card_frontpic, card_behindpic, card_userpic, goole_private_key
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fens_authentication
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from fens_authentication
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.carpi.api.pojo.FensAuthentication" >
+    insert into fens_authentication (id, bak1, bak2, 
+      bak3, is_delete, create_date, 
+      creater, delete_date, attachment, 
+      fens_user_id, card_type, card_number, 
+      card_frontpic, card_behindpic, card_userpic, 
+      goole_private_key)
+    values (#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
+      #{bak3,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{creater,jdbcType=VARCHAR}, #{deleteDate,jdbcType=TIMESTAMP}, #{attachment,jdbcType=VARCHAR}, 
+      #{fensUserId,jdbcType=INTEGER}, #{cardType,jdbcType=INTEGER}, #{cardNumber,jdbcType=VARCHAR}, 
+      #{cardFrontpic,jdbcType=VARCHAR}, #{cardBehindpic,jdbcType=VARCHAR}, #{cardUserpic,jdbcType=VARCHAR}, 
+      #{goolePrivateKey,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.carpi.api.pojo.FensAuthentication" >
+    insert into fens_authentication
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+      <if test="bak3 != null" >
+        bak3,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="deleteDate != null" >
+        delete_date,
+      </if>
+      <if test="attachment != null" >
+        attachment,
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id,
+      </if>
+      <if test="cardType != null" >
+        card_type,
+      </if>
+      <if test="cardNumber != null" >
+        card_number,
+      </if>
+      <if test="cardFrontpic != null" >
+        card_frontpic,
+      </if>
+      <if test="cardBehindpic != null" >
+        card_behindpic,
+      </if>
+      <if test="cardUserpic != null" >
+        card_userpic,
+      </if>
+      <if test="goolePrivateKey != null" >
+        goole_private_key,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null" >
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="fensUserId != null" >
+        #{fensUserId,jdbcType=INTEGER},
+      </if>
+      <if test="cardType != null" >
+        #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="cardNumber != null" >
+        #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cardFrontpic != null" >
+        #{cardFrontpic,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBehindpic != null" >
+        #{cardBehindpic,jdbcType=VARCHAR},
+      </if>
+      <if test="cardUserpic != null" >
+        #{cardUserpic,jdbcType=VARCHAR},
+      </if>
+      <if test="goolePrivateKey != null" >
+        #{goolePrivateKey,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.FensAuthentication" >
+    update fens_authentication
+    <set >
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id = #{fensUserId,jdbcType=INTEGER},
+      </if>
+      <if test="cardType != null" >
+        card_type = #{cardType,jdbcType=INTEGER},
+      </if>
+      <if test="cardNumber != null" >
+        card_number = #{cardNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="cardFrontpic != null" >
+        card_frontpic = #{cardFrontpic,jdbcType=VARCHAR},
+      </if>
+      <if test="cardBehindpic != null" >
+        card_behindpic = #{cardBehindpic,jdbcType=VARCHAR},
+      </if>
+      <if test="cardUserpic != null" >
+        card_userpic = #{cardUserpic,jdbcType=VARCHAR},
+      </if>
+      <if test="goolePrivateKey != null" >
+        goole_private_key = #{goolePrivateKey,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.FensAuthentication" >
+    update fens_authentication
+    set bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR},
+      delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      fens_user_id = #{fensUserId,jdbcType=INTEGER},
+      card_type = #{cardType,jdbcType=INTEGER},
+      card_number = #{cardNumber,jdbcType=VARCHAR},
+      card_frontpic = #{cardFrontpic,jdbcType=VARCHAR},
+      card_behindpic = #{cardBehindpic,jdbcType=VARCHAR},
+      card_userpic = #{cardUserpic,jdbcType=VARCHAR},
+      goole_private_key = #{goolePrivateKey,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
