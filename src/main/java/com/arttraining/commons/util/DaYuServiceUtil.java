@@ -10,7 +10,7 @@ import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 public class DaYuServiceUtil {
 	public static JSONObject sendSMSCode(String mobile, String codeType) {
 		JSONObject resultJo = new JSONObject();
-		String freeSingName = "艺培达人";
+		String freeSingName = "CPA";
 		String templateCode = "SMS_11655386";
 		
 		if(codeType.equals("") || codeType == null){

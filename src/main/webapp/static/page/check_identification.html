@@ -1,0 +1,163 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/invest.css">
+    <title>审核认证</title>
+    <style>
+        #ci_wrap {
+            width: 100%;
+            height: 85%;
+            overflow: auto;
+        }
+        .ci_img {
+            width: 0.4rem;
+            height: 0.4rem;
+            vertical-align: middle;
+            margin-left: 0.1rem;
+        }
+        #ci_wrap .table_wrap {
+            width: 100%;
+            background: #ffffff;
+        }
+        #ci_wrap table {
+            width: 95%;
+            margin: 0 auto;
+            text-align: center;
+            border-collapse: collapse;
+        }
+        #ci_wrap .ci_title {
+            height: 1.18rem;
+            width: 100%;
+            text-align: center;
+            line-height: 1.18rem;
+            background: #ffffff;
+            font-size: 0.38rem;
+        }
+        #ci_wrap .ci_title >img {
+            vertical-align: middle;
+        }
+        #ci_wrap .ci_title2 {
+            background: #f3f3f3;
+            height: 0.78rem;
+            width: 100%;
+            border-top: 1px solid #cccccc;
+            border-bottom: 1px solid #cccccc;
+            color: black;
+        }
+        #ci_wrap .ci_title2 >li {
+            width: 33%;
+            float: left;
+            text-align: center;
+            line-height: 0.78rem;
+            font-size: 0.32rem;
+        }
+        .bottom_border {
+            border-bottom: 1px solid #cccccc;
+        }
+    </style>
+</head>
+<body style="background: #FFFFFF">
+<!--  公共头部 -->
+<section id="sp_common_header" class="sp_common_title" style="display:none;">
+    <a href="javascript:history.go(-1)">
+        <i class="icon"></i>
+    </a>
+    <span>审核认证</span>
+</section>
+<!--   内容   -->
+<section id="ci_wrap">
+    <div class="ci_title">
+        <span>审核部门认证信息</span><img class="ci_img" src="../img1/certification.png" alt="">
+    </div>
+    <ul class="ci_title2 clearfix">
+        <li>审核项目</li>
+        <li>状态</li>
+        <li>通过日期</li>
+    </ul>
+    <div class="table_wrap">
+        <table cellspacing="1" cellpadding="15">
+            <!--<tr>-->
+            <!--<td class="bottom_border">营业执照</td>-->
+            <!--<td class="bottom_border">认证通过<img class="ci_img" src="../img1/confirm.png"</td>-->
+            <!--<td class="bottom_border time_td"></td>-->
+            <!--</tr>-->
+            <!--<tr>-->
+            <!--<td class="bottom_border">开户许可证</td>-->
+            <!--<td class="bottom_border">认证通过<img class="ci_img" src="../img1/confirm.png"</td>-->
+            <!--<td class="bottom_border time_td"></td>-->
+            <!--</tr>-->
+        </table>
+    </div>
+</section>
+<!-- 底部 -->
+<!--<section id="sp_footer">-->
+<!--<ul class="footer">-->
+<!--<li class="footer-item">-->
+<!--<a href="index.html" class="">-->
+<!--<i class="icon icon_index"></i>-->
+<!--<p class="icon_title">首页</p>-->
+<!--</a>-->
+<!--</li>-->
+<!--<li class="footer-item">-->
+<!--<a href="index.html" class="">-->
+<!--<i class="icon icon_invest"></i>-->
+<!--<p class="icon_title">理财</p>-->
+<!--</a>-->
+<!--</li>-->
+<!--<li class="footer-item">-->
+<!--<a href="" class="">-->
+<!--<i class="icon icon_activity"></i>-->
+<!--<p class="icon_title">活动</p>-->
+<!--</a>-->
+<!--</li>-->
+<!--<li class="footer-item">-->
+<!--<a href="index.html" class="">-->
+<!--<i class="icon icon_my"></i>-->
+<!--<p class="icon_title">我的</p>-->
+<!--</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</section>-->
+</body>
+<script type="text/javascript" src="../lib/js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="../js/wapframwork.js"></script>
+<script type="text/javascript">
+    (function(){
+        var v = parseUrl();
+        var bo_id = v['bo_id'];
+        $.ajax({
+            type: "GET",
+            url: getAPIURL() + "Invest/" + bo_id,
+            dataType: "json",
+            data: null,
+            success: function (data) {
+                var list = data;
+                var textArr = data.SLendRewordTypesImg;
+                if (textArr.length>0){
+                    for (var i= 0;i<textArr.length;i++){
+                        var description = textArr[i].DESCRIPTION;
+                        var time = textArr[i].EDATE;
+                        var trStr = '<tr><td class="bottom_border" style="text-align: left">' + description + '</td><td class="bottom_border">认证通过<img class="ci_img" src="../img1/confirm.png"</td>'
+                                + '<td class="bottom_border time_td">'+ time +'</td></tr>';
+                        $('#ci_wrap .table_wrap table').append(trStr);
+                    }
+                }else {
+                    var trStr = '<div style="width: 100%;margin-top:100px;text-align: center"><img src="../img/pic02.png" alt="" style="width: 60%;"></div>' + '<p style="text-align: center;padding: 10px;font-size: 16px">暂无数据</p>';
+                    $('#ci_wrap .table_wrap').append(trStr);
+                }
+            }
+        });
+    })();
+</script>
+
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".sp_common_title", {'title':'审核认证'});
+</script>
+</html>

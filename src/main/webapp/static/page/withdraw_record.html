@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css" />
+    <!--<link rel="stylesheet" href="../lib/css/pullToRefresh.css" type="text/css" />-->
+    <link rel="stylesheet" type="text/css" href="../lib/css/layer.css"/>
+    <link rel="stylesheet" type="text/css" href="../lib/css/dropload.css"/>
+    <title>提现记录</title>
+    <style type="text/css">
+        #wrapper{
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            position: absolute;
+            width: 7.5rem;
+            top: 1.74rem;
+            bottom: 0;
+        }
+    </style>
+    <script src="../lib/js/jquery-2.1.4.js"></script>
+    <script src="../lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body style="overflow: hidden;">
+<div class="withdrawrecord_title" style="display:none;">
+    <a href="javascript:location.href='withdraw.html'">
+        <i class="icon"></i>
+    </a>
+    <span>提现记录</span>
+</div>
+<div class="withdrawrecord_content">
+    <ul class="menu clearfix">
+        <li>日期</li>
+        <li>金额</li>
+        <!--<li>银行</li>-->
+        <li>状态</li>
+    </ul>
+    <div id="wrapper">
+        <ul class="detail">
+            <!--<li class="clearfix">
+                <div class="item">
+                    <span>17-03-15</span>
+                    <span>10:08:05</span>
+                </div>
+                <div class="item">
+                    <span>提5500.00</span>
+                    <span>费2.00</span>
+                </div>
+                <div class="item">
+                    <span>建设银行</span>
+                    <span>***6628</span>
+                </div>
+                <div class="item">
+                    <span>等待处理</span>
+                    <span class="cancel_withdraw">取消提现</span>
+                </div>
+            </li>-->
+            <!--<li class="clearfix">
+                <div class="item">
+                    <span>17-03-15</span>
+                    <span>10:08:05</span>
+                </div>
+                <div class="item">
+                    <span>提5500.00</span>
+                    <span>费2.00</span>
+                </div>
+                <div class="item">
+                    <span>建设银行</span>
+                    <span>***6628</span>
+                </div>
+                <div class="item">
+                    <span>等待处理</span>
+                    <span>取消提现</span>
+                </div>
+            </li>-->
+        </ul>
+    </div>
+</div>
+<!--无提现记录页面-->
+<div class="no_withdrawrecord">
+    <p>暂无提现记录</p>
+    <img src="../img/thedefault page3.png" class="no_recordimg" />
+</div>
+<!--取消提现弹出层-->
+<div class="cancel_bounce">
+    <div class="bounce_detail">
+        <div class="title">
+            取消提现提示
+        </div>
+        <div class="content">
+            <p>取消提现规则：</p>
+            <p class="item">9:00AM~14:59:59PM期间提交的提现申请，14:59:59PM前可“取消提现”；</p>
+            <p class="item">15:00PM~次日8:59:59AM期间提交的提现申请，次日8:59:59AM前可“取消提现”。</p>
+        </div>
+        <div class="comfirm">
+            <p class="comfirm_info">您确定取消该笔提现？预计将有现金<span class="return_fee"></span>元返回到您的平台账户，请注意查收。</p>
+            <div class="btns clearfix"><span class="btn btn_qd">确定</span><span class="btn btn_cancel">取消</span></div>
+        </div>
+        <img class="close_btn1" src="../img/close.png"/>
+    </div>
+</div>
+</body>
+<script src="../lib/js/layer.js" type="text/javascript" charset="utf-8"></script>
+<script src="../lib/js/dropload.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/withdraw_record.js" type="text/javascript" charset="utf-8"></script>
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".withdrawrecord_title", {'title':'提现记录',"theme":"1"});
+</script>
+</html>

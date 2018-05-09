@@ -1,0 +1,144 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/invest.css">
+    <title>产品介绍</title>
+    <style>
+        body {
+            background: white;
+        }
+        #pi_wrap table {
+            width: 95%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        #pi_wrap table tr td:nth-child(1):after {
+            content:'';
+            position: absolute;
+            height: 60%;
+            width: 0.01rem;
+            border-left:1px solid #ececec;
+            top:20%;
+            left: 1.8rem;
+            font-size: 0.28rem;
+        }
+        #pi_wrap table tr td:nth-child(1) {
+            font-size: 0.28rem;
+        }
+        #pi_wrap table tr td:nth-child(2) {
+            color: #333333;
+            font-size: 0.28rem;
+        }
+        .pi_title_th {
+            width: 1.45rem;
+        }
+        .pi_name {
+            font-size: 0.28rem;
+            color: #818181;
+        }
+        .pi_title {
+            font-size: 0.28rem;
+            color: #333333;
+        }
+        .pi_tr {
+            position: relative;
+            /*font-size: 0.26rem;*/
+            color: #a6a6a6;
+            border-bottom: 1px solid #ececec;
+        }
+        .pi_tr p {
+            font-size: 0.26rem;
+            line-height: 0.4rem;
+        }
+    </style>
+    <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+
+<!--  公共头部 -->
+<section id="sp_common_header" class="sp_common_title" style="display:none;">
+    <a href="javascript:history.go(-1)">
+        <i class="icon"></i>
+    </a>
+    <span>产品介绍</span>
+</section>
+<!--  内容  -->
+<section id="pi_wrap">
+    <div class="pi_content">
+        <table cellspacing="1" cellpadding="10" id="intro_con">
+            <tr>
+                <td class="pi_title_th pi_tr pi_name">产品名称</td>
+                <td class="pi_tr pi_title" id="proname"></td>
+            </tr>
+            <tr>
+                <td class="pi_tr">收益说明</td>
+                <td class="pi_tr">
+                    <p>预期收益=投资本金×预期年化收益率×（产品期限/12）</p>
+                </td>
+                <!--<img src="../img1/line2.png" alt="">-->
+            </tr>
+            <tr>
+                <td class="pi_tr">计息方式</td>
+                <td class="pi_tr" id="jx_type"></td>
+                <!--<img src="../img1/line2.png" alt="">-->
+            </tr>
+            <tr>
+                <td class="pi_tr">起投金额</td>
+                <td class="pi_tr">
+                    <p> 单笔最低认购金额<span class="start_money"></span>元，按<span class="start_money"></span>元的整数倍递增</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="pi_tr">认购期</td>
+                <td class="pi_tr">
+                    <p>产品满标时则认购结束，或已达到募集结束时间</p>
+                </td>
+            </tr>
+            <tr>
+                <td class="pi_tr">认购期资金状态</td>
+                <td class="pi_tr">
+                    <p>1、当投资认购成功，资金进入冻结中状态，等待产品募集成功开始计息。</p>
+                    <p>2、当投资认购失败时（可能因剩余份额不足等其它原因），资金会自动退回到用户账户，用户可重新尝试认购。</p>
+                    <p>3、当产品募集失败，认购资金自动解冻为可提现状态。</p>
+                    <p>4、产品认购成功后不可撤销或提前赎回。</p>
+                </td>
+            </tr>
+            <!--<tr>-->
+            <!--<td class="pi_tr">风控措施</td>-->
+            <!--<td class="pi_tr">-->
+            <!--<p>-->
+            <!--(1)专业风控团队对借款企业进行尽职调查，包括实际经营数据、人民银行征信系统数据、-->
+            <!--税务系统数据、工商局系统数据、 法院系统数据等。确认融资需求真实、合法，融资项目参与-->
+            <!--主体有稳定、可信的还款能力。-->
+            <!--</p>-->
+            <!--<p>-->
+            <!--(2)关联企业上市公司承担连带责任担保。-->
+            <!--</p>-->
+            <!--<p>-->
+            <!--(3)贷后项目管理团队对借款人运营情况进行跟踪、复核与监督，实时监控资金流向。-->
+            <!--</p>-->
+            <!--<p>-->
+            <!--(4)标准化的贷后管理流程和多元化的催收手段保证资金及时回流。-->
+            <!--</p>-->
+            <!--</td>-->
+            <!--</tr>-->
+        </table>
+    </div>
+</section>
+<section id="pi_footer">
+</section>
+</body>
+
+<script src="../js/production_introduce.js" type="text/javascript" charset="utf-8"></script>
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle("#sp_common_header", {'title':'产品介绍'});
+</script>
+</html>

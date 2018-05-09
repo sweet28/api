@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>信息验证</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <link rel="stylesheet" href="../lib/css/layer.css" type="text/css">
+    <link rel="stylesheet" href="../css/common.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <script src="../lib/js/jquery-2.1.4.js"></script>
+    <script src="../lib/js/jquery.base64.js"></script>
+    <script src="../lib/js/layer.js"></script>
+    <script src="../js/wapframwork.js"></script>
+    <script src="../js/loading.js"></script>
+</head>
+<body>
+<div class="findtranpassword_title" style="display: none;">
+    <a href="javascript:history.go(-1)">
+        <i class="icon"></i>
+    </a>
+    <span>信息验证</span>
+</div>
+<div class="findtranpassword_type change_phone_textwrap clearfix" id="bound_title">
+    <div class="left active">
+        <i class="icon"></i>
+        <p>通过原手机验证修改</p>
+
+    </div>
+    <div class="right">
+        <i class="icon"></i>
+        <p>通过实名认证修改</p>
+
+    </div>
+</div>
+<div class="findtranpassword_detail bound_con">
+    <div class="item by_phone" id="#fp1">
+        <p class="item_title">手机号码：&nbsp;&nbsp;<span id="realmobile"></span></p>
+        <div class="input_group">
+            <div style="float: left;width: 65%">
+                <input type="text" placeholder="输入短信验证码" id="txtMsgCode" maxlength="6" class="txtMsgCode"/></div>
+            <div style="float: left;width: 35%"><input type="button" class="btn_message" id="sendCode" value="点击获取"></div>
+            <div style="clear: both"></div>
+        </div>
+        <button class="reset_pwdbtn" id="resetmobilebym">重置手机号</button>
+    </div>
+    <div class="item by_idcard" id="#fp2">
+        <p class="item_title">身份证号码：&nbsp;&nbsp;<span id="datacid"></span></p>
+        <div>
+            <input type="text" placeholder="输入身份证号码" id="txtIDCard" class="txtIDCard" maxlength="18"/>
+        </div>
+        <button class="reset_pwdbtn" id="resetmobilebyc">重置手机号</button>
+    </div>
+</div>
+</body>
+
+<script src="../js/change_phone.js?v=1.2.2"></script>
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".findtranpassword_title", {'title': '信息验证', "theme": "1"});
+</script>
+</html>

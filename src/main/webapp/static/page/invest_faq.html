@@ -1,0 +1,132 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/invest.css">
+    <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+    <title>常见问题</title>
+    <style>
+        #faq_wrap {
+            width: 100%;
+            height: 100%;
+        }
+        #faq_wrap .faq_box {
+            /*height: 6.8rem;*/
+            width: 100%;
+            background: #ffffff;
+        }
+        #faq_wrap .faq_box ul {
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+        #faq_wrap .faq_box ul >li {
+            width: 100%;
+            font-size: 0.28rem;
+        }
+        #faq_wrap .faq_div_list {
+            height: 0.95rem;
+            line-height: 0.95rem;
+            border-bottom: 1px solid #ececec;
+        }
+        #faq_wrap .faq_box ul >li p {
+            padding: 0.1rem 0.4rem;
+            line-height: 0.4rem;
+            background: #f3f3f3;
+            border-bottom: 1px solid #ececec;
+            font-size: 0.26rem;
+        }
+        #faq_wrap .faq_box ul >li >div {
+            width: 90%;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        #faq_wrap .faq_box ul >li >div img {
+            height: 0.24rem;
+            float: right;
+            margin-right: 0.2rem;
+            margin-top: 0.33rem;
+        }
+        .p_hidden {
+            display: none;
+        }
+        .p_show {
+            display: block;
+        }
+        .p_hidden_fontSize {
+            font-size: 0.2rem;
+        }
+        .p_hidden p {
+            display: block;
+        }
+    </style>
+</head>
+<body style="overflow: hidden">
+<!--  公共头部 -->
+<section id="sp_common_header" style="display:none;">
+    <a href="javascript:history.go(-1)">
+        <i class="icon"></i>
+    </a>
+    <span>常见问题</span>
+</section>
+<!--   内容   -->
+<section id="faq_wrap">
+    <div class="faq_box">
+        <ul>
+            <li>
+                <div class="faq_div_list" istrue="0">1、如何在CPC进行挖矿、交易？<img src="../img1/zhankai.png" alt=""></div>
+                <p class="p_hidden p_hidden_fontSize">注册成为CPC用户→完成实名认证→验证银行卡信息。</p>
+            </li>
+            <li>
+                <div class="faq_div_list" istrue="0">2、流程是什么？<img src="../img1/zhankai.png" alt=""></div>
+                <p class="p_hidden p_hidden_fontSize">注册—安全设置—充值—浏览可投项目—投资—坐收利息。</p>
+            </li>
+            <li>
+                <div class="faq_div_list" istrue="0">3、交易密码是什么？<img src="../img1/zhankai.png" alt=""></div>
+                <p class="p_hidden p_hidden_fontSize">出于安全考虑，交易时必须输入交易密码进行确认。初始交易密码为登录密码。如需修改，可以点击【个人中心】-【安全设置】-【交易密码】重新设置。</p>
+            </li>
+        </ul>
+    </div>
+</section>
+<!-- 底部 -->
+<!--<section id="sp_footer">-->
+<!--</section>-->
+</body>
+
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle("#sp_common_header", {'title':'常见问题'});
+</script>
+<script type="text/javascript">
+    (function (){
+        $(document).ready(function() {
+            //slides the element with class "menu_body" when paragraph with class "menu_head" is clicked
+            $("#faq_wrap ul li").on('click','div',function() {
+
+                if ($(this).attr('istrue') == 0) {
+                    $(this).attr('istrue','1');
+                    $(this).addClass('.p_show');
+//                        $(this).parent().find('img').css({'height':'0.3rem','width':'0.15rem'});
+                    $(this).next("p.p_hidden").slideToggle(300).siblings("p.p_hidden").slideUp("slow");
+//                        $(this).parent().find('img').attr('src','../img/zhankai.png');
+                    $(this).find('img').css({'width':'0.24rem','height':'0.12rem'}).attr('src','../img/zhankai.png');
+                }else {
+                    $(this).attr('istrue','0');
+                    $(this).removeClass('.p_show');
+//                        $(this).parent().find('img').css({'height':'0.3rem','width':'0.15rem'});
+                    $(this).next("p.p_hidden").slideToggle(300).siblings("p.p_hidden").slideUp("slow");
+//                        $(this).parent().find('img').css({'width':'0.3rem','height':'0.15rem'}).attr('src','../img1/arrows_bottom.png');
+                    $(this).parent().find('img').css({'width':'0.12rem','height':'0.24rem'}).attr('src','../img/zhankai.png');
+                }
+
+            });
+        });
+    })();
+</script>
+</html>

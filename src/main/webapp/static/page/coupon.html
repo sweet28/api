@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>奖励优惠</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <link rel="stylesheet" href="../css/common.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="stylesheet" href="../css/personalCenter.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../lib/css/layer.css"/>
+    <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../lib/js/layer.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="wrap coupon_page">
+    <section class="container" style="height: 100%;" >
+        <header class="header coupon_title" style="display: none;">
+            <a href="javascript:history.go(-1)">
+                <i class="icon"></i>
+            </a>
+            <span>奖励收益</span>
+            <a class="sp" href="personal.html">
+                <i class="icon"></i>
+            </a>
+        </header>
+        <section class="coupon_list">
+            <ul class="coupon_header">
+                <li><a href="giftRewards.html"><span><img src="../img/icon_reward1.png"></span><span>礼品奖励</span></a></li>
+                <li><a href="recommendedRewards.html"><span><img src="../img/icon_reward2.png"></span><span>推荐奖励</span></a></li>
+                <li><a href="investmentRewards.html"><span><img src="../img/icon_reward3.png"></span><span>矿机收益</span></a></li>
+            </ul>
+            <div class="coupon_wrap">
+                <h5 class="my_coupon"></h5>
+                <div>
+                    <!--无优惠卷-->
+                    <div class="no_coupon" style="display: none;">
+                        <div><img src="../img/coupon.png"></div>
+                        <p>暂无可用优惠卷</p>
+                    </div>
+                    <!--有优惠卷-->
+                    <div class="has_coupon">
+                        <ul>
+                            <!--<a href="javascript:;" class="coupon_used clearFix">
+                                    <span class="left">
+                                        <span class="coupon_top">
+                                            <span class="coupon_money">100元</span>
+                                        </span>
+                                        <span class="coupon_bot">
+                                            <span class="coupon_name">红包</span>
+                                        </span>
+                                    </span>
+                                    <span class="left">
+                                         <span class="coupon_top">
+                                             <span class="coupon_desc"><span>1000元投资红包</span><span>(3月标20000以上可用)</span></span>
+                                            <span class="coupon_icon"></span>
+                                        </span>
+                                        <span class="coupon_bot">
+                                            <span class="coupon_timeLimit"><span>已过期</span><span>有效期至:2017-10-30</span></span>
+                                        </span>
+                                    </span>
+                                </a>
+                            </li>-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+</div>
+</body>
+
+<script src="../js/coupon.js" type="text/javascript" charset="utf-8"></script>
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".coupon_title", {'title':'奖励优惠',"theme":"1"});
+</script>
+</html>

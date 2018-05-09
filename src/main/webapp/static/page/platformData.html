@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <meta name="Keywords" content="">
+    <meta name="description" content=""/>
+    <title>平台数据</title>
+    <link rel="stylesheet" href="../css/common.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../css/personalCenter.css?v=1.2.2"/>
+    <script src="../lib/js/jquery-2.1.4.js"></script>
+    <script src="../lib/js/jquery.base64.js"></script>
+    <script src="../js/wapframwork.js"></script>
+
+</head>
+<body style="overflow-x: hidden;">
+<div class="wrap ">
+    <section class="container platformDataPage" style="background: #f4f2f2;">
+        <header class="header platformData_title" style="display:none;">
+            <a href="javascript:history.go(-1)">
+                <i class="icon"></i>
+            </a>
+            <span>平台数据</span>
+        </header>
+        <section style="height: 100%;overflow: auto;" id="platformSection">
+            <div class="safeOperationWrap">
+                <h6 class="title">安全运营</h6>
+                <div class="time clearFix">
+                    <span class="year"></span>
+                    <span class="text">年</span>
+                    <span class="days1" style="display: none"></span>
+                    <span class="days2" style="display: none"></span>
+                    <span class="days3" style="display: none"></span>
+                    <span class="text">天</span>
+                    <span class="hours1"></span>
+                    <span class="hours2"></span>
+                    <span class="text">时</span>
+                    <span class="minutes1"></span>
+                    <span class="minutes2"></span>
+                    <span class="text">分</span>
+                    <span class="seconds1"></span>
+                    <span class="seconds2"></span>
+                    <span class="text">秒</span>
+                </div>
+                <div class="data">
+                    <div>
+                        <span class="desc">平台交易额</span>
+                        <span class="money" id="turnover"></span>
+                    </div>
+                    <div>
+                        <span class="desc">为用户赚取收益</span>
+                        <span class="money" id="income"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="dataImg"><img src="../img/safeDataImg8.png" id="safeDataImg"></div>
+            <div class="operatingPlanWrap">
+                <h4 class="title clearFix">
+                    <span class="left">运营报告</span>
+                    <a href="report_run.html" class="right more">更多</a>
+                </h4>
+                <ul class="planList" id="planList">
+                    <!--<li><a href="javascript:;"><img src="../img/operatingPlansixa.png"></a></li>
+                    <li><a href="javascript:;"><img src="../img/operatingPlansevena.png"></a></li>-->
+                </ul>
+            </div>
+            <div class="operatingPlanWrap secureWrap">
+                <h4 class="title clearFix">
+                    <span class="left">安全保障</span>
+                </h4>
+                <ul class="secureList">
+                    <li><a href="javascript:;"><img src="../img/safeiconone.png"><span>广东华兴<br>银行存管</span></a></li>
+                    <li><a href="javascript:;"><img src="../img/safeicontwo.png"><span>中国人民<br>保险承保</span></a></li>
+                    <li><a href="javascript:;"><img src="../img/safeiconthree.png"><span>国家AAA<br>信用评级</span></a></li>
+                    <li><a href="javascript:;"><img src="../img/safeiconfour.png"><span>三年<br>放心平台</span></a></li>
+                    <li><a href="javascript:;"><img src="../img/safeiconfive.png"><span>5亿<br>注册资本 </span></a></li>
+                </ul>
+            </div>
+        </section>
+    </section>
+</div>
+</body>
+
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".platformData_title", {'title': '平台数据','theme':3});
+</script>
+<script src="../js/platformData.js?v=1.2.2"></script>
+
+</html>

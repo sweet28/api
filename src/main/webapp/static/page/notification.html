@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>消息中心</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <link rel="stylesheet" href="../css/common.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css?v=1.2.2"/>
+    <link rel="stylesheet" href="../css/personalCenter.css?v=1.2.2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../lib/css/dropload.css"/>
+    <link rel="stylesheet" href="../lib/css/layer.css" type="text/css">
+    <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../lib/js/jquery.base64.js"></script>
+    <!--<script src="../lib/js/iscroll.js"></script>
+    <script src="../lib/js/pullToRefresh.js"></script>-->
+    <script src="../lib/js/layer.js"></script>
+    <script src="../js/wapframwork.js"></script>
+    <style type="text/css">
+        .header{
+            background:#f46054;
+        }
+        .container>section:first-of-type{
+            top: 1.92rem;
+        }
+        .tbgg{
+            position: relative;
+        }
+        .tbgg:after{
+            content: "";
+            position: absolute;
+            height: 0.34rem;
+            border-left: 1px solid #dedede;
+            right: 0;
+            top: 0.23rem;
+        }
+        .wrapper1{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+        .wrapper{
+            width: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+        .notification_list{
+            overflow: hidden;
+        }
+        .list{
+            background: #fff;
+            height: 90%;
+        }
+        .public_listnodata{
+            background: url(../img/ewma.png) no-repeat center center;
+            background-size: 2.67rem 2.78rem;
+            background-color: #fff
+        }
+        .returntop{
+            position: fixed;
+            z-index: 99999;
+            width: 0.78rem;
+            right: 0.3rem;
+            bottom: 1.4rem;
+        }
+        .notification_list .to_detail {
+            width: 0.2rem;
+            position: absolute;
+            right: 0.3rem;
+            top: 0.35rem;
+        }
+        .mescroll-downwarp .downwarp-tip{
+            margin-top: 30px;
+        }
+        .nodata{
+            text-align: center;
+        }
+        .nodata img{width: 2.42rem;height:1.7rem;margin-top: 45%;}
+        .nodata p{line-height: 0.6rem;}
+    </style>
+    <link rel="stylesheet" type="text/css" href="../lib/css/mescroll.min.css"/>
+    <script src="../lib/js/mescroll.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body class="notificationPage">
+<img class="returntop" src="../img/icon_returntop.png"/>
+<div class="wrap">
+    <section class="container">
+        <header class="header notification_title" style="display:none;">
+            <a href="javascript:history.go(-1)" id="f_btn"><i class="icon"></i></a>
+            <span>消息中心</span>
+            <!--  <a href="javascript:;" class="operate_btn" id="operate_btn">操作</a>-->
+        </header>
+        <div class="top_titles clearfix">
+            <span class="active tbgg">车派公告</span>
+            <span>个人信息</span>
+        </div>
+        <section class="list publiclist_wrap">
+            <div id="mescroll1" class="mescroll">
+                <ul class="public_list">
+
+                </ul>
+            </div>
+        </section>
+        <section class="notification_list list" id="notification_list" style="display: none;">
+            <div id="mescroll" class="mescroll">
+                <ul id="notice_list">
+                    <!-- <li class="">
+                         <label class="clearfix">
+                             <span class="checkbox_btn ">
+                                 <span></span>
+                                 <input type="checkbox"/>
+                             </span>
+                             <span class="desc_wrap ">
+                                 <span class="title">光彩玖玖平台</span>
+                                 <span class="sub_title">投资奖励回款</span>
+                             </span>
+                             <time>2017-03-15 12:27:50</time>
+                         </label>
+                     </li>-->
+                </ul>
+            </div>
+            <div class="nodata">
+                <img src="../img/no_investment.png">
+                <p>暂无最新消息哦~</p>
+            </div>
+        </section>
+    </section>
+</div>
+</body>
+<script src="../js/notification.js?v=1.2.2"></script>
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".notification_title", {'title':'通知',"theme":"1"});
+</script>
+</html>

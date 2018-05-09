@@ -1,0 +1,83 @@
+i{font-style: normal;}
+input,button{border: none;outline: none}
+body{position: relative;overflow: hidden;}
+div,section,span,a,input,button,i,ul,li,label,header,footer,h1,h2,h3,h4,h5,h6,p,table,th,tr,td,thead,tbody,tfoot,button{margin: 0;padding: 0;font-weight: normal;}
+.left{float: left;}
+.right{float: right;}
+.fNone{float: none;}
+.clear{clear: both;}
+.nothing{line-height: 1.18rem;text-align: center;font-size: 0.3rem;}
+.nothing img{display: block;width: 100%;}
+.nothing>div{margin: 0 auto;}
+.nothing .noFund{width: 2.22rem;height: 1.67rem;}
+.nothing .noInformation{width: 2.12rem;height: 1.63rem;}
+.nothing .noInvestment{width:2.32rem;height: 1.91rem;}
+.nothing .wrong{width: 2.22rem;}
+.nothing .default{width:1.03rem;height: 1.01rem; }
+.clearFix:after{content:""; display:block;clear:both;width: 0;height: 0;visibility:hidden;font-size: 0;}
+.wrap{ width: 7.5rem;height: 100%;overflow: hidden;}
+.container{ width:7.5rem;height: 100%;position: absolute;left: 0;top: 0;overflow: hidden;}
+.container>section:first-of-type{width: 7.5rem;position: absolute;top:0.88rem;left: 0; }
+.sub_btn{width: 6.68rem;height: 0.73rem;display: block;margin: 0 auto;line-height: 0.73rem;text-align: center;font-size: 0.36rem;color: #fff;border-radius: 0.5rem;background-image: -webkit-linear-gradient(0deg,#41c3fe 20%,#14a4ff 50%,#079bff 80%);}
+.header{width:7.5rem;text-align: center;color: #fff;font-size: 0.36rem;position: absolute;top: 0;left: 0;}
+
+/*推广注册*/
+.promoteRegistration .header{height:0.88rem;background: url("../img/joinusHeader.png") no-repeat center;background-size: cover; }
+.subheader{height: 3rem;width:7.5rem;position: relative;background: url("../img/joinusBox.png") no-repeat center;background-size: cover;}
+.box{width:7.5rem;height: 35px;line-height: 0.48rem;background: rgba(255,212,142,0.7);position: absolute;bottom: 0.1rem;text-align: center;overflow: hidden;font-size: 0.25rem;}
+.t_news{ height:19px; color:#fff; padding-left:10px; margin:8px 0; overflow:hidden; position:relative;}
+.t_news b{ line-height:19px; font-weight:bold; display:inline-block;}
+.news_li,.swap{ width:100%;line-height:19px; display:inline-block; position:absolute; top:0; left:0;color: #cc5c2c;}
+.swap{top:19px;}
+.promoteRegistration .container .promoteRegistrationWrap{width: 7.5rem;height: 100%;position: absolute;left: 0;top:0.88rem;overflow: auto;}
+.promoteRegistration .container .promoteRegistrationWrap>div{padding-bottom: 3rem;}
+.register_content{padding: 0.42rem 0.38rem 0.6rem;background: url("../img/shadowa.png") no-repeat bottom center;}
+.register_content .item{padding: 0.34rem 0;border-bottom: 1px solid #d3d3d3;}
+.register_content .item input{color:#999;width: 60%;font-size: 0.28rem;}
+.register_content .item input:focus {color:#999;}
+.register_content .item input:focus::-webkit-input-placeholder {color: #d3d3d3;}
+.icon_eye{width:0.33rem;height: 0.15rem;float: right;position: absolute;top: 50%;transform: translateY(-50%);-webkit-transform:translateY(-50%);right:0; }
+.get_code{color: #fd6246;font-size: 0.28rem;}
+.register_btn{font-size:0.34rem;color:#fff;width: 5.76rem;height: 0.91rem;display: block;line-height: 0.91rem;margin: 0 auto 0.4rem;background: url("../img/promoteRegbuttona.png") no-repeat center;background-size: cover;}
+
+.xieyi{text-align: center;font-size: 0.26rem;}
+.xieyi a{color: #417ae2;text-decoration: underline;}
+.downloadApp{width: 7.5rem;height:1.17rem;position: absolute;left: 0;bottom: 0;background: url("../img/promoteRegDownbottoma.png") no-repeat center;background-size: cover;}
+.promoteRegistration .secureList{top:0;padding-bottom: 0;padding-top: 0.2rem;}
+.operatingPlanWrap{background: #fff;padding-bottom: 0.4rem;margin-bottom: 0.16rem;position: relative;}
+.operatingPlanWrap .title{width:7.5rem;height: 1rem;background: url("../img/planBorder.png") no-repeat 0.32rem center;background-size:0.25rem 0.31rem ;position: relative;}
+.operatingPlanWrap .title>span{line-height: 1rem;padding-left: 0.58rem;font-size: 0.24rem;color: #000;}
+.operatingPlanWrap .title .more{font-size:0.24rem;color:#b2b2b2;font-weight:bold;display: block;position: absolute;right: 0.32rem;top:50%;transform: translateY(-50%);-webkit-transform:translateY(-50%);background: url("../img/morea.png") no-repeat right center;padding-right: 0.2rem;}
+.operatingPlanWrap .planList{margin-top:-0.18rem;}
+.operatingPlanWrap .planList li{width: 7.34rem;height: 2.84rem;margin: 0 auto;}
+.operatingPlanWrap .secureList{padding-bottom: 2rem;padding-left: 0.06rem;width: 7.2rem;position: absolute;left: 50%;transform: translateX(-50%);-webkit-transform:translateX(-50%);top:0.84rem; }
+.operatingPlanWrap .secureList li{width:1.44rem;height: 1.42rem;float: left; }
+.operatingPlanWrap .secureList a{display: block;text-align: center;}
+.operatingPlanWrap li img{width: 100%;display: block;height: 100%;}
+.secureWrap{height: 3.38rem;position: relative;}
+.secureWrap li span{color: #464646;font-size: 0.24rem;line-height: 0.36rem;}
+.promoteRegistration .secureList{top:0;padding-bottom: 0;padding-top: 0.2rem;}
+
+.invite {
+    text-align: center;
+    padding: 0.26rem 0;
+    color: #fd6246;
+    font-size: 0.3rem;
+}
+.modal {
+    width: 7.5rem;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.loadingImg {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+}
