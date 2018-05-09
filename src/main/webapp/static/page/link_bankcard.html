@@ -1,0 +1,97 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>绑定银行卡</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <meta name="description" content="">
+    <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css">
+    <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css">
+    <link rel="stylesheet" type="text/css" href="../css/bankpublic.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/wealth.css">
+    <link rel="stylesheet" href="../lib/css/layer.css" type="text/css">
+    <style>
+        .modal {width: 100%;height: 100%;	background: rgba(0, 0, 0, 0.5);	position: absolute;	left: 0;top: 0;z-index: 2;}
+        .loadingImg {position: absolute;left: 50%;top: 50%;transform: translate(-50%, -50%);-webkit-transform: translate(-50%, -50%);}
+    </style>
+    <script src="../lib/js/jquery-2.1.4.js"></script>
+    <script src="../lib/js/jquery-weui.js"></script>
+    <script src="../lib/js/layer.js"></script>
+    <script src="../lib/js/jquery.base64.js"></script>
+    <script src="../js/wapframwork.js"></script>
+</head>
+
+<body ontouchstart class="link_bank_page"  style="background: #fff;">
+<header class="link_bank_title" style="background: #069efe;display: none;">
+    <div class="weui-row">
+        <div class="weui-col-33"><a href="javascript:history.go(-1)"><i class="icon"></i></a></div>
+        <div class="weui-col-33">绑定银行卡</div>
+        <div class="weui-col-33"><a href="personal.html"><i class="icon icon-user"></i></a></div>
+    </div>
+</header>
+
+<div class='content-padded link_card'>
+    <div class="recharge">
+        <div class="weui_cells weui_cells_form">
+            <div class="weui_cell weui_cell_select" style="position: relative;">
+                <a href="javascript:;" class="weui_cell_bd weui_cell_primary" style="position: relative;padding-bottom: 4px">
+                    <input class="weui_input" id="changebank" type="text" value="" readonly="" style="padding: 0;">
+                    <span id="limit" style=""></span>
+                </a>
+
+            </div>
+            <div class="clear hasBorder"></div>
+            <div class="weui_cells_title">银行卡卡号</div>
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="number" placeholder="请输入银行卡号" id="cardnum"  oninput="if(value.length>25)value=value.slice(0,25)" style="overflow-x: hidden;">
+                </div>
+            </div>
+            <div class="clear hasBorder"></div>
+            <div class="weui_cells_title">开户所在地</div>
+            <div class="weui_cell weui_cell_select">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" id="city-picker" type="text" placeholder="请选择开户地址" value="" >
+                </div>
+            </div>
+            <div class="clear hasBorder"></div>
+            <div class="weui_cells_title">开户行</div>
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="text" placeholder="请输入开户行名称" id="openbank" maxlength="25">
+                </div>
+            </div>
+            <div class="clear hasBorder"></div>
+
+            <!--			<div class="weui_cells_title">确认银行卡号：</div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="number" placeholder=""  id="cardnum2"  oninput="if(value.length>25)value=value.slice(0,25)">
+                            </div>
+                        </div>-->
+            <input type="button" class="weui_btn  confirm_btn" id="recharge" value="确认">
+        </div>
+    </div>
+</div>
+<div class="modal" id="modal"  style="display: none;">
+    <img src="../img/loading.svg" class="loadingImg" >
+</div>
+<script src="../lib/js/layer.js"></script>
+<script src="../lib/js/city-picker.js"></script>
+<script>
+    $("#city-picker").cityPicker({
+        title: "请选择开户所在地"
+    });
+</script>
+<script src="../js/link_bank.js?v=1.2.2" type="text/javascript" charset="utf-8"></script>
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".link_bank_title", {'title':'绑定银行卡',"theme":"1"});
+</script>
+</body>
+</html>

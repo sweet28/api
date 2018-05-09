@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>实名认证</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <link rel="stylesheet" href="../css/common.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css?v=1.2.2"/>
+    <link rel="stylesheet" href="../css/personalCenter.css?v=1.2.2" type="text/css">
+    <script src="../lib/js/jquery-2.1.4.js"></script>
+    <script src="../lib/js/jquery.base64.js"></script>
+    <script src="../lib/js/layer.js"></script>
+    <script src="../js/wapframwork.js"></script>
+</head>
+<body>
+<div class="wrap">
+    <section class="container">
+        <header class="header realName_title" style="display:none;">
+            <a href="personal.html">
+                <i class="icon"></i>
+            </a>
+            <span>实名认证</span>
+        </header>
+        <section class="realName_wrap">
+            <ul class="text_wrap">
+                <li class="text_item"><i>*</i>为必填项，所有资料均会严格保密。</li>
+                <li class="text_item"><i>*</i>通过身份验证，能够有效的提高资金的安全性。</li>
+                <li class="text_item"><i>*</i>尊敬的CPA会员，通过身份验证，可以为您的资产提供有效的安全保障。</li>
+            </ul>
+            <div class="form_wrap">
+                <label class="label_item">
+                    <span class="text_item"><i>*</i>真实姓名</span><input type="text" name="realName" placeholder="输入您的姓名" id="name" maxlength="10">
+                </label>
+                <label class="label_item">
+                    <span class="text_item"><i>*</i>身份证号</span><input type="text" name="userId" placeholder="输入您的身份证号码" id="cardid" maxlength="18">
+                </label>
+                <label class="label_item none_border_bottom">
+                    <span class="text_item"><i>*</i>再次确认</span><input type="text" name="userId_again" placeholder="再次确认" id="cardid_confirm" maxlength="18">
+                </label>
+            </div>
+            <!--<div class="form_wrap">
+                <label>
+                    <span><i>*</i>验证码</span><input type="text" name="identifying_code " placeholder="输入验证码" class="identifying_code"><img src="img/codeImage.png"><a href="javascript:;">换一张</a>
+                </label>
+            </div>-->
+            <div class="btn_wrap"><a href="javascript:;" class="sub_btn" onclick=" verified.next($(this))">提交</a></div>
+        </section>
+    </section>
+</div>
+</body>
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".realName_title", {'title':'实名认证',"theme":"1"});
+</script>
+<script src="../js/loading.js"></script>
+<script src="../js/realName_authentication.js?v=1.2.2"></script>
+</html>

@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>新手攻略</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <link rel="stylesheet" href="../css/common.css" type="text/css"/>
+    <link rel="stylesheet" href="../css/personalCenter.css" type="text/css">
+    <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body style="overflow-x: hidden;">
+<div class="wrap noviceRaiders">
+    <section class="container" style="height: 100%;">
+        <header class="header noviceRaiderstitle" style="display: none;background-color: #fd8147;">
+            <a href="javascript:history.go(-1)">
+                <i class="icon"></i>
+            </a>
+            <span>新手攻略</span>
+        </header>
+        <section id="noviceSection">
+            <div class="noviceRaidersWrap">
+                <div class="subHead"></div>
+                <ul class="noviceRaidersList" id="noviceRaidersList">
+                    <li>
+                        <img src="../img/step1_bg.png">
+                        <img src="../img/arrowTop.png">
+                    </li>
+                    <li><img src="../img/step1_tone.png"></li>
+                    <li>
+                        <img src="../img/step2_bg.png">
+                        <img src="../img/arrowTop.png">
+                    </li>
+                    <li><img src="../img/step2_tctwo.png"></li>
+                    <li>
+                        <img src="../img/step3_bg.png">
+                        <img src="../img/arrowTop.png">
+                    </li>
+                    <li><img src="../img/step3_tcthree.png"></li>
+                    <li>
+                        <img src="../img/step4_bg.png">
+                        <img src="../img/arrowTop.png">
+                    </li>
+                    <li><img src="../img/step4_tcfour.png"></li>
+                    <!--<li>
+                        <img src="../img/step5_bg.png">
+                        <img src="../img/arrowTop.png">
+                    </li>
+                    <li><img src="../img/step5_tcfive.png"></li>
+                    <li>
+                        <img src="../img/step6_bg.png">
+                        <img src="../img/arrowTop.png">
+                    </li>
+                    <li><img src="../img/step6_tcsix.png"></li>-->
+                </ul>
+                <a href="settingFaq.html" class="faq"><img src="../img/novicefaqa.png"><span>常见问题</span></a>
+            </div>
+        </section>
+    </section>
+</div>
+</body>
+
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".noviceRaiderstitle", {'title': '新手攻略',"theme":"4"});
+</script>
+<script>
+    (function () {
+        $("#noviceRaidersList li:nth-of-type(2n+1)").each(function (index, iten) {
+            $(this).on("click", function () {
+                if ($(this).hasClass("isShow")) {
+                    $(this).find("img").eq(1).css({'transform': 'rotate(0)', 'transform-origin': 'center'});
+                    $(this).removeClass("isShow").next().slideUp();
+                }
+                else {
+                    $(this).find("img").eq(1).css({'transform': 'rotate(180deg)', 'transform-origin': 'center'});
+                    $(this).addClass("isShow").next().css({"margin-top": "-10px"}).slideDown().css({"margin-top": "-10px"});
+                }
+            })
+        });
+        var str = window.navigator.userAgent;
+        if (str.indexOf("jojojr") != -1) {
+            $("#noviceSection").css({top:0})
+        }
+    })();
+</script>
+</html>

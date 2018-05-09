@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>设置</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <link rel="stylesheet" href="../lib/css/layer.css" type="text/css">
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <script src="../lib/js/jquery-2.1.4.js"></script>
+    <script src="../lib/js/jquery.base64.js"></script>
+    <script src="../lib/js/layer.js"></script>
+    <script src="../js/wapframwork.js"></script>
+</head>
+<body>
+<div class="setting_title" style="display: none;">
+    <a href="personal.html">
+        <i class="icon"></i>
+    </a>
+    <span>设置</span>
+</div>
+<div class="setting_content">
+    <!--<div class="jifen">
+        <a href="myjf.html">
+            <div>
+						<span class="icon_wrap icon_wrap_jifen">
+							<i class="icon icon_jifen"></i>
+						</span>
+                <span class="menu_item">我的积分</span>
+                <span class="vip_class"><img class="vip_logo" src="../img/vip.png"/><span class="vip_detail"></span></span>
+                <i class="icon_zhankai"></i>
+            </div>
+        </a>
+    </div>-->
+    <ul class="setting_menu">
+        <li class="setting_menu_item">
+            <a href="safe_center.html">
+                <div>
+							<span class="icon_wrap">
+								<i class="icon icon_aqsz"></i>
+							</span>
+                    <span class="item_title">安全设置</span>
+                    <i class="icon_zhankai"></i>
+                </div>
+            </a>
+        </li>
+        <li class="setting_menu_item">
+            <a href="settingFaq.html">
+                <div>
+							<span class="icon_wrap">
+								<i class="icon icon_cjwt"></i>
+							</span>
+                    <span class="item_title">常见问题</span>
+                    <i class="icon_zhankai"></i>
+                </div>
+            </a>
+        </li>
+        <li class="setting_menu_item">
+            <a href="contact_us.html">
+                <div>
+							<span class="icon_wrap">
+								<i class="icon icon_contact"></i>
+							</span>
+                    <span class="item_title">联系我们</span>
+                    <span class="work_time">法定工作日：9:00-18:00</span>
+                    <i class="icon_zhankai"></i>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
+<a href="javascript:;" class="setting_logout" onclick="Logout()">
+    安全退出
+</a>
+</body>
+<script src="../js/setting.js" type="text/javascript" charset="utf-8"></script>
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".setting_title", {'title':'设置',"theme":"1"});
+</script>
+</html>

@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>添加银行卡</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <link rel="stylesheet" href="../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body class="addBank_body">
+<div class="addBankCard_title" style="position: fixed;left: 0;top: 0;width: 100%;z-index: 9">
+    <a href="javascript:history.go(-1)">
+        <i class="icon"></i>
+    </a>
+    <span>添加银行卡</span>
+</div>
+<ul class="addBankCard_memu">
+    <!--    <li class="item">
+            <a href="">
+                <div>
+                    <img class="bank_img" src="../img/gsbank.png" alt=""/>
+                    <span>中国工商银行</span>
+                </div>
+            </a>
+        </li>-->
+</ul>
+</body>
+
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".addBankCard_title", {'title': '添加银行卡', "theme": "1"});
+</script>
+<script src="../lib/js/jquery.base64.js"></script>
+<script src="../js/loading.js"></script>
+<script>
+    var bankListImg = {
+        "ZGZSYH": "bankzs.png",
+        "ZGGSYH": "bankgs.png",
+        "ZGJSYH": "bankjs.png",
+        "JTYH": "bankjt.png",
+        "ZGZGYH": "bankzg.png",
+        "PFYH": "bankpf.png",
+        "PAYH": "bankpa.png",
+        "ZGMSYH": "bankms.png",
+        "ZGGDYH": "bankgd.png",
+        "XYYH": "bankxy.png",
+        "ZXYH": "bankzx.png",
+        "ZGNYYH": "bankny.png",
+        "ZGYZCXYH": "bankyz.png",
+        "GDFZYH": "bankgf.png",
+        "HXYH": "bankhx.png",
+        "BJYH": "bankbj.png",
+
+        "HKYH": "bankhk.png",
+        "SHYH": "banksh.png",
+        "ZSYH": "bankzheshang.png"
+    };
+    var hash = window.location.hash;//判断用户是否是从提现页面过来
+
+    /*v1.2.1充值方式*/
+    loading.open();
+    $.ajax({
+        type: "GET",
+        url: getAPIURL() + "NewPay/GetCurrentPayMode",
+        dataType: "json",
+        success: function (data) {
+            if(data.rtn==1){
+                if(data.Data==0){
+                    /*新生支付*/
+                    $.ajax({
+                        type: "GET",
+                        url: getAPIURL() + "NewPay/GetBanksInfo",
+                        dataType: "json",
+                        data: null,
+                        success: function (data) {
+                            loading.close();
+                            if(data.rtn==1){
+                                successCallback(data.Data);
+                            }
+                        },
+                        error:function (data) {
+                            loading.close();
+                            if (data.status == 404) {
+                                layer.open({
+                                    content: "请求资源不存在",
+                                    skin: 'msg',
+                                    time: 2 //2秒后自动关闭
+                                });
+                            }
+                            else {
+                                layer.open({
+                                    content: JSON.parse(data.responseText).Message,
+                                    skin: 'msg',
+                                    time: 2 //2秒后自动关闭
+                                });
+                            }
+                        },
+                        headers: {
+                            "Authorization": "Bearer " + getTOKEN()
+                        }
+                    });
+                }
+                else if(data.Data==1){
+                    /*富友*/
+                    var uid = getUIDByJWT().unique_name;
+                    $.ajax({
+                        type: "GET",
+                        url: getAPIURL() + "User/" + uid + "/getwebbanklist",
+                        dataType: "json",
+                        data: null,
+                        success: function (data) {
+                            loading.close();
+                            if (data.length > 0) {
+                                successCallback(data);
+                            }
+                        },
+                        error:function (data) {
+                            loading.close();
+                            if (data.status == 404) {
+                                layer.open({
+                                    content: "请求资源不存在",
+                                    skin: 'msg',
+                                    time: 2 //2秒后自动关闭
+                                });
+                            }
+                            else {
+                                layer.open({
+                                    content: JSON.parse(data.responseText).Message,
+                                    skin: 'msg',
+                                    time: 2 //2秒后自动关闭
+                                });
+                            }
+                        },
+                        headers: {
+                            "Authorization": "Bearer " + getTOKEN()
+                        }
+                    });
+                }
+            }
+        },
+        error:function (data) {
+            loading.close();
+            if (data.status == 404) {
+                layer.open({
+                    content: "请求资源不存在",
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+            else {
+                layer.open({
+                    content: JSON.parse(data.responseText).Message,
+                    skin: 'msg',
+                    time: 2 //2秒后自动关闭
+                });
+            }
+        },
+        headers: {
+            "Authorization": "Bearer " + getTOKEN()
+        }
+    });
+
+    function successCallback(data) {
+        var content = "";
+        for (var i = 0; i < data.length; i++) {
+            content += '<li class="item">';
+            if (hash == "#withdraw") {
+                content += '<a href="link_bankcard.html?bankcode=' + data[i].bcode + '&bankname=' + data[i].bname +hash+ '">';
+            } else {
+                content += '<a href="link_bankcard.html?bankcode=' + data[i].bcode + '&bankname=' + data[i].bname + '">';
+            }
+
+            content += '<div>' +
+                    '<img class="bank_img" src="../img/' + bankListImg[data[i].bcode] + '" alt=""/>' +
+                    '<span>' + data[i].bname + '</span>' +
+                    '</div>' +
+                    '</a>' +
+                    '</li>';
+        }
+        $(".addBankCard_memu").html(content);
+    }
+</script>
+</html>

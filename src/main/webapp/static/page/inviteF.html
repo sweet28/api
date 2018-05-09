@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<!--suppress ALL -->
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <meta name="Keywords" content="">
+    <meta name="description" content=""/>
+    <title>邀请好友</title>
+    <link rel="stylesheet" href="../css/common.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../css/personalCenter.css?v=1.2.1"/>
+    <link rel="stylesheet" type="text/css" href="../lib/css/layer.css"/>
+    <style>
+        .modal .text{width: 2.19rem;height: 2.12rem;position: absolute;right: 0.5rem;top:0.3rem;}
+        .modal .text img{display: block;width: 100%;}
+    </style>
+</head>
+<body>
+<div class="wrap ">
+    <section class="container inviteF">
+        <header class="header inviteF_title" style="display:none;z-index: 0">
+            <a href="javascript:history.go(-1)">
+                <i class="icon"></i>
+            </a>
+            <span>邀请好友</span>
+        </header>
+        <section class="inviteFWrap">
+            <div class="bgPic">
+                <p class="invitePerson" style="display: none;"><span>推荐人：</span><span id="inviteName"></span></p>
+                <img src="../img/invitingfriends_bg3.png">
+                <div class="qrCode">
+                    <div class="xiaobei"><img src="../img/xiaobeia.png"></div>
+                    <div class="codeBg">
+                        <img src="../img/kuanga.png">
+                        <div class="qrcodeWrap">
+                            <div id="qrcode"></div>
+                        </div>
+                        <div class="qrlogo"><img src="../img/logoa.png"></div>
+                    </div>
+                    <div class="weiba"><img src="../img/weiba.png"></div>
+                </div>
+                <a href="javascript:;" class="invitingBtn" id="invitingBtn" >邀请好友</a>
+            </div>
+        </section>
+    </section>
+    <div class="modal" id="wechatShare" style="display: none">
+        <div class="text"><img src="../img/wechatshare.png"></div>
+    </div>
+</div>
+</body>
+<script src="../lib/js/jquery-2.1.4.js"></script>
+<script src="../lib/js/jquery.base64.js"></script>
+<script src="../js/wapframwork.js?v=1.2.1"></script>
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script src="../lib/js/layer.js" type="text/javascript" charset="utf-8"></script>
+<script src="../js/loading.js"></script>
+<script type="text/javascript">
+    setTitle(".inviteF_title", {'title': '邀请好友'});
+</script>
+<!--v1.2-->
+<script type="text/javascript" src="../lib/js/qrcode.js"></script>
+<!--wechat share-->
+<script type="text/javascript" src='http://res.wx.qq.com/open/js/jweixin-1.2.0.js'></script>
+<script src="../js/inviteF.js?v=1.2.2"></script>
+<script src="../js/weChatShare.js"></script>
+</html>

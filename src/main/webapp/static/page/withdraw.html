@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../lib/css/swiper-3.4.2.min.css" />
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="stylesheet" type="text/css" href="../lib/css/layer.css"/>
+    <title>提现</title>
+    <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../lib/js/layer.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="withdraw_title" style="display:none;">
+    <a href="javascript:location.href='personal.html'">
+        <i class="icon"></i>
+    </a>
+    <span>提现</span>
+    <a href="withdraw_record.html" class="record_link">提现记录</a>
+</div>
+<!--页面主体部分-->
+<div class="withdraw_content">
+    <p class="sum_avai">可提现金额：<span class="sp_color balance_avai"></span>元</p>
+    <p class="no_fee"></p>
+    <p class="txed">
+        <span class="txed_title">提现金额</span>
+        <input type="text" id="txje" placeholder="输入提现金额" onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')" />
+        <span class="txgz" id="txgz_btn">提现规则</span>
+    </p>
+    <p class="sxf">
+        <span id="ymoney">手续费：0.00元</span>
+        <span class="sjdz">实际到账：<span class="sp_color" id="smoney">0.00</span>元</span>
+    </p>
+    <a href="withdrawguide.html">
+        <p class="bank_card">
+            <img class="bank_logo"/>
+            <span class="card_class"></span>
+            <span class="card_num"></span>
+            <span class="chang_card">换卡</span>
+        </p>
+    </a>
+    <a href="link_bankcard.html#withdraw">
+        <p class="add_card">
+            <img class="add_logo" src="../img/card.png"/>
+            <span>点击添加银行卡</span>
+            <i class="icon_zhankai"></i>
+        </p>
+    </a>
+    <p class="transaction_pwd">
+        <input type="password" placeholder="输入交易密码" id="jymm"/>
+        <a href="find_tranpassword.html" class="forget_btn">忘记密码</a>
+    </p>
+    <p class="prompt">*初始交易密码为登录密码</p>
+    <button class="withdraw_btn">提现</button>
+    <p class="prompt_day">本次提现预计到账时间为1~3个工作日</p>
+</div>
+<!--	页面底部部分-->
+<!--<ul class="footer">
+    <li class="footer-item">
+        <a href="index.html">
+            <i class="icon icon_index"></i>
+            <p class="icon_title">首页</p>
+        </a>
+    </li>
+    <li class="footer-item">
+        <a href="invest.html">
+            <i class="icon icon_invest"></i>
+            <p class="icon_title">理财</p>
+        </a>
+    </li>
+    <li class="footer-item">
+        <a href="activity.html">
+            <i class="icon icon_activity"></i>
+            <p class="icon_title">活动</p>
+        </a>
+    </li>
+    <li class="footer-item">
+        <a href="personal.html">
+            <i class="icon icon_my"></i>
+            <p class="icon_title">我的</p>
+        </a>
+    </li>
+</ul>-->
+<!--提现规则弹出层-->
+<div class="withdraw_bounce">
+    <div class="bounce_detail">
+        <div class="title">
+            提现规则
+        </div>
+        <div class="content">
+            <p>1、为保障您账户的资金安全，申请提现时，您选择的银行卡开户名必须与您投呗账户实名认证一致，否则提现申请将不予受理。</p>
+            <p>2、收到您的提现请求后，投呗将在1~3个工作日（双休日或法定节假日顺延）处理您的提现申请，请您注意查收。</p>
+            <p>3、提现时，您不能选择将资金提现至信用卡账户，请您选择银行储蓄卡账户提交提现申请。</p>
+            <p>4、提现时，账户余额不足100元的，请先充值，超过100元后再进行操作。</p>
+            <p>5、提现手续费2元每笔，网站对充值未投资及活动奖励金的提现将另外收取0.5%的提现手续费。</p>
+            <p>6、用户申请提现时，优先从投标回款的金额中支取，不足部分从充值未投资及活动奖励金中支取。</p>
+            <p>7、提现申请提交后，可在提现记录中查看，并可在规定时段取消提现，9:00AM~14:59:59PM期间提交的提现申请，14:59:59PM前可“取消提现”；
+                15:00PM~次日8:59:59AM期间提交的提现申请，次日8:59:59AM前可“取消提现”。
+            </p>
+            <p>8、自2015年12月1日起，积分仅用于兑换活动，不再用于抵扣提现费用。</p>
+            <p>
+                第三方支付平台友情提示：目前暂不支持“上海银行”提现，同时“兴业银行”“华夏银行”“光大银行”“邮政储蓄”“中国银行”由于合作权限，
+                可能会出现提现迟滞的现象。建议您优先选取：工商银行、农业银行、建设银行、招商银行、交通银行、广东发展银行、中信银行、浦发银行
+            </p>
+        </div>
+        <img class="close_btn" src="../img/close.png"/>
+    </div>
+</div>
+<!--提现提示弹出层-->
+<!--<div class="withdraw_bounce1">
+    <div class="bounce_detail">
+        <div class="title">
+            提现提示
+        </div>
+        <div class="content">
+            <p>提现规则：</p>
+            <p class="item">1、为保障您账户的资金安全，申请提现时，您选择的银行卡开户名必须与您光彩玖玖账户实名认证一致，</p>
+            <p class="item">1、为保障您账户的资金安全，申请提现时，您选择的银行卡开户名必须与您光彩玖玖账户实名认证一致，</p>
+        </div>
+        <div class="comfirm">
+            <p class="comfirm_info">您确定取消该笔体现？预计将有<span class="return_fee"></span>元返回到您的平台账户，请注意查收。</p>
+            <div class="btns clearfix"><span class="btn btn_qd">确定</span><span class="btn btn_cancel">取消</span></div>
+        </div>
+        <img class="close_btn1" src="../img/close.png"/>
+
+    </div>
+</div>-->
+<div class="withdraw_bounce1">
+    <div class="bounce_detail">
+        <div class="title">
+            提现提示
+        </div>
+        <div class="content">
+            <p>您的提现申请费用需要收取第三方支付平台手续费，总计<span class="shouxu_fee"></span>元，实际到账<span class="return_fee"></span>元，是否确认提现？</p>
+        </div>
+        <div class="comfirm">
+            <div class="btns clearfix"><span class="btn btn_qd">确定</span><span class="btn btn_cancel">取消</span></div>
+        </div>
+        <img class="close_btn1" src="../img/close.png"/>
+
+    </div>
+</div>
+</body>
+
+<script src="../js/withdraw.js" type="text/javascript" charset="utf-8"></script>
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".withdraw_title", {'title':'提现',"theme":"1"});
+</script>
+</html>
