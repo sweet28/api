@@ -88,13 +88,13 @@ public class FensUserServiceImpl implements FensUserService {
 				FensUser selectReferee = new FensUser();
 				if (fensUser.getRefereePhone() != null) {
 
-					selectReferee = fensUserMapper.selectReferee(fensUser);
+					selectReferee = fensUserMapper.selectReferee(fensUser.getRefereePhone());
 					if (selectReferee == null) {
 						return JsonResult.build(500, "不存在该邀请人");
 					}
 
-					fensUser2.setRefereePhone(selectReferee.getRefereePhone());
-					fensUser2.setRefereeId(selectReferee.getRefereeId());
+					fensUser2.setRefereePhone(selectReferee.getPhone());
+					fensUser2.setRefereeId(selectReferee.getId());
 				}
 				// 身份证校验
 				boolean idCard = IDCardUtil.isIDCard(cardNumber);
@@ -223,7 +223,7 @@ public class FensUserServiceImpl implements FensUserService {
 		if (selectCardInfo != null) {
 			return JsonResult.build(500, "该身份证已被绑定，如需进一步操作，请联系管理员");
 		}
-		// 绑定
+		// 绑定		
 		int result = fensAuthenticationMapper.insertSelective(fensAuthentication);
 		if (result == 1) {
 			return JsonResult.ok();

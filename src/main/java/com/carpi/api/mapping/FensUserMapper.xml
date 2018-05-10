@@ -267,11 +267,11 @@
 		from fens_user where phone = #{phone,jdbcType=VARCHAR}
 	</select>
 
-	<select id="selectReferee" parameterType="com.carpi.api.pojo.FensUser"
+	<select id="selectReferee" parameterType="java.lang.String"
 		resultType="com.carpi.api.pojo.FensUser">
 		select
 		<include refid="Base_Column_List" />
-		from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR}
+		from fens_user where phone = #{phone,jdbcType=VARCHAR}
 	</select>
 
 	<!--修改密码 或者资金密码-->

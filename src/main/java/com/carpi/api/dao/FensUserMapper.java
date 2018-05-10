@@ -19,7 +19,7 @@ public interface FensUserMapper {
     FensUser selectRegister(FensUser fensUser);
     
     //查询推荐人是否存在
-    FensUser selectReferee(FensUser fensUser);
+    FensUser selectReferee(String refereePhone);
     
     //更新密码
     int updatePwd(FensUser fensUser);
