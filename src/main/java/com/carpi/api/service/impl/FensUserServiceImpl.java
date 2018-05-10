@@ -204,10 +204,10 @@ public class FensUserServiceImpl implements FensUserService {
 			token.setUserId(user_id);
 			tokenDao.insertSelective(token);
 		}
-		fensUser.setPwd(null);
-		fensUser.setCapitalPwd(null);
-		fensUser.setBak1(accessToken);
-		return JsonResult.ok(fensUser);
+		user.setPwd(null);
+		user.setCapitalPwd(null);
+		user.setBak1(accessToken);
+		return JsonResult.ok(user);
 	}
 
 	// 身份验证(插入身份证信息)
