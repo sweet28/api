@@ -1,4 +1,11 @@
 (function(){
+//	先判断是否登录
+  var uid = getUIDByJWT().unique_name;
+  if (uid == undefined) {
+    //return false;
+	return true;
+  }
+  
   $(function(){
     var self = this,_$indexlist,_$wrap_container,_$pageno=0,_$swiper_img,_$ligin_icon,_type,_pageRows,_index=0;
     //数字暂定全局变量，局部会有问题

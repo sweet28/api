@@ -4,7 +4,22 @@
   var phonenum = $("#phonenum");
   var valicode = $("#valicode");
   var recommend_p = $("#recommend_p");
+  var cardnum = $("#cardnum");
+  var uname = $("#uname");
+  
   var cutdownFlag = true;
+  
+  var yqr = window.location.search.substring(7);
+  var numb = parseInt(yqr.toString(8),8);
+  
+  console.log(numb);
+  var reg11 = /^(\+?86)?(1[34578]\d{9})$/;
+  
+  if(reg11.test(numb)){
+	  var phoneyq = $("#recommend_p");
+	  phoneyq.val(numb);
+	  phoneyq.attr("disabled","disabled");
+  }
 
   /*0612 推荐人*/
   $("#referenceTitle").on("click", function () {
@@ -17,7 +32,23 @@
     var password_arr = password.val().split(" ");
     var reg1 = /^(\+?86)?(1[34578]\d{9})$/;
     var reg2 = /^[\x00-\xff]{6,20}$/;
+    var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
     if (step == 2) {
+        //姓名验证
+        if (uname.val() == "") {
+          layer.open({
+            content: "请输入姓名",
+            btn: '确定'
+          });
+          return false;
+        }
+        if (uname.length != 1) {
+          layer.open({
+            content: "请输入姓名，不能含有空格！",
+            btn: '确定'
+          });
+          return false;
+        }
       //手机号做验证
       if (phonenum.val() == "") {
         layer.open({
@@ -40,6 +71,28 @@
         });
         return false;
       }
+    //身份证号做验证
+      if (cardnum.val() == "") {
+        layer.open({
+          content: "请输入身份证号",
+          btn: '确定'
+        });
+        return false;
+      }
+      if (cardnum.length != 1) {
+        layer.open({
+          content: "请输入身份证号，不能含有空格！",
+          btn: '确定'
+        });
+        return false;
+      }
+      if (!pattern.test(cardnum.val())) {
+          layer.open({
+            content: "身份证号格式输入有误！",
+            btn: '确定'
+          });
+          return false;
+        }
       //密码验证
       if (password.val() == "") {
         layer.open({
@@ -62,48 +115,44 @@
           btn: '确定'
         });
         return false;
-      }
-      else {
-    	  alert(1111+":"+cutdownFlag);
+      }else 
+      {
         if (cutdownFlag) {
           $("#captcha_div").html("").css("margin"," 0.6rem auto 0");
-          alert(333);
-          var opts = {
-            "element": "captcha_div", // 可以是验证码容器id，也可以是HTMLElement
-            //"captchaId": "54cb27f913864c059e486f0be047477f", // 这里填入申请到的验证码id
-            "width": 280, // 验证码组件显示宽度
-            "verifyCallback": function (ret) { // 用户只要有拖动/点击，就会触发这个回调
-            	alert(222);
-              if (ret['value']) { // true:验证通过 false:验证失败
-                // 通过 ret["validate"] 可以获得二次校验数据
-                var validate=ret.validate;
-                alert(000);
+//          var opts = {
+//            "element": "captcha_div", // 可以是验证码容器id，也可以是HTMLElement
+//            //"captchaId": "54cb27f913864c059e486f0be047477f", // 这里填入申请到的验证码id
+//            "width": 280, // 验证码组件显示宽度
+//            "verifyCallback": function (ret) { // 用户只要有拖动/点击，就会触发这个回调
+//              if (ret['value']) { // true:验证通过 false:验证失败
+//                // 通过 ret["validate"] 可以获得二次校验数据
+//                var validate=ret.validate;
                 $.ajax({
                   type: "POST",
                   url: getAPIURL() + "sms/verification_code/send",
                   dataType: "json",
-                  contentType: "application/json",
-                  data:JSON.stringify({
-                    "phone": phonenum.val(),
+                  //contentType: "application/json",
+                  data:{
+                    "mobile": phonenum.val(),
                     "code_type":"reg_code"
                     //"captchaId":"54cb27f913864c059e486f0be047477f"
-                  }) ,
+                  } ,
                   success: function (data) {
-                    if (data.rtn == "-1") {
+                    if (data.error_code != "0") {
                       layer.open({
-                        content: data.Message,
+                        content: data.error_msg,
                         btn: '确定'
                       });
                       return false;
                     }
-                    else if (data.rtn == "1") {
+                    else if (data.error_code == "0") {
                       layer.open({
                         content: '验证码发送成功',
                         skin: 'msg',
                         time: 2, //2秒后自动关闭
                         end: function(){
-                          $("#captcha_div").html("").css("margin"," 0 auto");
-                          $("#register_btn").removeAttr("disabled").removeClass("disabled"); // 用户完成拖动之后再启用提交按钮
+//                          $("#captcha_div").html("").css("margin"," 0 auto");
+//                          $("#register_btn").removeAttr("disabled").removeClass("disabled"); // 用户完成拖动之后再启用提交按钮
                         }
                       });
                       var time = 120;
@@ -122,10 +171,10 @@
                   }
                 });
 
-              }
-            }
-          };
-          new NECaptcha(opts);
+//              }
+//            }
+//          };
+          //new NECaptcha(opts);
         } else {
 
         }
@@ -187,7 +236,7 @@
         return false;
       }
       var codeReg = /^[A-Za-z0-9]*$/;
-      if (!codeReg.test(valicode.val().replace(/^\s\s*/, '').replace(/\s\s*$/, '')) || valicode.val().replace(/^\s\s*/, '').replace(/\s\s*$/, '').length != 6) {
+      if (!codeReg.test(valicode.val().replace(/^\s\s*/, '').replace(/\s\s*$/, '')) || valicode.val().replace(/^\s\s*/, '').replace(/\s\s*$/, '').length != 4) {
         layer.open({
           content: "请输入正确格式的验证码！",
           btn: '确定'
@@ -198,94 +247,125 @@
         $("#modal").show();
         $.ajax({
           type: "post",
-          url: getAPIURL() + "Register/ValidCode",
+          url: getAPIURL() + "fenuser/register",
           dataType: 'json',
-          contentType: "application/json; charset=utf-8",
-          cache: false,
-          async: false,
-          data: JSON.stringify({
+          //contentType: "application/json; charset=utf-8",
+          //cache: false,
+          //async: false,
+          data: {
             "phone": phonenum.val(),
-            "code": valicode.val()
-          }),
+            "code": valicode.val(),
+            "name": uname.val(),
+            "cardNumber":cardnum.val(),
+            "code_type":"reg_code",
+            "refereePhone":recommend_p.val(),
+            "pwd":password.val()
+          },
           success: function (data) {
-            if (data.rtn == "-1") {
-              $("#modal").hide();
-              layer.open({
-                content: "验证码错误！",
-                btn: '确定'
-              });
-              return false;
-            }
-            //判断是否有推荐人
-            var recommendPerson = $.trim(recommend_p.val());
-            var from = "";
-            if (recommendPerson) {
-              from = "RECOMMENDED";
-            } else {
-              from = "INTERNETMEDIA";
-            }
-            $.ajax({
-              type: "post",
-              url: getAPIURL() + "Register/Register",
-              dataType: 'json',
-              contentType: "application/json; charset=utf-8",
-              data: JSON.stringify({
-                "account": phonenum.val(),
-                "pwd": password.val(),
-                "confirmpwd": password.val(),
-                "mobile": phonenum.val(),
-                "from": from,
-                "recommender": recommendPerson,
-                "validcode": valicode.val()
-              }),
-              success: function (data) {
-                if (data.rtn == -1) {
-                  $("#modal").hide();
+	            if (data.status == "200") {
+	            	$("#modal").hide();
+	            	layer.open({
+	            	    content: "注册成功，即将跳转至登录页面",
+	            	    skin: 'msg',
+	            	    time: 2, //2秒后自动关闭
+	            	    end: function () {
+	            	      location.href = '../page/login.html?z';
+	            	    }
+	            	  });
+//		              layer.open({
+//		                content: "注册成功",
+//		                btn: '确定'
+//		              });
+//		              return false;
+	            }else{
+	            	$("#modal").hide();
+		              layer.open({
+		                content: data.msg,
+		                btn: '确定'
+		              });
+		              return false;
+	            }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $("#modal").hide();
+                if(XMLHttpRequest.status == 400) {
+                  var obj = JSON.parse(XMLHttpRequest.responseText);
                   layer.open({
-                    content: data.Message,
-                    btn: '确定'
-                  });
-                }
-                if (data.rtn == 1) {
-                  $("#modal").hide();
-                  layer.open({
-                    content: '注册成功',
-                    skin: 'msg',
-                    time: 2 //2秒后自动关闭
-                  });
-                  $("#modal").show();
-                  $.ajax({
-                    type: "POST",
-                    url: getAPIURL() + "Account/Login",
-                    dataType: "json",
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                      username: phonenum.val(),
-                      password: password.val()
-                    }),
-                    success: function (data) {
-                      $("#modal").hide();
-                      localStorage.setItem("token", data.token);
-                      $(".user").text("恭喜" + phonenum.val() + "注册成功!");
-                      $(".register_part2").hide();
-                      $(".login_btn").hide();
-                      $(".register_part3").show();
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                      $("#modal").hide();
-                      if(XMLHttpRequest.status == 400) {
-                        var obj = JSON.parse(XMLHttpRequest.responseText);
-                        layer.open({
-                          content:obj.Message,
-                          btn:'确定'
-                        });
-                      }
-                    }
+                    content:obj.Message,
+                    btn:'确定'
                   });
                 }
               }
-            })
-          }
+//            //判断是否有推荐人
+//            var recommendPerson = $.trim(recommend_p.val());
+//            var from = "";
+//            if (recommendPerson) {
+//              from = "RECOMMENDED";
+//            } else {
+//              from = "INTERNETMEDIA";
+//            }
+//            $.ajax({
+//              type: "post",
+//              url: getAPIURL() + "Register/Register",
+//              dataType: 'json',
+//              contentType: "application/json; charset=utf-8",
+//              data: JSON.stringify({
+//                "account": phonenum.val(),
+//                "pwd": password.val(),
+//                "confirmpwd": password.val(),
+//                "mobile": phonenum.val(),
+//                "from": from,
+//                "recommender": recommendPerson,
+//                "validcode": valicode.val()
+//              }),
+//              success: function (data) {
+//                if (data.rtn == -1) {
+//                  $("#modal").hide();
+//                  layer.open({
+//                    content: data.Message,
+//                    btn: '确定'
+//                  });
+//                }
+//                if (data.rtn == 1) {
+//                  $("#modal").hide();
+//                  layer.open({
+//                    content: '注册成功',
+//                    skin: 'msg',
+//                    time: 2 //2秒后自动关闭
+//                  });
+//                  $("#modal").show();
+//                  $.ajax({
+//                    type: "POST",
+//                    url: getAPIURL() + "Account/Login",
+//                    dataType: "json",
+//                    contentType: "application/json",
+//                    data: JSON.stringify({
+//                      username: phonenum.val(),
+//                      password: password.val()
+//                    }),
+//                    success: function (data) {
+//                      $("#modal").hide();
+//                      localStorage.setItem("token", data.token);
+//                      $(".user").text("恭喜" + phonenum.val() + "注册成功!");
+//                      $(".register_part2").hide();
+//                      $(".login_btn").hide();
+//                      $(".register_part3").show();
+//                    },
+//                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+//                      $("#modal").hide();
+//                      if(XMLHttpRequest.status == 400) {
+//                        var obj = JSON.parse(XMLHttpRequest.responseText);
+//                        layer.open({
+//                          content:obj.Message,
+//                          btn:'确定'
+//                        });
+//                      }
+//                    }
+//                  });
+//                }
+//              }
+//            })
+//          }
         });
       }
     }

@@ -1,5 +1,5 @@
 (function(){
-  var user = $("#user");
+  var user = $("#phone");
   var pwd = $("#pwd");
   function loginverify(){
     loading.open();
@@ -21,17 +21,25 @@
     }
     $.ajax({
       type: "POST",
-      url: getAPIURL() + "Account/Login",
+      url: getAPIURL() + "fenuser/login",
       dataType: "json",
-      contentType: "application/json",
-      data:JSON.stringify({
-        username:$.trim(user.val()),
-        password:pwd.val()
-      }),
+      //contentType: "application/json",
+      data:{
+        "phone":$.trim(user.val()),
+        "pwd":pwd.val()
+      },
       success:function(data){
-        if(data.rtn == 0){
+    	  console.log(user.val()+"::"+pwd.val());
+    	  console.log(data.status+";;;;;;;;;;;;;;;");
+        if(data.status == 200){
+        	console.log(data.data+":::"+data.msg+":name:"+data.data.name+":token:"+data.data.bak1+":phone:"+data.data.phone);
           localStorage.setItem("username",user.val());
-          localStorage.setItem("token",data.token);
+          localStorage.setItem("name",data.data.name);
+          localStorage.setItem("token",data.data.bak1);
+          localStorage.setItem("phone",data.data.phone);
+          
+          console.log("::::name:"+localStorage.getItem("name")+":token:"+localStorage.getItem("token")+":phone:"+localStorage.getItem("phone"));
+          
           loading.close();
           layer.open({
             content: '登录成功'
@@ -62,6 +70,24 @@
               }
             }
           });
+        }else if(data.status == 20023){
+        	loading.close();
+        	layer.open({
+                content:"密码错误",
+                btn:'确定'
+              });
+        }else if(data.status == 20022){
+        	loading.close();
+        	layer.open({
+                content:"请注册后再登录",
+                btn:'确定'
+              });
+        }else{
+        	loading.close();
+        	layer.open({
+                content:"请检查网络是否畅通",
+                btn:'确定'
+              });
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {

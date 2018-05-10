@@ -1,4 +1,12 @@
 (function () {
+	
+//	先判断是否登录
+  var uid = getUIDByJWT().unique_name;
+  if (uid == undefined) {
+    //return false;
+	return true;
+  }
+	  
   /*占屏广告*/
   var $advertisementModal = $("#advertisementModal");
   checkCookie("advertisement");

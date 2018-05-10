@@ -129,7 +129,7 @@ function getUIDByJWT() {
         }
       }
     }
-	value="000";
+	//value="000";
     if (value == null
       || value == ""
       || value == undefined) {
@@ -152,7 +152,7 @@ function getUIDByJWT() {
   else {
     value = localStorage.getItem("token");
 	
-	value = "123";
+	//value = "123";
 	
     if (value == null) {
       layer.open({
@@ -195,6 +195,10 @@ function getUserName() {
   return localStorage.getItem("username");
 }
 
+function getPhone() {
+	  return localStorage.getItem("phone");
+}
+
 function Logout() {
   //如果是移动设备
   /*if(device==="app")
@@ -211,7 +215,7 @@ function Logout() {
     skin: 'msg',
     time: 2, //2秒后自动关闭
     end: function () {
-      location.href = '../page/index.html';
+      location.href = '../page/login.html';
     }
   });
 }
@@ -230,13 +234,19 @@ function getTOKEN() {
 }
 
 function getAPIURL() {
-  return "http://localhost:8080/api/";
+//  return "http://localhost:8080/api/";
+//	return "http://cpa.artforyou.cn:8088/api/";
+	return "https://cpa.artforyou.cn/api/";
 }
 
 function baseUrl() {
-  return "http://m.gcjiujiu.com/"
+//  return "http://localhost:8080/api/";
+//	return "http://cpa.artforyou.cn:8088/api/";
+	return "https://cpa.artforyou.cn/api/";
 }
-var getwapURL = "http://m.gcjiujiu.com/page/";
+//var getwapURL = "http://localhost:8080/api/";
+//var getwapURL = "http://cpa.artforyou.cn:8088/api/";
+var getwapURL = "https://cpa.artforyou.cn/api/";
 
 function getP2PAPI() {
   return "http://www.gcjiujiu.com/";
@@ -290,7 +300,7 @@ function getNAME() {
 
 //汇付注册接口配置
 function huifuAPIURL() {
-  return "http://api.gcjiujiu.com/chinapnrapi/";
+  return "http://api.cpa.com/chinapnrapi/";
 }
 
 

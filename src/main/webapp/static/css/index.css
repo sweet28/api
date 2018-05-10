@@ -1,4 +1,4 @@
-/*-------首页部分样式--------*/
+/*-------棣栭〉閮ㄥ垎鏍峰紡--------*/
 .modal {
     width: 7.5rem;
     height: 100%;
@@ -16,7 +16,7 @@
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
 }
-/*占屏广告*/
+/*鍗犲睆骞垮憡*/
 .advertisementModal {
     background: rgba(0, 0, 0, 0.4);
     z-index: 10000;
@@ -283,7 +283,7 @@
     margin-left: 0.96rem;
 }
 
-/*swiper图片大小*/
+/*swiper鍥剧墖澶у皬*/
 .wrap {
     width: 7.5rem;
     height: 100%;
@@ -370,7 +370,7 @@
     z-index: 1;
 }
 
-/*公告部分*/
+/*鍏憡閮ㄥ垎*/
 .notice {
     padding-left: 0.27rem;
     height: 0.46rem;
@@ -405,12 +405,12 @@
     color: #4b4b4b;
 }
 
-/*新手专享部分*/
+/*鏂版墜涓撲韩閮ㄥ垎*/
 .newer {
     position: relative;
 }
 
-/*悬浮按钮*/
+/*鎮诞鎸夐挳*/
 .download_icon {
     width: 1.01rem;
     height: 0.79rem;
@@ -515,7 +515,7 @@
     margin-right: 0.12rem;
 }
 
-/*转圈图*/
+/*杞湀鍥�*/
 .row-bot {
     width: 7.5rem;
     min-height: 20px;
@@ -609,7 +609,7 @@
     top: 0;
 }
 
-/*投资按钮*/
+/*鎶曡祫鎸夐挳*/
 .newer .newer_detail .invest_btn {
     display: block;
     width: 6.6rem;
@@ -623,11 +623,11 @@
     background: -webkit-linear-gradient(left, #fd8247, #f46054); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #fd8247, #f46054); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #fd8247, #f46054); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #fd8247, #f46054); /* 标准的语法 */
+    background: linear-gradient(left, #fd8247, #f46054); /* 鏍囧噯鐨勮娉� */
 }
 
-/*------个人中心的样式------*/
-/*我的头部部分*/
+/*------涓汉涓績鐨勬牱寮�------*/
+/*鎴戠殑澶撮儴閮ㄥ垎*/
 .my_header {
     width: 7.5rem;
     height: 5.17rem;
@@ -694,7 +694,7 @@
     position: relative;
 }
 
-/*中间加条线*/
+/*涓棿鍔犳潯绾�*/
 .my_header .my_headerbottom .left:after {
     content: "";
     position: absolute;
@@ -718,7 +718,7 @@
     font-size: 0.2rem;
 }
 
-/*我的内容部分*/
+/*鎴戠殑鍐呭閮ㄥ垎*/
 .my_content .icon {
     background: url(../img/my_icon.png);
     background-size: 4.33rem 0.55rem;
@@ -861,6 +861,14 @@
     height: 0.44rem;
 }
 
+.my_content .my_content_bottom .icon_yaoqing {
+    display: inline-block;
+    background: url(../img/safeiconone.png) no-repeat;
+    background-size: cover;
+    width: 0.54rem;
+    height: 0.44rem;
+}
+
 .my_content .my_content_bottom .icon_zhankai {
     float: right;
     margin-right: 0.32rem;
@@ -880,7 +888,7 @@
     /* margin-left: 0.1rem;*/
 }
 
-/*----------我的设置部分样式------*/
+/*----------鎴戠殑璁剧疆閮ㄥ垎鏍峰紡------*/
 .setting_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1032,7 +1040,7 @@
     margin-left: 1.3rem;
 }
 
-/*安全退出按钮*/
+/*瀹夊叏閫�鍑烘寜閽�*/
 .setting_logout {
     display: block;
     margin: 0 auto;
@@ -1046,11 +1054,11 @@
     background: -webkit-linear-gradient(left, #44c5fe, #079bff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #44c5fe, #079bff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #44c5fe, #079bff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #44c5fe, #079bff); /* 标准的语法 */
+    background: linear-gradient(left, #44c5fe, #079bff); /* 鏍囧噯鐨勮娉� */
     color: #fff;
 }
 
-/*------------修改登录密码---------------------*/
+/*------------淇敼鐧诲綍瀵嗙爜---------------------*/
 .modifypassword_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1130,11 +1138,11 @@
     background: -webkit-linear-gradient(left, #44c5fe, #079bff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #44c5fe, #079bff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #44c5fe, #079bff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #44c5fe, #079bff); /* 标准的语法 */
+    background: linear-gradient(left, #44c5fe, #079bff); /* 鏍囧噯鐨勮娉� */
     color: #fff;
 }
 
-/*-------找回交易密码-------------*/
+/*-------鎵惧洖浜ゆ槗瀵嗙爜-------------*/
 .findtranpassword_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1327,11 +1335,11 @@
     background: -webkit-linear-gradient(left, #44c5fe, #079bff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #44c5fe, #079bff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #44c5fe, #079bff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #44c5fe, #079bff); /* 标准的语法 */
+    background: linear-gradient(left, #44c5fe, #079bff); /* 鏍囧噯鐨勮娉� */
     color: #fff;
 }
 
-/*-------------联系我们-------------*/
+/*-------------鑱旂郴鎴戜滑-------------*/
 .contactus_title {
     height: 1rem;
     line-height: 1rem;
@@ -1425,7 +1433,7 @@
     float: right;
 }
 
-/*-----------------常见问题---------------------*/
+/*-----------------甯歌闂---------------------*/
 .faq_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1484,7 +1492,7 @@
 
 }
 
-/*----------------意见反馈页面----------*/
+/*----------------鎰忚鍙嶉椤甸潰----------*/
 .feedback_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1565,11 +1573,11 @@
     background: -webkit-linear-gradient(left, #44c5fe, #079bff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #44c5fe, #079bff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #44c5fe, #079bff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #44c5fe, #079bff); /* 标准的语法 */
+    background: linear-gradient(left, #44c5fe, #079bff); /* 鏍囧噯鐨勮娉� */
     color: #fff;
 }
 
-/*--------------注册指导-------------------*/
+/*--------------娉ㄥ唽鎸囧-------------------*/
 .registerguide_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1639,7 +1647,7 @@
     display: none;
 }
 
-/*-------------提现页面-------------*/
+/*-------------鎻愮幇椤甸潰-------------*/
 .withdraw_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1875,11 +1883,11 @@
     background: -webkit-linear-gradient(left, #44c5fe, #079bff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #44c5fe, #079bff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #44c5fe, #079bff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #44c5fe, #079bff); /* 标准的语法 */
+    background: linear-gradient(left, #44c5fe, #079bff); /* 鏍囧噯鐨勮娉� */
     color: #fff;
 }
 
-/*提现规则弹出层*/
+/*鎻愮幇瑙勫垯寮瑰嚭灞�*/
 .withdraw_bounce {
     position: absolute;
     left: 0;
@@ -1929,7 +1937,7 @@
     right: -0.2rem;
 }
 
-/*提现提示弹出层*/
+/*鎻愮幇鎻愮ず寮瑰嚭灞�*/
 .withdraw_bounce1 {
     position: absolute;
     left: 0;
@@ -2017,7 +2025,7 @@
     float: right;
 }
 
-/*-----------快速注册页面---------------*/
+/*-----------蹇�熸敞鍐岄〉闈�---------------*/
 .register_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -2226,7 +2234,7 @@
     margin-top: 0.4rem;
 }
 
-/*推荐人账号0612*/
+/*鎺ㄨ崘浜鸿处鍙�0612*/
 .register_content .register_part2 .referenceWrap {
     position: relative;
 }
@@ -2268,8 +2276,8 @@
     display: block;
 }
 
-/*------------登录页面--------------*/
-/*body背景*/
+/*------------鐧诲綍椤甸潰--------------*/
+/*body鑳屾櫙*/
 .login_bg {
     /* background: url('../img/login_bg.png') no-repeat fixed;
      background-size: cover;*/
@@ -2481,7 +2489,7 @@
     vertical-align: middle;
 }
 
-/*-----------安全中心页面样式--------------*/
+/*-----------瀹夊叏涓績椤甸潰鏍峰紡--------------*/
 .safecenter_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -2579,7 +2587,7 @@
     line-height: 0.42rem;
 }
 
-/*-----------提现记录部分-------------*/
+/*-----------鎻愮幇璁板綍閮ㄥ垎-------------*/
 .withdrawrecord_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -2654,7 +2662,7 @@
     color: #00A0E9;
 }
 
-/*无提现记录页面*/
+/*鏃犳彁鐜拌褰曢〉闈�*/
 .no_withdrawrecord {
     text-align: center;
     margin-top: 2rem;
@@ -2668,7 +2676,7 @@
     margin-top: 1rem;
 }
 
-/*取消提现提示弹出层*/
+/*鍙栨秷鎻愮幇鎻愮ず寮瑰嚭灞�*/
 .cancel_bounce {
     position: absolute;
     left: 0;
@@ -2756,7 +2764,7 @@
     float: right;
 }
 
-/*------------------添加银行卡--------------*/
+/*------------------娣诲姞閾惰鍗�--------------*/
 .addBank_body {
     background-color: #fff;
 }
@@ -2808,7 +2816,7 @@
 
 }
 
-/*--------------我的积分------------*/
+/*--------------鎴戠殑绉垎------------*/
 .myjf_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -2978,7 +2986,7 @@
     margin-top: 0.5rem;
 }
 
-/*之前版本积分*/
+/*涔嬪墠鐗堟湰绉垎*/
 /*.myjf_content .bottom .item .time {
     width: 1.08rem;
     height: 1.08rem;
@@ -3035,7 +3043,7 @@
     margin-bottom: 0.1rem;
 }*/
 
-/*没有积分记录*/
+/*娌℃湁绉垎璁板綍*/
 .no_jfrecord {
     text-align: center;
     margin-top: 2rem;
@@ -3049,7 +3057,7 @@
     margin-top: 1rem;
 }
 
-/*提现规则弹出层*/
+/*鎻愮幇瑙勫垯寮瑰嚭灞�*/
 .myjf_bounce {
     position: absolute;
     left: 0;
@@ -3113,7 +3121,7 @@
     right: -0.2rem;
 }
 
-/*--------------我的银行卡页面----------*/
+/*--------------鎴戠殑閾惰鍗￠〉闈�----------*/
 .mybankcard_body {
     background: #f0f5f8;
 }
@@ -3235,7 +3243,7 @@
     color: #999;
 }
 
-/*------------------服务协议-------------------------------*/
+/*------------------鏈嶅姟鍗忚-------------------------------*/
 .serviceprotol_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -3278,7 +3286,7 @@
     padding: 0.4rem 0 0.2rem 0;
 }
 
-/*绑定手机*/
+/*缁戝畾鎵嬫満*/
 .bound {
     padding-top: 0.48rem;
 }
@@ -3365,7 +3373,7 @@
     color: #fff;
 }
 
-/*0809  第三方登录*/
+/*0809  绗笁鏂圭櫥褰�*/
 .thirdPartyLoginWrap {
     text-align: center;
     padding-top: 0.7rem;
