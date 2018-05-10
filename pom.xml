@@ -212,24 +212,24 @@
 		<!-- 声明式事务管理依赖包 -->
 		<!-- https://mvnrepository.com/artifact/org.aspectj/aspectjweaver -->
 		<dependency>
-		    <groupId>org.aspectj</groupId>
-		    <artifactId>aspectjweaver</artifactId>
-		    <version>1.6.11</version>
-            <scope>system</scope> 
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.6.11</version>
+			<scope>system</scope>
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/aspectjweaver-1.6.11.jar</systemPath>
 		</dependency>
-				
+
 		<!-- 阿里云 短信 依赖 -->
-        <dependency>
-            <groupId>taobao</groupId>
-            <artifactId>taobao</artifactId>
-            <version>1.0</version>
-            <scope>system</scope> 
+		<dependency>
+			<groupId>taobao</groupId>
+			<artifactId>taobao</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
 			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/taobao-sdk-java-auto_1455552377940-20160607.jar</systemPath>
-        </dependency>
-        
-        
-        <dependency>
+		</dependency>
+
+
+		<dependency>
 			<groupId>net.coobird</groupId>
 			<artifactId>thumbnailator</artifactId>
 			<version>0.4.8</version>
@@ -246,14 +246,25 @@
 			<artifactId>dom4j</artifactId>
 			<version>1.6</version>
 		</dependency>
-		
+
 		<!-- 激光推送依赖 -->
 		<dependency>
-		    <groupId>cn.jpush.api</groupId>
-		    <artifactId>jpush-client</artifactId>
-		    <version>3.2.9</version>
+			<groupId>cn.jpush.api</groupId>
+			<artifactId>jpush-client</artifactId>
+			<version>3.2.9</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper -->
+		<!--mybatis的分页插件  -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>5.1.2</version>
 		</dependency>
 	</dependencies>
+
+
+
 	<build>
 		<finalName>api</finalName>
 		<plugins>

@@ -1,5 +1,7 @@
 package com.carpi.api.dao;
 
+import java.util.List;
+
 import com.carpi.api.pojo.FensMiner;
 
 public interface FensMinerMapper {
@@ -14,4 +16,7 @@ public interface FensMinerMapper {
     int updateByPrimaryKeySelective(FensMiner record);
 
     int updateByPrimaryKey(FensMiner record);
+    
+    //根据粉丝id查询矿机
+    List<FensMiner> selectMiner(Integer fensUserId);
 }

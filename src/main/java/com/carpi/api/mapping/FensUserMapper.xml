@@ -266,11 +266,33 @@
 		<include refid="Base_Column_List" />
 		from fens_user where phone = #{phone,jdbcType=VARCHAR}
 	</select>
-	
+
 	<select id="selectReferee" parameterType="com.carpi.api.pojo.FensUser"
 		resultType="com.carpi.api.pojo.FensUser">
 		select
 		<include refid="Base_Column_List" />
 		from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR}
 	</select>
+
+	<!--修改密码 或者资金密码-->
+	<update id="updatePwd" parameterType="com.carpi.api.pojo.FensUser">
+		update fens_user
+		<set>
+			<if test="pwd != null">
+				pwd = #{pwd,jdbcType=VARCHAR},
+			</if>
+			<if test="capitalPwd != null">
+				capital_pwd = #{capitalPwd,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<where>
+		  <if test="phone != null">
+			phone = #{phone,jdbcType=INTEGER}
+		  </if>	
+		  <if test="capitalPwd != null">
+			or capital_pwd = #{capitalPwd,jdbcType=INTEGER}
+		  </if>	
+		</where>
+
+	</update>
 </mapper>

@@ -21,5 +21,8 @@ public interface FensUserMapper {
     //查询推荐人是否存在
     FensUser selectReferee(FensUser fensUser);
     
+    //更新密码
+    int updatePwd(FensUser fensUser);
+    
     
 }

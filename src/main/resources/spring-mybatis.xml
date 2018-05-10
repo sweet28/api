@@ -48,6 +48,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<!-- 自动扫描mapping.xml文件 -->
 		<property name="mapperLocations" value="classpath:com/*/api/mapping/*.xml"></property>
+		<property name="configLocation" value="classpath:SqlMapConfig.xml"></property>
 <!-- 		<property name="mapperLocations" value="classpath:com/carpi/api/mapping/*.xml"></property> -->
 	</bean>
 

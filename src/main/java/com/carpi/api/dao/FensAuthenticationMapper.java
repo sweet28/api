@@ -14,4 +14,7 @@ public interface FensAuthenticationMapper {
     int updateByPrimaryKeySelective(FensAuthentication record);
 
     int updateByPrimaryKey(FensAuthentication record);
+    
+    //根据身份证查询信息，看看是否被绑定
+    FensAuthentication selectCardInfo(String cardNumber);
 }

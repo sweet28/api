@@ -220,4 +220,10 @@
       goole_private_key = #{goolePrivateKey,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectCardInfo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from fens_authentication
+    where card_number = #{cardNumber,jdbcType=VARCHAR}
+  </select>
 </mapper>
