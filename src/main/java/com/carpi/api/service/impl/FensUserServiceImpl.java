@@ -74,14 +74,20 @@ public class FensUserServiceImpl implements FensUserService {
 		smsCheckCode.setMobile(fensUser.getPhone());
 		smsCheckCode.setRemarks(code_type);
 		smsCheckCode.setCheckCode(code);
-		SMSCheckCode smsCCode = smsCheckCodeDao.selectOneSmsInfo(smsCheckCode);
+		
+		SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);//.selectOneSmsInfo(smsCheckCode);
 		if (smsCCode != null) {
-			long useTime = smsCCode.getUsingTime().getTime();
+			
+			long expireTime = smsCCode.getExpireTime().getTime();
 			long nowTime = new Date().getTime();
-			long diffSeconds = TimeUtil.diffSeconds(nowTime, useTime);
-			if (diffSeconds > ConfigUtil.VERIFY_TIME) {
+			long expireSeconds = TimeUtil.diffSeconds(expireTime, nowTime);
+			if(expireSeconds < 0){
 				return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
-			} else {
+			}else{
+				smsCCode.setIsUsed(1);
+				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+				
 				String pwd = MD5.encodeString(
 						MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
 				FensUser fensUser2 = new FensUser();
@@ -105,6 +111,7 @@ public class FensUserServiceImpl implements FensUserService {
 				fensUser2.setName(fensUser.getName());
 				fensUser2.setPwd(pwd);
 				fensUser2.setCreateDate(new Date());
+				fensUser2.setBak2(cardNumber);
 				int result = fensUserMapper.insertSelective(fensUser2);
 				if (result == 1) {
 					if (fensUser.getRefereePhone() != null) {
