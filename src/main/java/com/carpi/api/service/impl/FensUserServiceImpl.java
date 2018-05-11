@@ -74,25 +74,24 @@ public class FensUserServiceImpl implements FensUserService {
 		smsCheckCode.setMobile(fensUser.getPhone());
 		smsCheckCode.setRemarks(code_type);
 		smsCheckCode.setCheckCode(code);
-		
-		SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);//.selectOneSmsInfo(smsCheckCode);
+
+		SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);// .selectOneSmsInfo(smsCheckCode);
 		if (smsCCode != null) {
-			
 			long expireTime = smsCCode.getExpireTime().getTime();
 			long nowTime = new Date().getTime();
 			long expireSeconds = TimeUtil.diffSeconds(expireTime, nowTime);
-			if(expireSeconds < 0){
+			if (expireSeconds < 0) {
 				return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
-			}else{
+			} else {
 				smsCCode.setIsUsed(1);
 				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
 				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
-				
+
 				String pwd = MD5.encodeString(
 						MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
 				FensUser fensUser2 = new FensUser();
 				FensUser selectReferee = new FensUser();
-				if (fensUser.getRefereePhone() != null) {
+				if (fensUser.getRefereePhone() != null && fensUser.getRefereePhone() != "") {
 
 					selectReferee = fensUserMapper.selectReferee(fensUser.getRefereePhone());
 					if (selectReferee == null) {
@@ -114,6 +113,8 @@ public class FensUserServiceImpl implements FensUserService {
 				fensUser2.setBak2(cardNumber);
 				int result = fensUserMapper.insertSelective(fensUser2);
 				if (result == 1) {
+					//将身份证号码和姓名插入证件表
+					
 					if (fensUser.getRefereePhone() != null) {
 						// 粉丝注册成功后，把信息插入粉丝团表
 						FensTeam fensTeam = new FensTeam();
@@ -154,26 +155,36 @@ public class FensUserServiceImpl implements FensUserService {
 		smsCheckCode.setMobile(fensUser.getPhone());
 		smsCheckCode.setRemarks(code_type);
 		smsCheckCode.setCheckCode(code);
-		SMSCheckCode smsCCode = smsCheckCodeDao.selectOneSmsInfo(smsCheckCode);
-		if (smsCCode == null) {
+
+		SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);
+		if (smsCCode != null) {
+			long expireTime = smsCCode.getExpireTime().getTime();
+			long nowTime = new Date().getTime();
+			long expireSeconds = TimeUtil.diffSeconds(expireTime, nowTime);
+			if (expireSeconds < 0) {
+				return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
+			} else {
+				smsCCode.setIsUsed(1);
+				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+				String NewPwd = MD5.encodeString(
+						MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
+				FensUser fensUser2 = new FensUser();
+				fensUser2.setPhone(fensUser.getPhone());
+				fensUser2.setPwd(NewPwd);
+				int result = fensUserMapper.updatePwd(fensUser2);
+				if (result == 1) {
+					// 设置短信已使用
+					smsCCode.setIsUsed(2);
+					int staus = smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+					return JsonResult.ok();
+				}
+				
+				return JsonResult.build(500, "修改失败，请联系管理员");
+			}
+		} else {
 			return JsonResult.build(20049, ErrorCodeConfigUtil.ERROR_MSG_ZH_20049);
 		}
-		long useTime = smsCCode.getUsingTime().getTime();
-		long nowTime = new Date().getTime();
-		long diffSeconds = TimeUtil.diffSeconds(nowTime, useTime);
-		if (diffSeconds > ConfigUtil.VERIFY_TIME) {
-			return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
-		}
-		String NewPwd = MD5
-				.encodeString(MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
-		FensUser fensUser2 = new FensUser();
-		fensUser2.setPhone(fensUser.getPhone());
-		fensUser2.setPwd(NewPwd);
-		int result = fensUserMapper.updatePwd(fensUser2);
-		if (result == 1) {
-			return JsonResult.ok();
-		}
-		return JsonResult.build(500, "修改失败，请联系管理员");
 	}
 
 	// 登入
@@ -221,16 +232,16 @@ public class FensUserServiceImpl implements FensUserService {
 	@Override
 	public JsonResult addCard(FensAuthentication fensAuthentication) {
 		// 身份校验
-		boolean idCard = IDCardUtil.isIDCard(fensAuthentication.getCardNumber());
-		if (idCard == false) {
-			return JsonResult.build(500, "请检查身份证是否正确");
-		}
+//		boolean idCard = IDCardUtil.isIDCard(fensAuthentication.getCardNumber());
+//		if (idCard == false) {
+//			return JsonResult.build(500, "请检查身份证是否正确");
+//		}
 		// 根据身份证查询，看看是否被绑定
 		FensAuthentication selectCardInfo = fensAuthenticationMapper.selectCardInfo(fensAuthentication.getCardNumber());
 		if (selectCardInfo != null) {
 			return JsonResult.build(500, "该身份证已被绑定，如需进一步操作，请联系管理员");
 		}
-		// 绑定		
+		// 绑定
 		int result = fensAuthenticationMapper.insertSelective(fensAuthentication);
 		if (result == 1) {
 			return JsonResult.ok();
