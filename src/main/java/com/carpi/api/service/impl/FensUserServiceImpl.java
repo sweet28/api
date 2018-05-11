@@ -116,10 +116,11 @@ public class FensUserServiceImpl implements FensUserService {
 					//将身份证号码和姓名插入证件表
 					
 					if (fensUser.getRefereePhone() != null) {
+						FensUser user = fensUserMapper.selectReferee(fensUser.getPhone());
 						// 粉丝注册成功后，把信息插入粉丝团表
 						FensTeam fensTeam = new FensTeam();
 						// 被邀请人id
-						fensTeam.setInviteeId(fensUser2.getId());
+						fensTeam.setInviteeId(user.getId());
 						// 被邀请人姓名
 						fensTeam.setInviteeName(fensUser2.getName());
 						// 被邀请人手机号码
