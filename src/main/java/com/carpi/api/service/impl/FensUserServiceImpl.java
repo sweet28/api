@@ -138,6 +138,8 @@ public class FensUserServiceImpl implements FensUserService {
 					fensAuthentication.setCardNumber(cardNumber);
 					// 粉丝id
 					fensAuthentication.setFensUserId(user.getId());
+					//时间
+					fensAuthentication.setCreateDate(new Date());
 					int fensAuthStatus = fensAuthenticationMapper.insertSelective(fensAuthentication);
 					// 将信息插入粉丝安全认证表
 					if (fensAuthStatus != 1) {

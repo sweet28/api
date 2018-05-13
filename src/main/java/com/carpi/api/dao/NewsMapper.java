@@ -1,5 +1,7 @@
 package com.carpi.api.dao;
 
+import java.util.List;
+
 import com.carpi.api.pojo.News;
 
 public interface NewsMapper {
@@ -14,4 +16,7 @@ public interface NewsMapper {
     int updateByPrimaryKeySelective(News record);
 
     int updateByPrimaryKey(News record);
+    
+    //查询新闻列表
+    List<News> selectAll();
 }

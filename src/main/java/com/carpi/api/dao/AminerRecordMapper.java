@@ -2,6 +2,8 @@ package com.carpi.api.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.carpi.api.pojo.AminerRecord;
 
 public interface AminerRecordMapper {
@@ -18,6 +20,6 @@ public interface AminerRecordMapper {
 	int updateByPrimaryKey(AminerRecord record);
 
 	// 查询a矿机的交易记录
-	List<AminerRecord> selectARecord(Integer fensUserId);
+	List<AminerRecord> selectARecord(@Param("fensUserId")Integer fensUserId);
 
 }

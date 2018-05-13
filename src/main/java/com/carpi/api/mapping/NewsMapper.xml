@@ -174,4 +174,10 @@
       conent = #{conent,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <!-- 查询新闻列表 -->
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from news
+  </select>
 </mapper>
