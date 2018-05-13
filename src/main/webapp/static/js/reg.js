@@ -33,6 +33,8 @@
     var reg1 = /^(\+?86)?(1[34578]\d{9})$/;
     var reg2 = /^[\x00-\xff]{6,20}$/;
     var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/; 
+   // var pattern = /(^\d{15}$)|(^\d{18}$)/; 
+    
     if (step == 2) {
         //姓名验证
         if (uname.val() == "") {
@@ -138,14 +140,7 @@
                     //"captchaId":"54cb27f913864c059e486f0be047477f"
                   } ,
                   success: function (data) {
-                    if (data.error_code != "0") {
-                      layer.open({
-                        content: data.error_msg,
-                        btn: '确定'
-                      });
-                      return false;
-                    }
-                    else if (data.error_code == "0") {
+                    if (data.error_code == "0") {
                       layer.open({
                         content: '验证码发送成功',
                         skin: 'msg',
@@ -167,6 +162,12 @@
                           $("#get_valicode").html("重新获取");
                         }
                       }, 1000);
+                    }else{
+                    	layer.open({
+                            content: data.error_msg,
+                            btn: '确定'
+                          });
+                        return false;
                     }
                   }
                 });
@@ -183,6 +184,21 @@
     }
     //第三步
     if (step == 3) {
+    	//姓名验证
+        if (uname.val() == "") {
+          layer.open({
+            content: "请输入姓名",
+            btn: '确定'
+          });
+          return false;
+        }
+        if (uname.length != 1) {
+          layer.open({
+            content: "请输入姓名，不能含有空格！",
+            btn: '确定'
+          });
+          return false;
+        }
       //手机号做验证
       if (phonenum.val() == "") {
         layer.open({
@@ -205,6 +221,28 @@
         });
         return false;
       }
+    //身份证号做验证
+      if (cardnum.val() == "") {
+        layer.open({
+          content: "请输入身份证号",
+          btn: '确定'
+        });
+        return false;
+      }
+      if (cardnum.length != 1) {
+        layer.open({
+          content: "请输入身份证号，不能含有空格！",
+          btn: '确定'
+        });
+        return false;
+      }
+      if (!pattern.test(cardnum.val())) {
+          layer.open({
+            content: "身份证号格式输入有误！",
+            btn: '确定'
+          });
+          return false;
+        }
       //密码验证
       if (password.val() == "") {
         layer.open({
@@ -265,9 +303,9 @@
 	            if (data.status == "200") {
 	            	$("#modal").hide();
 	            	layer.open({
-	            	    content: "注册成功，即将跳转至登录页面",
+	            	    content: "注册成功，活动期间赠送的矿机发放中",
 	            	    skin: 'msg',
-	            	    time: 2, //2秒后自动关闭
+	            	    time: 4, //2秒后自动关闭
 	            	    end: function () {
 	            	      location.href = '../page/login.html?z';
 	            	    }

@@ -6,8 +6,7 @@
   
   var phone = Number(getPhone());
 //  console.log("phone:::"+phone);
-//  var yqURL = "http://cpa.artforyou.cn:8088/api/static/page/reg.html?yqurl=";
-  var yqURL = "https://cpa.artforyou.cn/api/static/page/reg.html?yqurl=";
+  var yqURL = "http://cpa.artforyou.cn:8088/api/static/page/reg.html?yqurl=";
   var yqValue = $("#yaoqing_url");
   
   if(phone!=null){

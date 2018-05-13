@@ -16,11 +16,25 @@
   }
 
   //	先判断是否登录
-  var uid = getUIDByJWT().unique_name;
+  var uid = getTOKEN();
   if (uid == undefined) {
-    //return false;
-	return true;
+    return false;
+//	return true;
   }
+  var numm = 413;
+  if(numm < 413){
+	  numm++;
+  }
+
+  layer.open({
+      content: '注册人数：'+numm+",注册人数每天上午更新。"
+      , skin: 'msg'
+      , time: 3 //2秒后自动关闭
+      ,end: function(){
+    	  numm++;
+      }
+  });
+  
   /*v1.2.1充值方式*/
   $.ajax({
     type: "GET",
@@ -97,11 +111,11 @@
 //              }
 //          });
       $("#balance_num").text(0);
-      $("#balance_dec").text(".00");
+      $("#balance_dec").text(".00000");
       $("#waitNum_num").text(0);
-      $("#waitNum_dec").text(".00");
+      $("#waitNum_dec").text(".00000");
       $("#returnIn_num").text(0);
-      $("#returnIn_dec").text(".00");
+      $("#returnIn_dec").text(".00000");
 
     },
     headers: {
@@ -132,6 +146,13 @@
       }
     });
   });
+  
+  $("#myjisu").click(function(){
+	  layer.open({
+          content: '您的算力：0.005*2。'
+          , btn: '确定'
+      });
+  })
 
   /*点击绑定银行卡按钮判断是否已经实名认证*/
   $("#addBank").click(function () {

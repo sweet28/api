@@ -28,7 +28,7 @@
             <div class="register_part2">
             	<div class="item">
                     <input type="text" id="uname" placeholder="姓名" oninput="if(value.length>11)value=value.slice(0,11)"/>
-                           <!-- onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"/>-->
+                           <!-- onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"/> -->
                 </div>
                 <div class="item">
                     <input type="number" id="phonenum" placeholder="手机号码" oninput="if(value.length>11)value=value.slice(0,11)"
@@ -54,7 +54,7 @@
                 </div>
                 <div style="text-align: center;" id="captcha_div"></div>
                 
-                <!--<div class="referenceWrap">
+                <div class="referenceWrap">
                     <div style="display: none" class="referenceTitle" id="referenceTitle"><img src="../img/inviteperson.png">邀请人账号</div>
                     <div style="display: none">
                         <input class="recommend_input" id="recommend_p" type="text" maxlength="20" placeholder="邀请人账号（选填）"
@@ -62,15 +62,21 @@
                         <div class="recommendMessage"><span></span><span id="recommendName"></span></div>
                     </div>
 
-                </div>-->
+                </div>
                 <a href="javascript:;" class="register_btn disabled" style="text-align: center"
                    id="register_btn">注册</a>
-                <!--<input type="button" class="register_btn disabled" disabled id="register_btn" value="立即注册">-->
+                <!-- <input type="button" class="register_btn disabled" disabled id="register_btn" value="立即注册"> -->
 
-                <div class="xieyi">
-                    <!--<input type="checkbox" checked class="if_agree" id="if_agree"/><label for="if_agree">我同意</label>-->
+				<!-- <div class="xieyi">
+                    <input type="checkbox" checked class="if_agree" id="if_agree"/><label for="if_agree">我同意</label>
                     <span class="xieyiname">注册账户表示您同意<a href="service_protol.html">《注册协议》</a></span>
-                </div>
+                </div> -->
+                
+                <!-- <div class="xieyi">
+                    <input type="checkbox" checked class="if_agree" id="if_agree"/><label for="if_agree">我同意</label>
+                    <span class="xieyiname"><p style="font-size:16px;color:red;">公告通知：</p>注册入口暂时关闭。
+                    <a href="#">感谢您的支持与理解。</a></span>
+                </div> -->
             </div>
             <div class="register_part3" style="display: none;">
                 <p class="user"></p>

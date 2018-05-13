@@ -1,4 +1,20 @@
 (function(){
+    $("#xzgj").change(function(v){
+          
+    	var x = $("#xzgj");  
+        x.val("volvo"); 
+        
+        layer.open({
+            content: '您的国家是中国。'
+            , skin: 'msg'
+            , time: 3 //2秒后自动关闭
+            ,end: function(){
+            	x.val("volvo"); 
+            }
+        });
+        
+    });
+    
   var user = $("#phone");
   var pwd = $("#pwd");
   function loginverify(){
@@ -6,7 +22,7 @@
     if(user.val()==""||user.val().replace(/\s/g,"")==""){
       loading.close();
       layer.open({
-        content:"请输入用户名",
+        content:"请输入手机号(用户名)",
         btn:'确定'
       });
       return;
