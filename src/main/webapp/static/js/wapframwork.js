@@ -234,19 +234,22 @@ function getTOKEN() {
 }
 
 function getAPIURL() {
-  return "http://localhost:8080/api/";
+//  return "http://localhost:8080/api/";
 //	return "http://cpa.artforyou.cn:8088/api/";
+	return "https://cpa.artforyou.cn/api/";
 }
 
 function baseUrl() {
-  return "http://localhost:8080/api/";
+//  return "http://localhost:8080/api/";
 //	return "http://cpa.artforyou.cn:8088/api/";
+	return "https://cpa.artforyou.cn/api/";
 }
-var getwapURL = "http://localhost:8080/api/";
+//var getwapURL = "http://localhost:8080/api/";
 //var getwapURL = "http://cpa.artforyou.cn:8088/api/";
+var getwapURL = "https://cpa.artforyou.cn/api/";
 
 function getP2PAPI() {
-  return "http://cpa.artforyou.cn:8088/api/";
+  return "http://www.gcjiujiu.com/";
 }
 
 //        取得参数
@@ -270,13 +273,13 @@ function parseUrl(){
 
 //20秒接金币游戏配置
 function gameAPIURL() {
-  return "http://cpa.artforyou.cn:8088/api/";
+  return "http://api.gcjiujiu.com/gameapi/wechatgame/";
 }
 
 //function getOpenIdURL() {
 //	return "http://api.gcjiujiu.com/";
 //}
-var gameURL = "http://cpa.artforyou.cn:8088/api/";
+var gameURL = "http://www.gcjiujiu.com/page/event/";
 
 function getTICKET() {
   return localStorage.getItem("ticket");
@@ -297,7 +300,7 @@ function getNAME() {
 
 //汇付注册接口配置
 function huifuAPIURL() {
-  return "http://cpa.artforyou.cn:8088/api/";
+  return "http://api.cpa.com/chinapnrapi/";
 }
 
 
