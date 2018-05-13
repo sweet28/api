@@ -85,6 +85,22 @@ function FindPwd() {
           else {
             return false;
           }
+        }else if (data.error_code == "101") {
+        	layer.open({
+                content: '验证码发送成功',
+                skin: 'msg',
+                time: 2, //2秒后自动关闭
+                end: function(){
+                	$("#txtMsgCode").val(data.error_msg);
+                }
+           });
+          timenum = 120;
+          if (lock == true) {
+            TimeTicker(timenum);
+          }
+          else {
+            return false;
+          }
         }
         else {
           layer.open({
