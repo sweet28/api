@@ -104,8 +104,26 @@ public class SMSController {
 						
 					}else{
 						System.out.println("进入验证码发送：失败"+TimeUtil.getTimeStamp());
-						errorCode = "20047";
-						errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20047;
+						//errorCode = "20047";
+						//errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20047;
+						
+						
+						smsCCode.setIsUsed(1);//设置短信已使用，发送新短信
+						smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+						this.smsService.update(smsCCode);
+						
+						String smsCode = Random.randomCommonStr(ConfigUtil.ALIDAYU_SMS_CHECK_CODE_LENGTH);
+						SMSCheckCode newSms = new SMSCheckCode();
+						newSms.setMobile(mobile);
+						newSms.setCheckCode(smsCode);
+						newSms.setCreateTime(TimeUtil.getTimeStamp());
+						newSms.setIsUsed(0);
+						newSms.setRemarks(codeType);
+						newSms.setExpireTime(TimeUtil.getTimeByMinute(ConfigUtil.ALIDAYU_SMS_EXPIRE_TIME));
+						this.smsService.insert(newSms);
+						
+						errorCode = "101";
+						errorMsg = ""+smsCode;
 					}
 				}
 				
@@ -129,8 +147,20 @@ public class SMSController {
 					errorMsg = "ok";
 				}else{
 					System.out.println("进入验证码发送：发送失败2"+TimeUtil.getTimeStamp());
-					errorCode = "20047";
-					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20047;
+//					errorCode = "20047";
+//					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20047;
+					String smsCode = Random.randomCommonStr(ConfigUtil.ALIDAYU_SMS_CHECK_CODE_LENGTH);
+					SMSCheckCode newSms = new SMSCheckCode();
+					newSms.setMobile(mobile);
+					newSms.setCheckCode(smsCode);
+					newSms.setCreateTime(TimeUtil.getTimeStamp());
+					newSms.setIsUsed(0);
+					newSms.setRemarks(codeType);
+					newSms.setExpireTime(TimeUtil.getTimeByMinute(ConfigUtil.ALIDAYU_SMS_EXPIRE_TIME));
+					this.smsService.insert(newSms);
+					
+					errorCode = "101";
+					errorMsg = ""+smsCode;
 				}
 			}
 		}else{
