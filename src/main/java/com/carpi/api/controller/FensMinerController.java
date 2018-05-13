@@ -16,6 +16,7 @@ public class FensMinerController {
 	@Autowired
 	private FensMinerService fensMinerService;
 	
+	//根据粉丝id查询矿机
 	@RequestMapping("/minerList")
 	@ResponseBody
 	public PageInfo<FensMiner> minerList(Integer page, Integer row, Integer fensUserId){
