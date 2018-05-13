@@ -18,11 +18,11 @@ public class FensUserController {
 
 	@Autowired
 	private FensUserService fensUserService;
-	
+
 	// 注册
 	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public JsonResult register(FensUser fensUser, String code_type, String code,String cardNumber) {
+	public JsonResult register(FensUser fensUser, String code_type, String code, String cardNumber) {
 		return fensUserService.register(fensUser, code_type, code, cardNumber);
 	}
 
@@ -33,18 +33,13 @@ public class FensUserController {
 		return fensUserService.login(fensUser);
 	}
 
-	//身份验证
-	@RequestMapping(value = "/card",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	// 忘记密码
+	@RequestMapping(value = "/forgetPwd", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public JsonResult addCard(FensAuthentication fensAuthentication) {
-		return fensUserService.addCard(fensAuthentication);
-	}
-	
-	//忘记密码
-	@RequestMapping(value = "/forgetPwd",method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public JsonResult forgetPwd(FensUser fensUser,String code_type, String code) {
+	public JsonResult forgetPwd(FensUser fensUser, String code_type, String code) {
 		return fensUserService.forgetPwd(fensUser, code_type, code);
 	}
 	
+	//粉丝交易记录（可查个人）
+
 }

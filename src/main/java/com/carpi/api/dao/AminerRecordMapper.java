@@ -18,6 +18,6 @@ public interface AminerRecordMapper {
 	int updateByPrimaryKey(AminerRecord record);
 
 	// 查询a矿机的交易记录
-	List<AminerRecord> selectARecord();
+	List<AminerRecord> selectARecord(Integer fensUserId);
 
 }

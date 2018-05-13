@@ -14,4 +14,7 @@ public interface FensTeamMapper {
     int updateByPrimaryKeySelective(FensTeam record);
 
     int updateByPrimaryKey(FensTeam record);
+    
+    //根据手机号码查询是否存在已有的手机号码
+    FensTeam selectFensTeam(String phone);
 }

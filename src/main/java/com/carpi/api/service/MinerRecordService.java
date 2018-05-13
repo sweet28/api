@@ -6,9 +6,9 @@ import com.github.pagehelper.PageInfo;
 
 public interface MinerRecordService {
 
-	//a矿机的交易记录
-	public PageInfo<AminerRecord> selectListA(Integer page, Integer row);
-	
-	//b矿机的交易记录
-	public PageInfo<BminerRecord> selectListB(Integer page, Integer row);
+//	//a矿机的交易记录
+//	public PageInfo<AminerRecord> selectListA(Integer page, Integer row,Integer fensUserId);
+//	
+//	//b矿机的交易记录
+//	public PageInfo<BminerRecord> selectListB(Integer page, Integer row,Integer fensUserId);
 }

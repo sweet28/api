@@ -1,5 +1,7 @@
 package com.carpi.api.dao;
 
+import java.util.List;
+
 import com.carpi.api.pojo.FensTransaction;
 
 public interface FensTransactionMapper {
@@ -14,4 +16,7 @@ public interface FensTransactionMapper {
     int updateByPrimaryKeySelective(FensTransaction record);
 
     int updateByPrimaryKey(FensTransaction record);
+    
+    //查询粉丝的交易记录(可根据粉丝id查询)
+    List<FensTransaction> selectFensRecord(Integer FensUserId);
 }

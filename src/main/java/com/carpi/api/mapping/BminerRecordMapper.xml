@@ -279,5 +279,10 @@
 		select
 		<include refid="Base_Column_List" />
 		from b_miner_record
+		<where>
+			<if test="fensUserId != null">
+				fens_user_id = #{fensUserId,jdbcType=INTEGER},
+			</if>
+		</where>
 	</select>
 </mapper>
