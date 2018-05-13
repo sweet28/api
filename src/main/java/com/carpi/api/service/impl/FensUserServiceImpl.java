@@ -89,9 +89,9 @@ public class FensUserServiceImpl implements FensUserService {
 			if (expireSeconds < 0) {
 				return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
 			} else {
-				smsCCode.setIsUsed(1);
-				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
-				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+//				smsCCode.setIsUsed(1);
+//				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+//				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
 
 				String pwd = MD5.encodeString(
 						MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
@@ -122,6 +122,9 @@ public class FensUserServiceImpl implements FensUserService {
 				if (cardInfo != null) {
 					return JsonResult.build(500, "该身份证已被绑定，如需进一步操作，请联系管理员");
 				}
+				smsCCode.setIsUsed(1);
+				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
 				// 添加用户信息
 				int result = fensUserMapper.insertSelective(fensUser2);
 				if (result == 1) {
