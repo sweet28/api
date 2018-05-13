@@ -1,26 +1,31 @@
 (function () {
 	
 //	先判断是否登录
-  var uid = getUIDByJWT().unique_name;
-  if (uid == undefined) {
-    //return false;
-	return true;
-  }
+//  var uid = getUIDByJWT().unique_name;
+//  if (uid == undefined) {
+//    //return false;
+//	return true;
+//  }
+	var uid = getTOKEN();
+	  if (uid == undefined) {
+	    return false;
+//		return true;
+	  }
 	  
-  /*占屏广告*/
-  var $advertisementModal = $("#advertisementModal");
-  checkCookie("advertisement");
-  function setCookie(c_name, value, expiredays) {
-    var curDate = new Date();
-    var curTamp = curDate.getTime();
-    var curWeeHours = new Date(curDate.toLocaleDateString()).getTime() - 1;
-    var passedTamp = curTamp - curWeeHours;
-    var leftTamp = 24 * 60 * 60 * 1000 - passedTamp;
-    var leftTime = new Date();
-    leftTime.setTime(leftTamp + curTamp);
-    document.cookie = c_name + "=" + escape(value) +
-      ((expiredays == null) ? "" : ";expires=" + leftTime.toUTCString());
-  }
+//  /*占屏广告*/
+//  var $advertisementModal = $("#advertisementModal");
+//  checkCookie("advertisement");
+//  function setCookie(c_name, value, expiredays) {
+//    var curDate = new Date();
+//    var curTamp = curDate.getTime();
+//    var curWeeHours = new Date(curDate.toLocaleDateString()).getTime() - 1;
+//    var passedTamp = curTamp - curWeeHours;
+//    var leftTamp = 24 * 60 * 60 * 1000 - passedTamp;
+//    var leftTime = new Date();
+//    leftTime.setTime(leftTamp + curTamp);
+//    document.cookie = c_name + "=" + escape(value) +
+//      ((expiredays == null) ? "" : ";expires=" + leftTime.toUTCString());
+//  }
 
   function getCookie(c_name) {
     if (document.cookie.length > 0) {
@@ -35,139 +40,139 @@
     return ""
   }
 
-  function checkCookie(c_name) {
-    var value = getCookie(c_name);
-    if (value == null || value == "") {
-      $.ajax({
-        type: "GET",
-        url: getAPIURL() + 'home/getlinkmangerbytype?type=SA&num=1',
-        dataType: "json",
-        success: function (data) {
-          var len = data.length;
-          if (len <= 0) {
-            $advertisementModal.hide();
-          } else {
-            setCookie("advertisement", "1", "1");
-            $advertisementModal.show();
-            $("#advertisementUrl").attr("href", data[0].url).find("img").attr("src", data[0].pic);
-          }
-        },
-        error: function (data) {
-          $advertisementModal.hide();
-          if (data.status == 404) {
-            layer.open({
-              content: "请求资源不存在",
-              skin: 'msg',
-              time: 2 //2秒后自动关闭
-            });
-          }
-          else {
-            layer.open({
-              content: JSON.parse(data.responseText).Message,
-              skin: 'msg',
-              time: 2 //2秒后自动关闭
-            });
-          }
-        }
-      });
-    }
-  }
+//  function checkCookie(c_name) {
+//    var value = getCookie(c_name);
+//    if (value == null || value == "") {
+//      $.ajax({
+//        type: "GET",
+//        url: getAPIURL() + 'home/getlinkmangerbytype?type=SA&num=1',
+//        dataType: "json",
+//        success: function (data) {
+//          var len = data.length;
+//          if (len <= 0) {
+//            $advertisementModal.hide();
+//          } else {
+//            setCookie("advertisement", "1", "1");
+//            $advertisementModal.show();
+//            $("#advertisementUrl").attr("href", data[0].url).find("img").attr("src", data[0].pic);
+//          }
+//        },
+//        error: function (data) {
+//          $advertisementModal.hide();
+//          if (data.status == 404) {
+//            layer.open({
+//              content: "请求资源不存在",
+//              skin: 'msg',
+//              time: 2 //2秒后自动关闭
+//            });
+//          }
+//          else {
+//            layer.open({
+//              content: JSON.parse(data.responseText).Message,
+//              skin: 'msg',
+//              time: 2 //2秒后自动关闭
+//            });
+//          }
+//        }
+//      });
+//    }
+//  }
 
-  $.ajax({
-    type: "GET",
-    url: getAPIURL() + 'home/getlinkmangerbytype?type=B&num=8',
-    dataType: "json",
-    success: function (data) {
-      var len = data.length;
-      var html = "";
-      if (len <= 0) {
-        /* html += "<div class='swiper-slide'>";
-         html += "<a href='#'><img src='../img/banner.png'/></a></div>";
-         $(".swiper-wrapper").empty().append(html);*/
-      } else {
-        for (var i = 0; i < len; i++) {
-          var url = "javascript:;";
-          if (data[i].url != "") {
-            url = data[i].url;
-          }
-          html += '<div class="img"><a href="' + url + '"><img src="' + data[i].pic + '"/></a></div>';
-        }
-        $("#slide").empty().html(html);
-      }
-      slide();
-    }
-  });
+//  $.ajax({
+//    type: "GET",
+//    url: getAPIURL() + 'home/getlinkmangerbytype?type=B&num=8',
+//    dataType: "json",
+//    success: function (data) {
+//      var len = data.length;
+//      var html = "";
+//      if (len <= 0) {
+//        /* html += "<div class='swiper-slide'>";
+//         html += "<a href='#'><img src='../img/banner.png'/></a></div>";
+//         $(".swiper-wrapper").empty().append(html);*/
+//      } else {
+//        for (var i = 0; i < len; i++) {
+//          var url = "javascript:;";
+//          if (data[i].url != "") {
+//            url = data[i].url;
+//          }
+//          html += '<div class="img"><a href="' + url + '"><img src="' + data[i].pic + '"/></a></div>';
+//        }
+//        $("#slide").empty().html(html);
+//      }
+//      slide();
+//    }
+//  });
 
   /*声明空数组存放返回的数据  canvas里用到此数据*/
-  var arr = [];
-  var txt = "";
-  $.ajax({
-    type: "GET",
-    url: getAPIURL() + 'home/HomePageData',
-    dataType: "json",
-    success: function (data) {
-      var list = data.Invests;
-      var _$carousel = $("#carousel");
-      for (var i = 0; i < list.length; i++) {
-        var item = list[i];
-        txt = '';
-        for (var j = 0; j < item.length; j++) {
-          txt += '<div class="carousel-feature">';
-          if (item[j].Prefecture == "新手") {
-            txt += '<a href="invest.html?tab=1">';
-
-          } else if (item[j].Prefecture == "定投") {
-            txt += '<a href="invest.html?tab=3">';
-          }
-          else {
-            txt += '<a href="javascript:;">';
-          }
-          //canvas
-          txt += '<div class="carousel-image">' +
-            '<canvas class="can" width="170" height="170"></canvas>' +
-            '</div>' +
-            '</a>' +
-            '</div>';
-
-          arr.push(item[j]);
-          _$carousel.append(txt);
-        }
-      }
-
-      localStorage.setItem("indexArr", JSON.stringify(arr));
-      /*默认文字显示区域显示第一条数据*/
-      _$carousel.parents(".row-bot").next().find(".Period").html(list[0][0].Period + "个月");
-      _$carousel.parents(".row-bot").next().find(".Amount").html(list[0][0].ResidualAmount + "元");
-      _$carousel.parents(".row-bot").next().find(".EachAmount").html(list[0][0].EachAmount + "元");
-      _$carousel.featureCarousel({
-        autoPlay: 700000,
-        trackerIndividual: false,
-        trackerSummation: false,
-        topPadding: 50,
-        smallFeatureWidth: .9,
-        smallFeatureHeight: .9,
-        sidePadding: 0,
-        smallFeatureOffset: 0
-      });
-
-      //canvasFn
-      var canArr = $('.can');
-      canArr.each(function (index, item) {
-        draw(arr[index], item);
-      });
-
-      $(".carousel-feature").each(function (index, item) {
-        $(this).on("click", function () {
-          $(this).parents(".row-bot").next().find(".Period").html(arr[index].Period + "个月");
-          $(this).parents(".row-bot").next().find(".Amount").html(arr[index].ResidualAmount + "元");
-          $(this).parents(".row-bot").next().find(".EachAmount").html(arr[index].EachAmount + "元");
-        })
-      });
-
-      $(".row-bot").height(canArr.height() + 20);
-      $(".carousel-image").height(canArr.height() + 20).width(canArr.width() + 20)
-    }
-  });
+//  var arr = [];
+//  var txt = "";
+//  $.ajax({
+//    type: "GET",
+//    url: getAPIURL() + 'home/HomePageData',
+//    dataType: "json",
+//    success: function (data) {
+//      var list = data.Invests;
+//      var _$carousel = $("#carousel");
+//      for (var i = 0; i < list.length; i++) {
+//        var item = list[i];
+//        txt = '';
+//        for (var j = 0; j < item.length; j++) {
+//          txt += '<div class="carousel-feature">';
+//          if (item[j].Prefecture == "新手") {
+//            txt += '<a href="invest.html?tab=1">';
+//
+//          } else if (item[j].Prefecture == "定投") {
+//            txt += '<a href="invest.html?tab=3">';
+//          }
+//          else {
+//            txt += '<a href="javascript:;">';
+//          }
+//          //canvas
+//          txt += '<div class="carousel-image">' +
+//            '<canvas class="can" width="170" height="170"></canvas>' +
+//            '</div>' +
+//            '</a>' +
+//            '</div>';
+//
+//          arr.push(item[j]);
+//          _$carousel.append(txt);
+//        }
+//      }
+//
+//      localStorage.setItem("indexArr", JSON.stringify(arr));
+//      /*默认文字显示区域显示第一条数据*/
+//      _$carousel.parents(".row-bot").next().find(".Period").html(list[0][0].Period + "个月");
+//      _$carousel.parents(".row-bot").next().find(".Amount").html(list[0][0].ResidualAmount + "元");
+//      _$carousel.parents(".row-bot").next().find(".EachAmount").html(list[0][0].EachAmount + "元");
+//      _$carousel.featureCarousel({
+//        autoPlay: 700000,
+//        trackerIndividual: false,
+//        trackerSummation: false,
+//        topPadding: 50,
+//        smallFeatureWidth: .9,
+//        smallFeatureHeight: .9,
+//        sidePadding: 0,
+//        smallFeatureOffset: 0
+//      });
+//
+//      //canvasFn
+//      var canArr = $('.can');
+//      canArr.each(function (index, item) {
+//        draw(arr[index], item);
+//      });
+//
+//      $(".carousel-feature").each(function (index, item) {
+//        $(this).on("click", function () {
+//          $(this).parents(".row-bot").next().find(".Period").html(arr[index].Period + "个月");
+//          $(this).parents(".row-bot").next().find(".Amount").html(arr[index].ResidualAmount + "元");
+//          $(this).parents(".row-bot").next().find(".EachAmount").html(arr[index].EachAmount + "元");
+//        })
+//      });
+//
+//      $(".row-bot").height(canArr.height() + 20);
+//      $(".carousel-image").height(canArr.height() + 20).width(canArr.width() + 20)
+//    }
+//  });
 
   /*画布画圆*/
   function draw(arrItem, can) {
@@ -506,72 +511,78 @@
 
   /*0810*/
   //判断当前用户是否登录 未登录显示新手攻略  已登录在判断是否投资过
-  var uid = isLogin().unique_name;
-  if (uid) {
-    $.ajax({
-      type: "GET",
-      url: getAPIURL() + 'User/' + uid + '/investRecordCount',
-      dataType: "json",
-      success: function (data) {
-        if (data.length > 0) {
-          if (data[0].tbCount > 0 || data[0].waitCount > 0 || data[0].returnedCount > 0) {
-            $("#newer").hide().next().show();
-          }
-        }
-      },
-      headers: {
-        "Authorization": "Bearer " + getTOKEN()
-      }
-    });
-    $.ajax({
-      type: "get",
-      url: getAPIURL() + "CreditsChange/GetCreditURL",
-      data: {uid: uid},
-      dataType: "json",
-      contentType: "application/json",
-      success: function (data) {
-        if (data.code == 0) {
-          $("#shoppingMall").find("a").attr("href", "shoppingMall.html#" + data.url);
-        } else {
-          /*  layer.open({
-           content: data.msg,
-           skin: 'msg',
-           time: 2
-           });*/
-        }
-      },
-      error: function (data) {
-        /* layer.open({
-         content:data.responseText,
-         skin: 'msg',
-         time: 2
-         });*/
-      },
-      headers: {
-        "Authorization": "Bearer " + getTOKEN()
-      }
-    });
-  }
+//  var uid = isLogin().unique_name;
+//  if (uid) {
+//    $.ajax({
+//      type: "GET",
+//      url: getAPIURL() + 'User/' + uid + '/investRecordCount',
+//      dataType: "json",
+//      success: function (data) {
+//        if (data.length > 0) {
+//          if (data[0].tbCount > 0 || data[0].waitCount > 0 || data[0].returnedCount > 0) {
+//            $("#newer").hide().next().show();
+//          }
+//        }
+//      },
+//      headers: {
+//        "Authorization": "Bearer " + getTOKEN()
+//      }
+//    });
+//    $.ajax({
+//      type: "get",
+//      url: getAPIURL() + "CreditsChange/GetCreditURL",
+//      data: {uid: uid},
+//      dataType: "json",
+//      contentType: "application/json",
+//      success: function (data) {
+//        if (data.code == 0) {
+//          $("#shoppingMall").find("a").attr("href", "shoppingMall.html#" + data.url);
+//        } else {
+//          /*  layer.open({
+//           content: data.msg,
+//           skin: 'msg',
+//           time: 2
+//           });*/
+//        }
+//      },
+//      error: function (data) {
+//        /* layer.open({
+//         content:data.responseText,
+//         skin: 'msg',
+//         time: 2
+//         });*/
+//      },
+//      headers: {
+//        "Authorization": "Bearer " + getTOKEN()
+//      }
+//    });
+//  }
 
-  $("#shoppingMall").on("click", function () {
-    var uid = getUIDByJWT().unique_name;
-    if (uid == null
-      || uid == ""
-      || uid == undefined) {
-      return false;
-    }
-  });
-  /*0809 1.2*/
-  $("#inviteBtn").on("click", function () {
-    var uid = getUIDByJWT().unique_name;
-    if (uid == null
-      || uid == ""
-      || uid == undefined) {
-      return false;
-    }
-    window.location.href = "../page/inviteF.html";
-  });
+//  $("#shoppingMall").on("click", function () {
+//    var uid = getUIDByJWT().unique_name;
+//    if (uid == null
+//      || uid == ""
+//      || uid == undefined) {
+//      return false;
+//    }
+//  });
+//  /*0809 1.2*/
+//  $("#inviteBtn").on("click", function () {
+//    var uid = getUIDByJWT().unique_name;
+//    if (uid == null
+//      || uid == ""
+//      || uid == undefined) {
+//      return false;
+//    }
+//    window.location.href = "../page/inviteF.html";
+//  });
 
+  $("#inviteBtn").on("click",function(){
+	  layer.open({
+          content: '即将开放，敬请期待。'
+          , btn: '确定'
+      });
+  })
   /*悬浮按钮*/
   $("#goAppBtn").on("click", function () {
     var ua = navigator.userAgent;

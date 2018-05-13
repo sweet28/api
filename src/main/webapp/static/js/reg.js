@@ -129,6 +129,7 @@
 //              if (ret['value']) { // true:验证通过 false:验证失败
 //                // 通过 ret["validate"] 可以获得二次校验数据
 //                var validate=ret.validate;
+          console.log(getAPIURL()+"::::::::::::::::::::::::::::");
                 $.ajax({
                   type: "POST",
                   url: getAPIURL() + "sms/verification_code/send",
@@ -162,7 +163,29 @@
                           $("#get_valicode").html("重新获取");
                         }
                       }, 1000);
-                    }else{
+                    }else if (data.error_code == "101") {
+                        
+                          var time = 120;
+                          cutdownFlag = false;
+                          var timer = setInterval(function () {
+                            $(".get_code");
+                            $("#get_valicode").html(time + "s后重新获取");
+                            time--;
+                            if (time < 0) {
+                              clearInterval(timer);
+                              cutdownFlag = true;
+                              $("#get_valicode").html("重新获取");
+                            }
+                          }, 1000);
+                          layer.open({
+                              content: '验证码生成成功,允许填入',
+                              skin: 'msg',
+                              time: 2, //2秒后自动关闭
+                              end: function(){
+                              	valicode.val(data.error_msg);
+                              }
+                            });
+                        }else{
                     	layer.open({
                             content: data.error_msg,
                             btn: '确定'

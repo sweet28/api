@@ -27,10 +27,10 @@ function Common() {
 //		$(document.body).append("<script src=\"https://s95.cnzz.com/z_stat.php?id=1259787883&web_id=1259787883\" language=\"JavaScript\"></script>");
 //		$(document.body).append("<script src=\"https://hm.baidu.com/hm.js?1e43e612748ab51862300a1d1408228e\" language=\"JavaScript\"></script>");
     (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?1e43e612748ab51862300a1d1408228e";
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(hm, s);
+//      var hm = document.createElement("script");
+//      hm.src = "https://hm.baidu.com/hm.js?1e43e612748ab51862300a1d1408228e";
+//      var s = document.getElementsByTagName("script")[0];
+//      s.parentNode.insertBefore(hm, s);
     })();
 
 
@@ -233,23 +233,26 @@ function getTOKEN() {
    }*/
 }
 
+var cpaURL = "http://localhost:8080/";//"http://cpa.artforyou.cn:8088/";
+
 function getAPIURL() {
 //  return "http://localhost:8080/api/";
 //	return "http://cpa.artforyou.cn:8088/api/";
-	return "https://cpa.artforyou.cn/api/";
+	console.log("didzhi::::::"+cpaURL+"api/");
+	return cpaURL +"api/";
 }
 
 function baseUrl() {
 //  return "http://localhost:8080/api/";
 //	return "http://cpa.artforyou.cn:8088/api/";
-	return "https://cpa.artforyou.cn/api/";
+	return cpaURL +"api/";
 }
 //var getwapURL = "http://localhost:8080/api/";
 //var getwapURL = "http://cpa.artforyou.cn:8088/api/";
-var getwapURL = "https://cpa.artforyou.cn/api/";
+var getwapURL = cpaURL +"api/";
 
 function getP2PAPI() {
-  return "http://www.gcjiujiu.com/";
+  return "http://cpa.artforyou.cn:8088/api/";
 }
 
 //        取得参数
@@ -273,13 +276,13 @@ function parseUrl(){
 
 //20秒接金币游戏配置
 function gameAPIURL() {
-  return "http://api.gcjiujiu.com/gameapi/wechatgame/";
+  return "http://cpa.artforyou.cn:8088/api/";
 }
 
 //function getOpenIdURL() {
 //	return "http://api.gcjiujiu.com/";
 //}
-var gameURL = "http://www.gcjiujiu.com/page/event/";
+var gameURL = "http://cpa.artforyou.cn:8088/api/";
 
 function getTICKET() {
   return localStorage.getItem("ticket");
@@ -300,7 +303,7 @@ function getNAME() {
 
 //汇付注册接口配置
 function huifuAPIURL() {
-  return "http://api.cpa.com/chinapnrapi/";
+  return "http://cpa.artforyou.cn:8088/api/";
 }
 
 
