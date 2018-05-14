@@ -22,4 +22,6 @@ public class FensMinerController {
 	public PageInfo<FensMiner> minerList(Integer page, Integer row, Integer fensUserId){
 		return fensMinerService.selectMinner(page, row, fensUserId);
 	}
+	
+	
 }

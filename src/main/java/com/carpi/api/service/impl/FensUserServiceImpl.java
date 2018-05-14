@@ -2,6 +2,7 @@ package com.carpi.api.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -30,6 +31,8 @@ import com.carpi.api.pojo.FensTeam;
 import com.carpi.api.pojo.FensTransaction;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.service.FensUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class FensUserServiceImpl implements FensUserService {
@@ -89,9 +92,9 @@ public class FensUserServiceImpl implements FensUserService {
 			if (expireSeconds < 0) {
 				return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
 			} else {
-//				smsCCode.setIsUsed(1);
-//				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
-//				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+				// smsCCode.setIsUsed(1);
+				// smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+				// smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
 
 				String pwd = MD5.encodeString(
 						MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
@@ -138,7 +141,7 @@ public class FensUserServiceImpl implements FensUserService {
 					fensAuthentication.setCardNumber(cardNumber);
 					// 粉丝id
 					fensAuthentication.setFensUserId(user.getId());
-					//时间
+					// 时间
 					fensAuthentication.setCreateDate(new Date());
 					int fensAuthStatus = fensAuthenticationMapper.insertSelective(fensAuthentication);
 					// 将信息插入粉丝安全认证表
@@ -263,6 +266,21 @@ public class FensUserServiceImpl implements FensUserService {
 		user.setCapitalPwd(null);
 		user.setBak1(accessToken);
 		return JsonResult.ok(user);
+	}
+
+	// 粉丝团列表
+	@Override
+	public PageInfo<FensTeam> selectAll(Integer page, Integer num, Integer fensUserId, String type) {
+		if ("all".equals(type)) {
+			List<FensTeam> list = fensTeamMapper.selectAll(fensUserId);
+			PageInfo<FensTeam> pageInfo = new PageInfo<>(list);
+			return pageInfo;
+		}
+		PageHelper.startPage(page, num);
+		List<FensTeam> list = fensTeamMapper.selectAll(fensUserId);
+		PageInfo<FensTeam> pageInfo = new PageInfo<>(list);
+		pageInfo.getTotal();
+		return pageInfo;
 	}
 
 }

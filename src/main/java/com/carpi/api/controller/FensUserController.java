@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.FensAuthentication;
+import com.carpi.api.pojo.FensTeam;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.service.FensUserService;
+import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/fenuser")
@@ -40,6 +42,10 @@ public class FensUserController {
 		return fensUserService.forgetPwd(fensUser, code_type, code);
 	}
 	
-	//粉丝交易记录（可查个人）
-
+	//粉丝团列表
+	@RequestMapping(value = "/list", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public PageInfo<FensTeam> slectAll(Integer page,Integer num,Integer fensUserId,String type) {
+		return fensUserService.selectAll(page, num, fensUserId,type);
+	}
 }

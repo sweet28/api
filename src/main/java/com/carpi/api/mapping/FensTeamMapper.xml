@@ -245,4 +245,15 @@
 		from fens_team
 		where invitee_phone = #{inviteePhone,jdbcType=VARCHAR}
 	</select>
+	<!--粉丝团列表 -->
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_team
+		<where>
+			<if test="_parameter != null">
+				fens_user_id = #{fensUserId,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
 </mapper>
