@@ -1,5 +1,7 @@
 package com.carpi.api.dao;
 
+import java.util.List;
+
 import com.carpi.api.pojo.FensLoginState;
 
 public interface FensLoginStateMapper {
@@ -14,4 +16,7 @@ public interface FensLoginStateMapper {
     int updateByPrimaryKeySelective(FensLoginState record);
 
     int updateByPrimaryKey(FensLoginState record);
+    
+    //登入状态列表
+    List<FensLoginState> selectAll();
 }

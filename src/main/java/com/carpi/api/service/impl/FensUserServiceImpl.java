@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.arttraining.api.dao.SMSCheckCodeMapper;
 import com.arttraining.api.dao.TokenMapper;
@@ -23,12 +26,18 @@ import com.arttraining.commons.util.PhoneUtil;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
+import com.arttraining.commons.util.pay.IpRequestUtil;
 import com.carpi.api.dao.FensAuthenticationMapper;
+import com.carpi.api.dao.FensComputingPowerMapper;
+import com.carpi.api.dao.FensLoginStateMapper;
+import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensTeamMapper;
 import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.pojo.FensAuthentication;
+import com.carpi.api.pojo.FensComputingPower;
+import com.carpi.api.pojo.FensLoginState;
+import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.pojo.FensTeam;
-import com.carpi.api.pojo.FensTransaction;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.service.FensUserService;
 import com.github.pagehelper.PageHelper;
@@ -51,6 +60,15 @@ public class FensUserServiceImpl implements FensUserService {
 
 	@Autowired
 	private FensTeamMapper fensTeamMapper;
+	
+	@Autowired
+	private FensComputingPowerMapper fensComputingPowerMapper;
+	
+	@Autowired
+	private FensLoginStateMapper fensLoginStateMapper;
+	
+	@Autowired
+	private FensMinerMapper fensMinerMapper;
 
 	// 注册
 	@Override
@@ -118,7 +136,7 @@ public class FensUserServiceImpl implements FensUserService {
 				fensUser2.setPhone(fensUser.getPhone());
 				fensUser2.setName(fensUser.getName());
 				fensUser2.setPwd(pwd);
-				fensUser2.setCreateDate(new Date());
+				fensUser2.setCreateDate(TimeUtil.getTimeStamp());
 				fensUser2.setBak2(cardNumber);
 				// 校验身份证号码是否被绑定
 				FensAuthentication cardInfo = fensAuthenticationMapper.selectCardInfo(cardNumber);
@@ -128,7 +146,7 @@ public class FensUserServiceImpl implements FensUserService {
 				smsCCode.setIsUsed(1);
 				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
 				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
-				// 添加用户信息
+				// 添加用户信息到粉丝表
 				int result = fensUserMapper.insertSelective(fensUser2);
 				if (result == 1) {
 					// 查询用户信息
@@ -142,13 +160,32 @@ public class FensUserServiceImpl implements FensUserService {
 					// 粉丝id
 					fensAuthentication.setFensUserId(user.getId());
 					// 时间
-					fensAuthentication.setCreateDate(new Date());
+					fensAuthentication.setCreateDate(TimeUtil.getTimeStamp());
 					int fensAuthStatus = fensAuthenticationMapper.insertSelective(fensAuthentication);
 					// 将信息插入粉丝安全认证表
 					if (fensAuthStatus != 1) {
 						ServerLog.getLogger().warn("插入粉丝安全认证表失败，粉丝id为：" + user.getId());
 					}
 
+					//添加记录到粉丝矿机表（1代表A矿机，2代表B矿机）（默认A矿机的一星矿机）
+					FensMiner fensMiner = new FensMiner();
+					fensMiner.setCreateDate(TimeUtil.getTimeStamp());
+					//粉丝Id
+					fensMiner.setFensUserId(user.getId());
+					//矿机类型（1代表A矿机）
+					fensMiner.setMinerType(1);
+					//矿机类型（1星）
+					fensMiner.setBak1(String.valueOf(1));
+					//矿机id
+					fensMiner.setMinerId(1);
+					//矿机算力
+					fensMiner.setMinerComputingPower(0.005);
+					//添加粉丝矿机表成功（分配A型号1星矿机）
+					int statuss = fensMinerMapper.insertSelective(fensMiner);
+					if (statuss != 1) {
+						ServerLog.getLogger().warn("分配A型号1星矿机失败" + user.getId());
+					}
+					
 					if (fensUser.getRefereePhone() != null && fensUser.getRefereePhone() != "") {
 						// 粉丝注册成功后，把信息插入粉丝团表
 						FensTeam fensTeam = new FensTeam();
@@ -160,6 +197,8 @@ public class FensUserServiceImpl implements FensUserService {
 						fensTeam.setInviteePhone(fensUser2.getPhone());
 						// 粉丝Id(邀请人id）
 						fensTeam.setFensUserId(fensUser2.getRefereeId());
+						//添加时间
+						fensTeam.setCreateDate(TimeUtil.getTimeStamp());
 
 						// 先判断fensTeam（粉丝团表）是否存在和注册所填的手机号码是否相同
 						FensTeam team = fensTeamMapper.selectFensTeam(fensUser2.getPhone());
@@ -212,6 +251,7 @@ public class FensUserServiceImpl implements FensUserService {
 				FensUser fensUser2 = new FensUser();
 				fensUser2.setPhone(fensUser.getPhone());
 				fensUser2.setPwd(NewPwd);
+				fensUser2.setCreateDate(TimeUtil.getTimeStamp());
 				int result = fensUserMapper.updatePwd(fensUser2);
 				if (result == 1) {
 					// 设置短信已使用
@@ -262,6 +302,19 @@ public class FensUserServiceImpl implements FensUserService {
 			token.setUserId(user_id);
 			tokenDao.insertSelective(token);
 		}
+		//添加登入日志（登入状态表）
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest(); 
+//		String ip = IpRequestUtil.getIpAddr(request).toString();
+		FensLoginState fensLoginState = new FensLoginState();
+		String ip = request.getRemoteAddr();
+		fensLoginState.setFensUserId(user.getId());
+		fensLoginState.setIp(ip);
+		fensLoginState.setCreateDate(TimeUtil.getTimeStamp());
+		fensLoginState.setLoginDate(TimeUtil.getTimeStamp());
+		int result = fensLoginStateMapper.insertSelective(fensLoginState);
+		if (result != 1) {
+			ServerLog.getLogger().warn("插入登入日志失败，粉丝id：" + fensLoginState.getFensUserId());
+		}
 		user.setPwd(null);
 		user.setCapitalPwd(null);
 		user.setBak1(accessToken);
@@ -282,5 +335,62 @@ public class FensUserServiceImpl implements FensUserService {
 		pageInfo.getTotal();
 		return pageInfo;
 	}
+
+	//粉丝算力
+	@Override
+	public PageInfo<FensComputingPower> selectComputingPower(Integer page, Integer num, Integer fensUserId) {
+		PageHelper.startPage(page, num);
+		List<FensComputingPower> list = fensComputingPowerMapper.selectAll(fensUserId);
+		PageInfo<FensComputingPower> pageInfo = new PageInfo<>(list);
+ 		return pageInfo;
+	}
+	
+	//粉丝算力求和
+	@Override
+	public JsonResult selectSum(Integer fensUserId) {
+		Double sum = fensComputingPowerMapper.sum(fensUserId);
+		return JsonResult.ok(sum);
+	}
+
+	//添加粉丝算力
+	@Override
+	public JsonResult addselectComputingPower(FensComputingPower fensComputingPower) {
+        int result = fensComputingPowerMapper.insertSelective(fensComputingPower);
+        if (result == 1) {
+			return JsonResult.ok();
+		}
+		return JsonResult.build(500, "新增数据失败");
+	}
+
+	//修改粉丝算力
+	@Override
+	public JsonResult updateComputingPower(FensComputingPower fensComputingPower) {
+		int result = fensComputingPowerMapper.updateByPrimaryKeySelective(fensComputingPower);
+		 if (result == 1) {
+				return JsonResult.ok();
+			}
+			return JsonResult.build(500, "新增数据失败");
+	}
+
+	//粉丝登入状态列表
+	@Override
+	public PageInfo<FensLoginState> selectStatus(Integer page, Integer num) {
+		PageHelper.startPage(page, num);
+		List<FensLoginState> list = fensLoginStateMapper.selectAll();
+		PageInfo<FensLoginState> pageInfo = new PageInfo<>(list);
+		return pageInfo;
+	}
+
+	//插入粉丝登入状态
+	@Override
+	public JsonResult addFensLoginState(FensLoginState fensLoginState) {
+		int result = fensLoginStateMapper.insertSelective(fensLoginState);
+		if (result == 1) {
+			return JsonResult.ok();
+		}
+		return JsonResult.build(500, "添加粉丝登入状态失败");
+	}
+	
+	
 
 }

@@ -40,9 +40,9 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	
 	// 粉丝交易记录（可根据粉丝id查个人）
 	@Override
-	public PageInfo<FensTransaction> selectRecord(Integer page,Integer row,Integer fensUserId) {
+	public PageInfo<FensTransaction> selectRecord(Integer page,Integer row,FensTransaction fensTransaction) {
 		PageHelper.startPage(page, row);
-		List<FensTransaction> list = fensTransactionMapper.selectFensRecord(fensUserId);
+		List<FensTransaction> list = fensTransactionMapper.selectFensRecord(fensTransaction);
 		PageInfo<FensTransaction> pageInfo = new PageInfo<FensTransaction>(list);
 		return pageInfo;
 	}
@@ -81,6 +81,26 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		List<BminerRecord> list = bminerRecordMapper.selectBRecord(fensUserId);
 		PageInfo<BminerRecord> pageInfo = new PageInfo<BminerRecord>(list);
 		return pageInfo;
+	}
+
+	//粉丝记录增加
+	@Override
+	public JsonResult addRecord(FensTransaction fensTransaction) {
+		int result = fensTransactionMapper.insertSelective(fensTransaction);
+		if (result == 1) {
+			JsonResult.ok();
+		}
+		return JsonResult.build(500, "新增失败");
+	}
+
+	//粉丝记录修改
+	@Override
+	public JsonResult updateRecord(FensTransaction fensTransaction) {
+		int result = fensTransactionMapper.updateByPrimaryKeySelective(fensTransaction);
+		if (result == 1) {
+			JsonResult.ok();
+		}
+		return JsonResult.build(500, "更新失败");
 	}
 
 }

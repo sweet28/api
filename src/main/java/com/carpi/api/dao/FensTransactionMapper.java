@@ -18,5 +18,5 @@ public interface FensTransactionMapper {
     int updateByPrimaryKey(FensTransaction record);
     
     //查询粉丝的交易记录(可根据粉丝id查询)
-    List<FensTransaction> selectFensRecord(Integer FensUserId);
+    List<FensTransaction> selectFensRecord(FensTransaction fensTransaction);
 }

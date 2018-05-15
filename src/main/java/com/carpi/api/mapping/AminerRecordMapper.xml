@@ -280,8 +280,9 @@
 		<include refid="Base_Column_List" />
 		from a_miner_record
 		<where>
+			is_delete = 0
 			<if test="fensUserId != null">
-				fens_user_id = #{fensUserId,jdbcType=INTEGER},
+				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
 			</if>
 		</where>
 	</select>

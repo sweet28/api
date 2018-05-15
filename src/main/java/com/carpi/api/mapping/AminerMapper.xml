@@ -219,6 +219,6 @@
 	<select id="selectAMiner" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from a_miner
+		from a_miner and is_delete = 0
 	</select>
 </mapper>

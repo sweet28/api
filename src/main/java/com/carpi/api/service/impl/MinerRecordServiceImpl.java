@@ -1,17 +1,8 @@
 package com.carpi.api.service.impl;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.carpi.api.dao.AminerRecordMapper;
-import com.carpi.api.dao.BminerRecordMapper;
-import com.carpi.api.pojo.AminerRecord;
-import com.carpi.api.pojo.BminerRecord;
 import com.carpi.api.service.MinerRecordService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 
 @Service
 public class MinerRecordServiceImpl implements MinerRecordService {

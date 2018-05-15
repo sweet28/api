@@ -231,4 +231,12 @@
       payment_type = #{paymentType,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <!--钱包转账记录列表  -->
+  <select id="selectWalletRecord" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from money_record
+    where is_delete = 0 and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+  </select>
 </mapper>

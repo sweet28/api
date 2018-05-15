@@ -1,5 +1,9 @@
 package com.carpi.api.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.carpi.api.pojo.FensEarn;
 
 public interface FensEarnMapper {
@@ -14,4 +18,8 @@ public interface FensEarnMapper {
     int updateByPrimaryKeySelective(FensEarn record);
 
     int updateByPrimaryKey(FensEarn record);
+    
+    //粉丝收益列表
+    List<FensEarn> selectFensEarn(@Param("fensUserId") Integer fensUserId);
+    
 }

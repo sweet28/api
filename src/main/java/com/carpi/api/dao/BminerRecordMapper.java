@@ -2,6 +2,8 @@ package com.carpi.api.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.carpi.api.pojo.BminerRecord;
 
 public interface BminerRecordMapper {
@@ -18,5 +20,5 @@ public interface BminerRecordMapper {
 	int updateByPrimaryKey(BminerRecord record);
 
 	// 查询b矿机的交易记录
-	List<BminerRecord> selectBRecord(Integer fensUserId);
+	List<BminerRecord> selectBRecord(@Param("fensUserId")Integer fensUserId);
 }

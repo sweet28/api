@@ -225,6 +225,7 @@
   <select id="selectMiner" parameterType="java.lang.Integer" resultMap="BaseResultMap">
      select 
      <include refid="Base_Column_List" />
-     from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
+     from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 0
+     
   </select>
 </mapper>

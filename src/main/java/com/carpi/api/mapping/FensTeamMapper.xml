@@ -244,6 +244,7 @@
 		<include refid="Base_Column_List" />
 		from fens_team
 		where invitee_phone = #{inviteePhone,jdbcType=VARCHAR}
+		and is_delete = 0
 	</select>
 	<!--粉丝团列表 -->
 	<select id="selectAll" resultMap="BaseResultMap">
@@ -251,8 +252,9 @@
 		<include refid="Base_Column_List" />
 		from fens_team
 		<where>
+			is_delete = 0
 			<if test="_parameter != null">
-				fens_user_id = #{fensUserId,jdbcType=INTEGER}
+				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
 			</if>
 		</where>
 	</select>

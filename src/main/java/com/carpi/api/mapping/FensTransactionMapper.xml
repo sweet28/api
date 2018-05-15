@@ -297,13 +297,20 @@
 	</update>
 	<!--查询粉丝的交易记录(可根据粉丝id查询) -->
 	<select id="selectFensRecord" resultMap="BaseResultMap"
-		parameterType="java.lang.Integer">
+		parameterType="com.carpi.api.pojo.FensTransaction">
 		select
 		<include refid="Base_Column_List" />
 		from fens_transaction
 		<where>
-			<if test="fensUserId != null">
-				fens_user_id = #{fensUserId,jdbcType=INTEGER}
+			is_delete=0
+			<if test="_parameter != null">
+				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+			</if>
+			<if test="traderType != null">
+				and  trader_type = #{traderType,jdbcType=INTEGER}
+			</if>
+			<if test="traderState != null">
+				and trader_state = #{traderState,jdbcType=INTEGER}
 			</if>
 		</where>
 	</select>

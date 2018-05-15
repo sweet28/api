@@ -224,6 +224,6 @@
     select 
     <include refid="Base_Column_List" />
     from fens_authentication
-    where card_number = #{cardNumber,jdbcType=VARCHAR}
+    where card_number = #{cardNumber,jdbcType=VARCHAR} and is_delete = 0
   </select>
 </mapper>

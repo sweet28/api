@@ -1,5 +1,9 @@
 package com.carpi.api.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import com.carpi.api.pojo.FensWallet;
 
 public interface FensWalletMapper {
@@ -14,4 +18,7 @@ public interface FensWalletMapper {
     int updateByPrimaryKeySelective(FensWallet record);
 
     int updateByPrimaryKey(FensWallet record);
+    
+    //根据粉丝Id查询钱包列表
+    List<FensWallet> selectAll(@Param("fensUserId") Integer fensUserId);
 }

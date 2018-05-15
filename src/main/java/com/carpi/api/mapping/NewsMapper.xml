@@ -23,7 +23,7 @@
     select 
     <include refid="Base_Column_List" />
     from news
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER} and is_delete = 0
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from news
@@ -179,5 +179,6 @@
     select 
     <include refid="Base_Column_List" />
     from news
+    where is_delete = 0
   </select>
 </mapper>

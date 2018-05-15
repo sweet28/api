@@ -220,5 +220,6 @@
 		select
 		<include refid="Base_Column_List" />
 		from b_miner
+		where is_delete = 0
 	</select>
 </mapper>
