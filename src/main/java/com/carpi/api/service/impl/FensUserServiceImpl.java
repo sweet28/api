@@ -1,5 +1,6 @@
 package com.carpi.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -391,6 +392,69 @@ public class FensUserServiceImpl implements FensUserService {
 		return JsonResult.build(500, "添加粉丝登入状态失败");
 	}
 	
+	// 粉丝团列表2
+	@Override
+	public PageInfo<FensUser> selectAllUser(Integer page, Integer num, String phone, String type) {
+		if ("all".equals(type)) {
+			List<FensUser> list = fensUserMapper.selectAllUser(phone);
+			PageInfo<FensUser> pageInfo = new PageInfo<>(list);
+			
+			List<FensUser> listParentRecord = new ArrayList<FensUser>();
+			getTreeChildRecord(listParentRecord,phone);
+			pageInfo.setPages(listParentRecord.size());
+			
+			return pageInfo;
+		}
+		PageHelper.startPage(page, num);
+		List<FensUser> list = fensUserMapper.selectAllUser(phone);
+		PageInfo<FensUser> pageInfo = new PageInfo<>(list);
+		pageInfo.getTotal();
+		
+//			pageInfo.setPages(getEmployeeBysup(phone));
+		
+		return pageInfo;
+	}
 	
+	/** 
+	    * 说明方法描述：递归查询子节点 
+	    *  
+	    * @param listParentRecord 粉丝团集合
+	    * @param parentUuid 父节点id 
+	    * @return 
+	    */  
+	
+	private List<FensUser> getTreeChildRecord(List<FensUser> listParentRecord,String parentUuid) {
+//		List<FensUser> listParentRecord = new ArrayList<FensUser>();
+		List<FensUser> childList = fensUserMapper.selectAllUser(parentUuid);
 
+		// 遍历tmpList，找出所有的根节点和非根节点
+		if (childList != null && childList.size() > 0) {
+			for (FensUser record : childList) {
+				listParentRecord.add(record);
+				getTreeChildRecord(listParentRecord,record.getPhone());
+			}
+		}
+		return listParentRecord;
+
+//		// 遍历tmpList，找出所有的根节点和非根节点
+//		if (childList != null && childList.size() > 0) {
+//			for (FensUser record : childList) {
+//				// 对比找出父节点
+//				if (record.getPhone().equals(parentUuid)) {
+//					listParentRecord.add(record);
+//				} else {
+//					listNotParentRecord.add(record);
+//				}
+//
+//			}
+//		}
+//		// 查询子节点
+//		if (listParentRecord.size() > 0) {
+//			for (FensUser record : listParentRecord) {
+//				// 递归查询子节点
+//				getTreeChildRecord(listNotParentRecord, record.getPhone());
+//			}
+//		}
+//		return listParentRecord;
+	}
 }

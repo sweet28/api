@@ -1,5 +1,7 @@
 package com.carpi.api.dao;
 
+import java.util.List;
+
 import com.carpi.api.pojo.FensUser;
 
 public interface FensUserMapper {
@@ -24,5 +26,6 @@ public interface FensUserMapper {
     //更新密码
     int updatePwd(FensUser fensUser);
     
-    
+  //粉丝团列表
+    List<FensUser> selectAllUser(String phone);
 }

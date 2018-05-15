@@ -295,4 +295,16 @@
 		</where>
 
 	</update>
+	
+	<!--粉丝团列表 -->
+	<select id="selectAllUser" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_user
+		<where>
+			<if test="_parameter != null">
+				referee_phone = #{phone,jdbcType=VARCHAR} and is_delete=0
+			</if>
+		</where>
+	</select>
 </mapper>

@@ -76,4 +76,11 @@ public class FensUserController {
 	public JsonResult selectSum(Integer page,Integer num,Integer fensUserId) {
 		return fensUserService.selectSum(fensUserId);
 	}
+	
+	//粉丝团列表2
+	@RequestMapping(value = "/list2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public PageInfo<FensUser> slectAllUser(Integer page,Integer num,String phone,String type) {
+		return fensUserService.selectAllUser(page, num, phone,type);
+	}
 }

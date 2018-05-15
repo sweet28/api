@@ -40,4 +40,7 @@ public interface FensUserService {
 	
 	//插入粉丝登入状态
 	public JsonResult addFensLoginState(FensLoginState fensLoginState);
+	
+	//粉丝团列表2
+	public PageInfo<FensUser> selectAllUser(Integer page,Integer num,String phone,String type);
 }
