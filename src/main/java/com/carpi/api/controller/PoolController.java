@@ -41,7 +41,7 @@ public class PoolController {
 	}
 
 	// 解冻(B)
-	@RequestMapping(value = "/thawAMiner", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/thawBMiner", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult thawBMiner(BPool bPool) {
 		return poolService.thawBMiner(bPool);
