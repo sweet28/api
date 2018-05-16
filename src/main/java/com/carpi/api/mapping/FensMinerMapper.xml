@@ -230,7 +230,7 @@
   </select>
   
   <!--根据粉丝id查询A矿机  -->
-  <select id="selectMiner" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectAMiner" parameterType="java.lang.Integer" resultMap="BaseResultMap">
      select 
      <include refid="Base_Column_List" />
      from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 0 and miner_type = 1
@@ -238,7 +238,7 @@
   </select>
   
   <!--根据粉丝id查询B矿机  -->
-  <select id="selectMiner" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectBMiner" parameterType="java.lang.Integer" resultMap="BaseResultMap">
      select 
      <include refid="Base_Column_List" />
      from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 0 and miner_type = 2
