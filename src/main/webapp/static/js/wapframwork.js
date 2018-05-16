@@ -160,12 +160,12 @@ function getUIDByJWT() {
         skin: 'msg',
         time: 2,
         end: function () {
-          window.location.href = 'login.html';
+          window.location.href = '../page/login.html';
         }
       });
       setTimeout(function () {
 //              location.href = 'login.html?returnurl=' + window.location.href;
-        location.href = 'login.html';
+        location.href = '../page/login.html';
       }, 1000);
       return false;
     }
@@ -175,6 +175,23 @@ function getUIDByJWT() {
     }
   }
 
+}
+
+
+function checkLogin(){
+	var uid = getTOKEN();
+	if (uid == undefined || uid == "" || uid == null) {
+		  localStorage.clear();
+		  layer.open({
+		    content: "已退出",
+		    skin: 'msg',
+		    time: 2, //2秒后自动关闭
+		    end: function () {
+		      location.href = '../page/login.html';
+		    }
+		  });
+	    return false;
+	  }
 }
 
 //获取uid
@@ -233,12 +250,11 @@ function getTOKEN() {
    }*/
 }
 
-var cpaURL = "http://localhost:8080/";//"http://cpa.artforyou.cn:8088/";
+var cpaURL = "http://localhost:8080/";//"http://localhost:8080/";//"http://cpa.artforyou.cn:8088/";
 
 function getAPIURL() {
 //  return "http://localhost:8080/api/";
 //	return "http://cpa.artforyou.cn:8088/api/";
-	console.log("didzhi::::::"+cpaURL+"api/");
 	return cpaURL +"api/";
 }
 

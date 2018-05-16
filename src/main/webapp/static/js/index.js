@@ -6,11 +6,8 @@
 //    //return false;
 //	return true;
 //  }
-	var uid = getTOKEN();
-	  if (uid == undefined) {
-	    return false;
-//		return true;
-	  }
+	
+	var flag = checkLogin();
 	  
 //  /*占屏广告*/
 //  var $advertisementModal = $("#advertisementModal");
@@ -577,11 +574,8 @@
 //    window.location.href = "../page/inviteF.html";
 //  });
 
-  $("#inviteBtn").on("click",function(){
-	  layer.open({
-          content: '即将开放，敬请期待。'
-          , btn: '确定'
-      });
+  $("#myfens").on("click",function(){
+	  window.location.href = '../page/my_fens.html';
   })
   /*悬浮按钮*/
   $("#goAppBtn").on("click", function () {

@@ -12,7 +12,7 @@ import com.carpi.api.pojo.BPool;
 import com.carpi.api.service.PoolService;
 import com.github.pagehelper.PageInfo;
 
-@Controller
+//@Controller
 @RequestMapping("/pool")
 public class PoolController {
 

@@ -1,11 +1,6 @@
 (function(){
 //	先判断是否登录
-//  var uid = getUIDByJWT().unique_name;
-  var uid = getTOKEN();
-  if (uid == undefined) {
-    //return false;
-	return true;
-  }
+	var flag = checkLogin();
   
   $(".last").click(function(){
 	  layer.open({

@@ -239,6 +239,11 @@ public class FensUserServiceImpl implements FensUserService {
 		smsCheckCode.setMobile(fensUser.getPhone());
 		smsCheckCode.setRemarks(code_type);
 		smsCheckCode.setCheckCode(code);
+		
+		FensUser user = fensUserMapper.selectRegister(fensUser);
+		if (user == null) {
+			return JsonResult.build(20022, ErrorCodeConfigUtil.ERROR_MSG_ZH_20022);
+		}
 
 		SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);
 		if (smsCCode != null) {

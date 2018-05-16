@@ -24,5 +24,17 @@ public class FensMinerController {
 		return fensMinerService.selectMinner(page, row, fensUserId);
 	}
 	
+	//根据粉丝id查询A矿机
+	@RequestMapping(value = "/minerAList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public PageInfo<FensMiner> minerAList(Integer page, Integer row, Integer fensUserId){
+		return fensMinerService.selectAMinner(page, row, fensUserId);
+	}
 	
+	//根据粉丝id查询B矿机
+	@RequestMapping(value = "/minerBList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public PageInfo<FensMiner> minerBList(Integer page, Integer row, Integer fensUserId){
+		return fensMinerService.selectBMinner(page, row, fensUserId);
+	}
 }

@@ -45,16 +45,13 @@
         "pwd":pwd.val()
       },
       success:function(data){
-    	  console.log(user.val()+"::"+pwd.val());
-    	  console.log(data.status+";;;;;;;;;;;;;;;");
         if(data.status == 200){
-        	console.log(data.data+":::"+data.msg+":name:"+data.data.name+":token:"+data.data.bak1+":phone:"+data.data.phone);
           localStorage.setItem("username",user.val());
           localStorage.setItem("name",data.data.name);
           localStorage.setItem("token",data.data.bak1);
           localStorage.setItem("phone",data.data.phone);
+          localStorage.setItem("uid",data.data.id);
           
-          console.log("::::name:"+localStorage.getItem("name")+":token:"+localStorage.getItem("token")+":phone:"+localStorage.getItem("phone"));
           
           loading.close();
           layer.open({

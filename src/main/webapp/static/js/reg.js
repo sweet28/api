@@ -12,7 +12,6 @@
   var yqr = window.location.search.substring(7);
   var numb = parseInt(yqr.toString(8),8);
   
-  console.log(numb);
   var reg11 = /^(\+?86)?(1[34578]\d{9})$/;
   
   if(reg11.test(numb)){
@@ -36,6 +35,19 @@
    // var pattern = /(^\d{15}$)|(^\d{18}$)/; 
     
     if (step == 2) {
+    	var startTime = 8;
+    	var endTime = 21;
+    	var myDate = new Date();
+    	var nowTime=myDate.getHours();
+    	
+    	if(nowTime >= endTime || nowTime <= startTime){
+
+    		layer.open({
+                content: "开放注册时间为每天"+startTime+"点至"+endTime+"点，请您在注册时间内注册。",
+                btn: '确定'
+              });
+    		return false;
+    	}
         //姓名验证
         if (uname.val() == "") {
           layer.open({
@@ -129,7 +141,6 @@
 //              if (ret['value']) { // true:验证通过 false:验证失败
 //                // 通过 ret["validate"] 可以获得二次校验数据
 //                var validate=ret.validate;
-          console.log(getAPIURL()+"::::::::::::::::::::::::::::");
                 $.ajax({
                   type: "POST",
                   url: getAPIURL() + "sms/verification_code/send",
@@ -138,7 +149,6 @@
                   data:{
                     "mobile": phonenum.val(),
                     "code_type":"reg_code"
-                    //"captchaId":"54cb27f913864c059e486f0be047477f"
                   } ,
                   success: function (data) {
                     if (data.error_code == "0") {
@@ -207,6 +217,19 @@
     }
     //第三步
     if (step == 3) {
+    	var startTime = 8;
+    	var endTime = 21;
+    	var myDate = new Date();
+    	var nowTime=myDate.getHours();
+    	
+    	if(nowTime >= endTime || nowTime <= startTime){
+
+    		layer.open({
+                content: "开放注册时间为每天"+startTime+"点至"+endTime+"点，请您在注册时间内注册。",
+                btn: '确定'
+              });
+    		return false;
+    	}
     	//姓名验证
         if (uname.val() == "") {
           layer.open({

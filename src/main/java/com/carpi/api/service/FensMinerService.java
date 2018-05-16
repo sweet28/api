@@ -14,4 +14,8 @@ public interface FensMinerService {
 	
 	//修改粉丝矿机
 	public JsonResult updateMiner(FensMiner fensMiner);
+
+	PageInfo<FensMiner> selectAMinner(Integer page, Integer row, Integer fensUserId);
+
+	PageInfo<FensMiner> selectBMinner(Integer page, Integer row, Integer fensUserId);
 }

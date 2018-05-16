@@ -19,4 +19,8 @@ public interface FensMinerMapper {
     
     //根据粉丝id查询矿机
     List<FensMiner> selectMiner(Integer fensUserId);
+    //根据粉丝id查询A矿机
+    List<FensMiner> selectAMiner(Integer fensUserId);
+    //根据粉丝id查询B矿机
+    List<FensMiner> selectBMiner(Integer fensUserId);
 }

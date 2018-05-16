@@ -1,4 +1,7 @@
 (function () {
+	
+	var flag = checkLogin();
+	
   var hash = location.hash.substr(1);
   if(hash=="tier"){
     $(".sp").hide();

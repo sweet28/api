@@ -16,72 +16,67 @@
   }
 
   //	先判断是否登录
-  var uid = getTOKEN();
-  if (uid == undefined) {
-    return false;
-//	return true;
-  }
-  var numm = 413;
-  if(numm < 413){
-	  numm++;
-  }
-
-  layer.open({
-      content: '注册人数：'+numm+",注册人数每天上午更新。"
-      , skin: 'msg'
-      , time: 3 //2秒后自动关闭
-      ,end: function(){
-    	  numm++;
-      }
-  });
+  var flag = checkLogin();
+  
+  
+//  var numm = 2413;
+//
+//  layer.open({
+//      content: '注册人数：'+numm+",注册人数每天上午更新。"
+//      , skin: 'msg'
+//      , time: 3 //2秒后自动关闭
+//      ,end: function(){
+//    	  numm++;
+//      }
+//  });
   
   /*v1.2.1充值方式*/
-  $.ajax({
-    type: "GET",
-    url: getAPIURL() + "NewPay/GetCurrentPayMode",
-    dataType: "json",
-    success: function (data) {
-      if(data.rtn==1){
-        localStorage.setItem("GetCurrentPayMode",data.Data);
-      }
-    },
-    error:function () {
-      localStorage.setItem("GetCurrentPayMode",0);
-    },
-    headers: {
-      "Authorization": "Bearer " + getTOKEN()
-    }
-  });
-
-  //显示员工类型
-  $.ajax({
-    type: "GET",
-    url: getAPIURL() + "user/" + uid,
-    dataType: "json",
-    success: function (data) {
-      $(".account_type").text(data.nb_type);
-    },
-    headers: {
-      "Authorization": "Bearer " + getTOKEN()
-    }
-  });
-  //显示用户名
-  $.ajax({
-    type: "GET",
-    url: getAPIURL() + "securitysettings/" + uid,
-    dataType: "json",
-    success: function (data) {
-      $("#user_info").text(data.account);
-    },
-    headers: {
-      "Authorization": "Bearer " + getTOKEN()
-    }
-  });
+//  $.ajax({
+//    type: "GET",
+//    url: getAPIURL() + "NewPay/GetCurrentPayMode",
+//    dataType: "json",
+//    success: function (data) {
+//      if(data.rtn==1){
+//        localStorage.setItem("GetCurrentPayMode",data.Data);
+//      }
+//    },
+//    error:function () {
+//      localStorage.setItem("GetCurrentPayMode",0);
+//    },
+//    headers: {
+//      "Authorization": "Bearer " + getTOKEN()
+//    }
+//  });
+//
+//  //显示员工类型
+//  $.ajax({
+//    type: "GET",
+//    url: getAPIURL() + "user/" + uid,
+//    dataType: "json",
+//    success: function (data) {
+//      $(".account_type").text(data.nb_type);
+//    },
+//    headers: {
+//      "Authorization": "Bearer " + getTOKEN()
+//    }
+//  });
+//  //显示用户名
+//  $.ajax({
+//    type: "GET",
+//    url: getAPIURL() + "securitysettings/" + uid,
+//    dataType: "json",
+//    success: function (data) {
+//      $("#user_info").text(data.account);
+//    },
+//    headers: {
+//      "Authorization": "Bearer " + getTOKEN()
+//    }
+//  });
 
   //	调用相关金额的接口
   $.ajax({
     type: "GET",
-    url: getAPIURL() + "User/" + uid + "/Invest/Info",
+    url: getAPIURL() + "User/Invest/Info",
     dataType: "json",
     data: null,
     success: function (data) {
