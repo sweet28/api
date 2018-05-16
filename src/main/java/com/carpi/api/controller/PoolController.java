@@ -45,5 +45,5 @@ public class PoolController {
 	@ResponseBody
 	public JsonResult thawBMiner(BPool bPool) {
 		return poolService.thawBMiner(bPool);
-	}
+	}  
 }
