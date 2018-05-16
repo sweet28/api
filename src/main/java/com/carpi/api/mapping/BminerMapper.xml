@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.carpi.api.dao.AminerMapper">
-	<resultMap id="BaseResultMap" type="com.carpi.api.pojo.Aminer">
+<mapper namespace="com.carpi.api.dao.BminerMapper">
+	<resultMap id="BaseResultMap" type="com.carpi.api.pojo.Bminer">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="bak1" property="bak1" jdbcType="VARCHAR" />
 		<result column="bak2" property="bak2" jdbcType="VARCHAR" />
@@ -30,16 +30,16 @@
 		parameterType="java.lang.Integer">
 		select
 		<include refid="Base_Column_List" />
-		from a_miner
+		from b_miner
 		where id = #{id,jdbcType=INTEGER}
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
 		delete from
-		a_miner
+		b_miner
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.carpi.api.pojo.Aminer">
-		insert into a_miner (id, bak1,
+	<insert id="insert" parameterType="com.carpi.api.pojo.Bminer">
+		insert into b_miner (id, bak1,
 		bak2,
 		bak3, is_delete, create_date,
 		creater, delete_date, attachment,
@@ -59,8 +59,8 @@
 		#{fensUserId,jdbcType=INTEGER}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="com.carpi.api.pojo.Aminer">
-		insert into a_miner
+	<insert id="insertSelective" parameterType="com.carpi.api.pojo.Bminer">
+		insert into b_miner
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				id,
@@ -156,8 +156,8 @@
 			</if>
 		</trim>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.Aminer">
-		update a_miner
+	<update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.Bminer">
+		update b_miner
 		<set>
 			<if test="bak1 != null">
 				bak1 = #{bak1,jdbcType=VARCHAR},
@@ -204,8 +204,8 @@
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.Aminer">
-		update a_miner
+	<update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.Bminer">
+		update b_miner
 		set
 		bak1 = #{bak1,jdbcType=VARCHAR},
 		bak2 = #{bak2,jdbcType=VARCHAR},
@@ -231,18 +231,19 @@
 		#{fensUserId,jdbcType=INTEGER}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-
-	<!-- 查询a矿机列表 -->
-	<select id="selectAMiner" resultMap="BaseResultMap">
+	<!--b矿机的列表 -->
+	<select id="selectBMiner" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from a_miner where is_delete = 0
+		from b_miner
+		where is_delete = 0
 	</select>
 
-	<!-- 根据类型查询矿机信息 -->
+	<!--根据类型查询矿机信息 -->
 	<select id="selectType" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from a_miner where is_delete = 0 and type = #{type,jdbcType=INTEGER}
+		from b_miner
+		where is_delete = 0 and type = #{type,jdbcType=INTEGER}
 	</select>
 </mapper>

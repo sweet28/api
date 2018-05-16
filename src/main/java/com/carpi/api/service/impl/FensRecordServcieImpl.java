@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.dao.AminerMapper;
 import com.carpi.api.dao.AminerRecordMapper;
+import com.carpi.api.dao.BminerMapper;
 import com.carpi.api.dao.BminerRecordMapper;
 import com.carpi.api.dao.FensTransactionMapper;
-import com.carpi.api.dao.bMinerMapper;
 import com.carpi.api.pojo.Aminer;
 import com.carpi.api.pojo.AminerRecord;
+import com.carpi.api.pojo.Bminer;
 import com.carpi.api.pojo.BminerRecord;
 import com.carpi.api.pojo.FensTransaction;
-import com.carpi.api.pojo.bMiner;
 import com.carpi.api.service.FensRecordServcie;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -30,7 +30,7 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	private AminerMapper aminerMapper;
 	
 	@Autowired
-	private bMinerMapper bminerMapper;
+	private BminerMapper bminerMapper;
 	
 	@Autowired
 	private AminerRecordMapper aminerRecordMapper;
@@ -58,10 +58,10 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	
 	// b矿机的列表
 	@Override
-	public PageInfo<bMiner> selectBMiner(Integer page, Integer row) {
+	public PageInfo<Bminer> selectBMiner(Integer page, Integer row) {
 		PageHelper.startPage(page, row);
-		List<bMiner> list = bminerMapper.selectBMiner();
-		PageInfo<bMiner> pageInfo = new PageInfo<>(list);
+		List<Bminer> list = bminerMapper.selectBMiner();
+		PageInfo<Bminer> pageInfo = new PageInfo<>(list);
 		return pageInfo;
 	}
 	

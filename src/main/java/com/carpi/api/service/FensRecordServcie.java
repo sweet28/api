@@ -3,9 +3,9 @@ package com.carpi.api.service;
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.Aminer;
 import com.carpi.api.pojo.AminerRecord;
+import com.carpi.api.pojo.Bminer;
 import com.carpi.api.pojo.BminerRecord;
 import com.carpi.api.pojo.FensTransaction;
-import com.carpi.api.pojo.bMiner;
 import com.github.pagehelper.PageInfo;
 
 public interface FensRecordServcie {
@@ -23,7 +23,7 @@ public interface FensRecordServcie {
 	public PageInfo<Aminer> selectAMiner(Integer page, Integer row);
 
 	// b矿机的列表
-	public PageInfo<bMiner> selectBMiner(Integer page, Integer row);
+	public PageInfo<Bminer> selectBMiner(Integer page, Integer row);
 
 	// a矿机的交易列表
 	public PageInfo<AminerRecord> selectAminerRecord(Integer page, Integer row, Integer fensUserId);

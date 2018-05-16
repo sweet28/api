@@ -9,37 +9,38 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.Aminer;
 import com.carpi.api.pojo.AminerRecord;
+import com.carpi.api.pojo.Bminer;
 import com.carpi.api.pojo.BminerRecord;
 import com.carpi.api.pojo.FensTransaction;
-import com.carpi.api.pojo.bMiner;
 import com.carpi.api.service.FensRecordServcie;
+import com.carpi.api.service.MinerRecordService;
 import com.github.pagehelper.PageInfo;
 
 @Controller
 @RequestMapping("/miner/record")
 public class MinerRecordController {
 
-	// @Autowired
-	// private MinerRecordService minerRecordService;
+	@Autowired
+	private MinerRecordService minerRecordService;
 
 	@Autowired
 	private FensRecordServcie fensRecordServcie;
-	
-	//根据粉丝id查询交易记录
+
+	// 根据粉丝id查询交易记录
 	@RequestMapping(value = "/recordlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public PageInfo<FensTransaction> selectRecord(Integer page, Integer row, FensTransaction fensTransaction) {
 		return fensRecordServcie.selectRecord(page, row, fensTransaction);
 	}
-	
-	//根据粉丝交易记录增加
+
+	// 根据粉丝交易记录增加
 	@RequestMapping(value = "/addRecord", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult addRecord(FensTransaction fensTransaction) {
 		return fensRecordServcie.addRecord(fensTransaction);
 	}
-	
-	//根据粉丝交易记录修改
+
+	// 根据粉丝交易记录修改
 	@RequestMapping(value = "/updateRecord", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult updateRecord(FensTransaction fensTransaction) {
@@ -71,7 +72,21 @@ public class MinerRecordController {
 	// 矿机列表
 	@RequestMapping(value = "/bminer", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public PageInfo<bMiner> selecBtMiner(Integer page, Integer row) {
+	public PageInfo<Bminer> selecBtMiner(Integer page, Integer row) {
 		return fensRecordServcie.selectBMiner(page, row);
+	}
+
+	// 购买a矿机
+	@RequestMapping(value = "/buyAMiner", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult buyAMiner(Aminer aminer) {
+		return minerRecordService.buyAMiner(aminer);
+	}
+
+	// 购买b矿机
+	@RequestMapping(value = "/buyBMiner", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult buyBMiner(Bminer bminer) {
+		return minerRecordService.buyBMiner(bminer);
 	}
 }

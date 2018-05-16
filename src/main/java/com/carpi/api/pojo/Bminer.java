@@ -2,7 +2,7 @@ package com.carpi.api.pojo;
 
 import java.util.Date;
 
-public class Aminer {
+public class Bminer {
     private Integer id;
 
     private String bak1;

@@ -28,18 +28,24 @@ import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.arttraining.commons.util.TokenUtil;
 import com.arttraining.commons.util.pay.IpRequestUtil;
+import com.carpi.api.dao.APoolMapper;
+import com.carpi.api.dao.BPoolMapper;
 import com.carpi.api.dao.FensAuthenticationMapper;
 import com.carpi.api.dao.FensComputingPowerMapper;
 import com.carpi.api.dao.FensLoginStateMapper;
 import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensTeamMapper;
 import com.carpi.api.dao.FensUserMapper;
+import com.carpi.api.dao.FensWalletMapper;
+import com.carpi.api.pojo.APool;
+import com.carpi.api.pojo.BPool;
 import com.carpi.api.pojo.FensAuthentication;
 import com.carpi.api.pojo.FensComputingPower;
 import com.carpi.api.pojo.FensLoginState;
 import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.pojo.FensTeam;
 import com.carpi.api.pojo.FensUser;
+import com.carpi.api.pojo.FensWallet;
 import com.carpi.api.service.FensUserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -70,6 +76,15 @@ public class FensUserServiceImpl implements FensUserService {
 	
 	@Autowired
 	private FensMinerMapper fensMinerMapper;
+	
+	@Autowired
+	private APoolMapper apoolMapper;
+	
+	@Autowired
+	private BPoolMapper bpoolMapper;
+	
+	@Autowired
+	private FensWalletMapper fensWalletMapper;
 
 	// 注册
 	@Override
@@ -184,13 +199,27 @@ public class FensUserServiceImpl implements FensUserService {
 					//添加粉丝矿机表成功（分配A型号1星矿机）
 					int statuss = fensMinerMapper.insertSelective(fensMiner);
 					if (statuss != 1) {
-						ServerLog.getLogger().warn("分配A型号1星矿机失败" + user.getId());
+						ServerLog.getLogger().warn("分配A型号1星矿机失败,粉丝id :" + user.getId());
 					}
 					
 					//注册后 ，在A、B两个矿池表添加一条记录
+					APool aPool = new APool();
+					BPool bPool = new BPool();
+					aPool.setFensUserId(user.getId());
+					//类型还不确定
+					bPool.setFensUserId(user.getId());
+					//类型还不确定
+					//插入A矿池表
+					apoolMapper.insertSelective(aPool);
+					//插入B矿池表
+					bpoolMapper.insertSelective(bPool);
 					
-					
-					
+					//钱包表插入一条记录
+					FensWallet fensWallet = new FensWallet();
+					//目前只插入粉丝id
+					fensWallet.setFensUserId(user.getId());
+					//插入记录到粉丝钱包表
+					fensWalletMapper.insertSelective(fensWallet);
 					if (fensUser.getRefereePhone() != null && fensUser.getRefereePhone() != "") {
 						// 粉丝注册成功后，把信息插入粉丝团表
 						FensTeam fensTeam = new FensTeam();
