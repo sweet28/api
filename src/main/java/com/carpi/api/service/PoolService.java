@@ -1,0 +1,21 @@
+package com.carpi.api.service;
+
+import com.arttraining.commons.util.JsonResult;
+import com.carpi.api.pojo.APool;
+import com.carpi.api.pojo.BPool;
+import com.github.pagehelper.PageInfo;
+
+public interface PoolService {
+
+	// a矿池列表
+	public PageInfo<APool> selectApool(Integer page, Integer num, Integer fensUserId);
+
+	// b矿池列表
+	public PageInfo<BPool> selectBpool(Integer page, Integer num, Integer fensUserId);
+	
+	//解冻(A)
+	public JsonResult thawAMiner(APool aPool);
+	
+	//解冻(B)
+	public JsonResult thawBMiner(BPool bPool);
+}

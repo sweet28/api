@@ -187,6 +187,10 @@ public class FensUserServiceImpl implements FensUserService {
 						ServerLog.getLogger().warn("分配A型号1星矿机失败" + user.getId());
 					}
 					
+					//注册后 ，在A、B两个矿池表添加一条记录
+					
+					
+					
 					if (fensUser.getRefereePhone() != null && fensUser.getRefereePhone() != "") {
 						// 粉丝注册成功后，把信息插入粉丝团表
 						FensTeam fensTeam = new FensTeam();
@@ -370,7 +374,7 @@ public class FensUserServiceImpl implements FensUserService {
 		 if (result == 1) {
 				return JsonResult.ok();
 			}
-			return JsonResult.build(500, "新增数据失败");
+			return JsonResult.build(500, "修改数据失败");
 	}
 
 	//粉丝登入状态列表

@@ -22,6 +22,7 @@ public class FensWalletServiceImpl implements FensWalletService {
 	@Autowired
 	private FoneyRecordMapper foneyRecordMapper;
 	
+	
 	//粉丝钱包列表
 	@Override
 	public PageInfo<FensWallet> selectAll(Integer page, Integer num, Integer fensUserId) {
