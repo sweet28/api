@@ -18,13 +18,12 @@
 	<!-- 自动扫描 -->
 	<context:component-scan base-package="com.*.api"/> 
 		<!-- <context:component-scan base-package="com.carpi.api"/>  -->
-
+     <context:property-placeholder location="classpath:*.properties" />
 	<!-- 引入配置文件 -->
-	<bean id="propertyConfigurer"
+	<!-- <bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location" value="classpath:jdbc.properties" />
-	</bean>
-
+	</bean> -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="${driver}" />
