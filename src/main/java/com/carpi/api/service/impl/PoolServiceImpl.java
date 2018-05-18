@@ -62,10 +62,15 @@ public class PoolServiceImpl implements PoolService {
 		if (list != null && list.size() > 0) {
 			// 钱包的可用余额增加相应数目的cpa
 			// 根据粉丝Id查询该粉丝对应钱包信息
-			List<FensWallet> walletsList = fensWalletMapper.selectAll(aPool.getFensUserId());
+			/*List<FensWallet> walletsList = fensWalletMapper.selectAll(aPool.getFensUserId());
 			// 钱包为空，请创建
 			if (walletsList == null && walletsList.size() == 0) {
 				return JsonResult.build(500, "请先创建钱包");
+			}*/
+			
+			FensWallet fensWallet = fensWalletMapper.selectAll(aPool.getFensUserId());
+			if (fensWallet == null) {
+				return JsonResult.build(500, "钱包不存在");
 			}
 
 			APool aPool2 = list.get(0);
@@ -87,14 +92,14 @@ public class PoolServiceImpl implements PoolService {
 			}
 
 			// 钱包添加cpa
-			FensWallet wallet = walletsList.get(0);
-			Double ablecpa = wallet.getAbleCpa() + aPool.getCpaCount();
+//			FensWallet wallet = walletsList.get(0);
+			Double ablecpa = fensWallet.getAbleCpa() + aPool.getCpaCount();
 			// 到账时间
 			Date date2 = TimeUtil.getTimeStamp();
 			FensWallet wallet2 = new FensWallet();
 			// 钱包可用余额增加
 			wallet2.setAbleCpa(ablecpa);
-			wallet2.setId(wallet.getId());
+			wallet2.setId(fensWallet.getId());
 			// 更新钱包可用cpa
 			int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
 			if (result2 != 1) {
@@ -124,12 +129,16 @@ public class PoolServiceImpl implements PoolService {
 		if (list != null && list.size() > 0) {
 			// 钱包的可用余额增加相应数目的cpa
 			// 根据粉丝Id查询该粉丝对应钱包信息
-			List<FensWallet> walletsList = fensWalletMapper.selectAll(bPool.getFensUserId());
+			/*List<FensWallet> walletsList = fensWalletMapper.selectAll(bPool.getFensUserId());
 			// 钱包为空，请创建
 			if (walletsList == null && walletsList.size() == 0) {
 				return JsonResult.build(500, "请先创建钱包");
-			}
+			}*/
 
+			FensWallet fensWallet = fensWalletMapper.selectAll(bPool.getFensUserId());
+			if (fensWallet == null) {
+				return JsonResult.build(500, "钱包不存在");
+			}
 			BPool bPool2 = list.get(0);
 			// 判断矿池cpa是否充足
 			if (bPool.getCpaCount() > bPool2.getCpaCount()) {
@@ -149,14 +158,14 @@ public class PoolServiceImpl implements PoolService {
 			}
 
 			// 钱包添加cpa
-			FensWallet wallet = walletsList.get(0);
-			Double ablecpa = wallet.getAbleCpa() + bPool.getCpaCount();
+//			FensWallet wallet = walletsList.get(0);
+			Double ablecpa = fensWallet.getAbleCpa() + bPool.getCpaCount();
 			// 到账时间
 			Date date2 = TimeUtil.getTimeStamp();
 			FensWallet wallet2 = new FensWallet();
 			// 钱包可用余额增加
 			wallet2.setAbleCpa(ablecpa);
-			wallet2.setId(wallet.getId());
+			wallet2.setId(fensWallet.getId());
 			// 更新钱包可用cpa
 			int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
 			if (result2 != 1) {

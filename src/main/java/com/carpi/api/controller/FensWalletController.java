@@ -19,11 +19,17 @@ public class FensWalletController {
 	@Autowired
 	private FensWalletService fensWalletService;
 
+	
+//	@RequestMapping(value = "/list", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	@ResponseBody
+//	public PageInfo<FensWallet> selectAll(Integer page, Integer num, Integer fensUserId) {
+//		return fensWalletService.selectAll(page, num, fensUserId);
+//	}
 	// 粉丝钱包列表
 	@RequestMapping(value = "/list", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public PageInfo<FensWallet> selectAll(Integer page, Integer num, Integer fensUserId) {
-		return fensWalletService.selectAll(page, num, fensUserId);
+	public JsonResult selectAll(Integer fensUserId) {
+		return fensWalletService.selectAll(fensUserId);
 	}
 
 	// 新增钱包

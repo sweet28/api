@@ -248,14 +248,34 @@
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 	<!-- 根据粉丝id查询钱包列表 -->
+	<!-- <select id="selectAll" resultMap="BaseResultMap"> select <include refid="Base_Column_List" 
+		/> from fens_wallet <where> <if test="fensUserId != null"> fens_user_id = 
+		#{fensUserId,jdbcType=INTEGER} </if> </where> </select> -->
 	<select id="selectAll" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from fens_wallet
-		<where>
-			<if test="fensUserId != null">
-				fens_user_id = #{fensUserId,jdbcType=INTEGER}
-			</if>
-		</where>
+		where is_delete=0 and fens_user_id =
+		#{fensUserId,jdbcType=INTEGER}
+	</select>
+
+	<!-- 根据钱包的地址和粉丝id查询钱包信息 -->
+	<select id="selectAddress" resultMap="BaseResultMap"
+		parameterType="com.carpi.api.pojo.FensWallet">
+		select
+		<include refid="Base_Column_List" />
+		from fens_wallet
+		where wallet_address = #{walletAddress,jdbcType=VARCHAR} 
+		and is_delete = 0
+	</select>
+	
+	<!-- 根据粉丝id(付款人)查询钱包信息  -->
+	<select id="selectByFens" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from fens_wallet
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER} 
+		and is_delete = 0
 	</select>
 </mapper>

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -218,6 +219,8 @@ public class FensUserServiceImpl implements FensUserService {
 					FensWallet fensWallet = new FensWallet();
 					//目前只插入粉丝id
 					fensWallet.setFensUserId(user.getId());
+					//粉丝钱包地址uuid生成
+					fensWallet.setWalletAddress(UUID.randomUUID().toString());
 					//插入记录到粉丝钱包表
 					fensWalletMapper.insertSelective(fensWallet);
 					if (fensUser.getRefereePhone() != null && fensUser.getRefereePhone() != "") {

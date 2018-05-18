@@ -24,12 +24,20 @@ public class FensWalletServiceImpl implements FensWalletService {
 	
 	
 	//粉丝钱包列表
+//	@Override
+//	public PageInfo<FensWallet> selectAll(Integer page, Integer num, Integer fensUserId) {
+//		PageHelper.startPage(page, num);
+//		List<FensWallet> list = fensWalletMapper.selectAll(fensUserId);
+//		PageInfo<FensWallet> pageInfo = new PageInfo<>(list);
+//		return pageInfo;
+//	}
 	@Override
-	public PageInfo<FensWallet> selectAll(Integer page, Integer num, Integer fensUserId) {
-		PageHelper.startPage(page, num);
-		List<FensWallet> list = fensWalletMapper.selectAll(fensUserId);
-		PageInfo<FensWallet> pageInfo = new PageInfo<>(list);
-		return pageInfo;
+	public JsonResult selectAll(Integer fensUserId) {
+		FensWallet fensWallet = fensWalletMapper.selectAll(fensUserId);
+		if (fensWallet == null) {
+			return JsonResult.build(500, "钱包不存在");
+		}
+		return JsonResult.ok(fensWallet);
 	}
 
 	//新增钱包

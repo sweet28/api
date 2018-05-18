@@ -36,8 +36,9 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		Aminer aminer2 = aminerMapper.selectType(aminer.getType());
 		// 粉丝购买矿机后粉丝钱包的剩余的可用cpa余额
 		// 先查询粉丝钱包的可用余额(根据粉丝id)
-		List<FensWallet> list = fensWalletMapper.selectAll(aminer.getFensUserId());
-		FensWallet fensWallet = list.get(0);
+		/*List<FensWallet> list = fensWalletMapper.selectAll(aminer.getFensUserId());
+		FensWallet fensWallet = list.get(0);*/
+		FensWallet fensWallet = fensWalletMapper.selectAll(aminer.getFensUserId());
 		// 如果粉丝购买矿机的数量乘以单价大于可用余额
 		// 购买矿机所花的总cpa
 		Double money = aminer.getCount() * aminer.getPrice();
@@ -78,8 +79,9 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		Bminer bminer2 = bminerMapper.selectType(bminer.getType());
 		// 粉丝购买矿机后粉丝钱包的剩余的可用cpa余额
 		// 先查询粉丝钱包的可用余额(根据粉丝id)
-		List<FensWallet> list = fensWalletMapper.selectAll(bminer.getFensUserId());
-		FensWallet fensWallet = list.get(0);
+		/*List<FensWallet> list = fensWalletMapper.selectAll(bminer.getFensUserId());
+		FensWallet fensWallet = list.get(0);*/
+		FensWallet fensWallet = fensWalletMapper.selectAll(bminer.getFensUserId());
 		// 如果粉丝购买矿机的数量乘以单价大于可用余额
 		// 购买矿机所花的总cpa
 		Double money = bminer.getCount() * bminer.getPrice();

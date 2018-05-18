@@ -8,7 +8,8 @@ import com.github.pagehelper.PageInfo;
 public interface FensWalletService {
 
 	//粉丝钱包列表
-	public PageInfo<FensWallet> selectAll(Integer page,Integer num,Integer fensUserId);
+//	public PageInfo<FensWallet> selectAll(Integer page,Integer num,Integer fensUserId);
+	public JsonResult selectAll(Integer fensUserId);
 	
 	//新增钱包
 	public JsonResult addWallet(FensWallet fensWallet);

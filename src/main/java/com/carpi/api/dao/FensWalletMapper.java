@@ -20,5 +20,12 @@ public interface FensWalletMapper {
     int updateByPrimaryKey(FensWallet record);
     
     //根据粉丝Id查询钱包列表
-    List<FensWallet> selectAll(@Param("fensUserId") Integer fensUserId);
+//    List<FensWallet> selectAll(@Param("fensUserId") Integer fensUserId);
+    FensWallet selectAll(@Param("fensUserId") Integer fensUserId);
+    
+    //根据钱包的地址和粉丝id查询钱包信息 
+    FensWallet selectAddress(FensWallet record);
+    
+    //根据粉丝id(付款人)查询钱包信息 
+    FensWallet selectByFens(@Param("fensUserId") Integer fensUserId);
 }
