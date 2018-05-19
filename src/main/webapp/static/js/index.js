@@ -9,6 +9,47 @@
 	
 	var flag = checkLogin();
 	  
+	$.ajax({
+	    type: "post",
+	    url: getAPIURL() + "wallet/list",
+	    dataType: "json",
+	    data: {
+	    	"fensUserId":localStorage.getItem("uid")
+	    },
+	    success: function (data) {
+	    	console.log(data);
+	    	var dd = data.data;
+	    	console.log(dd);
+	    	if(data.status==200){
+	    		//可用余额
+	    	      var balance = dd.ableCpa;
+	    	      $("#ablecpa").text(balance);
+	    	      //待收总额
+	    	      var waitNum = dd.lockCpa;
+	    	      $("#lockcpa").text(waitNum);
+	    	      //累计收益
+	    	      var returnIn = dd.cpaCount;
+	    	      $("#totalcpa").text(returnIn);
+	    	}
+//	    	else{
+//	    		  $("#balance_num").text(0);
+//	    	      $("#balance_dec").text(".00000");
+//	    	      $("#waitNum_num").text(0);
+//	    	      $("#waitNum_dec").text(".00000");
+//	    	      $("#returnIn_num").text(0);
+//	    	      $("#returnIn_dec").text(".00000");
+//	    	}
+	    },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	      $("#balance_num").text(0);
+	      $("#balance_dec").text(".00000");
+	      $("#waitNum_num").text(0);
+	      $("#waitNum_dec").text(".00000");
+	      $("#returnIn_num").text(0);
+	      $("#returnIn_dec").text(".00000");
+
+	    }
+	  });
 //  /*占屏广告*/
 //  var $advertisementModal = $("#advertisementModal");
 //  checkCookie("advertisement");

@@ -10,7 +10,7 @@ function Gift() {
 	  var row = 0;
     $.ajax({
       type: "post",
-      url: getAPIURL() + "fenuser/miner/minerAList",
+      url: getAPIURL() + "fenuser/miner/minerBList",
       dataType: "json",
       data: {
     	  "fensUserId":uid,
@@ -26,6 +26,7 @@ function Gift() {
         	$.each( list, function(index, content){
         		var runs = content.bak2;
         		var xh = content.bak1;
+        		var syyz;
         		if(runs==0){
         			runs="运行中";
         		}else if(runs==1){
@@ -35,20 +36,34 @@ function Gift() {
         		}
         		
         		if(xh==1){
-        			xh="CA1";
+        			xh="CB1矿池";
+        			syyz=5;
         		}else if(xh==2){
-        			xh="CA2";
+        			xh="CB2矿池";
+        			syyz=50;
         		}else if(xh==3){
-        			xh="CA3";
-        		}else if(xh==4){
-        			xh="CA4";
+        			xh="CB3矿池";
+        			syyz=500;
         		}
+        		
+        		var sl = content.minerComputingPower;
         		
         		var nowDate = Date.parse(new Date());
         		var rundate = nowDate - content.createDate;
         		rundate = rundate/1000/3600;
         		
-			    html += "<tr><td class='first'>"+(index+1)+"</td><td>"+xh+"</td><td>"+content.minerComputingPower+"</td><td>"+runs+"</td><td>"+rundate+"</td></tr>";
+        		var sec = localStorage.getItem("sec");
+        		var content = "实名审核后可解冻";
+        		if(sec == "1"){
+        			content = "审核通过，待晚上交易中心上线后交易";
+            	}else if(sec == "2"){
+            		content = "认证审核未通过";
+            	}
+        			
+        		var sy;
+        		sy = rundate * syyz /15/24;
+        		
+			    html += "<tr><td class='first'>"+(index+1)+"</td><td>"+xh+"</td><td>"+sy+"</td><td>"+content+"</td></tr>";
 			});
         	
         	$("#a_miner").html(html);

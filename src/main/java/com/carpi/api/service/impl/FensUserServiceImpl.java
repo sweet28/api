@@ -498,4 +498,23 @@ public class FensUserServiceImpl implements FensUserService {
 //		}
 //		return listParentRecord;
 	}
+
+	@Override
+public JsonResult updateInfo(FensUser fensUser) {
+		
+		FensUser user = fensUserMapper.selectRegister(fensUser);
+		if (user == null) {
+			return JsonResult.build(20022, ErrorCodeConfigUtil.ERROR_MSG_ZH_20022);
+		}
+
+		FensUser fensUser2 = new FensUser();
+		fensUser2.setAttachment(fensUser.getAttachment());
+		fensUser2.setId(user.getId());
+		int result = fensUserMapper.updateByPrimaryKeySelective(fensUser2);
+		if (result == 1) {
+			return JsonResult.ok();
+		}
+
+		return JsonResult.build(500, "网络服务异常，请稍后重试");
+	}
 }

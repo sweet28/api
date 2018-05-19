@@ -18,93 +18,44 @@
   //	先判断是否登录
   var flag = checkLogin();
   
-  
-//  var numm = 2413;
-//
-//  layer.open({
-//      content: '注册人数：'+numm+",注册人数每天上午更新。"
-//      , skin: 'msg'
-//      , time: 3 //2秒后自动关闭
-//      ,end: function(){
-//    	  numm++;
-//      }
-//  });
-  
-  /*v1.2.1充值方式*/
-//  $.ajax({
-//    type: "GET",
-//    url: getAPIURL() + "NewPay/GetCurrentPayMode",
-//    dataType: "json",
-//    success: function (data) {
-//      if(data.rtn==1){
-//        localStorage.setItem("GetCurrentPayMode",data.Data);
-//      }
-//    },
-//    error:function () {
-//      localStorage.setItem("GetCurrentPayMode",0);
-//    },
-//    headers: {
-//      "Authorization": "Bearer " + getTOKEN()
-//    }
-//  });
-//
-//  //显示员工类型
-//  $.ajax({
-//    type: "GET",
-//    url: getAPIURL() + "user/" + uid,
-//    dataType: "json",
-//    success: function (data) {
-//      $(".account_type").text(data.nb_type);
-//    },
-//    headers: {
-//      "Authorization": "Bearer " + getTOKEN()
-//    }
-//  });
-//  //显示用户名
-//  $.ajax({
-//    type: "GET",
-//    url: getAPIURL() + "securitysettings/" + uid,
-//    dataType: "json",
-//    success: function (data) {
-//      $("#user_info").text(data.account);
-//    },
-//    headers: {
-//      "Authorization": "Bearer " + getTOKEN()
-//    }
-//  });
-
   //	调用相关金额的接口
   $.ajax({
-    type: "GET",
-    url: getAPIURL() + "User/Invest/Info",
+    type: "post",
+    url: getAPIURL() + "wallet/list",
     dataType: "json",
-    data: null,
+    data: {
+    	"fensUserId":localStorage.getItem("uid")
+    },
     success: function (data) {
-      //可用余额
-      var balance = data.Balance;
-      var balanceArr = seprate(balance);
-      $("#balance_num").text(balanceArr[0]);
-      $("#balance_dec").text(balanceArr[1]);
-      //待收总额
-      var waitNum = data.WaitInterest;
-      var waitInterestArr = seprate(waitNum);
-      $("#waitNum_num").text(waitInterestArr[0]);
-      $("#waitNum_dec").text(waitInterestArr[1]);
-      //累计收益
-      var returnIn = data.ReturnInterest;
-      var returnInterestArr = seprate(returnIn);
-      $("#returnIn_num").text(returnInterestArr[0]);
-      $("#returnIn_dec").text(returnInterestArr[1]);
+    	console.log(data);
+    	var dd = data.data;
+    	console.log(dd);
+    	if(data.status==200){
+    		//可用余额
+    	      var balance = dd.ableCpa;
+    	      var balanceArr = seprate(balance);
+    	      $("#balance_num").text(balanceArr[0]);
+    	      $("#balance_dec").text(balanceArr[1]);
+    	      //待收总额
+    	      var waitNum = dd.lockCpa;
+    	      var waitInterestArr = seprate(waitNum);
+    	      $("#waitNum_num").text(waitInterestArr[0]);
+    	      $("#waitNum_dec").text(waitInterestArr[1]);
+    	      //累计收益
+    	      var returnIn = dd.cpaCount;
+    	      var returnInterestArr = seprate(returnIn);
+    	      $("#returnIn_num").text(returnInterestArr[0]);
+    	      $("#returnIn_dec").text(returnInterestArr[1]);
+    	}else{
+    		  $("#balance_num").text(0);
+    	      $("#balance_dec").text(".00000");
+    	      $("#waitNum_num").text(0);
+    	      $("#waitNum_dec").text(".00000");
+    	      $("#returnIn_num").text(0);
+    	      $("#returnIn_dec").text(".00000");
+    	}
     },
     error: function (XMLHttpRequest, textStatus, errorThrown) {
-//          layer.open({
-//              content: "请登录",
-//              skin: 'msg',
-//              time: 2,
-//              end: function () {
-//                  window.location.href = 'login.html';
-//              }
-//          });
       $("#balance_num").text(0);
       $("#balance_dec").text(".00000");
       $("#waitNum_num").text(0);
@@ -112,9 +63,6 @@
       $("#returnIn_num").text(0);
       $("#returnIn_dec").text(".00000");
 
-    },
-    headers: {
-      "Authorization": "Bearer " + getTOKEN()
     }
   });
   //点击提现按钮判断是否已经实名认证
@@ -151,12 +99,8 @@
 
   /*点击绑定银行卡按钮判断是否已经实名认证*/
   $("#addBank").click(function () {
-    $.ajax({
-      type: "GET",
-      url: getAPIURL() + "securitysettings/" + uid,
-      dataType: "json",
-      success: function (data) {
-        if (!data.realname) {
+	  var sec = localStorage.getItem("sec");
+	  if (!sec=='1') {
           layer.open({
             content: '您还未实名认证，请先去实名认证。'
             , btn: ['去认证', '取消']
@@ -165,38 +109,33 @@
             }
           });
         } else {
-          window.location.href = "../page/mybank_card.html";
+          window.location.href = "../page/my_bankcard.html";
         }
-      },
-      headers: {
-        "Authorization": "Bearer " + getTOKEN()
-      }
-    });
   });
-  /*显示奖励优惠张数*/
-  $.ajax({
-    type: "GET",
-    url: getAPIURL() + "User/" + uid + "/getcashcouponlist?pageNumber=" + 1 + "&pageRows=1000",
-    dataType: "json",
-    data: null,
-    success: function (data) {
-      var total = 0;
-      if (data.Message > 0) {
-        for (var i = 0; i < data.list.length; i++) {
-          if (data.list[i].CC_STATUS != 1) {
-            total = total + 1;
-          }
-        }
-        if (total >= 1) {
-          $(".couponNum").html(total + "张")
-        }
-
-      }
-    },
-    headers: {
-      "Authorization": "Bearer " + getTOKEN()
-    }
-  });
+//  /*显示奖励优惠张数*/
+//  $.ajax({
+//    type: "GET",
+//    url: getAPIURL() + "User/" + uid + "/getcashcouponlist?pageNumber=" + 1 + "&pageRows=1000",
+//    dataType: "json",
+//    data: null,
+//    success: function (data) {
+//      var total = 0;
+//      if (data.Message > 0) {
+//        for (var i = 0; i < data.list.length; i++) {
+//          if (data.list[i].CC_STATUS != 1) {
+//            total = total + 1;
+//          }
+//        }
+//        if (total >= 1) {
+//          $(".couponNum").html(total + "张")
+//        }
+//
+//      }
+//    },
+//    headers: {
+//      "Authorization": "Bearer " + getTOKEN()
+//    }
+//  });
 
   /*点击充值按钮*/
   $("#recharge_btn").on("click", function () {

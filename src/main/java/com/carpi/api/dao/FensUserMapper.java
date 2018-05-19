@@ -28,4 +28,7 @@ public interface FensUserMapper {
     
   //粉丝团列表
     List<FensUser> selectAllUser(String phone);
+    
+  //根据身份证号查询数量
+    List<FensUser> selectICDNum(String bak2);
 }

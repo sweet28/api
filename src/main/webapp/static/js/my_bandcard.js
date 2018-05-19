@@ -10,45 +10,29 @@ function Gift() {
 	  var row = 0;
     $.ajax({
       type: "post",
-      url: getAPIURL() + "fenuser/miner/minerAList",
+      url: getAPIURL() + "bank/list",
       dataType: "json",
       data: {
     	  "fensUserId":uid,
-    	  "page":page,
-    	  "row":row
+    	  "pageSize":100,
+    	  "pageNum":0
       },
       success: function (data) {
         var list = data.list;
+        console.log(list);
         if (list.length <= 0) {
           $("#a_miner").html("<ul><li class='nothing'><p>暂无记录</p></li></ul>");
         } else {
         	var html;
         	$.each( list, function(index, content){
-        		var runs = content.bak2;
-        		var xh = content.bak1;
+        		var runs = content.isApply;
         		if(runs==0){
-        			runs="运行中";
+        			runs="未使用";
         		}else if(runs==1){
-        			runs="死亡";
-        		}else if(runs==2){
-        			runs="冻结";
+        			runs="使用中";
         		}
         		
-        		if(xh==1){
-        			xh="CA1";
-        		}else if(xh==2){
-        			xh="CA2";
-        		}else if(xh==3){
-        			xh="CA3";
-        		}else if(xh==4){
-        			xh="CA4";
-        		}
-        		
-        		var nowDate = Date.parse(new Date());
-        		var rundate = nowDate - content.createDate;
-        		rundate = rundate/1000/3600;
-        		
-			    html += "<tr><td class='first'>"+(index+1)+"</td><td>"+xh+"</td><td>"+content.minerComputingPower+"</td><td>"+runs+"</td><td>"+rundate+"</td></tr>";
+			    html += "<tr><td class='first'>"+(index+1)+"</td><td>"+content.bank+"</td><td>"+content.cardNumber+"</td><td>"+runs+"</td></tr>";
 			});
         	
         	$("#a_miner").html(html);

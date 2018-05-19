@@ -10,7 +10,7 @@ function Gift() {
 	  var row = 0;
     $.ajax({
       type: "post",
-      url: getAPIURL() + "fenuser/miner/minerAList",
+      url: getAPIURL() + "fenuser/miner/minerBList",
       dataType: "json",
       data: {
     	  "fensUserId":uid,
@@ -35,13 +35,11 @@ function Gift() {
         		}
         		
         		if(xh==1){
-        			xh="CA1";
+        			xh="CB1";
         		}else if(xh==2){
-        			xh="CA2";
+        			xh="CB2";
         		}else if(xh==3){
-        			xh="CA3";
-        		}else if(xh==4){
-        			xh="CA4";
+        			xh="CB3";
         		}
         		
         		var nowDate = Date.parse(new Date());

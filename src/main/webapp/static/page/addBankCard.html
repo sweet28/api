@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../css/common.css"/>
     <link rel="stylesheet" type="text/css" href="../css/index.css"/>
     <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../lib/js/layer.js" type="text/javascript" charset="utf-8"></script>
     <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body class="addBank_body">
@@ -63,107 +64,7 @@
     var hash = window.location.hash;//判断用户是否是从提现页面过来
 
     /*v1.2.1充值方式*/
-    loading.open();
-    $.ajax({
-        type: "GET",
-        url: getAPIURL() + "NewPay/GetCurrentPayMode",
-        dataType: "json",
-        success: function (data) {
-            if(data.rtn==1){
-                if(data.Data==0){
-                    /*新生支付*/
-                    $.ajax({
-                        type: "GET",
-                        url: getAPIURL() + "NewPay/GetBanksInfo",
-                        dataType: "json",
-                        data: null,
-                        success: function (data) {
-                            loading.close();
-                            if(data.rtn==1){
-                                successCallback(data.Data);
-                            }
-                        },
-                        error:function (data) {
-                            loading.close();
-                            if (data.status == 404) {
-                                layer.open({
-                                    content: "请求资源不存在",
-                                    skin: 'msg',
-                                    time: 2 //2秒后自动关闭
-                                });
-                            }
-                            else {
-                                layer.open({
-                                    content: JSON.parse(data.responseText).Message,
-                                    skin: 'msg',
-                                    time: 2 //2秒后自动关闭
-                                });
-                            }
-                        },
-                        headers: {
-                            "Authorization": "Bearer " + getTOKEN()
-                        }
-                    });
-                }
-                else if(data.Data==1){
-                    /*富友*/
-                    var uid = getUIDByJWT().unique_name;
-                    $.ajax({
-                        type: "GET",
-                        url: getAPIURL() + "User/" + uid + "/getwebbanklist",
-                        dataType: "json",
-                        data: null,
-                        success: function (data) {
-                            loading.close();
-                            if (data.length > 0) {
-                                successCallback(data);
-                            }
-                        },
-                        error:function (data) {
-                            loading.close();
-                            if (data.status == 404) {
-                                layer.open({
-                                    content: "请求资源不存在",
-                                    skin: 'msg',
-                                    time: 2 //2秒后自动关闭
-                                });
-                            }
-                            else {
-                                layer.open({
-                                    content: JSON.parse(data.responseText).Message,
-                                    skin: 'msg',
-                                    time: 2 //2秒后自动关闭
-                                });
-                            }
-                        },
-                        headers: {
-                            "Authorization": "Bearer " + getTOKEN()
-                        }
-                    });
-                }
-            }
-        },
-        error:function (data) {
-            loading.close();
-            if (data.status == 404) {
-                layer.open({
-                    content: "请求资源不存在",
-                    skin: 'msg',
-                    time: 2 //2秒后自动关闭
-                });
-            }
-            else {
-                layer.open({
-                    content: JSON.parse(data.responseText).Message,
-                    skin: 'msg',
-                    time: 2 //2秒后自动关闭
-                });
-            }
-        },
-        headers: {
-            "Authorization": "Bearer " + getTOKEN()
-        }
-    });
+    
 
     function successCallback(data) {
         var content = "";

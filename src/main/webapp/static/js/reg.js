@@ -36,11 +36,13 @@
     
     if (step == 2) {
     	var startTime = 8;
-    	var endTime = 21;
+    	var endTime = 22;
     	var myDate = new Date();
     	var nowTime=myDate.getHours();
     	
-    	if(nowTime >= endTime || nowTime <= startTime){
+    	console.log((nowTime >= endTime && nowTime <= startTime)+"nowTime:::::::::"+nowTime);
+    	
+    	if(!(nowTime <= endTime && nowTime >= startTime)){
 
     		layer.open({
                 content: "开放注册时间为每天"+startTime+"点至"+endTime+"点，请您在注册时间内注册。",
@@ -222,7 +224,7 @@
     	var myDate = new Date();
     	var nowTime=myDate.getHours();
     	
-    	if(nowTime >= endTime || nowTime <= startTime){
+    	if(nowTime >= endTime && nowTime <= startTime){
 
     		layer.open({
                 content: "开放注册时间为每天"+startTime+"点至"+endTime+"点，请您在注册时间内注册。",

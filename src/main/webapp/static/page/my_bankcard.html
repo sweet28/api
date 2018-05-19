@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>我的矿机</title>
+    <title>我的银行卡</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
     <meta name="format-detection" content="telephone=no, email=no"/>
     <link rel="stylesheet" href="../css/common.css" type="text/css"/>
@@ -22,9 +22,9 @@
             <a href="index.html">
                 <i class="icon"></i>
             </a>
-            <span>我的矿机</span>
-            <a href="personal.html">
-                <i class="icon"></i>
+            <span>我的银行卡</span>
+            <a href="link_bankcard.html">
+                <i class="icon" style="background-image:url(../image/select.png);"></i>
             </a>
         </header>
         <section class="coupon_list">
@@ -33,10 +33,10 @@
                     <thead>
 						<tr>
 							<td>序号</td>
-							<td>类型</td>
-							<td>算力</td>
+							<td>银行</td>
+							<td>账户</td>
 							<td>状态</td>
-							<td>运行时间(小时)</td>
+							<!-- <td>操作</td> -->
 						</tr>
                     </thead>
                     <tbody id="a_miner">
@@ -44,41 +44,14 @@
                 </table>
             </div>
         </section>
-        <!--	页面底部部分-->
-        <ul class="footer">
-            <li class="footer-item">
-                <a href="my_kj.html" class="">
-                    <i class="icon icon_index active"></i>
-                    <p class="icon_title" style="color: #f23029">A型矿机</p>
-                </a>
-            </li>
-            <li class="footer-item">
-                <a href="my_kjac.html" class="">
-                    <i class="icon icon_activity"></i>
-                    <p class="icon_title">A矿池</p>
-                </a>
-            </li>
-            <li class="footer-item">
-                <a href="my_kjb.html" class="">
-                    <i class="icon icon_activity"></i>
-                    <p class="icon_title">B型矿机</p>
-                </a>
-            </li>
-            <li class="footer-item">
-                <a href="my_kjbc.html" class="">
-                    <i class="icon icon_activity"></i>
-                    <p class="icon_title">B矿池</p>
-                </a>
-            </li>
-        </ul>
     </section>
 </div>
 </body>
 
-<script src="../js/my_kj.js"></script>
+<script src="../js/my_bandcard.js"></script>
 <!--头部-->
 <script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
-    setTitle(".giftRewards_title", {'title':'我的矿机',"theme":"1"});
+    setTitle(".giftRewards_title", {'title':'我的银行卡',"theme":"1"});
 </script>
 </html>

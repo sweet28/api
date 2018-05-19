@@ -1,6 +1,94 @@
-/**
- * Created by tim on 2016/6/20.
- */
+var testKey = "m5zweEGHgZJ6KZDsRKBsA3fTUlugIAB-";
+var testSec = "7ElQMg_G5OfBt_P93-80VAHkPinhiMrx";
+
+var proKey = "8qq0MDKgcfMwOiw7E27tvZ08D6LbErhP";
+var proSec = "xJIXFiZV011fBLQVexoS1S1QUYkxLaIz";
+
+var faceUrl = "https://api-cn.faceplusplus.com/cardpp/v1/ocridcard";
+
+var testUrl = "https://cpa.artforyou.cn/img/1.jpg"
+
+$("#file0").change(function(){  
+	
+//	$.ajax({
+//	      type: "post",
+//	      multi:true,
+//	      url: faceUrl,
+//	      data:{
+//	    	"api_key":testKey,
+//	    	"api_secret":testSec,
+//	    	"image_url":testUrl
+//	      },
+//	      dataType: "jsonp",
+//	      success: function (data) {
+//	    	  console.log(data);
+//	      },
+//	      error: function () {
+//	    	  console.log("lllllllllllllllllllll000------------");
+//	      }
+//      });
+//	
+	
+      var objUrl = getObjectURL(this.files[0]) ;
+      console.log(this.files[0]+"-------77777");
+      // 这句代码没什么作用，删掉也可以  
+      // console.log("objUrl = "+objUrl) ;  
+      if (objUrl) {  
+        // 在这里修改图片的地址属性  
+        $("#img0").attr("src", objUrl) ;
+        var data = new FormData($('#form0')[0]); 
+        
+        
+        $.ajax({
+  	      type: "post",
+  	      url: getAPIURL() + "fenuser/updateInfo",
+  	      data:{
+  	        "attachment": "0",
+  	        "phone":getPhone()
+  	      },
+  	      dataType: "json",
+  	      success: function (data) {
+  	    	 if(data.status == 200){
+  	    		 localStorage.setItem("sec","0");
+	  	    	  layer.open({
+	  	    	    content: "认证提交完成",
+	  	    	    skin: 'msg',
+	  	    	    time: 2, //2秒后自动关闭
+	  	    	    end: function () {
+	  	    	      location.href = '../page/safe_center.html?z';
+	  	    	    }
+	  	    	  });
+  	    	  }else{
+  	    		  console.log("=======================098");
+  	    	  }
+  	      },
+  	      error: function () {
+  	        $('#mydiv').empty();
+  	        var txtsNULL = "<p class='nothing'>网络错误</p>";
+  	        $('#mydiv').append(txtsNULL);
+  	      },
+  	      headers: {
+  	        "Authorization": "Bearer " + getTOKEN()
+  	      }
+
+        });
+      }  
+    }) ;  
+    //建立一個可存取到該file的url  
+    function getObjectURL(file) {  
+      var url = null ;   
+      // 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已  
+      if (window.createObjectURL!=undefined) { // basic  
+        url = window.createObjectURL(file) ;  
+      } else if (window.URL!=undefined) { // mozilla(firefox)  
+        url = window.URL.createObjectURL(file) ;  
+      } else if (window.webkitURL!=undefined) { // webkit or chrome  
+        url = window.webkitURL.createObjectURL(file) ;  
+      }  
+      return url ;  
+}  
+
+
 function Verified() {
   var _self = this, _$name, _$cardid, _$cardid_confirm, _hash;
 

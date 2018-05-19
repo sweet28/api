@@ -194,6 +194,10 @@ function checkLogin(){
 	  }
 }
 
+function getUINFO(){
+	return localStorage.getItem("uinfo");
+}
+
 //获取uid
 function getUIDByJWT1() {
   var value = localStorage.getItem("token");

@@ -24,11 +24,11 @@ import com.arttraining.commons.util.Random;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.google.gson.Gson;
-import com.taobao.api.ApiException;
-import com.taobao.api.DefaultTaobaoClient;
-import com.taobao.api.TaobaoClient;
-import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
-import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
+//import com.taobao.api.ApiException;
+//import com.taobao.api.DefaultTaobaoClient;
+//import com.taobao.api.TaobaoClient;
+//import com.taobao.api.request.AlibabaAliqinFcSmsNumSendRequest;
+//import com.taobao.api.response.AlibabaAliqinFcSmsNumSendResponse;
 
 @Controller
 @RequestMapping("/sms/")
@@ -82,9 +82,11 @@ public class SMSController {
 					errorCode = "20046";
 					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20046;
 				}else{
-					JSONObject jo = DaYuServiceUtil.sendSMSCode(mobile, codeType);
-					System.out.println("进入验证码发送：重新发送"+TimeUtil.getTimeStamp());
-					if(jo.getBoolean(ConfigUtil.PARAMETER_ERROR_CODE)){
+					JSONObject jo = null;//DaYuServiceUtil.sendSMSCode(mobile, codeType);
+					System.out.println("进入验证码发送：最新发送"+TimeUtil.getTimeStamp());
+					
+//					if(jo.getBoolean(ConfigUtil.PARAMETER_ERROR_CODE)){
+					if(jo != null){
 						smsCCode.setIsUsed(1);//设置短信已使用，发送新短信
 						smsCCode.setUsingTime(TimeUtil.getTimeStamp());
 						this.smsService.update(smsCCode);
@@ -128,10 +130,11 @@ public class SMSController {
 				}
 				
 			}else{
-				JSONObject jo = DaYuServiceUtil.sendSMSCode(mobile, codeType);
+				JSONObject jo = null;//DaYuServiceUtil.sendSMSCode(mobile, codeType);
 				System.out.println("进入验证码发送：最新发送"+TimeUtil.getTimeStamp());
 				
-				if(jo.getBoolean(ConfigUtil.PARAMETER_ERROR_CODE)){
+//				if(jo.getBoolean(ConfigUtil.PARAMETER_ERROR_CODE)){
+				if(jo != null){
 					System.out.println("发送成功并"+TimeUtil.getTimeStamp());
 					String smsCode = jo.getString(ConfigUtil.PARAMETER_ERROR_MSG);
 					SMSCheckCode newSms = new SMSCheckCode();

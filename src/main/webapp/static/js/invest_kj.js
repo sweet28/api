@@ -4,7 +4,7 @@
   
   $(".last").click(function(){
 	  layer.open({
-          content: '您的余额不足。'
+          content: '您还没完成实名认证，请等待实名认证开通。'
           , btn: '确定'
       });
   })

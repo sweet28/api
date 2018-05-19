@@ -19,6 +19,9 @@ public interface FensUserService {
 	
 	//忘记密码
 	public JsonResult forgetPwd(FensUser fensUser,String code_type, String code);
+
+	//修改信息
+	public JsonResult updateInfo(FensUser fensUser);
 	
 	//粉丝团列表
 	public PageInfo<FensTeam> selectAll(Integer page,Integer num,Integer fensUserId,String type);

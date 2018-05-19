@@ -45,13 +45,20 @@
         "pwd":pwd.val()
       },
       success:function(data){
-        if(data.status == 200){
+    	if(data.status == 222){
+    		loading.close();
+        	layer.open({
+                content:data.msg,
+                btn:'确定'
+              });
+    	}else if(data.status == 200){
           localStorage.setItem("username",user.val());
           localStorage.setItem("name",data.data.name);
           localStorage.setItem("token",data.data.bak1);
           localStorage.setItem("phone",data.data.phone);
           localStorage.setItem("uid",data.data.id);
-          
+          localStorage.setItem("ucard",data.data.bak2);
+          localStorage.setItem("sec",data.data.attachment);
           
           loading.close();
           layer.open({

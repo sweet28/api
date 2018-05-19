@@ -307,4 +307,16 @@
 			</if>
 		</where>
 	</select>
+	
+	<!--列表 -->
+	<select id="selectICDNum" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_user
+		<where>
+			<if test="_parameter != null">
+				bak2 = #{bak2,jdbcType=VARCHAR} and is_delete=0
+			</if>
+		</where>
+	</select>
 </mapper>

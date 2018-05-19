@@ -27,52 +27,50 @@
 
 <body ontouchstart class="link_bank_page"  style="background: #fff;">
 <header class="link_bank_title" style="background: #069efe;display: none;">
+	<div class="my_headertop">
+        <a href="notification.html#personal" class="my_iconmessage"><i ></i></a>
+        <span id="user_info"></span>
+        <a href="personall.html" class="my_iconsetting"><i ></i></a>
+    </div>
     <div class="weui-row">
-        <div class="weui-col-33"><a href="javascript:history.go(-1)"><i class="icon"></i></a></div>
+        <div class="weui-col-33"><a href="javascript:history.go(-1)"><i class="icon" style="background-image:url(../img/iconcommon.png);"></i></a></div>
         <div class="weui-col-33">绑定银行卡</div>
-        <div class="weui-col-33"><a href="personal.html"><i class="icon icon-user"></i></a></div>
+        <div class="weui-col-33"><a href="#"><i class="icon icon-user"></i></a></div>
     </div>
 </header>
 
 <div class='content-padded link_card'>
     <div class="recharge">
         <div class="weui_cells weui_cells_form">
-            <div class="weui_cell weui_cell_select" style="position: relative;">
-                <a href="javascript:;" class="weui_cell_bd weui_cell_primary" style="position: relative;padding-bottom: 4px">
-                    <input class="weui_input" id="changebank" type="text" value="" readonly="" style="padding: 0;">
-                    <span id="limit" style=""></span>
-                </a>
-
-            </div>
             <div class="clear hasBorder"></div>
-            <div class="weui_cells_title">银行卡卡号</div>
+            <div class="weui_cells_title">银行名称</div>
             <div class="weui_cell">
                 <div class="weui_cell_bd weui_cell_primary">
-                    <input class="weui_input" type="number" placeholder="请输入银行卡号" id="cardnum"  oninput="if(value.length>25)value=value.slice(0,25)" style="overflow-x: hidden;">
+                    <input class="weui_input" type="text" placeholder="请输入银行名称" id="bankname" maxlength="30">
                 </div>
             </div>
             <div class="clear hasBorder"></div>
-            <div class="weui_cells_title">开户所在地</div>
-            <div class="weui_cell weui_cell_select">
+            <div class="weui_cells_title">银行卡号</div>
+            <div class="weui_cell">
                 <div class="weui_cell_bd weui_cell_primary">
-                    <input class="weui_input" id="city-picker" type="text" placeholder="请选择开户地址" value="" >
+                    <input class="weui_input" type="number" placeholder="请输入银行卡号" id="cardnum" maxlength="30">
                 </div>
             </div>
             <div class="clear hasBorder"></div>
             <div class="weui_cells_title">开户行</div>
             <div class="weui_cell">
                 <div class="weui_cell_bd weui_cell_primary">
-                    <input class="weui_input" type="text" placeholder="请输入开户行名称" id="openbank" maxlength="25">
+                    <input class="weui_input" type="text" placeholder="请输入开户行名称" id="cardbank" maxlength="30">
                 </div>
             </div>
+            <!-- <div class="clear hasBorder"></div>
+            <div class="weui_cells_title">开户所在地</div>
+            <div class="weui_cell">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" type="text" placeholder="请输入开户所在地" id="cardloc" maxlength="30">
+                </div>
+            </div> -->
             <div class="clear hasBorder"></div>
-
-            <!--			<div class="weui_cells_title">确认银行卡号：</div>
-                        <div class="weui_cell">
-                            <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" type="number" placeholder=""  id="cardnum2"  oninput="if(value.length>25)value=value.slice(0,25)">
-                            </div>
-                        </div>-->
             <input type="button" class="weui_btn  confirm_btn" id="recharge" value="确认">
         </div>
     </div>

@@ -41,6 +41,13 @@ public class FensUserController {
 		return fensUserService.forgetPwd(fensUser, code_type, code);
 	}
 	
+	// 修改信息
+	@RequestMapping(value = "/updateInfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult forgetPwd(FensUser fensUser) {
+		return fensUserService.updateInfo(fensUser);
+	}
+	
 	//粉丝团列表
 	@RequestMapping(value = "/list", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
