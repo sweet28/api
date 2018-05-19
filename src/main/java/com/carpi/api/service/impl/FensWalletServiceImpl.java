@@ -31,6 +31,7 @@ public class FensWalletServiceImpl implements FensWalletService {
 //		PageInfo<FensWallet> pageInfo = new PageInfo<>(list);
 //		return pageInfo;
 //	}
+//	粉丝钱包详情
 	@Override
 	public JsonResult selectAll(Integer fensUserId) {
 		FensWallet fensWallet = fensWalletMapper.selectAll(fensUserId);
@@ -88,5 +89,5 @@ public class FensWalletServiceImpl implements FensWalletService {
 		}
 		return JsonResult.build(500, "更新出错");
 	}
-	
+
 }

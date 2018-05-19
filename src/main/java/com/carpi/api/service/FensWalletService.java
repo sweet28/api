@@ -25,4 +25,6 @@ public interface FensWalletService {
 	
 	//修改钱包转账记录
 	public JsonResult updateWalletRecord(FoneyRecord foneyRecord);
+	
+	
 }

@@ -204,14 +204,33 @@ public class FensUserServiceImpl implements FensUserService {
 					}
 					
 					//注册后 ，在A、B两个矿池表添加一条记录
+					//注册后 ，在A、B两个矿池表添加一条记录
 					APool aPool = new APool();
-					BPool bPool = new BPool();
+					APool aPool2 = new APool();
+					APool aPool3 = new APool();
+					APool aPool4 = new APool();
+					//四种矿机对应的矿池，插入4条记录
 					aPool.setFensUserId(user.getId());
-					//类型还不确定
-					bPool.setFensUserId(user.getId());
-					//类型还不确定
+					aPool.setType(1);
+					
+					aPool2.setFensUserId(user.getId());
+					aPool2.setType(2);
+					
+					aPool3.setFensUserId(user.getId());
+					aPool3.setType(3);
+					
+					aPool4.setFensUserId(user.getId());
+					aPool4.setType(4);
 					//插入A矿池表
 					apoolMapper.insertSelective(aPool);
+					apoolMapper.insertSelective(aPool2);
+					apoolMapper.insertSelective(aPool3);
+					apoolMapper.insertSelective(aPool4);
+					
+
+					BPool bPool = new BPool();
+					bPool.setFensUserId(user.getId()); 
+					
 					//插入B矿池表
 					bpoolMapper.insertSelective(bPool);
 					
