@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.arttraining.commons.util.JsonResult;
+import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.AminerMapper;
 import com.carpi.api.dao.AminerRecordMapper;
 import com.carpi.api.dao.BminerMapper;
@@ -86,9 +87,10 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	//粉丝记录增加
 	@Override
 	public JsonResult addRecord(FensTransaction fensTransaction) {
+		fensTransaction.setCreateDate(TimeUtil.getTimeStamp());
 		int result = fensTransactionMapper.insertSelective(fensTransaction);
 		if (result == 1) {
-			JsonResult.ok();
+			return JsonResult.ok();
 		}
 		return JsonResult.build(500, "新增失败");
 	}
