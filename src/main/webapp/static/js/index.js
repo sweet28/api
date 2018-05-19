@@ -678,3 +678,99 @@ function isLogin() {
     }
   }
 }
+
+$("#cpamai").click(function (){
+	var type = $("#typecpa").val();
+
+
+	//交易状态   0代表挂单中；1代表成交
+	var trader_state = 0;
+	//交易类型   1代表买方  2代表卖方
+	var trader_type = 0;
+	//交易人id
+	var trader_id = localStorage.getItem("uid");
+	//交易CPA数
+	var trader_count = $("#cpanum").val();
+	//委托价格(美元)
+	var entrust_price = $("#cpadj").val();
+	
+//	if(type == "mc"){
+//		layer.open({
+//	          content: '你钱包账户中余额不足。'
+//	          , btn: '确定'
+//	      });
+//		
+//		trader_type = 2;
+//		return false;
+//	}
+	if(type == "mc"){
+		trader_type = 2;
+	}
+	if(type == "mr"){
+		trader_type = 1;
+	}
+	
+	if(trader_count==null || trader_count==""){
+		layer.open({
+	          content: '请输入交易数量。'
+	          , btn: '确定'
+	      });
+		return false;
+	}
+	if(trader_count<1){
+		layer.open({
+	          content: '交易数量需要大于1。'
+	          , btn: '确定'
+	      });
+		return false;
+	}
+	if(entrust_price==null || entrust_price==""){
+		layer.open({
+	          content: '请输入交易单价。'
+	          , btn: '确定'
+	      });
+		return false;
+	}
+	if(entrust_price<0){
+		layer.open({
+	          content: '交易单价需要大于0。'
+	          , btn: '确定'
+	      });
+		return false;
+	}
+	
+	$.ajax({
+	      type: "post",
+	      url: getAPIURL() + "miner/record/addRecord",
+	      dataType: "json",
+	      data:{
+	    	  "traderId":parseInt(localStorage.getItem("uid")),
+	    	  "traderType":parseInt(trader_type),
+	    	  "traderState":parseInt(trader_state),
+	    	  "entrustPrice":entrust_price,
+	    	  "traderCount":trader_count
+	      },
+	      success: function (data) {
+	        if (data.status==200) {
+	          layer.open({
+	            content: '挂单成功。'
+	            , btn: ['确定']
+	            , yes: function (index) {
+	              window.location.href = "../page/index.html";
+	            }
+	          });
+	        } else {
+	        	layer.open({
+		            content: '操作失败，请检查网络服务。'
+		            , btn: ['确定']
+		            , yes: function (index) {
+		  	          window.location.href = "../page/index.html";
+		            }
+		          });
+	        }
+	      },
+	      headers: {
+	        "Authorization": "Bearer " + getTOKEN()
+	      }
+    });
+});
