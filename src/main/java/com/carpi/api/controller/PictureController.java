@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.ServerLog;
+import com.carpi.api.service.FaceCardService;
 import com.carpi.api.service.PictureService;
 import com.qiniu.util.Auth;
 
@@ -26,10 +27,20 @@ public class PictureController {
 	@Autowired
 	private PictureService pictureService;
 	
+	@Autowired
+	private FaceCardService faceCardService;
+	
 	@RequestMapping(value = "/pic/upload", method = RequestMethod.POST)
 	@ResponseBody
 	public Map pictureUpload(MultipartFile uploadFile) {
 		return  pictureService.uploadPicture(uploadFile);
+	}
+	
+	//身份证识别
+	@RequestMapping(value = "/cpa/facecard", method = RequestMethod.POST)
+	@ResponseBody
+	public String facecard(String imgUrl) throws Exception{
+		return faceCardService.card(imgUrl);
 	}
 	
 	
