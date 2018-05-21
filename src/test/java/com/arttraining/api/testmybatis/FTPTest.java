@@ -40,7 +40,7 @@ public class FTPTest {
 	@Test
 	public void testFtpUtils() throws Exception{
 		FileInputStream inputStream = new FileInputStream(new File("C:\\Users\\Administrator\\Desktop\\hello.png"));
-		FtpUtil.uploadFile("118.178.136.110", 21, "cpaftp", "Stone1212", "/data/wwwroot/default", "/img", "word.jpg", inputStream);
+		FtpUtil.uploadFile("118.178.136.110", 21, "cpaftp", "Stone1212", "/default", "/img", "word.jpg", inputStream);
 	}
 	
 	

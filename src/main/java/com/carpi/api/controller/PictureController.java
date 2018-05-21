@@ -30,14 +30,14 @@ public class PictureController {
 	@Autowired
 	private FaceCardService faceCardService;
 	
-	@RequestMapping(value = "/pic/upload", method = RequestMethod.POST)
+	@RequestMapping(value = "/pic/upload", method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Map pictureUpload(MultipartFile uploadFile) {
-		return  pictureService.uploadPicture(uploadFile);
+	public Map pictureUpload(MultipartFile file0) {
+		return  pictureService.uploadPicture(file0);
 	}
 	
 	//身份证识别
-	@RequestMapping(value = "/cpa/facecard", method = RequestMethod.POST)
+	@RequestMapping(value = "/cpa/facecard", method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String facecard(String imgUrl) throws Exception{
 		return faceCardService.card(imgUrl);

@@ -41,12 +41,12 @@ public class PictureServiceImpl implements PictureService {
 
 	// 图片上传
 	@Override
-	public Map uploadPicture(MultipartFile uploadFile) {
+	public Map uploadPicture(MultipartFile file0) {
 		Map resultMap = new HashMap<>();
 		try {
 			// 生成一个新的文件名
 			// 去原始文件名
-			String oldName = uploadFile.getOriginalFilename();
+			String oldName = file0.getOriginalFilename();
 			// 生成新的文件名
 			// UUID.randomUUID();
 			String newName = IDUtils.genImageName();
@@ -56,7 +56,7 @@ public class PictureServiceImpl implements PictureService {
 			// 图片上传 filePath FTP服务器文件存放路径。例如分日期存放：/2015/01/01。文件的路径为basePath+filePath
 			String imagePath = new DateTime().toString("/yyyy/MM/dd");
 			boolean result = FtpUtil.uploadFile(FTP_ADDRESS, FTP_PORT, FTP_USERNAME, FTP_PASSWORD, FTP_BASE_PATH,
-					imagePath, newName, uploadFile.getInputStream());
+					imagePath, newName, file0.getInputStream());
 			// 返回结果
 			if (!result) {
                 resultMap.put("error", 1);
@@ -72,5 +72,6 @@ public class PictureServiceImpl implements PictureService {
              return resultMap;
 		}
 	}
+
 
 }
