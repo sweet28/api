@@ -44,7 +44,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		// 购买矿机所花的总cpa
 		Double money = aminer.getCount() * aminer2.getPrice();
 		if (money > fensWallet.getAbleCpa()) {
-			JsonResult.build(500, "余额不足");
+			return JsonResult.build(500, "余额不足");
 		}
 		// 粉丝钱包的剩余的可用cpa余额减少相应cpa
 		FensWallet fensWallet2 = new FensWallet();
@@ -88,7 +88,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		// 购买矿机所花的总cpa
 		Double money = bminer.getCount() * bminer2.getPrice();
 		if (money > fensWallet.getAbleCpa()) {
-			JsonResult.build(500, "余额不足");
+			return JsonResult.build(500, "余额不足");
 		}
 		// 粉丝钱包的剩余的可用cpa余额减少相应cpa
 		FensWallet fensWallet2 = new FensWallet();

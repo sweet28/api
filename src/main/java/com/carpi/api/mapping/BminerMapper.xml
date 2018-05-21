@@ -44,7 +44,7 @@
 		bak3, is_delete, create_date,
 		creater, delete_date, attachment,
 		type, count, state,
-		price, "computing power", fens_user_id
+		price, "computing_power", fens_user_id
 		)
 		values
 		(#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR},
@@ -102,7 +102,7 @@
 				price,
 			</if>
 			<if test="computingPower != null">
-				"computing power",
+				"computing_power",
 			</if>
 			<if test="fensUserId != null">
 				fens_user_id,
@@ -196,7 +196,7 @@
 				price = #{price,jdbcType=DOUBLE},
 			</if>
 			<if test="computingPower != null">
-				"computing power" = #{computingPower,jdbcType=DOUBLE},
+				"computing_power" = #{computingPower,jdbcType=DOUBLE},
 			</if>
 			<if test="fensUserId != null">
 				fens_user_id = #{fensUserId,jdbcType=INTEGER},
@@ -225,7 +225,7 @@
 		state = #{state,jdbcType=INTEGER},
 		price =
 		#{price,jdbcType=DOUBLE},
-		"computing power" =
+		"computing_power" =
 		#{computingPower,jdbcType=DOUBLE},
 		fens_user_id =
 		#{fensUserId,jdbcType=INTEGER}

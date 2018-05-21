@@ -82,18 +82,18 @@ public class MoneyRecordServiceImpl implements MoneyRecordService {
      // 转入记录信息的插入
         FoneyRecord recordRu = new FoneyRecord();
         //转入钱包的ID(收款钱包Id)
-        recordChu.setBak1(String.valueOf(fensWallet.getId()));
-		recordChu.setCreateDate(TimeUtil.getTimeStamp());
-		recordChu.setFensUserId(fensWallet.getFensUserId());
-		recordChu.setReceiveAddress(fensWalle.getWalletAddress());
-		recordChu.setSendAddress(fensWallet2.getWalletAddress());
-		recordChu.setPayment(foneyRecord.getPayment());
+        recordRu.setBak1(String.valueOf(fensWallet.getId()));
+        recordRu.setCreateDate(TimeUtil.getTimeStamp());
+        recordRu.setFensUserId(fensWallet.getFensUserId());
+		recordRu.setReceiveAddress(fensWalle.getWalletAddress());
+		recordRu.setSendAddress(fensWallet2.getWalletAddress());
+		recordRu.setPayment(foneyRecord.getPayment());
 		// 待定
 		// recordChu.setPoundage(foneyRecord.getPayment()*0.2);
-        recordChu.setReceiveDate(dateDao);
-        recordChu.setSendDate(dateChu);
-        recordChu.setPaymentType(1);
-        int j = foneyRecordMapper.insertSelective(recordChu);
+		recordRu.setReceiveDate(dateDao);
+		recordRu.setSendDate(dateChu);
+		recordRu.setPaymentType(1);
+        int j = foneyRecordMapper.insertSelective(recordRu);
         if (j != 1) {
         	ServerLog.getLogger().warn("转入记录信息的插入失败，粉丝id为：" + fensWallet.getFensUserId());
 		}
