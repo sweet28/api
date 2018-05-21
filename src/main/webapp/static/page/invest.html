@@ -9,10 +9,14 @@
     <meta name="format-detection" content="telephone=no, email=no" />
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/invest.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="stylesheet" href="../css/personalCenter.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../lib/css/layer.css"/>
     <!--<link rel="stylesheet" href="../lib/css/pullToRefresh.css">-->
     <link rel="stylesheet" href="../lib/css/dropload.css">
     <title>交易中心</title>
     <script type="text/javascript" src="../lib/js/jquery-2.1.4.js"></script>
+    <script src="../lib/js/layer.js"></script>
     <script type="text/javascript" src="../js/wapframwork.js"></script>
 </head>
 <body style="overflow: hidden">
@@ -20,8 +24,8 @@
     <!-- 头部 -->
     <section id="sp_header">
         <ul class="sp_header_navbar" id="sp_header_navbar">
-            <li id="newcomer" class="navbar_active">买入</li>
-            <li id="intelligence">卖出</li>
+            <li id="newcomer" class="navbar_active">买单</li>
+            <li id="intelligence">卖单</li>
             <li id="regular_invest">当前委托</li>
             <li id="transfer_place" style="border: 0;">成交委托</li>
         </ul>
@@ -29,21 +33,36 @@
     <!-- 中部 -->
     <section style="width: 100%;height: 100%;overflow: hidden;margin-top: 0.96rem">
         <section id="sp_wrap">
-            <ul class="sp_content"></ul>
-            <!--<ul class="sp_content action">
-            </ul>-->
-            <ul class="sp_content">
-			<br>
-			<br>
-			<br>
-            &lt;!&ndash;暂无交易数据...&ndash;&gt;
-            </ul>
-            <!--<ul class="sp_content">
-            &lt;!&ndash;暂无数据...&ndash;&gt;
-            </ul>
-            <ul class="sp_content">
-            &lt;!&ndash;暂无数据...&ndash;&gt;
-            </ul>-->
+        	<ul >
+	            <div class="coupon_wrap recommendedRewards_wrap giftRewards_wrap">
+	            <br>
+	                <table>
+							<tr>
+								<td>编号</td>
+								<td>单价(美元)</td>
+								<td>数量(CPA)</td>
+								<td>状态</td>
+								<td>操作</td>
+							</tr>
+	                    <tbody class="sp_content" id="gift">
+							<!-- <tr>
+								<td class="first">A-MINER-001</td>
+								<td>CA1</td>
+								<td>10</td>
+								<td>预售中</td>
+								<td class="last">购买</td>
+							</tr>
+							<tr>
+								<td class="first">A-MINER-002</td>
+								<td>CA2</td>
+								<td>100</td>
+								<td>预售中</td>
+								<td class="last">购买</td>
+							</tr> -->
+	                    </tbody>
+	                </table>
+	            </div>
+            </ul>			
         </section>
     </section>
     <!-- 底部 -->

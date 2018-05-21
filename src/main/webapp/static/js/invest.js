@@ -5,8 +5,8 @@
     var integerNum,decimalsNum;
     var tab;//其他页面跳转过来的tab
     //var dataArr=[];//缓存数据
-    _type = '9NEW';//默认新手专区
-    _pageRows = 5;
+    _type = 1;//默认新手专区
+    _pageRows = 10;
     _$indexlist = $('#sp_wrap').find('.sp_content');
     _$wrap_container = $('#sp_wrap');
 
@@ -49,79 +49,93 @@
           _$pageno = 1;
           //上拉加载 先清空，再append数据
           _$indexlist.html('');
+          console.log("------------------------------------------");
+          
           $.ajax({
-            type: "GET",
-            url: getAPIURL()+"Invest/getcrowd?pageNumber=" + _$pageno + "&pageRows=" + _pageRows + '&type=' + _type,
-            dataType: "json",
-            data: null,
-            success: function (data) {
-              var list = data;
-              //var dataBox='';
-              if (_$pageno==1&&list.length == 0) {
-                $('#sp_wrap').html('<div style="text-align: center;width: 100%;"><img style="width: 30%" src="../img1/2the%20default%20page@2x.png" alt=""></div><p style="padding: 0.3rem 0;text-align: center;font-size: 0.28rem;">暂无可投资标的</p>');
-                return;
-              }
-              if (_$pageno == 1&&list.length<4) {
-                $('#sp_wrap .dropload-down .dropload-refresh').text('无更多记录');
-              }
-              if (list.length <= 0) {
-                var txtsNULL ="<p class='nothing'>无更多记录</p>";
-                //_$indexlist.append(txtsNULL);
-              } else {
-                //define some variables
-                var txt1,txt2='';
-                for (var i = 0; i < list.length; i++) {
-                  var labels_html='',openning_timeStr='';
-                  var labels = list[i].LendLable;
-
-
-                  //处理labels
-                  if (labels.length != 0){
-                    for (var j=0;j<labels.length;j++){
-                      var _label = '<span class="overflow_omit">' + labels[j].lab_name + '</span>'
-                      labels_html += _label;
+    	      type: "post",
+    	      url: getAPIURL() + "miner/record/recordlist",
+    	      dataType: "json",
+    	      data:{
+    	    	  "traderState":0,
+              	  "traderType":parseInt(_type),
+              	  "page":parseInt(_$pageno),
+              	  "row":parseInt(_pageRows)
+    	      },
+    	      success: function (data) {
+                  var list = data.list;
+                  if (_$pageno==1&&list.length == 0) {
+                    $('#sp_wrap').html('<div style="text-align: center;width: 100%;">'
+                    		+'<img style="width: 30%" src="../img/no_investment.png" alt=""></div>'
+                    		+'<p style="padding: 0.3rem 0;text-align: center;font-size: 0.28rem;">暂无委托</p>');
+                    return;
+                  }
+                  if (_$pageno == 1&&list.length<4) {
+                    $('#sp_wrap .dropload-down .dropload-refresh').text('无更多记录');
+                  }
+                  if (list.length <= 0) {
+                    var txtsNULL ="<p class='nothing'>无更多记录</p>";
+                  } 
+                  else {
+                    var txt1,txt2='';
+                    for (var i = 0; i < list.length; i++) {
+                    	var cpatype ;
+                      	var mm;
+                      	
+                      	if(list[i].traderType==2){
+                      		cpatype = "售卖中";
+                      		mm="卖";
+                      	}
+                      	if(list[i].traderType==1){
+                      		cpatype = "买入中";
+                      		mm="买"
+                      	}
+                      	
+                      	var ahref;
+                      	if(_type==1){
+                      		ahref = "<a href='javascript:csCPA();'>出售</a>";
+                      	}
+                      	if(_type==2){
+                      		ahref = "<a href='javascript:mrCPA();'>买入</a>";
+                      	}
+                      	if(_type==9){
+                      		ahref = "<a href='javascript:cxCPA();'>撤销</a>";
+                      	}
+                      	
+          			    txt1 += "<tr>" +
+        	  			    		"<td class='first'>"+mm+(list[i].id+1)+"</td>" +
+        	  			    		"<td>"+list[i].entrustPrice+"</td>" +
+        	  			    		"<td>"+list[i].traderCount+"</td>" +
+        	  			    		"<td>" + cpatype +"</td>" +
+        	  			    		"<td>" + ahref +"</td>" +
+          			    		"</tr>";
+                        
+          			    _$indexlist.append(txt1);
+//                      _showMe("_detail"+list[i].BO_NO,list[i].progress);
+                      //}
+                      //txt2 = txt2 + txt1;
                     }
-                  } else {
-                    labels_html = '';
+                    txt2 = txt2 + txt1;
+                    $('#gift').html(txt2);
                   }
-
-                  //处理整数，小数
-                  splitNum_(list[i].BO_RATES);
-                  //concact rates
-                  rates_html = '<p class="sp_list_rate"><span>' + integerNum + '</span><span>' + '.' + decimalsNum +'</span><span>%</span></p>';
-                  //处理开标时间
-                  if (list[i].short_time != '') {
-                    openning_timeStr = '<div class="sp_list_opennig_time"><span class="opennig_time_style">'+ list[i].short_time +'开标</span></div>';
-                  }else {
-                    openning_timeStr = '';
-                  }
-                  txt1 ='<a class="sp_list" href="' + 'promptly_invest.html?' + 'bono=' + list[i].BO_NO + '" ><div class="sp_split"></div><div class="sp_list_top"><div class="sp_list_title"><span>'
-                    + list[i].BO_TITLE + '</span></div><div class="sp_list_labels">' + labels_html +'</div>'+ openning_timeStr +'</div><div class="sp_list_bottom"><div class="sp_list_bottom_left">' +
-                    rates_html + '<p>预期年化率</p></div><div class="sp_list_bottom_middle">'+ '<img src="../img1/line2.png" style="height:72%;position: absolute;top: 14%;left: 0;" >' +'<p><span style="margin-right:0.40rem">' + list[i].BO_PERIODS + '个月</span><span>'
-                    + list[i].eachAmount + '元起投' + '</span></p><p><img src="../img1/syje.png" style="height: 0.24rem;vertical-align: middle;margin-right: 0.1rem;margin-bottom: 0.05rem;color:#999999"/>' + '剩余金额' + list[i].ResidualAmount + '元</p>'
-                    + '</div><div class="sp_list_bottom_right" id="sp_circle"><canvas id="_detail' + list[i].BO_NO +'" width="60" height="60"></canvas></div></div></a>';
-                  _$indexlist.append(txt1);
-                  _showMe("_detail"+list[i].BO_NO,list[i].progress);
-                  //}
-                  //txt2 = txt2 + txt1;
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown){
+                  //var txtsNULL ="<p class='nothing'>暂无记录</p>";
+                  //_$indexlist.append(txtsNULL);
+                  //alert('出错了！');
                 }
-              }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown){
-              //var txtsNULL ="<p class='nothing'>暂无记录</p>";
-              //_$indexlist.append(txtsNULL);
-              //alert('出错了！');
-            }
+    	      ,headers: {
+    	        "Authorization": "Bearer " + getTOKEN()
+    	      }
           });
           dropload.resetload();
-        },1000);
+        },600);
       },
       loadDownFn: function (me) {
         setTimeout(function(){
           _$pageno++;
           comptime(_type,_$pageno);
           dropload.resetload();
-        },1000);
+        },600);
       },
       autoLoad : false
     });
@@ -132,16 +146,20 @@
     var switchType = function (_index) {
       switch (_index){
         case 0 :
-          _type = '9NEW';
+//          _type = '9NEW';
+        	_type = 1;
           break;
         case 1 :
-          _type = 'AIB';
+//          _type = 'AIB';
+        	_type = 2;
           break;
         case 2 :
-          _type = '9HUI';
+        	_type = 9;
+//          _type = '9HUI';
           break;
         case 3 :
-          _type = 'TRS';
+        	_type = 10;
+//          _type = 'TRS';
           break;
       }
     };
@@ -155,33 +173,43 @@
         if (tab == 1) {
           //    默认
         }else if (tab == 2) {
-          _type = 'AIB';
+          _type = 2;
           _index = 1;
           $("#sp_header_navbar").find('li').eq(_index).addClass('navbar_active').siblings().removeClass('navbar_active');
         }else if (tab == 3) {
-          _type = '9HUI';
+          _type = 9;
           _index = 2;
           $("#sp_header_navbar").find('li').eq(_index).addClass('navbar_active').siblings().removeClass('navbar_active');
         }else if (tab == 4) {
-          _type = 'TRS';
+          _type = 10;
           _index = 3;
           $("#sp_header_navbar").find('li').eq(_index).addClass('navbar_active').siblings().removeClass('navbar_active');
         }
       };
     })();
 
+    var txt2='';
     //comptime();
     //    调取接口
     function comptime(type,page) {
       $.ajax({
-        type: "GET",
-        url: getAPIURL()+"Invest/getcrowd?pageNumber=" + _$pageno + "&pageRows=" + _pageRows + '&type=' + _type,
-        dataType: "json",
-        data: null,
+    	  type: "post",
+	      url: getAPIURL() + "miner/record/recordlist",
+	      dataType: "json",
+	      data:{
+	    	  "traderState":0,
+          	  "traderType":parseInt(_type),
+          	  "page":parseInt(_$pageno),
+          	  "row":parseInt(_pageRows),
+          	  "traderId":localStorage.getItem("uid")
+	      },
         success: function (data) {
-          var list = data;
+        	 var list = data.list;
+        	 console.log(data.list);
+        	 console.log("---:::"+data);
           if (_$pageno==1&&list.length == 0) {
-            $('#sp_wrap').html('<div style="text-align: center;width: 100%;margin-top:150px;"><img style="width: 30%" src="../img1/2the%20default%20page@2x.png" alt=""></div><p style="padding: 0.3rem 0;text-align: center;font-size: 0.28rem;">暂无可投资标的</p>');
+            $('#sp_wrap').html('<div style="text-align: center;width: 100%;margin-top:150px;"><img style="width: 30%" src="" alt=""></div>'
+            		+'<p style="padding: 0.3rem 0;text-align: center;font-size: 0.28rem;">暂无订单委托</p>');
             return;
           }
           if (_$pageno == 1&&list.length<4) {
@@ -192,65 +220,55 @@
             //_$indexlist.append(txtsNULL);
           } else {
             //define some variables
-            var txt1,txt2='';
-            for (var i = 0; i < list.length; i++) {
-              var labels_html='',openning_timeStr='';
-              var labels = list[i].LendLable;
-
-
-              //处理labels
-              if (labels.length != 0){
-                for (var j=0;j<labels.length;j++){
-                  var _label = '<span class="overflow_omit">' + labels[j].lab_name + '</span>'
-                  labels_html += _label;
-                }
-              } else {
-                labels_html = '';
+        	  var txt1 = '';//,txt2='';
+              for (var i = 0; i < list.length; i++) {
+              	var cpatype ;
+              	var mm;
+              	
+              	if(list[i].traderType==2){
+              		cpatype = "售卖中";
+              		mm="卖";
+              	}
+              	if(list[i].traderType==1){
+              		cpatype = "买入中";
+              		mm="买"
+              	}
+              	
+              	var ahref;
+              	if(_type==1){
+              		ahref = "<a href='javascript:csCPA();'>出售</a>";
+              	}
+              	if(_type==2){
+              		ahref = "<a href='javascript:mrCPA();'>买入</a>";
+              	}
+              	if(_type==9){
+              		ahref = "<a href='javascript:cxCPA();'>撤销</a>";
+              	}
+              	
+  			    txt1 += "<tr>" +
+	  			    		"<td class='first'>"+mm+(list[i].id+1)+"</td>" +
+	  			    		"<td>"+list[i].entrustPrice+"</td>" +
+	  			    		"<td>"+list[i].traderCount+"</td>" +
+	  			    		"<td>" + cpatype +"</td>" +
+	  			    		"<td>" + ahref +"</td>" +
+  			    		"</tr>";
+                
+  			    _$indexlist.append(txt1);
+//                _showMe("_detail"+list[i].BO_NO,list[i].progress);
+                //}
+                //txt2 = txt2 + txt1;
               }
-
-              //处理整数，小数
-              splitNum_(list[i].BO_RATES);
-              //concact rates
-              rates_html = '<p class="sp_list_rate"><span>' + integerNum + '</span><span>' + '.' + decimalsNum +'</span><span>%</span></p>';
-              //处理开标时间
-              if (list[i].short_time != '') {
-                openning_timeStr = '<div class="sp_list_opennig_time"><span class="opennig_time_style">'+ list[i].short_time +'开标</span></div>';
-              }else {
-                openning_timeStr = '';
-              }
-              if(list[i].BO_TYPE == '体验'){
-                var _$dataStr = list[i].BO_PERIODS + '天';
-              }else {
-                var _$dataStr = list[i].BO_PERIODS + '个月';
-              }
-              txt1 ='<a class="sp_list" href="' + 'promptly_invest.html?' + 'bono=' + list[i].BO_NO + '" ><div class="sp_split"></div><div class="sp_list_top"><div class="sp_list_title"><span>'
-                + list[i].BO_TITLE + '</span></div><div class="sp_list_labels">' + labels_html +'</div>'+ openning_timeStr +'</div><div class="sp_list_bottom"><div class="sp_list_bottom_left">' +
-                rates_html + '<p>预期年化率</p></div><div class="sp_list_bottom_middle">'+ '<img src="../img1/line2.png" style="height:72%;position: absolute;top: 14%;left: 0;" >' +'<p><span style="margin-right:0.40rem">' + _$dataStr + '</span><span>'
-                + list[i].eachAmount + '元起投' + '</span></p><p><img src="../img1/syje.png" style="height: 0.24rem;vertical-align: middle;margin-right: 0.1rem;margin-bottom: 0.05rem;color:#999999"/>' + '剩余金额' + list[i].ResidualAmount + '元</p>'
-                + '</div><div class="sp_list_bottom_right" id="sp_circle"><canvas id="_detail' + list[i].BO_NO +'" width="60" height="60"></canvas></div></div></a>';
-              _$indexlist.append(txt1);
-              _showMe("_detail"+list[i].BO_NO,list[i].progress);
-              //}
-              //txt2 = txt2 + txt1;
-//                          setTimeout(function () {
-//                              dropload.resetload();
-//                          },2000)
-            }
-            //_$wrap_container.html('<ul class="sp_content">' + txt2 + '</ul>')
+              txt2 = txt2 + txt1;
+//              _$indexlist.append(txt2);
+              $('#gift').html(txt2);
           }
         },
         error: function(XMLHttpRequest, textStatus, errorThrown){
-          //var txtsNULL ="<p class='nothing'>暂无记录</p>";
-          //_$indexlist.append(txtsNULL);
-          //alert('出错了！');
         }
       });
     }
 
     //comptime(_type,_$pageno);
-
-
-
     //处理上拉加载更多滚动条乱跳的问题
 //      var touchPosition  = function () {
 //          var positionScrollTop = $('#sp_wrap').find('.scroller').eq(0);
@@ -301,3 +319,50 @@
     };
   });
 })();
+
+function csCPA(){
+	var sec = localStorage.getItem("sec");
+	if(sec!='1'){
+		alert("未认证用户不能交易。");
+		return false;
+	}
+	console.log(sec+":------------------0");
+	$.ajax({
+	    type: "post",
+	    url: getAPIURL() + "wallet/list",
+	    dataType: "json",
+	    data: {
+	    	"fensUserId":localStorage.getItem("uid")
+	    },
+	    success: function (data) {
+	    	var dd = data.data;
+	    	if(data.status==200){
+	    		//可用余额
+	    		var yue = dd.ableCpa;
+	    		if(yue < 1 ){
+	    			layer.open({
+	    		          content: '账户钱包CPA余额不足。'
+	    		          , btn: '确定'
+	    		      });
+	    			return false;
+	    		}
+	    	}else{
+	    		layer.open({
+  		          content: '账户钱包CPA余额不足。'
+  		          , btn: '确定'
+  		      	});
+    		    return false;
+	    	}
+	    },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    	layer.open({
+		          content: '账户钱包CPA余额不足，。'
+		          , btn: '确定'
+  		      });
+	    	flag = 0;
+  			return false;
+	    }
+    });
+//	alert("为保障领导人及用户权益，杜绝刷单，区块数据暂未写入钱包，APP安全扫描升级中，于安全升级后明日开放购买CPA，不影响挂买单。");
+//	return false;
+}

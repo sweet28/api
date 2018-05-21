@@ -1,14 +1,105 @@
+function agoumai(type,grade){
+	  
+//	  $.ajax({
+//	    type: "post",
+//	    url: getAPIURL() + "wallet/list",
+//	    dataType: "json",
+//	    data: {
+//	    	"fensUserId":localStorage.getItem("uid")
+//	    },
+//	    success: function (data) {
+//	    	var dd = data.data;
+//	    	if(data.status==200){
+//	    		//可用余额
+//	    		var yue = dd.ableCpa;
+//	    		if(yue < 1 ){
+//	    			layer.open({
+//	    		          content: '账户钱包CPA余额不足。'
+//	    		          , btn: '确定'
+//	    		      });
+//	    			return false;
+//	    		}
+//	    		if(trader_count > yue){
+//	    			layer.open({
+//	    		          content: '账户钱包可用CPA不足。'
+//	    		          , btn: '确定'
+//	    		      });
+//	    			return false;
+//	    		}
+//	    		flag = 1;
+//	    	}else{
+//	    		  return false;
+//	    	}
+//	    },
+//	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+//	    	layer.open({
+//	          content: '账户钱包CPA余额不足，。'
+//	          , btn: '确定'
+//  		      });
+//	    	flag = 0;
+//  			return false;
+//	    }
+//    });
+	  
+	  var methodd;
+	  if(type==1){
+		  methodd = "buyAMiner";
+	  }
+	  if(type==2){
+		  methodd = "buyBMiner";
+	  }
+	  
+	  layer.open({
+	      content: '您即将购买矿机。'
+	      , btn: ['知道了']
+	      , yes: function (index) {
+	    	  
+	    	  $.ajax({
+	    		    type: "post",
+	    		    url: getAPIURL() + "miner/record/"+methodd,
+	    		    dataType: "json",
+	    		    data: {
+	    		    	"fensUserId":localStorage.getItem("uid"),
+	    		    	"type":grade,
+	    		    	"count":1
+	    		    },
+	    		    success: function (data) {
+	    		    	var dd = data.data;
+	    		    	if(data.status==200){
+	    		    		//可用余额
+    		    			layer.open({
+    		    		          content: '购买成功。'
+    		    		          , btn: '确定'
+    		    		      });
+	    		    	}else{
+	    		    		layer.open({
+  		    		          content: '购买失败。'
+  		    		          , btn: '确定'
+  		    		      });
+	    		    	}
+	    		    },
+	    		    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    		    	layer.open({
+  		    		          content: '购买失败。'
+  		    		          , btn: '确定'
+  		    		      });
+	    		    }
+	    	    });
+	      }
+	    });
+  }
+  
+
 (function(){
 //	先判断是否登录
 	var flag = checkLogin();
   
-  $(".last").click(function(){
-	  layer.open({
-          content: '您还没完成实名认证，请等待实名认证开通。'
-          , btn: '确定'
-      });
-  })
-  
+//  $(".last").click(function(){
+//	  layer.open({
+//          content: '账户钱包CPA不足，请等待矿机收益同步至钱包。'
+//          , btn: '确定'
+//      });
+//  });
   
   $(function(){
     var self = this,_$indexlist,_$wrap_container,_$pageno=0,_$swiper_img,_$ligin_icon,_type,_pageRows,_index=0;
