@@ -15,7 +15,7 @@
 		<result column="count" property="count" jdbcType="BIGINT" />
 		<result column="state" property="state" jdbcType="INTEGER" />
 		<result column="price" property="price" jdbcType="DOUBLE" />
-		<result column="computing power" property="computingPower"
+		<result column="computing_power" property="computingPower"
 			jdbcType="DOUBLE" />
 		<result column="fens_user_id" property="fensUserId" jdbcType="INTEGER" />
 	</resultMap>
@@ -23,7 +23,7 @@
 		id, bak1, bak2, bak3, is_delete, create_date, creater,
 		delete_date,
 		attachment, type,
-		count, state, price, "computing power",
+		count, state, price, computing_power,
 		fens_user_id
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"

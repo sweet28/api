@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.arttraining.commons.util.JsonResult;
+import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.AminerMapper;
 import com.carpi.api.dao.BminerMapper;
 import com.carpi.api.dao.FensMinerMapper;
@@ -41,7 +42,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		FensWallet fensWallet = fensWalletMapper.selectAll(aminer.getFensUserId());
 		// 如果粉丝购买矿机的数量乘以单价大于可用余额
 		// 购买矿机所花的总cpa
-		Double money = aminer.getCount() * aminer.getPrice();
+		Double money = aminer.getCount() * aminer2.getPrice();
 		if (money > fensWallet.getAbleCpa()) {
 			JsonResult.build(500, "余额不足");
 		}
@@ -65,6 +66,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		fensMiner.setMinerType(1);
 		fensMiner.setMinerId(aminer2.getId());
 		fensMiner.setMinerComputingPower(aminer2.getComputingPower());
+		fensMiner.setCreateDate(TimeUtil.getTimeStamp());
 		int result2 = fensMinerMapper.insertSelective(fensMiner);
 		if (result2 != 1) {
 			return JsonResult.build(500, "购买矿机失败");
@@ -84,7 +86,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		FensWallet fensWallet = fensWalletMapper.selectAll(bminer.getFensUserId());
 		// 如果粉丝购买矿机的数量乘以单价大于可用余额
 		// 购买矿机所花的总cpa
-		Double money = bminer.getCount() * bminer.getPrice();
+		Double money = bminer.getCount() * bminer2.getPrice();
 		if (money > fensWallet.getAbleCpa()) {
 			JsonResult.build(500, "余额不足");
 		}
@@ -104,10 +106,11 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		fensMiner.setFensUserId(bminer.getFensUserId());
 		// 几星矿机
 		fensMiner.setBak1(String.valueOf(bminer2.getType()));
-		// A矿机
-		fensMiner.setMinerType(1);
+		// B矿机
+		fensMiner.setMinerType(2);
 		fensMiner.setMinerId(bminer2.getId());
 		fensMiner.setMinerComputingPower(bminer2.getComputingPower());
+		fensMiner.setCreateDate(TimeUtil.getTimeStamp());
 		int result2 = fensMinerMapper.insertSelective(fensMiner);
 		if (result2 != 1) {
 			return JsonResult.build(500, "购买矿机失败");

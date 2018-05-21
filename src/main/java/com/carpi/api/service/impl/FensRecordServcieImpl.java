@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.arttraining.commons.util.IdWorker;
 import com.arttraining.commons.util.JsonResult;
+import com.arttraining.commons.util.OrderNumberUtil;
 import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.AminerMapper;
 import com.carpi.api.dao.AminerRecordMapper;
@@ -43,6 +45,12 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	@Override
 	public PageInfo<FensTransaction> selectRecord(Integer page,Integer row,FensTransaction fensTransaction) {
 		PageHelper.startPage(page, row);
+		System.out.println("tradeID:"+fensTransaction.getTraderId()+"---page:"+page+"---row:"+row+"---type:"+fensTransaction.getTraderType()+"-----state:"+fensTransaction.getTraderState());
+		if((fensTransaction.getTraderType()==9)){
+			fensTransaction.setTraderType(null);
+		}else{
+			fensTransaction.setTraderId(null);
+		}
 		List<FensTransaction> list = fensTransactionMapper.selectFensRecord(fensTransaction);
 		PageInfo<FensTransaction> pageInfo = new PageInfo<FensTransaction>(list);
 		return pageInfo;
@@ -88,6 +96,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	@Override
 	public JsonResult addRecord(FensTransaction fensTransaction) {
 		fensTransaction.setCreateDate(TimeUtil.getTimeStamp());
+		IdWorker idWorker = new IdWorker(0, 0);
+		fensTransaction.setOrderNumber(idWorker.nextId()+"");
 		int result = fensTransactionMapper.insertSelective(fensTransaction);
 		if (result == 1) {
 			return JsonResult.ok();
@@ -100,7 +110,7 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	public JsonResult updateRecord(FensTransaction fensTransaction) {
 		int result = fensTransactionMapper.updateByPrimaryKeySelective(fensTransaction);
 		if (result == 1) {
-			JsonResult.ok();
+			return JsonResult.ok();
 		}
 		return JsonResult.build(500, "更新失败");
 	}
