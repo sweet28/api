@@ -30,4 +30,10 @@ public interface FensRecordServcie {
 
 	// b矿机的交易列表
 	public PageInfo<BminerRecord> selectBminerRecord(Integer page, Integer row, Integer fensUserId);
+
+	FensTransaction selectRecordByID(Integer id);
+
+	PageInfo<FensTransaction> selectCJRecord(Integer page, Integer row, FensTransaction fensTransaction);
+
+	JsonResult updateRecordCJ(FensTransaction fensTransaction);
 }

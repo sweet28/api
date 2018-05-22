@@ -27,7 +27,7 @@
 	    	      var waitNum = dd.lockCpa;
 	    	      $("#lockcpa").text(waitNum);
 	    	      //累计收益
-	    	      var returnIn = dd.cpaCount;
+	    	      var returnIn = dd.lockCpa + dd.ableCpa;
 	    	      $("#totalcpa").text(returnIn);
 	    	}
 //	    	else{
@@ -473,150 +473,190 @@ $("#cpamai").click(function (){
 		return false;
 	}
 	
-	var type = $("#typecpa").val();
-
-
-	//交易状态   0代表挂单中；1代表成交
-	var trader_state = 0;
-	//交易类型   1代表买方  2代表卖方
-	var trader_type = 0;
-	//交易人id
-	var trader_id = localStorage.getItem("uid");
-	//交易CPA数
-	var trader_count = $("#cpanum").val();
-	//委托价格(美元)
-	var entrust_price = $("#cpadj").val();
-	
-	if(type == "mc"){
-		trader_type = 2;
-	}
-	
-	
-	if(type == "mr"){
-		trader_type = 1;
-	}
-	
-	if(trader_count==null || trader_count==""){
-		layer.open({
-	          content: '请输入交易数量。'
-	          , btn: '确定'
-	      });
-		return false;
-	}
-	if(trader_count<1){
-		layer.open({
-	          content: '交易数量需要大于1。'
-	          , btn: '确定'
-	      });
-		return false;
-	}
-	
-	if(trader_type == 2){
-		var flag = 0;
-		$.ajax({
-		    type: "post",
-		    url: getAPIURL() + "wallet/list",
-		    dataType: "json",
-		    data: {
-		    	"fensUserId":localStorage.getItem("uid")
-		    },
-		    success: function (data) {
-		    	var dd = data.data;
-		    	if(data.status==200){
-		    		//可用余额
-		    		var yue = dd.ableCpa;
-		    		if(yue < 1 ){
-		    			layer.open({
-		    		          content: '账户钱包CPA余额不足。'
-		    		          , btn: '确定'
-		    		      });
-		    			return false;
-		    		}
-		    		if(trader_count > yue){
-		    			layer.open({
-		    		          content: '账户钱包可用CPA不足。'
-		    		          , btn: '确定'
-		    		      });
-		    			return false;
-		    		}
-		    		flag = 1;
-		    	}else{
-		    		  return false;
-		    	}
-		    },
-		    error: function (XMLHttpRequest, textStatus, errorThrown) {
-		    	layer.open({
-  		          content: '账户钱包CPA余额不足，。'
-  		          , btn: '确定'
-	  		      });
-		    	flag = 0;
-	  			return false;
-		    }
-	    });
-	}
-	
-	if(entrust_price==null || entrust_price==""){
-		layer.open({
-	          content: '请输入交易单价。'
-	          , btn: '确定'
-	      });
-		return false;
-	}
-	if(entrust_price<0.05){
-		layer.open({
-	          content: '交易单价不能小于0.05'
-	          , btn: '确定'
-	      });
-		return false;
-	}
-	
-	var price = 0.05;
-	var myDate = new Date();
-	var nowTime=myDate.toLocaleDateString().replace('/','-').replace('/','-');
-	var bzTime = "2018-05-19";
-	var bzPrice = price*Math.pow(1.1,daysBetween(nowTime,bzTime));
-	
-	bzPrice = 0.08;
-	if(entrust_price>bzPrice){
-		layer.open({
-	          content: '交易单价今日最高挂单价格：'+bzPrice+'.'
-	          , btn: '确定'
-	      });
-		return false;
-	}
-	
 	$.ajax({
-	      type: "post",
-	      url: getAPIURL() + "miner/record/addRecord",
+		type: "post",
+	      url: getAPIURL() + "bank/list",
 	      dataType: "json",
-	      data:{
-	    	  "traderId":parseInt(localStorage.getItem("uid")),
-	    	  "traderType":parseInt(trader_type),
-	    	  "traderState":parseInt(trader_state),
-	    	  "entrustPrice":entrust_price,
-	    	  "traderCount":trader_count
+	      data: {
+	    	  "fensUserId":localStorage.getItem("uid"),
+	    	  "pageSize":100,
+	    	  "pageNum":0
 	      },
 	      success: function (data) {
-	        if (data.status==200) {
-	          layer.open({
-	            content: '挂单成功。'
-	            , btn: ['确定']
-	            , yes: function (index) {
-	              window.location.href = "../page/index.html";
-	            }
-	          });
-	        } else {
+	        var list = data.list;
+	        console.log(list.length+"-------------dddd");
+	        if (list.length <= 0) {
+	        	console.log("没有账号信息");
 	        	layer.open({
-		            content: '操作失败，请检查网络服务。'
-		            , btn: ['确定']
-		            , yes: function (index) {
-		  	          window.location.href = "../page/index.html";
-		            }
-		          });
+			          content: '银行卡未绑定不能交易挂单。'
+			          , btn: '确定'
+	  		      });
+	  			return false;
+	        }else{
+	        	var type = $("#typecpa").val();
+
+
+	        	//交易状态   0代表挂单中；1代表成交
+	        	var trader_state = 0;
+	        	//交易类型   1代表买方  2代表卖方
+	        	var trader_type = 0;
+	        	//交易人id
+	        	var trader_id = localStorage.getItem("uid");
+	        	//交易CPA数
+	        	var trader_count = $("#cpanum").val();
+	        	//委托价格(美元)
+	        	var entrust_price = $("#cpadj").val();
+	        	
+	        	if(type == "mc"){
+	        		trader_type = 2;
+	        	}
+	        	
+	        	
+	        	if(type == "mr"){
+	        		trader_type = 1;
+	        	}
+	        	
+	        	if(trader_count==null || trader_count==""){
+	        		layer.open({
+	        	          content: '请输入交易数量。'
+	        	          , btn: '确定'
+	        	      });
+	        		return false;
+	        	}
+	        	if(trader_count<1){
+	        		layer.open({
+	        	          content: '交易数量需要大于1。'
+	        	          , btn: '确定'
+	        	      });
+	        		return false;
+	        	}
+	        	
+	        	if(trader_count > 100){
+	        		layer.open({
+	        	          content: '交易数量不能大于100。'
+	        	          , btn: '确定'
+	        	      });
+	        		return false;
+	        	}
+	        	
+	        	if(trader_type == 2){
+	        		var flag = 0;
+	        		$.ajax({
+	        		    type: "post",
+	        		    url: getAPIURL() + "wallet/list",
+	        		    dataType: "json",
+	        		    data: {
+	        		    	"fensUserId":localStorage.getItem("uid")
+	        		    },
+	        		    success: function (data) {
+	        		    	var dd = data.data;
+	        		    	if(data.status==200){
+	        		    		//可用余额
+	        		    		var yue = dd.ableCpa;
+	        		    		if(yue < 1 ){
+	        		    			layer.open({
+	        		    		          content: '账户钱包CPA余额不足。'
+	        		    		          , btn: '确定'
+	        		    		      });
+	        		    			return false;
+	        		    		}
+	        		    		if(trader_count > yue){
+	        		    			layer.open({
+	        		    		          content: '账户钱包可用CPA不足。'
+	        		    		          , btn: '确定'
+	        		    		      });
+	        		    			return false;
+	        		    		}
+	        		    		flag = 1;
+	        		    	}else{
+	        		    		  return false;
+	        		    	}
+	        		    },
+	        		    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	        		    	layer.open({
+	          		          content: '账户钱包CPA余额不足，。'
+	          		          , btn: '确定'
+	        	  		      });
+	        		    	flag = 0;
+	        	  			return false;
+	        		    }
+	        	    });
+	        	}
+	        	
+	        	if(entrust_price==null || entrust_price==""){
+	        		layer.open({
+	        	          content: '请输入交易单价。'
+	        	          , btn: '确定'
+	        	      });
+	        		return false;
+	        	}
+	        	if(entrust_price<0.05){
+	        		layer.open({
+	        	          content: '交易单价不能小于0.05'
+	        	          , btn: '确定'
+	        	      });
+	        		return false;
+	        	}
+	        	
+	        	var price = 0.05;
+	        	var myDate = new Date();
+	        	var nowTime=myDate.toLocaleDateString().replace('/','-').replace('/','-');
+	        	var bzTime = "2018-05-19";
+	        	var bzPrice = price*Math.pow(1.1,daysBetween(nowTime,bzTime));
+	        	
+	        	bzPrice = 0.08;
+	        	if(entrust_price>bzPrice){
+	        		layer.open({
+	        	          content: '交易单价今日最高挂单价格：'+bzPrice+'.'
+	        	          , btn: '确定'
+	        	      });
+	        		return false;
+	        	}
+	        	
+	        	$.ajax({
+	        	      type: "post",
+	        	      url: getAPIURL() + "miner/record/addRecord",
+	        	      dataType: "json",
+	        	      data:{
+	        	    	  "traderId":parseInt(localStorage.getItem("uid")),
+	        	    	  "traderType":parseInt(trader_type),
+	        	    	  "traderState":parseInt(trader_state),
+	        	    	  "entrustPrice":entrust_price,
+	        	    	  "traderCount":trader_count
+	        	      },
+	        	      success: function (data) {
+	        	        if (data.status==200) {
+	        	          layer.open({
+	        	            content: '挂单成功。'
+	        	            , btn: ['确定']
+	        	            , yes: function (index) {
+	        	              window.location.href = "../page/index.html";
+	        	            }
+	        	          });
+	        	        } else {
+	        	        	layer.open({
+	        		            content: '操作失败，请检查网络服务。'
+	        		            , btn: ['确定']
+	        		            , yes: function (index) {
+	        		  	          window.location.href = "../page/index.html";
+	        		            }
+	        		          });
+	        	        }
+	        	      },
+	        	      headers: {
+	        	        "Authorization": "Bearer " + getTOKEN()
+	        	      }
+	            });
 	        }
 	      },
-	      headers: {
-	        "Authorization": "Bearer " + getTOKEN()
-	      }
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    	console.log("没有账号信息2222");
+        	layer.open({
+		          content: '银行卡未绑定帮能交易挂单。'
+		          , btn: '确定'
+  		      });
+  			return false;
+	    }
     });
+	
 });

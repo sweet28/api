@@ -37,33 +37,37 @@ function Gift() {
         		
         		if(xh==1){
         			xh="CB1矿池";
-        			syyz=5;
+        			syyz=5.5;
         		}else if(xh==2){
         			xh="CB2矿池";
-        			syyz=50;
+        			syyz=55;
         		}else if(xh==3){
         			xh="CB3矿池";
-        			syyz=500;
+        			syyz=550;
         		}
         		
         		var sl = content.minerComputingPower;
         		
-        		var nowDate = Date.parse(new Date());
+        		var nowDate = new Date();
         		var rundate = nowDate - content.createDate;
-        		rundate = rundate/1000/3600;
+        		rundate = rundate/(1000*60*60*24);
+        		
+        		if(rundate >= 15){
+        			rundate = 15;
+        		}
+        		
+        		var sy;
+        		sy = rundate * (syyz /15);
         		
         		var sec = localStorage.getItem("sec");
-        		var content = "实名审核后可解冻";
+        		var conte = "实名审核后可解冻";
         		if(sec == "1"){
-        			content = "审核通过，待晚上交易中心上线后交易";
+        			conte = "<a href='javascript:jiedong("+content.id+","+content.bak1+");'>转入钱包</a>";
             	}else if(sec == "2"){
-            		content = "认证审核未通过";
+            		conte = "认证审核未通过";
             	}
-        			
-        		var sy;
-        		sy = rundate * syyz /15/24;
         		
-			    html += "<tr><td class='first'>"+(index+1)+"</td><td>"+xh+"</td><td>"+sy+"</td><td>"+content+"</td></tr>";
+			    html += "<tr><td class='first'>"+(index+1)+"</td><td>"+xh+"</td><td>"+(sy-content.totalRevenue)+"</td><td>"+conte+"</td></tr>";
 			});
         	
         	$("#a_miner").html(html);
@@ -83,3 +87,80 @@ var gift;
 $(function () {
   gift = new Gift();
 });
+
+
+function jiedong(kjid,kjjb){
+	console.log("-syjiedongbbbb-");
+	
+	var sec = localStorage.getItem("sec");
+	if(sec!='1'){
+		layer.open({
+	          content: '未认证用户不能收益转账。'
+	          , btn: '确定'
+	      });
+		return false;
+	}
+	
+	$.ajax({
+		type: "post",
+	      url: getAPIURL() + "bank/list",
+	      dataType: "json",
+	      data: {
+	    	  "fensUserId":localStorage.getItem("uid"),
+	    	  "pageSize":100,
+	    	  "pageNum":0
+	      },
+	      success: function (data) {
+	        var list = data.list;
+	        console.log(list.length+"-------------dddd");
+	        if (list.length <= 0) {
+	        	console.log("没有账号信息");
+	        	layer.open({
+			          content: '银行卡未绑定不能转账收益。'
+			          , btn: '确定'
+	  		      });
+	  			return false;
+	        }else{
+	        	
+	        	$.ajax({
+	        	      type: "post",
+	        	      url: getAPIURL() + "fenuser/miner/minerjd",
+	        	      dataType: "json",
+	        	      data: {
+	        	    	  "id":kjid
+	        	      },
+	        	      success: function (data) {
+	        	        if (data.status==200) {
+	        	          layer.open({
+	        	            content: '转入钱包成功。'
+	        	            , btn: ['确定']
+	        	            , yes: function (index) {
+	        	              window.location.href = "../page/index.html";
+	        	            }
+	        	          });
+	        	        } else {
+	        	        	layer.open({
+	        		            content: '操作失败，请检查网络服务。'
+	        		            , btn: ['确定']
+	        		            , yes: function (index) {
+	        		  	          window.location.href = "../page/index.html";
+	        		            }
+	        		          });
+	        	        }
+	        	      },
+	        	      headers: {
+	        	        "Authorization": "Bearer " + getTOKEN()
+	        	      }
+	            });
+	        }
+	      },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    	console.log("没有账号信息2222");
+        	layer.open({
+		          content: '银行卡或身份证未认证，不能转账交易。'
+		          , btn: '确定'
+  		      });
+  			return false;
+	    }
+    });
+}

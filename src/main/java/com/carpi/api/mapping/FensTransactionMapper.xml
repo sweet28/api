@@ -74,7 +74,7 @@
 		#{traderDate,jdbcType=TIMESTAMP},
 		#{orderNumber,jdbcType=VARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="com.carpi.api.pojo.FensTransaction">
+	<insert id="insertSelective" parameterType="com.carpi.api.pojo.FensTransaction" useGeneratedKeys="true" keyProperty="id"> 
 		insert into fens_transaction
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -317,5 +317,21 @@
 			</if>
 			 order by entrust_price
 		</where>
+	</select>
+	
+	<!--查询粉丝的成交交易记录 -->
+	<select id="selectCJFensRecord" resultMap="BaseResultMap"
+		parameterType="com.carpi.api.pojo.FensTransaction">
+		select
+		<include refid="Base_Column_List" />
+		from fens_transaction where fens_user_id = #{fensUserId,jdbcType=INTEGER} or trader_id = #{traderId,jdbcType=INTEGER} order by create_date
+	</select>
+	
+	<select id="selectCJFensRecordByID" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from fens_transaction
+		where is_delete=0 and fens_user_id = #{fensUserId,jdbcType=INTEGER} order by create_date
 	</select>
 </mapper>

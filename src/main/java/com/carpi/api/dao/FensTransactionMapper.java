@@ -19,4 +19,8 @@ public interface FensTransactionMapper {
     
     //查询粉丝的交易记录(可根据粉丝id查询)
     List<FensTransaction> selectFensRecord(FensTransaction fensTransaction);
+
+	List<FensTransaction> selectCJFensRecord(FensTransaction fensTransaction);
+
+	List<FensTransaction> selectCJFensRecordByID(Integer fensUserId);
 }

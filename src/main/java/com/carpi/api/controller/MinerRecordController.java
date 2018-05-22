@@ -32,6 +32,20 @@ public class MinerRecordController {
 	public PageInfo<FensTransaction> selectRecord(Integer page, Integer row, FensTransaction fensTransaction) {
 		return fensRecordServcie.selectRecord(page, row, fensTransaction);
 	}
+	
+	// 根据粉丝id查询交易记录
+	@RequestMapping(value = "/cjlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public PageInfo<FensTransaction> selectCJRecord(Integer page, Integer row, FensTransaction fensTransaction) {
+		return fensRecordServcie.selectCJRecord(page, row, fensTransaction);
+	}
+	
+	// 根据粉丝id查询交易记录
+	@RequestMapping(value = "/detail", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public FensTransaction selectRecord(Integer id) {
+		return fensRecordServcie.selectRecordByID(id);
+	}
 
 	// 根据粉丝交易记录增加
 	@RequestMapping(value = "/addRecord", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -45,6 +59,13 @@ public class MinerRecordController {
 	@ResponseBody
 	public JsonResult updateRecord(FensTransaction fensTransaction) {
 		return fensRecordServcie.updateRecord(fensTransaction);
+	}
+	
+	// 根据粉丝交易记录修改
+	@RequestMapping(value = "/updateRecordCJ", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult updateRecordCJ(FensTransaction fensTransaction) {
+		return fensRecordServcie.updateRecordCJ(fensTransaction);
 	}
 
 	// a矿机的所有交易记录

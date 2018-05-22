@@ -18,6 +18,14 @@
   //	先判断是否登录
   var flag = checkLogin();
   
+//  layer.open({
+//      content: '今日下午将清理订单数据并同步收益至钱包，届时可交易矿机、CPA，感谢您的支持，愿您伴随CPA，在区块链加密货币获得好的收益。'
+//      , btn: ['知道了']
+////      , yes: function (index) {
+////        //window.location.href = "../page/realName_authentication.html";
+////      }
+//    });
+  
   //	调用相关金额的接口
   $.ajax({
     type: "post",
@@ -42,7 +50,7 @@
     	      $("#waitNum_num").text(waitInterestArr[0]);
     	      $("#waitNum_dec").text(waitInterestArr[1]);
     	      //累计收益
-    	      var returnIn = dd.cpaCount;
+    	      var returnIn = dd.ableCpa + dd.lockCpa;
     	      var returnInterestArr = seprate(returnIn);
     	      $("#returnIn_num").text(returnInterestArr[0]);
     	      $("#returnIn_dec").text(returnInterestArr[1]);

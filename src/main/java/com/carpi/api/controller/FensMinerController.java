@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.service.FensMinerService;
 import com.github.pagehelper.PageInfo;
@@ -36,5 +37,12 @@ public class FensMinerController {
 	@ResponseBody
 	public PageInfo<FensMiner> minerBList(Integer page, Integer row, Integer fensUserId){
 		return fensMinerService.selectBMinner(page, row, fensUserId);
+	}
+	
+	//根据粉丝id查询B矿机
+	@RequestMapping(value = "/minerjd", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult minerJD(FensMiner miner){
+		return fensMinerService.thawABMiner(miner);
 	}
 }

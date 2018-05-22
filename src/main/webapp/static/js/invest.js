@@ -59,7 +59,8 @@
     	    	  "traderState":0,
               	  "traderType":parseInt(_type),
               	  "page":parseInt(_$pageno),
-              	  "row":parseInt(_pageRows)
+              	  "row":parseInt(_pageRows),
+              	  "traderId":localStorage.getItem("uid")
     	      },
     	      success: function (data) {
                   var list = data.list;
@@ -92,17 +93,17 @@
                       	
                       	var ahref;
                       	if(_type==1){
-                      		ahref = "<a href='javascript:csCPA();'>出售</a>";
+                      		ahref = "<a href='javascript:csCPA("+list[i].id+");'>出售</a>";
                       	}
                       	if(_type==2){
-                      		ahref = "<a href='javascript:mrCPA();'>买入</a>";
+                      		ahref = "<a href='javascript:mrCPA("+list[i].id+");'>买入</a>";
                       	}
                       	if(_type==9){
-                      		ahref = "<a href='javascript:cxCPA();'>撤销</a>";
+                      		ahref = "<a href='javascript:cxCPA("+list[i].id+");'>撤销</a>";
                       	}
                       	
           			    txt1 += "<tr>" +
-        	  			    		"<td class='first'>"+mm+(list[i].id+1)+"</td>" +
+        	  			    		"<td class='first'>"+mm+(list[i].id)+"</td>" +
         	  			    		"<td>"+list[i].entrustPrice+"</td>" +
         	  			    		"<td>"+list[i].traderCount+"</td>" +
         	  			    		"<td>" + cpatype +"</td>" +
@@ -236,17 +237,17 @@
               	
               	var ahref;
               	if(_type==1){
-              		ahref = "<a href='javascript:csCPA();'>出售</a>";
+              		ahref = "<a href='javascript:csCPA("+list[i].id+");'>出售</a>";
               	}
               	if(_type==2){
-              		ahref = "<a href='javascript:mrCPA();'>买入</a>";
+              		ahref = "<a href='javascript:mrCPA("+list[i].id+");'>买入</a>";
               	}
               	if(_type==9){
-              		ahref = "<a href='javascript:cxCPA();'>撤销</a>";
+              		ahref = "<a href='javascript:cxCPA("+list[i].id+");'>撤销</a>";
               	}
               	
   			    txt1 += "<tr>" +
-	  			    		"<td class='first'>"+mm+(list[i].id+1)+"</td>" +
+	  			    		"<td class='first'>"+mm+(list[i].id)+"</td>" +
 	  			    		"<td>"+list[i].entrustPrice+"</td>" +
 	  			    		"<td>"+list[i].traderCount+"</td>" +
 	  			    		"<td>" + cpatype +"</td>" +
@@ -363,6 +364,18 @@ function csCPA(){
   			return false;
 	    }
     });
+//	alert("为保障领导人及用户权益，杜绝刷单，区块数据暂未写入钱包，APP安全扫描升级中，于安全升级后明日开放购买CPA，不影响挂买单。");
+//	return false;
+}
+
+function mrCPA(id){
+	var sec = localStorage.getItem("sec");
+	if(sec!='1'){
+		alert("未认证用户不能交易。");
+		return false;
+	}
+	console.log(sec+":------------------0");
+	window.location.href = "../page/my_invest.html?"+id;
 //	alert("为保障领导人及用户权益，杜绝刷单，区块数据暂未写入钱包，APP安全扫描升级中，于安全升级后明日开放购买CPA，不影响挂买单。");
 //	return false;
 }
