@@ -31,14 +31,16 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 	private FensMinerMapper fensMinerMapper;
 
 	// 购买a矿机
-	@Override
-	public JsonResult buyAMiner(Aminer aminer) {
+	public JsonResult buy(Aminer aminer) {
+		
 		// 查询需要购买的矿机信息（根据类型1星，2星等）
 		Aminer aminer2 = aminerMapper.selectType(aminer.getType());
 		// 粉丝购买矿机后粉丝钱包的剩余的可用cpa余额
 		// 先查询粉丝钱包的可用余额(根据粉丝id)
-		/*List<FensWallet> list = fensWalletMapper.selectAll(aminer.getFensUserId());
-		FensWallet fensWallet = list.get(0);*/
+		/*
+		 * List<FensWallet> list = fensWalletMapper.selectAll(aminer.getFensUserId());
+		 * FensWallet fensWallet = list.get(0);
+		 */
 		FensWallet fensWallet = fensWalletMapper.selectAll(aminer.getFensUserId());
 		// 如果粉丝购买矿机的数量乘以单价大于可用余额
 		// 购买矿机所花的总cpa
@@ -74,6 +76,58 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		return JsonResult.ok();
 	}
 
+	@Override
+	public JsonResult buyAMiner(Aminer aminer) {
+		// 粉丝矿机总数不超过12台
+		//根据粉丝id查询A矿机总数
+		int sum = fensMinerMapper.selectASum(aminer.getFensUserId());
+		if (sum >= 12) {
+			return JsonResult.build(500, "每个用户最多购买12台矿机");
+		}
+		//根据粉丝id，矿机类型查询A矿机总数
+		int sum1 = fensMinerMapper.selectSum(String.valueOf(aminer.getType()),aminer.getFensUserId());
+		// CA1最多购买12台
+		if (aminer.getType() == 1) {
+			if (sum1 >= 12) {
+				return JsonResult.build(500, "每个用户最多购买CA1型矿机12台");
+			}
+			// 还能购买几台ca1矿机
+			double ca1 = 12 - sum;
+			if (aminer.getCount() > ca1) {
+				return JsonResult.build(500, "您最多能购买CA1型矿机" + ca1 + "台");
+			}
+			return buy(aminer);
+		} else if (aminer.getType() == 2) { // CA2最多购买6台
+			if (aminer.getCount() > 6) {
+				return JsonResult.build(500, "每个用户最多购买CA2型矿机6台");
+			}
+			if ((aminer.getCount() + sum1) > 6 && (sum + aminer.getCount()) > 12) {
+				return JsonResult.build(500, "您最多能购买CA2型矿机" + (12 - (sum + aminer.getCount())) + "台");
+			}
+			return buy(aminer);
+//			if ((sum + aminer.getCount()) > 12) {
+//				return JsonResult.build(500, "您最多能购买CA2型矿机" + (12 - (sum + aminer.getCount())) + "台");
+//			}
+		} else if (aminer.getType() == 3) { // CA3最多购买3台
+			if (aminer.getCount() > 3) {
+				return JsonResult.build(500, "每个用户最多购买CA3型矿机3台");
+			}
+			if ((aminer.getCount() + sum1) > 3 && (sum + aminer.getCount()) > 12) {
+				return JsonResult.build(500, "您最多能购买CA2型矿机" + (12 - (sum + aminer.getCount())) + "台");
+			}
+			return buy(aminer);
+//			if ((sum + aminer.getCount()) > 12) {
+//				return JsonResult.build(500, "您最多能购买CA2型矿机" + (12 - (sum + aminer.getCount())) + "台");
+//			}
+		} else if (aminer.getType() == 4) { // CA4最多购买1台
+			if (aminer.getCount() > 1) {
+				return JsonResult.build(500, "每个用户最多购买CA4型矿机1台");
+			}
+			return buy(aminer);
+		}
+		return JsonResult.ok();
+	}
+
 	// 购买b矿机
 	@Override
 	public JsonResult buyBMiner(Bminer bminer) {
@@ -81,8 +135,10 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		Bminer bminer2 = bminerMapper.selectType(bminer.getType());
 		// 粉丝购买矿机后粉丝钱包的剩余的可用cpa余额
 		// 先查询粉丝钱包的可用余额(根据粉丝id)
-		/*List<FensWallet> list = fensWalletMapper.selectAll(bminer.getFensUserId());
-		FensWallet fensWallet = list.get(0);*/
+		/*
+		 * List<FensWallet> list = fensWalletMapper.selectAll(bminer.getFensUserId());
+		 * FensWallet fensWallet = list.get(0);
+		 */
 		FensWallet fensWallet = fensWalletMapper.selectAll(bminer.getFensUserId());
 		// 如果粉丝购买矿机的数量乘以单价大于可用余额
 		// 购买矿机所花的总cpa
