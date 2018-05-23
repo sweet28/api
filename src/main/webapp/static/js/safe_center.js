@@ -42,6 +42,7 @@ function Safe() {
     	$("#datacid").html("未认证");
     }
     	
+    
 //    $.ajax({
 //      type: "GET",
 //      url: getAPIURL() + "securitysettings/" + uid,
@@ -124,3 +125,5 @@ var safe;
 $(function () {
   safe = new Safe();
 });
+
+

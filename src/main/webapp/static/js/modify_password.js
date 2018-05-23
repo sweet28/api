@@ -18,7 +18,7 @@ function Safechange(hash) {
       txt = "交易";
     }
     loading.open();
-    if ($.trim(_$txtOldPwd.val()) == "") {
+    if ($.trim(_$txtOldPwd.val()) == "" && hash == "1") {
       loading.close();
       layer.open({
         content: '请输入原' + txt + '密码',
@@ -81,18 +81,25 @@ function Safechange(hash) {
       });
       return false;
     }
-    var uid = getUIDByJWT().unique_name;
+    
+//    var uid = getUIDByJWT().unique_name;
+    var uid =  localStorage.getItem("uid");
     if (hash == "1") {
+      var oldPwd = $("#txtOldPwd").val();
+      var newPwd = $("#txtNewPwd").val();
+      console.log(getAPIURL() + "fenuser/updatePwd");
       $.ajax({
         type: "POST",
-        url: getAPIURL() + "securitysettings/" + uid + "/updatepassword?oldpwd=" + _$txtOldPwd.val().toString() + "&newpwd=" + _$txtNewPwd.val().toString() + "&type=login",
-        data: null,
+        url: getAPIURL() + "fenuser/updatePwd",
+        data: {
+        	fensUserId:uid,
+        	newPwd:newPwd,
+        	OldPwd:oldPwd
+        },
         dataType: 'json',
-        cache: false,
-        async: false,
         success: function (data) {
           loading.close();
-          if (data.rtn == "1") {
+          if (data.status == 200) {
             layer.open({
               content: '登录密码修改成功!'
               , btn: ['重新登录','取消']
@@ -104,34 +111,17 @@ function Safechange(hash) {
 
               }
             });
-          }
-          if (data.rtn == "2") {
-            layer.open({
-              content: '原密码不正确！'
-              , btn: '我知道了'
-            });
-          }
-          if (data.rtn == "3") {
-            layer.open({
-              content: '密码修改失败！'
-              , btn: '我知道了'
-            });
-          }
+          }else if (data.status == 500) {
+              alert(data.msg);
+           }
         },
         error: function (data) {
           loading.close();
-          if (data.status == 404) {
+          if (data.status == 500) {
             layer.open({
-              content: "请求资源不存在",
+              content: data.msg,
               skin: 'msg',
-              time: 2 //2秒后自动关闭
-            });
-          }
-          else {
-            layer.open({
-              content: JSON.parse(data.responseText).Message,
-              skin: 'msg',
-              time: 2 //2秒后自动关闭
+              time: 5 //2秒后自动关闭
             });
           }
         },
@@ -141,41 +131,38 @@ function Safechange(hash) {
       })
     }
     else if (hash == "2") {
+      var oldPwd = $("#txtOldPwd").val();
+      var newPwd = $("#txtNewPwd").val();
       $.ajax({
         type: "POST",
-        url: getAPIURL() + "securitysettings/" + uid + "/updatepassword?oldpwd=" + $.trim(_$txtOldPwd.val()) + "&newpwd=" + $.trim(_$txtNewPwd.val()) + "&type=trans",
-        data: null,
+        url: getAPIURL() + "fenuser/updateJiaoYi",
+        data: {
+        	fensUserId: uid,
+        	oldCapitalPwd:oldPwd,
+        	newCapitalPwd:newPwd
+        },
         dataType: 'json',
-        cache: false,
-        async: false,
         success: function (data) {
-          if (data.rtn == "1") {
-            layer.open({
-              content: '交易密码修改成功!'
-              , skin: 'msg'
-              , time: 2 //2秒后自动关闭
-              ,success:function () {
-                setTimeout(function () {
-                  window.location.href='../page/safe_center.html';
-                },3000)
-              }
-            });
+          if (data.status == 200) {
+//            layer.open({
+//              content: '交易密码修改成功!'
+//              , skin: 'msg'
+//              , time: 2 //2秒后自动关闭
+//              ,success:function () {
+//                setTimeout(function () {
+//                  window.location.href='../page/safe_center.html';
+//                },3000)
+//              }
+//            });
+        	  alert("修改成功");
+        	window.location.href='../page/safe_center.html';
             $("#txtOldPwd").val("");
             $("#txtNewPwd").val("");
             $("#txtReNewPwd").val("");
 
-          }
-          if (data.rtn == "2") {
-            layer.open({
-              content: '原交易密码不正确！'
-              , btn: '我知道了'
-            });
-          }
-          if (data.rtn == "3") {
-            layer.open({
-              content: '密码修改失败！'
-              , btn: '我知道了'
-            });
+          }else if (data.status == 500) {
+              alert(data.msg);
+              window.location.reload();
           }
         }, headers: {
           "Authorization": "Bearer " + getTOKEN()

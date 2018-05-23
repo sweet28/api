@@ -41,11 +41,25 @@ public class FensUserController {
 		return fensUserService.forgetPwd(fensUser, code_type, code);
 	}
 
+	// 修改密码
+	@RequestMapping(value = "/updatePwd", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult updatePwd(String OldPwd,String newPwd,Integer fensUserId) {
+		return fensUserService.updatePwd(OldPwd, newPwd, fensUserId);
+	}
+
 	// 交易密码
 	@RequestMapping(value = "/jiaoYi", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult jiaoYi(FensUser fensUser) {
 		return fensUserService.jiaoYi(fensUser);
+	}
+
+	// 交易密码
+	@RequestMapping(value = "/updateJiaoYi", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId) {
+		return fensUserService.updateJiaoYi(oldCapitalPwd, newCapitalPwd, fensUserId);
 	}
 
 	// 修改信息

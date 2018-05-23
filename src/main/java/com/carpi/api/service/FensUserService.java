@@ -20,11 +20,14 @@ public interface FensUserService {
 	//忘记密码
 	public JsonResult forgetPwd(FensUser fensUser,String code_type, String code);
 	
+	//修改密码
+	public JsonResult updatePwd(String OldPwd,String newPwd,Integer fensUserId);
+	
 	//交易密码
 	public JsonResult jiaoYi(FensUser fensUser);
 	
 	//修改交易密码
-	public JsonResult updateJiaoYi(FensUser fensUser);
+	public JsonResult updateJiaoYi(String oldCapitalPwd,String newCapitalPwd,Integer fensUserId);
 
 	//修改信息
 	public JsonResult updateInfo(FensUser fensUser);
