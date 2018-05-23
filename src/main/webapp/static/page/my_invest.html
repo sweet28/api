@@ -27,10 +27,15 @@
     </div>
     <div class="input_group">
         <span class="input_des">数量</span>
-        <input type="number" name="" id="cpa_count" placeholder="请输入购买数量"/>
+        <input type="number" name="" id="cpa_count" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">交易密码</span>
+        <input type="number" name="" id="jypwd" placeholder="请输入交易密码"/>
     </div>
 </form>
-<button class="modifypassword_btn" id="modifypassword_btn" onclick="cpaNext2();">立即买入</button>
+<button class="modifypassword_btn" id="modifypassword_btnmr" onclick="cpaNextMaiRu();"  style="display:none;">立即买入</button>
+<button class="modifypassword_btn" id="modifypassword_btncs" onclick="cpaNextChuShou();"  style="display:none;">立即出售</button>
 </body>
 
 

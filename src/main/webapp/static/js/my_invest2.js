@@ -21,8 +21,7 @@ $(function () {
 	    url: getAPIURL() + "miner/record/detail",
 	    dataType: "json",
 	    data: {
-	    	"id":tradeId,
-	    	"traderState":2
+	    	"id":tradeId
 	    },
 	    success: function (data) {
 	    	console.log(data);
@@ -32,6 +31,7 @@ $(function () {
 	    		price = data.entrustPrice;
 	    		totalCount = data.traderCount;
 	    		ddState = data.traderState;
+	    		ddType = data.traderType;//1：买单；2：卖单
 	    		syTime = "请在订单生成后24小时内内支付。";
 	    		totalPrice = data.moneyCount;
 	    		
@@ -48,36 +48,44 @@ $(function () {
 	    		$("#totalPrice").val("￥"+totalPrice);
 	    		if(ddState=='1'){
 	    			$("#ddState").val("待付款");
-	    			$("#modifypassword_btn2").css({"display": "none"});
 	    		}else if(ddState=='2'){
 	    			$("#ddState").val("已付款，待确认");
-	    			$("#modifypassword_btn").attr('disabled',"true");
-	    			$("#modifypassword_btn").css({'background':'gray'});
-	    			
-
-	    			$("#modifypassword_btn").css({"display": "none"});
 	    		}else if(ddState=='3'){
 	    			$("#ddState").val("已完成");
-	    			$("#modifypassword_btn").attr('disabled',"true");
-	    			$("#modifypassword_btn").css({'background':'gray'});
-	    			
-
 	    			$("#modifypassword_btn").css({"display": "none"});
-
 	    			$("#modifypassword_btn2").css({"display": "none"});
+	    		}
+	    		
+	    		if(ddState=='1' && ddType==2 && localStorage.getItem("uid")==fensID){
+	    			$("#modifypassword_btn").show();
+	    		}
+	    		if(ddState=='1' && ddType==1 && localStorage.getItem("uid")==uid){
+	    			$("#modifypassword_btn").show();
+	    		}
+	    		if(ddState=='2' && ddType==2 && localStorage.getItem("uid")==uid){
+	    			$("#modifypassword_btn2").show();
+	    		}
+	    		if(ddState=='2' && ddType==1 && localStorage.getItem("uid")==fensID){
+	    			$("#modifypassword_btn2").show();
 	    		}
 	    		
 	    		$("#bankAttr").val(ddNum.substring(10));
 	    		
-	    		var fensId = data.fensUserId;
+	    		var userid;
+	    		if(ddType==2){//1：买单；2：卖单
+	    			userid = data.traderId;
+	    		}
+	    		if(ddType==1){//1：买单；2：卖单
+	    			userid = data.fensUserId;
+	    		}
 	    		
-	    		console.log("fensID----------:"+fensId);
+	    		console.log("userid----------:"+userid);
 	    		$.ajax({
 	    		      type: "post",
 	    		      url: getAPIURL() + "bank/list",
 	    		      dataType: "json",
 	    		      data: {
-	    		    	  "fensUserId":fensId,
+	    		    	  "fensUserId":userid,
 	    		    	  "pageSize":100,
 	    		    	  "pageNum":0
 	    		      },

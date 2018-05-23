@@ -1,5 +1,7 @@
 package com.carpi.api.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +35,35 @@ public class MinerRecordController {
 		return fensRecordServcie.selectRecord(page, row, fensTransaction);
 	}
 	
-	// 根据粉丝id查询交易记录
+	// 根据粉丝待付款交易记录
+	@RequestMapping(value = "/recordDFKlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public List<FensTransaction> selectDFKRecord(FensTransaction fensTransaction) {
+		return fensRecordServcie.selectDFKRecord(fensTransaction);
+	}
+	
+	// 根据粉丝待收款交易记录
+	@RequestMapping(value = "/recordDSKlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public List<FensTransaction> selectDSKRecord(FensTransaction fensTransaction) {
+		return fensRecordServcie.selectDSKRecord(fensTransaction);
+	}
+	
+	// 根据粉丝完成交易记录
+	@RequestMapping(value = "/recordYWClist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public List<FensTransaction> selectYWCRecord(FensTransaction fensTransaction) {
+		return fensRecordServcie.selectYWCRecord(fensTransaction);
+	}
+	
+	// 根据粉丝挂单交易记录
+	@RequestMapping(value = "/recordGDlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public List<FensTransaction> selectGDRecord(FensTransaction fensTransaction) {
+		return fensRecordServcie.selectGDRecord(fensTransaction);
+	}
+	
+	// 根据粉丝id查询成交交易记录
 	@RequestMapping(value = "/cjlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public PageInfo<FensTransaction> selectCJRecord(Integer page, Integer row, FensTransaction fensTransaction) {

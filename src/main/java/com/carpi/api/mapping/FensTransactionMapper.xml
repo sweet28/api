@@ -319,6 +319,54 @@
 		</where>
 	</select>
 	
+	<!--查询粉丝的待付款交易记录(可根据粉丝id查询) -->
+	<select id="selectDFKRecord" resultMap="BaseResultMap"
+		parameterType="com.carpi.api.pojo.FensTransaction">
+		select
+		<include refid="Base_Column_List" />
+		from fens_transaction
+		<where>
+			is_delete=0 and trader_state = 1 and( fens_user_id = #{fensUserId,jdbcType=INTEGER} or trader_id = #{traderId,jdbcType=INTEGER})
+			order by create_date desc
+		</where>
+	</select>
+	
+	<!--查询粉丝的待收款交易记录(可根据粉丝id查询) -->
+	<select id="selectDSKRecord" resultMap="BaseResultMap"
+		parameterType="com.carpi.api.pojo.FensTransaction">
+		select
+		<include refid="Base_Column_List" />
+		from fens_transaction
+		<where>
+			is_delete=0 and trader_state = 2 and( fens_user_id = #{fensUserId,jdbcType=INTEGER} or trader_id = #{traderId,jdbcType=INTEGER})
+			order by create_date desc
+		</where>
+	</select>
+	
+	<!--查询粉丝的完成交易记录(可根据粉丝id查询) -->
+	<select id="selectYWCRecord" resultMap="BaseResultMap"
+		parameterType="com.carpi.api.pojo.FensTransaction">
+		select
+		<include refid="Base_Column_List" />
+		from fens_transaction
+		<where>
+			is_delete=0 and trader_state = 3 and( fens_user_id = #{fensUserId,jdbcType=INTEGER} or trader_id = #{traderId,jdbcType=INTEGER})
+			order by create_date desc
+		</where>
+	</select>
+	
+	<!--查询粉丝的挂单交易记录(可根据粉丝id查询) -->
+	<select id="selectGDRecord" resultMap="BaseResultMap"
+		parameterType="com.carpi.api.pojo.FensTransaction">
+		select
+		<include refid="Base_Column_List" />
+		from fens_transaction
+		<where>
+			is_delete=0 and trader_state = 0 and trader_id = #{traderId,jdbcType=INTEGER}
+			order by create_date desc
+		</where>
+	</select>
+	
 	<!--查询粉丝的成交交易记录 -->
 	<select id="selectCJFensRecord" resultMap="BaseResultMap"
 		parameterType="com.carpi.api.pojo.FensTransaction">

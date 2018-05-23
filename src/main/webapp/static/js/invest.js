@@ -93,17 +93,17 @@
                       	
                       	var ahref;
                       	if(_type==1){
-                      		ahref = "<a href='javascript:csCPA("+list[i].id+");'>出售</a>";
+                      		ahref = "<a href='javascript:csCPA("+list[i].id+","+list[i].traderCount+");'>出售</a>";
                       	}
                       	if(_type==2){
-                      		ahref = "<a href='javascript:mrCPA("+list[i].id+");'>买入</a>";
+                      		ahref = "<a href='javascript:mrCPA("+list[i].id+","+list[i].traderCount+");'>买入</a>";
                       	}
                       	if(_type==9){
                       		ahref = "<a href='javascript:cxCPA("+list[i].id+");'>撤销</a>";
                       	}
                       	
           			    txt1 += "<tr>" +
-        	  			    		"<td class='first'>"+mm+(list[i].id)+"</td>" +
+        	  			    		"<td>"+mm+(list[i].id)+"</td>" +
         	  			    		"<td>"+list[i].entrustPrice+"</td>" +
         	  			    		"<td>"+list[i].traderCount+"</td>" +
         	  			    		"<td>" + cpatype +"</td>" +
@@ -237,17 +237,17 @@
               	
               	var ahref;
               	if(_type==1){
-              		ahref = "<a href='javascript:csCPA("+list[i].id+");'>出售</a>";
+              		ahref = "<a href='javascript:csCPA("+list[i].id+","+list[i].traderCount+");'>出售</a>";
               	}
               	if(_type==2){
-              		ahref = "<a href='javascript:mrCPA("+list[i].id+");'>买入</a>";
+              		ahref = "<a href='javascript:mrCPA("+list[i].id+","+list[i].traderCount+");'>买入</a>";
               	}
               	if(_type==9){
               		ahref = "<a href='javascript:cxCPA("+list[i].id+");'>撤销</a>";
               	}
               	
   			    txt1 += "<tr>" +
-	  			    		"<td class='first'>"+mm+(list[i].id)+"</td>" +
+	  			    		"<td>"+mm+(list[i].id)+"</td>" +
 	  			    		"<td>"+list[i].entrustPrice+"</td>" +
 	  			    		"<td>"+list[i].traderCount+"</td>" +
 	  			    		"<td>" + cpatype +"</td>" +
@@ -321,61 +321,205 @@
   });
 })();
 
-function csCPA(){
+function csCPA(id,count){
 	var sec = localStorage.getItem("sec");
 	if(sec!='1'){
 		alert("未认证用户不能交易。");
 		return false;
 	}
-	console.log(sec+":------------------0");
+	
+	$.ajax({
+		type: "post",
+	      url: getAPIURL() + "bank/list",
+	      dataType: "json",
+	      data: {
+	    	  "fensUserId":localStorage.getItem("uid"),
+	    	  "pageSize":100,
+	    	  "pageNum":0
+	      },
+	      success: function (data) {
+	        var list = data.list;
+	        console.log(list.length+"-------------dddd");
+	        if (list.length <= 0) {
+	        	console.log("没有账号信息");
+	        	layer.open({
+			          content: '银行卡未绑定不能交易挂单。'
+			          , btn: '确定'
+	  		      });
+	  			return false;
+	        }else{
+	        	
+	        	$.ajax({
+	        	    type: "post",
+	        	    url: getAPIURL() + "wallet/list",
+	        	    dataType: "json",
+	        	    data: {
+	        	    	"fensUserId":localStorage.getItem("uid")
+	        	    },
+	        	    success: function (data) {
+	        	    	var dd = data.data;
+	        	    	if(data.status==200){
+	        	    		//可用余额
+	        	    		var yue = dd.ableCpa;
+//	        	    		if(yue < 1 ){
+//	        	    			layer.open({
+//	        	    		          content: '账户钱包CPA余额不足。'
+//	        	    		          , btn: '确定'
+//	        	    		      });
+//	        	    			return false;
+//	        	    		}
+	        	    		if(yue >= count){
+	        	    			window.location.href = "../page/my_invest.html?"+id+"&cs";
+//	        	    			layer.open({
+//	        	    		          content: '即将出售'+count+'个CPA，确定吗？'
+//	        	    		          ,btn: '确定'
+//	        	    		          ,yes :function(){
+//	      	        		        	
+//	        	    		          }
+//	        	    		      });
+	        	    		}else{
+	        	    			layer.open({
+	        	    		          content: '账户钱包CPA余额不足。'
+	        	    		          , btn: '确定'
+	        	    		      });
+	        	    			return false;
+	        	    		}
+	        	    	}else{
+	        	    		layer.open({
+	          		          content: '账户钱包CPA余额不足。'
+	          		          , btn: '确定'
+	          		      	});
+	            		    return false;
+	        	    	}
+	        	    },
+	        	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	        	    	layer.open({
+	        		          content: '账户钱包CPA余额不足，。'
+	        		          , btn: '确定'
+	          		      });
+	        	    	flag = 0;
+	          			return false;
+	        	    }
+	            });
+	        }
+	      },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    	console.log("没有账号信息2222");
+        	layer.open({
+		          content: '银行卡未绑定帮能交易挂单。'
+		          , btn: '确定'
+  		      });
+  			return false;
+	    }
+    });
+}
+
+function mrCPA(id,count){
+	var sec = localStorage.getItem("sec");
+	if(sec!='1'){
+		alert("未认证用户不能交易。");
+		return false;
+	}
+	
+	$.ajax({
+		type: "post",
+	      url: getAPIURL() + "bank/list",
+	      dataType: "json",
+	      data: {
+	    	  "fensUserId":localStorage.getItem("uid"),
+	    	  "pageSize":100,
+	    	  "pageNum":0
+	      },
+	      success: function (data) {
+	        var list = data.list;
+	        console.log(list.length+"-------------dddd");
+	        if (list.length <= 0) {
+	        	console.log("没有账号信息");
+	        	layer.open({
+			          content: '银行卡未绑定不能交易挂单。'
+			          , btn: '确定'
+	  		      });
+	  			return false;
+	        }else{
+	        	window.location.href = "../page/my_invest.html?"+id+"&mr";
+	        }
+	      },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    	console.log("没有账号信息2222");
+        	layer.open({
+		          content: '银行卡未绑定帮能交易挂单。'
+		          , btn: '确定'
+  		      });
+  			return false;
+	    }
+    });
+}
+
+function cxCPA(id){
+	
 	$.ajax({
 	    type: "post",
-	    url: getAPIURL() + "wallet/list",
+	    url: getAPIURL() + "miner/record/detail",
 	    dataType: "json",
 	    data: {
-	    	"fensUserId":localStorage.getItem("uid")
+	    	"id":id
 	    },
 	    success: function (data) {
-	    	var dd = data.data;
-	    	if(data.status==200){
-	    		//可用余额
-	    		var yue = dd.ableCpa;
-	    		if(yue < 1 ){
-	    			layer.open({
-	    		          content: '账户钱包CPA余额不足。'
-	    		          , btn: '确定'
-	    		      });
-	    			return false;
-	    		}
-	    	}else{
+	    	console.log(data);
+	    	state = data.traderState;
+	    	isDelete = data.isDelete;
+	    	if(state!=0){
 	    		layer.open({
-  		          content: '账户钱包CPA余额不足。'
-  		          , btn: '确定'
-  		      	});
-    		    return false;
+			          content: '该单已被抢，不能撤销。'
+			          , btn: '确定'
+			      	});
+			    return false;
+	    	}else if(data.traderId != localStorage.getItem("uid")){
+	    		layer.open({
+			          content: '不能撤销他人订单。'
+			          , btn: '确定'
+			      	});
+			    return false;
+	    	}else{
+	    		$.ajax({
+	    		      type: "post",
+	    		      url: getAPIURL() + "miner/record/updateRecord",
+	    		      dataType: "json",
+	    		      data:{
+	    		    	  "id":id,
+	    		    	  "isDelete":1
+	    		      },
+	    		      success: function (data) {
+	    		        if (data.status==200) {
+	    		          layer.open({
+	    		            content: '操作成功。'
+	    		            , btn: ['确定']
+	    		            , yes: function (index) {
+	    		              window.location.href = "../page/invest.html?tab=3";
+	    		            }
+	    		          });
+	    		        } else {
+	    		        	layer.open({
+	    			            content: '操作失败，请检查网络服务。'
+	    			            , btn: ['确定']
+	    			            , yes: function (index) {
+	    			  	          window.location.href = "../page/index.html";
+	    			            }
+	    			          });
+	    		        }
+	    		      },
+	    		      headers: {
+	    		        "Authorization": "Bearer " + getTOKEN()
+	    		      }
+	    		});
 	    	}
 	    },
 	    error: function (XMLHttpRequest, textStatus, errorThrown) {
 	    	layer.open({
-		          content: '账户钱包CPA余额不足，。'
+		          content: '交易拥堵，请稍后重新购买。1'
 		          , btn: '确定'
-  		      });
-	    	flag = 0;
-  			return false;
+		      	});
+		    return false;
 	    }
-    });
-//	alert("为保障领导人及用户权益，杜绝刷单，区块数据暂未写入钱包，APP安全扫描升级中，于安全升级后明日开放购买CPA，不影响挂买单。");
-//	return false;
-}
-
-function mrCPA(id){
-	var sec = localStorage.getItem("sec");
-	if(sec!='1'){
-		alert("未认证用户不能交易。");
-		return false;
-	}
-	console.log(sec+":------------------0");
-	window.location.href = "../page/my_invest.html?"+id;
-//	alert("为保障领导人及用户权益，杜绝刷单，区块数据暂未写入钱包，APP安全扫描升级中，于安全升级后明日开放购买CPA，不影响挂买单。");
-//	return false;
+	});
 }

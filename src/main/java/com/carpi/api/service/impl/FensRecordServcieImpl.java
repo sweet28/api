@@ -62,7 +62,35 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		return pageInfo;
 	}
 	
-	// 粉丝交易记录（可根据粉丝id查个人）
+	// 粉丝待付款交易记录（可根据粉丝id查个人）
+	@Override
+	public List<FensTransaction> selectDFKRecord(FensTransaction fensTransaction) {
+		List<FensTransaction> list = fensTransactionMapper.selectDFKRecord(fensTransaction);
+		return list;
+	}
+	
+	// 粉丝待收款交易记录（可根据粉丝id查个人）
+	@Override
+	public List<FensTransaction> selectDSKRecord(FensTransaction fensTransaction) {
+		List<FensTransaction> list = fensTransactionMapper.selectDSKRecord(fensTransaction);
+		return list;
+	}
+	
+	// 粉丝完成交易记录（可根据粉丝id查个人）
+	@Override
+	public List<FensTransaction> selectYWCRecord(FensTransaction fensTransaction) {
+		List<FensTransaction> list = fensTransactionMapper.selectYWCRecord(fensTransaction);
+		return list;
+	}
+	
+	// 粉丝挂单交易记录（可根据粉丝id查个人）
+	@Override
+	public List<FensTransaction> selectGDRecord(FensTransaction fensTransaction) {
+		List<FensTransaction> list = fensTransactionMapper.selectGDRecord(fensTransaction);
+		return list;
+	}
+	
+	// 粉丝成交交易记录（可根据粉丝id查个人）
 	@Override
 	public PageInfo<FensTransaction> selectCJRecord(Integer page,Integer row,FensTransaction fensTransaction) {
 //		PageHelper.startPage(page, row);

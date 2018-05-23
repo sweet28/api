@@ -1,0 +1,84 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <link rel="stylesheet" href="../css/common.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="stylesheet" href="../css/personalCenter.css" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../lib/css/layer.css"/>
+    <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../lib/js/layer.js" type="text/javascript" charset="utf-8"></script>
+    <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="wrap coupon_page">
+    <section class="container" style="height: 100%;overflow-y: scroll;">
+        <header class="header giftRewards_title" style="display: none;">
+            <a href="personal.html">
+                <i class="icon"></i>
+            </a>
+            <span>我的订单</span>
+            <a href="personal.html">
+                <i class="icon"></i>
+            </a>
+        </header>
+        <section class="coupon_list">
+            <div class="coupon_wrap recommendedRewards_wrap giftRewards_wrap">
+                <table id="gift">
+                    <thead>
+						<tr>
+							<td>序号</td>
+							<td>单价(美元)</td>
+							<td>数量(CPA)</td>
+							<td>状态</td>
+							<td>操作</td>
+						</tr>
+                    </thead>
+                    <tbody id="a_miner">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <!--	页面底部部分-->
+        <ul class="footer">
+            <li class="footer-item">
+                <a href="my_dd_dfk.html" class="">
+                    <i class="icon icon_activity"></i>
+                    <p class="icon_title">待付款</p>
+                </a>
+            </li>
+            <li class="footer-item">
+                <a href="my_dd_dsk.html" class="">
+                    <i class="icon icon_activity"></i>
+                    <p class="icon_title">待收款确认</p>
+                </a>
+            </li>
+            <li class="footer-item">
+                <a href="my_dd_ywc.html" class="">
+                    <i class="icon icon_index active"></i>
+                    <p class="icon_title" style="color: #f23029">已完成</p>
+                </a>
+            </li>
+            <li class="footer-item">
+                <a href="my_dd_gd.html" class="">
+                    <i class="icon icon_activity"></i>
+                    <p class="icon_title">挂单中</p>
+                </a>
+            </li>
+        </ul>
+    </section>
+</div>
+</body>
+
+<script src="../js/my_dd_ywc.js"></script>
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".giftRewards_title", {'title':'我的矿机',"theme":"1"});
+</script>
+</html>

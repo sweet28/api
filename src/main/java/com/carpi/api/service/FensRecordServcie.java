@@ -1,5 +1,7 @@
 package com.carpi.api.service;
 
+import java.util.List;
+
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.Aminer;
 import com.carpi.api.pojo.AminerRecord;
@@ -36,4 +38,12 @@ public interface FensRecordServcie {
 	PageInfo<FensTransaction> selectCJRecord(Integer page, Integer row, FensTransaction fensTransaction);
 
 	JsonResult updateRecordCJ(FensTransaction fensTransaction);
+
+	List<FensTransaction> selectDFKRecord(FensTransaction fensTransaction);
+
+	List<FensTransaction> selectDSKRecord(FensTransaction fensTransaction);
+
+	List<FensTransaction> selectYWCRecord(FensTransaction fensTransaction);
+
+	List<FensTransaction> selectGDRecord(FensTransaction fensTransaction);
 }

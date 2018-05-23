@@ -1,5 +1,12 @@
 function agoumai(type,grade){
-	  
+	var sec = localStorage.getItem("sec");
+	if(sec!='1'){
+		layer.open({
+	          content: '未认证用户不能交易。'
+	          , btn: '确定'
+	      });
+		return false;
+	}
 //	  $.ajax({
 //	    type: "post",
 //	    url: getAPIURL() + "wallet/list",

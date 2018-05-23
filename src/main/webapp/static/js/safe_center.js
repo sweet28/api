@@ -28,7 +28,7 @@ function Safe() {
     		cid = cid+"(待审核)";
     		$('#tocard').hide();
     	}else if(sec == "1"){
-    		cid = cid+"(认证)";
+    		cid = cid+"(认证通过)";
     		$('#tocard').hide();
     	}else if(sec == "2"){
     		cid = cid+"(审核不通过)";

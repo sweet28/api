@@ -30,14 +30,6 @@
 	    	      var returnIn = dd.lockCpa + dd.ableCpa;
 	    	      $("#totalcpa").text(returnIn);
 	    	}
-//	    	else{
-//	    		  $("#balance_num").text(0);
-//	    	      $("#balance_dec").text(".00000");
-//	    	      $("#waitNum_num").text(0);
-//	    	      $("#waitNum_dec").text(".00000");
-//	    	      $("#returnIn_num").text(0);
-//	    	      $("#returnIn_dec").text(".00000");
-//	    	}
 	    },
 	    error: function (XMLHttpRequest, textStatus, errorThrown) {
 	      $("#balance_num").text(0);
