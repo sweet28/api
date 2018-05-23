@@ -254,7 +254,25 @@ function getTOKEN() {
    }*/
 }
 
+//+---------------------------------------------------
+//| 求两个时间的天数差 日期格式为 YYYY-MM-dd
+//+---------------------------------------------------
+function daysBetween(DateOne,DateTwo){
+	var OneMonth = DateOne.substring(5,DateOne.lastIndexOf ('-'));
+	var OneDay = DateOne.substring(DateOne.length,DateOne.lastIndexOf ('-')+1);
+	var OneYear = DateOne.substring(0,DateOne.indexOf ('-'));
+	
+	var TwoMonth = DateTwo.substring(5,DateTwo.lastIndexOf ('-'));
+	var TwoDay = DateTwo.substring(DateTwo.length,DateTwo.lastIndexOf ('-')+1);
+	var TwoYear = DateTwo.substring(0,DateTwo.indexOf ('-'));
+	
+	var cha=((Date.parse(OneMonth+'/'+OneDay+'/'+OneYear)- Date.parse(TwoMonth+'/'+TwoDay+'/'+TwoYear))/86400000);
+	return Math.abs(cha);
+}
+
 var cpaURL = "http://localhost:8080/";//"http://localhost:8080/";//"http://cpa.artforyou.cn:8088/";
+
+
 
 function getAPIURL() {
 //  return "http://localhost:8080/api/";
@@ -291,7 +309,30 @@ function parseUrl(){
 }
 
 
-
+function getYUE(){
+	 //	调用相关金额的接口
+	  $.ajax({
+	    type: "post",
+	    url: getAPIURL() + "wallet/list",
+	    dataType: "json",
+	    data: {
+	    	"fensUserId":localStorage.getItem("uid")
+	    },
+	    success: function (data) {
+	    	var dd = data.data;
+	    	console.log(dd.ableCpa);
+	    	if(data.status==200){
+	    		//可用余额
+	    	      return dd.ableCpa;
+	    	}else{
+	    		  return 0;
+	    	}
+	    },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	      return 0;
+	    }
+	  });
+}
 
 
 //20秒接金币游戏配置

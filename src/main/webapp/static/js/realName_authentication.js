@@ -55,7 +55,7 @@ $("#file0").change(function(){
 	  	    	    skin: 'msg',
 	  	    	    time: 2, //2秒后自动关闭
 	  	    	    end: function () {
-	  	    	      location.href = '../page/safe_center.html?z';
+//	  	    	      location.href = '../page/safe_center.html?z';
 	  	    	    }
 	  	    	  });
   	    	  }else{

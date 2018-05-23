@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>CPA交易</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <link rel="stylesheet" href="../css/common.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css?v=1.2.2"/>
+    <link rel="stylesheet" href="../lib/css/layer.css" type="text/css">
+    <script src="../lib/js/jquery-2.1.4.js"></script>
+    <script src="../lib/js/jquery.base64.js"></script>
+    <script src="../js/wapframwork.js"></script>
+</head>
+<body>
+<div class="modifypassword_title" style="display:none;">
+    <a href="index.html">
+        <i class="icon"></i>
+    </a>
+    <span>CPA交易</span>
+</div>
+<form class="form_modify">
+    <div class="input_group">
+        <span class="input_des">订单号</span>
+        <input type="text" name="" id="ddNum" placeholder="" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">订单时间</span>
+        <input type="text" name="" id="createTime" placeholder="" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">价格(美元)</span>
+        <input type="text" name="" id="pricecpa" placeholder="" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">数量</span>
+        <input type="text" name="" id="cpaCount" placeholder="" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">订单状态</span>
+        <input type="text" name="" id="ddState" placeholder="" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">剩余付款时间</span>
+        <input type="text" name="" id="syTime" placeholder="" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">总额</span>
+        <input type="text" name="" id="totalPrice" placeholder="" disabled="disabled"/>
+    </div>
+    
+    <div class="input_group">
+        <span class="input_des">付款信息</span>
+    </div>
+    <div class="input_group">
+        <span class="input_des">卖家姓名</span>
+        <input type="text" name="" id="mjxm" placeholder="卖家姓名" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">银行</span>
+        <input type="text" name="" id="bank" placeholder="银行" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">账号</span>
+        <input type="text" name="" id="bankCard" placeholder="账号" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">开户行</span>
+        <input type="text" name="" id="bankDetail" placeholder="开户行" disabled="disabled"/>
+    </div>
+    <div class="input_group">
+        <span class="input_des">付款备注</span>
+        <input type="text" name="" id="bankAttr" placeholder="付款备注" disabled="disabled"/>
+    </div>
+</form>
+<button class="modifypassword_btn" id="modifypassword_btn" onclick="cpaNext2();">我已付款</button>
+
+<button class="modifypassword_btn" id="modifypassword_btn2" onclick="cpaNext3();">我已收款</button>
+</body>
+
+
+<script src="../lib/js/layer.js"></script>
+<script>
+    (function () {
+        var hash = this.location.hash.slice(1);
+        /*1:修改登录密码   2：修改交易密码*/
+        if (hash == 2) {
+            $("title").html("修改交易密码");
+            $(".modifypassword_title span").html("修改交易密码");
+            $(".form_modify span").each(function () {
+                $(this).html($(this).html().replace(/登录/g, "交易"));
+            });
+        }
+    })();
+</script>
+<script src="../js/loading.js"></script>
+<script src="../js/my_invest2.js"></script>
+<!--头部-->
+<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    setTitle(".modifypassword_title", {'title':'修改登录密码',"theme":"1"});
+</script>
+
+</html>

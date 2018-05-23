@@ -590,9 +590,9 @@ $("#cpamai").click(function (){
 	        	      });
 	        		return false;
 	        	}
-	        	if(entrust_price<0.05){
+	        	if(entrust_price<0.055){
 	        		layer.open({
-	        	          content: '交易单价不能小于0.05'
+	        	          content: '交易单价不能小于0.055'
 	        	          , btn: '确定'
 	        	      });
 	        		return false;
@@ -604,7 +604,7 @@ $("#cpamai").click(function (){
 	        	var bzTime = "2018-05-19";
 	        	var bzPrice = price*Math.pow(1.1,daysBetween(nowTime,bzTime));
 	        	
-	        	bzPrice = 0.08;
+	        	bzPrice = 0.1;
 	        	if(entrust_price>bzPrice){
 	        		layer.open({
 	        	          content: '交易单价今日最高挂单价格：'+bzPrice+'.'
