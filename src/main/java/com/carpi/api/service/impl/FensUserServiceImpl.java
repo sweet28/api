@@ -282,49 +282,67 @@ public class FensUserServiceImpl implements FensUserService {
 	}
 
 	// 忘记密码
+//	@Override
+//	public JsonResult forgetPwd(FensUser fensUser, String code_type, String code) {
+//		// 校验验证码
+//		SMSCheckCode smsCheckCode = new SMSCheckCode();
+//		smsCheckCode.setMobile(fensUser.getPhone());
+//		smsCheckCode.setRemarks(code_type);
+//		smsCheckCode.setCheckCode(code);
+//
+//		FensUser user = fensUserMapper.selectRegister(fensUser);
+//		if (user == null) {
+//			return JsonResult.build(20022, ErrorCodeConfigUtil.ERROR_MSG_ZH_20022);
+//		}
+//
+//		SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);
+//		if (smsCCode != null) {
+//			long expireTime = smsCCode.getExpireTime().getTime();
+//			long nowTime = new Date().getTime();
+//			long expireSeconds = TimeUtil.diffSeconds(expireTime, nowTime);
+//			if (expireSeconds < 0) {
+//				return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
+//			} else {
+//				smsCCode.setIsUsed(1);
+//				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+//				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+//				String NewPwd = MD5.encodeString(
+//						MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
+//				FensUser fensUser2 = new FensUser();
+//				fensUser2.setPhone(fensUser.getPhone());
+//				fensUser2.setPwd(NewPwd);
+//				fensUser2.setCreateDate(TimeUtil.getTimeStamp());
+//				int result = fensUserMapper.updatePwd(fensUser2);
+//				if (result == 1) {
+//					// 设置短信已使用
+//					smsCCode.setIsUsed(2);
+//					int staus = smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+//					return JsonResult.ok();
+//				}
+//
+//				return JsonResult.build(500, "修改失败，请联系管理员");
+//			}
+//		} else {
+//			return JsonResult.build(20049, ErrorCodeConfigUtil.ERROR_MSG_ZH_20049);
+//		}
+//	}
+	
+	// 忘记密码
 	@Override
 	public JsonResult forgetPwd(FensUser fensUser, String code_type, String code) {
-		// 校验验证码
-		SMSCheckCode smsCheckCode = new SMSCheckCode();
-		smsCheckCode.setMobile(fensUser.getPhone());
-		smsCheckCode.setRemarks(code_type);
-		smsCheckCode.setCheckCode(code);
-
+		
 		FensUser user = fensUserMapper.selectRegister(fensUser);
 		if (user == null) {
 			return JsonResult.build(20022, ErrorCodeConfigUtil.ERROR_MSG_ZH_20022);
 		}
-
-		SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);
-		if (smsCCode != null) {
-			long expireTime = smsCCode.getExpireTime().getTime();
-			long nowTime = new Date().getTime();
-			long expireSeconds = TimeUtil.diffSeconds(expireTime, nowTime);
-			if (expireSeconds < 0) {
-				return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
-			} else {
-				smsCCode.setIsUsed(1);
-				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
-				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
-				String NewPwd = MD5.encodeString(
-						MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
-				FensUser fensUser2 = new FensUser();
-				fensUser2.setPhone(fensUser.getPhone());
-				fensUser2.setPwd(NewPwd);
-				fensUser2.setCreateDate(TimeUtil.getTimeStamp());
-				int result = fensUserMapper.updatePwd(fensUser2);
-				if (result == 1) {
-					// 设置短信已使用
-					smsCCode.setIsUsed(2);
-					int staus = smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
-					return JsonResult.ok();
-				}
-
-				return JsonResult.build(500, "修改失败，请联系管理员");
-			}
-		} else {
-			return JsonResult.build(20049, ErrorCodeConfigUtil.ERROR_MSG_ZH_20049);
-		}
+		String NewPwd = MD5.encodeString(
+				MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
+		FensUser fensUser2 = new FensUser();
+		fensUser2.setPhone(fensUser.getPhone());
+		fensUser2.setPwd(NewPwd);
+		fensUser2.setCreateDate(TimeUtil.getTimeStamp());
+		int result = fensUserMapper.updatePwd(fensUser2);
+		return JsonResult.build(500, "修改失败，请联系管理员");
 	}
 
 	//交易密码
