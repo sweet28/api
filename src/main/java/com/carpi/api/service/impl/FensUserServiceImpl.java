@@ -68,22 +68,22 @@ public class FensUserServiceImpl implements FensUserService {
 
 	@Autowired
 	private FensTeamMapper fensTeamMapper;
-	
+
 	@Autowired
 	private FensComputingPowerMapper fensComputingPowerMapper;
-	
+
 	@Autowired
 	private FensLoginStateMapper fensLoginStateMapper;
-	
+
 	@Autowired
 	private FensMinerMapper fensMinerMapper;
-	
+
 	@Autowired
 	private APoolMapper apoolMapper;
-	
+
 	@Autowired
 	private BPoolMapper bpoolMapper;
-	
+
 	@Autowired
 	private FensWalletMapper fensWalletMapper;
 
@@ -184,63 +184,62 @@ public class FensUserServiceImpl implements FensUserService {
 						ServerLog.getLogger().warn("插入粉丝安全认证表失败，粉丝id为：" + user.getId());
 					}
 
-					//添加记录到粉丝矿机表（1代表A矿机，2代表B矿机）（默认A矿机的一星矿机）
+					// 添加记录到粉丝矿机表（1代表A矿机，2代表B矿机）（默认A矿机的一星矿机）
 					FensMiner fensMiner = new FensMiner();
 					fensMiner.setCreateDate(TimeUtil.getTimeStamp());
-					//粉丝Id
+					// 粉丝Id
 					fensMiner.setFensUserId(user.getId());
-					//矿机类型（1代表A矿机）
+					// 矿机类型（1代表A矿机）
 					fensMiner.setMinerType(1);
-					//矿机类型（1星）
+					// 矿机类型（1星）
 					fensMiner.setBak1(String.valueOf(1));
-					//矿机id
+					// 矿机id
 					fensMiner.setMinerId(1);
-					//矿机算力
+					// 矿机算力
 					fensMiner.setMinerComputingPower(0.005);
-					//添加粉丝矿机表成功（分配A型号1星矿机）
+					// 添加粉丝矿机表成功（分配A型号1星矿机）
 					int statuss = fensMinerMapper.insertSelective(fensMiner);
 					if (statuss != 1) {
 						ServerLog.getLogger().warn("分配A型号1星矿机失败,粉丝id :" + user.getId());
 					}
-					
-					//注册后 ，在A、B两个矿池表添加一条记录
-					//注册后 ，在A、B两个矿池表添加一条记录
+
+					// 注册后 ，在A、B两个矿池表添加一条记录
+					// 注册后 ，在A、B两个矿池表添加一条记录
 					APool aPool = new APool();
 					APool aPool2 = new APool();
 					APool aPool3 = new APool();
 					APool aPool4 = new APool();
-					//四种矿机对应的矿池，插入4条记录
+					// 四种矿机对应的矿池，插入4条记录
 					aPool.setFensUserId(user.getId());
 					aPool.setType(1);
-					
+
 					aPool2.setFensUserId(user.getId());
 					aPool2.setType(2);
-					
+
 					aPool3.setFensUserId(user.getId());
 					aPool3.setType(3);
-					
+
 					aPool4.setFensUserId(user.getId());
 					aPool4.setType(4);
-					//插入A矿池表
+					// 插入A矿池表
 					apoolMapper.insertSelective(aPool);
 					apoolMapper.insertSelective(aPool2);
 					apoolMapper.insertSelective(aPool3);
 					apoolMapper.insertSelective(aPool4);
-					
 
 					BPool bPool = new BPool();
-					bPool.setFensUserId(user.getId()); 
-					
-					//插入B矿池表
+					bPool.setFensUserId(user.getId());
+
+					// 插入B矿池表
 					bpoolMapper.insertSelective(bPool);
-					
-					//钱包表插入一条记录
+
+					// 钱包表插入一条记录
 					FensWallet fensWallet = new FensWallet();
-					//目前只插入粉丝id
+					// 目前只插入粉丝id
 					fensWallet.setFensUserId(user.getId());
-					//粉丝钱包地址uuid生成
+					// 粉丝钱包地址uuid生成
 					fensWallet.setWalletAddress(UUID.randomUUID().toString());
-					//插入记录到粉丝钱包表
+					// 插入记录到粉丝钱包表
 					fensWalletMapper.insertSelective(fensWallet);
 					if (fensUser.getRefereePhone() != null && fensUser.getRefereePhone() != "") {
 						// 粉丝注册成功后，把信息插入粉丝团表
@@ -253,7 +252,7 @@ public class FensUserServiceImpl implements FensUserService {
 						fensTeam.setInviteePhone(fensUser2.getPhone());
 						// 粉丝Id(邀请人id）
 						fensTeam.setFensUserId(fensUser2.getRefereeId());
-						//添加时间
+						// 添加时间
 						fensTeam.setCreateDate(TimeUtil.getTimeStamp());
 
 						// 先判断fensTeam（粉丝团表）是否存在和注册所填的手机号码是否相同
@@ -290,7 +289,7 @@ public class FensUserServiceImpl implements FensUserService {
 		smsCheckCode.setMobile(fensUser.getPhone());
 		smsCheckCode.setRemarks(code_type);
 		smsCheckCode.setCheckCode(code);
-		
+
 		FensUser user = fensUserMapper.selectRegister(fensUser);
 		if (user == null) {
 			return JsonResult.build(20022, ErrorCodeConfigUtil.ERROR_MSG_ZH_20022);
@@ -328,6 +327,23 @@ public class FensUserServiceImpl implements FensUserService {
 		}
 	}
 
+	//交易密码
+	@Override
+	public JsonResult jiaoYi(FensUser fensUser) {
+		int result = fensUserMapper.updateByPrimaryKeySelective(fensUser);
+		if (result != 1) {
+			return JsonResult.build(500, "添加修改密码错误");
+		}
+		return JsonResult.ok();
+	}
+
+	//修改交易密码
+	@Override
+	public JsonResult updateJiaoYi(FensUser fensUser) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	// 登入
 	@Override
 	public JsonResult login(FensUser fensUser) {
@@ -363,9 +379,10 @@ public class FensUserServiceImpl implements FensUserService {
 			token.setUserId(user_id);
 			tokenDao.insertSelective(token);
 		}
-		//添加登入日志（登入状态表）
-		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest(); 
-//		String ip = IpRequestUtil.getIpAddr(request).toString();
+		// 添加登入日志（登入状态表）
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+				.getRequest();
+		// String ip = IpRequestUtil.getIpAddr(request).toString();
 		FensLoginState fensLoginState = new FensLoginState();
 		String ip = request.getRemoteAddr();
 		fensLoginState.setFensUserId(user.getId());
@@ -379,54 +396,51 @@ public class FensUserServiceImpl implements FensUserService {
 		user.setPwd(null);
 		user.setCapitalPwd(null);
 		user.setBak1(accessToken);
-		
-		
-		//直推收益计算
-//		String phone = user.getPhone();
+
+		// 直推收益计算
+		// String phone = user.getPhone();
 		String oldZTRSString = user.getCreater();
-		
+
 		int oldZTRS = 0;
-		if(!oldZTRSString.isEmpty()){
+		if (!oldZTRSString.isEmpty()) {
 			oldZTRS = Integer.parseInt(oldZTRSString);
-		}else{
+		} else {
 			oldZTRS = 0;
 		}
-			
+
 		List<FensTeam> list = fensTeamMapper.selectAll(user.getId());
-		if(list.size()>0){
+		if (list.size() > 0) {
 			int chazhi = list.size() - oldZTRS;
-			if(chazhi>0){
+			if (chazhi > 0) {
 				double zhituiSY = chazhi * 2;
-				
+
 				FensWallet fensWallet = fensWalletMapper.selectAll(user.getId());
-				
+
 				Double lockCPA = fensWallet.getLockCpa() + zhituiSY;
 				// 到账时间
 				Date date2 = TimeUtil.getTimeStamp();
 				FensWallet wallet2 = new FensWallet();
 				// 钱包可用余额增加
 				wallet2.setLockCpa(lockCPA);
-				wallet2.setCpaCount(fensWallet.getCpaCount()+zhituiSY);
+				wallet2.setCpaCount(fensWallet.getCpaCount() + zhituiSY);
 				wallet2.setId(fensWallet.getId());
 				// 更新钱包可用cpa
 				int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
 				if (result2 != 1) {
 					ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + user.getId());
 				}
-				
+
 				FensUser fu = new FensUser();
-				fu.setCreater(list.size()+"");
+				fu.setCreater(list.size() + "");
 				fu.setId(user.getId());
-				
+
 				int result3 = fensUserMapper.updateByPrimaryKeySelective(fu);
 				if (result3 != 1) {
 					ServerLog.getLogger().warn("更新用户直推失败，粉丝id：" + user.getId());
 				}
 			}
 		}
-		
-		
-		
+
 		return JsonResult.ok(user);
 	}
 
@@ -445,43 +459,43 @@ public class FensUserServiceImpl implements FensUserService {
 		return pageInfo;
 	}
 
-	//粉丝算力
+	// 粉丝算力
 	@Override
 	public PageInfo<FensComputingPower> selectComputingPower(Integer page, Integer num, Integer fensUserId) {
 		PageHelper.startPage(page, num);
 		List<FensComputingPower> list = fensComputingPowerMapper.selectAll(fensUserId);
 		PageInfo<FensComputingPower> pageInfo = new PageInfo<>(list);
- 		return pageInfo;
+		return pageInfo;
 	}
-	
-	//粉丝算力求和
+
+	// 粉丝算力求和
 	@Override
 	public JsonResult selectSum(Integer fensUserId) {
 		Double sum = fensComputingPowerMapper.sum(fensUserId);
 		return JsonResult.ok(sum);
 	}
 
-	//添加粉丝算力
+	// 添加粉丝算力
 	@Override
 	public JsonResult addselectComputingPower(FensComputingPower fensComputingPower) {
-        int result = fensComputingPowerMapper.insertSelective(fensComputingPower);
-        if (result == 1) {
+		int result = fensComputingPowerMapper.insertSelective(fensComputingPower);
+		if (result == 1) {
 			return JsonResult.ok();
 		}
 		return JsonResult.build(500, "新增数据失败");
 	}
 
-	//修改粉丝算力
+	// 修改粉丝算力
 	@Override
 	public JsonResult updateComputingPower(FensComputingPower fensComputingPower) {
 		int result = fensComputingPowerMapper.updateByPrimaryKeySelective(fensComputingPower);
-		 if (result == 1) {
-				return JsonResult.ok();
-			}
-			return JsonResult.build(500, "修改数据失败");
+		if (result == 1) {
+			return JsonResult.ok();
+		}
+		return JsonResult.build(500, "修改数据失败");
 	}
 
-	//粉丝登入状态列表
+	// 粉丝登入状态列表
 	@Override
 	public PageInfo<FensLoginState> selectStatus(Integer page, Integer num) {
 		PageHelper.startPage(page, num);
@@ -490,7 +504,7 @@ public class FensUserServiceImpl implements FensUserService {
 		return pageInfo;
 	}
 
-	//插入粉丝登入状态
+	// 插入粉丝登入状态
 	@Override
 	public JsonResult addFensLoginState(FensLoginState fensLoginState) {
 		int result = fensLoginStateMapper.insertSelective(fensLoginState);
@@ -499,76 +513,78 @@ public class FensUserServiceImpl implements FensUserService {
 		}
 		return JsonResult.build(500, "添加粉丝登入状态失败");
 	}
-	
+
 	// 粉丝团列表2
 	@Override
 	public PageInfo<FensUser> selectAllUser(Integer page, Integer num, String phone, String type) {
 		if ("all".equals(type)) {
 			List<FensUser> list = fensUserMapper.selectAllUser(phone);
 			PageInfo<FensUser> pageInfo = new PageInfo<>(list);
-			
+
 			List<FensUser> listParentRecord = new ArrayList<FensUser>();
-			getTreeChildRecord(listParentRecord,phone);
+			getTreeChildRecord(listParentRecord, phone);
 			pageInfo.setPages(listParentRecord.size());
-			
+
 			return pageInfo;
 		}
 		PageHelper.startPage(page, num);
 		List<FensUser> list = fensUserMapper.selectAllUser(phone);
 		PageInfo<FensUser> pageInfo = new PageInfo<>(list);
 		pageInfo.getTotal();
-		
-//			pageInfo.setPages(getEmployeeBysup(phone));
-		
+
+		// pageInfo.setPages(getEmployeeBysup(phone));
+
 		return pageInfo;
 	}
-	
-	/** 
-	    * 说明方法描述：递归查询子节点 
-	    *  
-	    * @param listParentRecord 粉丝团集合
-	    * @param parentUuid 父节点id 
-	    * @return 
-	    */  
-	
-	private List<FensUser> getTreeChildRecord(List<FensUser> listParentRecord,String parentUuid) {
-//		List<FensUser> listParentRecord = new ArrayList<FensUser>();
+
+	/**
+	 * 说明方法描述：递归查询子节点
+	 * 
+	 * @param listParentRecord
+	 *            粉丝团集合
+	 * @param parentUuid
+	 *            父节点id
+	 * @return
+	 */
+
+	private List<FensUser> getTreeChildRecord(List<FensUser> listParentRecord, String parentUuid) {
+		// List<FensUser> listParentRecord = new ArrayList<FensUser>();
 		List<FensUser> childList = fensUserMapper.selectAllUser(parentUuid);
 
 		// 遍历tmpList，找出所有的根节点和非根节点
 		if (childList != null && childList.size() > 0) {
 			for (FensUser record : childList) {
 				listParentRecord.add(record);
-				getTreeChildRecord(listParentRecord,record.getPhone());
+				getTreeChildRecord(listParentRecord, record.getPhone());
 			}
 		}
 		return listParentRecord;
 
-//		// 遍历tmpList，找出所有的根节点和非根节点
-//		if (childList != null && childList.size() > 0) {
-//			for (FensUser record : childList) {
-//				// 对比找出父节点
-//				if (record.getPhone().equals(parentUuid)) {
-//					listParentRecord.add(record);
-//				} else {
-//					listNotParentRecord.add(record);
-//				}
-//
-//			}
-//		}
-//		// 查询子节点
-//		if (listParentRecord.size() > 0) {
-//			for (FensUser record : listParentRecord) {
-//				// 递归查询子节点
-//				getTreeChildRecord(listNotParentRecord, record.getPhone());
-//			}
-//		}
-//		return listParentRecord;
+		// // 遍历tmpList，找出所有的根节点和非根节点
+		// if (childList != null && childList.size() > 0) {
+		// for (FensUser record : childList) {
+		// // 对比找出父节点
+		// if (record.getPhone().equals(parentUuid)) {
+		// listParentRecord.add(record);
+		// } else {
+		// listNotParentRecord.add(record);
+		// }
+		//
+		// }
+		// }
+		// // 查询子节点
+		// if (listParentRecord.size() > 0) {
+		// for (FensUser record : listParentRecord) {
+		// // 递归查询子节点
+		// getTreeChildRecord(listNotParentRecord, record.getPhone());
+		// }
+		// }
+		// return listParentRecord;
 	}
 
 	@Override
-public JsonResult updateInfo(FensUser fensUser) {
-		
+	public JsonResult updateInfo(FensUser fensUser) {
+
 		FensUser user = fensUserMapper.selectRegister(fensUser);
 		if (user == null) {
 			return JsonResult.build(20022, ErrorCodeConfigUtil.ERROR_MSG_ZH_20022);
@@ -584,4 +600,5 @@ public JsonResult updateInfo(FensUser fensUser) {
 
 		return JsonResult.build(500, "网络服务异常，请稍后重试");
 	}
+
 }

@@ -34,18 +34,18 @@
 				    <input type="file" accept="image/*" name="file0" id="file0"/><br><img src="" id="img0" style="width:70%;">  
 			    </form>
                 <label class="label_item">
-                   <!--  <span class="text_item"><i>*</i>真实姓名</span><input type="text" name="realName" placeholder="输入您的姓名" id="name"> -->
+                    <span class="text_item"><i>*</i>真实姓名</span><input type="text" name="realName" disabled="disabled"  id="name"> 
                 </label>
-                <!-- <label class="label_item">
-                    <span class="text_item"><i>*</i>身份证号</span><input type="text" name="userId" placeholder="输入您的身份证号码" id="cardid">
-                </label> -->
+                <label class="label_item">
+                    <span class="text_item"><i>*</i>身份证号</span><input type="text" name="userId" disabled="disabled" id="cardid">
+                </label> 
             </div>
             <!--<div class="form_wrap">
                 <label>
                     <span><i>*</i>验证码</span><input type="text" name="identifying_code " placeholder="输入验证码" class="identifying_code"><img src="img/codeImage.png"><a href="javascript:;">换一张</a>
                 </label>
             </div>-->
-            <div class="btn_wrap"><a href="javascript:;" class="sub_btn" onclick=" verified.next($(this))">提交</a></div>
+            <div class="btn_wrap"><a href="javascript:userCheck();" class="sub_btn">提交</a></div>
         </section>
     </section>
 </div>

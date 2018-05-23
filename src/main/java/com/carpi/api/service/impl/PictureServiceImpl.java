@@ -65,6 +65,7 @@ public class PictureServiceImpl implements PictureService {
 			}
 			 resultMap.put("error", 0);
              resultMap.put("url", IMAGE_BASE_URL + imagePath + "/" + newName);
+             
              return resultMap;
 		} catch (Exception e) {
 			 resultMap.put("error", 1);

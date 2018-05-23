@@ -32,13 +32,15 @@ public class PictureController2 {
 	 */
 
 	@RequestMapping(value = "/pic/upload2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	public void pushErrorData(HttpServletRequest request, HttpServletResponse response) throws IOException {
+	@ResponseBody
+	public Map pushErrorData(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		// 转型为MultipartHttpRequest(重点的所在)这个就是上面ajax中提到如果直接访问此接口而不加"/"，此转型就会报错
 		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 		MultipartFile file = multipartRequest.getFile("errPic"); // 对应 jquery $("#imageFile").get(0).files[index]
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (null != file && !file.isEmpty()) {
-			map = pictureService.uploadPicture(file);
+			return pictureService.uploadPicture(file);
 		}
+		return null;
 	}
 }

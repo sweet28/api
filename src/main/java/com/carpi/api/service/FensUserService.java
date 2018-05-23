@@ -19,6 +19,12 @@ public interface FensUserService {
 	
 	//忘记密码
 	public JsonResult forgetPwd(FensUser fensUser,String code_type, String code);
+	
+	//交易密码
+	public JsonResult jiaoYi(FensUser fensUser);
+	
+	//修改交易密码
+	public JsonResult updateJiaoYi(FensUser fensUser);
 
 	//修改信息
 	public JsonResult updateInfo(FensUser fensUser);

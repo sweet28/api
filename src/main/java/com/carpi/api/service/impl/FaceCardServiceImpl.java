@@ -15,8 +15,8 @@ public class FaceCardServiceImpl implements FaceCardService {
 	public String card(String img_url) throws Exception {
 		String url = "https://api-cn.faceplusplus.com/cardpp/v1/ocridcard";
 		HashMap<String, String> map = new HashMap<>();
-		map.put("api_key", "ynhK8hXra8ji6RnfUD_M5fPT1XIC_DGk");
-		map.put("api_secret", "mJPGW64LTQPG4gQZvFEb4bcnCtaDfsMn");
+		map.put("api_key", "8qq0MDKgcfMwOiw7E27tvZ08D6LbErhP");
+		map.put("api_secret", "xJIXFiZV011fBLQVexoS1S1QUYkxLaIz");
 		map.put("image_url", img_url);
 		String backResult = new String(FaceIdentityUtil.post(url, map), "UTF-8");
 		return backResult;

@@ -8,6 +8,10 @@ var faceUrl = "https://api-cn.faceplusplus.com/cardpp/v1/ocridcard";
 
 var testUrl = "https://cpa.artforyou.cn/img/1.jpg"
 
+var name;
+
+var cardid;
+
 $("#file0").change(function(){  
 	
 //	$.ajax({
@@ -36,44 +40,101 @@ $("#file0").change(function(){
       if (objUrl) {  
         // 在这里修改图片的地址属性  
         $("#img0").attr("src", objUrl) ;
-        var data = new FormData($('#form0')[0]); 
+//        var data = new FormData($('#form0')[0]); 
         
+        var files = $("#file0").get(0).files[0]; //获取file控件中的内容
+        var fd = new FormData();
+        fd.append("errPic", files);
+         var url = getAPIURL() + "pic/upload2";
+         $.ajax({
+             type: "POST",
+             contentType:false, //必须false才会避开jQuery对 formdata 的默认处理 , XMLHttpRequest会对 formdata 进行正确的处理
+             processData: false, //必须false才会自动加上正确的Content-Type
+             url: url,
+             data: fd,
+             dataType:"json",
+             success: function (data) {
+            	 $.ajax({
+            		 type: "POST",
+            		 dataType: "json",
+            		 url: getAPIURL()+"cpa/facecard",
+            		 data:{
+            			 imgUrl:data.url,
+            		 },
+            		 success:function(data){
+            			 console.log(data);
+            			 console.log(data.cards[0].address);
+	        			 name = data.cards[0].name;
+	        			 cardid = data.cards[0].id_card_number;
+            			 $('#name').val(name);
+            			 $('#cardid').val(cardid);
+            		 },
+            		 error: function (data) {
+                    	 console.log("系统错误");
+                     }
+            	 });
+            	 console.log(data.url);
+             },
+             error: function (data) {
+            	 console.log("系统错误");
+             }
+         });
         
-        $.ajax({
-  	      type: "post",
-  	      url: getAPIURL() + "fenuser/updateInfo",
-  	      data:{
-  	        "attachment": "0",
-  	        "phone":getPhone()
-  	      },
-  	      dataType: "json",
-  	      success: function (data) {
-  	    	 if(data.status == 200){
-  	    		 localStorage.setItem("sec","0");
-	  	    	  layer.open({
-	  	    	    content: "认证提交完成",
-	  	    	    skin: 'msg',
-	  	    	    time: 2, //2秒后自动关闭
-	  	    	    end: function () {
-//	  	    	      location.href = '../page/safe_center.html?z';
-	  	    	    }
-	  	    	  });
-  	    	  }else{
-  	    		  console.log("=======================098");
-  	    	  }
-  	      },
-  	      error: function () {
-  	        $('#mydiv').empty();
-  	        var txtsNULL = "<p class='nothing'>网络错误</p>";
-  	        $('#mydiv').append(txtsNULL);
-  	      },
-  	      headers: {
-  	        "Authorization": "Bearer " + getTOKEN()
-  	      }
-
-        });
       }  
     }) ;  
+
+    //身份验证
+    function userCheck(){
+		var locName = localStorage.getItem("name");
+		var locCardId = localStorage.getItem("ucard");
+		console.log("32132132");
+		if($('#name').val() == '' ||  $('#cardid').val() == '' || $('#name').val() == null ||  $('#cardid').val() == null){
+			console.log("11111111111");
+			alert("图片未识别，请重新上传身份证正面照片");
+    		return false;
+		}
+		
+		console.log("locName:"+locName + "-----locCardId:"+locCardId +"----name:"+name+"------cardid"+cardid);
+		if(locName == name && locCardId == cardid){
+			$.ajax({
+		  	      type: "post",
+		  	      url: getAPIURL() + "fenuser/updateInfo",
+		  	      data:{
+		  	        "attachment": "1",
+		  	        "phone":getPhone()
+		  	      },
+		  	      dataType: "json",
+		  	      success: function (data) {
+		  	    	 if(data.status == 200){
+		  	    		 localStorage.setItem("sec","1");
+			  	    	  layer.open({
+			  	    	    content: "认证提交完成",
+			  	    	    skin: 'msg',
+			  	    	    time: 2, //2秒后自动关闭
+			  	    	    end: function () {
+			  	    	      location.href = '../page/safe_center.html?z';
+			  	    	    }
+			  	    	  });
+		  	    	  }else{
+		  	    		  console.log("=======================098");
+		  	    	  }
+		  	      },
+		  	      error: function () {
+		  	        $('#mydiv').empty();
+		  	        var txtsNULL = "<p class='nothing'>网络错误</p>";
+		  	        $('#mydiv').append(txtsNULL);
+		  	      },
+		  	      headers: {
+		  	        "Authorization": "Bearer " + getTOKEN()
+		  	      }
+
+		        });
+		}else{
+			alert("名字或身份证不匹配，认证不通过");
+		}
+    
+    }
+    
     //建立一個可存取到該file的url  
     function getObjectURL(file) {  
       var url = null ;   

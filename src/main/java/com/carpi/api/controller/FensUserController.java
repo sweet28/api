@@ -40,54 +40,60 @@ public class FensUserController {
 	public JsonResult forgetPwd(FensUser fensUser, String code_type, String code) {
 		return fensUserService.forgetPwd(fensUser, code_type, code);
 	}
-	
+
+	// 交易密码
+	@RequestMapping(value = "/jiaoYi", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult jiaoYi(FensUser fensUser) {
+		return fensUserService.jiaoYi(fensUser);
+	}
+
 	// 修改信息
 	@RequestMapping(value = "/updateInfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult forgetPwd(FensUser fensUser) {
 		return fensUserService.updateInfo(fensUser);
 	}
-	
-	//粉丝团列表
+
+	// 粉丝团列表
 	@RequestMapping(value = "/list", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public PageInfo<FensTeam> slectAll(Integer page,Integer num,Integer fensUserId,String type) {
-		return fensUserService.selectAll(page, num, fensUserId,type);
+	public PageInfo<FensTeam> slectAll(Integer page, Integer num, Integer fensUserId, String type) {
+		return fensUserService.selectAll(page, num, fensUserId, type);
 	}
-	
-	//粉丝算力列表明细
+
+	// 粉丝算力列表明细
 	@RequestMapping(value = "/suanlilist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public PageInfo<FensComputingPower> suanlilist(Integer page,Integer num,Integer fensUserId) {
+	public PageInfo<FensComputingPower> suanlilist(Integer page, Integer num, Integer fensUserId) {
 		return fensUserService.selectComputingPower(page, num, fensUserId);
 	}
-	
-	//添加粉丝算力明细
+
+	// 添加粉丝算力明细
 	@RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult addselectComputingPower(FensComputingPower fensComputingPower) {
 		return fensUserService.addselectComputingPower(fensComputingPower);
 	}
-	
-	//修改粉丝算力
+
+	// 修改粉丝算力
 	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult updateComputingPower(FensComputingPower fensComputingPower) {
 		return fensUserService.updateComputingPower(fensComputingPower);
 	}
-	
-	
-	//粉丝算力值和
+
+	// 粉丝算力值和
 	@RequestMapping(value = "/sum", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public JsonResult selectSum(Integer page,Integer num,Integer fensUserId) {
+	public JsonResult selectSum(Integer page, Integer num, Integer fensUserId) {
 		return fensUserService.selectSum(fensUserId);
 	}
-	
-	//粉丝团列表2
+
+	// 粉丝团列表2
 	@RequestMapping(value = "/list2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public PageInfo<FensUser> slectAllUser(Integer page,Integer num,String phone,String type) {
-		return fensUserService.selectAllUser(page, num, phone,type);
+	public PageInfo<FensUser> slectAllUser(Integer page, Integer num, String phone, String type) {
+		return fensUserService.selectAllUser(page, num, phone, type);
 	}
 }
