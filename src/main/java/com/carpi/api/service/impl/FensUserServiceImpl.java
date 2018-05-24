@@ -105,6 +105,13 @@ public class FensUserServiceImpl implements FensUserService {
 			return JsonResult.build(20044, ErrorCodeConfigUtil.ERROR_MSG_ZH_20044);
 		}
 	}
+	
+	@Override
+	public FensUser info(FensUser fensUser) {
+		FensUser fu = new FensUser();
+		fu = fensUserMapper.selectByPrimaryKey(fensUser.getId());
+		return fu;
+	}
 
 	// 添加粉丝
 	@Transactional

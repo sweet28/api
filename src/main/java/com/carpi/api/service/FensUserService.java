@@ -55,4 +55,6 @@ public interface FensUserService {
 	
 	//粉丝团列表2
 	public PageInfo<FensUser> selectAllUser(Integer page,Integer num,String phone,String type);
+
+	FensUser info(FensUser fensUser);
 }

@@ -6,14 +6,19 @@ var ddState;
 var syTime;
 var totalPrice;
 var mjxm;
+var mjsj;
 var bank;
 var bankCard;
 var bankDetail;
 var bankAttr;
 
+var mrxm;
+var mrsj;
+
 var tradeId;
 var uid;
 var fensID;
+var type;
 $(function () {
 	tradeId = window.location.search.substring(1);
 	$.ajax({
@@ -32,6 +37,7 @@ $(function () {
 	    		totalCount = data.traderCount;
 	    		ddState = data.traderState;
 	    		ddType = data.traderType;//1：买单；2：卖单
+	    		type = ddType;
 	    		syTime = "请在订单生成后24小时内内支付。";
 	    		totalPrice = data.moneyCount;
 	    		
@@ -71,12 +77,77 @@ $(function () {
 	    		
 	    		$("#bankAttr").val(ddNum.substring(10));
 	    		
-	    		var userid;
+	    		var userid;//卖家ID
 	    		if(ddType==2){//1：买单；2：卖单
 	    			userid = data.traderId;
+	    			
+	    			$.ajax({
+	    			    type: "post",
+	    			    url: getAPIURL() + "fenuser/info",
+	    			    dataType: "json",
+	    			    data: {
+	    			    	"id":data.traderId
+	    			    },
+	    			    success: function (data) {
+	    			    	mjsj = data.phone;
+	    			    	$("#mjsj").val(mjsj);
+	    			    },
+	    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    			    }
+	    			  });
+	    			
+	    			$.ajax({
+	    			    type: "post",
+	    			    url: getAPIURL() + "fenuser/info",
+	    			    dataType: "json",
+	    			    data: {
+	    			    	"id":data.fensUserId
+	    			    },
+	    			    success: function (data) {
+	    			    	mrsj = data.phone;
+	    			    	mrxm = data.name;
+	    			    	$("#mrsj").val(mrsj);
+	    			    	$("#mrxm").val(mrxm);
+	    			    },
+	    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    			    }
+	    			  });
+	    			
 	    		}
 	    		if(ddType==1){//1：买单；2：卖单
 	    			userid = data.fensUserId;
+	    			
+	    			$.ajax({
+	    			    type: "post",
+	    			    url: getAPIURL() + "fenuser/info",
+	    			    dataType: "json",
+	    			    data: {
+	    			    	"id":userid
+	    			    },
+	    			    success: function (data) {
+	    			    	mjsj = data.phone;
+	    			    	$("#mjsj").val(mjsj);
+	    			    },
+	    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    			    }
+	    			  });
+	    			
+	    			$.ajax({
+	    			    type: "post",
+	    			    url: getAPIURL() + "fenuser/info",
+	    			    dataType: "json",
+	    			    data: {
+	    			    	"id":data.traderId
+	    			    },
+	    			    success: function (data) {
+	    			    	mrsj = data.phone;
+	    			    	mrxm = data.name;
+	    			    	$("#mrsj").val(mrsj);
+	    			    	$("#mrxm").val(mrxm);
+	    			    },
+	    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    			    }
+	    			  });
 	    		}
 	    		
 	    		console.log("userid----------:"+userid);
@@ -133,8 +204,15 @@ $(function () {
 });
 
 function cpaNext2(){
+	var userid;
+	if(type==2){//1：买单；2：卖单
+		userid = fensID;
+	}
+	if(type==1){//1：买单；2：卖单
+		userid = uid;
+	}
 	console.log("tid:"+uid+"------fid:"+fensID);
-	if(localStorage.getItem("uid")==uid){
+	if(localStorage.getItem("uid")==userid){
 		console.log(888);
 		$.ajax({
 		    type: "post",
@@ -181,8 +259,15 @@ function cpaNext2(){
 }
 
 function cpaNext3(){
-	console.log("tid:"+uid+"------fid:"+fensID);
-	if(localStorage.getItem("uid")==fensID){
+	var userid;
+	if(type==2){//1：买单；2：卖单
+		userid = uid;
+	}
+	if(type==1){//1：买单；2：卖单
+		userid = fensID;
+	}
+	console.log("tid:"+uid+"------fid:"+fensID+"--------------------------------------type:"+type);
+	if(localStorage.getItem("uid")==userid){
 		console.log(999);
 		$.ajax({
 		    type: "post",
@@ -190,7 +275,10 @@ function cpaNext3(){
 		    dataType: "json",
 		    data: {
 		    	"id":tradeId,
-		    	"traderState":3
+		    	"traderState":3,
+		    	"traderType":type,
+		    	"traderId":uid,
+		    	"fensUserId":fensID
 		    },
 		    success: function (data) {
 		    	console.log(data);

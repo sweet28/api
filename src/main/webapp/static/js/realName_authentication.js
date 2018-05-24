@@ -14,72 +14,56 @@ var cardid;
 
 $("#file0").change(function(){  
 	
-//	$.ajax({
-//	      type: "post",
-//	      multi:true,
-//	      url: faceUrl,
-//	      data:{
-//	    	"api_key":testKey,
-//	    	"api_secret":testSec,
-//	    	"image_url":testUrl
-//	      },
-//	      dataType: "jsonp",
-//	      success: function (data) {
-//	    	  console.log(data);
-//	      },
-//	      error: function () {
-//	    	  console.log("lllllllllllllllllllll000------------");
-//	      }
-//      });
-//	
-	
       var objUrl = getObjectURL(this.files[0]) ;
       console.log(this.files[0]+"-------77777");
       // 这句代码没什么作用，删掉也可以  
       // console.log("objUrl = "+objUrl) ;  
       if (objUrl) {  
-        // 在这里修改图片的地址属性  
-        $("#img0").attr("src", objUrl) ;
-//        var data = new FormData($('#form0')[0]); 
-        
         var files = $("#file0").get(0).files[0]; //获取file控件中的内容
-        var fd = new FormData();
-        fd.append("errPic", files);
-         var url = getAPIURL() + "pic/upload2";
-         $.ajax({
-             type: "POST",
-             contentType:false, //必须false才会避开jQuery对 formdata 的默认处理 , XMLHttpRequest会对 formdata 进行正确的处理
-             processData: false, //必须false才会自动加上正确的Content-Type
-             url: url,
-             data: fd,
-             dataType:"json",
-             success: function (data) {
-            	 $.ajax({
-            		 type: "POST",
-            		 dataType: "json",
-            		 url: getAPIURL()+"cpa/facecard",
-            		 data:{
-            			 imgUrl:data.url,
-            		 },
-            		 success:function(data){
-            			 console.log(data);
-            			 console.log(data.cards[0].address);
-	        			 name = data.cards[0].name;
-	        			 cardid = data.cards[0].id_card_number;
-            			 $('#name').val(name);
-            			 $('#cardid').val(cardid);
-            		 },
-            		 error: function (data) {
-                    	 console.log("系统错误");
-                     }
-            	 });
-            	 console.log(data.url);
-             },
-             error: function (data) {
-            	 console.log("系统错误");
-             }
-         });
         
+        if(files.size < 1024*1024*2){
+            // 在这里修改图片的地址属性  
+            $("#img0").attr("src", objUrl);
+            
+        	var fd = new FormData();
+            fd.append("errPic", files);
+             var url = getAPIURL() + "pic/upload2";
+             $.ajax({
+                 type: "POST",
+                 contentType:false, //必须false才会避开jQuery对 formdata 的默认处理 , XMLHttpRequest会对 formdata 进行正确的处理
+                 processData: false, //必须false才会自动加上正确的Content-Type
+                 url: url,
+                 data: fd,
+                 dataType:"json",
+                 success: function (data) {
+                	 $.ajax({
+                		 type: "POST",
+                		 dataType: "json",
+                		 url: getAPIURL()+"cpa/facecard",
+                		 data:{
+                			 imgUrl:data.url,
+                		 },
+                		 success:function(data){
+                			 console.log(data);
+                			 console.log(data.cards[0].address);
+    	        			 name = data.cards[0].name;
+    	        			 cardid = data.cards[0].id_card_number;
+                			 $('#name').val(name);
+                			 $('#cardid').val(cardid);
+                		 },
+                		 error: function (data) {
+                        	 console.log("系统错误");
+                         }
+                	 });
+                	 console.log(data.url);
+                 },
+                 error: function (data) {
+                	 console.log("系统错误");
+                 }
+             });
+        }else{
+        	alert("上传图片不能超过2M，请重新上传.");
+        }
       }  
     }) ;  
 

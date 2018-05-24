@@ -80,7 +80,7 @@ function agoumai(type,grade){
     		    		      });
 	    		    	}else{
 	    		    		layer.open({
-  		    		          content: '购买失败。'
+  		    		          content: data.msg
   		    		          , btn: '确定'
   		    		      });
 	    		    	}

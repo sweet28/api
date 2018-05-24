@@ -368,7 +368,7 @@ function csCPA(id,count){
 //	        	    		      });
 //	        	    			return false;
 //	        	    		}
-	        	    		if(yue >= count){
+	        	    		if(yue*0.8 >= count){
 	        	    			window.location.href = "../page/my_invest.html?"+id+"&cs";
 //	        	    			layer.open({
 //	        	    		          content: '即将出售'+count+'个CPA，确定吗？'

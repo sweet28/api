@@ -44,7 +44,7 @@ $("#recharge").click(function(){
 	    	  "cardNumber":cardnum.val(),
 	    	  "openBranch":cardbank.val(),
 	    	  "bank":bankname.val(),
-	    	  "name":localStorage.getItem("username"),
+	    	  "name":localStorage.getItem("name"),
 	    	  "phone":localStorage.getItem("phone"),
 	    	  "isApply":1
 	      },

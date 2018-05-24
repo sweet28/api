@@ -33,6 +33,13 @@ public class FensUserController {
 	public JsonResult login(FensUser fensUser) {
 		return fensUserService.login(fensUser);
 	}
+	
+	// 根据ID查个人信息
+	@RequestMapping(value = "/info", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public FensUser info(FensUser fensUser) {
+		return fensUserService.info(fensUser);
+	}
 
 	// 忘记密码
 	@RequestMapping(value = "/forgetPwd", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

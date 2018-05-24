@@ -2,7 +2,7 @@ body, html {
     height: 100%;
     -webkit-tap-highlight-color: transparent;
     background: #efefef;
-    font-family: "微软雅黑";
+    font-family: "寰蒋闆呴粦";
     position: relative;
 }
 a{color:#fb5858;text-decoration:none;}
@@ -24,7 +24,7 @@ header .weui-col-33:last-child .icon.icon-delete{
     cursor: pointer;
 }
 .clear{clear: both;}
-/*公共底*/
+/*鍏叡搴�*/
 .weui_tabbar_icon>.icon{width:30px;height: 30px;background-image: url(../img/iconp2p.png);background-size: 500%;}
 .weui_tabbar_icon>.icon.icon-sy{background-position: 0 0;}
 .weui_tabbar_icon>.icon.icon-tz{background-position: -30px 0;}
@@ -102,7 +102,7 @@ header .weui-col-33:last-child .icon.icon-delete{
 .withdraw .weui_btn_warn{width:40%;margin-top:40px;font-size: 1em;background: #c4c4c4;}
 .withdraw .weui_btn_warn.active{background:#FB5858; }
 .withdraw .weui_cells:after{border:none;}
-.link_card{padding-bottom: 70px;}
+.link_card{padding-bottom: 50px;}
 .weui_cells:after{border: none;}
 .withdraw .weui_cell_select .weui_cell_bd:after{right: 30px;}
 

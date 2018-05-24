@@ -315,7 +315,7 @@
 			<if test="traderState != null">
 				and trader_state = #{traderState,jdbcType=INTEGER}
 			</if>
-			 order by entrust_price
+			 order by entrust_price desc,create_date asc
 		</where>
 	</select>
 	

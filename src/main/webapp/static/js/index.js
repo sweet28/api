@@ -532,6 +532,8 @@ $("#cpamai").click(function (){
 	        	}
 	        	
 	        	if(trader_type == 2){
+	        		console.log("----type::::"+trader_type);
+	        		
 	        		var flag = 0;
 	        		$.ajax({
 	        		    type: "post",
@@ -582,13 +584,13 @@ $("#cpamai").click(function (){
 	        	      });
 	        		return false;
 	        	}
-	        	if(entrust_price<0.055){
-	        		layer.open({
-	        	          content: '交易单价不能小于0.055'
-	        	          , btn: '确定'
-	        	      });
-	        		return false;
-	        	}
+//	        	if(entrust_price<0.065){
+//	        		layer.open({
+//	        	          content: '交易单价不能小于0.065美元'
+//	        	          , btn: '确定'
+//	        	      });
+//	        		return false;
+//	        	}
 	        	
 	        	var price = 0.05;
 	        	var myDate = new Date();
@@ -596,14 +598,14 @@ $("#cpamai").click(function (){
 	        	var bzTime = "2018-05-19";
 	        	var bzPrice = price*Math.pow(1.1,daysBetween(nowTime,bzTime));
 	        	
-	        	bzPrice = 0.1;
-	        	if(entrust_price>bzPrice){
-	        		layer.open({
-	        	          content: '交易单价今日最高挂单价格：'+bzPrice+'.'
-	        	          , btn: '确定'
-	        	      });
-	        		return false;
-	        	}
+//	        	bzPrice = 0.12;
+//	        	if(entrust_price>bzPrice){
+//	        		layer.open({
+//	        	          content: '交易单价今日最高挂单价格：'+bzPrice+'美元.'
+//	        	          , btn: '确定'
+//	        	      });
+//	        		return false;
+//	        	}
 	        	
 	        	$.ajax({
 	        	      type: "post",
@@ -627,7 +629,7 @@ $("#cpamai").click(function (){
 	        	          });
 	        	        } else {
 	        	        	layer.open({
-	        		            content: '操作失败，请检查网络服务。'
+	        		            content: data.msg
 	        		            , btn: ['确定']
 	        		            , yes: function (index) {
 	        		  	          window.location.href = "../page/index.html";
