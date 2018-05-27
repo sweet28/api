@@ -20,4 +20,8 @@ public interface FensMinerService {
 	PageInfo<FensMiner> selectBMinner(Integer page, Integer row, Integer fensUserId);
 
 	JsonResult thawABMiner(FensMiner miner);
+
+	PageInfo<FensMiner> selectAMinnerKC(Integer page, Integer row, Integer fensUserId);
+
+	PageInfo<FensMiner> selectBMinnerKC(Integer page, Integer row, Integer fensUserId);
 }

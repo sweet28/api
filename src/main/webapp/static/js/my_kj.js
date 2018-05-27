@@ -46,9 +46,15 @@ function Gift() {
         		
         		var nowDate = Date.parse(new Date());
         		var rundate = nowDate - content.createDate;
-        		rundate = rundate/1000/3600;
         		
-			    html += "<tr><td class='first'>"+(index+1)+"</td><td>"+xh+"</td><td>"+content.minerComputingPower+"</td><td>"+runs+"</td><td>"+rundate+"</td></tr>";
+        		rundate = rundate/1000/3600/24;
+        		if(rundate > 15){
+        			rundate=15;
+        		}
+        		
+        		var runHours = rundate*24;
+        		
+			    html += "<tr><td class='first'>"+(index+1)+"</td><td>"+xh+"</td><td>"+content.minerComputingPower+"</td><td>"+runs+"</td><td>"+runHours+"</td></tr>";
 			});
         	
         	$("#a_miner").html(html);

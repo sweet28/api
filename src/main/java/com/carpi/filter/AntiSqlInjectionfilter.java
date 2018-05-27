@@ -34,6 +34,9 @@ public class AntiSqlInjectionfilter implements Filter {
             //得到参数名
             String name = params.nextElement().toString();
             System.out.println("name===========================" + name + "--");
+            if(name.equals("imgUrl")){
+            	break;
+            }
             //得到参数对应值
             String[] value = req.getParameterValues(name);
             for (int i = 0; i < value.length; i++) {

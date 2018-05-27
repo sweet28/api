@@ -170,7 +170,8 @@ function cpaNextMaiRu(){
 	    	  "entrustPrice":entrust_price,
 	    	  "traderCount":trader_count,
 	    	  "moneyCount":countPrice,
-	    	  "fensUserId":fens_user_id
+	    	  "fensUserId":fens_user_id,
+	    	  "attachment":localStorage.getItem("uid")
 	      },
 	      success: function (data) {
 	        if (data.status==200) {
@@ -288,15 +289,17 @@ function cpaNextChuShou(){
 	    	  "traderState":trader_state,
 	    	  "entrustPrice":entrust_price,
 	    	  "traderCount":trader_count,
+	    	  "traderType":1,
 	    	  "moneyCount":countPrice,
-	    	  "fensUserId":fens_user_id
+	    	  "fensUserId":fens_user_id,
+	    	  "attachment":localStorage.getItem("uid")
 	      },
 	      success: function (data) {
 	    	  console.log("-----------------------");
 	    	  console.log(data);
 	        if (data.status==200) {
 	          layer.open({
-	            content: '交易成功。'
+	            content: '交易提交成功，待人工审核卖方CPA资产合法性通过后，进行交易。'
 	            , btn: ['确定']
 	            , yes: function (index) {
 	              window.location.href = "../page/my_invest2.html?"+id;

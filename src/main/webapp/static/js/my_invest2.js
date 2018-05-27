@@ -39,12 +39,24 @@ $(function () {
 	    		ddType = data.traderType;//1：买单；2：卖单
 	    		type = ddType;
 	    		syTime = "请在订单生成后24小时内内支付。";
-	    		totalPrice = data.moneyCount;
+	    		totalPrice = data.entrustPrice*6.5*data.traderCount;//data.moneyCount;
 	    		
 	    		uid = data.traderId;
 	    		fensID = data.fensUserId;
 	    		
 	    		console.log(uid+":-------101-------:"+fensID);
+	    		
+	    		if(ddState=='1'){
+	    			$("#ddState").val("待付款");
+	    		}else if(ddState=='2'){
+	    			$("#ddState").val("已付款，待确认");
+	    		}else if(ddState=='4'){
+	    			$("#ddState").val("待审核卖家CPA合法性");
+	    		}else if(ddState=='3'){
+	    			$("#ddState").val("已完成");
+	    			$("#modifypassword_btn").css({"display": "none"});
+	    			$("#modifypassword_btn2").css({"display": "none"});
+	    		}
 	    		
 	    		$("#ddNum").val(ddNum);
 	    		$("#createTime").val(ddTime);
@@ -52,15 +64,7 @@ $(function () {
 	    		$("#cpaCount").val(totalCount);
 	    		$("#syTime").val(syTime);
 	    		$("#totalPrice").val("￥"+totalPrice);
-	    		if(ddState=='1'){
-	    			$("#ddState").val("待付款");
-	    		}else if(ddState=='2'){
-	    			$("#ddState").val("已付款，待确认");
-	    		}else if(ddState=='3'){
-	    			$("#ddState").val("已完成");
-	    			$("#modifypassword_btn").css({"display": "none"});
-	    			$("#modifypassword_btn2").css({"display": "none"});
-	    		}
+	    		
 	    		
 	    		if(ddState=='1' && ddType==2 && localStorage.getItem("uid")==fensID){
 	    			$("#modifypassword_btn").show();
@@ -90,7 +94,9 @@ $(function () {
 	    			    },
 	    			    success: function (data) {
 	    			    	mjsj = data.phone;
-	    			    	$("#mjsj").val(mjsj);
+	    			    	if(ddState!='4'){
+	    			    		$("#mjsj").val(mjsj);
+	    			    	}
 	    			    },
 	    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
 	    			    }
@@ -106,8 +112,10 @@ $(function () {
 	    			    success: function (data) {
 	    			    	mrsj = data.phone;
 	    			    	mrxm = data.name;
-	    			    	$("#mrsj").val(mrsj);
-	    			    	$("#mrxm").val(mrxm);
+	    			    	if(ddState!='4'){
+		    			    	$("#mrsj").val(mrsj);
+		    			    	$("#mrxm").val(mrxm);
+	    			    	}
 	    			    },
 	    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
 	    			    }
@@ -126,7 +134,9 @@ $(function () {
 	    			    },
 	    			    success: function (data) {
 	    			    	mjsj = data.phone;
-	    			    	$("#mjsj").val(mjsj);
+	    			    	if(ddState!='4'){
+	    			    		$("#mjsj").val(mjsj);
+	    			    	}
 	    			    },
 	    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
 	    			    }
@@ -142,8 +152,10 @@ $(function () {
 	    			    success: function (data) {
 	    			    	mrsj = data.phone;
 	    			    	mrxm = data.name;
-	    			    	$("#mrsj").val(mrsj);
-	    			    	$("#mrxm").val(mrxm);
+	    			    	if(ddState!='4'){
+		    			    	$("#mrsj").val(mrsj);
+		    			    	$("#mrxm").val(mrxm);
+	    			    	}
 	    			    },
 	    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
 	    			    }
@@ -172,11 +184,12 @@ $(function () {
 	    		        			runs="未使用";
 	    		        		}else if(runs==1){
 	    		        			runs="使用中";
-	    		        			
-	    		        			$("#mjxm").val(content.name);
-	    		        			$("#bank").val(content.bank);
-	    		        			$("#bankCard").val(content.cardNumber);
-	    		        			$("#bankDetail").val(content.openBranch);
+	    		        			if(ddState!='4'){
+		    		        			$("#mjxm").val(content.name);
+		    		        			$("#bank").val(content.bank);
+		    		        			$("#bankCard").val(content.cardNumber);
+		    		        			$("#bankDetail").val(content.openBranch);
+	    		        			}
 	    		        		}
 	    					});
 	    		        }
@@ -220,7 +233,8 @@ function cpaNext2(){
 		    dataType: "json",
 		    data: {
 		    	"id":tradeId,
-		    	"traderState":2
+		    	"traderState":2,
+		    	"attachment":localStorage.getItem("uid")
 		    },
 		    success: function (data) {
 		    	console.log(data);

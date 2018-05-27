@@ -584,28 +584,6 @@ $("#cpamai").click(function (){
 	        	      });
 	        		return false;
 	        	}
-//	        	if(entrust_price<0.065){
-//	        		layer.open({
-//	        	          content: '交易单价不能小于0.065美元'
-//	        	          , btn: '确定'
-//	        	      });
-//	        		return false;
-//	        	}
-	        	
-	        	var price = 0.05;
-	        	var myDate = new Date();
-	        	var nowTime=myDate.toLocaleDateString().replace('/','-').replace('/','-');
-	        	var bzTime = "2018-05-19";
-	        	var bzPrice = price*Math.pow(1.1,daysBetween(nowTime,bzTime));
-	        	
-//	        	bzPrice = 0.12;
-//	        	if(entrust_price>bzPrice){
-//	        		layer.open({
-//	        	          content: '交易单价今日最高挂单价格：'+bzPrice+'美元.'
-//	        	          , btn: '确定'
-//	        	      });
-//	        		return false;
-//	        	}
 	        	
 	        	$.ajax({
 	        	      type: "post",
@@ -620,13 +598,29 @@ $("#cpamai").click(function (){
 	        	      },
 	        	      success: function (data) {
 	        	        if (data.status==200) {
-	        	          layer.open({
-	        	            content: '挂单成功。'
-	        	            , btn: ['确定']
-	        	            , yes: function (index) {
-	        	              window.location.href = "../page/index.html";
-	        	            }
-	        	          });
+	        	        	if(type == "mc"){
+	        	        		trader_type = 2;
+	        	        		layer.open({
+	    	        	            content: '挂单成功,待审核通过后同步至交易中心。'
+	    		        	            , btn: ['确定']
+	    		        	            , yes: function (index) {
+	    		        	              window.location.href = "../page/index.html";
+	    		        	            }
+    		        	         });
+	        	        	}
+	        	        	
+	        	        	
+	        	        	if(type == "mr"){
+	        	        		trader_type = 1;
+	        	        		layer.open({
+	    	        	            content: '挂单成功。'
+	    	        	            , btn: ['确定']
+	    	        	            , yes: function (index) {
+	    	        	              window.location.href = "../page/index.html";
+	    	        	            }
+	    	        	          });
+	        	        	}
+	        	          
 	        	        } else {
 	        	        	layer.open({
 	        		            content: data.msg

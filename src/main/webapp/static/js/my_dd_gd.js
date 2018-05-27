@@ -93,7 +93,8 @@ function cxCPA(id){
 	    		      dataType: "json",
 	    		      data:{
 	    		    	  "id":id,
-	    		    	  "isDelete":1
+	    		    	  "isDelete":1,
+	    		    	  "attachment":localStorage.getItem("uid")
 	    		      },
 	    		      success: function (data) {
 	    		        if (data.status==200) {

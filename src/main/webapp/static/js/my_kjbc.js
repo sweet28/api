@@ -10,7 +10,7 @@ function Gift() {
 	  var row = 0;
     $.ajax({
       type: "post",
-      url: getAPIURL() + "fenuser/miner/minerBList",
+      url: getAPIURL() + "fenuser/miner/minerBListKC",
       dataType: "json",
       data: {
     	  "fensUserId":uid,

@@ -10,7 +10,7 @@ function comptime() {
 	var row = 0;
     $.ajax({
       type: "post",
-      url: getAPIURL() + "fenuser/miner/minerAList",
+      url: getAPIURL() + "fenuser/miner/minerAListKC",
       dataType: "json",
       data: {
     	  "fensUserId":uid,

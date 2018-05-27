@@ -1,6 +1,7 @@
 package com.carpi.api.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.carpi.api.pojo.FensTransaction;
 
@@ -31,4 +32,6 @@ public interface FensTransactionMapper {
 	List<FensTransaction> selectYWCRecord(FensTransaction fensTransaction);
 	//查询粉丝交易
 	List<FensTransaction> selectGDRecord(FensTransaction fensTransaction);
+
+	Map getAllBlockCPA(Integer uid);
 }

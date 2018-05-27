@@ -56,10 +56,7 @@ function agoumai(type,grade){
 		  methodd = "buyBMiner";
 	  }
 	  
-	  layer.open({
-	      content: '您即将购买矿机。'
-	      , btn: ['知道了']
-	      , yes: function (index) {
+	 
 	    	  
 	    	  $.ajax({
 	    		    type: "post",
@@ -75,7 +72,7 @@ function agoumai(type,grade){
 	    		    	if(data.status==200){
 	    		    		//可用余额
     		    			layer.open({
-    		    		          content: '购买成功。'
+    		    		          content: '购买申请成功，待审核通过后发放矿机。'
     		    		          , btn: '确定'
     		    		      });
 	    		    	}else{
@@ -92,8 +89,7 @@ function agoumai(type,grade){
   		    		      });
 	    		    }
 	    	    });
-	      }
-	    });
+	    
   }
   
 

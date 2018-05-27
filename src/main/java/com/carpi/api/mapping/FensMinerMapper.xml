@@ -257,14 +257,38 @@
 		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
 		and is_delete = 0
 	</select>
+	
+	<!--根据粉丝id查询待审核矿机价值 -->
+	<select id="selectEranMiner" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
+		and is_delete = 2
+	</select>
 
 	<!--根据粉丝id查询A矿机 -->
 	<select id="selectAMiner" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
-		and is_delete = 0 and miner_type = 1
+		from fens_miner 
+		<where>
+			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type = 1 and is_delete = 0
+		</where>
+		
+	</select>
+	
+	<!--根据粉丝id查询A矿机矿池 -->
+	<select id="selectAMinerKC" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_miner 
+		<where>
+			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type = 1 and is_delete in(0,3)
+		</where>
+		
 	</select>
 
 	<!--根据粉丝id查询B矿机 -->
@@ -275,6 +299,15 @@
 		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
 		and is_delete = 0 and miner_type = 2
 	</select>
+	
+	<!--根据粉丝id查询B矿机矿池 -->
+	<select id="selectBMinerKC" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
+		and is_delete in(0,3) and miner_type = 2
+	</select>
 
 	<!-- 根据粉丝id查询A矿机总数 -->
 	<select id="selectASum" parameterType="java.lang.Integer"
@@ -283,7 +316,19 @@
 		count(id)
 		from fens_miner where fens_user_id =
 		#{fensUserId,jdbcType=INTEGER} and
-		is_delete = 0 and miner_type = 1
+		is_delete in (0,2) and miner_type = 1
+	</select>
+	
+	<!--粉丝的b矿机的列表 -->
+	<select id="selectUserMiner" resultType="java.lang.Integer" parameterType="com.carpi.api.pojo.FensMiner">
+		select count(id)
+		from fens_miner
+		<where>
+			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type = #{minerType,jdbcType=INTEGER} and is_delete not in(5)
+			<if test=" isDelete != null">
+				and is_delete not in (1,3)
+			</if>
+		</where>
 	</select>
 	
 	<!-- 查询购买矿机类型的数量 -->

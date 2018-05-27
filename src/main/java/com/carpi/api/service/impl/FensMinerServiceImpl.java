@@ -53,11 +53,29 @@ public class FensMinerServiceImpl implements FensMinerService {
 		return pageInfo;
 	}
 	
+	// 根据粉丝id查询A矿机矿池
+	@Override
+	public PageInfo<FensMiner> selectAMinnerKC(Integer page, Integer row, Integer fensUserId) {
+		PageHelper.startPage(page, row);
+		List<FensMiner> list = fensMinerMapper.selectAMinerKC(fensUserId);
+		PageInfo<FensMiner> pageInfo = new PageInfo<FensMiner>(list);
+		return pageInfo;
+	}
+	
 	// 根据粉丝id查询B矿机
 	@Override
 	public PageInfo<FensMiner> selectBMinner(Integer page, Integer row, Integer fensUserId) {
 		PageHelper.startPage(page, row);
 		List<FensMiner> list = fensMinerMapper.selectBMiner(fensUserId);
+		PageInfo<FensMiner> pageInfo = new PageInfo<FensMiner>(list);
+		return pageInfo;
+	}
+	
+	// 根据粉丝id查询B矿机矿池
+	@Override
+	public PageInfo<FensMiner> selectBMinnerKC(Integer page, Integer row, Integer fensUserId) {
+		PageHelper.startPage(page, row);
+		List<FensMiner> list = fensMinerMapper.selectBMinerKC(fensUserId);
 		PageInfo<FensMiner> pageInfo = new PageInfo<FensMiner>(list);
 		return pageInfo;
 	}
