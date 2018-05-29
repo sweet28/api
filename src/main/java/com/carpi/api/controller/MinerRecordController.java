@@ -28,12 +28,12 @@ public class MinerRecordController {
 	@Autowired
 	private FensRecordServcie fensRecordServcie;
 
-//	// 根据粉丝id查询交易记录
-//	@RequestMapping(value = "/recordlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-//	@ResponseBody
-//	public PageInfo<FensTransaction> selectRecord(Integer page, Integer row, FensTransaction fensTransaction) {
-//		return fensRecordServcie.selectRecord(page, row, fensTransaction);
-//	}
+	// 根据粉丝id查询交易记录
+	@RequestMapping(value = "/recordlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public PageInfo<FensTransaction> selectRecord(Integer page, Integer row, FensTransaction fensTransaction) {
+		return fensRecordServcie.selectRecord(page, row, fensTransaction);
+	}
 //	
 //	// 根据粉丝待付款交易记录
 //	@RequestMapping(value = "/recordDFKlist", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
