@@ -338,4 +338,17 @@
 		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
 		and is_delete = 0 and miner_type = 1 and bak1 = #{bak1,jdbcType=VARCHAR}
 	</select>
+	
+	<!-- 查询矿机的算力（根据粉丝id） -->
+	<select id="sum" resultType="java.lang.Double">
+		select
+		sum(miner_computing_power) as miner_computing_power
+		from fens_miner
+		<where>
+			is_delete = 0
+			<if test="fensUserId != null">
+				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
 </mapper>

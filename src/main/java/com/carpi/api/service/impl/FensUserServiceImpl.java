@@ -105,7 +105,7 @@ public class FensUserServiceImpl implements FensUserService {
 			return JsonResult.build(20044, ErrorCodeConfigUtil.ERROR_MSG_ZH_20044);
 		}
 	}
-	
+
 	@Override
 	public FensUser info(FensUser fensUser) {
 		FensUser fu = new FensUser();
@@ -333,22 +333,22 @@ public class FensUserServiceImpl implements FensUserService {
 			return JsonResult.build(20049, ErrorCodeConfigUtil.ERROR_MSG_ZH_20049);
 		}
 	}
-	
+
 	// 修改密码
 	@Override
-	public JsonResult updatePwd(String OldPwd,String newPwd,Integer fensUserId) {
-		
+	public JsonResult updatePwd(String OldPwd, String newPwd, Integer fensUserId) {
+
 		FensUser fensUser = new FensUser();
 		fensUser.setPwd(MD5.encodeString(MD5.encodeString(OldPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
 		fensUser.setId(fensUserId);
-		//根据旧密码查询用户
+		// 根据旧密码查询用户
 		FensUser fensUser2 = fensUserMapper.selectOldPwd(fensUser);
 		if (fensUser2 == null) {
 			return JsonResult.build(500, "原登入密码错误，请重新出入");
 		}
-		
+
 		FensUser fensUser3 = new FensUser();
-		//新密码
+		// 新密码
 		fensUser3.setPwd(MD5.encodeString(MD5.encodeString(newPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
 		fensUser3.setId(fensUserId);
 		int result = fensUserMapper.updateByPrimaryKeySelective(fensUser3);
@@ -357,14 +357,16 @@ public class FensUserServiceImpl implements FensUserService {
 		}
 		return JsonResult.ok();
 	}
-	//交易密码
+
+	// 交易密码
 	@Override
 	public JsonResult jiaoYi(FensUser fensUser) {
-		//根据手机号码
+		// 根据手机号码
 		FensUser user = fensUserMapper.selectRegister(fensUser);
 		if (user.getCapitalPwd() == null) {
 			FensUser fensUser2 = new FensUser();
-			fensUser2.setCapitalPwd(MD5.encodeString(MD5.encodeString(fensUser.getCapitalPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
+			fensUser2.setCapitalPwd(MD5.encodeString(
+					MD5.encodeString(fensUser.getCapitalPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
 			fensUser2.setId(fensUser.getId());
 			int result = fensUserMapper.updateByPrimaryKeySelective(fensUser2);
 			if (result != 1) {
@@ -374,24 +376,26 @@ public class FensUserServiceImpl implements FensUserService {
 		return JsonResult.ok();
 	}
 
-	//修改交易密码
+	// 修改交易密码
 	@Override
-	public JsonResult updateJiaoYi(String oldCapitalPwd,String newCapitalPwd,Integer fensUserId) {
+	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId) {
 		FensUser fensUser = new FensUser();
 		if ("".equals(oldCapitalPwd) || oldCapitalPwd == null) {
 			fensUser.setCapitalPwd(null);
-		}else {
-			fensUser.setCapitalPwd(MD5.encodeString(MD5.encodeString(oldCapitalPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
+		} else {
+			fensUser.setCapitalPwd(MD5
+					.encodeString(MD5.encodeString(oldCapitalPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
 		}
 		fensUser.setId(fensUserId);
-		//根据旧密码查询用户
+		// 根据旧密码查询用户
 		FensUser fensUser2 = fensUserMapper.selectOldCapitalPwd(fensUser);
 		if (fensUser2 == null) {
 			return JsonResult.build(500, "原交易密码错误，请重新出入");
 		}
 		FensUser fensUser3 = new FensUser();
-		//新密码
-		fensUser3.setCapitalPwd(MD5.encodeString(MD5.encodeString(newCapitalPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
+		// 新密码
+		fensUser3.setCapitalPwd(
+				MD5.encodeString(MD5.encodeString(newCapitalPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
 		fensUser3.setId(fensUserId);
 		int result = fensUserMapper.updateByPrimaryKeySelective(fensUser3);
 		if (result != 1) {
@@ -399,8 +403,131 @@ public class FensUserServiceImpl implements FensUserService {
 		}
 		return JsonResult.ok();
 	}
-	
-	// 登入
+
+	// 登入(手机号验证码)
+	@Override
+	public JsonResult login2(String phone, String code, String code_type) {
+		// 校验验证码
+		SMSCheckCode smsCheckCode = new SMSCheckCode();
+		smsCheckCode.setMobile(phone);
+		smsCheckCode.setRemarks(code_type);
+		smsCheckCode.setCheckCode(code);
+
+		if (phone == null || code == null) {
+			return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
+		}
+		FensUser fensUser = new FensUser();
+		fensUser.setPhone(phone);
+		// 查看是否存在该用户
+		FensUser user = fensUserMapper.selectRegister(fensUser);
+		if (user == null) {
+			return JsonResult.build(20022, ErrorCodeConfigUtil.ERROR_MSG_ZH_20022);
+		}
+
+		SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);
+		if (smsCCode != null) {
+			long expireTime = smsCCode.getExpireTime().getTime();
+			long nowTime = new Date().getTime();
+			long expireSeconds = TimeUtil.diffSeconds(expireTime, nowTime);
+			if (expireSeconds < 0) {
+				return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
+			} else {
+				smsCCode.setIsUsed(1);
+				smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+				smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+
+				// 登入成功---------------------------------
+				String accessToken = TokenUtil.generateToken(fensUser.getPhone());
+				// 1.判断数据库是否有该用户的登录token 如果没有 则新增 如果有 则修改
+				Integer user_id = user.getId();
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("user_id", user_id);
+				Token token = tokenDao.selectOneTokenInfo(map);
+				Date date = new Date();
+				if (token != null) {
+					token.setToken(accessToken);
+					token.setLoginTime(date);
+					token.setIsDeleted(0);
+					tokenDao.updateByPrimaryKeySelective(token);
+				} else {
+					token = new Token();
+					token.setLoginTime(date);
+					token.setToken(accessToken);
+					token.setUserId(user_id);
+					tokenDao.insertSelective(token);
+				}
+
+				// 添加登入日志（登入状态表）
+				HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
+						.getRequest();
+				// String ip = IpRequestUtil.getIpAddr(request).toString();
+				FensLoginState fensLoginState = new FensLoginState();
+				String ip = request.getRemoteAddr();
+				fensLoginState.setFensUserId(user.getId());
+				fensLoginState.setIp(ip);
+				fensLoginState.setCreateDate(TimeUtil.getTimeStamp());
+				fensLoginState.setLoginDate(TimeUtil.getTimeStamp());
+				int result = fensLoginStateMapper.insertSelective(fensLoginState);
+				if (result != 1) {
+					ServerLog.getLogger().warn("插入登入日志失败，粉丝id：" + fensLoginState.getFensUserId());
+				}
+				user.setPwd(null);
+				user.setCapitalPwd(null);
+				user.setBak1(accessToken);
+
+				// 直推收益计算
+				// String phone = user.getPhone();
+				String oldZTRSString = user.getCreater();
+
+				int oldZTRS = 0;
+				if (!oldZTRSString.isEmpty()) {
+					oldZTRS = Integer.parseInt(oldZTRSString);
+				} else {
+					oldZTRS = 0;
+				}
+
+				List<FensTeam> list = fensTeamMapper.selectAll(user.getId());
+				if (list.size() > 0) {
+					int chazhi = list.size() - oldZTRS;
+					if (chazhi > 0) {
+						double zhituiSY = chazhi * 2;
+
+						FensWallet fensWallet = fensWalletMapper.selectAll(user.getId());
+
+						Double lockCPA = fensWallet.getLockCpa() + zhituiSY;
+						// 到账时间
+						Date date2 = TimeUtil.getTimeStamp();
+						FensWallet wallet2 = new FensWallet();
+						// 钱包可用余额增加
+						wallet2.setLockCpa(lockCPA);
+						wallet2.setCpaCount(fensWallet.getCpaCount() + zhituiSY);
+						wallet2.setId(fensWallet.getId());
+						// 更新钱包可用cpa
+						int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
+						if (result2 != 1) {
+							ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + user.getId());
+						}
+
+						FensUser fu = new FensUser();
+						fu.setCreater(list.size() + "");
+						fu.setId(user.getId());
+
+						int result3 = fensUserMapper.updateByPrimaryKeySelective(fu);
+						if (result3 != 1) {
+							ServerLog.getLogger().warn("更新用户直推失败，粉丝id：" + user.getId());
+						}
+					}
+				}
+			}
+
+		} else {
+			return JsonResult.build(20049, ErrorCodeConfigUtil.ERROR_MSG_ZH_20049);
+		}
+
+		return JsonResult.ok(user);
+	}
+
+	// 登入（手机号密码）
 	@Override
 	public JsonResult login(FensUser fensUser) {
 		if (fensUser.getPhone() == null || fensUser.getPwd() == null || fensUser.getPhone() == ""
@@ -418,7 +545,7 @@ public class FensUserServiceImpl implements FensUserService {
 		}
 		String accessToken = TokenUtil.generateToken(fensUser.getPhone());
 		// 1.判断数据库是否有该用户的登录token 如果没有 则新增 如果有 则修改
-		Integer user_id = fensUser.getId();
+		Integer user_id = user.getId();
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("user_id", user_id);
 		Token token = tokenDao.selectOneTokenInfo(map);
@@ -527,8 +654,13 @@ public class FensUserServiceImpl implements FensUserService {
 	// 粉丝算力求和
 	@Override
 	public JsonResult selectSum(Integer fensUserId) {
+		if (fensUserId == null) {
+			return JsonResult.build(500, "不是当前用户");
+		}
 		Double sum = fensComputingPowerMapper.sum(fensUserId);
-		return JsonResult.ok(sum);
+		Double sum2 = fensMinerMapper.sum(fensUserId);
+		Double count = sum + sum2;
+		return JsonResult.ok(count);
 	}
 
 	// 添加粉丝算力
@@ -648,6 +780,25 @@ public class FensUserServiceImpl implements FensUserService {
 
 		FensUser fensUser2 = new FensUser();
 		fensUser2.setAttachment(fensUser.getAttachment());
+		fensUser2.setId(user.getId());
+		int result = fensUserMapper.updateByPrimaryKeySelective(fensUser2);
+		if (result == 1) {
+			return JsonResult.ok();
+		}
+
+		return JsonResult.build(500, "网络服务异常，请稍后重试");
+	}
+
+	@Override
+	public JsonResult updateInfo2(FensUser fensUser) {
+
+		FensUser user = fensUserMapper.selectRegister(fensUser);
+		if (user == null) {
+			return JsonResult.build(20022, ErrorCodeConfigUtil.ERROR_MSG_ZH_20022);
+		}
+
+		FensUser fensUser2 = new FensUser();
+		fensUser2.setAttachment(String.valueOf(1));
 		fensUser2.setId(user.getId());
 		int result = fensUserMapper.updateByPrimaryKeySelective(fensUser2);
 		if (result == 1) {

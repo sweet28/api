@@ -39,7 +39,7 @@ public class BankCardController {
 		return bankCardService.addBlank(bankCard);
 	}
 
-	// 粉丝添加银行卡
+	// 粉丝修改银行卡
 	@RequestMapping(value = "/updateBlank", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult updateBlank(BankCard bankCard) {
