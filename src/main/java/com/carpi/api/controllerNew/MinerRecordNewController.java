@@ -254,7 +254,7 @@ public class MinerRecordNewController {
 		// TraderId(挂单人Id)
 		String traderId = request.getParameter("td");
 		// id(单子)
-		String id = request.getParameter("uid");
+		String id = request.getParameter("id");
 		FensTransaction fensTransaction = new FensTransaction();
 		fensTransaction.setTraderType(Integer.valueOf(traderType));
 		fensTransaction.setFensUserId(Integer.valueOf(fensUserId));
