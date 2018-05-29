@@ -55,40 +55,49 @@ function agoumai(type,grade){
 	  if(type==2){
 		  methodd = "buyBMiner";
 	  }
-	  
-	 
-	    	  
-	    	  $.ajax({
-	    		    type: "post",
-	    		    url: getAPIURL() + "miner/record/"+methodd,
-	    		    dataType: "json",
-	    		    data: {
-	    		    	"fensUserId":localStorage.getItem("uid"),
-	    		    	"type":grade,
-	    		    	"count":1
-	    		    },
-	    		    success: function (data) {
-	    		    	var dd = data.data;
-	    		    	if(data.status==200){
-	    		    		//可用余额
-    		    			layer.open({
-    		    		          content: '购买申请成功，待审核通过后发放矿机。'
-    		    		          , btn: '确定'
-    		    		      });
-	    		    	}else{
-	    		    		layer.open({
-  		    		          content: data.msg
-  		    		          , btn: '确定'
-  		    		      });
-	    		    	}
-	    		    },
-	    		    error: function (XMLHttpRequest, textStatus, errorThrown) {
-	    		    	layer.open({
-  		    		          content: '购买失败。'
-  		    		          , btn: '确定'
-  		    		      });
-	    		    }
-	    	    });
+	  loading.open();
+	  var flag = checkLogin();
+	  var tmp = getTimestamp();
+	  var rad = getRandom();
+	  var ton = getTom();
+      var str = "uid="+localStorage.getItem("uid")+"lx="+grade+"tmp="+tmp+"rad="+rad+"tom="+ton;  	  
+	  $.ajax({
+		    type: "post",
+		    url: getAPIURL() + "kuangjy/jy/"+methodd,
+		    dataType: "json",
+		    data: {
+		    	"uid":localStorage.getItem("uid"),
+		    	"lx":grade,
+		    	"tmp":tmp,
+		        "rad":rad,
+		        "tom":ton,
+		        "token":commingSoon1(str)
+		    },
+		    success: function (data) {
+		    	var dd = data.data;
+		    	if(data.status==200){
+		    		loading.close();
+		    		//可用余额
+	    			layer.open({
+	    		          content: '购买申请成功，待审核通过后发放矿机。'
+	    		          , btn: '确定'
+	    		      });
+		    	}else{
+		    		loading.close();
+		    		layer.open({
+    		          content: data.msg
+    		          , btn: '确定'
+    		      });
+		    	}
+		    },
+		    error: function (XMLHttpRequest, textStatus, errorThrown) {
+		    	loading.close();
+		    	layer.open({
+    		          content: '购买失败。'
+    		          , btn: '确定'
+    		      });
+		    }
+	    });
 	    
   }
   
