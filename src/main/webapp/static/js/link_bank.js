@@ -35,18 +35,24 @@ $("#recharge").click(function(){
           return false;
 	}
 	
+	var tmp = getTimestamp();
+    var rad = getRandom();
+    var ton = getTom();
+    var str = "uid="+localStorage.getItem("uid")+"kh="+cardnum.val()+"zh="+cardbank.val()+"yh="+bankname.val()+"xm="+localStorage.getItem("name")+"sh"+localStorage.getItem("phone")+"tmp="+tmp+"rad="+rad+"tom="+ton;
 	$.ajax({
 	      type: "post",
-	      url: getAPIURL() + "bank/addBlank",
+	      url: getAPIURL() + "fs/bank/tjcard",
 	      dataType: "json",
 	      data:{
-	    	  "fensUserId":localStorage.getItem("uid"),
-	    	  "cardNumber":cardnum.val(),
-	    	  "openBranch":cardbank.val(),
-	    	  "bank":bankname.val(),
-	    	  "name":localStorage.getItem("name"),
-	    	  "phone":localStorage.getItem("phone"),
-	    	  "isApply":1
+	    	  "uid":localStorage.getItem("uid"),
+	    	  "kh":cardnum.val(),
+	    	  "zh":cardbank.val(),
+	    	  "yh":bankname.val(),
+	    	  "xm":localStorage.getItem("name"),
+	    	  "sh":localStorage.getItem("phone"),
+	          "tmp":tmp,
+	          "rad":rad,
+	          "tom":ton
 	      },
 	      success: function (data) {
 	        if (data.status==200) {

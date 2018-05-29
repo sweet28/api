@@ -8,14 +8,23 @@ function Gift() {
 	  var uid = localStorage.getItem("uid");
 	  var page = 100;
 	  var row = 0;
-    $.ajax({
-      type: "post",
-      url: getAPIURL() + "fenuser/miner/minerBListKC",
-      dataType: "json",
-      data: {
-    	  "fensUserId":uid,
-    	  "page":page,
-    	  "row":row
+	  var flag = checkLogin();
+		var tmp = getTimestamp();
+		var rad = getRandom();
+		var ton = getTom();
+		var str = "uid="+uid+"pg="+page+"ts="+row+"tmp="+tmp+"rad="+rad+"tom="+ton;
+		console.log(commingSoon1(str));
+	$.ajax({
+	  type: "post",
+	  url: getAPIURL() + "user/miner/kuBListKC",
+	  dataType: "json",
+	  data: {
+		  "uid":uid,
+		  "pg":page,
+		  "ts":row,
+	      "rad":rad,
+	      "tom":ton,
+	      "token":commingSoon1(str)
       },
       success: function (data) {
         var list = data.list;
@@ -121,13 +130,22 @@ function jiedong(kjid,kjjb){
 	  		      });
 	  			return false;
 	        }else{
-	        	
+	        	var flag = checkLogin();
+	        	var tmp = getTimestamp();
+	        	var rad = getRandom();
+	        	var ton = getTom();
+	        	var str = "id="+kjid+"tmp="+tmp+"rad="+rad+"tom="+ton;
+	        	console.log(str);
 	        	$.ajax({
 	        	      type: "post",
-	        	      url: getAPIURL() + "fenuser/miner/minerjd",
+	        	      url: getAPIURL() + "user/miner/minerjd",
 	        	      dataType: "json",
 	        	      data: {
-	        	    	  "id":kjid
+	        	    	  "id":kjid,
+	        		        "tmp":tmp,
+	        		        "rad":rad,
+	        		        "tom":ton,
+	        		        "token":commingSoon1(str)
 	        	      },
 	        	      success: function (data) {
 	        	        if (data.status==200) {

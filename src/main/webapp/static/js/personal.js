@@ -25,19 +25,24 @@
 ////        //window.location.href = "../page/realName_authentication.html";
 ////      }
 //    });
-  
+  var tmp = getTimestamp();
+  var rad = getRandom();
+  var ton = getTom();
+  var str = "uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton;
   //	调用相关金额的接口
   $.ajax({
     type: "post",
-    url: getAPIURL() + "wallet/list",
+    url: getAPIURL() + "user/qb/list",
     dataType: "json",
     data: {
-    	"fensUserId":localStorage.getItem("uid")
+    	"uid":localStorage.getItem("uid"),
+        "tmp":tmp,
+        "rad":rad,
+        "tom":ton,
+        "token":commingSoon1(str)
     },
     success: function (data) {
-    	console.log(data);
     	var dd = data.data;
-    	console.log(dd);
     	if(data.status==200){
     		//可用余额
     	      var balance = dd.ableCpa;

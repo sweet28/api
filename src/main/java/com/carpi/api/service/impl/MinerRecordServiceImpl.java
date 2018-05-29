@@ -80,7 +80,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		fensMiner.setMinerId(aminer2.getId());
 		fensMiner.setMinerComputingPower(aminer2.getComputingPower());
 		fensMiner.setCreateDate(TimeUtil.getTimeStamp());
-		fensMiner.setIsDelete(2);//购买矿机需要审核cpa合法性
+		fensMiner.setIsDelete(0);//购买矿机需要审核cpa合法性
 		int result2 = fensMinerMapper.insertSelective(fensMiner);
 		if (result2 != 1) {
 			return JsonResult.build(500, "购买矿机失败");
@@ -93,8 +93,9 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		Date date = new Date();
 		date.getHours();
 		
-		if(date.getHours() > 18 || date.getHours() < 11){
-			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+//		if(date.getHours() > 18 || date.getHours() < 11){
+		if(date.getHours() > -1){
+			return JsonResult.build(500, "系统升级扩容，请勿重复操作.");
 		}
 		
 		if( aminer.getType() == null){
@@ -195,9 +196,12 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		Date date = new Date();
 		date.getHours();
 		
-		if(date.getHours() > 18 || date.getHours() < 11){
-			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		if(date.getHours() > -1){
+			return JsonResult.build(500, "系统升级扩容，请勿重复操作.");
 		}
+//		if(date.getHours() > 18 || date.getHours() < 11){
+//			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+//		}
 		
 		if(bminer.getFensUserId()==null){
 			return JsonResult.build(500, "交易失败。");

@@ -1,12 +1,22 @@
 (function(){
   $(function(){
+	  var tmp = getTimestamp();
+      var rad = getRandom();
+      var ton = getTom();
+      var str = "jddi="+localStorage.getItem("uid")+"trddi="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton;
+      console.log(str);
+      console.log(commingSoon1(str));
       $.ajax({
     	  type: "post",
-	      url: getAPIURL() + "miner/record/recordDSKlist",
+	      url: getAPIURL() + "kuangjy/jy/dsklb",
 	      dataType: "json",
 	      data:{
-          	  "fensUserId":localStorage.getItem("uid"),
-          	  "traderId":localStorage.getItem("uid")
+          	  "jddi":localStorage.getItem("uid"),
+          	  "trddi":localStorage.getItem("uid"),
+              "tmp":tmp,
+              "rad":rad,
+              "tom":ton,
+              "token":commingSoon1(str)
 	      },
         success: function (data) {
         	 var list = data;

@@ -8,14 +8,23 @@ function Gift() {
 	  var uid = localStorage.getItem("uid");
 	  var page = 100;
 	  var row = 0;
+	  var tmp = getTimestamp();
+	  var rad = getRandom();
+	  var ton = getTom();
+	  var str = "uid="+uid+"pg=0"+"ts=100"+"tmp="+tmp+"rad="+rad+"tom="+ton;
+	  console.log(commingSoon1(str));
     $.ajax({
       type: "post",
-      url: getAPIURL() + "bank/list",
+      url: getAPIURL() + "fs/bank/list",
       dataType: "json",
       data: {
-    	  "fensUserId":uid,
-    	  "pageSize":100,
-    	  "pageNum":0
+    	  "uid":uid,
+    	  "pg":0,
+    	  "ts":100,
+          "tmp":tmp,
+          "rad":rad,
+          "tom":ton,
+          "token":commingSoon1(str)
       },
       success: function (data) {
         var list = data.list;

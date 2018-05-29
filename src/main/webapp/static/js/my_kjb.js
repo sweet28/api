@@ -8,14 +8,23 @@ function Gift() {
 	  var uid = localStorage.getItem("uid");
 	  var page = 100;
 	  var row = 0;
-    $.ajax({
-      type: "post",
-      url: getAPIURL() + "fenuser/miner/minerBList",
-      dataType: "json",
-      data: {
-    	  "fensUserId":uid,
-    	  "page":page,
-    	  "row":row
+	  var flag = checkLogin();
+		var tmp = getTimestamp();
+		var rad = getRandom();
+		var ton = getTom();
+		var str = "uid="+uid+"pg="+page+"ts="+row+"tmp="+tmp+"rad="+rad+"tom="+ton;
+		console.log(commingSoon1(str));
+  $.ajax({
+    type: "post",
+    url: getAPIURL() + "user/miner/kuB",
+    dataType: "json",
+    data: {
+  	  "uid":uid,
+  	  "pg":page,
+  	  "ts":row,
+	      "rad":rad,
+	      "tom":ton,
+	      "token":commingSoon1(str)
       },
       success: function (data) {
         var list = data.list;

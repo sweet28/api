@@ -10,10 +10,12 @@ import org.springframework.stereotype.Service;
 import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
+import com.carpi.api.dao.BankCardMapper;
 import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.dao.FensWalletMapper;
 import com.carpi.api.pojo.BPool;
+import com.carpi.api.pojo.BankCard;
 import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.pojo.FensWallet;
@@ -34,6 +36,8 @@ public class FensMinerServiceImpl implements FensMinerService {
 	private FensWalletService fensWalletService;
 	@Autowired
 	private FensUserMapper fensUserMapper;
+	@Autowired
+	private BankCardMapper bankCardMapper;
 
 	// 根据粉丝id查询矿机
 	@Override
@@ -103,6 +107,24 @@ public class FensMinerServiceImpl implements FensMinerService {
 	//解冻矿机收益
 	@Override
 	public JsonResult thawABMiner(FensMiner miner1) {
+		// 根据粉丝Id查询该粉丝对应的矿池信息
+		FensMiner miner = fensMinerMapper.selectByPrimaryKey(miner1.getId());
+		
+		FensUser fensUser = fensUserMapper.selectByPrimaryKey(miner.getFensUserId());
+		// 判断是否存在该接单人
+		if (fensUser == null) {
+			return JsonResult.build(500, "交易失败，不存在此人");
+		}
+
+		// 查询身份证是否认证
+		if (Integer.valueOf(fensUser.getAttachment()) != 1) {
+			return JsonResult.build(500, "身份证未认证");
+		}
+		// 银行卡
+		List<BankCard> list = bankCardMapper.selectAll(miner.getFensUserId());
+		if (list.size() <= 0) {
+			return JsonResult.build(500, "请绑定银行卡");
+		}
 		
 		try {
 			Thread.sleep(3000);
@@ -110,8 +132,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// 根据粉丝Id查询该粉丝对应的矿池信息
-		FensMiner miner = fensMinerMapper.selectByPrimaryKey(miner1.getId());
+		
 		if (miner != null) {
 			Date dd = TimeUtil.getTimeStamp();
 			String sqDT = miner.getAttachment();

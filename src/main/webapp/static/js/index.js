@@ -8,13 +8,21 @@
 //  }
 	
 	var flag = checkLogin();
-	  
+	var tmp = getTimestamp();
+	var rad = getRandom();
+	var ton = getTom();
+	var str = "uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton;
+	console.log(str);
 	$.ajax({
 	    type: "post",
-	    url: getAPIURL() + "wallet/list",
+	    url: getAPIURL() + "user/qb/list",
 	    dataType: "json",
 	    data: {
-	    	"fensUserId":localStorage.getItem("uid")
+	    	"uid":localStorage.getItem("uid"),
+	        "tmp":tmp,
+	        "rad":rad,
+	        "tom":ton,
+	        "token":commingSoon1(str)
 	    },
 	    success: function (data) {
 	    	var dd = data.data;
