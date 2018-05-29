@@ -53,7 +53,7 @@ public class FensMinerController {
 		return fensMinerService.selectBMinnerKC(page, row, fensUserId);
 	}
 	
-	//根据粉丝id查询B矿机
+	//解冻
 	@RequestMapping(value = "/minerjd", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult minerJD(FensMiner miner){
