@@ -109,7 +109,7 @@ function jiedong(kjid,kjjb){
 	      });
 		return false;
 	}
-	
+	loading.open();
 	$.ajax({
 		type: "post",
 	      url: getAPIURL() + "bank/list",
@@ -121,21 +121,20 @@ function jiedong(kjid,kjjb){
 	      },
 	      success: function (data) {
 	        var list = data.list;
-	        console.log(list.length+"-------------dddd");
 	        if (list.length <= 0) {
-	        	console.log("没有账号信息");
+	        	loading.close();
 	        	layer.open({
 			          content: '银行卡未绑定不能转账收益。'
 			          , btn: '确定'
 	  		      });
 	  			return false;
 	        }else{
+	        	loading.open();
 	        	var flag = checkLogin();
 	        	var tmp = getTimestamp();
 	        	var rad = getRandom();
 	        	var ton = getTom();
 	        	var str = "id="+kjid+"tmp="+tmp+"rad="+rad+"tom="+ton;
-	        	console.log(str);
 	        	$.ajax({
 	        	      type: "post",
 	        	      url: getAPIURL() + "user/miner/minerjd",
@@ -149,6 +148,7 @@ function jiedong(kjid,kjjb){
 	        	      },
 	        	      success: function (data) {
 	        	        if (data.status==200) {
+	        	        	loading.close();
 	        	          layer.open({
 	        	            content: '转入钱包成功。'
 	        	            , btn: ['确定']
@@ -157,6 +157,7 @@ function jiedong(kjid,kjjb){
 	        	            }
 	        	          });
 	        	        } else {
+	        	        	loading.close();
 	        	        	layer.open({
 	        		            content: '操作失败，请检查网络服务。'
 	        		            , btn: ['确定']
