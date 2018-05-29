@@ -169,18 +169,12 @@ public class MinerRecordNewController {
 		String traderId = request.getParameter("trddi");
 		// fensTransaction.getTraderType() == 1 或者 2
 		String traderType = request.getParameter("mmtype");
-		// fensUserId(接单人id)
-		String fensUserId = request.getParameter("jddi");
-		// id
-		String id = request.getParameter("id");
 
 		FensTransaction fensTransaction = new FensTransaction();
 		fensTransaction.setTraderCount(Double.valueOf(traderCount));
 		fensTransaction.setEntrustPrice(Double.valueOf(entrustPrice));
 		fensTransaction.setTraderId(Integer.valueOf(traderId));
-		fensTransaction.setFensUserId(Integer.valueOf(fensUserId));
 		fensTransaction.setTraderType(Integer.valueOf(traderType));
-		fensTransaction.setId(Integer.valueOf(id));
 
 		return fensRecordServcie.addRecord(fensTransaction);
 	}

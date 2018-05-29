@@ -217,59 +217,62 @@ $(function () {
 });
 
 function cpaNext2(){
-	var userid;
+	var methodName;
 	if(type==2){//1：买单；2：卖单
-		userid = fensID;
+		methodName = "sellDanYiFu";
 	}
 	if(type==1){//1：买单；2：卖单
-		userid = uid;
+		methodName = "buyDanYiFu";
 	}
-	console.log("tid:"+uid+"------fid:"+fensID);
-	if(localStorage.getItem("uid")==userid){
-		console.log(888);
-		$.ajax({
-		    type: "post",
-		    url: getAPIURL() + "miner/record/updateRecord",
-		    dataType: "json",
-		    data: {
-		    	"id":tradeId,
-		    	"traderState":2,
-		    	"attachment":localStorage.getItem("uid")
-		    },
-		    success: function (data) {
-		    	console.log(data);
-		    	if(data.status==200){
-		    		ddState = data.traderState;
-		    		layer.open({
-			            content: '提交成功，待卖家确认。'
-			            , btn: ['确定']
-			            , yes: function (index) {
-			              window.location.href = "../page/invest.html";
-			            }
-			          });
-		    	}else{
-		    		layer.open({
-				          content: '交易拥堵，请稍后重新购买。0'
-				          , btn: '确定'
-				      	});
-				    return false;
-		    	}
-		    },
-		    error: function (XMLHttpRequest, textStatus, errorThrown) {
-		    	layer.open({
-			          content: '交易拥堵，请稍后重新购买。1'
+	
+	loading.open();
+    var flag = checkLogin();
+    var tmp = getTimestamp();
+    var rad = getRandom();
+    var ton = getTom();
+    var str = "id="+tradeId+"uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton; 
+	$.ajax({
+	    type: "post",
+	    url: getAPIURL() + "kuangjy/jy/"+methodName,
+	    dataType: "json",
+	    data: {
+	    	"id":tradeId,
+	    	"uid":localStorage.getItem("uid"),
+	    	  "tmp":tmp,
+	          "rad":rad,
+	          "tom":ton,
+	          "token":commingSoon1(str)
+	    },
+	    success: function (data) {
+	    	console.log(data);
+	    	if(data.status==200){
+	    		ddState = data.traderState;
+	    		loading.close();
+	    		layer.open({
+		            content: '提交成功，待卖家确认。'
+		            , btn: ['确定']
+		            , yes: function (index) {
+		              window.location.href = "../page/invest.html";
+		            }
+		          });
+	    	}else{
+	    		loading.close();
+	    		layer.open({
+			          content: '交易拥堵，请稍后重新购买。0'
 			          , btn: '确定'
 			      	});
 			    return false;
-		    }
-		});
-	}else{
-		layer.open({
-	          content: '这不是你的订单，你无权操作。'
-	          , btn: '确定'
-	      	});
-	    return false;
-	}
+	    	}
+	    },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    	loading.close();
+	    	layer.open({
+		          content: '交易拥堵，请稍后重新购买。1'
+		          , btn: '确定'
+		      	});
+		    return false;
+	    }
+	});
 }
 
 function cpaNext3(){
@@ -280,24 +283,33 @@ function cpaNext3(){
 	if(type==1){//1：买单；2：卖单
 		userid = fensID;
 	}
-	console.log("tid:"+uid+"------fid:"+fensID+"--------------------------------------type:"+type);
+	loading.open();
+    var flag = checkLogin();
+    var tmp = getTimestamp();
+    var rad = getRandom();
+    var ton = getTom();
+    var str = "id="+tradeId+"uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton; 
 	if(localStorage.getItem("uid")==userid){
 		console.log(999);
 		$.ajax({
 		    type: "post",
-		    url: getAPIURL() + "miner/record/updateRecordCJ",
+		    url: getAPIURL() + "kuangjy/jy/RecordCJ",
 		    dataType: "json",
 		    data: {
 		    	"id":tradeId,
-		    	"traderState":3,
-		    	"traderType":type,
-		    	"traderId":uid,
-		    	"fensUserId":fensID
+		    	"type":type,
+		    	"td":uid,
+		    	"fud":fensID,
+		    	  "tmp":tmp,
+		          "rad":rad,
+		          "tom":ton,
+		          "token":commingSoon1(str)
 		    },
 		    success: function (data) {
 		    	console.log(data);
 		    	if(data.status==200){
 		    		ddState = data.traderState;
+		    		loading.close();
 		    		layer.open({
 			            content: '提交成功。'
 			            , btn: ['确定']
@@ -306,6 +318,7 @@ function cpaNext3(){
 			            }
 			          });
 		    	}else{
+		    		loading.close();
 		    		layer.open({
 				          content: '交易拥堵，请稍后重新购买。0'
 				          , btn: '确定'
@@ -314,6 +327,7 @@ function cpaNext3(){
 		    	}
 		    },
 		    error: function (XMLHttpRequest, textStatus, errorThrown) {
+		    	loading.close();
 		    	layer.open({
 			          content: '交易拥堵，请稍后重新购买。1'
 			          , btn: '确定'

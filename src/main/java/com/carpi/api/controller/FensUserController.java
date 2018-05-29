@@ -27,12 +27,12 @@ public class FensUserController {
 		return fensUserService.register(fensUser, code_type, code, cardNumber);
 	}
 
-	// 登入
-	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public JsonResult login(FensUser fensUser) {
-		return fensUserService.login(fensUser);
-	}
+//	// 登入
+//	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	@ResponseBody
+//	public JsonResult login(FensUser fensUser) {
+//		return fensUserService.login(fensUser);
+//	}
 	
 	// 根据ID查个人信息
 	@RequestMapping(value = "/info", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

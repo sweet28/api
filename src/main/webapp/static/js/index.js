@@ -592,22 +592,33 @@ $("#cpamai").click(function (){
 	        	      });
 	        		return false;
 	        	}
+	        	loading.open();
+	      	    var flag = checkLogin();
+	      	    var tmp = getTimestamp();
+	      	    var rad = getRandom();
+	      	    var ton = getTom();
+	            var str = "trddi="+localStorage.getItem("uid")+"mmtype="+parseInt(trader_type)+"jgwt="+entrust_price+"jysl="+trader_count+"tmp="+tmp+"rad="+rad+"tom="+ton; 
 	        	
-	        	$.ajax({
+	            $.ajax({
 	        	      type: "post",
-	        	      url: getAPIURL() + "miner/record/addRecord",
+	        	      url: getAPIURL() + "kuangjy/jy/zjjl",
 	        	      dataType: "json",
 	        	      data:{
-	        	    	  "traderId":parseInt(localStorage.getItem("uid")),
-	        	    	  "traderType":parseInt(trader_type),
-	        	    	  "traderState":parseInt(trader_state),
-	        	    	  "entrustPrice":entrust_price,
-	        	    	  "traderCount":trader_count
+	        	    	  "trddi":parseInt(localStorage.getItem("uid")),
+	        	    	  "mmtype":parseInt(trader_type),
+	        	    	  "jgwt":entrust_price,
+	        	    	  "jysl":trader_count,
+	      		    	  "tmp":tmp,
+	    		          "rad":rad,
+	    		          "tom":ton,
+	    		          "token":commingSoon1(str)
 	        	      },
 	        	      success: function (data) {
 	        	        if (data.status==200) {
+	        	        	
 	        	        	if(type == "mc"){
 	        	        		trader_type = 2;
+	        	        		loading.close();
 	        	        		layer.open({
 	    	        	            content: '挂单成功,待审核通过后同步至交易中心。'
 	    		        	            , btn: ['确定']
@@ -620,6 +631,7 @@ $("#cpamai").click(function (){
 	        	        	
 	        	        	if(type == "mr"){
 	        	        		trader_type = 1;
+	        	        		loading.close();
 	        	        		layer.open({
 	    	        	            content: '挂单成功。'
 	    	        	            , btn: ['确定']
@@ -628,8 +640,10 @@ $("#cpamai").click(function (){
 	    	        	            }
 	    	        	          });
 	        	        	}
+	        	        	loading.close();
 	        	          
 	        	        } else {
+	        	        	loading.close();
 	        	        	layer.open({
 	        		            content: data.msg
 	        		            , btn: ['确定']

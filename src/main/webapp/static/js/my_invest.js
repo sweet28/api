@@ -143,35 +143,24 @@ function cpaNextMaiRu(){
 		    return false;
 		}
 	}
-	
-	//交易状态   0代表挂单中；1代表成交待付款；2代表成交已付款待卖家确认；3代表已完成
-	var trader_state = 1;
-	//交易类型   1代表买方  2代表卖方
-//	var trader_type = 1;
-	//挂单人id
-//	var trader_id = localStorage.getItem("uid");
-	//交易CPA数
-	var trader_count = cpaCount.val();
-	//委托价格(美元)
-	var entrust_price = price.val();
-	//接单人ID
-	var fens_user_id = localStorage.getItem("uid");
-	//总金额
-	var countPrice = trader_count*entrust_price*6.5;
+	loading.open();
+    var flag = checkLogin();
+    var tmp = getTimestamp();
+    var rad = getRandom();
+    var ton = getTom();
+    var str = "id="+id+"uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton; 
 	
 	$.ajax({
 	      type: "post",
-	      url: getAPIURL() + "miner/record/updateRecord",
+	      url: getAPIURL() + "kuangjy/jy/sellDanJieDan",
 	      dataType: "json",
 	      data:{
 	    	  "id":id,
-	    	  "traderId":trader_id,
-	    	  "traderState":trader_state,
-	    	  "entrustPrice":entrust_price,
-	    	  "traderCount":trader_count,
-	    	  "moneyCount":countPrice,
-	    	  "fensUserId":fens_user_id,
-	    	  "attachment":localStorage.getItem("uid")
+	    	  "uid":localStorage.getItem("uid"),
+	    	  "tmp":tmp,
+	          "rad":rad,
+	          "tom":ton,
+	          "token":commingSoon1(str)
 	      },
 	      success: function (data) {
 	        if (data.status==200) {
@@ -268,36 +257,30 @@ function cpaNextChuShou(){
 		}
 	}
 	
-	//交易状态   0代表挂单中；1代表成交待付款；2代表成交已付款待卖家确认；3代表已完成
-	var trader_state = 1;
-	//交易CPA数
-	var trader_count = cpaCount.val();
-	//委托价格(美元)
-	var entrust_price = price.val();
-	//接单人ID
-	var fens_user_id = localStorage.getItem("uid");
-	//总金额
-	var countPrice = trader_count*entrust_price*6.5;
+	loading.open();
+    var flag = checkLogin();
+    var tmp = getTimestamp();
+    var rad = getRandom();
+    var ton = getTom();
+    var str = "id="+id+"uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton; 
 	
 	$.ajax({
 	      type: "post",
-	      url: getAPIURL() + "miner/record/updateRecord",
+	      url: getAPIURL() + "kuangjy/jy/buyDanJieDan",
 	      dataType: "json",
 	      data:{
 	    	  "id":id,
-	    	  "traderId":trader_id,
-	    	  "traderState":trader_state,
-	    	  "entrustPrice":entrust_price,
-	    	  "traderCount":trader_count,
-	    	  "traderType":1,
-	    	  "moneyCount":countPrice,
-	    	  "fensUserId":fens_user_id,
-	    	  "attachment":localStorage.getItem("uid")
+	    	  "uid":localStorage.getItem("uid"),
+	    	  "tmp":tmp,
+	          "rad":rad,
+	          "tom":ton,
+	          "token":commingSoon1(str)
 	      },
 	      success: function (data) {
 	    	  console.log("-----------------------");
 	    	  console.log(data);
 	        if (data.status==200) {
+	        	loading.close();
 	          layer.open({
 	            content: '交易提交成功，待人工审核卖方CPA资产合法性通过后，进行交易。'
 	            , btn: ['确定']
@@ -306,6 +289,7 @@ function cpaNextChuShou(){
 	            }
 	          });
 	        } else {
+	        	loading.close();
 	        	layer.open({
 		            content: '操作失败，请检查网络服务。'
 		            , btn: ['确定']

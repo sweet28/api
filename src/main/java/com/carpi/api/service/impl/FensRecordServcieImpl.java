@@ -14,6 +14,7 @@ import com.arttraining.commons.util.OrderNumberUtil;
 import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.AminerMapper;
 import com.carpi.api.dao.AminerRecordMapper;
+import com.carpi.api.dao.BankCardMapper;
 import com.carpi.api.dao.BminerMapper;
 import com.carpi.api.dao.BminerRecordMapper;
 import com.carpi.api.dao.FensTransactionMapper;
@@ -21,6 +22,7 @@ import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.dao.FensWalletMapper;
 import com.carpi.api.pojo.Aminer;
 import com.carpi.api.pojo.AminerRecord;
+import com.carpi.api.pojo.BankCard;
 import com.carpi.api.pojo.Bminer;
 import com.carpi.api.pojo.BminerRecord;
 import com.carpi.api.pojo.FensTransaction;
@@ -54,6 +56,9 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 
 	@Autowired
 	private FensWalletMapper fensWalletMapper;
+
+	@Autowired
+	private BankCardMapper bankCardMapper;
 
 	// 粉丝交易记录（可根据粉丝id查个人）
 	@Override
@@ -173,9 +178,10 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		Date date = new Date();
 		date.getHours();
 
-		if (date.getHours() > 18 || date.getHours() < 11) {
-			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
-		}
+		// if (date.getHours() > ConfigUtil.CPA_JY_START_TIME || date.getHours() <
+		// ConfigUtil.CPA_JY_END_TIME) {
+		// return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		// }
 
 		if (fensTransaction.getTraderCount() == null) {
 			return JsonResult.build(500, "新增失败");
@@ -187,10 +193,24 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 			return JsonResult.build(500, "新增失败");
 		}
 
+		if (fensTransaction.getTraderType() == null) {
+			return JsonResult.build(500, "新增失败");
+		}
+
 		if (fensTransaction.getTraderId() != null) {
 			int fuid = fensTransaction.getTraderId();
 			FensUser fus = fensUserMapper.selectByPrimaryKey(fuid);
 			if (fus != null) {
+
+				// 查询身份证是否认证
+				if (Integer.valueOf(fus.getAttachment()) != 1) {
+					return JsonResult.build(500, "身份证未认证");
+				}
+				// 银行卡
+				List<BankCard> list = bankCardMapper.selectAll(fus.getId());
+				if (list.size() <= 0) {
+					return JsonResult.build(500, "请绑定银行卡");
+				}
 
 				int type = fensTransaction.getTraderType();
 				double price = fensTransaction.getEntrustPrice();
@@ -235,6 +255,7 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 					fensTransaction.setCreateDate(TimeUtil.getTimeStamp());
 					IdWorker idWorker = new IdWorker(0, 0);
 					fensTransaction.setOrderNumber(idWorker.nextId() + "");
+					fensTransaction.setTraderState(0);
 					int result = fensTransactionMapper.insertSelective(fensTransaction);
 					fensTransaction.setId(fensTransaction.getId());
 					if (result == 1) {
@@ -296,7 +317,7 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		FensTransaction ft = new FensTransaction();
 		ft = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 
-		//撤单流程
+		// 撤单流程
 		if (fensTransaction.getIsDelete() != null) {
 			if (fensTransaction.getIsDelete() == 1) {
 				ft.setIsDelete(1);
@@ -377,46 +398,53 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		System.out.println(fensTransaction.getTraderType());
 		int cbrID = 0, sbrID = 0;
 
-		if (fensTransaction.getTraderType() == 1) {// 买单
-			cbrID = fensTransaction.getFensUserId();
-			sbrID = fensTransaction.getTraderId();
-		} else if (fensTransaction.getTraderType() == 2) {// 卖单
-			cbrID = fensTransaction.getTraderId();
-			sbrID = fensTransaction.getFensUserId();
-		}
-
 		FensTransaction fensTransaction2 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 
-		FensWallet tradeWallet = new FensWallet();// 出账钱包
-		FensWallet fensWallet = new FensWallet();// 入账钱包
+		if (fensTransaction2.getFensUserId() == fensTransaction.getFensUserId()
+				&& fensTransaction2.getTraderId() == fensTransaction2.getTraderId() && fensTransaction2.getTraderType() == fensTransaction.getTraderType()) {
 
-		tradeWallet = fensWalletMapper.selectAll(cbrID);
-		fensWallet = fensWalletMapper.selectAll(sbrID);
-
-		if (tradeWallet.getAbleCpa() >= (fensTransaction2.getTraderCount() / 0.8)) {
-			FensWallet tradeWallet2 = new FensWallet();
-			FensWallet fensWallet2 = new FensWallet();
-
-			tradeWallet2.setId(tradeWallet.getId());
-			tradeWallet2.setAbleCpa(tradeWallet.getAbleCpa() - (fensTransaction2.getTraderCount() / 0.8));
-			tradeWallet2.setCpaCount(tradeWallet.getCpaCount() - (fensTransaction2.getTraderCount() / 0.8));
-
-			fensWallet2.setId(fensWallet.getId());
-			fensWallet2.setAbleCpa(fensWallet.getAbleCpa() + fensTransaction2.getTraderCount());
-			fensWallet2.setCpaCount(fensWallet.getCpaCount() + fensTransaction2.getTraderCount());
-
-			int result1 = fensWalletMapper.updateByPrimaryKeySelective(tradeWallet2);
-			int result2 = fensWalletMapper.updateByPrimaryKeySelective(fensWallet2);
-
-			if (result1 == 1 && result2 == 1) {
-				int result = fensTransactionMapper.updateByPrimaryKeySelective(fensTransaction);
-				return JsonResult.ok();
+			if (fensTransaction2.getTraderType() == 1) {// 买单
+				cbrID = fensTransaction2.getFensUserId();
+				sbrID = fensTransaction2.getTraderId();
+			} else if (fensTransaction2.getTraderType() == 2) {// 卖单
+				cbrID = fensTransaction2.getTraderId();
+				sbrID = fensTransaction2.getFensUserId();
 			}
-		} else {
-			return JsonResult.build(500, "卖方钱包账号CPA余额不足，无法完成交易！");
-		}
+			
+			FensWallet tradeWallet = new FensWallet();// 出账钱包
+			FensWallet fensWallet = new FensWallet();// 入账钱包
 
-		return JsonResult.build(500, "更新失败");
+			tradeWallet = fensWalletMapper.selectAll(cbrID);
+			fensWallet = fensWalletMapper.selectAll(sbrID);
+
+			if (tradeWallet.getAbleCpa() >= (fensTransaction2.getTraderCount() / 0.8)) {
+				FensWallet tradeWallet2 = new FensWallet();
+				FensWallet fensWallet2 = new FensWallet();
+
+				tradeWallet2.setId(tradeWallet.getId());
+				tradeWallet2.setAbleCpa(tradeWallet.getAbleCpa() - (fensTransaction2.getTraderCount() / 0.8));
+				tradeWallet2.setCpaCount(tradeWallet.getCpaCount() - (fensTransaction2.getTraderCount() / 0.8));
+
+				fensWallet2.setId(fensWallet.getId());
+				fensWallet2.setAbleCpa(fensWallet.getAbleCpa() + fensTransaction2.getTraderCount());
+				fensWallet2.setCpaCount(fensWallet.getCpaCount() + fensTransaction2.getTraderCount());
+
+				int result1 = fensWalletMapper.updateByPrimaryKeySelective(tradeWallet2);
+				int result2 = fensWalletMapper.updateByPrimaryKeySelective(fensWallet2);
+
+				if (result1 == 1 && result2 == 1) {
+					fensTransaction2.setTraderState(3);
+					int result = fensTransactionMapper.updateByPrimaryKeySelective(fensTransaction2);
+					return JsonResult.ok();
+				}
+			} else {
+				return JsonResult.build(500, "卖方钱包账号CPA余额不足，无法完成交易！");
+			}
+
+			return JsonResult.build(500, "更新失败");
+		} else {
+			return JsonResult.build(500, "操作非法,更新失败");
+		}
 	}
 
 	public boolean isCPAEnough(Integer uid, double count) {

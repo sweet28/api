@@ -1,11 +1,13 @@
 package com.carpi.api.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.dao.BankCardMapper;
 import com.carpi.api.dao.FensTransactionMapper;
@@ -35,6 +37,14 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 	// 接单人接单(买单)
 	@Override
 	public JsonResult buyDanJieDan(FensTransaction fensTransaction) {
+		
+		Date date = new Date();
+		date.getHours();
+
+//		if (date.getHours() > ConfigUtil.CPA_JY_START_TIME || date.getHours() < ConfigUtil.CPA_JY_END_TIME) {
+//			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+//		}
+		
 		if (fensTransaction.getFensUserId() != null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
@@ -87,6 +97,13 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 	// 买单人付款(已付款)（买单）
 	@Override
 	public JsonResult buyDanYiFu(FensTransaction fensTransaction) {
+		Date date = new Date();
+		date.getHours();
+
+//		if (date.getHours() > ConfigUtil.CPA_JY_START_TIME || date.getHours() < ConfigUtil.CPA_JY_END_TIME) {
+//			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+//		}
+		
 		if (fensTransaction.getTraderId() == null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
@@ -175,6 +192,14 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 	// 接单人接单(卖单)
 	@Override
 	public JsonResult sellDanJieDan(FensTransaction fensTransaction) {
+		
+		Date date = new Date();
+		date.getHours();
+
+//		if (date.getHours() > ConfigUtil.CPA_JY_START_TIME || date.getHours() < ConfigUtil.CPA_JY_END_TIME) {
+//			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+//		}
+		
 		if (fensTransaction.getFensUserId() != null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
@@ -227,6 +252,14 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 	// 买单人已付款（卖单）
 	@Override
 	public JsonResult sellDanYiFu(FensTransaction fensTransaction) {
+		
+		Date date = new Date();
+		date.getHours();
+
+//		if (date.getHours() > ConfigUtil.CPA_JY_START_TIME || date.getHours() < ConfigUtil.CPA_JY_END_TIME) {
+//			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+//		}
+		
 		if (fensTransaction.getFensUserId() == null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
