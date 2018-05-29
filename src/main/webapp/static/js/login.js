@@ -18,6 +18,13 @@
   var user = $("#phone");
   var pwd = $("#pwd");
   function loginverify(){
+	    var tmp = getTimestamp();
+	    var rad = getRandom();
+	    var ton = getTom();
+	    var str = "phone="+$.trim(user.val())+"pwd="+pwd.val()+"tmp="+tmp+"rad="+rad+"tom="+ton;
+	    
+	    
+	    console.log("test:::"+commingSoon1(str));
     loading.open();
     if(user.val()==""||user.val().replace(/\s/g,"")==""){
       loading.close();
@@ -35,6 +42,7 @@
       });
       return;
     }
+    
     $.ajax({
       type: "POST",
       url: getAPIURL() + "fenuser/login",
@@ -42,7 +50,11 @@
       //contentType: "application/json",
       data:{
         "phone":$.trim(user.val()),
-        "pwd":pwd.val()
+        "pwd":pwd.val(),
+        "tmp":tmp,
+        "rad":rad,
+        "tom":ton,
+        "token":commingSoon1(str)
       },
       success:function(data){
     	if(data.status == 222){
@@ -67,27 +79,26 @@
             ,time: 2 //2秒后自动关闭
             ,end:function(){
               //判断直接从登录页进去，跳到个人中心
-              console.log(history.length);
-              if(history.length == 1){
-                window.location.href = "../page/personal.html";
-                return false;
-              }
-              if(window.location.search!=""){
-                window.location.href = "../page/personal.html";
-              }else {
-                var value = document.referrer;
-                if(value.indexOf("login.html")!=-1){
-                  window.location.href = "../page/personal.html";
-                  return;
-                }
-                if(!value){
-                  window.location.href = "../page/personal.html";
-                  return;
-                }
-                location.href = document.referrer;
-                //解决safari不支持的问题//go(-1)ios不会刷新页面
-                return false;
-              }
+//              if(history.length == 1){
+//                window.location.href = "../page/personal.html";
+//                return false;
+//              }
+//              if(window.location.search!=""){
+//                window.location.href = "../page/personal.html";
+//              }else {
+//                var value = document.referrer;
+//                if(value.indexOf("login.html")!=-1){
+//                  window.location.href = "../page/personal.html";
+//                  return;
+//                }
+//                if(!value){
+//                  window.location.href = "../page/personal.html";
+//                  return;
+//                }
+//                location.href = document.referrer;
+//                //解决safari不支持的问题//go(-1)ios不会刷新页面
+//                return false;
+//              }
             }
           });
         }else if(data.status == 20023){

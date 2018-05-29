@@ -177,6 +177,17 @@ function getUIDByJWT() {
 
 }
 
+function getTimestamp(){
+	return Date.parse(new Date());
+}
+
+function getRandom(){
+return Math.floor(Math.random()*9999999999+1)
+}
+
+function getTom(){
+	return localStorage.getItem("token");
+}
 
 function checkLogin(){
 	var uid = getTOKEN();
@@ -335,7 +346,6 @@ function getYUE(){
 }
 
 
-//20秒接金币游戏配置
 function gameAPIURL() {
   return "http://cpa.artforyou.cn:8088/api/";
 }
@@ -357,12 +367,10 @@ function getOPENID() {
 function getNAME() {
   return localStorage.getItem("nickname");
 }
-//新版本理财接口ip
 //function getFinance () {
 //	return "http://api.gcjiujiu.com/";
 //}
 
-//汇付注册接口配置
 function huifuAPIURL() {
   return "http://cpa.artforyou.cn:8088/api/";
 }

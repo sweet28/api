@@ -163,4 +163,38 @@ public class ConfigUtil {
 	public static String USER_FLAG_TEC = "#";
 	public static String USER_FLAG_ORG = "$";
 	
+	
+	/*
+	 * carpi 交易判断用
+	 */
+	public static String GM_KJ = "gmkj";
+	public static String SC_CPA = "sccpa";
+//	public static String RSA_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCdM/8q+K1E6ZzNrF6uXRwisoL2MPRSDs7L9fYUTPFJipKoPyLNUcnpZq2nz1znI/Ow7IVgHfJPZQLR4FlL39IxZK5ezwc8e+GgzKKc7qQc0HVAq7FcS6S8jL1aBJ84/1J+fjNPmycOtE011DAnVfUuyFpRsU4emxPsnSkpTWdIwwIDAQAB";
+//	public static String RSA_PRIVATE_KEY="MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAJ0z/yr4rUTpnM2sXq5dHCKygvYw9FIOzsv19hRM8UmKkqg/Is1RyelmrafPXOcj87DshWAd8k9lAtHgWUvf0jFkrl7PBzx74aDMopzupBzQdUCrsVxLpLyMvVoEnzj/Un5+M0+bJw60TTXUMCdV9S7IWlGxTh6bE+ydKSlNZ0jDAgMBAAECgYBK3tHfuHJliNHajwbFCql0yQpgkK48SrspHurlfkPI38u7f95mZVbB59o7OyKnH1NX5z4aqgiW0agHJ0/AOEhV5uOIR0s4wQNJYj3spcl+XPyMHnmjQRx9kHApQ+4Z82/4v5EehJg5qMdyhZlyGkEzLjf9b+nuxnuSOBZ6wqWOeQJBAOfSEeD9+E2LoP5pR+FRLpV3CxK7u9JNYgtBMzS5JxoSoeT0PmTotFzjno5g7B3YThwVn6CwrQIirJz0E90EqYcCQQCtmYmGhsjwru9yb6L8sJF7R1wMA9vp8dGrRmI1SQZHB+h6fbP4D2/hDX3OVd+AfYwxHkX7ya+yh2SZggzCtAXlAkAza8RtfMg8IzG13RKFpyVHIB3DrQLPdjy+NFswYbWLsgBZMdg5N+jyBcdg25zkTdudnSpIUYg+xgQ12Gojh2o3AkEAoNcQREO9CMILt8sXB2fQYpfLAJbSuf4CdN3RP+1Yk5cQHe05QSuMTMdjODj3yuSHbzrNPGuxDYfD/TYw/HQuwQJBAJesC6h0eF9cVkFHITCytK9zDT/2beLEHZ9Nt1x5alu0keVPcUOL5r6lRA5NbKwCsz4ylKbQmsZ3Z85X19rqjWI=";
+//
+//	public static String RSA_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDbjs6gzlmDiOLW6+JJqDbi0YV0oxuBVycPD00F"
+//			+"eX9FDmCofUwHg/h3+mOylcxhx9jqgdZrrBxT/ySO+KGeZ7PKlYeTFf8nU0iy+IlNi1eGYVtINi6H"
+//			+"RAdoqt5sEX5FaIiu9icHpceIC5B0BFof+OVeJ8qgWXgXvfkbHnduQFRyJQIDAQAB";
+//	public static String RSA_PRIVATE_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBANuOzqDOWYOI4tbr4kmoNuLRhXSj"
+//			+"G4FXJw8PTQV5f0UOYKh9TAeD+Hf6Y7KVzGHH2OqB1musHFP/JI74oZ5ns8qVh5MV/ydTSLL4iU2L"
+//			+"V4ZhW0g2LodEB2iq3mwRfkVoiK72Jwelx4gLkHQEWh/45V4nyqBZeBe9+Rsed25AVHIlAgMBAAEC"
+//			+"gYAwtt3XxhEMYznZb9r0dtM+vjg7Kdl3eCvdZoqzVULMwqTlnW9aF4jwreii/iOr6liRp584oqZi"
+//			+"aLDm2/mYGPBF8EA2tjx6n565Fn2IQAICRamk6fDRwvJxiLDHCEU1BQVYBJXygH2gYrxDSd66g6BP"
+//			+"3WzbYN+OWIBO91nNJDRaQQJBAPxekLlTi8sIUB6J2smi5DM9yq1d9u9it6QnQpdE33TYNWHRfhcM"
+//			+"muSWzihNXxt3Vb3osgCWllrmTlrzd3zcsVUCQQDet2b8iqKXGrc6/h1lbmIRLGRZMmJ0gWbeteY5"
+//			+"WBjRlNDwSabzacSHvZhxIcj5jHbE0bzPdFAbxxakVyZHx/2RAkEA0qpR3xI5qHM5BjUHOLhMC+Yx";
+	
+	public static String RSA_PUBLIC_KEY = "MIGOMA0GCSqGSIb3DQEBAQUAA30AMHoCcwCRqIPkjOaKEDVFHAVNSLRDNGDzxcRrg1XUVCoVo+as"
+											+"4fnZPhekQ/bW87VSBBxJBA68ERb37sz8B5yulbllvuRVQzyoc3v3aJziwD68TMBp5UpHugqRfKrx"
+											+"h6zzHEihY2Sw+eCASsMuTdA4pvmVV4oBxwsCAwEAAQ==";
+	public static String RSA_PRIVATE_KEY = "MIICNgIBADANBgkqhkiG9w0BAQEFAASCAiAwggIcAgEAAnMAkaiD5IzmihA1RRwFTUi0QzRg88XE"
+											+"a4NV1FQqFaPmrOH52T4XpEP21vO1UgQcSQQOvBEW9+7M/AecrpW5Zb7kVUM8qHN792ic4sA+vEzA"
+											+"aeVKR7oKkXyq8Yes8xxIoWNksPnggErDLk3QOKb5lVeKAccLAgMBAAECcwCFmUo4RGBkPA+QLu5R"
+											+"/6CPj6hpj3jkoBcGZJghNy8qXS68aq5mlYv/hpNGAc0rz5PwPcCSci8D77oLOXpaYr5Edj5mfvIR"
+											+"oZ52BSSLf2BiVV1HQcEafn9gsB+dl466wWEaWoFTq9/ztRnH4emxQu+96BkCOgDXO7lYEWg1cCvp"
+											+"2Vpt2X+TGhquV2HHiDfKp165Z92XzOtNARfnHds7rfZ6folfiQbil+NMVw5rBScCOgCtPzkGGLxC"
+											+"wuqq9pzIwauQkCio6RnA+ybM4wFgYq3L3f4LP1eBvoiybuA7HwXDSFNYtY5t2KM1hX0COXQ2gTr2"
+											+"GyhPasaXX2ZUu7d3rtRXxinweP9pI5JEbLecI6iuYHOgAVHV+nHlhNMar6cFj+sWTmimnQI5BRoZ"
+											+"ic5srOKkmohMsbTSYp18NQ04TvCWge4lejsttxVAiABDiXSc/fQ58kPFnayhl7kxCpcYp1jZAjoA"
+											+"xUIpV8QDVPwtr/0sKqLoFs5WcnGeA9kyXOoNoq/uLOlOqEdkPQ5bNQSssV5UTa2wdzbSH/LEzBFY";
 }

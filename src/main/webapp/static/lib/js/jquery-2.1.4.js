@@ -9208,3 +9208,13 @@
   return jQuery;
 
 }));
+
+
+function commingSoon1(str){
+	var crypt = new JSEncrypt();
+    crypt.setPublicKey("MIGOMA0GCSqGSIb3DQEBAQUAA30AMHoCcwCRqIPkjOaKEDVFHAVNSLRDNGDzxcRrg1XUVCoVo+as4fnZPhekQ/bW87VSBBxJBA68ERb37sz8B5yulbllvuRVQzyoc3v3aJziwD68TMBp5UpHugqRfKrxh6zzHEihY2Sw+eCASsMuTdA4pvmVV4oBxwsCAwEAAQ==");
+    
+    var crypted = crypt.encrypt(str);
+    
+    return crypted;
+}
