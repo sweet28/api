@@ -110,10 +110,16 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		// 查询是否是本人操作
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 		if (fensTransaction3.getTraderState() == 1) {
-
-			if (fensTransaction3.getTraderId() != fensTransaction.getTraderId()) {
+			
+			int fensid = fensTransaction3.getFensUserId();
+			int fensid2 = fensTransaction.getFensUserId();
+			if (fensid != fensid2) {
 				return JsonResult.build(500, "交易异常");
 			}
+
+//			if (fensTransaction3.getTraderId() != fensTransaction.getTraderId()) {
+//				return JsonResult.build(500, "交易异常");
+//			}
 			FensUser fensUser = fensUserMapper.selectByPrimaryKey(fensTransaction3.getFensUserId());
 			FensUser fensUser2 = fensUserMapper.selectByPrimaryKey(fensTransaction3.getTraderId());
 			// 判断是否存在该接单人
@@ -200,7 +206,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 //			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 //		}
 		
-		if (fensTransaction.getFensUserId() != null || fensTransaction.getId() == null) {
+		if (fensTransaction.getFensUserId() == null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
 		// 判断改单是否被抢走
@@ -233,12 +239,13 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			}
 
 			// 判断接单人的钱包余额是否足够
-			if (!isCPAEnough(fensTransaction.getTraderId(), fensTransaction3.getTraderCount())) {
+			if (!isCPAEnough(fensTransaction3.getTraderId(), fensTransaction3.getTraderCount())) {
 				return JsonResult.build(500, "钱包余额不足。或者你作为卖家有交易挂单，核算后钱包CPA余额不足，不能再次挂卖单。");
 			}
 			FensTransaction fensTransaction2 = new FensTransaction();
 			fensTransaction2.setTraderState(4);
 			fensTransaction2.setId(fensTransaction.getId());
+			fensTransaction2.setFensUserId(fensTransaction.getFensUserId());
 			int result = fensTransactionMapper.updateByPrimaryKeySelective(fensTransaction2);
 			if (result != 1) {
 				return JsonResult.build(500, "交易失败，请联系管理员");
@@ -266,10 +273,16 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		// 查询是否是本人操作
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 		if (fensTransaction3.getTraderState() == 1) {
-
-			if (fensTransaction3.getFensUserId() != fensTransaction.getFensUserId()) {
+            System.out.println("==================:"+(fensTransaction3.getFensUserId() != fensTransaction.getFensUserId()));
+			
+            int fensid = fensTransaction3.getFensUserId();
+            int fensid2 = fensTransaction.getFensUserId();
+            if (fensid != fensid2) {
 				return JsonResult.build(500, "交易异常");
 			}
+//            if (fensTransaction3.getFensUserId() != fensTransaction.getFensUserId()) {
+//				return JsonResult.build(500, "交易异常");
+//			}
 			FensUser fensUser = fensUserMapper.selectByPrimaryKey(fensTransaction3.getFensUserId());
 			FensUser fensUser2 = fensUserMapper.selectByPrimaryKey(fensTransaction3.getTraderId());
 			// 判断是否存在该接单人
@@ -317,7 +330,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		}
 
 		System.out.println("------alllockcpa::::" + allBlockCPA + "------cpa:" + cpa + "-------count:" + count
-				+ "-----ablecpa:" + fw.getAbleCpa());
+				+ "-----ablecpa:");
 
 		if ((fw.getAbleCpa() - cpa * 1.25) >= count * 1.25) {
 			return true;
