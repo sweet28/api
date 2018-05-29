@@ -400,8 +400,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 
 		FensTransaction fensTransaction2 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 
-		if (fensTransaction2.getFensUserId() == fensTransaction.getFensUserId()
-				&& fensTransaction2.getTraderId() == fensTransaction2.getTraderId() && fensTransaction2.getTraderType() == fensTransaction.getTraderType()) {
+		if (fensTransaction2.getFensUserId().equals(fensTransaction.getFensUserId())
+				&& fensTransaction2.getTraderId().equals(fensTransaction2.getTraderId()) && fensTransaction2.getTraderType().equals(fensTransaction.getTraderType())) {
 
 			if (fensTransaction2.getTraderType() == 1) {// 买单
 				cbrID = fensTransaction2.getFensUserId();
