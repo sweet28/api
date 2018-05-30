@@ -336,7 +336,7 @@
 		select
 		count(id)
 		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
-		and is_delete = 0 and miner_type = 1 and bak1 = #{bak1,jdbcType=VARCHAR}
+		and is_delete in(0,2) and miner_type = 1 and bak1 = #{bak1,jdbcType=VARCHAR}
 	</select>
 	
 	<!-- 查询矿机的算力（根据粉丝id） -->
