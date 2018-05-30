@@ -45,7 +45,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 //			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 //		}
 		
-		if (fensTransaction.getFensUserId() != null || fensTransaction.getId() == null) {
+		if (fensTransaction.getFensUserId() == null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
 		// 判断改单是否被抢走
@@ -84,6 +84,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			FensTransaction fensTransaction2 = new FensTransaction();
 			fensTransaction2.setTraderState(4);
 			fensTransaction2.setId(fensTransaction.getId());
+			fensTransaction2.setFensUserId(fensTransaction.getFensUserId());
 			int result = fensTransactionMapper.updateByPrimaryKeySelective(fensTransaction2);
 			if (result != 1) {
 				return JsonResult.build(500, "交易失败，请联系管理员");
