@@ -258,7 +258,7 @@ function cpaNext2(){
 	    	}else{
 	    		loading.close();
 	    		layer.open({
-			          content: '交易拥堵，请稍后重新购买。0'
+			          content: data.msg
 			          , btn: '确定'
 			      	});
 			    return false;
