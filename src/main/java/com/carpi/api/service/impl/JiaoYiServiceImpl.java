@@ -41,15 +41,22 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		Date date = new Date();
 		date.getHours();
 
-//		if (date.getHours() > ConfigUtil.CPA_JY_START_TIME || date.getHours() < ConfigUtil.CPA_JY_END_TIME) {
-//			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
-//		}
+		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		}
 		
 		if (fensTransaction.getFensUserId() == null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
 		// 判断改单是否被抢走
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
+		
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			System.exit(0);// 退出程序
+		}
+		
 		// 判断是否在挂单中
 		if (fensTransaction3.getTraderState() == 0) {
 
@@ -78,8 +85,8 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			}
 
 			// 判断接单人的钱包余额是否足够
-			if (!isCPAEnough(fensTransaction.getFensUserId(), fensTransaction3.getTraderCount())) {
-				return JsonResult.build(500, "钱包余额不足。或者你作为卖家有交易挂单，核算后钱包CPA余额不足，不能再次挂卖单。");
+			if (!isCPAEnough(fensTransaction.getFensUserId(),fensTransaction3.getId(), fensTransaction3.getTraderCount())) {
+				return JsonResult.build(500, "钱包余额不足。或者卖家有其他交易挂单，导致核算后钱包CPA余额不足，不能再次挂卖单。");
 			}
 			FensTransaction fensTransaction2 = new FensTransaction();
 			fensTransaction2.setTraderState(4);
@@ -101,15 +108,22 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		Date date = new Date();
 		date.getHours();
 
-//		if (date.getHours() > ConfigUtil.CPA_JY_START_TIME || date.getHours() < ConfigUtil.CPA_JY_END_TIME) {
-//			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
-//		}
+		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		}
 		
 		if (fensTransaction.getTraderId() == null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
 		// 查询是否是本人操作
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
+		
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			System.exit(0);// 退出程序
+		}
+		
 		if (fensTransaction3.getTraderState() == 1) {
 			
 			int fensid = fensTransaction3.getTraderId();
@@ -140,8 +154,8 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			}
 
 			// 判断接单人的钱包余额是否足够
-			if (!isCPAEnough(fensTransaction3.getFensUserId(), fensTransaction3.getTraderCount())) {
-				return JsonResult.build(500, "钱包余额不足。或者你作为卖家有交易挂单，核算后钱包CPA余额不足，不能再次挂卖单。");
+			if (!isCPAEnough(fensTransaction3.getFensUserId(), fensTransaction3.getId(),fensTransaction3.getTraderCount())) {
+				return JsonResult.build(500, "钱包余额不足。或者卖家有其他交易挂单，导致后钱包CPA余额不足，不能再次挂卖单。");
 			}
 			FensTransaction fensTransaction2 = new FensTransaction();
 			fensTransaction2.setTraderState(2);
@@ -152,7 +166,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			}
 			return JsonResult.ok();
 		} else {
-			return JsonResult.build(500, "该订单不是代付款状态");
+			return JsonResult.build(500, "该订单不是待付款状态");
 		}
 	}
 
@@ -203,15 +217,22 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		Date date = new Date();
 		date.getHours();
 
-//		if (date.getHours() > ConfigUtil.CPA_JY_START_TIME || date.getHours() < ConfigUtil.CPA_JY_END_TIME) {
-//			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
-//		}
+		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		}
 		
 		if (fensTransaction.getFensUserId() == null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
 		// 判断改单是否被抢走
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
+		
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			System.exit(0);// 退出程序
+		}
+		
 		// 判断是否在挂单中
 		if (fensTransaction3.getTraderState() == 0) {
 
@@ -240,8 +261,8 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			}
 
 			// 判断接单人的钱包余额是否足够
-			if (!isCPAEnough(fensTransaction3.getTraderId(), fensTransaction3.getTraderCount())) {
-				return JsonResult.build(500, "钱包余额不足。或者你作为卖家有交易挂单，核算后钱包CPA余额不足，不能再次挂卖单。");
+			if (!isCPAEnough(fensTransaction3.getTraderId(),fensTransaction3.getId(), fensTransaction3.getTraderCount())) {
+				return JsonResult.build(500, "钱包余额不足。或者卖家有其他交易挂单，导致后钱包CPA余额不足，不能再次挂卖单。");
 			}
 			FensTransaction fensTransaction2 = new FensTransaction();
 			fensTransaction2.setTraderState(4);
@@ -264,15 +285,22 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		Date date = new Date();
 		date.getHours();
 
-//		if (date.getHours() > ConfigUtil.CPA_JY_START_TIME || date.getHours() < ConfigUtil.CPA_JY_END_TIME) {
-//			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
-//		}
+		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		}
 		
 		if (fensTransaction.getFensUserId() == null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
 		// 查询是否是本人操作
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
+		
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			System.exit(0);// 退出程序
+		}
+		
 		if (fensTransaction3.getTraderState() == 1) {
             System.out.println("==================:"+(fensTransaction3.getFensUserId() != fensTransaction.getFensUserId()));
 			
@@ -303,8 +331,8 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			}
 
 			// 判断接单人的钱包余额是否足够
-			if (!isCPAEnough(fensTransaction3.getTraderId(), fensTransaction3.getTraderCount())) {
-				return JsonResult.build(500, "钱包余额不足。或者你作为卖家有交易挂单，核算后钱包CPA余额不足，不能再次挂卖单。");
+			if (!isCPAEnough(fensTransaction3.getTraderId(),fensTransaction3.getId(), fensTransaction3.getTraderCount())) {
+				return JsonResult.build(500, "钱包余额不足。或者卖家有其他交易挂单，导致后钱包CPA余额不足，不能再次挂卖单。");
 			}
 			FensTransaction fensTransaction2 = new FensTransaction();
 			fensTransaction2.setTraderState(2);
@@ -320,9 +348,9 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 	}
 
 	// 校验cpa是否充足
-	public boolean isCPAEnough(Integer uid, double count) {
+	public boolean isCPAEnough(Integer uid, Integer id, double count) {
 		FensWallet fw = fensWalletMapper.selectByFens(uid);
-		Map allBlockCPA = fensTransactionMapper.getAllBlockCPA(uid);
+		Map allBlockCPA = fensTransactionMapper.getAllBlockCPA(uid,id);
 
 		double cpa = 0;
 		System.out.println("------alllockcpa::::" + allBlockCPA);

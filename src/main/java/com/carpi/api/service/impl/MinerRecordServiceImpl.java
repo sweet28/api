@@ -54,11 +54,18 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		FensWallet fensWallet = fensWalletMapper.selectAll(aminer.getFensUserId());
 		// 如果粉丝购买矿机的数量乘以单价大于可用余额
 		// 购买矿机所花的总cpa
+		
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			System.exit(0);// 退出程序
+		}
 		Double money = aminer2.getPrice();//aminer.getCount() * aminer2.getPrice();
 //		if (money > fensWallet.getAbleCpa()) {
-		if(!isCPAEnough(aminer.getFensUserId(),money)){
+		if(!isCPAEnough(aminer.getFensUserId(),0,money)){
 			return JsonResult.build(500, "余额不足");
 		}
+		
 		// 粉丝钱包的剩余的可用cpa余额减少相应cpa
 		FensWallet fensWallet2 = new FensWallet();
 		// 粉丝钱包的剩余的可用cpa余额
@@ -92,11 +99,10 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 	public JsonResult buyAMiner(Aminer aminer) {
 		Date date = new Date();
 		date.getHours();
-		
-//		if(date.getHours() > 18 || date.getHours() < 11){
-////		if(date.getHours() > -1){
-//			return JsonResult.build(500, "系统升级扩容，请勿重复操作.");
-//		}
+
+		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		}
 		
 		if( aminer.getType() == null){
 			return JsonResult.build(500, "交易失败。");
@@ -127,6 +133,12 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 
 		int acount = fensMinerMapper.selectUserMiner(fm1);
 		int bcount = fensMinerMapper.selectUserMiner(fm2);
+		
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			System.exit(0);// 退出程序
+		}
 		
 //		if(bcount <= 0){
 			if(acount < 12){
@@ -195,13 +207,10 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		
 		Date date = new Date();
 		date.getHours();
-		
-//		if(date.getHours() > -1){
-//			return JsonResult.build(500, "系统升级扩容，请勿重复操作.");
-//		}
-//		if(date.getHours() > 18 || date.getHours() < 11){
-//			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
-//		}
+
+		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		}
 		
 		if(bminer.getFensUserId()==null){
 			return JsonResult.build(500, "交易失败。");
@@ -216,6 +225,12 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		
 		if( bminer.getType() == null){
 			return JsonResult.build(500, "交易失败。");
+		}
+		
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			System.exit(0);// 退出程序
 		}
 		
 		// 查询需要购买的矿机信息（根据类型1星，2星等）
@@ -247,7 +262,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 			if(bcount < 10){
 				Double money = bminer2.getPrice();//bminer.getCount() * bminer2.getPrice();
 				//		if (money > fensWallet.getAbleCpa()) {
-				if(!isCPAEnough(bminer.getFensUserId(),money)){
+				if(!isCPAEnough(bminer.getFensUserId(),0,money)){
 					return JsonResult.build(500, "余额不足");
 				}
 				// 粉丝钱包的剩余的可用cpa余额减少相应cpa
@@ -286,9 +301,9 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		
 	}
 
-	public boolean isCPAEnough(Integer uid, double count){
+	public boolean isCPAEnough(Integer uid, Integer id, double count){
 		FensWallet fw = fensWalletMapper.selectByFens(uid);
-		Map allBlockCPA =  fensTransactionMapper.getAllBlockCPA(uid);
+		Map allBlockCPA =  fensTransactionMapper.getAllBlockCPA(uid,id);
 		double cpa = 0;
 		System.out.println("------alllockcpa::::"+allBlockCPA);
 		

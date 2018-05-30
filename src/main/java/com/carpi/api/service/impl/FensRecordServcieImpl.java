@@ -178,10 +178,15 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		Date date = new Date();
 		date.getHours();
 
-		// if (date.getHours() > ConfigUtil.CPA_JY_START_TIME || date.getHours() <
-		// ConfigUtil.CPA_JY_END_TIME) {
-		// return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
-		// }
+		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		}
+		
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			System.exit(0);// 退出程序
+		}
 
 		if (fensTransaction.getTraderCount() == null) {
 			return JsonResult.build(500, "新增失败");
@@ -218,13 +223,19 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				fensTransaction
 						.setMoneyCount(fensTransaction.getEntrustPrice() * 6.5 * fensTransaction.getTraderCount());
 
-				double zgPrice = 0.15;
-				double zdPrice = 0.1;
+				double zgPrice = 0.19;
+				double zdPrice = 0.12;
 				if (price > zgPrice) {
 					return JsonResult.build(500, "今日最高单价：" + zgPrice + "美元");
 				}
 				if (price < zdPrice) {
 					return JsonResult.build(500, "今日最低单价：" + zdPrice + "美元");
+				}
+				
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
+					System.exit(0);// 退出程序
 				}
 
 				if (type == 2) {
@@ -234,7 +245,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 					FensWallet fw = new FensWallet();
 					fw = fensWalletMapper.selectByFens(uid);
 
-					// if(fw.getAbleCpa() >= (fensTransaction.getTraderCount()/0.8)){
+					// if(fw.getAbleCpa() >=
+					// (fensTransaction.getTraderCount()/0.8)){
 					if (isCPAEnough(uid, fensTransaction.getTraderCount())) {
 						fensTransaction.setCreateDate(TimeUtil.getTimeStamp());
 						IdWorker idWorker = new IdWorker(0, 0);
@@ -276,6 +288,12 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	// 粉丝记录修改
 	@Override
 	public JsonResult updateRecord(FensTransaction fensTransaction) {
+		
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			System.exit(0);// 退出程序
+		}
 
 		Date date = new Date();
 		date.getHours();
@@ -401,7 +419,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		FensTransaction fensTransaction2 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 
 		if (fensTransaction2.getFensUserId().equals(fensTransaction.getFensUserId())
-				&& fensTransaction2.getTraderId().equals(fensTransaction2.getTraderId()) && fensTransaction2.getTraderType().equals(fensTransaction.getTraderType())) {
+				&& fensTransaction2.getTraderId().equals(fensTransaction2.getTraderId())
+				&& fensTransaction2.getTraderType().equals(fensTransaction.getTraderType())) {
 
 			if (fensTransaction2.getTraderType() == 1) {// 买单
 				cbrID = fensTransaction2.getFensUserId();
@@ -410,7 +429,7 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				cbrID = fensTransaction2.getTraderId();
 				sbrID = fensTransaction2.getFensUserId();
 			}
-			
+
 			FensWallet tradeWallet = new FensWallet();// 出账钱包
 			FensWallet fensWallet = new FensWallet();// 入账钱包
 
@@ -448,21 +467,21 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	}
 
 	public boolean isCPAEnough(Integer uid, double count) {
-		FensWallet fw = fensWalletMapper.selectByFens(uid);
-		Map allBlockCPA = fensTransactionMapper.getAllBlockCPA(uid);
-
-		double cpa = 0;
-		System.out.println("------alllockcpa::::" + allBlockCPA);
-		if (allBlockCPA != null) {
-			cpa = (double) allBlockCPA.get("sum");
-		}
-
-		System.out.println("------alllockcpa::::" + allBlockCPA + "------cpa:" + cpa + "-------count:" + count
-				+ "-----ablecpa:" + fw.getAbleCpa());
-
-		if ((fw.getAbleCpa() - cpa * 1.25) >= count * 1.25) {
-			return true;
-		}
+//		FensWallet fw = fensWalletMapper.selectByFens(uid);
+//		Map allBlockCPA = fensTransactionMapper.getAllBlockCPA(uid);
+//
+//		double cpa = 0;
+//		System.out.println("------alllockcpa::::" + allBlockCPA);
+//		if (allBlockCPA != null) {
+//			cpa = (double) allBlockCPA.get("sum");
+//		}
+//
+//		System.out.println("------alllockcpa::::" + allBlockCPA + "------cpa:" + cpa + "-------count:" + count
+//				+ "-----ablecpa:" + fw.getAbleCpa());
+//
+//		if ((fw.getAbleCpa() - cpa * 1.25) >= count * 1.25) {
+//			return true;
+//		}
 
 		return false;
 	}

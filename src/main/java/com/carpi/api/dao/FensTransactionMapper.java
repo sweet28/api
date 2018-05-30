@@ -3,6 +3,8 @@ package com.carpi.api.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.carpi.api.pojo.FensTransaction;
 
 public interface FensTransactionMapper {
@@ -33,5 +35,5 @@ public interface FensTransactionMapper {
 	//查询粉丝交易
 	List<FensTransaction> selectGDRecord(FensTransaction fensTransaction);
 
-	Map getAllBlockCPA(Integer uid);
+	Map getAllBlockCPA(@Param("uid")Integer uid, @Param("id")Integer id);
 }

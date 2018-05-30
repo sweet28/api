@@ -364,7 +364,7 @@
 		select  sum(trader_count) 
         from fens_transaction
 		<where>
-			 is_delete=0 and ((trader_type=1 and fens_user_id=#{uid,jdbcType=INTEGER} and trader_state in(0,1,2,4) ) or (trader_type=2 and trader_id=#{uid,jdbcType=INTEGER}  and trader_state in(0,1,2,4)))
+			 is_delete=0 and id != #{id,jdbcType=INTEGER} and ((trader_type=1 and fens_user_id=#{uid,jdbcType=INTEGER} and trader_state in(0,1,2,4) ) or (trader_type=2 and trader_id=#{uid,jdbcType=INTEGER}  and trader_state in(0,1,2,4)))
 		</where>
 	</select>
 	
