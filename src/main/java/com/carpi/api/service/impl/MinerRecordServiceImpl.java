@@ -94,9 +94,9 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		date.getHours();
 		
 //		if(date.getHours() > 18 || date.getHours() < 11){
-		if(date.getHours() > -1){
-			return JsonResult.build(500, "系统升级扩容，请勿重复操作.");
-		}
+////		if(date.getHours() > -1){
+//			return JsonResult.build(500, "系统升级扩容，请勿重复操作.");
+//		}
 		
 		if( aminer.getType() == null){
 			return JsonResult.build(500, "交易失败。");
@@ -196,9 +196,9 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		Date date = new Date();
 		date.getHours();
 		
-		if(date.getHours() > -1){
-			return JsonResult.build(500, "系统升级扩容，请勿重复操作.");
-		}
+//		if(date.getHours() > -1){
+//			return JsonResult.build(500, "系统升级扩容，请勿重复操作.");
+//		}
 //		if(date.getHours() > 18 || date.getHours() < 11){
 //			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 //		}
