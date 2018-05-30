@@ -112,8 +112,8 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 		if (fensTransaction3.getTraderState() == 1) {
 			
-			int fensid = fensTransaction3.getFensUserId();
-			int fensid2 = fensTransaction.getFensUserId();
+			int fensid = fensTransaction3.getTraderId();
+			int fensid2 = fensTransaction.getTraderId();
 			if (fensid != fensid2) {
 				return JsonResult.build(500, "交易异常");
 			}
