@@ -151,10 +151,10 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 					}
 					return buy(aminer);
 				} else if (aminer.getType() == 2) { // CA2最多购买6台
-					if (aminer.getCount() > 6) {
+					if (sum1 >= 6) {
 						return JsonResult.build(500, "每个用户最多购买CA2型矿机6台");
 					}
-					if ((aminer.getCount() + sum1) > 6 && (sum + aminer.getCount()) > 12) {
+					if ((sum1 + 1) > 6 && (sum + aminer.getCount()) > 12) {
 						return JsonResult.build(500, "您最多能购买CA2型矿机" + (12 - (sum + aminer.getCount())) + "台");
 					}
 					return buy(aminer);
@@ -162,7 +162,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		//				return JsonResult.build(500, "您最多能购买CA2型矿机" + (12 - (sum + aminer.getCount())) + "台");
 		//			}
 				} else if (aminer.getType() == 3) { // CA3最多购买3台
-					if (aminer.getCount() > 3) {
+					if (sum1 >= 3) {
 						return JsonResult.build(500, "每个用户最多购买CA3型矿机3台");
 					}
 					if ((aminer.getCount() + sum1) > 3 && (sum + aminer.getCount()) > 12) {
@@ -173,7 +173,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		//				return JsonResult.build(500, "您最多能购买CA2型矿机" + (12 - (sum + aminer.getCount())) + "台");
 		//			}
 				} else if (aminer.getType() == 4) { // CA4最多购买1台
-					if (aminer.getCount() > 1) {
+					if (sum1 >= 1) {
 						return JsonResult.build(500, "每个用户最多购买CA4型矿机1台");
 					}
 					return buy(aminer);
