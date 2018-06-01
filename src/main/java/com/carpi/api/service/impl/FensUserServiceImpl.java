@@ -162,6 +162,8 @@ public class FensUserServiceImpl implements FensUserService {
 				fensUser2.setPwd(pwd);
 				fensUser2.setCreateDate(TimeUtil.getTimeStamp());
 				fensUser2.setBak2(cardNumber);
+				//粉丝身份证图片
+				fensUser2.setBak3(fensUser.getBak3());
 				// 校验身份证号码是否被绑定
 				FensAuthentication cardInfo = fensAuthenticationMapper.selectCardInfo(cardNumber);
 				if (cardInfo != null) {

@@ -41,12 +41,15 @@ public class FensUserNewController {
 		String refereePhone = request.getParameter("yqrph");
 		// 用户姓名
 		String name = request.getParameter("xn");
+		//用户身份证图片 
+		String img = request.getParameter("img");
 
 		FensUser fensUser = new FensUser();
 		fensUser.setPhone(phone);
 		fensUser.setName(name);
 		fensUser.setPwd(pwd);
 		fensUser.setRefereePhone(refereePhone);
+		fensUser.setBak3(img);
 
 		return fensUserService.register(fensUser, code_type, code, IDcardNumber);
 	}
