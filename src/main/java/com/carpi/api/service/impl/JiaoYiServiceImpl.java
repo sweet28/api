@@ -1,5 +1,6 @@
 package com.carpi.api.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,10 +39,10 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 	@Override
 	public JsonResult buyDanJieDan(FensTransaction fensTransaction) {
 		
-		Date date = new Date();
-		date.getHours();
-
-		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		
+		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
 			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 		}
 		
@@ -105,10 +106,11 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 	// 买单人付款(已付款)（买单）
 	@Override
 	public JsonResult buyDanYiFu(FensTransaction fensTransaction) {
-		Date date = new Date();
-		date.getHours();
-
-		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+		
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		
+		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
 			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 		}
 		
@@ -214,10 +216,10 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 	@Override
 	public JsonResult sellDanJieDan(FensTransaction fensTransaction) {
 		
-		Date date = new Date();
-		date.getHours();
-
-		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		
+		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
 			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 		}
 		
@@ -282,10 +284,10 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 	@Override
 	public JsonResult sellDanYiFu(FensTransaction fensTransaction) {
 		
-		Date date = new Date();
-		date.getHours();
-
-		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		
+		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
 			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 		}
 		

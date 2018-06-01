@@ -1,5 +1,6 @@
 package com.carpi.api.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -175,10 +176,10 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	@Override
 	public JsonResult addRecord(FensTransaction fensTransaction) {
 
-		Date date = new Date();
-		date.getHours();
-
-		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		
+		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
 			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 		}
 		
@@ -223,8 +224,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				fensTransaction
 						.setMoneyCount(fensTransaction.getEntrustPrice() * 6.5 * fensTransaction.getTraderCount());
 
-				double zgPrice = 0.19;
-				double zdPrice = 0.12;
+				double zgPrice = 0.21;
+				double zdPrice = 0.13;
 				if (price > zgPrice) {
 					return JsonResult.build(500, "今日最高单价：" + zgPrice + "美元");
 				}
@@ -289,17 +290,17 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	@Override
 	public JsonResult updateRecord(FensTransaction fensTransaction) {
 		
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		
+		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
+			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		}
+		
 		try {
 			Thread.sleep(3000);
 		} catch (Exception e) {
 			System.exit(0);// 退出程序
-		}
-
-		Date date = new Date();
-		date.getHours();
-
-		if (date.getHours() > 18 || date.getHours() < 11) {
-			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 		}
 
 		if (fensTransaction.getAttachment() == null) {
@@ -412,6 +413,13 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	// 粉丝记录修改
 	@Override
 	public JsonResult updateRecordCJ(FensTransaction fensTransaction) {
+		
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		
+		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
+			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+		}
 
 		System.out.println(fensTransaction.getTraderType());
 		int cbrID = 0, sbrID = 0;

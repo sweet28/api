@@ -1,5 +1,6 @@
 package com.carpi.api.service.impl;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -97,10 +98,11 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 
 	@Override
 	public JsonResult buyAMiner(Aminer aminer) {
-		Date date = new Date();
-		date.getHours();
-
-		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+		
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		
+		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
 			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 		}
 		
@@ -203,14 +205,14 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 	@Override
 	public JsonResult buyBMiner(Bminer bminer) {
 		
-		bminer.setCount((long) 1);
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		
-		Date date = new Date();
-		date.getHours();
-
-		if (date.getHours() < ConfigUtil.CPA_JY_START_TIME || date.getHours() > ConfigUtil.CPA_JY_END_TIME) {
+		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
 			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
 		}
+		
+		bminer.setCount((long) 1);
 		
 		if(bminer.getFensUserId()==null){
 			return JsonResult.build(500, "交易失败。");
