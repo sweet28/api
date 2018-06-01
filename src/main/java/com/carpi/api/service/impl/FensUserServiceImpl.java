@@ -134,9 +134,9 @@ public class FensUserServiceImpl implements FensUserService {
 			if (expireSeconds < 0) {
 				return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
 			} else {
-				// smsCCode.setIsUsed(1);
-				// smsCCode.setUsingTime(TimeUtil.getTimeStamp());
-				// smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+				 smsCCode.setIsUsed(1);
+				 smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+				 smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
 
 				String pwd = MD5.encodeString(
 						MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);

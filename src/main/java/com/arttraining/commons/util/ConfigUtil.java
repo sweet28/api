@@ -85,6 +85,18 @@ public class ConfigUtil {
 	public static String ALIDAYU_SMS_SECRET = "221e92217b31a02c2a5620dc80f15d74";
 	public static String ALIDAYU_SMS_TYPE = "normal";
 	public static String ALIDAYU_SMS_EXTEND = "";
+	//短信配制product
+	public static final String SMS_PRODUCT = "Dysmsapi";
+	// 产品域名,开发者无需替换domain
+	public static final String SMS_DOMAIN = "dysmsapi.aliyuncs.com";
+
+	// TODO 此处需要替换成开发者自己的AK(在阿里云访问控制台寻找)accessKeyId
+	public static final String SMS_ACCESSKEYID = "LTAIPQFyzbnFtVdn";
+	//accessKeySecret
+	public static final String SMS_ACCESSKEYSECRET = "UTjq1CdHjby38dM0iDB56kLOrF1UGk";
+	
+	
+	
 	public static String ALIDAYU_SMS_PRODUCT = "云互艺";
 	public static String ALIDAYU_SMS_FREE_SIGN_NAME_REG = "注册验证";
 	public static String ALIDAYU_SMS_FREE_SIGN_NAME_LOGIN = "登录验证";
