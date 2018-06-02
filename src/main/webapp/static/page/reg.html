@@ -13,6 +13,47 @@
     <script src="../lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
     <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
     <!-- <script src="http://c.dun.163yun.com/js/c.js"></script> --><!-- 验证码组件js -->
+    <style>
+		/* div.file {
+			display: inline-block;
+			width: 100px;
+			height: 20px;
+			line-height: 20px;
+			position: relative;
+			overflow: hidden;
+			color: red
+		}
+		
+		div.file input {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			zoom: 1;
+			filter: alpha(opacity = 0);
+			opacity: 0;
+			font-size: 20px;
+			margin-left: -240px
+		} */
+		
+		.upload {
+			padding: 4px 10px;
+			height: 40px;
+			line-height: 20px;
+			position: relative;
+			border: 1px solid #999;
+			text-decoration: none;
+			color: #fff;
+			background-color:#ffa08b;
+		}
+		
+		.change {
+			position: absolute;
+			overflow: hidden;
+			right: 0;
+			top: 0;
+			opacity: 0;
+		}
+	</style>
 </head>
 <body class="">
 <div class="login_bg">
@@ -26,16 +67,20 @@
         </div>
         <div class="register_content">
             <div class="register_part2">
-            	<div class="item">
-                    <input type="text" id="uname" placeholder="姓名" oninput="if(value.length>11)value=value.slice(0,11)"/>
-                           <!-- onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"/> -->
-                </div>
                 <div class="item">
                     <input type="number" id="phonenum" placeholder="手机号码" oninput="if(value.length>11)value=value.slice(0,11)"
                            onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"/>
                 </div>
+                <form name="form0" id="form0"  enctype="multipart/form-data">  
+				    <!-- 这里特别说一下这个 multiple="multiple" 添加上这个之后可以一次选择多个文件进行上传，是 html5 的新属性-->  
+				    <div class="upload"><span style="font-size:18px;text-align:center;">点击此处上传身份证正面图片(小于2M)</span><input class="change" type="file" accept="image/*"name="file0" id="file0"/><br><img src="" id="img0" style="width:30%;"></div>
+			    </form>
+            	<div class="item">
+                    <input type="text" id="uname" placeholder="姓名" oninput="if(value.length>11)value=value.slice(0,11)" disabled="disabled"/>
+                           <!-- onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"/> -->
+                </div>
                 <div class="item">
-                    <input type="text" id="cardnum" placeholder="身份证号" oninput="if(value.length>11)value=value.slice(0,18)"/>
+                    <input type="text" id="cardnum" placeholder="身份证号" oninput="if(value.length>11)value=value.slice(0,18)" disabled="disabled"/>
                            <!-- onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"/> -->
                 </div>
                 <div class="item">

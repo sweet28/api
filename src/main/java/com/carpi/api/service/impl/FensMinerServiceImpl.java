@@ -295,6 +295,14 @@ public class FensMinerServiceImpl implements FensMinerService {
 		}
 		return JsonResult.build(500, "不存在矿池信息");
 	}
+	
+	@Override
+	public PageInfo<FensMiner> selectABMinnerKC(Integer page, Integer row, Integer fensUserId) {
+		PageHelper.startPage(page, row);
+		List<FensMiner> list = fensMinerMapper.selectABMinnerKC(fensUserId);
+		PageInfo<FensMiner> pageInfo = new PageInfo<FensMiner>(list);
+		return pageInfo;
+	}
 
 	// 转入运行池
 	@Override

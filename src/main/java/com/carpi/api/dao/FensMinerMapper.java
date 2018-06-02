@@ -51,4 +51,7 @@ public interface FensMinerMapper {
 
 	//转入运行池
 	int updateyxc(FensMiner record);
+	
+	// 根据粉丝id查询AB矿机库存
+	List<FensMiner> selectABMinnerKC(Integer fensUserId);
 }

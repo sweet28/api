@@ -62,6 +62,21 @@ public class FensMinerNewController {
 		return fensMinerService.selectAMinnerKC(Integer.valueOf(page), Integer.valueOf(row),
 				Integer.valueOf(fensUserId));
 	}
+	
+	// 根据粉丝id查询AB矿机库存
+	@RequestMapping(value = "/kucunABList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public PageInfo<FensMiner> minerABListKC(HttpServletRequest request, HttpServletResponse response) {
+		// 当前页
+		String page = request.getParameter("pg");
+		// 每页的条数
+		String row = request.getParameter("ts");
+		// 粉丝id
+		String fensUserId = request.getParameter("uid");
+
+		return fensMinerService.selectABMinnerKC(Integer.valueOf(page), Integer.valueOf(row),
+				Integer.valueOf(fensUserId));
+	}
 
 	// 根据粉丝id查询B矿机
 	@RequestMapping(value = "/kuB", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
