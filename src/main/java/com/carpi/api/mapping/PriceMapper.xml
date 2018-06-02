@@ -192,7 +192,7 @@
 	<select id="selectToday" resultMap="BaseResultMap">
 		select * from price
 		where create_date &gt;= date(now())
-		and create_date &lt; DATE_ADD(date(now()),INTERVAL 1 DAY) ORDER BY
+		and create_date &lt; DATE_ADD(date(now()),INTERVAL 1 DAY) and is_delete = 0 ORDER BY
 		create_date desc
 	</select>
 	
@@ -200,7 +200,13 @@
 	<select id="selectAll" resultMap="BaseResultMap" parameterType="java.lang.String">
 		select * from price
 		where create_date &gt;= #{startTime,jdbcType=VARCHAR}
-		and create_date &lt; #{endTime,jdbcType=VARCHAR} ORDER BY
+		and create_date &lt; #{endTime,jdbcType=VARCHAR} and is_delete = 0 ORDER BY
 		create_date desc
 	</select>
+	
+	<!-- 根据时间段查询 -->
+	<select id="selectWeek" resultMap="BaseResultMap">
+		SELECT * FROM price where create_date>DATE_SUB(CURDATE(), INTERVAL 1 WEEK) and is_delete = 0
+	</select>
+	
 </mapper>

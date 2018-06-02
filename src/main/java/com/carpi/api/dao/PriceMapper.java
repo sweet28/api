@@ -25,4 +25,7 @@ public interface PriceMapper {
     
     //根据时间段查询
     List<Price> selectAll(@Param("startTime")String startTime,@Param("endTime") String endTime);
+    
+    //查询仅一周的数据
+    List<Price> selectWeek();
 }

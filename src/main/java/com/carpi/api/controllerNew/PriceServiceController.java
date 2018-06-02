@@ -32,6 +32,13 @@ public class PriceServiceController {
 	public JsonResult selectall(HttpServletRequest request, HttpServletResponse response) {
 		String startTime = request.getParameter("ks");
 		String endTime = request.getParameter("js");
-		return priceService.selectall(startTime,endTime);
+		return priceService.selectall(startTime, endTime);
+	}
+
+	// 一周的数据
+	@RequestMapping(value = "/week", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult selectWeek(HttpServletRequest request, HttpServletResponse response) {
+		return priceService.selectWeek();
 	}
 }

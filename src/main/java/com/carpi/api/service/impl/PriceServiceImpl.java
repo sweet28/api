@@ -33,7 +33,18 @@ public class PriceServiceImpl implements PriceService {
 		List<Price> list = priceMapper.selectAll(startTime, endTime);
 		if (list != null && list.size() > 0) {
 			return JsonResult.ok(list);
-		}else{
+		} else {
+			return null;
+		}
+	}
+
+	// 一周的数据
+	@Override
+	public JsonResult selectWeek() {
+		List<Price> list = priceMapper.selectWeek();
+		if (list != null && list.size() > 0) {
+			return JsonResult.ok(list);
+		} else {
 			return null;
 		}
 	}

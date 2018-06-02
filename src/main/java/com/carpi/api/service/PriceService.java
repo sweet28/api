@@ -9,4 +9,7 @@ public interface PriceService {
 	
 	//根据时间段查询
 	public JsonResult selectall(String startTime,String endTime);
+	
+	//一周的数据
+	public JsonResult selectWeek();
 }
