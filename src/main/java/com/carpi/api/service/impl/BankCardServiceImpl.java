@@ -37,12 +37,27 @@ public class BankCardServiceImpl implements BankCardService {
 		return JsonResult.ok();
 	}
 
+	// // 粉丝添加银行卡
+	// @Override
+	// public JsonResult addBlank(BankCard bankCard) {
+	// BankCard selectCard = bankCardMapper.selectCard(bankCard.getCardNumber());
+	// if (selectCard != null) {
+	// return JsonResult.build(500, "该银行卡已存在");
+	// }
+	// int result = bankCardMapper.insertSelective(bankCard);
+	// if (result != 1) {
+	// return JsonResult.build(500, "添加失败");
+	// }
+	// return JsonResult.ok();
+	// }
+
 	// 粉丝添加银行卡
 	@Override
 	public JsonResult addBlank(BankCard bankCard) {
-		BankCard selectCard = bankCardMapper.selectCard(bankCard.getCardNumber());
+		List<BankCard> list = bankCardMapper.selectAll(bankCard.getFensUserId());
+		BankCard selectCard = list.get(0);
 		if (selectCard != null) {
-			return JsonResult.build(500, "该银行卡已存在");
+			return JsonResult.build(500, "每人仅限绑定一张银行卡");
 		}
 		int result = bankCardMapper.insertSelective(bankCard);
 		if (result != 1) {
