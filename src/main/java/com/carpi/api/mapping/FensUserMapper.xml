@@ -275,6 +275,14 @@
 		from fens_user where phone = #{refereePhone,jdbcType=VARCHAR} and
 		is_delete = 0
 	</select>
+	
+	<select id="selectRefereeYXC" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(id) 
+		<include refid="Base_Column_List" />
+		from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR} and is_delete = 0 and attachment='1' 
+		 and create_date &gt;= '2018-06-02 06:00:00' and create_date &lt;= '2018-06-06 23:00:00'
+	</select>
 
 	<!--修改密码 或者资金密码 -->
 	<update id="updatePwd" parameterType="com.carpi.api.pojo.FensUser">

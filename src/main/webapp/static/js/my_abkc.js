@@ -75,13 +75,42 @@ $(function () {
 });
 
 function kucunSX(){
-	console.log("-------------321");
+	loading.open();
+	$.ajax({
+	type: "post",
+      url: getAPIURL() + "kuangjy/jy/shuaxinyxc",
+      dataType: "json",
+      data: {
+    	  "uid":localStorage.getItem("uid")
+      },
+      success: function (data) {
+        if (data.status == 200) {
+        	loading.close();
+        	window.location.href = "../page/my_abkc.html";
+        }else{
+        	loading.close();
+        	layer.open({
+  	          content: data.msg
+  	          , btn: '确定'
+  		      });
+        	return false;
+        }
+      },
+    error: function (XMLHttpRequest, textStatus, errorThrown) {
+    	loading.close();
+    	layer.open({
+	          content: data.msg
+	          , btn: '确定'
+		      });
+		return false;
+    }
+});
 }
 
 function zhuanru(kjid,kjjb){
 	
 	layer.open({
-          content: '等待分配。'
+          content: '排队转入中。'
           , btn: '确定'
       });
 	return false;

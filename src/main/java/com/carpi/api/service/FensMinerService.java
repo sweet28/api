@@ -29,4 +29,6 @@ public interface FensMinerService {
 	public JsonResult zhuanyxc(Integer id,Integer fensUserId,String type);
 
 	public PageInfo<FensMiner> selectABMinnerKC(Integer page, Integer row, Integer fensUserId);
+
+	public JsonResult shuaxinyxc(Integer fensUserId);
 }

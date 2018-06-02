@@ -309,5 +309,16 @@ public class MinerRecordNewController {
 		
 		return fensMinerService.zhuanyxc(Integer.valueOf(id),Integer.valueOf(fensUserId),type);
 	}
+	
+	//转入运行池
+	@RequestMapping(value = "/shuaxinyxc", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult shuaxinyxc(HttpServletRequest request, HttpServletResponse response) {
+		// FensUserId(粉丝id)
+		String fensUserId = request.getParameter("uid");
+		
+		return fensMinerService.shuaxinyxc(Integer.valueOf(fensUserId));
+	}
+
 
 }

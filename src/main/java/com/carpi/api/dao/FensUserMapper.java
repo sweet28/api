@@ -37,4 +37,6 @@ public interface FensUserMapper {
 
 	// 根据旧密码查询用户
 	FensUser selectOldPwd(FensUser fensUser);
+	
+	Integer selectRefereeYXC(String refereePhone);
 }

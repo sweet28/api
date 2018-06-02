@@ -376,4 +376,57 @@ public class FensMinerServiceImpl implements FensMinerService {
 		return JsonResult.ok();
 
 	}
+
+	@Override
+	public JsonResult shuaxinyxc(Integer fensUserId) {
+		// TODO Auto-generated method stub
+		FensUser fu = fensUserMapper.selectByPrimaryKey(fensUserId);
+		if(fu == null){
+			return JsonResult.build(500, "无数据");
+		}
+		
+		if(fu.getPhone().isEmpty()){
+			return JsonResult.build(500, "无数据");
+		}
+		
+		if(fu.getRefereePhone().isEmpty()){
+			return JsonResult.build(500, "无数据");
+		}
+		//活动时间内 直推总人数
+		Integer reNum = fensUserMapper.selectRefereeYXC(fu.getPhone());
+		//直推送出矿机总数
+		int sjNum = reNum/5;
+		System.out.println(reNum+"<-re----sj->"+sjNum);
+		//已送矿机数
+		int ysNum = 0;
+		if(!fu.getCountryRegion().isEmpty()){
+			ysNum = Integer.parseInt(fu.getCountryRegion());
+		}
+		//还应送矿机数
+		int yscNum = sjNum - ysNum;
+		
+		FensUser fu2 = new FensUser();
+		fu2.setId(fu.getId());
+		fu2.setCountryRegion(sjNum+"");
+		int result2 = fensUserMapper.updateByPrimaryKeySelective(fu2);
+		
+		for(int i = 0; i < yscNum; i++){
+			FensMiner fm = new FensMiner();
+			fm.setBak1("1");
+			fm.setMinerType(1);
+			fm.setMinerId(1);
+			fm.setFensUserId(fensUserId);
+			fm.setMinerComputingPower(0.005);
+			fm.setCreateDate(TimeUtil.getTimeStamp());
+			fm.setIsDelete(10);
+			
+			int result = fensMinerMapper.insertSelective(fm);
+			
+			if(result != 1){
+				return JsonResult.build(500, "无数据2");
+			}
+		}
+		
+		return JsonResult.ok();
+	}
 }

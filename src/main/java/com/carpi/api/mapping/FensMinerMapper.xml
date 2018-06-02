@@ -331,6 +331,17 @@
 		</where>
 	</select>
 	
+	<!--根据粉丝id查询矿机库存 -->
+	<select id="selectABMinnerKC" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_miner 
+		<where>
+			fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 10
+		</where>
+	</select>
+	
 	<!-- 查询购买矿机类型的数量 -->
 	<select id="selectSum" resultType="java.lang.Integer">
 		select
