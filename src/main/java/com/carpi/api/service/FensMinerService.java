@@ -24,4 +24,7 @@ public interface FensMinerService {
 	PageInfo<FensMiner> selectAMinnerKC(Integer page, Integer row, Integer fensUserId);
 
 	PageInfo<FensMiner> selectBMinnerKC(Integer page, Integer row, Integer fensUserId);
+	
+	//转入运行池
+	public JsonResult zhuanyxc(Integer id,Integer fensUserId,String type);
 }

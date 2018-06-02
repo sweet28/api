@@ -16,6 +16,7 @@ import com.carpi.api.pojo.Aminer;
 import com.carpi.api.pojo.AminerRecord;
 import com.carpi.api.pojo.Bminer;
 import com.carpi.api.pojo.FensTransaction;
+import com.carpi.api.service.FensMinerService;
 import com.carpi.api.service.FensRecordServcie;
 import com.carpi.api.service.JiaoYiService;
 import com.carpi.api.service.MinerRecordService;
@@ -33,6 +34,9 @@ public class MinerRecordNewController {
 
 	@Autowired
 	private JiaoYiService jiaoYiService;
+	
+	@Autowired
+	private FensMinerService fensMinerService;
 
 	// 根据粉丝id查询交易记录
 	@RequestMapping(value = "/jjylb", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -290,6 +294,20 @@ public class MinerRecordNewController {
 		bminer.setFensUserId(Integer.valueOf(fensUserId));
 		bminer.setType(Integer.valueOf(type));
 		return minerRecordService.buyBMiner(bminer);
+	}
+	
+	//转入运行池
+	@RequestMapping(value = "/zhuanruyxc", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult zhuanruyxc(HttpServletRequest request, HttpServletResponse response) {
+		// FensUserId(粉丝id)
+		String fensUserId = request.getParameter("uid");
+		// id
+		String id = request.getParameter("kid");
+		//矿机类型
+		String type = request.getParameter("type");
+		
+		return fensMinerService.zhuanyxc(Integer.valueOf(id),Integer.valueOf(fensUserId),type);
 	}
 
 }

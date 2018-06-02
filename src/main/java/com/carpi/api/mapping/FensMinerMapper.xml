@@ -351,4 +351,59 @@
 			</if>
 		</where>
 	</select>
+	
+	
+	<!-- 转入运行池 -->
+	<update id="updateyxc" parameterType="com.carpi.api.pojo.FensMiner">
+		update fens_miner
+		<set>
+			<if test="bak1 != null">
+				bak1 = #{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				bak2 = #{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				bak3 = #{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				attachment = #{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="minerType != null">
+				miner_type = #{minerType,jdbcType=INTEGER},
+			</if>
+			<if test="minerId != null">
+				miner_id = #{minerId,jdbcType=INTEGER},
+			</if>
+			<if test="fensUserId != null">
+				fens_user_id = #{fensUserId,jdbcType=INTEGER},
+			</if>
+			<if test="minerComputingPower != null">
+				miner_computing_power =
+				#{minerComputingPower,jdbcType=DOUBLE},
+			</if>
+			<if test="totalRevenue != null">
+				total_revenue = #{totalRevenue,jdbcType=DOUBLE},
+			</if>
+			<if test="ableEarn != null">
+				able_earn = #{ableEarn,jdbcType=DOUBLE},
+			</if>
+			<if test="lockEarn != null">
+				lock_earn = #{lockEarn,jdbcType=DOUBLE},
+			</if>
+		</set>
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 10 and id = #{id,jdbcType=INTEGER}
+	</update>
 </mapper>
