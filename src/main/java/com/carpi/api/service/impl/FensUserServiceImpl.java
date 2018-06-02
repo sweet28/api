@@ -591,38 +591,38 @@ public class FensUserServiceImpl implements FensUserService {
 			oldZTRS = 0;
 		}
 
-		List<FensTeam> list = fensTeamMapper.selectAll(user.getId());
-		if (list.size() > 0) {
-			int chazhi = list.size() - oldZTRS;
-			if (chazhi > 0) {
-				double zhituiSY = chazhi * 2;
-
-				FensWallet fensWallet = fensWalletMapper.selectAll(user.getId());
-
-				Double lockCPA = fensWallet.getLockCpa() + zhituiSY;
-				// 到账时间
-				Date date2 = TimeUtil.getTimeStamp();
-				FensWallet wallet2 = new FensWallet();
-				// 钱包可用余额增加
-				wallet2.setLockCpa(lockCPA);
-				wallet2.setCpaCount(fensWallet.getCpaCount() + zhituiSY);
-				wallet2.setId(fensWallet.getId());
-				// 更新钱包可用cpa
-				int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
-				if (result2 != 1) {
-					ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + user.getId());
-				}
-
-				FensUser fu = new FensUser();
-				fu.setCreater(list.size() + "");
-				fu.setId(user.getId());
-
-				int result3 = fensUserMapper.updateByPrimaryKeySelective(fu);
-				if (result3 != 1) {
-					ServerLog.getLogger().warn("更新用户直推失败，粉丝id：" + user.getId());
-				}
-			}
-		}
+//		List<FensTeam> list = fensTeamMapper.selectAll(user.getId());
+//		if (list.size() > 0) {
+//			int chazhi = list.size() - oldZTRS;
+//			if (chazhi > 0) {
+//				double zhituiSY = chazhi * 2;
+//
+//				FensWallet fensWallet = fensWalletMapper.selectAll(user.getId());
+//
+//				Double lockCPA = fensWallet.getLockCpa() + zhituiSY;
+//				// 到账时间
+//				Date date2 = TimeUtil.getTimeStamp();
+//				FensWallet wallet2 = new FensWallet();
+//				// 钱包可用余额增加
+//				wallet2.setLockCpa(lockCPA);
+//				wallet2.setCpaCount(fensWallet.getCpaCount() + zhituiSY);
+//				wallet2.setId(fensWallet.getId());
+//				// 更新钱包可用cpa
+//				int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
+//				if (result2 != 1) {
+//					ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + user.getId());
+//				}
+//
+//				FensUser fu = new FensUser();
+//				fu.setCreater(list.size() + "");
+//				fu.setId(user.getId());
+//
+//				int result3 = fensUserMapper.updateByPrimaryKeySelective(fu);
+//				if (result3 != 1) {
+//					ServerLog.getLogger().warn("更新用户直推失败，粉丝id：" + user.getId());
+//				}
+//			}
+//		}
 
 		return JsonResult.ok(user);
 	}

@@ -47,7 +47,7 @@ $.ajax({
         		var sec = localStorage.getItem("sec");
         		var conte = "实名审核后可解冻";
         		if(sec == "1"){
-        			conte = "<a href='javascript:zhuanru("+content.id+","+content.bak1+");'>转入运行池</a>";
+        			conte = "<a href='javascript:zhuanru("+content.id+","+content.minerType+");'>转入运行池</a>";
             	}else if(sec == "2"){
             		conte = "认证审核未通过";
             	}
@@ -77,114 +77,81 @@ $(function () {
 function kucunSX(){
 	loading.open();
 	$.ajax({
-	type: "post",
-      url: getAPIURL() + "kuangjy/jy/shuaxinyxc",
-      dataType: "json",
-      data: {
-    	  "uid":localStorage.getItem("uid")
-      },
-      success: function (data) {
-        if (data.status == 200) {
-        	loading.close();
-        	window.location.href = "../page/my_abkc.html";
-        }else{
-        	loading.close();
-        	layer.open({
-  	          content: data.msg
-  	          , btn: '确定'
-  		      });
-        	return false;
-        }
-      },
-    error: function (XMLHttpRequest, textStatus, errorThrown) {
-    	loading.close();
-    	layer.open({
-	          content: data.msg
-	          , btn: '确定'
-		      });
-		return false;
-    }
-});
+		type: "post",
+	      url: getAPIURL() + "kuangjy/jy/shuaxinyxc",
+	      dataType: "json",
+	      data: {
+	    	  "uid":localStorage.getItem("uid")
+	      },
+	      success: function (data) {
+	        if (data.status == 200) {
+	        	loading.close();
+	        	window.location.href = "../page/my_abkc.html";
+	        }else{
+	        	loading.close();
+	        	layer.open({
+	  	          content: data.msg
+	  	          , btn: '确定'
+	  		      });
+	        	return false;
+	        }
+	      },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    	loading.close();
+	    	layer.open({
+		          content: data.msg
+		          , btn: '确定'
+			      });
+			return false;
+	    }
+	});
 }
 
-function zhuanru(kjid,kjjb){
+function zhuanru(kid,type){
 	
-	layer.open({
-          content: '排队转入中。'
-          , btn: '确定'
-      });
-	return false;
-//	$.ajax({
-//		type: "post",
-//	      url: getAPIURL() + "bank/list",
-//	      dataType: "json",
-//	      data: {
-//	    	  "fensUserId":localStorage.getItem("uid"),
-//	    	  "pageSize":100,
-//	    	  "pageNum":0
-//	      },
-//	      success: function (data) {
-//	        var list = data.list;;
-//	        if (list.length <= 0) {
-//		        loading.close();
-//	        	console.log("没有账号信息");
-//	        	layer.open({
-//			          content: '银行卡未绑定不能转账收益。'
-//			          , btn: '确定'
-//	  		      });
-//	  			return false;
-//	        }else{
-//	        	loading.open();
-//	        	var flag = checkLogin();
-//	        	var tmp = getTimestamp();
-//	        	var rad = getRandom();
-//	        	var ton = getTom();
-//	        	var str = "id="+kjid+"tmp="+tmp+"rad="+rad+"tom="+ton;
-//	        	$.ajax({
-//	        	      type: "post",
-//	        	      url: getAPIURL() + "user/miner/minerjd",
-//	        	      dataType: "json",
-//	        	      data: {
-//	        	    	  "id":kjid,
-//	        		        "tmp":tmp,
-//	        		        "rad":rad,
-//	        		        "tom":ton,
-//	        		        "token":commingSoon1(str)
-//	        	      },
-//	        	      success: function (data) {
-//	        	        if (data.status==200) {
-//	        	        	loading.close();
-//	        	          layer.open({
-//	        	            content: '转入钱包成功。'
-//	        	            , btn: ['确定']
-//	        	            , yes: function (index) {
-//	        	              window.location.href = "../page/index.html";
-//	        	            }
-//	        	          });
-//	        	        } else{
-//	        	        	loading.close();
-//	        	        	layer.open({
-//	        		            content: data.msg//'操作失败，请检查网络服务。'
-//	        		            , btn: ['确定']
-//	        		            , yes: function (index) {
-//	        		  	          window.location.href = "../page/index.html";
-//	        		            }
-//	        		          });
-//	        	        }
-//	        	      },
-//	        	      headers: {
-//	        	        "Authorization": "Bearer " + getTOKEN()
-//	        	      }
-//	            });
-//	        }
-//	      },
-//	    error: function (XMLHttpRequest, textStatus, errorThrown) {
-//	    	console.log("没有账号信息2222");
-//        	layer.open({
-//		          content: '银行卡或身份证未认证，不能转账交易。'
-//		          , btn: '确定'
-//  		      });
-//  			return false;
-//	    }
+//	layer.open({
+//          content: '排队转入中。'
+//          , btn: '确定'
 //    });
+//	return false;
+	console.log(kid+"--12--"+type);
+	loading.open();
+	$.ajax({
+		type: "post",
+	      url: getAPIURL() + "kuangjy/jy/zhuanruyxc",
+	      dataType: "json",
+	      data: {
+	    	  "uid":localStorage.getItem("uid"),
+	    	  "type":type,
+	    	  "kid":kid
+	      },
+	      success: function (data) {
+	    	  console.log(data);
+	        if (data.status == 200) {
+	        	loading.close();
+	        	layer.open({
+    	            content: '操作成功。'
+        	            , btn: ['确定']
+        	            , yes: function (index) {
+        	            	window.location.href = "../page/my_abkc.html";
+        	            }
+    	         });
+	        }else{
+	        	loading.close();
+	        	layer.open({
+	  	          content: data.msg
+	  	          , btn: '确定'
+	  		      });
+	        	return false;
+	        }
+	      },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    	loading.close();
+	    	layer.open({
+		          content: data.msg
+		          , btn: '确定'
+			      });
+			return false;
+	    }
+	});
 }

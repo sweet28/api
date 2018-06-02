@@ -85,11 +85,11 @@ public class MinerRecordController {
 //	}
 //
 //	// 根据粉丝交易记录修改
-//	@RequestMapping(value = "/updateRecord", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-//	@ResponseBody
-//	public JsonResult updateRecord(FensTransaction fensTransaction) {
-//		return fensRecordServcie.updateRecord(fensTransaction);
-//	}
+	@RequestMapping(value = "/updateRecord", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult updateRecord(FensTransaction fensTransaction) {
+		return fensRecordServcie.updateRecord(fensTransaction);
+	}
 //	
 //	// 根据粉丝交易记录修改
 //	@RequestMapping(value = "/updateRecordCJ", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

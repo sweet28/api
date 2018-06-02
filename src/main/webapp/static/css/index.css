@@ -1,4 +1,4 @@
-/*-------棣栭〉閮ㄥ垎鏍峰紡--------*/
+/*-------妫ｆ牠銆夐柈銊ュ瀻閺嶅嘲绱�--------*/
 .modal {
     width: 7.5rem;
     height: 100%;
@@ -16,7 +16,7 @@
     transform: translate(-50%, -50%);
     -webkit-transform: translate(-50%, -50%);
 }
-/*鍗犲睆骞垮憡*/
+/*閸楃姴鐫嗛獮鍨啞*/
 .advertisementModal {
     background: rgba(0, 0, 0, 0.4);
     z-index: 10000;
@@ -283,7 +283,7 @@
     margin-left: 0.96rem;
 }
 
-/*swiper鍥剧墖澶у皬*/
+/*swiper閸ュ墽澧栨径褍鐨�*/
 .wrap {
     width: 7.5rem;
     height: 100%;
@@ -370,7 +370,7 @@
     z-index: 1;
 }
 
-/*鍏憡閮ㄥ垎*/
+/*閸忣剙鎲￠柈銊ュ瀻*/
 .notice {
     padding-left: 0.27rem;
     height: 0.46rem;
@@ -405,12 +405,12 @@
     color: #4b4b4b;
 }
 
-/*鏂版墜涓撲韩閮ㄥ垎*/
+/*閺傜増澧滄稉鎾查煩闁劌鍨�*/
 .newer {
     position: relative;
 }
 
-/*鎮诞鎸夐挳*/
+/*閹剚璇為幐澶愭尦*/
 .download_icon {
     width: 1.01rem;
     height: 0.79rem;
@@ -515,7 +515,7 @@
     margin-right: 0.12rem;
 }
 
-/*杞湀鍥�*/
+/*鏉烆剙婀�閸ワ拷*/
 .row-bot {
     width: 7.5rem;
     min-height: 20px;
@@ -609,7 +609,7 @@
     top: 0;
 }
 
-/*鎶曡祫鎸夐挳*/
+/*閹舵洝绁幐澶愭尦*/
 .newer .newer_detail .invest_btn {
     display: block;
     width: 6.6rem;
@@ -623,11 +623,11 @@
     background: -webkit-linear-gradient(left, #fd8247, #f46054); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #fd8247, #f46054); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #fd8247, #f46054); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #fd8247, #f46054); /* 鏍囧噯鐨勮娉� */
+    background: linear-gradient(left, #fd8247, #f46054); /* 閺嶅洤鍣惃鍕嚔濞夛拷 */
 }
 
-/*------涓汉涓績鐨勬牱寮�------*/
-/*鎴戠殑澶撮儴閮ㄥ垎*/
+/*------娑擃亙姹夋稉顓炵妇閻ㄥ嫭鐗卞锟�------*/
+/*閹存垹娈戞径鎾劥闁劌鍨�*/
 .my_header {
     width: 7.5rem;
     height: 5.17rem;
@@ -694,7 +694,7 @@
     position: relative;
 }
 
-/*涓棿鍔犳潯绾�*/
+/*娑擃參妫块崝鐘虫蒋缁撅拷*/
 .my_header .my_headerbottom .left:after {
     content: "";
     position: absolute;
@@ -718,7 +718,7 @@
     font-size: 0.2rem;
 }
 
-/*鎴戠殑鍐呭閮ㄥ垎*/
+/*閹存垹娈戦崘鍛啇闁劌鍨�*/
 .my_content .icon {
     background: url(../img/my_icon.png);
     background-size: 4.33rem 0.55rem;
@@ -888,7 +888,7 @@
     /* margin-left: 0.1rem;*/
 }
 
-/*----------鎴戠殑璁剧疆閮ㄥ垎鏍峰紡------*/
+/*----------閹存垹娈戠拋鍓х枂闁劌鍨庨弽宄扮础------*/
 .setting_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1040,7 +1040,7 @@
     margin-left: 1.3rem;
 }
 
-/*瀹夊叏閫�鍑烘寜閽�*/
+/*鐎瑰鍙忛柅锟介崙鐑樺瘻闁斤拷*/
 .setting_logout {
     display: block;
     margin: 0 auto;
@@ -1054,11 +1054,11 @@
     background: -webkit-linear-gradient(left, #44c5fe, #079bff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #44c5fe, #079bff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #44c5fe, #079bff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #44c5fe, #079bff); /* 鏍囧噯鐨勮娉� */
+    background: linear-gradient(left, #44c5fe, #079bff); /* 閺嶅洤鍣惃鍕嚔濞夛拷 */
     color: #fff;
 }
 
-/*------------淇敼鐧诲綍瀵嗙爜---------------------*/
+/*------------娣囶喗鏁奸惂璇茬秿鐎靛棛鐖�---------------------*/
 .modifypassword_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1138,11 +1138,11 @@
     background: -webkit-linear-gradient(left, #44c5fe, #079bff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #44c5fe, #079bff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #44c5fe, #079bff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #44c5fe, #079bff); /* 鏍囧噯鐨勮娉� */
+    background: linear-gradient(left, #44c5fe, #079bff); /* 閺嶅洤鍣惃鍕嚔濞夛拷 */
     color: #fff;
 }
 
-/*-------鎵惧洖浜ゆ槗瀵嗙爜-------------*/
+/*-------閹垫儳娲栨禍銈嗘鐎靛棛鐖�-------------*/
 .findtranpassword_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1335,11 +1335,11 @@
     background: -webkit-linear-gradient(left, #44c5fe, #079bff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #44c5fe, #079bff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #44c5fe, #079bff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #44c5fe, #079bff); /* 鏍囧噯鐨勮娉� */
+    background: linear-gradient(left, #44c5fe, #079bff); /* 閺嶅洤鍣惃鍕嚔濞夛拷 */
     color: #fff;
 }
 
-/*-------------鑱旂郴鎴戜滑-------------*/
+/*-------------閼辨梻閮撮幋鎴滄粦-------------*/
 .contactus_title {
     height: 1rem;
     line-height: 1rem;
@@ -1433,7 +1433,7 @@
     float: right;
 }
 
-/*-----------------甯歌闂---------------------*/
+/*-----------------鐢瓕顫嗛梻顕�顣�---------------------*/
 .faq_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1492,7 +1492,7 @@
 
 }
 
-/*----------------鎰忚鍙嶉椤甸潰----------*/
+/*----------------閹板繗顫嗛崣宥夘洯妞ょ敻娼�----------*/
 .feedback_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1573,11 +1573,11 @@
     background: -webkit-linear-gradient(left, #44c5fe, #079bff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #44c5fe, #079bff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #44c5fe, #079bff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #44c5fe, #079bff); /* 鏍囧噯鐨勮娉� */
+    background: linear-gradient(left, #44c5fe, #079bff); /* 閺嶅洤鍣惃鍕嚔濞夛拷 */
     color: #fff;
 }
 
-/*--------------娉ㄥ唽鎸囧-------------------*/
+/*--------------濞夈劌鍞介幐鍥ь嚤-------------------*/
 .registerguide_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1647,7 +1647,7 @@
     display: none;
 }
 
-/*-------------鎻愮幇椤甸潰-------------*/
+/*-------------閹绘劗骞囨い鐢告桨-------------*/
 .withdraw_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -1883,11 +1883,11 @@
     background: -webkit-linear-gradient(left, #44c5fe, #079bff); /* Safari 5.1 - 6.0 */
     background: -o-linear-gradient(left, #44c5fe, #079bff); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(left, #44c5fe, #079bff); /* Firefox 3.6 - 15 */
-    background: linear-gradient(left, #44c5fe, #079bff); /* 鏍囧噯鐨勮娉� */
+    background: linear-gradient(left, #44c5fe, #079bff); /* 閺嶅洤鍣惃鍕嚔濞夛拷 */
     color: #fff;
 }
 
-/*鎻愮幇瑙勫垯寮瑰嚭灞�*/
+/*閹绘劗骞囩憴鍕灟瀵懓鍤仦锟�*/
 .withdraw_bounce {
     position: absolute;
     left: 0;
@@ -1937,7 +1937,7 @@
     right: -0.2rem;
 }
 
-/*鎻愮幇鎻愮ず寮瑰嚭灞�*/
+/*閹绘劗骞囬幓鎰仛瀵懓鍤仦锟�*/
 .withdraw_bounce1 {
     position: absolute;
     left: 0;
@@ -2025,7 +2025,7 @@
     float: right;
 }
 
-/*-----------蹇�熸敞鍐岄〉闈�---------------*/
+/*-----------韫囶偊锟界喐鏁為崘宀勩�夐棃锟�---------------*/
 .register_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -2234,7 +2234,7 @@
     margin-top: 0.4rem;
 }
 
-/*鎺ㄨ崘浜鸿处鍙�0612*/
+/*閹恒劏宕樻禍楦垮閸欙拷0612*/
 .register_content .register_part2 .referenceWrap {
     position: relative;
 }
@@ -2268,7 +2268,7 @@
     border: none;
     font-size: 0.34rem;
     outline: none;
-    height: 0.8rem;
+    height: 0.6rem;
     line-height: 0.8rem;
     text-align: center;
     border-bottom: 1px solid #ddd;
@@ -2276,8 +2276,8 @@
     display: block;
 }
 
-/*------------鐧诲綍椤甸潰--------------*/
-/*body鑳屾櫙*/
+/*------------閻ц缍嶆い鐢告桨--------------*/
+/*body閼冲本娅�*/
 .login_bg {
     /* background: url('../img/login_bg.png') no-repeat fixed;
      background-size: cover;*/
@@ -2489,7 +2489,7 @@
     vertical-align: middle;
 }
 
-/*-----------瀹夊叏涓績椤甸潰鏍峰紡--------------*/
+/*-----------鐎瑰鍙忔稉顓炵妇妞ょ敻娼伴弽宄扮础--------------*/
 .safecenter_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -2587,7 +2587,7 @@
     line-height: 0.42rem;
 }
 
-/*-----------鎻愮幇璁板綍閮ㄥ垎-------------*/
+/*-----------閹绘劗骞囩拋鏉跨秿闁劌鍨�-------------*/
 .withdrawrecord_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -2662,7 +2662,7 @@
     color: #00A0E9;
 }
 
-/*鏃犳彁鐜拌褰曢〉闈�*/
+/*閺冪姵褰侀悳鎷岊唶瑜版洟銆夐棃锟�*/
 .no_withdrawrecord {
     text-align: center;
     margin-top: 2rem;
@@ -2676,7 +2676,7 @@
     margin-top: 1rem;
 }
 
-/*鍙栨秷鎻愮幇鎻愮ず寮瑰嚭灞�*/
+/*閸欐牗绉烽幓鎰箛閹绘劗銇氬鐟板毉鐏烇拷*/
 .cancel_bounce {
     position: absolute;
     left: 0;
@@ -2764,7 +2764,7 @@
     float: right;
 }
 
-/*------------------娣诲姞閾惰鍗�--------------*/
+/*------------------濞ｈ濮為柧鎯邦攽閸楋拷--------------*/
 .addBank_body {
     background-color: #fff;
 }
@@ -2816,7 +2816,7 @@
 
 }
 
-/*--------------鎴戠殑绉垎------------*/
+/*--------------閹存垹娈戠粔顖氬瀻------------*/
 .myjf_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -2986,7 +2986,7 @@
     margin-top: 0.5rem;
 }
 
-/*涔嬪墠鐗堟湰绉垎*/
+/*娑斿澧犻悧鍫熸拱缁夘垰鍨�*/
 /*.myjf_content .bottom .item .time {
     width: 1.08rem;
     height: 1.08rem;
@@ -3043,7 +3043,7 @@
     margin-bottom: 0.1rem;
 }*/
 
-/*娌℃湁绉垎璁板綍*/
+/*濞屸剝婀佺粔顖氬瀻鐠佹澘缍�*/
 .no_jfrecord {
     text-align: center;
     margin-top: 2rem;
@@ -3057,7 +3057,7 @@
     margin-top: 1rem;
 }
 
-/*鎻愮幇瑙勫垯寮瑰嚭灞�*/
+/*閹绘劗骞囩憴鍕灟瀵懓鍤仦锟�*/
 .myjf_bounce {
     position: absolute;
     left: 0;
@@ -3121,7 +3121,7 @@
     right: -0.2rem;
 }
 
-/*--------------鎴戠殑閾惰鍗￠〉闈�----------*/
+/*--------------閹存垹娈戦柧鎯邦攽閸楋繝銆夐棃锟�----------*/
 .mybankcard_body {
     background: #f0f5f8;
 }
@@ -3243,7 +3243,7 @@
     color: #999;
 }
 
-/*------------------鏈嶅姟鍗忚-------------------------------*/
+/*------------------閺堝秴濮熼崡蹇氼唴-------------------------------*/
 .serviceprotol_title {
     height: 0.88rem;
     line-height: 0.88rem;
@@ -3286,7 +3286,7 @@
     padding: 0.4rem 0 0.2rem 0;
 }
 
-/*缁戝畾鎵嬫満*/
+/*缂佹垵鐣鹃幍瀣簚*/
 .bound {
     padding-top: 0.48rem;
 }
@@ -3373,7 +3373,7 @@
     color: #fff;
 }
 
-/*0809  绗笁鏂圭櫥褰�*/
+/*0809  缁楊兛绗侀弬鍦瑜帮拷*/
 .thirdPartyLoginWrap {
     text-align: center;
     padding-top: 0.7rem;

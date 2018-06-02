@@ -310,58 +310,58 @@ public class FensMinerServiceImpl implements FensMinerService {
 		// 查询正在运行的矿机数量
 
 		if( type == null){
-			return JsonResult.build(500, "交易失败。");
+			return JsonResult.build(500, "转入失败.");
 		}
 		
 		if(fensUserId == null){
-			return JsonResult.build(500, "交易失败。");
+			return JsonResult.build(500, "转入失败!");
 		}else{
 			FensUser fus = fensUserMapper.selectByPrimaryKey(fensUserId);
 			if(fus==null){
-				return JsonResult.build(500, "交易失败。");
+				return JsonResult.build(500, "转入失败!!");
 			}
 		}
 		// 根据id查询出矿机信息
-		FensMiner fensMiner = fensMinerMapper.selectByPrimaryKey(fensUserId);
+//		FensMiner fensMiner = fensMinerMapper.selectByPrimaryKey(fensUserId);
 
-		FensMiner fm2 = new FensMiner();
-		fm2.setFensUserId(fensUserId);
-		fm2.setMinerType(2);
+//		FensMiner fm2 = new FensMiner();
+//		fm2.setFensUserId(fensUserId);
+//		fm2.setMinerType(2);
 		
 		// a型矿机
 		int sum = fensMinerMapper.selectASum(fensUserId);
-		int bcount = fensMinerMapper.selectUserMiner(fm2);
+//		int bcount = fensMinerMapper.selectUserMiner(fm2);
 		
-		if (sum > 12 || bcount > 10) {
-			return JsonResult.build(500, "你的可运行矿机已满");
-		}
+//		if (sum > 12 || bcount > 10) {
+//			return JsonResult.build(500, "你的可运行矿机已满");
+//		}
 
 		int sum1 = fensMinerMapper.selectSum(type, fensUserId);
-		if (type == "1") {
+		if (type.equals("1")) {
 			if (sum1 >= 12) {
 				return JsonResult.build(500, "每个用户最多拥有CA1型矿机12台");
 			}
-			update(id, fensUserId);
+			return update(id, fensUserId);
 
-		} else if (type == "2") { // CA2最多购买6台
+		} else if (type.equals("2")) { // CA2最多购买6台
 			if (sum1 >= 6) {
 				return JsonResult.build(500, "每个用户最多拥有CA2型矿机6台");
 			}
-			update(id, fensUserId);
+			return update(id, fensUserId);
 
-		} else if (type == "3") { // CA3最多购买3台
+		} else if (type.equals("3")) { // CA3最多购买3台
 			if (sum1 >= 3) {
 				return JsonResult.build(500, "每个用户最多购买CA3型矿机3台");
 			}
-			update(id, fensUserId);
-		} else if (type == "4") { // CA4最多购买1台
+			return update(id, fensUserId);
+		} else if (type.equals("4")) { // CA4最多购买1台
 			if (sum1 >= 1) {
 				return JsonResult.build(500, "每个用户最多购买CA4型矿机1台");
 			}
-			update(id, fensUserId);
+			return update(id, fensUserId);
 		}
 
-		return JsonResult.ok();
+		return JsonResult.build(500, "转入失败!!!");
 	}
 
 	public JsonResult update(Integer id, Integer fensUserId) {
@@ -369,6 +369,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 		fensMiner.setId(id);
 		fensMiner.setFensUserId(fensUserId);
 		fensMiner.setIsDelete(0);
+		fensMiner.setCreateDate(TimeUtil.getTimeStamp());
 		int result = fensMinerMapper.updateyxc(fensMiner);
 		if (result != 1) {
 			return JsonResult.build(500, "转入失败");
