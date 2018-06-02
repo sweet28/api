@@ -301,6 +301,18 @@ public class FensMinerServiceImpl implements FensMinerService {
 	public JsonResult zhuanyxc(Integer id, Integer fensUserId, String type) {
 		// 查询正在运行的矿机数量
 
+		if( type == null){
+			return JsonResult.build(500, "交易失败。");
+		}
+		
+		if(fensUserId == null){
+			return JsonResult.build(500, "交易失败。");
+		}else{
+			FensUser fus = fensUserMapper.selectByPrimaryKey(fensUserId);
+			if(fus==null){
+				return JsonResult.build(500, "交易失败。");
+			}
+		}
 		// 根据id查询出矿机信息
 		FensMiner fensMiner = fensMinerMapper.selectByPrimaryKey(fensUserId);
 
