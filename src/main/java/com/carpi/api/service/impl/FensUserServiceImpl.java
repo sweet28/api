@@ -123,7 +123,7 @@ public class FensUserServiceImpl implements FensUserService {
 
 		SMSCheckCode smsCheckCode = new SMSCheckCode();
 		smsCheckCode.setMobile(fensUser.getPhone());
-		smsCheckCode.setRemarks(code_type);
+//		smsCheckCode.setRemarks(code_type);
 		smsCheckCode.setCheckCode(code);
 
 		SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);// .selectOneSmsInfo(smsCheckCode);
