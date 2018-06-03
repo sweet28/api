@@ -65,7 +65,7 @@ $("#recharge").click(function(){
 	          });
 	        } else {
 	        	layer.open({
-		            content: '绑定银行卡失败。'
+		            content: data.msg
 		            , btn: ['确定']
 		            , yes: function (index) {
 		  	          window.location.href = "../page/my_bankcard.html";
