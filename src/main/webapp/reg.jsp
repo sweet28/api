@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>登录</title>
+<title>注册</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/mobile.css">
