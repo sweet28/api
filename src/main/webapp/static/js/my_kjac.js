@@ -162,7 +162,7 @@ function jiedong(kjid,kjjb){
 	        	            content: '转入钱包成功。'
 	        	            , btn: ['确定']
 	        	            , yes: function (index) {
-	        	              window.location.href = "../page/index.html";
+	        	              window.location.href = "../page/my_kjac.html";
 	        	            }
 	        	          });
 	        	        } else{
@@ -171,7 +171,7 @@ function jiedong(kjid,kjjb){
 	        		            content: data.msg//'操作失败，请检查网络服务。'
 	        		            , btn: ['确定']
 	        		            , yes: function (index) {
-	        		  	          window.location.href = "../page/index.html";
+	        		  	          window.location.href = "../page/my_kjac.html";
 	        		            }
 	        		          });
 	        	        }

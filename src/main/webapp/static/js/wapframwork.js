@@ -301,7 +301,7 @@ function baseUrl() {
 var getwapURL = cpaURL +"api/";
 
 function getP2PAPI() {
-  return "http://cpa.artforyou.cn:8088/api/";
+//  return "http://cpa.artforyou.cn:8088/api/";
 }
 
 //        取得参数
@@ -347,13 +347,13 @@ function getYUE(){
 
 
 function gameAPIURL() {
-  return "http://cpa.artforyou.cn:8088/api/";
+//  return "http://cpa.artforyou.cn:8088/api/";
 }
 
 //function getOpenIdURL() {
 //	return "http://api.gcjiujiu.com/";
 //}
-var gameURL = "http://cpa.artforyou.cn:8088/api/";
+//var gameURL = "http://cpa.artforyou.cn:8088/api/";
 
 function getTICKET() {
   return localStorage.getItem("ticket");
@@ -372,7 +372,7 @@ function getNAME() {
 //}
 
 function huifuAPIURL() {
-  return "http://cpa.artforyou.cn:8088/api/";
+//  return "http://cpa.artforyou.cn:8088/api/";
 }
 
 

@@ -173,7 +173,7 @@ function cpaNextMaiRu(){
 	          });
 	        } else {
 	        	layer.open({
-		            content: '操作失败，请检查网络服务。'
+		            content: data.msg
 		            , btn: ['确定']
 		            , yes: function (index) {
 		  	          window.location.href = "../page/index.html";
@@ -291,7 +291,7 @@ function cpaNextChuShou(){
 	        } else {
 	        	loading.close();
 	        	layer.open({
-		            content: '操作失败，请检查网络服务。'
+		            content: data.msg
 		            , btn: ['确定']
 		            , yes: function (index) {
 		  	          window.location.href = "../page/index.html";

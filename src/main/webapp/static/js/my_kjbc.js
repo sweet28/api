@@ -153,7 +153,7 @@ function jiedong(kjid,kjjb){
 	        	            content: '转入钱包成功。'
 	        	            , btn: ['确定']
 	        	            , yes: function (index) {
-	        	              window.location.href = "../page/index.html";
+	        	              window.location.href = "../page/my_kjbc.html";
 	        	            }
 	        	          });
 	        	        } else {
@@ -162,7 +162,7 @@ function jiedong(kjid,kjjb){
 	        		            content: data.msg
 	        		            , btn: ['确定']
 	        		            , yes: function (index) {
-	        		  	          window.location.href = "../page/index.html";
+	        		  	          window.location.href = "../page/my_kjbc.html";
 	        		            }
 	        		          });
 	        	        }
