@@ -12,7 +12,6 @@
 	var rad = getRandom();
 	var ton = getTom();
 	var str = "uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton;
-	console.log(str);
 	$.ajax({
 	    type: "post",
 	    url: getAPIURL() + "user/qb/list",
@@ -484,7 +483,6 @@ $("#cpamai").click(function (){
 	      },
 	      success: function (data) {
 	        var list = data.list;
-	        console.log(list.length+"-------------dddd");
 	        if (list.length <= 0) {
 	        	console.log("没有账号信息");
 	        	layer.open({
@@ -540,7 +538,6 @@ $("#cpamai").click(function (){
 	        	}
 	        	
 	        	if(trader_type == 2){
-	        		console.log("----type::::"+trader_type);
 	        		
 	        		var flag = 0;
 	        		$.ajax({

@@ -13,7 +13,6 @@ function comptime() {
 	var rad = getRandom();
 	var ton = getTom();
 	var str = "uid="+uid+"pg="+page+"ts="+row+"tmp="+tmp+"rad="+rad+"tom="+ton;
-	console.log(commingSoon1(str));
 $.ajax({
   type: "post",
   url: getAPIURL() + "user/miner/kucunABList",
@@ -114,7 +113,6 @@ function zhuanru(kid,type){
 //          , btn: '确定'
 //    });
 //	return false;
-	console.log(kid+"--12--"+type);
 	loading.open();
 	$.ajax({
 		type: "post",
@@ -126,7 +124,6 @@ function zhuanru(kid,type){
 	    	  "kid":kid
 	      },
 	      success: function (data) {
-	    	  console.log(data);
 	        if (data.status == 200) {
 	        	loading.close();
 	        	layer.open({

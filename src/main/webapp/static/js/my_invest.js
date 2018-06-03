@@ -7,8 +7,6 @@ var isDelete;
 $(function () {
 	var url = window.location.search.substring(1);
 	
-	console.log(url.split("&"));
-	
 	var urlList = url.split("&");
 	var tradeId = urlList[0];
 	var tradeType = urlList[1];
@@ -33,7 +31,6 @@ $(function () {
 	    	"id":tradeId
 	    },
 	    success: function (data) {
-	    	console.log(data);
 	    	state = data.traderState;
 	    	isDelete = data.isDelete;
 	    	if(state!=0){
@@ -278,7 +275,6 @@ function cpaNextChuShou(){
 	      },
 	      success: function (data) {
 	    	  console.log("-----------------------");
-	    	  console.log(data);
 	        if (data.status==200) {
 	        	loading.close();
 	          layer.open({
@@ -399,7 +395,6 @@ function cpaNextChuShou(){
 //	      },
 //	      success: function (data) {
 //	        if (data.status==200) {
-//	        	console.log("data::"+data+"-----id:"+data.data.id);
 //	        	
 //	          layer.open({
 //	            content: '交易成功。'

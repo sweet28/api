@@ -12,7 +12,6 @@ function Gift() {
 	  var rad = getRandom();
 	  var ton = getTom();
 	  var str = "uid="+uid+"pg=0"+"ts=100"+"tmp="+tmp+"rad="+rad+"tom="+ton;
-	  console.log(commingSoon1(str));
     $.ajax({
       type: "post",
       url: getAPIURL() + "fs/bank/list",
@@ -28,7 +27,6 @@ function Gift() {
       },
       success: function (data) {
         var list = data.list;
-        console.log(list);
         if (list.length <= 0) {
           $("#a_miner").html("<ul><li class='nothing'><p>暂无记录</p></li></ul>");
         } else {

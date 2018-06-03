@@ -13,7 +13,6 @@ function comptime() {
 	var rad = getRandom();
 	var ton = getTom();
 	var str = "uid="+uid+"pg="+page+"ts="+row+"tmp="+tmp+"rad="+rad+"tom="+ton;
-	console.log(commingSoon1(str));
 $.ajax({
   type: "post",
   url: getAPIURL() + "user/miner/kuAListKC",

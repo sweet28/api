@@ -87,7 +87,6 @@ function Safechange(hash) {
     if (hash == "1") {
       var oldPwd = $("#txtOldPwd").val();
       var newPwd = $("#txtNewPwd").val();
-      console.log(getAPIURL() + "fenuser/updatePwd");
       $.ajax({
         type: "POST",
         url: getAPIURL() + "fenuser/updatePwd",

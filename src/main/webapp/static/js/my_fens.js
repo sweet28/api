@@ -16,8 +16,6 @@ function Gift() {
       success: function (data) {
         var list = data.list;
         if (list.length <= 0) {
-        	console.log(data);
-        	console.log(data.size);
         	$("#myf_num").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;亲友团："+data.size+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;粉丝团：0");
         	
         } else {

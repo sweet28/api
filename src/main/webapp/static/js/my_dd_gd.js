@@ -4,8 +4,6 @@
       var rad = getRandom();
       var ton = getTom();
       var str = "trddi="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton;
-      console.log(str);
-      console.log(commingSoon1(str));
       $.ajax({
     	  type: "post",
 	      url: getAPIURL() + "kuangjy/jy/gdlb",
@@ -19,8 +17,6 @@
 	      },
         success: function (data) {
         	 var list = data;
-        	 console.log(list);
-        	 console.log(data);
           if (list.length <= 0) {
             var txtsNULL ="<p class='nothing'>无更多记录</p>";
             $("#a_miner").html(txtsNULL);

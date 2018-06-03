@@ -29,7 +29,6 @@ $(function () {
 	    	"id":tradeId
 	    },
 	    success: function (data) {
-	    	console.log(data);
 	    	if(data.id == tradeId){
 	    		ddNum = data.orderNumber;
 	    		ddTime =data.createDate;
@@ -43,8 +42,6 @@ $(function () {
 	    		
 	    		uid = data.traderId;
 	    		fensID = data.fensUserId;
-	    		
-	    		console.log(uid+":-------101-------:"+fensID);
 	    		
 	    		if(ddState=='1'){
 	    			$("#ddState").val("待付款");
@@ -162,7 +159,6 @@ $(function () {
 	    			  });
 	    		}
 	    		
-	    		console.log("userid----------:"+userid);
 	    		$.ajax({
 	    		      type: "post",
 	    		      url: getAPIURL() + "bank/list",
@@ -174,7 +170,6 @@ $(function () {
 	    		      },
 	    		      success: function (data) {
 	    		        var list = data.list;
-	    		        console.log(list);
 	    		        if (list.length <= 0) {
 	    		        	console.log("没有账号信息");
 	    		        } else {
@@ -244,7 +239,6 @@ function cpaNext2(){
 	          "token":commingSoon1(str)
 	    },
 	    success: function (data) {
-	    	console.log(data);
 	    	if(data.status==200){
 	    		ddState = data.traderState;
 	    		loading.close();
@@ -306,7 +300,6 @@ function cpaNext3(){
 		          "token":commingSoon1(str)
 		    },
 		    success: function (data) {
-		    	console.log(data);
 		    	if(data.status==200){
 		    		ddState = data.traderState;
 		    		loading.close();

@@ -1,9 +1,3 @@
-var testKey = "m5zweEGHgZJ6KZDsRKBsA3fTUlugIAB-";
-var testSec = "7ElQMg_G5OfBt_P93-80VAHkPinhiMrx";
-
-var proKey = "8qq0MDKgcfMwOiw7E27tvZ08D6LbErhP";
-var proSec = "xJIXFiZV011fBLQVexoS1S1QUYkxLaIz";
-
 var faceUrl = "https://api-cn.faceplusplus.com/cardpp/v1/ocridcard";
 
 var testUrl = "https://cpa.artforyou.cn/img/1.jpg"
@@ -15,9 +9,7 @@ var cardid;
 $("#file0").change(function(){  
 	
       var objUrl = getObjectURL(this.files[0]) ;
-      console.log(this.files[0]+"-------77777");
       // 这句代码没什么作用，删掉也可以  
-      // console.log("objUrl = "+objUrl) ;  
       if (objUrl) {  
         var files = $("#file0").get(0).files[0]; //获取file控件中的内容
         
@@ -44,8 +36,6 @@ $("#file0").change(function(){
                 			 imgUrl:data.url,
                 		 },
                 		 success:function(data){
-                			 console.log(data);
-                			 console.log(data.cards[0].address);
     	        			 name = data.cards[0].name;
     	        			 cardid = data.cards[0].id_card_number;
                 			 $('#name').val(name);
@@ -55,7 +45,6 @@ $("#file0").change(function(){
                         	 console.log("系统错误");
                          }
                 	 });
-                	 console.log(data.url);
                  },
                  error: function (data) {
                 	 console.log("系统错误");
@@ -78,7 +67,6 @@ $("#file0").change(function(){
     		return false;
 		}
 		
-		console.log("locName:"+locName + "-----locCardId:"+locCardId +"----name:"+name+"------cardid"+cardid);
 		if(locName == name && locCardId == cardid){
 			$.ajax({
 		  	      type: "post",

@@ -35,8 +35,6 @@ function Safe() {
     		$('#tocard').show();
     	}
     	
-    	console.log("-------cid:"+cid+";;;;;;;;;;;;;;;;;;;;"+sec);
-    	
     	$("#datacid").html(cid);
     }else{
     	$("#datacid").html("未认证");
