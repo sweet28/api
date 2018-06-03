@@ -2,6 +2,8 @@ package com.carpi.api.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.carpi.api.pojo.FensUser;
 
 public interface FensUserMapper {
@@ -39,4 +41,7 @@ public interface FensUserMapper {
 	FensUser selectOldPwd(FensUser fensUser);
 	
 	Integer selectRefereeYXC(String refereePhone);
+	
+	//校验资金密码
+	FensUser selectzjPwd(@Param("fensUserId")String fensUserId,@Param("capitalPwd")String capitalPwd);
 }

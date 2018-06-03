@@ -353,4 +353,21 @@
 		id =
 		#{id,jdbcType=INTEGER} and is_delete = 0
 	</select>
+	
+	<!--校验资金密码 -->
+	<select id="selectzjPwd" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_user
+		<where>
+		    is_delete = 0
+			<if test="capitalPwd != null">
+				and capital_pwd = #{capitalPwd,jdbcType=VARCHAR}
+			</if>
+			<if test="fensUserId != null">
+				and id = #{fensUserId,jdbcType=VARCHAR}
+			</if>
+		</where>
+	</select>
+	
 </mapper>

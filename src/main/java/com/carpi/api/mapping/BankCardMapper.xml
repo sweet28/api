@@ -1,239 +1,283 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.carpi.api.dao.BankCardMapper" >
-  <resultMap id="BaseResultMap" type="com.carpi.api.pojo.BankCard" >
-    <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
-    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
-    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
-    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
-    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
-    <result column="creater" property="creater" jdbcType="VARCHAR" />
-    <result column="delete_date" property="deleteDate" jdbcType="TIMESTAMP" />
-    <result column="attachment" property="attachment" jdbcType="VARCHAR" />
-    <result column="fens_user_id" property="fensUserId" jdbcType="INTEGER" />
-    <result column="is_apply" property="isApply" jdbcType="INTEGER" />
-    <result column="card_number" property="cardNumber" jdbcType="VARCHAR" />
-    <result column="bank" property="bank" jdbcType="VARCHAR" />
-    <result column="open_branch" property="openBranch" jdbcType="VARCHAR" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Base_Column_List" >
-    id, bak1, bak2, bak3, is_delete, create_date, creater, delete_date, attachment, fens_user_id, 
-    is_apply, card_number, bank, open_branch, name, phone
-  </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    from bank_card
-    where id = #{id,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from bank_card
-    where id = #{id,jdbcType=INTEGER}
-  </delete>
-  <insert id="insert" parameterType="com.carpi.api.pojo.BankCard" >
-    insert into bank_card (id, bak1, bak2, 
-      bak3, is_delete, create_date, 
-      creater, delete_date, attachment, 
-      fens_user_id, is_apply, card_number, 
-      bank, open_branch, name, 
-      phone)
-    values (#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
-      #{bak3,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{creater,jdbcType=VARCHAR}, #{deleteDate,jdbcType=TIMESTAMP}, #{attachment,jdbcType=VARCHAR}, 
-      #{fensUserId,jdbcType=INTEGER}, #{isApply,jdbcType=INTEGER}, #{cardNumber,jdbcType=VARCHAR}, 
-      #{bank,jdbcType=VARCHAR}, #{openBranch,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.carpi.api.pojo.BankCard" >
-    insert into bank_card
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="bak1 != null" >
-        bak1,
-      </if>
-      <if test="bak2 != null" >
-        bak2,
-      </if>
-      <if test="bak3 != null" >
-        bak3,
-      </if>
-      <if test="isDelete != null" >
-        is_delete,
-      </if>
-      <if test="createDate != null" >
-        create_date,
-      </if>
-      <if test="creater != null" >
-        creater,
-      </if>
-      <if test="deleteDate != null" >
-        delete_date,
-      </if>
-      <if test="attachment != null" >
-        attachment,
-      </if>
-      <if test="fensUserId != null" >
-        fens_user_id,
-      </if>
-      <if test="isApply != null" >
-        is_apply,
-      </if>
-      <if test="cardNumber != null" >
-        card_number,
-      </if>
-      <if test="bank != null" >
-        bank,
-      </if>
-      <if test="openBranch != null" >
-        open_branch,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="phone != null" >
-        phone,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="bak1 != null" >
-        #{bak1,jdbcType=VARCHAR},
-      </if>
-      <if test="bak2 != null" >
-        #{bak2,jdbcType=VARCHAR},
-      </if>
-      <if test="bak3 != null" >
-        #{bak3,jdbcType=VARCHAR},
-      </if>
-      <if test="isDelete != null" >
-        #{isDelete,jdbcType=INTEGER},
-      </if>
-      <if test="createDate != null" >
-        #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="creater != null" >
-        #{creater,jdbcType=VARCHAR},
-      </if>
-      <if test="deleteDate != null" >
-        #{deleteDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="attachment != null" >
-        #{attachment,jdbcType=VARCHAR},
-      </if>
-      <if test="fensUserId != null" >
-        #{fensUserId,jdbcType=INTEGER},
-      </if>
-      <if test="isApply != null" >
-        #{isApply,jdbcType=INTEGER},
-      </if>
-      <if test="cardNumber != null" >
-        #{cardNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="bank != null" >
-        #{bank,jdbcType=VARCHAR},
-      </if>
-      <if test="openBranch != null" >
-        #{openBranch,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        #{phone,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.BankCard" >
-    update bank_card
-    <set >
-      <if test="bak1 != null" >
-        bak1 = #{bak1,jdbcType=VARCHAR},
-      </if>
-      <if test="bak2 != null" >
-        bak2 = #{bak2,jdbcType=VARCHAR},
-      </if>
-      <if test="bak3 != null" >
-        bak3 = #{bak3,jdbcType=VARCHAR},
-      </if>
-      <if test="isDelete != null" >
-        is_delete = #{isDelete,jdbcType=INTEGER},
-      </if>
-      <if test="createDate != null" >
-        create_date = #{createDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="creater != null" >
-        creater = #{creater,jdbcType=VARCHAR},
-      </if>
-      <if test="deleteDate != null" >
-        delete_date = #{deleteDate,jdbcType=TIMESTAMP},
-      </if>
-      <if test="attachment != null" >
-        attachment = #{attachment,jdbcType=VARCHAR},
-      </if>
-      <if test="fensUserId != null" >
-        fens_user_id = #{fensUserId,jdbcType=INTEGER},
-      </if>
-      <if test="isApply != null" >
-        is_apply = #{isApply,jdbcType=INTEGER},
-      </if>
-      <if test="cardNumber != null" >
-        card_number = #{cardNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="bank != null" >
-        bank = #{bank,jdbcType=VARCHAR},
-      </if>
-      <if test="openBranch != null" >
-        open_branch = #{openBranch,jdbcType=VARCHAR},
-      </if>
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null" >
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.BankCard" >
-    update bank_card
-    set bak1 = #{bak1,jdbcType=VARCHAR},
-      bak2 = #{bak2,jdbcType=VARCHAR},
-      bak3 = #{bak3,jdbcType=VARCHAR},
-      is_delete = #{isDelete,jdbcType=INTEGER},
-      create_date = #{createDate,jdbcType=TIMESTAMP},
-      creater = #{creater,jdbcType=VARCHAR},
-      delete_date = #{deleteDate,jdbcType=TIMESTAMP},
-      attachment = #{attachment,jdbcType=VARCHAR},
-      fens_user_id = #{fensUserId,jdbcType=INTEGER},
-      is_apply = #{isApply,jdbcType=INTEGER},
-      card_number = #{cardNumber,jdbcType=VARCHAR},
-      bank = #{bank,jdbcType=VARCHAR},
-      open_branch = #{openBranch,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  
-  <!-- 根据粉丝Id查询银行卡列表 -->
-  <select id="selectAll" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from bank_card
-    where is_delete = 0 and fens_user_id = #{fensUserId,jdbcType=INTEGER}
-  </select>
-  
-  <!-- 查询是否存在该银行卡 -->
-  <select id="selectCard" resultMap="BaseResultMap" parameterType="java.lang.String">
-    select 
-    <include refid="Base_Column_List" />
-    from bank_card
-    where is_delete = 0 and card_number = #{cardNumber,jdbcType=VARCHAR}
-  </select>
+<mapper namespace="com.carpi.api.dao.BankCardMapper">
+	<resultMap id="BaseResultMap"
+		type="com.carpi.api.pojo.BankCard">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="bak1" property="bak1" jdbcType="VARCHAR" />
+		<result column="bak2" property="bak2" jdbcType="VARCHAR" />
+		<result column="bak3" property="bak3" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete"
+			jdbcType="INTEGER" />
+		<result column="create_date" property="createDate"
+			jdbcType="TIMESTAMP" />
+		<result column="creater" property="creater" jdbcType="VARCHAR" />
+		<result column="delete_date" property="deleteDate"
+			jdbcType="TIMESTAMP" />
+		<result column="attachment" property="attachment"
+			jdbcType="VARCHAR" />
+		<result column="fens_user_id" property="fensUserId"
+			jdbcType="INTEGER" />
+		<result column="is_apply" property="isApply" jdbcType="INTEGER" />
+		<result column="card_number" property="cardNumber"
+			jdbcType="VARCHAR" />
+		<result column="bank" property="bank" jdbcType="VARCHAR" />
+		<result column="open_branch" property="openBranch"
+			jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, bak1, bak2, bak3, is_delete, create_date, creater,
+		delete_date,
+		attachment, fens_user_id,
+		is_apply, card_number, bank,
+		open_branch, name, phone
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from bank_card
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from bank_card
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.carpi.api.pojo.BankCard">
+		insert into bank_card (id,
+		bak1, bak2,
+		bak3, is_delete, create_date,
+		creater, delete_date,
+		attachment,
+		fens_user_id, is_apply, card_number,
+		bank, open_branch,
+		name,
+		phone)
+		values (#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR},
+		#{bak2,jdbcType=VARCHAR},
+		#{bak3,jdbcType=VARCHAR},
+		#{isDelete,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},
+		#{creater,jdbcType=VARCHAR}, #{deleteDate,jdbcType=TIMESTAMP},
+		#{attachment,jdbcType=VARCHAR},
+		#{fensUserId,jdbcType=INTEGER},
+		#{isApply,jdbcType=INTEGER}, #{cardNumber,jdbcType=VARCHAR},
+		#{bank,jdbcType=VARCHAR}, #{openBranch,jdbcType=VARCHAR},
+		#{name,jdbcType=VARCHAR},
+		#{phone,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.carpi.api.pojo.BankCard">
+		insert into bank_card
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="bak1 != null">
+				bak1,
+			</if>
+			<if test="bak2 != null">
+				bak2,
+			</if>
+			<if test="bak3 != null">
+				bak3,
+			</if>
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="deleteDate != null">
+				delete_date,
+			</if>
+			<if test="attachment != null">
+				attachment,
+			</if>
+			<if test="fensUserId != null">
+				fens_user_id,
+			</if>
+			<if test="isApply != null">
+				is_apply,
+			</if>
+			<if test="cardNumber != null">
+				card_number,
+			</if>
+			<if test="bank != null">
+				bank,
+			</if>
+			<if test="openBranch != null">
+				open_branch,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="phone != null">
+				phone,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="bak1 != null">
+				#{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				#{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				#{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				#{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				#{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="fensUserId != null">
+				#{fensUserId,jdbcType=INTEGER},
+			</if>
+			<if test="isApply != null">
+				#{isApply,jdbcType=INTEGER},
+			</if>
+			<if test="cardNumber != null">
+				#{cardNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="bank != null">
+				#{bank,jdbcType=VARCHAR},
+			</if>
+			<if test="openBranch != null">
+				#{openBranch,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.carpi.api.pojo.BankCard">
+		update bank_card
+		<set>
+			<if test="bak1 != null">
+				bak1 = #{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				bak2 = #{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				bak3 = #{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				attachment = #{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="fensUserId != null">
+				fens_user_id = #{fensUserId,jdbcType=INTEGER},
+			</if>
+			<if test="isApply != null">
+				is_apply = #{isApply,jdbcType=INTEGER},
+			</if>
+			<if test="cardNumber != null">
+				card_number = #{cardNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="bank != null">
+				bank = #{bank,jdbcType=VARCHAR},
+			</if>
+			<if test="openBranch != null">
+				open_branch = #{openBranch,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != null">
+				phone = #{phone,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.carpi.api.pojo.BankCard">
+		update bank_card
+		set bak1 = #{bak1,jdbcType=VARCHAR},
+		bak2 = #{bak2,jdbcType=VARCHAR},
+		bak3 = #{bak3,jdbcType=VARCHAR},
+		is_delete = #{isDelete,jdbcType=INTEGER},
+		create_date =
+		#{createDate,jdbcType=TIMESTAMP},
+		creater =
+		#{creater,jdbcType=VARCHAR},
+		delete_date =
+		#{deleteDate,jdbcType=TIMESTAMP},
+		attachment =
+		#{attachment,jdbcType=VARCHAR},
+		fens_user_id =
+		#{fensUserId,jdbcType=INTEGER},
+		is_apply = #{isApply,jdbcType=INTEGER},
+		card_number = #{cardNumber,jdbcType=VARCHAR},
+		bank =
+		#{bank,jdbcType=VARCHAR},
+		open_branch = #{openBranch,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		phone = #{phone,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 根据粉丝Id查询银行卡列表 -->
+	<select id="selectAll" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from bank_card
+		where is_delete = 0 and fens_user_id =
+		#{fensUserId,jdbcType=INTEGER}
+	</select>
+
+	<!-- 查询是否存在该银行卡 -->
+	<select id="selectCard" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from bank_card
+		where is_delete = 0 and card_number =
+		#{cardNumber,jdbcType=VARCHAR}
+	</select>
+
+	<!-- 查询支付宝或者微信 -->
+	<select id="selectPay" resultMap="BaseResultMap"
+		parameterType="com.carpi.api.pojo.BankCard">
+		select
+		<include refid="Base_Column_List" />
+		from bank_card
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and
+		is_delete = 0 and
+		bak1 = #{bak1,jdbcType=VARCHAR}
+	</select>
 </mapper>

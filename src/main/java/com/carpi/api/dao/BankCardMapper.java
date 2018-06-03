@@ -24,4 +24,8 @@ public interface BankCardMapper {
     
     //查询是否存在该银行卡
     BankCard selectCard(@Param("cardNumber") String cardNumber);
+    
+    //查询支付宝或者微信
+    BankCard selectPay(BankCard bankCard);
+    
 }

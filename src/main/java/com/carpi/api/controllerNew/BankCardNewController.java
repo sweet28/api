@@ -13,6 +13,7 @@ import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.pojo.BankCard;
 import com.carpi.api.service.BankCardService;
+import com.carpi.api.service.PayService;
 import com.github.pagehelper.PageInfo;
 
 @Controller
@@ -21,6 +22,9 @@ public class BankCardNewController {
 
 	@Autowired
 	private BankCardService bankCardService;
+
+	@Autowired
+	private PayService payService;
 
 	// 根据粉丝Id查询粉丝银行卡列表
 	@RequestMapping(value = "/list", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -89,4 +93,59 @@ public class BankCardNewController {
 	// return bankCardService.updateBlank(bankCard);
 	// }
 
+	// 粉丝添加支付宝微信
+	@RequestMapping(value = "/zw", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult addPay(HttpServletRequest request, HttpServletResponse response) {
+		// 粉丝id
+		String fensUserId = request.getParameter("uid");
+		// 姓名
+		String name = request.getParameter("xm");
+		// 支付宝微信账号
+		String phone = request.getParameter("sh");
+		// 备注信息
+		String bak2 = request.getParameter("bz");
+		// 支付宝微信付款码
+		String bak3 = request.getParameter("tu");
+		// 类型，type1:支付宝 2：微信
+		String bak1 = request.getParameter("tp");
+
+		BankCard bankCard = new BankCard();
+		bankCard.setFensUserId(Integer.valueOf(fensUserId));
+		bankCard.setCardNumber(name);
+		bankCard.setBank(phone);
+		bankCard.setCreateDate(TimeUtil.getTimeStamp());
+		bankCard.setOpenBranch(bak2);
+		bankCard.setName(bak3);
+		bankCard.setPhone(bak1);
+
+		return payService.aliPay(bankCard);
+	}
+
+	// 根据粉丝id查询资金密码
+	@RequestMapping(value = "/zjmm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult checkMiMa(HttpServletRequest request, HttpServletResponse response) {
+		// 粉丝id
+		String fensUserId = request.getParameter("uid");
+		// 资金密码
+		String mima = request.getParameter("jyma");
+		return payService.checkMiMa(fensUserId, mima);
+	}
+
+	// 查询支付宝或者微信
+	@RequestMapping(value = "/cx", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult selectPay(HttpServletRequest request, HttpServletResponse response) {
+		// 粉丝id
+		String fensUserId = request.getParameter("uid");
+		// 类型
+		String bak1 = request.getParameter("tp");
+		
+		BankCard bankCard = new BankCard();
+		bankCard.setFensUserId(Integer.valueOf(fensUserId));
+		bankCard.setBak1(bak1);
+
+		return payService.selectPay(bankCard);
+	}
 }
