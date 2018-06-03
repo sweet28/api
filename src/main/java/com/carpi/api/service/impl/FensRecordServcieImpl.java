@@ -402,7 +402,7 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				tradeWallet = fensWalletMapper.selectAll(cbrID);
 				fensWallet = fensWalletMapper.selectAll(sbrID);
 				
-				if (isCPAEnough(cbrID, 0, fensTransaction2.getTraderCount())) {
+				if (isCPAEnough(cbrID, fensTransaction2.getId(), fensTransaction2.getTraderCount())) {
 
 					if (tradeWallet.getAbleCpa() >= (fensTransaction2.getTraderCount() / 0.8)) {
 						FensWallet tradeWallet2 = new FensWallet();
