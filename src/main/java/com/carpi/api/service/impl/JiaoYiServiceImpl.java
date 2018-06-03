@@ -52,6 +52,10 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		// 判断改单是否被抢走
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 		
+		if(fensTransaction3.getTraderId().equals(fensTransaction.getFensUserId())){
+			return JsonResult.build(500, "不能自己交易自己的订单");
+		}
+		
 		try {
 			Thread.sleep(3000);
 		} catch (Exception e) {
@@ -67,6 +71,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			if (fensTransaction3.getTraderId() == null) {
 				return JsonResult.build(500, "订单异常");
 			}
+			
 			FensUser fensUser = fensUserMapper.selectByPrimaryKey(fensTransaction.getFensUserId());
 			FensUser fensUser2 = fensUserMapper.selectByPrimaryKey(fensTransaction3.getTraderId());
 			// 判断是否存在该接单人
@@ -119,6 +124,10 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		}
 		// 查询是否是本人操作
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
+		
+		if(fensTransaction3.getTraderId().equals(fensTransaction.getFensUserId())){
+			return JsonResult.build(500, "不能自己交易自己的订单");
+		}
 		
 		try {
 			Thread.sleep(3000);
@@ -229,6 +238,10 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		// 判断改单是否被抢走
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 		
+		if(fensTransaction3.getTraderId().equals(fensTransaction.getFensUserId())){
+			return JsonResult.build(500, "不能自己交易自己的订单");
+		}
+		
 		try {
 			Thread.sleep(3000);
 		} catch (Exception e) {
@@ -296,6 +309,10 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		}
 		// 查询是否是本人操作
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
+		
+		if(fensTransaction3.getTraderId().equals(fensTransaction.getFensUserId())){
+			return JsonResult.build(500, "不能自己交易自己的订单");
+		}
 		
 		try {
 			Thread.sleep(3000);
