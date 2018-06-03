@@ -1,13 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta charset="utf-8">
 <title>交易中心</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/mobile.css">
+<link rel="stylesheet" href="<%=path%>/css/bootstrap.min.css">
+<link rel="stylesheet" href="<%=path%>/css/mobile.css">
 <style>
 	body{ background: #f1f0f6; }
 </style>
@@ -15,7 +18,7 @@
 <body>
 	<header>
 		<span>交易中心</span>
-		<a href="#" class="history"><img src="images/go.png" alt=""></a>
+		<a href="#" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
 		<a href="#" class="username">
 			<span>152****0000</span>
 		</a>
@@ -28,7 +31,7 @@
 			<b><span>$:10.00</span></b>
 		</div>
 		<div class="row deal_pic">
-			<img src="images/deal.jpg" alt="">
+			<img src="<%=path%>/images/deal.jpg" alt="">
 		</div>
 		<div class="deal_button">
 			<a href="" class="d1">买入CPA</a>
@@ -109,10 +112,10 @@
 	<div class="space"></div>
 	<div class="menu">
 		<ul>
-			<li class="col-xs-3"><a href="#"><img src="images/menu1.png" alt=""><p>矿机商城</p></a></li>
-			<li class="col-xs-3"><a href="#"><img src="images/menu2.png" alt=""><p>我的矿机</p></a></li>
-			<li class="col-xs-3"><a href="#"><img src="images/menu3.png" alt=""><p>交易中心</p></a></li>
-			<li class="col-xs-3"><a href="#"><img src="images/menu4.png" alt=""><p>个人中心</p></a></li>
+			<li class="col-xs-3"><a href="#"><img src="<%=path%>/images/menu1.png" alt=""><p>矿机商城</p></a></li>
+			<li class="col-xs-3"><a href="#"><img src="<%=path%>/images/menu2.png" alt=""><p>我的矿机</p></a></li>
+			<li class="col-xs-3"><a href="#"><img src="<%=path%>/images/menu3.png" alt=""><p>交易中心</p></a></li>
+			<li class="col-xs-3"><a href="#"><img src="<%=path%>/images/menu4.png" alt=""><p>个人中心</p></a></li>
 		</ul>
 	</div>
 </body>
