@@ -204,7 +204,7 @@
 		create_date desc
 	</select>
 	
-	<!-- 根据时间段查询 -->
+	<!-- 查询一星期 -->
 	<select id="selectWeek" resultMap="BaseResultMap">
 		SELECT * FROM price where create_date>DATE_SUB(CURDATE(), INTERVAL 1 WEEK) and is_delete = 0
 	</select>
