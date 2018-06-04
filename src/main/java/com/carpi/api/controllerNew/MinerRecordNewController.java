@@ -34,7 +34,7 @@ public class MinerRecordNewController {
 
 	@Autowired
 	private JiaoYiService jiaoYiService;
-	
+
 	@Autowired
 	private FensMinerService fensMinerService;
 
@@ -295,8 +295,8 @@ public class MinerRecordNewController {
 		bminer.setType(Integer.valueOf(type));
 		return minerRecordService.buyBMiner(bminer);
 	}
-	
-	//转入运行池
+
+	// 转入运行池
 	@RequestMapping(value = "/zhuanruyxc", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult zhuanruyxc(HttpServletRequest request, HttpServletResponse response) {
@@ -304,21 +304,32 @@ public class MinerRecordNewController {
 		String fensUserId = request.getParameter("uid");
 		// id
 		String id = request.getParameter("kid");
-		//矿机类型
+		// 矿机类型
 		String type = request.getParameter("type");
-		
-		return fensMinerService.zhuanyxc(Integer.valueOf(id),Integer.valueOf(fensUserId),type);
+
+		return fensMinerService.zhuanyxc(Integer.valueOf(id), Integer.valueOf(fensUserId), type);
 	}
-	
-	//转入运行池
+
+	// 转入运行池
 	@RequestMapping(value = "/shuaxinyxc", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult shuaxinyxc(HttpServletRequest request, HttpServletResponse response) {
 		// FensUserId(粉丝id)
 		String fensUserId = request.getParameter("uid");
-		
+
 		return fensMinerService.shuaxinyxc(Integer.valueOf(fensUserId));
 	}
 
+	// 查询订单（买单，卖单）（根据手机号）
+	@RequestMapping(value = "/phone", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult selectjl(HttpServletRequest request, HttpServletResponse response) {
+		// 用户手机号码
+		String phone = request.getParameter("sh");
+		//订单类型
+		String traderType = request.getParameter("tp");
+
+		return jiaoYiService.selectjl(phone, Integer.valueOf(traderType));
+	}
 
 }

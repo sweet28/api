@@ -386,4 +386,24 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 
 		return false;
 	}
+
+	//查询订单（买单，卖单）
+	@Override
+	public JsonResult selectjl(String phone, Integer traderType) {
+		if ("".equals(phone)) {
+		    return JsonResult.build(500, "手机号码为空");
+		}
+		if (traderType == null) {
+			return JsonResult.build(500, "请正确操作");
+		}
+		FensUser fensUser = fensUserMapper.selectReferee(phone);
+		if (fensUser == null) {
+			return JsonResult.build(500, "手机号码为空或不存在此订单");
+		}
+		List<FensTransaction> list = fensTransactionMapper.selectjl(fensUser.getId(), traderType);
+		if (list.size()>0) {
+			return JsonResult.ok(list);
+		}
+		return JsonResult.build(500, "不存在此订单");
+	}
 }

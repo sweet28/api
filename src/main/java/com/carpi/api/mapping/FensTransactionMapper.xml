@@ -398,4 +398,14 @@
 		from fens_transaction
 		where is_delete=0 and fens_user_id = #{fensUserId,jdbcType=INTEGER} order by create_date
 	</select>
+	
+	<!-- 查询订单（买单，卖单） -->
+	<select id="selectjl" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_transaction
+		where is_delete=0 and fens_user_id = #{fensUserId,jdbcType=INTEGER} 
+		and  trader_type = #{traderType,jdbcType=INTEGER}
+		and trader_state = 0 order by create_date
+	</select>
 </mapper>
