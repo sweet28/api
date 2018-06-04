@@ -11,6 +11,11 @@
 <title>矿机商城</title>
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/mobile.css">
+<script type="text/javascript" src="<%=path%>/lib/js/jquery-2.1.4.js"></script>
+<script src="<%=path%>/lib/js/layer.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path%>/lib/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="<%=path%>/js/wapframwork.js"></script>
+<script src="<%=path%>/js/loading.js"></script>
 <style>
 	body{ background: #f1f0f6; }
 </style>
@@ -18,7 +23,7 @@
 <body>
 	<header>
 		<span>交易中心</span>
-		<a href="#" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
+		<a href="javascript:history.go(-1)" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>
 	<div class="row pro">
@@ -40,7 +45,7 @@
 					<p>运行周期：1440小时</p>
 				</div>
 				<div class="more">
-					<a href="">购买</a>
+					<a href="javascript:agoumai(1,1);">购买</a>
 				</div>
 			</li>
 			<li>
@@ -48,7 +53,7 @@
 					<a href=""><img src="<%=path%>/images/p2.jpg"></a>
 				</div>
 				<div class="text">
-					<p><a href="">CA2型</a> <span>价格：10CPA</span></p>
+					<p><a href="">CA2型</a> <span>价格：100CPA</span></p>
 					<p>产量/小时：0.128956333</p>
 					<p>运行周期：1440小时</p>
 				</div>
@@ -122,11 +127,12 @@
 	<div class="space"></div>
 	<div class="menu">
 		<ul>
-			<li class="col-xs-3"><a href="#"><img src="<%=path%>/images/menu1.png" alt=""><p>矿机商城</p></a></li>
-			<li class="col-xs-3"><a href="#"><img src="<%=path%>/images/menu2.png" alt=""><p>我的矿机</p></a></li>
-			<li class="col-xs-3"><a href="#"><img src="<%=path%>/images/menu3.png" alt=""><p>交易中心</p></a></li>
-			<li class="col-xs-3"><a href="#"><img src="<%=path%>/images/menu4.png" alt=""><p>个人中心</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/minerBuy"><img src="<%=path%>/images/menu1.png" alt=""><p>矿机商城</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/myMiner"><img src="<%=path%>/images/menu2.png" alt=""><p>我的矿机</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/traderCenter"><img src="<%=path%>/images/menu3.png" alt=""><p>交易中心</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/personal"><img src="<%=path%>/images/menu4.png" alt=""><p>个人中心</p></a></li>
 		</ul>
 	</div>
 </body>
+<script type="text/javascript" src="<%=path%>/js/miner/invest_kj.js"></script>
 </html>

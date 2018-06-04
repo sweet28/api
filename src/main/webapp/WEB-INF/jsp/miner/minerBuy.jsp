@@ -15,7 +15,7 @@
 <body>
 	<header>
 		<span>购买</span>
-		<a href="#" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
+		<a href="javascript:history.go(-1)" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
 		<a href="#" class="username">
 			<span>G25634845</span>
 		</a>

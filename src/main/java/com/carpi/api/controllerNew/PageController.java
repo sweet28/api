@@ -36,4 +36,5 @@ public class PageController {
 	public String traderCenter() {
 		return "trader/traderCenter";
 	}
+	
 }
