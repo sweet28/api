@@ -28,9 +28,9 @@ function Gift() {
       success: function (data) {
         var list = data.list;
         if (list.length <= 0) {
-          $("#a_miner").html("<ul><li class='nothing'><p>暂无记录</p></li></ul>");
+          $("#a_miner").html("<ul><li><p>暂无记录</p></li></ul>");
         } else {
-        	var html;
+        	var html = "";
         	$.each( list, function(index, content){
         		var runs = content.bak2;
         		var xh = content.bak1;
@@ -62,9 +62,21 @@ function Gift() {
         		
         		var runHours = rundate*24;
         		
-        		html += "<ul><li><div class='img'><img src='http://localhost:8080/api/images/p1.jpg'></div><div class='text'><a href=''>"+ xh +"</a>";
-        		html += "<p>运行时长：<b>"+runHours+"</b></p><p>矿机状态：<b>"+runs+"</b></p></div><div class='look'><a href=''>查看</a></div></li></ul>";
-//			    html += "<tr><td class='first'>"+(index+1)+"</td><td>"+xh+"</td><td>"+content.minerComputingPower+"</td><td>"+runs+"</td><td>"+runHours+"</td></tr>";
+        		html += "<ul>" +
+        					"<li>" +
+	        					"<div class='img'>" +
+	        						"<img src='"+getAPIURL()+"/images/p1.jpg'>" +
+								"</div>" +
+								"<div class='text'>" +
+									"<a href=''>"+ xh +"</a>" +
+									"<p>运行时长：<b>"+runHours+"</b></p>" +
+									"<p>算力：<b>"+content.minerComputingPower+"</b></p>" +
+								"</div>" +
+								"<div class='look'>" +
+									"<a href='#'>"+runs+"</a>" +
+								"</div>" +
+							"</li>" +
+						"</ul>";
 			});
         	
         	$("#a_miner").html(html);

@@ -184,7 +184,7 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		}
 
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(500);
 		} catch (Exception e) {
 			System.exit(0);// 退出程序
 		}
@@ -224,8 +224,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				fensTransaction
 						.setMoneyCount(fensTransaction.getEntrustPrice() * 6.5 * fensTransaction.getTraderCount());
 
-				double zgPrice = 0.23;
-				double zdPrice = 0.13;
+				double zgPrice = 0.25;
+				double zdPrice = 0.14;
 				if (price > zgPrice) {
 					return JsonResult.build(500, "今日最高单价：" + zgPrice + "美元");
 				}
@@ -291,7 +291,7 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	public JsonResult updateRecord(FensTransaction fensTransaction) {
 
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(500);
 		} catch (Exception e) {
 			System.exit(0);// 退出程序
 		}

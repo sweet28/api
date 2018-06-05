@@ -44,7 +44,7 @@
 	<div class="space"></div>
 	<div class="menu">
 		<ul>
-			<li class="col-xs-3"><a href="<%=path%>/cpa/minerBuy"><img src="<%=path%>/images/menu1.png" alt=""><p>矿机商城</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/minerHouse"><img src="<%=path%>/images/menu1.png" alt=""><p>矿机商城</p></a></li>
 			<li class="col-xs-3"><a href="<%=path%>/cpa/myMiner"><img src="<%=path%>/images/menu2.png" alt=""><p>我的矿机</p></a></li>
 			<li class="col-xs-3"><a href="<%=path%>/cpa/traderCenter"><img src="<%=path%>/images/menu3.png" alt=""><p>交易中心</p></a></li>
 			<li class="col-xs-3"><a href="<%=path%>/cpa/personal"><img src="<%=path%>/images/menu4.png" alt=""><p>个人中心</p></a></li>

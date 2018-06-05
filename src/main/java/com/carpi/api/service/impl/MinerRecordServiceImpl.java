@@ -57,7 +57,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		// 购买矿机所花的总cpa
 		
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(300);
 		} catch (Exception e) {
 			System.exit(0);// 退出程序
 		}
@@ -137,7 +137,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		int bcount = fensMinerMapper.selectUserMiner(fm2);
 		
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(300);
 		} catch (Exception e) {
 			System.exit(0);// 退出程序
 		}
@@ -230,7 +230,7 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		}
 		
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(300);
 		} catch (Exception e) {
 			System.exit(0);// 退出程序
 		}

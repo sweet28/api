@@ -1,4 +1,6 @@
 function agoumai(type,grade){
+	$(".more").hide();
+	
 	var sec = localStorage.getItem("sec");
 	if(sec!='1'){
 		layer.open({
@@ -7,47 +9,7 @@ function agoumai(type,grade){
 	      });
 		return false;
 	}
-//	  $.ajax({
-//	    type: "post",
-//	    url: getAPIURL() + "wallet/list",
-//	    dataType: "json",
-//	    data: {
-//	    	"fensUserId":localStorage.getItem("uid")
-//	    },
-//	    success: function (data) {
-//	    	var dd = data.data;
-//	    	if(data.status==200){
-//	    		//可用余额
-//	    		var yue = dd.ableCpa;
-//	    		if(yue < 1 ){
-//	    			layer.open({
-//	    		          content: '账户钱包CPA余额不足。'
-//	    		          , btn: '确定'
-//	    		      });
-//	    			return false;
-//	    		}
-//	    		if(trader_count > yue){
-//	    			layer.open({
-//	    		          content: '账户钱包可用CPA不足。'
-//	    		          , btn: '确定'
-//	    		      });
-//	    			return false;
-//	    		}
-//	    		flag = 1;
-//	    	}else{
-//	    		  return false;
-//	    	}
-//	    },
-//	    error: function (XMLHttpRequest, textStatus, errorThrown) {
-//	    	layer.open({
-//	          content: '账户钱包CPA余额不足，。'
-//	          , btn: '确定'
-//  		      });
-//	    	flag = 0;
-//  			return false;
-//	    }
-//    });
-	  
+	
 	  var methodd;
 	  if(type==1){
 		  methodd = "buyAMiner";
@@ -55,12 +17,12 @@ function agoumai(type,grade){
 	  if(type==2){
 		  methodd = "buyBMiner";
 	  }
-	  loading.open();
 	  var flag = checkLogin();
 	  var tmp = getTimestamp();
 	  var rad = getRandom();
 	  var ton = getTom();
-      var str = "uid="+localStorage.getItem("uid")+"lx="+grade+"tmp="+tmp+"rad="+rad+"tom="+ton;  	  
+      var str = "uid="+localStorage.getItem("uid")+"lx="+grade+"tmp="+tmp+"rad="+rad+"tom="+ton;
+      console.log(str);
 	  $.ajax({
 		    type: "post",
 		    url: getAPIURL() + "kuangjy/jy/"+methodd,
@@ -75,27 +37,36 @@ function agoumai(type,grade){
 		    },
 		    success: function (data) {
 		    	var dd = data.data;
+		    	console.log(111);
 		    	if(data.status==200){
-		    		loading.close();
-		    		//可用余额
-	    			layer.open({
-	    		          content: '购买申请成功，待审核通过后发放矿机。'
-	    		          , btn: '确定'
-	    		      });
+		    		swal({
+		    			  title: "操作完成!",
+		    			  text: "购买申请成功，待审核通过后发放矿机!",
+		    			  icon: "success",
+		    			  button: "确定",
+		    		});
+		    		$(".more").show();
 		    	}else{
-		    		loading.close();
-		    		layer.open({
-    		          content: data.msg
-    		          , btn: '确定'
-    		      });
+		    		console.log("0000:"+data.status+"----::"+data.msg);
+		    		
+		    		swal({
+		    			  title: "购买失败!",
+		    			  text: data.msg,
+		    			  icon: "error",
+		    			  button: "确定",
+		    		});
+		    		$(".more").show();
 		    	}
 		    },
 		    error: function (XMLHttpRequest, textStatus, errorThrown) {
-		    	loading.close();
-		    	layer.open({
-    		          content: '购买失败。'
-    		          , btn: '确定'
-    		      });
+		    	console.log(444);
+		    	swal({
+	    			  title: "购买失败!",
+	    			  text: "交易人数较多，请稍后重试!",
+	    			  icon: "error",
+	    			  button: "确定",
+	    		});
+		    	$(".more").show();
 		    }
 	    });
 	    

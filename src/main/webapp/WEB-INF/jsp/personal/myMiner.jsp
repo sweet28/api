@@ -11,7 +11,7 @@
 <title>我的矿机</title>
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/mobile.css">
-<link rel="stylesheet" type="text/css" href="../lib/css/layer.css"/>
+<link rel="stylesheet" type="text/css" href="<%=path%>/lib/css/layer.css"/>
 <script src="<%=path%>/lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
@@ -31,7 +31,7 @@
 	</header>
 	<div class="line"></div>
 	<div class="row myshop"  id="a_miner">
-		<ul>
+		<%-- <ul>
 			<li>
 				<div class="img">
 					<img src="<%=path%>/images/p1.jpg">
@@ -47,18 +47,18 @@
 					<a href="">查看</a>
 				</div>
 			</li>
-		</ul>
+		</ul> --%>
 	</div>	
 	<div class="cl"></div>
 	<div class="space"></div>
 	<div class="menu">
 		<ul>
-			<li class="col-xs-3"><a href="<%=path%>/cpa/minerBuy"><img src="<%=path%>/images/menu1.png" alt=""><p>矿机商城</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/minerHouse"><img src="<%=path%>/images/menu1.png" alt=""><p>矿机商城</p></a></li>
 			<li class="col-xs-3"><a href="<%=path%>/cpa/myMiner"><img src="<%=path%>/images/menu2.png" alt=""><p>我的矿机</p></a></li>
 			<li class="col-xs-3"><a href="<%=path%>/cpa/traderCenter"><img src="<%=path%>/images/menu3.png" alt=""><p>交易中心</p></a></li>
 			<li class="col-xs-3"><a href="<%=path%>/cpa/personal"><img src="<%=path%>/images/menu4.png" alt=""><p>个人中心</p></a></li>
 		</ul>
 	</div>
 </body>
-<script src="../js/miner/my_kj.js"></script>
+<script src="<%=path%>/js/miner/my_kj.js"></script>
 </html>
