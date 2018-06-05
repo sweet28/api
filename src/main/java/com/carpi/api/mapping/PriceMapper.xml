@@ -210,9 +210,12 @@
 	
 	<!-- 查询一星期 -->
 	<select id="selectWeek" resultMap="BaseResultMap">
-		SELECT 
+		<!-- SELECT 
 		<include refid="Base_Column_List" />
-	    FROM price where create_date>DATE_SUB(CURDATE(), INTERVAL 1 WEEK) and is_delete = 0
+	    FROM price where create_date>DATE_SUB(CURDATE(), INTERVAL 1 WEEK) and is_delete = 0 -->
+	    SELECT
+	    <include refid="Base_Column_List" />
+	    FROM price where DATE_SUB(CURDATE(), INTERVAL 15 DAY) &lt;= date(create_date) and is_delete = 0
 	</select>
 	
 </mapper>

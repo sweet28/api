@@ -35,8 +35,8 @@ public class PriceServiceController {
 		return priceService.selectall(startTime, endTime);
 	}
 
-	// 一周的数据
-	@RequestMapping(value = "/week", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	// 20天的数据
+	@RequestMapping(value = "/mouth", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult selectWeek(HttpServletRequest request, HttpServletResponse response) {
 		return priceService.selectWeek();
