@@ -57,7 +57,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		}
 		
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(300);
 		} catch (Exception e) {
 			System.exit(0);// 退出程序
 		}
@@ -130,7 +130,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		}
 		
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(300);
 		} catch (Exception e) {
 			System.exit(0);// 退出程序
 		}
@@ -243,7 +243,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		}
 		
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(300);
 		} catch (Exception e) {
 			System.exit(0);// 退出程序
 		}
@@ -315,7 +315,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		}
 		
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(300);
 		} catch (Exception e) {
 			System.exit(0);// 退出程序
 		}
