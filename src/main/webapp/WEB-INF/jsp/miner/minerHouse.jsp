@@ -26,10 +26,11 @@
 	<header>
 		<span>矿机商城</span>
 		<a href="javascript:history.go(-1)" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
-		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
+		<a href="#" class="username">
+			<span id="uname"></span>
+		</a>
 	</header>
 	<div class="row pro">
-		<a href="">G25634845</a>
 	</div>
 	<div class="cl"></div>
 	<div class="row shop_title">

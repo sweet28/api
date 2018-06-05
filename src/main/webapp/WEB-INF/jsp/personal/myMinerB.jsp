@@ -22,7 +22,7 @@
 </head>
 <body>
 	<header>
-		<span>我的A矿机</span>
+		<span>我的B矿机</span>
 		<a href="<%=path%>/cpa/personal" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
 		<a href="#" class="username">
 			<span id="uname"></span>
@@ -59,5 +59,5 @@
 		</ul>
 	</div>
 </body>
-<script src="<%=path%>/js/miner/my_kj.js"></script>
+<script src="<%=path%>/js/miner/my_kjb.js"></script>
 </html>

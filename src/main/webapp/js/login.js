@@ -6,21 +6,21 @@
     var rad = getRandom();
     var ton = getTom();
     var str = "sh="+$.trim(user.val())+"mn="+pwd.val()+"tmp="+tmp+"rad="+rad+"tom="+ton;
-    loading.open();
     if(user.val()==""||user.val().replace(/\s/g,"")==""){
-      loading.close();
-      layer.open({
-        content:"请输入手机号(用户名)",
-        btn:'确定'
-      });
+      swal({
+		  title: "请输入手机号(用户名)!",
+		  // text: "请输入手机号(用户名)!",
+		  icon: "error",
+		  button: "确定",
+	  });
       return;
     }
     if(pwd.val()==""){
-      loading.close();
-      layer.open({
-        content:"请输入密码",
-        btn:'确定'
-      });
+      swal({
+		  title: "请输入密码!",
+		  icon: "error",
+		  button: "确定",
+	  });
       return;
     }
     
@@ -39,11 +39,16 @@
       },
       success:function(data){
     	if(data.status == 222){
-    		loading.close();
         	layer.open({
                 content:data.msg,
                 btn:'确定'
               });
+        	swal({ 
+    		  title: data.msg, 
+    		  //text: "2秒后自动关闭。", 
+    		  timer: 2000, 
+    		  showConfirmButton: false 
+    		});
     	}else if(data.status == 200){
           localStorage.setItem("username",user.val());
           localStorage.setItem("name",data.data.name);
@@ -53,63 +58,53 @@
           localStorage.setItem("ucard",data.data.bak2);
           localStorage.setItem("sec",data.data.attachment);
           
-          loading.close();
-          layer.open({
-            content: '登录成功'
-            ,skin: 'msg'
-            ,time: 2 //2秒后自动关闭
-            ,end:function(){
-              //判断直接从登录页进去，跳到个人中心
-              if(history.length == 1){
-                window.location.href = "cpa/personal";
-                return false;
-              }
-              if(window.location.search!=""){
-                window.location.href = "cpa/personal";
-              }else {
-                var value = document.referrer;
-                if(value.indexOf("login.html")!=-1){
-                  window.location.href = "cpa/personal";
-                  return;
-                }
-                if(!value){
-                  window.location.href = "cpa/personal";
-                  return;
-                }
-                location.href = document.referrer;
-                //解决safari不支持的问题//go(-1)ios不会刷新页面
-                return false;
-              }
-            }
-          });
+          swal({
+        	  title: '登录成功',
+        	  type: 'success',
+        	  showCancelButton: true,
+        	  confirmButtonText: "确定", 
+        	  cancelButtonText: "取消",
+        	  closeOnConfirm: true, 
+        	  closeOnCancel: true
+        	}).then(function(isConfirm) {
+        	  if (isConfirm === true) {
+        		  window.location.href = "cpa/personal";
+        	  } else if (isConfirm === false) {
+        	   
+        	  } else {
+        	    // Esc, close button or outside click
+        	    // isConfirm is undefined
+        	  }
+        	}); 
+          
         }else if(data.status == 20023){
-        	loading.close();
-        	layer.open({
-                content:"密码错误",
-                btn:'确定'
-              });
+        	swal({
+      		  title: "密码错误!",
+      		  icon: "error",
+      		  button: "确定",
+      	  	});
         }else if(data.status == 20022){
-        	loading.close();
-        	layer.open({
-                content:"请注册后再登录",
-                btn:'确定'
-              });
+        	swal({
+        		  title: "请注册后再登录!",
+        		  icon: "error",
+        		  button: "确定",
+        	 });
         }else{
-        	loading.close();
-        	layer.open({
-                content:"请检查网络是否畅通",
-                btn:'确定'
-              });
+        	swal({
+      		  title: "请检查网络是否畅通!",
+      		  icon: "error",
+      		  button: "确定",
+      	    });
         }
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
-        loading.close();
         if(XMLHttpRequest.status == 400) {
           var obj = JSON.parse(XMLHttpRequest.responseText);
-          layer.open({
-            content:obj.Message,
-            btn:'确定'
-          });
+          swal({
+      		  title: obj.Message,
+      		  icon: "error",
+      		  button: "确定",
+      	    });
         }
       }
     });

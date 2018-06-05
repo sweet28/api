@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css" href="<%=path%>/lib/css/layer.css"/>
 <script src="<%=path%>/lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
-<script src="<%=path%>/lib/js/layer.js"></script>
+<script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.js"></script>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/js/loading.js"></script>
 <style>

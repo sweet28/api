@@ -27,6 +27,21 @@ public class PageController {
 		return "personal/myMiner";
 	}
 	
+	@RequestMapping("/myMinerKC")
+	public String myMinerKC() {
+		return "personal/myMinerKC";
+	}
+	
+	@RequestMapping("/myMinerB")
+	public String myMinerB() {
+		return "personal/myMinerB";
+	}
+	
+	@RequestMapping("/myMinerBKC")
+	public String myMinerBKC() {
+		return "personal/myMinerBKC";
+	}
+	
 	@RequestMapping("/personal")
 	public String personal() {
 		return "personal/personal";
@@ -35,6 +50,36 @@ public class PageController {
 	@RequestMapping("/traderCenter")
 	public String traderCenter() {
 		return "trader/traderCenter";
+	}
+	
+	@RequestMapping("/traderCenterSell")
+	public String traderCenterSell() {
+		return "trader/traderCenterSell";
+	}
+	
+	@RequestMapping("/traderMyGD")
+	public String traderMyGD() {
+		return "trader/traderMyGD";
+	}
+	
+	@RequestMapping("/traderMyDFK")
+	public String traderMyDFK() {
+		return "trader/traderMyDFK";
+	}
+	
+	@RequestMapping("/traderMyYFK")
+	public String traderMyYFK() {
+		return "trader/traderMyYFK";
+	}
+	
+	@RequestMapping("/traderMyDone")
+	public String traderMyDone() {
+		return "trader/traderMyDone";
+	}
+	
+	@RequestMapping("/traderMyCheck")
+	public String traderMyCheck() {
+		return "trader/traderMyCheck";
 	}
 	
 }

@@ -13,14 +13,14 @@ function Gift() {
 		var rad = getRandom();
 		var ton = getTom();
 		var str = "uid="+uid+"pg="+page+"ts="+row+"tmp="+tmp+"rad="+rad+"tom="+ton;
-    $.ajax({
-      type: "post",
-      url: getAPIURL() + "user/miner/kuA",
-      dataType: "json",
-      data: {
-    	  "uid":uid,
-    	  "pg":page,
-    	  "ts":row,
+  $.ajax({
+    type: "post",
+    url: getAPIURL() + "user/miner/kuB",
+    dataType: "json",
+    data: {
+  	  "uid":uid,
+  	  "pg":page,
+  	  "ts":row,
 	      "rad":rad,
 	      "tom":ton,
 	      "token":commingSoon1(str)
@@ -28,7 +28,7 @@ function Gift() {
       success: function (data) {
         var list = data.list;
         if (list.length <= 0) {
-          $("#a_miner").html("<ul><li><p>暂无记录</p></li></ul>");
+          $("#a_miner").html("<ul><li class='nothing'><p>暂无记录</p></li></ul>");
         } else {
         	var html = "";
         	$.each( list, function(index, content){
@@ -43,13 +43,11 @@ function Gift() {
         		}
         		
         		if(xh==1){
-        			xh="CA1";
+        			xh="CB1";
         		}else if(xh==2){
-        			xh="CA2";
+        			xh="CB2";
         		}else if(xh==3){
-        			xh="CA3";
-        		}else if(xh==4){
-        			xh="CA4";
+        			xh="CB3";
         		}
         		
         		var nowDate = Date.parse(new Date());
@@ -62,10 +60,10 @@ function Gift() {
         		
         		var runHours = rundate*24;
         		
-        		html += "<ul>" + (index+1) +
-        					"<li>" +
-	        					"<div class='img'>" +
-	        						"<img src='"+getAPIURL()+"/images/p1.jpg'>" +
+        		html += "<ul>" +
+							"<li>" +
+								"<div class='img'>" +
+									"<img src='"+getAPIURL()+"/images/p1.jpg'>" +
 								"</div>" +
 								"<div class='text'>" +
 									"<a href=''>"+ xh +"</a>" +
@@ -77,7 +75,8 @@ function Gift() {
 								"</div>" +
 							"</li>" +
 						"</ul>";
-			});
+        		
+        	});
         	
         	$("#a_miner").html(html);
         }
