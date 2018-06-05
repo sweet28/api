@@ -21,12 +21,12 @@ public class QblBuyController {
 	@Autowired
 	private QblBuyService qblBuyService;
 	
-	// 购买券宝理商品券(一型矿机数量)
+//	// 购买券宝理商品券(一型矿机数量)
 //	@RequestMapping(value = "/yx", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 //	@ResponseBody
 //	public JsonResult buyqbl(HttpServletRequest request, HttpServletResponse response) {
 //		
-//		//name position  额度   周期
+//		//name   position 额度   day周期
 //		QuanBaoLiRecord quanBaoLiRecord = new QuanBaoLiRecord();
 //		quanBaoLiRecord.setCreateDate(TimeUtil.getTimeStamp());
 //		return quanBaoLiRecordService.xiangQing(Integer.valueOf(id));

@@ -82,4 +82,14 @@ public class PageController {
 		return "trader/traderMyCheck";
 	}
 	
+	@RequestMapping("/trader")
+	public String trader() {
+		return "trader/trader";
+	}
+	
+	@RequestMapping("/traderXiangQing")
+	public String traderXiangQing() {
+		return "trader/traderXiangQing";
+	}
+	
 }

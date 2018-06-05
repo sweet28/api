@@ -1,5 +1,10 @@
 package com.carpi.api.controllerNew;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,12 +14,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.arttraining.api.bean.SimpleReBean;
+import com.arttraining.api.pojo.Token;
+import com.arttraining.api.pojo.UserStu;
+import com.arttraining.api.service.impl.TokenService;
+import com.arttraining.commons.util.ErrorCodeConfigUtil;
 import com.arttraining.commons.util.JsonResult;
+import com.arttraining.commons.util.ServerLog;
+import com.arttraining.commons.util.TokenUtil;
 import com.carpi.api.pojo.FensComputingPower;
 import com.carpi.api.pojo.FensTeam;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.service.FensUserService;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 
 @Controller
 @RequestMapping("/user/fens")
@@ -22,6 +35,9 @@ public class FensUserNewController {
 
 	@Autowired
 	private FensUserService fensUserService;
+
+	@Autowired
+	private TokenService tokenService;
 
 	// 注册
 	@RequestMapping(value = "/zc", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -41,7 +57,7 @@ public class FensUserNewController {
 		String refereePhone = request.getParameter("yqrph");
 		// 用户姓名
 		String name = request.getParameter("xn");
-		//用户身份证图片 
+		// 用户身份证图片
 		String img = request.getParameter("img");
 
 		FensUser fensUser = new FensUser();
@@ -69,7 +85,7 @@ public class FensUserNewController {
 
 		return fensUserService.login(fensUser);
 	}
-	
+
 	@RequestMapping(value = "/dl2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult login2(HttpServletRequest request, HttpServletResponse response) {
@@ -77,15 +93,14 @@ public class FensUserNewController {
 		String phone = request.getParameter("sh");
 		// 验证码
 		String code = request.getParameter("ym");
-		//验证码类型
+		// 验证码类型
 		String code_type = request.getParameter("ym_tp");
 
-		return fensUserService.login2(phone,code,code_type);
+		return fensUserService.login2(phone, code, code_type);
 	}
 
 	// 登入(短信验证码)
-	
-	
+
 	// 根据ID查个人信息
 	@RequestMapping(value = "/userxx", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -244,6 +259,46 @@ public class FensUserNewController {
 		String type = request.getParameter("tp");
 
 		return fensUserService.selectAllUser(Integer.valueOf(page), Integer.valueOf(num), phone, type);
+	}
+
+	// 安全退出
+	@RequestMapping(value = "/exit", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult exitTuiChu(HttpServletRequest request, HttpServletResponse response) {
+		String accessToken = "";
+		accessToken = request.getParameter("access_token");
+		ServerLog.getLogger().warn("access_token:" + accessToken);
+		if (accessToken == null) {
+			return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
+		} else {
+			if (accessToken.equals("")) {
+
+				return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
+
+			} else {
+				// coffee add 1215
+				// 1.先判断token是否存在 如果存在 直接修改 如果不存在 直接删除token
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("token", accessToken);
+				Token token = this.tokenService.getOneTokenInfo(map);
+				if (token != null) {
+					Date date = new Date();
+					token.setLoginTime(date);
+					token.setIsDeleted(1);
+					this.tokenService.updateTokenInfo(token);
+					return JsonResult.ok();
+				} else {
+					// end
+					if (TokenUtil.deleteToken(accessToken)) {
+						return JsonResult.ok();
+					} else {
+						return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
+						
+					}
+				}
+			}
+		}
+
 	}
 
 }
