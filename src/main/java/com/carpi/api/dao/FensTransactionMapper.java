@@ -38,7 +38,7 @@ public interface FensTransactionMapper {
 	Map getAllBlockCPA(@Param("uid")Integer uid, @Param("id")Integer id);
 	
 	//查询订单（买单，卖单）
-	List<FensTransaction> selectjl(@Param("fensUserId")Integer fensUserId, @Param("traderType")Integer traderType);
+	List<FensTransaction> selectjl(@Param("phone") String phone,@Param("traderType") Integer traderType);
 	
 	
 }

@@ -396,11 +396,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		if (traderType == null) {
 			return JsonResult.build(500, "请正确操作");
 		}
-		FensUser fensUser = fensUserMapper.selectReferee(phone);
-		if (fensUser == null) {
-			return JsonResult.build(500, "手机号码为空或不存在此订单");
-		}
-		List<FensTransaction> list = fensTransactionMapper.selectjl(fensUser.getId(), traderType);
+		List<FensTransaction> list = fensTransactionMapper.selectjl(phone, traderType);
 		if (list.size()>0) {
 			return JsonResult.ok(list);
 		}
