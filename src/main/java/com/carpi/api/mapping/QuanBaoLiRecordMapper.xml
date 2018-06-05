@@ -1,0 +1,470 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.carpi.api.dao.QuanBaoLiRecordMapper">
+	<resultMap id="BaseResultMap"
+		type="com.carpi.api.pojo.QuanBaoLiRecord">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="bak1" property="bak1" jdbcType="VARCHAR" />
+		<result column="bak2" property="bak2" jdbcType="VARCHAR" />
+		<result column="bak3" property="bak3" jdbcType="VARCHAR" />
+		<result column="bak4" property="bak4" jdbcType="VARCHAR" />
+		<result column="bak5" property="bak5" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete"
+			jdbcType="INTEGER" />
+		<result column="create_date" property="createDate"
+			jdbcType="TIMESTAMP" />
+		<result column="creater" property="creater" jdbcType="VARCHAR" />
+		<result column="delete_date" property="deleteDate"
+			jdbcType="TIMESTAMP" />
+		<result column="attachment" property="attachment"
+			jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="DOUBLE" />
+		<result column="day" property="day" jdbcType="INTEGER" />
+		<result column="earn_proportion" property="earnProportion"
+			jdbcType="DOUBLE" />
+		<result column="deadline" property="deadline"
+			jdbcType="TIMESTAMP" />
+		<result column="interest_date" property="interestDate"
+			jdbcType="TIMESTAMP" />
+		<result column="expiry_time" property="expiryTime"
+			jdbcType="TIMESTAMP" />
+		<result column="out_price" property="outPrice"
+			jdbcType="DOUBLE" />
+		<result column="buy_sub_date" property="buySubDate"
+			jdbcType="TIMESTAMP" />
+		<result column="get_position_date" property="getPositionDate"
+			jdbcType="TIMESTAMP" />
+		<result column="buy_match_succ_date"
+			property="buyMatchSuccDate" jdbcType="TIMESTAMP" />
+		<result column="get_match_succ_date"
+			property="getMatchSuccDate" jdbcType="TIMESTAMP" />
+		<result column="buy_finish_date" property="buyFinishDate"
+			jdbcType="TIMESTAMP" />
+		<result column="get_finish_date" property="getFinishDate"
+			jdbcType="TIMESTAMP" />
+		<result column="fens_user_id" property="fensUserId"
+			jdbcType="INTEGER" />
+		<result column="order_number" property="orderNumber"
+			jdbcType="VARCHAR" />
+		<result column="order_type" property="orderType"
+			jdbcType="INTEGER" />
+		<result column="quan_id" property="quanId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, bak1, bak2, bak3, bak4, bak5, is_delete, create_date,
+		creater,
+		delete_date, attachment,
+		name, position, day, earn_proportion,
+		deadline, interest_date, expiry_time,
+		out_price,
+		buy_sub_date,
+		get_position_date, buy_match_succ_date, get_match_succ_date,
+		buy_finish_date,
+		get_finish_date, fens_user_id, order_number,
+		order_type, quan_id
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from quan_bao_li_record
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from quan_bao_li_record
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.carpi.api.pojo.QuanBaoLiRecord">
+		insert into quan_bao_li_record (id, bak1, bak2,
+		bak3,
+		bak4, bak5, is_delete,
+		create_date, creater, delete_date,
+		attachment,
+		name, position,
+		day, earn_proportion, deadline,
+		interest_date,
+		expiry_time, out_price,
+		buy_sub_date, get_position_date,
+		buy_match_succ_date,
+		get_match_succ_date, buy_finish_date,
+		get_finish_date,
+		fens_user_id, order_number, order_type,
+		quan_id)
+		values
+		(#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR},
+		#{bak2,jdbcType=VARCHAR},
+		#{bak3,jdbcType=VARCHAR},
+		#{bak4,jdbcType=VARCHAR}, #{bak5,jdbcType=VARCHAR},
+		#{isDelete,jdbcType=INTEGER},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{creater,jdbcType=VARCHAR}, #{deleteDate,jdbcType=TIMESTAMP},
+		#{attachment,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+		#{position,jdbcType=DOUBLE},
+		#{day,jdbcType=INTEGER},
+		#{earnProportion,jdbcType=DOUBLE}, #{deadline,jdbcType=TIMESTAMP},
+		#{interestDate,jdbcType=TIMESTAMP}, #{expiryTime,jdbcType=TIMESTAMP},
+		#{outPrice,jdbcType=DOUBLE},
+		#{buySubDate,jdbcType=TIMESTAMP},
+		#{getPositionDate,jdbcType=TIMESTAMP},
+		#{buyMatchSuccDate,jdbcType=TIMESTAMP},
+		#{getMatchSuccDate,jdbcType=TIMESTAMP},
+		#{buyFinishDate,jdbcType=TIMESTAMP},
+		#{getFinishDate,jdbcType=TIMESTAMP},
+		#{fensUserId,jdbcType=INTEGER},
+		#{orderNumber,jdbcType=VARCHAR}, #{orderType,jdbcType=INTEGER},
+		#{quanId,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.carpi.api.pojo.QuanBaoLiRecord">
+		insert into quan_bao_li_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="bak1 != null">
+				bak1,
+			</if>
+			<if test="bak2 != null">
+				bak2,
+			</if>
+			<if test="bak3 != null">
+				bak3,
+			</if>
+			<if test="bak4 != null">
+				bak4,
+			</if>
+			<if test="bak5 != null">
+				bak5,
+			</if>
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="deleteDate != null">
+				delete_date,
+			</if>
+			<if test="attachment != null">
+				attachment,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="position != null">
+				position,
+			</if>
+			<if test="day != null">
+				day,
+			</if>
+			<if test="earnProportion != null">
+				earn_proportion,
+			</if>
+			<if test="deadline != null">
+				deadline,
+			</if>
+			<if test="interestDate != null">
+				interest_date,
+			</if>
+			<if test="expiryTime != null">
+				expiry_time,
+			</if>
+			<if test="outPrice != null">
+				out_price,
+			</if>
+			<if test="buySubDate != null">
+				buy_sub_date,
+			</if>
+			<if test="getPositionDate != null">
+				get_position_date,
+			</if>
+			<if test="buyMatchSuccDate != null">
+				buy_match_succ_date,
+			</if>
+			<if test="getMatchSuccDate != null">
+				get_match_succ_date,
+			</if>
+			<if test="buyFinishDate != null">
+				buy_finish_date,
+			</if>
+			<if test="getFinishDate != null">
+				get_finish_date,
+			</if>
+			<if test="fensUserId != null">
+				fens_user_id,
+			</if>
+			<if test="orderNumber != null">
+				order_number,
+			</if>
+			<if test="orderType != null">
+				order_type,
+			</if>
+			<if test="quanId != null">
+				quan_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="bak1 != null">
+				#{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				#{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				#{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="bak4 != null">
+				#{bak4,jdbcType=VARCHAR},
+			</if>
+			<if test="bak5 != null">
+				#{bak5,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				#{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				#{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				#{position,jdbcType=DOUBLE},
+			</if>
+			<if test="day != null">
+				#{day,jdbcType=INTEGER},
+			</if>
+			<if test="earnProportion != null">
+				#{earnProportion,jdbcType=DOUBLE},
+			</if>
+			<if test="deadline != null">
+				#{deadline,jdbcType=TIMESTAMP},
+			</if>
+			<if test="interestDate != null">
+				#{interestDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="expiryTime != null">
+				#{expiryTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="outPrice != null">
+				#{outPrice,jdbcType=DOUBLE},
+			</if>
+			<if test="buySubDate != null">
+				#{buySubDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="getPositionDate != null">
+				#{getPositionDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="buyMatchSuccDate != null">
+				#{buyMatchSuccDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="getMatchSuccDate != null">
+				#{getMatchSuccDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="buyFinishDate != null">
+				#{buyFinishDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="getFinishDate != null">
+				#{getFinishDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fensUserId != null">
+				#{fensUserId,jdbcType=INTEGER},
+			</if>
+			<if test="orderNumber != null">
+				#{orderNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="orderType != null">
+				#{orderType,jdbcType=INTEGER},
+			</if>
+			<if test="quanId != null">
+				#{quanId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.carpi.api.pojo.QuanBaoLiRecord">
+		update quan_bao_li_record
+		<set>
+			<if test="bak1 != null">
+				bak1 = #{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				bak2 = #{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				bak3 = #{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="bak4 != null">
+				bak4 = #{bak4,jdbcType=VARCHAR},
+			</if>
+			<if test="bak5 != null">
+				bak5 = #{bak5,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				attachment = #{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				position = #{position,jdbcType=DOUBLE},
+			</if>
+			<if test="day != null">
+				day = #{day,jdbcType=INTEGER},
+			</if>
+			<if test="earnProportion != null">
+				earn_proportion = #{earnProportion,jdbcType=DOUBLE},
+			</if>
+			<if test="deadline != null">
+				deadline = #{deadline,jdbcType=TIMESTAMP},
+			</if>
+			<if test="interestDate != null">
+				interest_date = #{interestDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="expiryTime != null">
+				expiry_time = #{expiryTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="outPrice != null">
+				out_price = #{outPrice,jdbcType=DOUBLE},
+			</if>
+			<if test="buySubDate != null">
+				buy_sub_date = #{buySubDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="getPositionDate != null">
+				get_position_date =
+				#{getPositionDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="buyMatchSuccDate != null">
+				buy_match_succ_date =
+				#{buyMatchSuccDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="getMatchSuccDate != null">
+				get_match_succ_date =
+				#{getMatchSuccDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="buyFinishDate != null">
+				buy_finish_date = #{buyFinishDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="getFinishDate != null">
+				get_finish_date = #{getFinishDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="fensUserId != null">
+				fens_user_id = #{fensUserId,jdbcType=INTEGER},
+			</if>
+			<if test="orderNumber != null">
+				order_number = #{orderNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="orderType != null">
+				order_type = #{orderType,jdbcType=INTEGER},
+			</if>
+			<if test="quanId != null">
+				quan_id = #{quanId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.carpi.api.pojo.QuanBaoLiRecord">
+		update quan_bao_li_record
+		set bak1 =
+		#{bak1,jdbcType=VARCHAR},
+		bak2 = #{bak2,jdbcType=VARCHAR},
+		bak3 =
+		#{bak3,jdbcType=VARCHAR},
+		bak4 = #{bak4,jdbcType=VARCHAR},
+		bak5 =
+		#{bak5,jdbcType=VARCHAR},
+		is_delete = #{isDelete,jdbcType=INTEGER},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		creater =
+		#{creater,jdbcType=VARCHAR},
+		delete_date =
+		#{deleteDate,jdbcType=TIMESTAMP},
+		attachment =
+		#{attachment,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		position = #{position,jdbcType=DOUBLE},
+		day = #{day,jdbcType=INTEGER},
+		earn_proportion = #{earnProportion,jdbcType=DOUBLE},
+		deadline =
+		#{deadline,jdbcType=TIMESTAMP},
+		interest_date =
+		#{interestDate,jdbcType=TIMESTAMP},
+		expiry_time =
+		#{expiryTime,jdbcType=TIMESTAMP},
+		out_price =
+		#{outPrice,jdbcType=DOUBLE},
+		buy_sub_date =
+		#{buySubDate,jdbcType=TIMESTAMP},
+		get_position_date =
+		#{getPositionDate,jdbcType=TIMESTAMP},
+		buy_match_succ_date =
+		#{buyMatchSuccDate,jdbcType=TIMESTAMP},
+		get_match_succ_date =
+		#{getMatchSuccDate,jdbcType=TIMESTAMP},
+		buy_finish_date =
+		#{buyFinishDate,jdbcType=TIMESTAMP},
+		get_finish_date =
+		#{getFinishDate,jdbcType=TIMESTAMP},
+		fens_user_id =
+		#{fensUserId,jdbcType=INTEGER},
+		order_number =
+		#{orderNumber,jdbcType=VARCHAR},
+		order_type =
+		#{orderType,jdbcType=INTEGER},
+		quan_id = #{quanId,jdbcType=INTEGER}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 券宝理个人订单查询 -->
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_bao_li_record
+		where fens_user_id =
+		#{fensUserId,jdbcType=INTEGER}
+		and is_delete = 0 and order_type =
+		#{orderType,jdbcType=INTEGER}
+	</select>
+
+	<!-- 没人每天只能购买一张券      order_type = 8 待审核 -->
+	<select id="check" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from price
+		where create_date &gt;= date(now())
+		and create_date &lt;
+		DATE_ADD(date(now()),INTERVAL 1 DAY) and is_delete = 0 and order_type in (1,2,8)
+	</select>
+</mapper>

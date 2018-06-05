@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.carpi.api.dao.QuanDakuanRecordMapper">
+	<resultMap id="BaseResultMap"
+		type="com.carpi.api.pojo.QuanDakuanRecord">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="bak1" property="bak1" jdbcType="VARCHAR" />
+		<result column="bak2" property="bak2" jdbcType="VARCHAR" />
+		<result column="bak3" property="bak3" jdbcType="VARCHAR" />
+		<result column="bak4" property="bak4" jdbcType="VARCHAR" />
+		<result column="bak5" property="bak5" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete"
+			jdbcType="INTEGER" />
+		<result column="create_date" property="createDate"
+			jdbcType="TIMESTAMP" />
+		<result column="creater" property="creater" jdbcType="VARCHAR" />
+		<result column="delete_date" property="deleteDate"
+			jdbcType="TIMESTAMP" />
+		<result column="attachment" property="attachment"
+			jdbcType="VARCHAR" />
+		<result column="quan_id" property="quanId" jdbcType="INTEGER" />
+		<result column="dakuang_id" property="dakuangId"
+			jdbcType="INTEGER" />
+		<result column="da_name" property="daName" jdbcType="VARCHAR" />
+		<result column="shoukuan_id" property="shoukuanId"
+			jdbcType="INTEGER" />
+		<result column="shou_name" property="shouName"
+			jdbcType="VARCHAR" />
+		<result column="dakuan_type" property="dakuanType"
+			jdbcType="INTEGER" />
+		<result column="dakuan_img" property="dakuanImg"
+			jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, bak1, bak2, bak3, bak4, bak5, is_delete, create_date,
+		creater,
+		delete_date, attachment,
+		quan_id, dakuang_id, da_name,
+		shoukuan_id, shou_name, dakuan_type, dakuan_img,
+		type
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from quan_dakuan_record
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from quan_dakuan_record
+		where id =
+		#{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert"
+		parameterType="com.carpi.api.pojo.QuanDakuanRecord">
+		insert into quan_dakuan_record (id, bak1, bak2,
+		bak3,
+		bak4, bak5, is_delete,
+		create_date, creater, delete_date,
+		attachment,
+		quan_id, dakuang_id,
+		da_name, shoukuan_id, shou_name,
+		dakuan_type,
+		dakuan_img, type
+		)
+		values (#{id,jdbcType=INTEGER},
+		#{bak1,jdbcType=VARCHAR},
+		#{bak2,jdbcType=VARCHAR},
+		#{bak3,jdbcType=VARCHAR}, #{bak4,jdbcType=VARCHAR},
+		#{bak5,jdbcType=VARCHAR},
+		#{isDelete,jdbcType=INTEGER},
+		#{createDate,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR},
+		#{deleteDate,jdbcType=TIMESTAMP},
+		#{attachment,jdbcType=VARCHAR},
+		#{quanId,jdbcType=INTEGER},
+		#{dakuangId,jdbcType=INTEGER},
+		#{daName,jdbcType=VARCHAR}, #{shoukuanId,jdbcType=INTEGER},
+		#{shouName,jdbcType=VARCHAR},
+		#{dakuanType,jdbcType=INTEGER},
+		#{dakuanImg,jdbcType=VARCHAR},
+		#{type,jdbcType=INTEGER}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.carpi.api.pojo.QuanDakuanRecord">
+		insert into quan_dakuan_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="bak1 != null">
+				bak1,
+			</if>
+			<if test="bak2 != null">
+				bak2,
+			</if>
+			<if test="bak3 != null">
+				bak3,
+			</if>
+			<if test="bak4 != null">
+				bak4,
+			</if>
+			<if test="bak5 != null">
+				bak5,
+			</if>
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="deleteDate != null">
+				delete_date,
+			</if>
+			<if test="attachment != null">
+				attachment,
+			</if>
+			<if test="quanId != null">
+				quan_id,
+			</if>
+			<if test="dakuangId != null">
+				dakuang_id,
+			</if>
+			<if test="daName != null">
+				da_name,
+			</if>
+			<if test="shoukuanId != null">
+				shoukuan_id,
+			</if>
+			<if test="shouName != null">
+				shou_name,
+			</if>
+			<if test="dakuanType != null">
+				dakuan_type,
+			</if>
+			<if test="dakuanImg != null">
+				dakuan_img,
+			</if>
+			<if test="type != null">
+				type,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="bak1 != null">
+				#{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				#{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				#{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="bak4 != null">
+				#{bak4,jdbcType=VARCHAR},
+			</if>
+			<if test="bak5 != null">
+				#{bak5,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				#{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				#{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="quanId != null">
+				#{quanId,jdbcType=INTEGER},
+			</if>
+			<if test="dakuangId != null">
+				#{dakuangId,jdbcType=INTEGER},
+			</if>
+			<if test="daName != null">
+				#{daName,jdbcType=VARCHAR},
+			</if>
+			<if test="shoukuanId != null">
+				#{shoukuanId,jdbcType=INTEGER},
+			</if>
+			<if test="shouName != null">
+				#{shouName,jdbcType=VARCHAR},
+			</if>
+			<if test="dakuanType != null">
+				#{dakuanType,jdbcType=INTEGER},
+			</if>
+			<if test="dakuanImg != null">
+				#{dakuanImg,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.carpi.api.pojo.QuanDakuanRecord">
+		update quan_dakuan_record
+		<set>
+			<if test="bak1 != null">
+				bak1 = #{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				bak2 = #{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				bak3 = #{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="bak4 != null">
+				bak4 = #{bak4,jdbcType=VARCHAR},
+			</if>
+			<if test="bak5 != null">
+				bak5 = #{bak5,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				attachment = #{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="quanId != null">
+				quan_id = #{quanId,jdbcType=INTEGER},
+			</if>
+			<if test="dakuangId != null">
+				dakuang_id = #{dakuangId,jdbcType=INTEGER},
+			</if>
+			<if test="daName != null">
+				da_name = #{daName,jdbcType=VARCHAR},
+			</if>
+			<if test="shoukuanId != null">
+				shoukuan_id = #{shoukuanId,jdbcType=INTEGER},
+			</if>
+			<if test="shouName != null">
+				shou_name = #{shouName,jdbcType=VARCHAR},
+			</if>
+			<if test="dakuanType != null">
+				dakuan_type = #{dakuanType,jdbcType=INTEGER},
+			</if>
+			<if test="dakuanImg != null">
+				dakuan_img = #{dakuanImg,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				type = #{type,jdbcType=INTEGER},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.carpi.api.pojo.QuanDakuanRecord">
+		update quan_dakuan_record
+		set bak1 =
+		#{bak1,jdbcType=VARCHAR},
+		bak2 = #{bak2,jdbcType=VARCHAR},
+		bak3 =
+		#{bak3,jdbcType=VARCHAR},
+		bak4 = #{bak4,jdbcType=VARCHAR},
+		bak5 =
+		#{bak5,jdbcType=VARCHAR},
+		is_delete = #{isDelete,jdbcType=INTEGER},
+		create_date = #{createDate,jdbcType=TIMESTAMP},
+		creater =
+		#{creater,jdbcType=VARCHAR},
+		delete_date =
+		#{deleteDate,jdbcType=TIMESTAMP},
+		attachment =
+		#{attachment,jdbcType=VARCHAR},
+		quan_id = #{quanId,jdbcType=INTEGER},
+		dakuang_id = #{dakuangId,jdbcType=INTEGER},
+		da_name =
+		#{daName,jdbcType=VARCHAR},
+		shoukuan_id =
+		#{shoukuanId,jdbcType=INTEGER},
+		shou_name =
+		#{shouName,jdbcType=VARCHAR},
+		dakuan_type =
+		#{dakuanType,jdbcType=INTEGER},
+		dakuan_img =
+		#{dakuanImg,jdbcType=VARCHAR},
+		type = #{type,jdbcType=INTEGER}
+		where id
+		= #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 查询券详情 -->
+	<select id="selectQuan" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from quan_dakuan_record
+		<where>
+		    is_delete = 0
+			<if test="quanId != null">
+				quan_id = #{quanId,jdbcType=INTEGER},
+			</if>
+		</where>
+	</select>
+
+</mapper>

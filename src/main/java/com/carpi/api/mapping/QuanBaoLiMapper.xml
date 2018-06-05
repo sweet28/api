@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.carpi.api.dao.QuanBaoLiMapper">
+	<resultMap id="BaseResultMap"
+		type="com.carpi.api.pojo.QuanBaoLi">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="bak1" property="bak1" jdbcType="VARCHAR" />
+		<result column="bak2" property="bak2" jdbcType="VARCHAR" />
+		<result column="bak3" property="bak3" jdbcType="VARCHAR" />
+		<result column="bak4" property="bak4" jdbcType="VARCHAR" />
+		<result column="bak5" property="bak5" jdbcType="VARCHAR" />
+		<result column="is_delete" property="isDelete"
+			jdbcType="INTEGER" />
+		<result column="create_date" property="createDate"
+			jdbcType="TIMESTAMP" />
+		<result column="creater" property="creater" jdbcType="VARCHAR" />
+		<result column="delete_date" property="deleteDate"
+			jdbcType="TIMESTAMP" />
+		<result column="attachment" property="attachment"
+			jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="DOUBLE" />
+		<result column="day" property="day" jdbcType="INTEGER" />
+		<result column="earn_proportion" property="earnProportion"
+			jdbcType="DOUBLE" />
+		<result column="deadline" property="deadline"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		id, bak1, bak2, bak3, bak4, bak5, is_delete, create_date,
+		creater,
+		delete_date, attachment,
+		name, position, day, earn_proportion,
+		deadline
+	</sql>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from quan_bao_li
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from quan_bao_li
+		where id = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.carpi.api.pojo.QuanBaoLi">
+		insert into quan_bao_li (id,
+		bak1, bak2,
+		bak3, bak4, bak5, is_delete,
+		create_date, creater,
+		delete_date,
+		attachment, name, position,
+		day, earn_proportion, deadline
+		)
+		values (#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR},
+		#{bak2,jdbcType=VARCHAR},
+		#{bak3,jdbcType=VARCHAR},
+		#{bak4,jdbcType=VARCHAR}, #{bak5,jdbcType=VARCHAR},
+		#{isDelete,jdbcType=INTEGER},
+		#{createDate,jdbcType=TIMESTAMP},
+		#{creater,jdbcType=VARCHAR}, #{deleteDate,jdbcType=TIMESTAMP},
+		#{attachment,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+		#{position,jdbcType=DOUBLE},
+		#{day,jdbcType=INTEGER},
+		#{earnProportion,jdbcType=DOUBLE}, #{deadline,jdbcType=TIMESTAMP}
+		)
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.carpi.api.pojo.QuanBaoLi">
+		insert into quan_bao_li
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="bak1 != null">
+				bak1,
+			</if>
+			<if test="bak2 != null">
+				bak2,
+			</if>
+			<if test="bak3 != null">
+				bak3,
+			</if>
+			<if test="bak4 != null">
+				bak4,
+			</if>
+			<if test="bak5 != null">
+				bak5,
+			</if>
+			<if test="isDelete != null">
+				is_delete,
+			</if>
+			<if test="createDate != null">
+				create_date,
+			</if>
+			<if test="creater != null">
+				creater,
+			</if>
+			<if test="deleteDate != null">
+				delete_date,
+			</if>
+			<if test="attachment != null">
+				attachment,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="position != null">
+				position,
+			</if>
+			<if test="day != null">
+				day,
+			</if>
+			<if test="earnProportion != null">
+				earn_proportion,
+			</if>
+			<if test="deadline != null">
+				deadline,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="bak1 != null">
+				#{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				#{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				#{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="bak4 != null">
+				#{bak4,jdbcType=VARCHAR},
+			</if>
+			<if test="bak5 != null">
+				#{bak5,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				#{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				#{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				#{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				#{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				#{position,jdbcType=DOUBLE},
+			</if>
+			<if test="day != null">
+				#{day,jdbcType=INTEGER},
+			</if>
+			<if test="earnProportion != null">
+				#{earnProportion,jdbcType=DOUBLE},
+			</if>
+			<if test="deadline != null">
+				#{deadline,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.carpi.api.pojo.QuanBaoLi">
+		update quan_bao_li
+		<set>
+			<if test="bak1 != null">
+				bak1 = #{bak1,jdbcType=VARCHAR},
+			</if>
+			<if test="bak2 != null">
+				bak2 = #{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				bak3 = #{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="bak4 != null">
+				bak4 = #{bak4,jdbcType=VARCHAR},
+			</if>
+			<if test="bak5 != null">
+				bak5 = #{bak5,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				attachment = #{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="position != null">
+				position = #{position,jdbcType=DOUBLE},
+			</if>
+			<if test="day != null">
+				day = #{day,jdbcType=INTEGER},
+			</if>
+			<if test="earnProportion != null">
+				earn_proportion = #{earnProportion,jdbcType=DOUBLE},
+			</if>
+			<if test="deadline != null">
+				deadline = #{deadline,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.carpi.api.pojo.QuanBaoLi">
+		update quan_bao_li
+		set bak1 = #{bak1,jdbcType=VARCHAR},
+		bak2 = #{bak2,jdbcType=VARCHAR},
+		bak3 = #{bak3,jdbcType=VARCHAR},
+		bak4 =
+		#{bak4,jdbcType=VARCHAR},
+		bak5 = #{bak5,jdbcType=VARCHAR},
+		is_delete =
+		#{isDelete,jdbcType=INTEGER},
+		create_date =
+		#{createDate,jdbcType=TIMESTAMP},
+		creater =
+		#{creater,jdbcType=VARCHAR},
+		delete_date =
+		#{deleteDate,jdbcType=TIMESTAMP},
+		attachment =
+		#{attachment,jdbcType=VARCHAR},
+		name = #{name,jdbcType=VARCHAR},
+		position = #{position,jdbcType=DOUBLE},
+		day = #{day,jdbcType=INTEGER},
+		earn_proportion = #{earnProportion,jdbcType=DOUBLE},
+		deadline =
+		#{deadline,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+	<!-- 券宝理列表 -->
+	<select id="selectList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_bao_li
+	</select>
+</mapper>
