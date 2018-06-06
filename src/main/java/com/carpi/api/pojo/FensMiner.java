@@ -35,6 +35,24 @@ public class FensMiner {
 
     private Double lockEarn;
 
+    private String isUseSuanli;
+
+    private String isUserShouyi;
+
+    private String isUserGoumai;
+
+    private String diejia;
+
+    private String beyong1;
+
+    private String beyong2;
+
+    private String beyong3;
+
+    private String beyong4;
+
+    private String beyong5;
+
     public Integer getId() {
         return id;
     }
@@ -161,5 +179,77 @@ public class FensMiner {
 
     public void setLockEarn(Double lockEarn) {
         this.lockEarn = lockEarn;
+    }
+
+    public String getIsUseSuanli() {
+        return isUseSuanli;
+    }
+
+    public void setIsUseSuanli(String isUseSuanli) {
+        this.isUseSuanli = isUseSuanli == null ? null : isUseSuanli.trim();
+    }
+
+    public String getIsUserShouyi() {
+        return isUserShouyi;
+    }
+
+    public void setIsUserShouyi(String isUserShouyi) {
+        this.isUserShouyi = isUserShouyi == null ? null : isUserShouyi.trim();
+    }
+
+    public String getIsUserGoumai() {
+        return isUserGoumai;
+    }
+
+    public void setIsUserGoumai(String isUserGoumai) {
+        this.isUserGoumai = isUserGoumai == null ? null : isUserGoumai.trim();
+    }
+
+    public String getDiejia() {
+        return diejia;
+    }
+
+    public void setDiejia(String diejia) {
+        this.diejia = diejia == null ? null : diejia.trim();
+    }
+
+    public String getBeyong1() {
+        return beyong1;
+    }
+
+    public void setBeyong1(String beyong1) {
+        this.beyong1 = beyong1 == null ? null : beyong1.trim();
+    }
+
+    public String getBeyong2() {
+        return beyong2;
+    }
+
+    public void setBeyong2(String beyong2) {
+        this.beyong2 = beyong2 == null ? null : beyong2.trim();
+    }
+
+    public String getBeyong3() {
+        return beyong3;
+    }
+
+    public void setBeyong3(String beyong3) {
+        this.beyong3 = beyong3 == null ? null : beyong3.trim();
+    }
+
+    public String getBeyong4() {
+        return beyong4;
+    }
+
+    public void setBeyong4(String beyong4) {
+        this.beyong4 = beyong4 == null ? null : beyong4.trim();
+    }
+
+    public String getBeyong5() {
+        return beyong5;
+    }
+
+    public void setBeyong5(String beyong5) {
+        this.beyong5 = beyong5 == null ? null : beyong5.trim();
     }
 }

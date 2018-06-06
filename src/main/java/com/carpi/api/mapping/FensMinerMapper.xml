@@ -1,25 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.carpi.api.dao.FensMinerMapper">
-	<resultMap id="BaseResultMap" type="com.carpi.api.pojo.FensMiner">
+	<resultMap id="BaseResultMap"
+		type="com.carpi.api.pojo.FensMiner">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="bak1" property="bak1" jdbcType="VARCHAR" />
 		<result column="bak2" property="bak2" jdbcType="VARCHAR" />
 		<result column="bak3" property="bak3" jdbcType="VARCHAR" />
-		<result column="is_delete" property="isDelete" jdbcType="INTEGER" />
-		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="is_delete" property="isDelete"
+			jdbcType="INTEGER" />
+		<result column="create_date" property="createDate"
+			jdbcType="TIMESTAMP" />
 		<result column="creater" property="creater" jdbcType="VARCHAR" />
-		<result column="delete_date" property="deleteDate" jdbcType="TIMESTAMP" />
-		<result column="attachment" property="attachment" jdbcType="VARCHAR" />
-		<result column="miner_type" property="minerType" jdbcType="INTEGER" />
+		<result column="delete_date" property="deleteDate"
+			jdbcType="TIMESTAMP" />
+		<result column="attachment" property="attachment"
+			jdbcType="VARCHAR" />
+		<result column="miner_type" property="minerType"
+			jdbcType="INTEGER" />
 		<result column="miner_id" property="minerId" jdbcType="INTEGER" />
-		<result column="fens_user_id" property="fensUserId" jdbcType="INTEGER" />
-		<result column="miner_computing_power" property="minerComputingPower"
-			jdbcType="DOUBLE" />
+		<result column="fens_user_id" property="fensUserId"
+			jdbcType="INTEGER" />
+		<result column="miner_computing_power"
+			property="minerComputingPower" jdbcType="DOUBLE" />
 		<result column="total_revenue" property="totalRevenue"
 			jdbcType="DOUBLE" />
-		<result column="able_earn" property="ableEarn" jdbcType="DOUBLE" />
-		<result column="lock_earn" property="lockEarn" jdbcType="DOUBLE" />
+		<result column="able_earn" property="ableEarn"
+			jdbcType="DOUBLE" />
+		<result column="lock_earn" property="lockEarn"
+			jdbcType="DOUBLE" />
+		<result column="is_use_suanli" property="isUseSuanli"
+			jdbcType="VARCHAR" />
+		<result column="is_user_shouyi" property="isUserShouyi"
+			jdbcType="VARCHAR" />
+		<result column="is_user_goumai" property="isUserGoumai"
+			jdbcType="VARCHAR" />
+		<result column="diejia" property="diejia" jdbcType="VARCHAR" />
+		<result column="beyong1" property="beyong1" jdbcType="VARCHAR" />
+		<result column="beyong2" property="beyong2" jdbcType="VARCHAR" />
+		<result column="beyong3" property="beyong3" jdbcType="VARCHAR" />
+		<result column="beyong4" property="beyong4" jdbcType="VARCHAR" />
+		<result column="beyong5" property="beyong5" jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, bak1, bak2, bak3, is_delete, create_date, creater,
@@ -27,7 +48,10 @@
 		attachment, miner_type,
 		miner_id, fens_user_id,
 		miner_computing_power, total_revenue, able_earn,
-		lock_earn
+		lock_earn,
+		is_use_suanli, is_user_shouyi, is_user_goumai, diejia, beyong1,
+		beyong2, beyong3,
+		beyong4, beyong5
 	</sql>
 	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
@@ -36,9 +60,9 @@
 		from fens_miner
 		where id = #{id,jdbcType=INTEGER}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-		delete from
-		fens_miner
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
+		delete from fens_miner
 		where id = #{id,jdbcType=INTEGER}
 	</delete>
 	<insert id="insert" parameterType="com.carpi.api.pojo.FensMiner">
@@ -50,22 +74,30 @@
 		miner_type, miner_id, fens_user_id,
 		miner_computing_power,
 		total_revenue, able_earn,
-		lock_earn)
-		values (#{id,jdbcType=INTEGER},
-		#{bak1,jdbcType=VARCHAR},
+		lock_earn, is_use_suanli, is_user_shouyi,
+		is_user_goumai, diejia, beyong1,
+		beyong2, beyong3, beyong4,
+		beyong5)
+		values (#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR},
 		#{bak2,jdbcType=VARCHAR},
-		#{bak3,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER},
-		#{createDate,jdbcType=TIMESTAMP},
-		#{creater,jdbcType=VARCHAR},
-		#{deleteDate,jdbcType=TIMESTAMP},
+		#{bak3,jdbcType=VARCHAR},
+		#{isDelete,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP},
+		#{creater,jdbcType=VARCHAR}, #{deleteDate,jdbcType=TIMESTAMP},
 		#{attachment,jdbcType=VARCHAR},
-		#{minerType,jdbcType=INTEGER}, #{minerId,jdbcType=INTEGER},
-		#{fensUserId,jdbcType=INTEGER},
+		#{minerType,jdbcType=INTEGER},
+		#{minerId,jdbcType=INTEGER}, #{fensUserId,jdbcType=INTEGER},
 		#{minerComputingPower,jdbcType=DOUBLE},
 		#{totalRevenue,jdbcType=DOUBLE}, #{ableEarn,jdbcType=DOUBLE},
-		#{lockEarn,jdbcType=DOUBLE})
+		#{lockEarn,jdbcType=DOUBLE}, #{isUseSuanli,jdbcType=VARCHAR},
+		#{isUserShouyi,jdbcType=VARCHAR},
+		#{isUserGoumai,jdbcType=VARCHAR},
+		#{diejia,jdbcType=VARCHAR}, #{beyong1,jdbcType=VARCHAR},
+		#{beyong2,jdbcType=VARCHAR}, #{beyong3,jdbcType=VARCHAR},
+		#{beyong4,jdbcType=VARCHAR},
+		#{beyong5,jdbcType=VARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="com.carpi.api.pojo.FensMiner">
+	<insert id="insertSelective"
+		parameterType="com.carpi.api.pojo.FensMiner">
 		insert into fens_miner
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -115,6 +147,33 @@
 			</if>
 			<if test="lockEarn != null">
 				lock_earn,
+			</if>
+			<if test="isUseSuanli != null">
+				is_use_suanli,
+			</if>
+			<if test="isUserShouyi != null">
+				is_user_shouyi,
+			</if>
+			<if test="isUserGoumai != null">
+				is_user_goumai,
+			</if>
+			<if test="diejia != null">
+				diejia,
+			</if>
+			<if test="beyong1 != null">
+				beyong1,
+			</if>
+			<if test="beyong2 != null">
+				beyong2,
+			</if>
+			<if test="beyong3 != null">
+				beyong3,
+			</if>
+			<if test="beyong4 != null">
+				beyong4,
+			</if>
+			<if test="beyong5 != null">
+				beyong5,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -166,9 +225,37 @@
 			<if test="lockEarn != null">
 				#{lockEarn,jdbcType=DOUBLE},
 			</if>
+			<if test="isUseSuanli != null">
+				#{isUseSuanli,jdbcType=VARCHAR},
+			</if>
+			<if test="isUserShouyi != null">
+				#{isUserShouyi,jdbcType=VARCHAR},
+			</if>
+			<if test="isUserGoumai != null">
+				#{isUserGoumai,jdbcType=VARCHAR},
+			</if>
+			<if test="diejia != null">
+				#{diejia,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong1 != null">
+				#{beyong1,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong2 != null">
+				#{beyong2,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong3 != null">
+				#{beyong3,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong4 != null">
+				#{beyong4,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong5 != null">
+				#{beyong5,jdbcType=VARCHAR},
+			</if>
 		</trim>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.FensMiner">
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.carpi.api.pojo.FensMiner">
 		update fens_miner
 		<set>
 			<if test="bak1 != null">
@@ -217,16 +304,43 @@
 			<if test="lockEarn != null">
 				lock_earn = #{lockEarn,jdbcType=DOUBLE},
 			</if>
+			<if test="isUseSuanli != null">
+				is_use_suanli = #{isUseSuanli,jdbcType=VARCHAR},
+			</if>
+			<if test="isUserShouyi != null">
+				is_user_shouyi = #{isUserShouyi,jdbcType=VARCHAR},
+			</if>
+			<if test="isUserGoumai != null">
+				is_user_goumai = #{isUserGoumai,jdbcType=VARCHAR},
+			</if>
+			<if test="diejia != null">
+				diejia = #{diejia,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong1 != null">
+				beyong1 = #{beyong1,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong2 != null">
+				beyong2 = #{beyong2,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong3 != null">
+				beyong3 = #{beyong3,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong4 != null">
+				beyong4 = #{beyong4,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong5 != null">
+				beyong5 = #{beyong5,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.FensMiner">
+	<update id="updateByPrimaryKey"
+		parameterType="com.carpi.api.pojo.FensMiner">
 		update fens_miner
 		set bak1 = #{bak1,jdbcType=VARCHAR},
 		bak2 = #{bak2,jdbcType=VARCHAR},
 		bak3 = #{bak3,jdbcType=VARCHAR},
-		is_delete =
-		#{isDelete,jdbcType=INTEGER},
+		is_delete = #{isDelete,jdbcType=INTEGER},
 		create_date =
 		#{createDate,jdbcType=TIMESTAMP},
 		creater =
@@ -245,7 +359,20 @@
 		#{totalRevenue,jdbcType=DOUBLE},
 		able_earn =
 		#{ableEarn,jdbcType=DOUBLE},
-		lock_earn = #{lockEarn,jdbcType=DOUBLE}
+		lock_earn = #{lockEarn,jdbcType=DOUBLE},
+		is_use_suanli = #{isUseSuanli,jdbcType=VARCHAR},
+		is_user_shouyi =
+		#{isUserShouyi,jdbcType=VARCHAR},
+		is_user_goumai =
+		#{isUserGoumai,jdbcType=VARCHAR},
+		diejia = #{diejia,jdbcType=VARCHAR},
+		beyong1 = #{beyong1,jdbcType=VARCHAR},
+		beyong2 =
+		#{beyong2,jdbcType=VARCHAR},
+		beyong3 = #{beyong3,jdbcType=VARCHAR},
+		beyong4 = #{beyong4,jdbcType=VARCHAR},
+		beyong5 =
+		#{beyong5,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
 
@@ -257,7 +384,7 @@
 		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
 		and is_delete = 0
 	</select>
-	
+
 	<!--根据粉丝id查询待审核矿机价值 -->
 	<select id="selectEranMiner" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
@@ -272,23 +399,25 @@
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from fens_miner 
+		from fens_miner
 		<where>
-			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type = 1 and is_delete = 0
+			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type =
+			1 and is_delete = 0
 		</where>
-		
+
 	</select>
-	
+
 	<!--根据粉丝id查询A矿机矿池 -->
 	<select id="selectAMinerKC" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from fens_miner 
+		from fens_miner
 		<where>
-			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type = 1 and is_delete in(0,3)
+			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type =
+			1 and is_delete in(0,3)
 		</where>
-		
+
 	</select>
 
 	<!--根据粉丝id查询B矿机 -->
@@ -299,7 +428,7 @@
 		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
 		and is_delete = 0 and miner_type = 2
 	</select>
-	
+
 	<!--根据粉丝id查询B矿机矿池 -->
 	<select id="selectBMinerKC" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
@@ -316,45 +445,52 @@
 		count(id)
 		from fens_miner where fens_user_id =
 		#{fensUserId,jdbcType=INTEGER} and
-		is_delete in (0,2) and miner_type = 1
+		is_delete in (0,2) and miner_type =
+		1
 	</select>
-	
+
 	<!--粉丝的b矿机的列表 -->
-	<select id="selectUserMiner" resultType="java.lang.Integer" parameterType="com.carpi.api.pojo.FensMiner">
+	<select id="selectUserMiner" resultType="java.lang.Integer"
+		parameterType="com.carpi.api.pojo.FensMiner">
 		select count(id)
 		from fens_miner
 		<where>
-			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type = #{minerType,jdbcType=INTEGER} and is_delete not in(5)
+			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type =
+			#{minerType,jdbcType=INTEGER} and is_delete not in(5)
 			<if test=" isDelete != null">
 				and is_delete not in (1,3)
 			</if>
 		</where>
 	</select>
-	
+
 	<!--根据粉丝id查询矿机库存 -->
 	<select id="selectABMinnerKC" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from fens_miner 
+		from fens_miner
 		<where>
-			fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 10
+			fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete =
+			10
 		</where>
 	</select>
-	
+
 	<!-- 查询购买矿机类型的数量 -->
 	<select id="selectSum" resultType="java.lang.Integer">
 		select
 		count(id)
-		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
-		and is_delete in(0,2) and miner_type = 1 and bak1 = #{bak1,jdbcType=VARCHAR}
+		from fens_miner
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER}
+		and is_delete
+		in(0,2) and miner_type = 1 and bak1 = #{bak1,jdbcType=VARCHAR}
 	</select>
-	
+
 	<!-- 查询矿机的算力（根据粉丝id） -->
 	<select id="sum" resultType="java.lang.Double">
 		select
 		sum(miner_computing_power) as miner_computing_power
-		from fens_miner
+		from
+		fens_miner
 		<where>
 			is_delete = 0
 			<if test="fensUserId != null">
@@ -362,10 +498,11 @@
 			</if>
 		</where>
 	</select>
-	
-	
+
+
 	<!-- 转入运行池 -->
-	<update id="updateyxc" parameterType="com.carpi.api.pojo.FensMiner">
+	<update id="updateyxc"
+		parameterType="com.carpi.api.pojo.FensMiner">
 		update fens_miner
 		<set>
 			<if test="bak1 != null">
@@ -415,6 +552,57 @@
 				lock_earn = #{lockEarn,jdbcType=DOUBLE},
 			</if>
 		</set>
-		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 10 and id = #{id,jdbcType=INTEGER}
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 10
+		and id = #{id,jdbcType=INTEGER}
 	</update>
+
+	<!-- 粉丝算力和（亲友团算力和） -->
+	<select id="selectSuanLiHe" resultType="java.lang.Double">
+		select
+		sum(miner_computing_power) as miner_computing_power
+		from fens_miner
+		where fens_user_id in (select id from fens_user where referee_phone =
+		#{phone,jdbcType=VARCHAR} and is_delete = 0)
+		and is_use_suanli is null
+		and is_user_goumai is null
+	</select>
+
+	<!-- 粉丝算力列表 (或者收益列表) -->
+	<select id="suanLiList" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_miner
+		where fens_user_id in (select id from fens_user where
+		referee_phone =
+		#{phone,jdbcType=VARCHAR} and is_delete = 0)
+		and
+		is_use_suanli is null
+		and is_user_goumai is null
+	</select>
+
+	<!-- 亲友团收益（矿机价格的1%） -->
+	<select id="shouYiHe" resultType="java.lang.Double">
+		select
+		sum(beyong1) as earn
+		from
+		fens_miner
+		where fens_user_id in (select id from fens_user where
+		referee_phone =
+		#{phone,jdbcType=VARCHAR} and is_delete = 0)
+		and
+		is_use_suanli is null
+		and is_user_goumai is null
+	</select>
+
+	<!-- 粉丝矿机的总价值 -->
+	<select id="kjJz" resultType="java.lang.Double">
+		select
+		sum(miner_computing_power) as miner_computing_power
+		from fens_miner
+		where fens_user_id in (select id from fens_user where referee_phone =
+		#{phone,jdbcType=VARCHAR} and is_delete = 0)
+		and is_user_shouyi is null
+		and is_user_goumai is null
+	</select>
 </mapper>

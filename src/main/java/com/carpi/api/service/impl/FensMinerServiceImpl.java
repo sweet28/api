@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.ServerLog;
@@ -295,7 +296,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 		}
 		return JsonResult.build(500, "不存在矿池信息");
 	}
-	
+
 	@Override
 	public PageInfo<FensMiner> selectABMinnerKC(Integer page, Integer row, Integer fensUserId) {
 		PageHelper.startPage(page, row);
@@ -309,32 +310,32 @@ public class FensMinerServiceImpl implements FensMinerService {
 	public JsonResult zhuanyxc(Integer id, Integer fensUserId, String type) {
 		// 查询正在运行的矿机数量
 
-		if( type == null){
+		if (type == null) {
 			return JsonResult.build(500, "转入失败.");
 		}
-		
-		if(fensUserId == null){
+
+		if (fensUserId == null) {
 			return JsonResult.build(500, "转入失败!");
-		}else{
+		} else {
 			FensUser fus = fensUserMapper.selectByPrimaryKey(fensUserId);
-			if(fus==null){
+			if (fus == null) {
 				return JsonResult.build(500, "转入失败!!");
 			}
 		}
 		// 根据id查询出矿机信息
-//		FensMiner fensMiner = fensMinerMapper.selectByPrimaryKey(fensUserId);
+		// FensMiner fensMiner = fensMinerMapper.selectByPrimaryKey(fensUserId);
 
-//		FensMiner fm2 = new FensMiner();
-//		fm2.setFensUserId(fensUserId);
-//		fm2.setMinerType(2);
-		
+		// FensMiner fm2 = new FensMiner();
+		// fm2.setFensUserId(fensUserId);
+		// fm2.setMinerType(2);
+
 		// a型矿机
 		int sum = fensMinerMapper.selectASum(fensUserId);
-//		int bcount = fensMinerMapper.selectUserMiner(fm2);
-		
-//		if (sum > 12 || bcount > 10) {
-//			return JsonResult.build(500, "你的可运行矿机已满");
-//		}
+		// int bcount = fensMinerMapper.selectUserMiner(fm2);
+
+		// if (sum > 12 || bcount > 10) {
+		// return JsonResult.build(500, "你的可运行矿机已满");
+		// }
 
 		int sum1 = fensMinerMapper.selectSum(type, fensUserId);
 		if (type.equals("1")) {
@@ -382,53 +383,118 @@ public class FensMinerServiceImpl implements FensMinerService {
 	public JsonResult shuaxinyxc(Integer fensUserId) {
 		return JsonResult.build(500, "直推赠送活动的库存矿机已经全部送完，活动已经结束，");
 		// TODO Auto-generated method stub
-//		FensUser fu = fensUserMapper.selectByPrimaryKey(fensUserId);
-//		if(fu == null){
-//			return JsonResult.build(500, "无数据");
-//		}
-//		
-//		if(fu.getPhone().isEmpty()){
-//			return JsonResult.build(500, "无数据");
-//		}
-//		
-//		if(fu.getRefereePhone().isEmpty()){
-//			return JsonResult.build(500, "无数据");
-//		}
-//		//活动时间内 直推总人数
-//		Integer reNum = fensUserMapper.selectRefereeYXC(fu.getPhone());
-//		//直推送出矿机总数
-//		int sjNum = reNum/5;
-//		System.out.println(reNum+"<-re----sj->"+sjNum);
-//		//已送矿机数
-//		int ysNum = 0;
-//		if(!fu.getCountryRegion().isEmpty()){
-//			ysNum = Integer.parseInt(fu.getCountryRegion());
-//		}
-//		//还应送矿机数
-//		int yscNum = sjNum - ysNum;
-//		
-//		FensUser fu2 = new FensUser();
-//		fu2.setId(fu.getId());
-//		fu2.setCountryRegion(sjNum+"");
-//		int result2 = fensUserMapper.updateByPrimaryKeySelective(fu2);
-//		
-//		for(int i = 0; i < yscNum; i++){
-//			FensMiner fm = new FensMiner();
-//			fm.setBak1("1");
-//			fm.setMinerType(1);
-//			fm.setMinerId(1);
-//			fm.setFensUserId(fensUserId);
-//			fm.setMinerComputingPower(0.005);
-//			fm.setCreateDate(TimeUtil.getTimeStamp());
-//			fm.setIsDelete(10);
-//			
-//			int result = fensMinerMapper.insertSelective(fm);
-//			
-//			if(result != 1){
-//				return JsonResult.build(500, "无数据2");
-//			}
-//		}
+		// FensUser fu = fensUserMapper.selectByPrimaryKey(fensUserId);
+		// if(fu == null){
+		// return JsonResult.build(500, "无数据");
+		// }
+		//
+		// if(fu.getPhone().isEmpty()){
+		// return JsonResult.build(500, "无数据");
+		// }
+		//
+		// if(fu.getRefereePhone().isEmpty()){
+		// return JsonResult.build(500, "无数据");
+		// }
+		// //活动时间内 直推总人数
+		// Integer reNum = fensUserMapper.selectRefereeYXC(fu.getPhone());
+		// //直推送出矿机总数
+		// int sjNum = reNum/5;
+		// System.out.println(reNum+"<-re----sj->"+sjNum);
+		// //已送矿机数
+		// int ysNum = 0;
+		// if(!fu.getCountryRegion().isEmpty()){
+		// ysNum = Integer.parseInt(fu.getCountryRegion());
+		// }
+		// //还应送矿机数
+		// int yscNum = sjNum - ysNum;
+		//
+		// FensUser fu2 = new FensUser();
+		// fu2.setId(fu.getId());
+		// fu2.setCountryRegion(sjNum+"");
+		// int result2 = fensUserMapper.updateByPrimaryKeySelective(fu2);
+		//
+		// for(int i = 0; i < yscNum; i++){
+		// FensMiner fm = new FensMiner();
+		// fm.setBak1("1");
+		// fm.setMinerType(1);
+		// fm.setMinerId(1);
+		// fm.setFensUserId(fensUserId);
+		// fm.setMinerComputingPower(0.005);
+		// fm.setCreateDate(TimeUtil.getTimeStamp());
+		// fm.setIsDelete(10);
+		//
+		// int result = fensMinerMapper.insertSelective(fm);
+		//
+		// if(result != 1){
+		// return JsonResult.build(500, "无数据2");
+		// }
+		// }
+
+		// return JsonResult.ok();
+	}
+
+	// 粉丝算力和（亲友团算力和）
+	@Override
+	public JsonResult qinyoutuanHe(String phone) {
+		Double sum = fensMinerMapper.selectSuanLiHe(phone);
+		return JsonResult.ok(sum);
+	}
+
+	// 粉丝算力列表（或者收益列表）
+	@Override
+	public JsonResult suanLiList(String phone) {
+		List<FensMiner> list = fensMinerMapper.suanLiList(phone);
+		if (list.size() > 0) {
+			return JsonResult.ok(list);
+		}
+		return JsonResult.build(500, "无数据");
+	}
+
+	// 亲友团收益（矿机价格的1%）
+	@Override
+	public JsonResult shouYiHe(String phone) {
+		Double sum = fensMinerMapper.shouYiHe(phone);
+		return JsonResult.ok(sum);
+	}
+
+	// 算力叠加到矿机
+	@Override
+	public JsonResult kuanJiSuanLiHe(Double diejia, Integer fensUserId, Integer id) {
+		FensMiner fensMiner2 = fensMinerMapper.selectByPrimaryKey(id);
+		if (fensMiner2.getFensUserId() != fensUserId) {
+			return JsonResult.build(500, "不是本人操作，请重新登入");
+		}
+
+		FensMiner fensMiner = new FensMiner();
+		fensMiner.setDiejia(String.valueOf(diejia));
+		fensMiner.setFensUserId(fensUserId);
+		fensMiner.setIsUseSuanli("1");
+		int result = fensMinerMapper.updateByPrimaryKeySelective(fensMiner);
+		if (result != 1) {
+			return JsonResult.build(500, "添加算力失败");
+		}
+		return JsonResult.ok();
+	}
+
+	// 收益提取接口
+	@Override
+	public JsonResult syTiQu(Integer id, String phone, Integer fensUserId) {
+		FensMiner fensMiner2 = fensMinerMapper.selectByPrimaryKey(id);
+		if (fensMiner2.getFensUserId() != fensUserId) {
+			return JsonResult.build(500, "不是本人操作，请重新登入");
+		}
+		// 查询矿机的总价值
+		Double sum = fensMinerMapper.kjJz(phone);
+		Double sum2 = sum * 0.01;
+		FensWallet wallet = fensWalletMapper.selectByFens(fensUserId);
 		
-//		return JsonResult.ok();
+		FensWallet fensWallet = new FensWallet();
+		fensWallet.setAbleCpa(sum2+wallet.getAbleCpa());
+		fensWallet.setId(wallet.getId());
+		int result = fensWalletMapper.updateByPrimaryKeySelective(fensWallet);
+		if (result != 1) {
+			return JsonResult.build(500, "转入失败");
+		}
+		return JsonResult.ok();
 	}
 }

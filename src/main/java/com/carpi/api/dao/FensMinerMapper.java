@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.carpi.api.pojo.Bminer;
 import com.carpi.api.pojo.FensMiner;
 
 public interface FensMinerMapper {
@@ -45,13 +44,26 @@ public interface FensMinerMapper {
 
 	// 查询购买矿机类型的数量
 	int selectSum(@Param("bak1") String bak1, @Param("fensUserId") Integer fensUserId);
-	
-	//查询矿机的算力（根据粉丝id）
+
+	// 查询矿机的算力（根据粉丝id）
 	Double sum(@Param("fensUserId") Integer fensUserId);
 
-	//转入运行池
+	// 转入运行池
 	int updateyxc(FensMiner record);
-	
+
 	// 根据粉丝id查询AB矿机库存
 	List<FensMiner> selectABMinnerKC(Integer fensUserId);
+
+	// 粉丝算力和（亲友团算力和）
+	Double selectSuanLiHe(@Param("phone") String phone);
+
+	// 粉丝算力列表（或者收益列表）
+	List<FensMiner> suanLiList(@Param("phone") String phone);
+
+	// 亲友团收益（矿机价格的1%）
+	Double shouYiHe(@Param("phone") String phone);
+
+	// 粉丝矿机的总价值
+	Double kjJz(@Param("phone") String phone);
+
 }
