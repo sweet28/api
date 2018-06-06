@@ -92,4 +92,59 @@ public class PageController {
 		return "trader/traderXiangQing";
 	}
 	
+	@RequestMapping("/myEarnings")
+	public String myEarnings() {
+		return "personal/myEarnings";
+	}
+	
+	@RequestMapping("/myEarnings2")
+	public String myEarnings2() {
+		return "personal/myEarnings2";
+	}
+	
+	@RequestMapping("/myEarnings3")
+	public String myEarnings3() {
+		return "personal/myEarnings3";
+	}
+	
+	@RequestMapping("/myEarnings4")
+	public String myEarnings4() {
+		return "personal/myEarnings4";
+	}
+	
+	@RequestMapping("/myFens")
+	public String myFens() {
+		return "personal/myFens";
+	}
+	
+	@RequestMapping("/myInvite")
+	public String myInvite() {
+		return "personal/myInvite";
+	}
+	
+	@RequestMapping("/myInfo")
+	public String myInfo() {
+		return "personal/myInfo";
+	}
+	
+	@RequestMapping("/myPay")
+	public String myPay() {
+		return "personal/myPay";
+	}
+	
+	@RequestMapping("/mySafeCenter")
+	public String mySafeCenter() {
+		return "personal/mySafeCenter";
+	}
+	
+	@RequestMapping("/sysNotice")
+	public String sysNotice() {
+		return "personal/sysNotice";
+	}
+	
+	@RequestMapping("/myWorkOrder")
+	public String myWorkOrder() {
+		return "personal/myWorkOrder";
+	}
+	
 }

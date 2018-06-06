@@ -29,7 +29,7 @@
 		</a>
 	</header>
 	<div class="row default">
-		<p><a href="javascript:Logout();">安全退出</a><span class="fr">CPA总额:<span id="returnIn_num"></span><span id="returnIn_dec" class="num_deci"></span></span></p>
+		<p><a href="javascript:Logout();">安全退出</a><img alt="" src="<%=path%>/imagenew/grade0.png"><span class="fr">CPA总额:<span id="returnIn_num"></span><span id="returnIn_dec" class="num_deci"></span></span></p>
 		<p>可用CPA:<span id="balance_num"></span><span id="balance_dec" class="num_deci"></span></p>
 		<p>冻结CPA:<span id="waitNum_num"></span><span id="waitNum_dec" class="num_deci"></span></p>
 	</div>	
@@ -38,15 +38,15 @@
 		<ul>
 			<li><a href="<%=path%>/cpa/myMiner" class="m1"><span>我的矿机</span></a></li>
 			<li><a href="<%=path%>/cpa/traderMyGD" class="m2"><span>我的订单</span></a></li>
- 			<li><a href="" class="m4"><span>我的收益</span></a></li>
-			<li><a href="" class="m5"><span>我的粉丝</span></a></li>
-			<li><a href="" class="m6"><span>邀请链接</span></a></li>
-			<li><a href="" class="m8"><span>个人资料</span></a></li>
-			<li><a href="" class="m3"><span>支付管理</span></a></li>
-			<li><a href="" class="m9"><span>安全中心</span></a></li>
-			<li><a href="" class="m11"><span>系统公告</span></a></li>
-			<li><a href="" class="m10"><span>联系我们</span></a></li>
-			<li><a href="" class="m12"><span>我的工单</span></a></li>
+ 			<li><a href="<%=path%>/cpa/myEarnings" class="m4"><span>我的收益</span></a></li>
+			<li><a href="<%=path%>/cpa/myFens" class="m5"><span>我的粉丝</span></a></li>
+			<li><a href="<%=path%>/cpa/myInvite" class="m6"><span>邀请链接</span></a></li>
+			<%-- <li><a href="<%=path%>/cpa/myInfo" class="m8"><span>个人资料</span></a></li> --%>
+			<li><a href="<%=path%>/cpa/myPay" class="m3"><span>支付管理</span></a></li>
+			<li><a href="<%=path%>/cpa/mySafeCenter" class="m9"><span>安全中心</span></a></li>
+			<li><a href="<%=path%>/cpa/sysNotice" class="m11"><span>系统公告</span></a></li>
+			<li><a href="<%=path%>/cpa/myWorkOrder" class="m10"><span>我的工单</span></a></li>
+			<!-- <li><a href="" class="m12"><span>联系我们</span></a></li> -->
 			<!-- <li><a href="" class="m7"><span>APP下载</span></a></li> -->
 		</ul>
 	</div>

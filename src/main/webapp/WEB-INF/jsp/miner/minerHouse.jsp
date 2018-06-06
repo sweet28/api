@@ -102,7 +102,7 @@
 		<ul>
 			<li>
 				<div class="img">
-					<a href=""><img src="<%=path%>/images/p1.jpg"></a>
+					<a href=""><img src="<%=path%>/imagenew/miner21.png"></a>
 				</div>
 				<div class="text">
 					<p><a href="">CB1型</a> <span>价格：5CPA</span></p>
@@ -115,7 +115,7 @@
 			</li>
 			<li>
 				<div class="img">
-					<a href=""><img src="<%=path%>/images/p2.jpg"></a>
+					<a href=""><img src="<%=path%>/imagenew/miner22.png"></a>
 				</div>
 				<div class="text">
 					<p><a href="">CB2型</a> <span>价格：50CPA</span></p>
@@ -128,7 +128,7 @@
 			</li>
 			<li>
 				<div class="img">
-					<a href=""><img src="<%=path%>/images/p3.jpg"></a>
+					<a href=""><img src="<%=path%>/imagenew/miner23.png"></a>
 				</div>
 				<div class="text">
 					<p><a href="">CB3型</a> <span>价格：500CPA</span></p>
