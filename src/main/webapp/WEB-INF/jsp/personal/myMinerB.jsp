@@ -52,10 +52,10 @@
 	<div class="space"></div>
 	<div class="menu">
 		<ul>
-			<li class="col-xs-3"><a href="<%=path%>/cpa/myMiner"><img src="<%=path%>/images/menu2.png" alt=""><p>A矿机</p></a></li>
-			<li class="col-xs-3"><a href="<%=path%>/cpa/myMinerKC"><img src="<%=path%>/images/menu2.png" alt=""><p>A矿池</p></a></li>
-			<li class="col-xs-3"><a href="<%=path%>/cpa/myMinerB"><img src="<%=path%>/images/menu2.png" alt=""><p>B矿机</p></a></li>
-			<li class="col-xs-3"><a href="<%=path%>/cpa/myMinerBKC"><img src="<%=path%>/images/menu2.png" alt=""><p>B矿池</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/myMiner"><img style="width:40%;height:auto;" src="<%=path%>/imagenew/kjwx.png" alt=""><p>A型矿机</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/myMinerKC"><img style="width:40%;height:auto;" src="<%=path%>/imagenew/kuangchiwx.png" alt=""><p>A型矿池</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/myMinerB"><img style="width:40%;height:auto;" src="<%=path%>/imagenew/kjyx.png" alt=""><p>B型矿机</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/myMinerBKC"><img style="width:40%;height:auto;" src="<%=path%>/imagenew/kuangchiwx.png" alt=""><p>B型矿池</p></a></li>
 		</ul>
 	</div>
 </body>

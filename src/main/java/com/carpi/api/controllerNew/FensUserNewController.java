@@ -305,7 +305,13 @@ public class FensUserNewController {
 	@RequestMapping(value = "/dsh", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult selectDSH(HttpServletRequest request, HttpServletResponse response) {
-		return fensUserService.selectDSH();
+		String id = request.getParameter("uid");
+		
+		if(id != null){
+			return fensUserService.selectDSH(Integer.parseInt(id));
+		}else{
+			return JsonResult.build(500, "请重新登录");
+		}
 	}
 
 }

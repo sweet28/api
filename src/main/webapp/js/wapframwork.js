@@ -11,6 +11,38 @@
   }
 })();
 
+function fmtDate(obj){
+    var date =  new Date(obj);
+    var y = 1900+date.getYear();
+    var m = "0"+(date.getMonth()+1);
+    var d = "0"+date.getDate();
+    return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
+}
+
+Date.prototype.Format = function(fmt){  
+    var o = {  
+         "M+": this.getMonth()+1,  
+         "d+": this.getDate(),  
+         "H+": this.getHours(),  
+         "m+": this.getMinutes(),  
+         "s+": this.getSeconds(),  
+         "S+": this.getMilliseconds()  
+    };  
+  
+    //因位date.getFullYear()出来的结果是number类型的,所以为了让结果变成字符串型，下面有两种方法：  
+    if(/(y+)/.test(fmt)){  
+        //第一种：利用字符串连接符“+”给date.getFullYear()+""，加一个空字符串便可以将number类型转换成字符串。  
+        fmt=fmt.replace(RegExp.$1,(this.getFullYear()+"").substr(4-RegExp.$1.length));  
+    }  
+    for(var k in o){  
+        if (new RegExp("(" + k +")").test(fmt)){  
+            //第二种：使用String()类型进行强制数据类型转换String(date.getFullYear())，这种更容易理解。  
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(String(o[k]).length)));  
+        }  
+    }     
+    return fmt;  
+}
+
 function commingSoon(){
 	layer.open({
         content:"近期上线，敬请期待！",
@@ -33,8 +65,6 @@ function Common() {
 //      s.parentNode.insertBefore(hm, s);
     })();
 
-
-
 //	//如果是移动设备
 //	if(device.mobile())
 //  {
@@ -45,11 +75,7 @@ function Common() {
 //  	alert("不是移动设备"+navigator.userAgent);
 //  }
 //
-
   },
-
-
-
 
     (function() {
       _init();
@@ -58,23 +84,8 @@ function Common() {
 }
 
 var common;
-
-
 var device = localStorage.getItem("device");
 
-
-$(function() {
-  common = new Common();
-//	$("body").append("<script type='text/javascript'>var _py = _py || [];_py.push(['a', 'g8s..f0By7TSPtof_-QOIdzOkGX']);_py.push(['domain','stats.ipinyou.com']);_py.push(['e','']);-function(d) {var s = d.createElement('script'),e = d.body.getElementsByTagName('script')[0]; e.parentNode.insertBefore(s, e),f = 'https:' == location.protocol;s.src = (f ? 'https' : 'http') + '://'+(f?'fm.ipinyou.com':'fm.p0y.cn')+'/j/adv.js';}(document);</script><noscript><img src='//stats.ipinyou.com/adv.gif?a=g8s..f0By7TSPtof_-QOIdzOkGX&e=' style='display:none';/></noscript>");
-//	$(".weui_media_title").click(function(){
-//		$(this).toggleClass("active").siblings(".weui_media_desc").slideToggle();
-//	});
-//
-//	var jojocode = request.QueryString("jojocode");
-//  if (jojocode && jojocode != "null") {
-//      sessionStorage.setItem("jojocode", jojocode);
-//  }
-})
 var request ={
   QueryString : function(val){
     var uri = window.location.search;
@@ -85,24 +96,6 @@ var request ={
 
 //判断是否登录，如果未登录跳转登录页，已登录则可以通过getUIDByJWT().unique_name获取UID
 function getUIDByJWT() {
-  // var value = localStorage.getItem("token");
-  // if(value == null) {
-  // 	layer.open({
-  // 		content: "请登录",
-  // 		skin: 'msg',
-  // 		time: 2,
-  // 		end: function() {
-  // 			window.location.href = 'login.html';
-  // 		}
-  // 	});
-  // 	/*setTimeout(function() {
-  // 		location.href = 'login.html?returnurl=' + window.location.href;
-  // 	}, 1000);*/
-  // 	return false;
-  // } else {
-  // 	var aftervalue = value.split(".");
-  // 	return $.parseJSON($.base64.atob(aftervalue[1], true));
-  // }
 
   var value = "";
   var str = window.navigator.userAgent;
@@ -133,15 +126,23 @@ function getUIDByJWT() {
     if (value == null
       || value == ""
       || value == undefined) {
-      layer.open({
-        content: "请登录",
-        skin: 'msg',
-        time: 2,
-        end: function () {
-          //RainbowBridge.callMethod('JsInvokeJavaScope','jump',{'url':'jojo://user/login'},function(){});
-          //window.location.href = 'login.html';
-        }
-      });
+    	swal({
+		  	  title: '请登录',
+		  	  type: 'info',
+		  	  showCancelButton: true,
+		  	  confirmButtonText: "确定", 
+		  	  cancelButtonText: "取消",
+		  	  closeOnConfirm: true, 
+		  	  closeOnCancel: true
+		  	}).then(function(isConfirm) {
+		  	  if (isConfirm === true) {
+		  		  window.location.href = "../";
+		  	  } else if (isConfirm === false) {
+		  		  window.location.href = "../";
+		  	  } else {
+		  		  window.location.href = "../";
+		  	  }
+		});
       return false;
     }
     else {
@@ -155,17 +156,26 @@ function getUIDByJWT() {
 	//value = "123";
 	
     if (value == null) {
-      layer.open({
-        content: "请登录",
-        skin: 'msg',
-        time: 2,
-        end: function () {
-          window.location.href = '../page/login.html';
-        }
-      });
+    	swal({
+		  	  title: '请登录',
+		  	  type: 'info',
+		  	  showCancelButton: true,
+		  	  confirmButtonText: "确定", 
+		  	  cancelButtonText: "取消",
+		  	  closeOnConfirm: true, 
+		  	  closeOnCancel: true
+		  	}).then(function(isConfirm) {
+		  	  if (isConfirm === true) {
+		  		  window.location.href = "../";
+		  	  } else if (isConfirm === false) {
+		  		  window.location.href = "../";
+		  	  } else {
+		  		  window.location.href = "../";
+		  	  }
+			});
       setTimeout(function () {
 //              location.href = 'login.html?returnurl=' + window.location.href;
-        location.href = '../page/login.html';
+    	  window.location.href = "../";
       }, 1000);
       return false;
     }
@@ -193,14 +203,24 @@ function checkLogin(){
 	var uid = getTOKEN();
 	if (uid == undefined || uid == "" || uid == null) {
 		  localStorage.clear();
-		  layer.open({
-		    content: "已退出",
-		    skin: 'msg',
-		    time: 2, //2秒后自动关闭
-		    end: function () {
-		      location.href = '../page/login.html';
-		    }
-		  });
+		  
+		  swal({
+		  	  title: '已退出',
+		  	  type: 'info',
+		  	  showCancelButton: true,
+		  	  confirmButtonText: "确定", 
+		  	  cancelButtonText: "取消",
+		  	  closeOnConfirm: true, 
+		  	  closeOnCancel: true
+		  	}).then(function(isConfirm) {
+		  	  if (isConfirm === true) {
+		  		  window.location.href = "../";
+		  	  } else if (isConfirm === false) {
+		  		  window.location.href = "../";
+		  	  } else {
+		  		  window.location.href = "../";
+		  	  }
+			});
 	    return false;
 	  }
 }
@@ -242,14 +262,31 @@ function Logout() {
    sessionStorage.clear();
    }*/
   localStorage.clear();
-  layer.open({
-    content: "已退出",
-    skin: 'msg',
-    time: 2, //2秒后自动关闭
-    end: function () {
-      location.href = '../page/login.html';
-    }
-  });
+  swal({
+  	  title: '已退出',
+  	  type: 'info',
+  	  showCancelButton: true,
+  	  confirmButtonText: "确定", 
+  	  cancelButtonText: "取消",
+  	  closeOnConfirm: true, 
+  	  closeOnCancel: true
+  	}).then(function(isConfirm) {
+  	  if (isConfirm === true) {
+  		  window.location.href = "../";
+  	  } else if (isConfirm === false) {
+  		  window.location.href = "../";
+  	  } else {
+  		  window.location.href = "../";
+  	  }
+	});
+//  layer.open({
+//    content: "已退出",
+//    skin: 'msg',
+//    time: 2, //2秒后自动关闭
+//    end: function () {
+//      location.href = '../page/login.html';
+//    }
+//  });
 }
 
 function getTOKEN() {
@@ -331,7 +368,6 @@ function getYUE(){
 	    },
 	    success: function (data) {
 	    	var dd = data.data;
-	    	console.log(dd.ableCpa);
 	    	if(data.status==200){
 	    		//可用余额
 	    	      return dd.ableCpa;

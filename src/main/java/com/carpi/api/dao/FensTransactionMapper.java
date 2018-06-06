@@ -41,7 +41,7 @@ public interface FensTransactionMapper {
 	List<FensTransaction> selectjl(@Param("phone") String phone,@Param("traderType") Integer traderType);
 	
 	//待审核
-	List<FensTransaction> selectDSH();
+	List<FensTransaction> selectDSH(Integer fensUserId);
 	
 	
 }

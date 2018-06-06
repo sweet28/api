@@ -34,7 +34,7 @@ public class PriceServiceImpl implements PriceService {
 		if (list != null && list.size() > 0) {
 			return JsonResult.ok(list);
 		} else {
-			return null;
+			return JsonResult.build(500, "交易太火爆，服务器累了。");
 		}
 	}
 
@@ -45,7 +45,7 @@ public class PriceServiceImpl implements PriceService {
 		if (list != null && list.size() > 0) {
 			return JsonResult.ok(list);
 		} else {
-			return null;
+			return JsonResult.build(500, "交易太火爆，服务器累了。");
 		}
 	}
 

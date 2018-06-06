@@ -3,20 +3,20 @@
 	  var tmp = getTimestamp();
       var rad = getRandom();
       var ton = getTom();
-      var str = "trddi="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton;
+      var str = "uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton;
       $.ajax({
     	  type: "post",
-	      url: getAPIURL() + "kuangjy/jy/gdlb",
+	      url: getAPIURL() + "user/fens/dsh",
 	      dataType: "json",
 	      data:{
-          	  "trddi":localStorage.getItem("uid"),
+          	  "uid":localStorage.getItem("uid"),
               "tmp":tmp,
               "rad":rad,
               "tom":ton,
               "token":commingSoon1(str)
 	      },
         success: function (data) {
-        	 var list = data;
+        	 var list = data.data;
         	 console.log(data);
           if (list.length <= 0) {
             var txtsNULL ="<p class='nothing'>无更多记录</p>";
@@ -47,7 +47,7 @@
               	}
               	
               	var ahref;
-          		ahref = "<a style='font-weight:bold;color: #fff;' href='javascript:cxCPA("+list[i].id+");'>撤销</a>";
+          		ahref = "<a style='font-weight:bold;color: #fff;' href='#'>系统扫描中</a>";
           		
               	var totalPriceUSA = list[i].traderCount * list[i].entrustPrice;
 

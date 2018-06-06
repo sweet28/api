@@ -816,9 +816,9 @@ public class FensUserServiceImpl implements FensUserService {
 	
 	//待审核
 	@Override
-	public JsonResult selectDSH() {
-		List<FensTransaction> list = fensTransactionMapper.selectDSH();
-		if (list.size() > 0 || list.isEmpty()) {
+	public JsonResult selectDSH(Integer uid) {
+		List<FensTransaction> list = fensTransactionMapper.selectDSH(uid);
+		if (list.size() > 0) {
 			return JsonResult.ok(list);
 		}
 		return JsonResult.build(500, "无审核订单");

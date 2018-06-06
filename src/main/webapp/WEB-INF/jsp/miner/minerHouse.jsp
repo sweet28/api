@@ -40,7 +40,7 @@
 		<ul>
 			<li>
 				<div class="img">
-					<a href=""><img src="<%=path%>/images/p1.jpg"></a>
+					<a href=""><img src="<%=path%>/imagenew/miner1.png" style='max-width: 90%;'></a>
 				</div>
 				<div class="text">
 					<p><a href="">CA1型</a> <span>价格：10CPA</span></p>
@@ -53,7 +53,7 @@
 			</li>
 			<li>
 				<div class="img">
-					<a href=""><img src="<%=path%>/images/p2.jpg"></a>
+					<a href=""><img src="<%=path%>/imagenew/miner2.png" style='max-width: 90%;'></a>
 				</div>
 				<div class="text">
 					<p><a href="">CA2型</a> <span>价格：100CPA</span></p>
@@ -66,7 +66,7 @@
 			</li>
 			<li>
 				<div class="img">
-					<a href=""><img src="<%=path%>/images/p3.jpg"></a>
+					<a href=""><img src="<%=path%>/imagenew/miner3.png" style='max-width: 90%;'></a>
 				</div>
 				<div class="text">
 					<p><a href="">CA3型</a> <span>价格：1000CPA</span></p>
@@ -74,7 +74,22 @@
 					<p>运行周期：360小时</p>
 				</div>
 				<div class="more">
-					<a href="javascript:agoumai(1,3);">购买</a>
+					<!-- <a href="javascript:agoumai(1,3);">购买</a> -->
+					<a href="#">备货中</a>
+				</div>
+			</li>
+			<li>
+				<div class="img">
+					<a href=""><img src="<%=path%>/imagenew/miner4.png" style='max-width: 90%;'></a>
+				</div>
+				<div class="text">
+					<p><a href="">CA4型</a> <span>价格：5000CPA</span></p>
+					<p>产量/小时：16.6666667</p>
+					<p>运行周期：360小时</p>
+				</div>
+				<div class="more">
+					<!-- <a href="javascript:agoumai(1,4);">购买</a> -->
+					<a href="#">备货中</a>
 				</div>
 			</li>
 		</ul>
@@ -121,7 +136,8 @@
 					<p>运行周期：360小时</p>
 				</div>
 				<div class="more">
-					<a href="javascript:agoumai(2,3);">购买</a>
+					<a href="#">备货中</a>
+					<!-- <a href="javascript:agoumai(2,3);">购买</a> -->
 				</div>
 			</li>
 		</ul>
@@ -130,10 +146,10 @@
 	<div class="space"></div>
 	<div class="menu">
 		<ul>
-			<li class="col-xs-3"><a href="<%=path%>/cpa/minerHouse"><img src="<%=path%>/images/menu1.png" alt=""><p>矿机商城</p></a></li>
-			<li class="col-xs-3"><a href="<%=path%>/cpa/myMiner"><img src="<%=path%>/images/menu2.png" alt=""><p>我的矿机</p></a></li>
-			<li class="col-xs-3"><a href="<%=path%>/cpa/traderCenter"><img src="<%=path%>/images/menu3.png" alt=""><p>交易中心</p></a></li>
-			<li class="col-xs-3"><a href="<%=path%>/cpa/personal"><img src="<%=path%>/images/menu4.png" alt=""><p>个人中心</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/minerHouse"><img style="width:40%;height:auto;" src="<%=path%>/imagenew/shangcheng.png" alt=""><p>矿机商城</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/myMiner"><img style="width:40%;height:auto;" src="<%=path%>/imagenew/kuangjiweixuanzhong.png" alt=""><p>我的矿机</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/traderCenter"><img style="width:40%;height:auto;" src="<%=path%>/imagenew/jyweixuanzhong.png" alt=""><p>交易中心</p></a></li>
+			<li class="col-xs-3"><a href="<%=path%>/cpa/personal"><img style="width:40%;height:auto;" src="<%=path%>/imagenew/gerenzhongxinwei.png" alt=""><p>个人中心</p></a></li>
 		</ul>
 	</div>
 </body>

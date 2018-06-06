@@ -63,7 +63,7 @@ function Gift() {
         		html += "<ul>" +
 							"<li>" +
 								"<div class='img'>" +
-									"<img src='"+getAPIURL()+"/images/p1.jpg'>" +
+									"<img src='"+getAPIURL()+"/imagenew/miner1.gif' style='max-width: 88%;'>" +
 								"</div>" +
 								"<div class='text'>" +
 									"<a href=''>"+ xh +"</a>" +

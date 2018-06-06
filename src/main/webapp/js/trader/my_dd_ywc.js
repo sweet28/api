@@ -44,15 +44,17 @@
               	}
               	
               	var ahref;
-          		ahref = "<a href='../page/my_invest2.html?"+list[i].id+"'>详情</a>";
+          		ahref = "<a style='font-weight:bold;color: #fff;' href='../page/my_invest2.html?"+list[i].id+"'></a>";
               	
-  			    txt1 += "<tr>" +
-	  			    		"<td>"+mm+(list[i].id)+"</td>" +
-	  			    		"<td>"+list[i].entrustPrice+"</td>" +
-	  			    		"<td>"+list[i].traderCount+"</td>" +
-	  			    		"<td>" + cpatype +"</td>" +
-	  			    		"<td>" + ahref +"</td>" +
-  			    		"</tr>";
+          		var totalPriceUSA = list[i].traderCount * list[i].entrustPrice;
+
+  			    txt1 += "<li>" +
+  			    			"<p>类型：" + mm + "单</p>" +
+	  			    		"<span>订单号："+ (list[i].orderNumber) +"</span>" +
+	  			    		"<p>数目价格：" + list[i].traderCount + "CPA*" + list[i].entrustPrice + "$=" + totalPriceUSA + "$</p>" +
+	  			    		"<span>总计人民币：" + totalPriceUSA * 6.5 + "元</span>" +
+	  			    		"<span style='float:right;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;'>" + ahref +"</span>" +
+  			    		"</li>&nbsp;&nbsp;";
               }
               $('#a_miner').html(txt1);
           }

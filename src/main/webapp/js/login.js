@@ -124,5 +124,9 @@
     }
 
   });
+  
+  $("#reg_btn").click(function(){
+	  window.location.href = "reg.jsp";
+  });
 
 })();

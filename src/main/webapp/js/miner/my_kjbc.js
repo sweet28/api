@@ -72,7 +72,7 @@ function Gift() {
         		var sec = localStorage.getItem("sec");
         		var conte = "实名审核后可解冻";
         		if(sec == "1"){
-        			conte = "<a href='javascript:jiedong("+content.id+","+content.bak1+");'>转入钱包</a>";
+        			conte = "<a class='zrbutton' href='javascript:jiedong("+content.id+","+content.bak1+");'>转入钱包</a>";
             	}else if(sec == "2"){
             		conte = "认证审核未通过";
             	}
@@ -85,7 +85,7 @@ function Gift() {
         		html += "<ul>" + (index+1) +
 							"<li>" +
 								"<div class='img'>" +
-									"<img src='"+getAPIURL()+"/images/p1.jpg'>" +
+									"<img  src='"+getAPIURL()+"/imagenew/miner8.gif' style='max-width: 90%;'>" +
 								"</div>" +
 								"<div class='text'>" +
 									"<a href=''>"+ xh +"</a>" +
@@ -121,7 +121,7 @@ $(function () {
 
 
 function jiedong(kjid,kjjb){
-	
+	$(".zrbutton").hide();
 	var sec = localStorage.getItem("sec");
 	if(sec!='1'){
 		swal({
@@ -129,6 +129,7 @@ function jiedong(kjid,kjjb){
     		  icon: "error",
     		  button: "确定",
     	});
+		$(".zrbutton").show();
 		return false;
 	}
 	$.ajax({
@@ -148,6 +149,7 @@ function jiedong(kjid,kjjb){
 		      		  icon: "error",
 		      		  button: "确定",
 		      	});
+	        	$(".zrbutton").show();
 	  			return false;
 	        }else{
 	        	var flag = checkLogin();
@@ -186,6 +188,7 @@ function jiedong(kjid,kjjb){
 		        	          	    // isConfirm is undefined
 		        	          	  }
 	        	          	});
+	        	        	$(".zrbutton").show();
 	        	        } else{
 	        	        	swal({
 		        	          	  title: data.msg,
@@ -204,6 +207,7 @@ function jiedong(kjid,kjjb){
 		        	          		  window.location.href = "myMinerBKC";
 		        	          	  }
 	        	          	});
+	        	        	$(".zrbutton").show();
 	        	        }
 	        	      },
 	        	      headers: {
@@ -218,6 +222,7 @@ function jiedong(kjid,kjjb){
 	      		  icon: "error",
 	      		  button: "确定",
 	      	});
+	    	$(".zrbutton").show();
   			return false;
 	    }
     });

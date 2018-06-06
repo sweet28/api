@@ -43,8 +43,8 @@
 			<a href=""><img src="images/vis.png" alt=""></a>
 		</div> -->
 		<div class="row input-sub-index">
-			<input type="submit" value="注册" class="login">
-			<input type="button" value="登入" class="forget" id = "login_btn">
+			<input type="submit" value="注册" class="forget" id = "reg_btn">
+			<input type="button" value="登录" class="login"  id = "login_btn">
 		</div>
 	</div>
 </body>

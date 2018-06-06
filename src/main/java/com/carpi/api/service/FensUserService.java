@@ -67,5 +67,5 @@ public interface FensUserService {
 	FensUser info(FensUser fensUser);
 	
 	//待审核
-	public JsonResult selectDSH();
+	public JsonResult selectDSH(Integer uid);
  }
