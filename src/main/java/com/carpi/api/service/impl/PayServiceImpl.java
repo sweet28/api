@@ -2,6 +2,7 @@ package com.carpi.api.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.dao.BankCardMapper;
@@ -22,6 +23,10 @@ public class PayServiceImpl implements PayService {
 	// 添加支付宝微信支付
 	@Override
 	public JsonResult aliPay(BankCard bankCard) {
+		BankCard bankCard2 = bankCardMapper.selectPay(bankCard);
+		if (!StringUtils.isEmpty(bankCard2)) {
+			return JsonResult.build(500, "每人仅限绑定一个账号");
+		}
 		int result = bankCardMapper.insertSelective(bankCard);
 		if (result == 1) {
 			return JsonResult.ok();
@@ -31,14 +36,14 @@ public class PayServiceImpl implements PayService {
 
 	// 根据粉丝id查询资金密码
 	@Override
-	public JsonResult checkMiMa(String fensUserId,String mima) {
-		if(fensUserId == null) {
+	public JsonResult checkMiMa(String fensUserId, String mima) {
+		if (fensUserId == null) {
 			return JsonResult.build(500, "系统错误2");
 		}
 		if (mima == null) {
 			return JsonResult.build(500, "系统错误");
 		}
-		FensUser fensUser = fensUserMapper.selectzjPwd(fensUserId,mima);
+		FensUser fensUser = fensUserMapper.selectzjPwd(fensUserId, mima);
 		if (fensUser != null) {
 			return JsonResult.ok();
 		}
@@ -57,12 +62,12 @@ public class PayServiceImpl implements PayService {
 		BankCard bankCard2 = bankCardMapper.selectPay(bankCard);
 		if (bankCard2 != null) {
 			return JsonResult.ok(bankCard2);
-		}else {
+		} else {
 			if ("1".equals(bankCard.getBak1())) {
-	            return JsonResult.build(500, "无支付宝账户");
-			}else if ("2".equals(bankCard.getBak1())) {
+				return JsonResult.build(500, "无支付宝账户");
+			} else if ("2".equals(bankCard.getBak1())) {
 				return JsonResult.build(500, "无微信账户");
-			}else {
+			} else {
 				return JsonResult.build(500, "系统错误");
 			}
 		}
