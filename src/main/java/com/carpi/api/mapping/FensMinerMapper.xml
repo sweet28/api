@@ -404,7 +404,6 @@
 			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type =
 			1 and is_delete = 0
 		</where>
-
 	</select>
 
 	<!--根据粉丝id查询A矿机矿池 -->

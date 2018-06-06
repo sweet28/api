@@ -209,6 +209,10 @@ public class FensUserServiceImpl implements FensUserService {
 					fensMiner.setMinerId(1);
 					// 矿机算力
 					fensMiner.setMinerComputingPower(0.005);
+					//矿机价格
+					fensMiner.setBeyong1("10");
+					//是否赠送      1 赠送
+					fensMiner.setIsUserGoumai("1");
 					// 添加粉丝矿机表成功（分配A型号1星矿机）
 					int statuss = fensMinerMapper.insertSelective(fensMiner);
 					if (statuss != 1) {

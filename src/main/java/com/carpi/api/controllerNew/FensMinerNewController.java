@@ -23,6 +23,17 @@ public class FensMinerNewController {
 	private FensMinerService fensMinerService;
 
 	// 根据粉丝id查询矿机
+	@RequestMapping(value = "/minerList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody   
+	public JsonResult minerList2(HttpServletRequest request, HttpServletResponse response) {
+		String fensUserId = request.getParameter("uid");
+		if (StringUtils.isEmpty(fensUserId)) {
+			return JsonResult.build(500, "请重新输入");
+		}
+		return fensMinerService.selectMinner(Integer.valueOf(fensUserId));
+	}
+
+	// 根据粉丝id查询矿机
 	@RequestMapping(value = "/kjlb", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public PageInfo<FensMiner> minerList(HttpServletRequest request, HttpServletResponse response) {

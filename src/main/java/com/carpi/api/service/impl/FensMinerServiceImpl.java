@@ -42,11 +42,12 @@ public class FensMinerServiceImpl implements FensMinerService {
 
 	// 根据粉丝id查询矿机
 	@Override
-	public PageInfo<FensMiner> selectMinner(Integer page, Integer row, Integer fensUserId) {
-		PageHelper.startPage(page, row);
+	public JsonResult selectMinner(Integer fensUserId) {
 		List<FensMiner> list = fensMinerMapper.selectMiner(fensUserId);
-		PageInfo<FensMiner> pageInfo = new PageInfo<FensMiner>(list);
-		return pageInfo;
+		if (list.size() > 0) {
+			return JsonResult.ok(list);
+		}
+		return JsonResult.build(500, "无数据");
 	}
 
 	// 根据粉丝id查询A矿机
