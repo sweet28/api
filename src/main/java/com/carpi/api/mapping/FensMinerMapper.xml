@@ -499,6 +499,21 @@
 		</where>
 	</select>
 
+	<!-- 查询矿机的算力列表（根据粉丝id） -->
+	<select id="geRenList" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from
+		fens_miner
+		<where>
+			is_delete = 0
+			<if test="fensUserId != null">
+				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+
 
 	<!-- 转入运行池 -->
 	<update id="updateyxc"
@@ -565,6 +580,7 @@
 		#{phone,jdbcType=VARCHAR} and is_delete = 0)
 		and is_use_suanli is null
 		and is_user_goumai is null
+		and is_delete = 0
 	</select>
 
 	<!-- 粉丝算力列表 (或者收益列表) -->
@@ -579,6 +595,7 @@
 		and
 		is_use_suanli is null
 		and is_user_goumai is null
+		and is_delete = 0
 	</select>
 
 	<!-- 亲友团收益（矿机价格的1%） -->
@@ -593,16 +610,23 @@
 		and
 		is_use_suanli is null
 		and is_user_goumai is null
+		and is_delete = 0 and
+		miner_type = 1
 	</select>
 
 	<!-- 粉丝矿机的总价值 -->
 	<select id="kjJz" resultType="java.lang.Double">
 		select
-		sum(miner_computing_power) as miner_computing_power
+		sum(miner_computing_power) as
+		miner_computing_power
 		from fens_miner
-		where fens_user_id in (select id from fens_user where referee_phone =
-		#{phone,jdbcType=VARCHAR} and is_delete = 0)
+		where fens_user_id in (select id
+		from fens_user where referee_phone =
+		#{phone,jdbcType=VARCHAR} and
+		is_delete = 0)
 		and is_user_shouyi is null
 		and is_user_goumai is null
+		and
+		is_delete = 0
 	</select>
 </mapper>

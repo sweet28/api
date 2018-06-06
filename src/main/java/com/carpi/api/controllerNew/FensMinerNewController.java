@@ -208,4 +208,18 @@ public class FensMinerNewController {
 		return fensMinerService.syTiQu(Integer.valueOf(id), phone, Integer.valueOf(fensUserId));
 	}
 
+	// 粉丝算力（个人）
+	@RequestMapping(value = "/slgeren", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult geRen(HttpServletRequest request, HttpServletResponse response) {
+		// 手机号
+		String fensUserId = request.getParameter("uid");
+		if (StringUtils.isEmpty(fensUserId)) {
+			return JsonResult.build(500, "请重新登入");
+		}
+		return fensMinerService.geRen(Integer.valueOf(fensUserId));
+	}
+	
+	
+
 }

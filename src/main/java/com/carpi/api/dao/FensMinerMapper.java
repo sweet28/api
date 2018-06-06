@@ -48,6 +48,9 @@ public interface FensMinerMapper {
 	// 查询矿机的算力（根据粉丝id）
 	Double sum(@Param("fensUserId") Integer fensUserId);
 
+	// 查询矿机的算力列表（根据粉丝id）
+	List<FensMiner> geRenList(@Param("fensUserId") Integer fensUserId);
+
 	// 转入运行池
 	int updateyxc(FensMiner record);
 

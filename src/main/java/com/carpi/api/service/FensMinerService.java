@@ -47,5 +47,10 @@ public interface FensMinerService {
 	//收益提取接口
 	public JsonResult syTiQu(Integer id,String phone,Integer fensUserId);
 	
+	//粉丝算力（个人）
+	public JsonResult geRen(Integer fensUserId);
+	
+	//粉丝算力列表（个人）
+	public JsonResult geRenList(Integer fensUserId);
 	
 }

@@ -487,14 +487,31 @@ public class FensMinerServiceImpl implements FensMinerService {
 		Double sum = fensMinerMapper.kjJz(phone);
 		Double sum2 = sum * 0.01;
 		FensWallet wallet = fensWalletMapper.selectByFens(fensUserId);
-		
+
 		FensWallet fensWallet = new FensWallet();
-		fensWallet.setAbleCpa(sum2+wallet.getAbleCpa());
+		fensWallet.setAbleCpa(sum2 + wallet.getAbleCpa());
 		fensWallet.setId(wallet.getId());
 		int result = fensWalletMapper.updateByPrimaryKeySelective(fensWallet);
 		if (result != 1) {
 			return JsonResult.build(500, "转入失败");
 		}
 		return JsonResult.ok();
+	}
+
+	// 查询矿机的算力（根据粉丝id）
+	@Override
+	public JsonResult geRen(Integer fensUserId) {
+		Double sum = fensMinerMapper.sum(fensUserId);
+		return JsonResult.ok(sum);
+	}
+
+	// 粉丝算力列表（个人）
+	@Override
+	public JsonResult geRenList(Integer fensUserId) {
+		List<FensMiner> list = fensMinerMapper.geRenList(fensUserId);
+		if (list.size() > 0) {
+			return JsonResult.ok(list);
+		}
+		return JsonResult.build(500, "无数据");
 	}
 }
