@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -101,23 +102,45 @@ public class BankCardNewController {
 		String fensUserId = request.getParameter("uid");
 		// 姓名
 		String name = request.getParameter("xm");
-		// 支付宝微信账号
+		// 手机号
 		String phone = request.getParameter("sh");
+		// 账号
+		String cardNumber = request.getParameter("kh");
 		// 备注信息
-		String bak2 = request.getParameter("bz");
-		// 支付宝微信付款码
-		String bak3 = request.getParameter("tu");
-		// 类型，type1:支付宝 2：微信
+		// String bak2 = request.getParameter("bz");
+		// 支付宝微信付款码图片
+		// String bak3 = request.getParameter("tu");
+		// 类型，type1:支付宝 2：微信 3 token
 		String bak1 = request.getParameter("tp");
+		if (StringUtils.isEmpty(fensUserId)) {
+			return JsonResult.build(500, "请重新登入");
+		} else if (StringUtils.isEmpty(name)) {
+			return JsonResult.build(500, "请输入姓名");
+		} else if (StringUtils.isEmpty(phone)) {
+			return JsonResult.build(500, "请输入手机号");
+		} else if (StringUtils.isEmpty(cardNumber)) {
+			return JsonResult.build(500, "请输入账号");
+		} else if (StringUtils.isEmpty(bak1)) {
+			return JsonResult.build(500, "请重新登入");
+		}
 
 		BankCard bankCard = new BankCard();
+		if (bak1 == "1") {
+			bankCard.setBak1("支付宝");
+		}else if (bak1 == "2") {
+			bankCard.setBak1("微信");
+		}else if (bak1 == "3") {
+			bankCard.setBak1("imtoken");
+		}
 		bankCard.setFensUserId(Integer.valueOf(fensUserId));
-		bankCard.setCardNumber(name);
-		bankCard.setBank(phone);
+		bankCard.setName(name);
+		bankCard.setPhone(phone);
+		bankCard.setCardNumber(cardNumber);
+		;
 		bankCard.setCreateDate(TimeUtil.getTimeStamp());
-		bankCard.setOpenBranch(bak2);
-		bankCard.setName(bak3);
-		bankCard.setPhone(bak1);
+		// bankCard.setBak2(bak2);
+		// bankCard.setName(bak3);
+		
 
 		return payService.aliPay(bankCard);
 	}
@@ -141,7 +164,7 @@ public class BankCardNewController {
 		String fensUserId = request.getParameter("uid");
 		// 类型
 		String bak1 = request.getParameter("tp");
-		
+
 		BankCard bankCard = new BankCard();
 		bankCard.setFensUserId(Integer.valueOf(fensUserId));
 		bankCard.setBak1(bak1);
