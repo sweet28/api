@@ -583,8 +583,23 @@
 		and is_delete = 0
 	</select>
 
-	<!-- 粉丝算力列表 (或者收益列表) -->
+	<!-- 粉丝算力列表  -->
 	<select id="suanLiList" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_miner
+		where fens_user_id in (select id from fens_user where
+		referee_phone =
+		#{phone,jdbcType=VARCHAR} and is_delete = 0)
+		and
+		is_use_suanli is null
+		and is_user_goumai is null
+		and is_delete = 0
+	</select>
+
+	<!-- 收益列表 -->
+	<select id="suanLiList2" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />

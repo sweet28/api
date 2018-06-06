@@ -450,6 +450,16 @@ public class FensMinerServiceImpl implements FensMinerService {
 		return JsonResult.build(500, "无数据");
 	}
 
+	// 收益列表
+	@Override
+	public JsonResult suanLiList2(String phone) {
+		List<FensMiner> list = fensMinerMapper.suanLiList2(phone);
+		if (list.size() > 0) {
+			return JsonResult.ok(list);
+		}
+		return JsonResult.build(500, "无数据");
+	}
+
 	// 亲友团收益（矿机价格的1%）
 	@Override
 	public JsonResult shouYiHe(String phone) {

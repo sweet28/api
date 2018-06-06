@@ -143,6 +143,18 @@ public class FensMinerNewController {
 		return fensMinerService.suanLiList(phone);
 	}
 
+	// 粉丝算力列表（或者收益列表）
+	@RequestMapping(value = "/sllb2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult suanLiList2(HttpServletRequest request, HttpServletResponse response) {
+		// 手机号
+		String phone = request.getParameter("sh");
+		if (StringUtils.isEmpty(phone)) {
+			return JsonResult.build(500, "请重新登入");
+		}
+		return fensMinerService.suanLiList2(phone);
+	}
+
 	// 亲友团收益（矿机价格的1%）
 	@RequestMapping(value = "/syh", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -219,7 +231,5 @@ public class FensMinerNewController {
 		}
 		return fensMinerService.geRen(Integer.valueOf(fensUserId));
 	}
-	
-	
 
 }

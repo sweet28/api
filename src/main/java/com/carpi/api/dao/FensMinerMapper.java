@@ -63,6 +63,9 @@ public interface FensMinerMapper {
 	// 粉丝算力列表（或者收益列表）
 	List<FensMiner> suanLiList(@Param("phone") String phone);
 
+	// 粉丝算力列表（或者收益列表）
+	List<FensMiner> suanLiList2(@Param("phone") String phone);
+
 	// 亲友团收益（矿机价格的1%）
 	Double shouYiHe(@Param("phone") String phone);
 
