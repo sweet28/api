@@ -1,5 +1,7 @@
 package com.carpi.api.service;
 
+import java.util.List;
+
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.FensAuthentication;
 import com.carpi.api.pojo.FensComputingPower;
@@ -63,4 +65,7 @@ public interface FensUserService {
 	public PageInfo<FensUser> selectAllUser(Integer page, Integer num, String phone, String type);
 
 	FensUser info(FensUser fensUser);
-}
+	
+	//待审核
+	public JsonResult selectDSH();
+ }

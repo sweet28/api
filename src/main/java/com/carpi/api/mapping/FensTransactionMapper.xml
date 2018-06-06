@@ -1,28 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.carpi.api.dao.FensTransactionMapper">
-	<resultMap id="BaseResultMap" type="com.carpi.api.pojo.FensTransaction">
+	<resultMap id="BaseResultMap"
+		type="com.carpi.api.pojo.FensTransaction">
 		<id column="id" property="id" jdbcType="INTEGER" />
 		<result column="bak1" property="bak1" jdbcType="VARCHAR" />
 		<result column="bak2" property="bak2" jdbcType="VARCHAR" />
 		<result column="bak3" property="bak3" jdbcType="VARCHAR" />
-		<result column="is_delete" property="isDelete" jdbcType="INTEGER" />
-		<result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="is_delete" property="isDelete"
+			jdbcType="INTEGER" />
+		<result column="create_date" property="createDate"
+			jdbcType="TIMESTAMP" />
 		<result column="creater" property="creater" jdbcType="VARCHAR" />
-		<result column="delete_date" property="deleteDate" jdbcType="TIMESTAMP" />
-		<result column="attachment" property="attachment" jdbcType="VARCHAR" />
-		<result column="fens_user_id" property="fensUserId" jdbcType="INTEGER" />
-		<result column="trader_id" property="traderId" jdbcType="INTEGER" />
-		<result column="trader_type" property="traderType" jdbcType="INTEGER" />
-		<result column="trader_state" property="traderState" jdbcType="INTEGER" />
-		<result column="trader_count" property="traderCount" jdbcType="DOUBLE" />
-		<result column="trafer_money_single" property="traferMoneySingle"
+		<result column="delete_date" property="deleteDate"
+			jdbcType="TIMESTAMP" />
+		<result column="attachment" property="attachment"
+			jdbcType="VARCHAR" />
+		<result column="fens_user_id" property="fensUserId"
+			jdbcType="INTEGER" />
+		<result column="trader_id" property="traderId"
+			jdbcType="INTEGER" />
+		<result column="trader_type" property="traderType"
+			jdbcType="INTEGER" />
+		<result column="trader_state" property="traderState"
+			jdbcType="INTEGER" />
+		<result column="trader_count" property="traderCount"
 			jdbcType="DOUBLE" />
-		<result column="money_count" property="moneyCount" jdbcType="DOUBLE" />
+		<result column="trafer_money_single"
+			property="traferMoneySingle" jdbcType="DOUBLE" />
+		<result column="money_count" property="moneyCount"
+			jdbcType="DOUBLE" />
 		<result column="entrust_price" property="entrustPrice"
 			jdbcType="DOUBLE" />
-		<result column="trader_date" property="traderDate" jdbcType="TIMESTAMP" />
-		<result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+		<result column="trader_date" property="traderDate"
+			jdbcType="TIMESTAMP" />
+		<result column="order_number" property="orderNumber"
+			jdbcType="VARCHAR" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		id, bak1, bak2, bak3, is_delete, create_date, creater,
@@ -40,41 +53,52 @@
 		from fens_transaction
 		where id = #{id,jdbcType=INTEGER}
 	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+	<delete id="deleteByPrimaryKey"
+		parameterType="java.lang.Integer">
 		delete from
 		fens_transaction
-		where id = #{id,jdbcType=INTEGER}
+		where id =
+		#{id,jdbcType=INTEGER}
 	</delete>
-	<insert id="insert" parameterType="com.carpi.api.pojo.FensTransaction">
+	<insert id="insert"
+		parameterType="com.carpi.api.pojo.FensTransaction">
 		insert into fens_transaction
 		(id, bak1, bak2,
-		bak3, is_delete, create_date,
+		bak3,
+		is_delete, create_date,
 		creater, delete_date,
 		attachment,
-		fens_user_id, trader_id, trader_type,
+		fens_user_id,
+		trader_id, trader_type,
 		trader_state,
 		trader_count, trafer_money_single,
 		money_count, entrust_price,
 		trader_date,
 		order_number)
-		values (#{id,jdbcType=INTEGER},
+		values
+		(#{id,jdbcType=INTEGER},
 		#{bak1,jdbcType=VARCHAR},
 		#{bak2,jdbcType=VARCHAR},
-		#{bak3,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER},
+		#{bak3,jdbcType=VARCHAR},
+		#{isDelete,jdbcType=INTEGER},
 		#{createDate,jdbcType=TIMESTAMP},
 		#{creater,jdbcType=VARCHAR},
 		#{deleteDate,jdbcType=TIMESTAMP},
 		#{attachment,jdbcType=VARCHAR},
-		#{fensUserId,jdbcType=INTEGER}, #{traderId,jdbcType=INTEGER},
+		#{fensUserId,jdbcType=INTEGER},
+		#{traderId,jdbcType=INTEGER},
 		#{traderType,jdbcType=INTEGER},
 		#{traderState,jdbcType=INTEGER},
 		#{traderCount,jdbcType=DOUBLE},
 		#{traferMoneySingle,jdbcType=DOUBLE},
-		#{moneyCount,jdbcType=DOUBLE}, #{entrustPrice,jdbcType=DOUBLE},
+		#{moneyCount,jdbcType=DOUBLE},
+		#{entrustPrice,jdbcType=DOUBLE},
 		#{traderDate,jdbcType=TIMESTAMP},
 		#{orderNumber,jdbcType=VARCHAR})
 	</insert>
-	<insert id="insertSelective" parameterType="com.carpi.api.pojo.FensTransaction" useGeneratedKeys="true" keyProperty="id"> 
+	<insert id="insertSelective"
+		parameterType="com.carpi.api.pojo.FensTransaction"
+		useGeneratedKeys="true" keyProperty="id">
 		insert into fens_transaction
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -195,7 +219,8 @@
 			</if>
 		</trim>
 	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.FensTransaction">
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.carpi.api.pojo.FensTransaction">
 		update fens_transaction
 		<set>
 			<if test="bak1 != null">
@@ -256,13 +281,16 @@
 		</set>
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-	<update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.FensTransaction">
+	<update id="updateByPrimaryKey"
+		parameterType="com.carpi.api.pojo.FensTransaction">
 		update
 		fens_transaction
-		set bak1 = #{bak1,jdbcType=VARCHAR},
+		set bak1 =
+		#{bak1,jdbcType=VARCHAR},
 		bak2 =
 		#{bak2,jdbcType=VARCHAR},
-		bak3 = #{bak3,jdbcType=VARCHAR},
+		bak3 =
+		#{bak3,jdbcType=VARCHAR},
 		is_delete =
 		#{isDelete,jdbcType=INTEGER},
 		create_date =
@@ -302,12 +330,12 @@
 		<include refid="Base_Column_List" />
 		from fens_transaction
 		<where>
-			is_delete=0 
+			is_delete=0
 			<if test="fensUserId != null">
 				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
 			</if>
 			<if test="traderType != null">
-				and  trader_type = #{traderType,jdbcType=INTEGER}
+				and trader_type = #{traderType,jdbcType=INTEGER}
 			</if>
 			<if test="traderId != null">
 				and trader_id = #{traderId,jdbcType=INTEGER}
@@ -315,10 +343,10 @@
 			<if test="traderState != null">
 				and trader_state = #{traderState,jdbcType=INTEGER}
 			</if>
-			 order by entrust_price desc,create_date asc
+			order by entrust_price desc,create_date asc
 		</where>
 	</select>
-	
+
 	<!--查询粉丝的待付款交易记录(可根据粉丝id查询) -->
 	<select id="selectDFKRecord" resultMap="BaseResultMap"
 		parameterType="com.carpi.api.pojo.FensTransaction">
@@ -326,11 +354,13 @@
 		<include refid="Base_Column_List" />
 		from fens_transaction
 		<where>
-			is_delete=0 and trader_state = 1 and( fens_user_id = #{fensUserId,jdbcType=INTEGER} or trader_id = #{traderId,jdbcType=INTEGER})
+			is_delete=0 and trader_state = 1 and( fens_user_id =
+			#{fensUserId,jdbcType=INTEGER} or trader_id =
+			#{traderId,jdbcType=INTEGER})
 			order by create_date desc
 		</where>
 	</select>
-	
+
 	<!--查询粉丝的待收款交易记录(可根据粉丝id查询) -->
 	<select id="selectDSKRecord" resultMap="BaseResultMap"
 		parameterType="com.carpi.api.pojo.FensTransaction">
@@ -338,11 +368,13 @@
 		<include refid="Base_Column_List" />
 		from fens_transaction
 		<where>
-			is_delete=0 and trader_state = 2 and( fens_user_id = #{fensUserId,jdbcType=INTEGER} or trader_id = #{traderId,jdbcType=INTEGER})
+			is_delete=0 and trader_state = 2 and( fens_user_id =
+			#{fensUserId,jdbcType=INTEGER} or trader_id =
+			#{traderId,jdbcType=INTEGER})
 			order by create_date desc
 		</where>
 	</select>
-	
+
 	<!--查询粉丝的完成交易记录(可根据粉丝id查询) -->
 	<select id="selectYWCRecord" resultMap="BaseResultMap"
 		parameterType="com.carpi.api.pojo.FensTransaction">
@@ -350,27 +382,33 @@
 		<include refid="Base_Column_List" />
 		from fens_transaction
 		<where>
-			is_delete=0 and trader_state = 3 and( fens_user_id = #{fensUserId,jdbcType=INTEGER} or trader_id = #{traderId,jdbcType=INTEGER})
+			is_delete=0 and trader_state = 3 and( fens_user_id =
+			#{fensUserId,jdbcType=INTEGER} or trader_id =
+			#{traderId,jdbcType=INTEGER})
 			order by create_date desc
 		</where>
 	</select>
-	
+
 	<resultMap id="allInfo" type="java.util.Map">
-        <result column="sum(trader_count)" property="sum" jdbcType="DOUBLE"/>
-    </resultMap>
+		<result column="sum(trader_count)" property="sum"
+			jdbcType="DOUBLE" />
+	</resultMap>
 	<!--查询粉丝的所有存活订单锁定的CPA总和 -->
 	<select id="getAllBlockCPA" resultMap="allInfo"
 		parameterType="java.lang.Integer">
-		select  sum(trader_count) 
-        from fens_transaction
+		select sum(trader_count)
+		from fens_transaction
 		<where>
-			 is_delete=0 and ((trader_type=1 and fens_user_id=#{uid,jdbcType=INTEGER} and trader_state in(0,1,2,4) ) or (trader_type=2 and trader_id=#{uid,jdbcType=INTEGER}  and trader_state in(0,1,2,4)))
+			is_delete=0 and ((trader_type=1 and
+			fens_user_id=#{uid,jdbcType=INTEGER} and trader_state in(0,1,2,4) )
+			or (trader_type=2 and trader_id=#{uid,jdbcType=INTEGER} and
+			trader_state in(0,1,2,4)))
 			<if test="id != null">
 				and id != #{id,jdbcType=INTEGER}
 			</if>
 		</where>
 	</select>
-	
+
 	<!--查询粉丝的挂单交易记录(可根据粉丝id查询) -->
 	<select id="selectGDRecord" resultMap="BaseResultMap"
 		parameterType="com.carpi.api.pojo.FensTransaction">
@@ -378,40 +416,52 @@
 		<include refid="Base_Column_List" />
 		from fens_transaction
 		<where>
-			is_delete=0 and trader_state = 0 and trader_id = #{traderId,jdbcType=INTEGER}
+			is_delete=0 and trader_state = 0 and trader_id =
+			#{traderId,jdbcType=INTEGER}
 			order by create_date desc
 		</where>
 	</select>
-	
+
 	<!--查询粉丝的成交交易记录 -->
 	<select id="selectCJFensRecord" resultMap="BaseResultMap"
 		parameterType="com.carpi.api.pojo.FensTransaction">
 		select
 		<include refid="Base_Column_List" />
-		from fens_transaction where fens_user_id = #{fensUserId,jdbcType=INTEGER} or trader_id = #{traderId,jdbcType=INTEGER} order by create_date
+		from fens_transaction where fens_user_id =
+		#{fensUserId,jdbcType=INTEGER} or trader_id =
+		#{traderId,jdbcType=INTEGER} order by create_date
 	</select>
-	
+
 	<select id="selectCJFensRecordByID" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
 		<include refid="Base_Column_List" />
 		from fens_transaction
-		where is_delete=0 and fens_user_id = #{fensUserId,jdbcType=INTEGER} order by create_date
+		where is_delete=0 and fens_user_id =
+		#{fensUserId,jdbcType=INTEGER} order by create_date
 	</select>
-	
+
 	<!-- 查询订单（买单，卖单） -->
 	<select id="selectjl" resultMap="BaseResultMap">
-		<!-- select
+		<!-- select <include refid="Base_Column_List" /> from fens_transaction 
+			where is_delete=0 and fens_user_id = #{fensUserId,jdbcType=INTEGER} and trader_type 
+			= #{traderType,jdbcType=INTEGER} and trader_state = 0 order by create_date -->
+
+		select
 		<include refid="Base_Column_List" />
 		from fens_transaction
-		where is_delete=0 and fens_user_id = #{fensUserId,jdbcType=INTEGER} 
-		and  trader_type = #{traderType,jdbcType=INTEGER}
-		and trader_state = 0 order by create_date -->
-		
-		select 
+		where trader_id in (select id from fens_user
+		where is_delete=0 and phone like CONCAT('%',#{phone},'%'))
+		and
+		is_delete=0 and trader_type = #{traderType,jdbcType=INTEGER} and
+		trader_state = 0 order by create_date desc
+	</select>
+
+	<!-- 待审核 -->
+	<select id="selectDSH" resultMap="BaseResultMap">
+		select
 		<include refid="Base_Column_List" />
 		from fens_transaction
-		where trader_id in (select id from fens_user where is_delete=0 and phone like CONCAT('%',#{phone},'%'))
-		and is_delete=0 and trader_type = #{traderType,jdbcType=INTEGER} and trader_state = 0 order by create_date
+		where is_delete=0 and trader_state = 4
 	</select>
 </mapper>

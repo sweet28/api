@@ -40,5 +40,8 @@ public interface FensTransactionMapper {
 	//查询订单（买单，卖单）
 	List<FensTransaction> selectjl(@Param("phone") String phone,@Param("traderType") Integer traderType);
 	
+	//待审核
+	List<FensTransaction> selectDSH();
+	
 	
 }

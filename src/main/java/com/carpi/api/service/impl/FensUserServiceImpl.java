@@ -36,6 +36,7 @@ import com.carpi.api.dao.FensComputingPowerMapper;
 import com.carpi.api.dao.FensLoginStateMapper;
 import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensTeamMapper;
+import com.carpi.api.dao.FensTransactionMapper;
 import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.dao.FensWalletMapper;
 import com.carpi.api.pojo.APool;
@@ -45,6 +46,7 @@ import com.carpi.api.pojo.FensComputingPower;
 import com.carpi.api.pojo.FensLoginState;
 import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.pojo.FensTeam;
+import com.carpi.api.pojo.FensTransaction;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.pojo.FensWallet;
 import com.carpi.api.service.FensUserService;
@@ -86,6 +88,9 @@ public class FensUserServiceImpl implements FensUserService {
 
 	@Autowired
 	private FensWalletMapper fensWalletMapper;
+	
+	@Autowired
+	private FensTransactionMapper fensTransactionMapper;
 
 	// 注册
 	@Override
@@ -806,6 +811,17 @@ public class FensUserServiceImpl implements FensUserService {
 		}
 
 		return JsonResult.build(500, "网络服务异常，请稍后重试");
+	}
+
+	
+	//待审核
+	@Override
+	public JsonResult selectDSH() {
+		List<FensTransaction> list = fensTransactionMapper.selectDSH();
+		if (list.size() > 0 || list.isEmpty()) {
+			return JsonResult.ok(list);
+		}
+		return JsonResult.build(500, "无审核订单");
 	}
 
 }

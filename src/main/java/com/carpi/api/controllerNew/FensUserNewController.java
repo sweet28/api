@@ -300,5 +300,12 @@ public class FensUserNewController {
 		}
 
 	}
+	
+	//待审核
+	@RequestMapping(value = "/dsh", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult selectDSH(HttpServletRequest request, HttpServletResponse response) {
+		return fensUserService.selectDSH();
+	}
 
 }
