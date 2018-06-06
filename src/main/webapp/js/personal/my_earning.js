@@ -26,34 +26,67 @@ function Gift() {
   function kuangjiList() {
 	    $.ajax({
 	      type: "post",
-	      url: getAPIURL() + "user/fens/he",
+	      url: getAPIURL() + "user/miner/minerList",
 	      dataType: "json",
 	      data: {
 	    	  "uid": localStorage.getItem("uid")
 	      },
 	      success: function (data) {
-	        var list = data.list;
-	        if (list.length <= 0) {
-	        	
-	        } else {
-	        	var html = "";
-	        	$.each( list, function(index, content){
-	        		var inph = content.phone;
-	        		inph = inph.substring(0, 3) + "****" + inph.substring(7, 11);
-	        		
-	        		var nm = content.name;
-	        		nm = "***"+nm.substring(1);
-	        		
-				    //html += "<tr><td class='first'>"+(index+1)+"</td><td>"+nm+"</td><td>"+inph+"</td></tr>";
-				    
-//				    html += "<li>" +
-//				    			"<p>序号：" + (index+1) + "</p>" +
-//					    		"<span>姓名："+ nm +"</span>" +
-//					    		"<p>手机号：" + inph + "</p>"
-//				    		"</li>&nbsp;&nbsp;&nbsp;&nbsp;";
-				});
-//	        	$("#gift").html(html);
-	        }
+	    	  if(data.status == 200){
+	    		    var list = data.data;
+		  	        if (list.length <= 0) {
+		  	        	$("#gift").html("暂无数据");
+		  	        } else {
+		  	        	var html = "";
+		  	        	$.each( list, function(index, content){
+		  	        		var runs = content.bak2;
+		  	        		var xh = content.bak1;
+		  	        		if(runs==0){
+		  	        			runs="运行中";
+		  	        		}else if(runs==1){
+		  	        			runs="死亡";
+		  	        		}else if(runs==2){
+		  	        			runs="冻结";
+		  	        		}
+		  	        		
+		  	        		if(xh==1){
+		  	        			xh="CA1";
+		  	        		}else if(xh==2){
+		  	        			xh="CA2";
+		  	        		}else if(xh==3){
+		  	        			xh="CA3";
+		  	        		}else if(xh==4){
+		  	        			xh="CA4";
+		  	        		}
+		  	        		
+		  	        		var nowDate = Date.parse(new Date());
+		  	        		var rundate = nowDate - content.createDate;
+		  	        		
+		  	        		rundate = rundate/1000/3600/24;
+		  	        		if(rundate > 15){
+		  	        			rundate=15;
+		  	        		}
+		  	        		
+		  	        		var runHours = rundate*24;
+		  	        		
+		  	        		html += "<ul>" + (index+1) +
+		  	        					"<li>" +
+		  									"<div class='text'>" +
+		  										"<a href=''>"+ xh +"</a>" +
+		  										"<p>运行时长：<b>"+runHours+"</b></p>" +
+		  										"<p>算力：<b>"+content.minerComputingPower+"</b></p>" +
+		  									"</div>" +
+		  									"<div class='look'>" +
+		  										"<a href='#'>"+runs+"</a>" +
+		  									"</div>" +
+		  								"</li>" +
+		  							"</ul>";
+		  				});
+		  	        	$("#gift").html(html);
+		  	        }
+	    	  }else{
+	    		  $("#gift").html("暂无数据");
+	    	  }
 	      }, headers: {
 	        "Authorization": "Bearer " + getTOKEN()
 	      }

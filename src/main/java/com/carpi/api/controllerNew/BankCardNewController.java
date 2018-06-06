@@ -125,13 +125,7 @@ public class BankCardNewController {
 		}
 
 		BankCard bankCard = new BankCard();
-		if (bak1 == "1") {
-			bankCard.setBak1("支付宝");
-		}else if (bak1 == "2") {
-			bankCard.setBak1("微信");
-		}else if (bak1 == "3") {
-			bankCard.setBak1("imtoken");
-		}
+		bankCard.setBak1(bak1);
 		bankCard.setFensUserId(Integer.valueOf(fensUserId));
 		bankCard.setName(name);
 		bankCard.setPhone(phone);

@@ -209,6 +209,6 @@ public class ConfigUtil {
 											+"GyhPasaXX2ZUu7d3rtRXxinweP9pI5JEbLecI6iuYHOgAVHV+nHlhNMar6cFj+sWTmimnQI5BRoZ"
 											+"ic5srOKkmohMsbTSYp18NQ04TvCWge4lejsttxVAiABDiXSc/fQ58kPFnayhl7kxCpcYp1jZAjoA"
 											+"xUIpV8QDVPwtr/0sKqLoFs5WcnGeA9kyXOoNoq/uLOlOqEdkPQ5bNQSssV5UTa2wdzbSH/LEzBFY";
-	public static int CPA_JY_START_TIME = 11;
-	public static int CPA_JY_END_TIME = 18;
+	public static int CPA_JY_START_TIME = 0;  //11
+	public static int CPA_JY_END_TIME = 24;  //18
 }

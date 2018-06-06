@@ -32,10 +32,10 @@ public class PayServiceImpl implements PayService {
 	// 根据粉丝id查询资金密码
 	@Override
 	public JsonResult checkMiMa(String fensUserId,String mima) {
-		if(fensUserId != null) {
+		if(fensUserId == null) {
 			return JsonResult.build(500, "系统错误2");
 		}
-		if (mima != null) {
+		if (mima == null) {
 			return JsonResult.build(500, "系统错误");
 		}
 		FensUser fensUser = fensUserMapper.selectzjPwd(fensUserId,mima);
@@ -48,10 +48,10 @@ public class PayServiceImpl implements PayService {
 	// 查询支付宝或者微信
 	@Override
 	public JsonResult selectPay(BankCard bankCard) {
-		if (bankCard.getFensUserId() != null) {
+		if (bankCard.getFensUserId() == null) {
 			return JsonResult.build(500, "系统错误1");
 		}
-		if (bankCard.getBak1() != null) {
+		if (bankCard.getBak1() == null) {
 			return JsonResult.build(500, "系统错误2");
 		}
 		BankCard bankCard2 = bankCardMapper.selectPay(bankCard);

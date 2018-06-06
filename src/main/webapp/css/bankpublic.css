@@ -1,0 +1,88 @@
+a, input, button {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+input, button {
+    -webkit-appearance: none;
+    border-radius: none;
+}
+
+header {
+    background: #0197ff;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    color: #fdfdfd;
+    font-size: 1.2em;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+header .weui-col-33:first-child {
+    text-align: left;
+    padding-left: 15px;
+    color: #fff;
+}
+
+header .weui-col-33:first-child .icon {
+    width: 12px;
+    height: 22px;
+    background-image: url(../img/back_icon.png );
+    background-size:cover;
+}
+
+header .weui-col-33:last-child {
+    text-align: right;
+    padding-right: 15px;
+}
+
+header .weui-col-33:last-child a {
+    color: #fff;
+    font-size: 15px
+}
+
+header .weui-col-33:last-child .icon.icon-user {
+    background-position: -75px -75px;
+}
+
+header .weui-col-33:last-child .icon.icon-bell {
+    background-position: -100px -75px;
+    position: relative;
+}
+
+header .weui-col-33:last-child .icon.icon-bell span {
+    position: absolute;
+    font-size: 0.7em;
+    border: 1px solid #fff;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    line-height: 15px;
+    text-align: center;
+    left: 17px;
+    top: -8px;
+    color: #fff !important;
+}
+
+header .weui-col-33:nth-last-child(2) {
+    font-size: 0.9em;
+}
+
+.weui_tabbar {
+    position: fixed;
+    z-index: 9999;
+}
+
+.content-padded {
+    padding-top: 50px;
+    padding-bottom: 70px;
+}
+
+header .weui-col-33:last-child .icon.icon-delete {
+    background-position: -75px -100px;
+    cursor: pointer;
+}

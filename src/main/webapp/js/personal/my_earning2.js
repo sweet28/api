@@ -34,7 +34,6 @@ function Gift() {
 	    	  "sh": localStorage.getItem("phone")
 	      },
 	      success: function (data) {
-	    	  console.log(data);
 	    	  if(data.status == 200){
 	    		    var list = data.data;
 		  	        if (list.length <= 0) {
