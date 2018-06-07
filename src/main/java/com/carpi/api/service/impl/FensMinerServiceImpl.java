@@ -295,7 +295,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 				moneyRecord.setPaymentType(1);
 				return fensWalletService.addWalletRecord(moneyRecord);
 			} else {
-				return JsonResult.build(500, "今天已经收取过CPA收益了，隔天再来。");
+				return JsonResult.build(500, "请明天再收取CPA收益。");
 			}
 		}
 		return JsonResult.build(500, "不存在矿池信息");
@@ -494,7 +494,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 					}
 					
 				} else {
-					return JsonResult.build(500, "今天已经收取过CPA收益了，隔天再来。");
+					return JsonResult.build(500, "请明天再收取CPA收益。");
 				}
 			}
 		}
