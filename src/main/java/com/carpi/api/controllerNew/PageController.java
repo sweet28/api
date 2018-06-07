@@ -112,6 +112,11 @@ public class PageController {
 		return "trader/traderMyCheck";
 	}
 	
+	@RequestMapping("/traderDetail")
+	public String traderDetail() {
+		return "trader/traderDetail";
+	}
+	
 	@RequestMapping("/trader")
 	public String trader() {
 		return "trader/trader";

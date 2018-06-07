@@ -42,8 +42,8 @@
 		</div>
 		<div id="container" style="height: 260%;"></div>
 		<div class="deal_button">
-			<a href="" class="d1">买入CPA</a>
-			<a href="" class="d2">卖出CPA</a>
+			<a href="<%=path%>/cpa/traderCenter" class="d1">买入CPA</a>
+			<a href="<%=path%>/cpa/traderCenterSell" class="d2">卖出CPA</a>
 		</div>
 	</div>
 	<div class="cl"></div>

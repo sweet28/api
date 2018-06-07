@@ -16,7 +16,6 @@
 <script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.js"></script>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
-<script src="<%=path%>/js/trader/my_dd_gd.js" type="text/javascript" charset="utf-8"></script>
 
 <style>
 	body{ background: #f1f0f6; }
@@ -54,4 +53,5 @@
 		</ul>
 	</div>
 </body>
+<script src="<%=path%>/js/trader/my_dd_dfk.js" type="text/javascript" charset="utf-8"></script>
 </html>

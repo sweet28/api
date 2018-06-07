@@ -265,7 +265,7 @@
 	
 	
   $(function(){
-      var _type = 1;    
+      var _type = 2;    
       $.ajax({
 	      type: "post",
 	      url: getAPIURL() + "miner/record/recordlist",
@@ -454,10 +454,10 @@ function buyCPA(trader_type){
 		        	        		function(isConfirm){ 
 		        	        		  if (isConfirm) { 
 		        	        		    //swal("删除！", "你的虚拟文件已经被删除。","success"); 
-		        	        		    window.location.href = "traderCenter";
+		        	        		    window.location.href = "traderCenterSell";
 		        	        		  } else { 
 		        	        		    //swal("取消！", "你的虚拟文件是安全的:)","error"); 
-		        	        		    window.location.href = "traderCenter";
+		        	        		    window.location.href = "traderCenterSell";
 		        	        		  } 
 	        	        		});
 	        	        	}
@@ -475,10 +475,10 @@ function buyCPA(trader_type){
 		        	        		function(isConfirm){ 
 		        	        		  if (isConfirm) { 
 		        	        		    //swal("删除！", "你的虚拟文件已经被删除。","success"); 
-		        	        		    window.location.href = "traderCenter";
+		        	        		    window.location.href = "traderCenterSell";
 		        	        		  } else { 
 		        	        		    //swal("取消！", "你的虚拟文件是安全的:)","error"); 
-		        	        		    window.location.href = "traderCenter";
+		        	        		    window.location.href = "traderCenterSell";
 		        	        		  } 
 	        	        		});
 	        	        	}
@@ -494,11 +494,11 @@ function buyCPA(trader_type){
 		        	          	  closeOnCancel: true
 		        	          	}).then(function(isConfirm) {
 		        	          	  if (isConfirm === true) {
-		        	          		  window.location.href = "traderCenter";
+		        	          		  window.location.href = "traderCenterSell";
 		        	          	  } else if (isConfirm === false) {
-		        	          		  window.location.href = "traderCenter";
+		        	          		  window.location.href = "traderCenterSell";
 		        	          	  } else {
-		        	          		  window.location.href = "traderCenter";
+		        	          		  window.location.href = "traderCenterSell";
 		        	          	  }
 	        	          	});
 	        	        }
@@ -521,7 +521,7 @@ function buyCPA(trader_type){
 	
 }
 
-function csCPA(id,count){
+function mrCPA(id,count){
 	var sec = localStorage.getItem("sec");
 	if(sec!='1'){
 		swal({
@@ -588,7 +588,7 @@ function csCPA(id,count){
 	        	    				
 	        	    			    $.ajax({
 	        	    				      type: "post",
-	        	    				      url: getAPIURL() + "kuangjy/jy/buyDanJieDan",
+	        	    				      url: getAPIURL() + "kuangjy/jy/sellDanJieDan",
 	        	    				      dataType: "json",
 	        	    				      data:{
 	        	    				    	  "id":id,
@@ -611,11 +611,11 @@ function csCPA(id,count){
 	        	    					          	  closeOnCancel: true
 	        	    					          	},function(isConfirm) {
 	        	    					          	  if (isConfirm === true) {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
 	        	    					          	  } else if (isConfirm === false) {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
 	        	    					          	  } else {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
 	        	    					          	  }
 	        	    				          	});
 	        	    				        } else {
@@ -629,11 +629,11 @@ function csCPA(id,count){
 	        	    					          	  closeOnCancel: true
 	        	    					          	},function(isConfirm) {
 	        	    					          	  if (isConfirm === true) {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
 	        	    					          	  } else if (isConfirm === false) {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
 	        	    					          	  } else {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
 	        	    					          	  }
 	        	    				          	});
 	        	    				        }
@@ -674,53 +674,6 @@ function csCPA(id,count){
 	    	console.log("没有账号信息2222");
 	    	swal({
 	      		  title: "身份不合法，不能挂单交易。",
-	      		  icon: "error",
-	      		  button: "确定",
-	      	});
-  			return false;
-	    }
-    });
-}
-
-function mrCPA(id,count){
-	var sec = localStorage.getItem("sec");
-	if(sec!='1'){
-		swal({
-    		  title: "未认证用户不能交易。",
-    		  icon: "error",
-    		  button: "确定",
-    	});
-		return false;
-	}
-	
-	$.ajax({
-		type: "post",
-	      url: getAPIURL() + "bank/list",
-	      dataType: "json",
-	      data: {
-	    	  "fensUserId":localStorage.getItem("uid"),
-	    	  "pageSize":100,
-	    	  "pageNum":0
-	      },
-	      success: function (data) {
-	        var list = data.list;
-	        console.log(list.length+"-------------dddd");
-	        if (list.length <= 0) {
-	        	console.log("没有账号信息");
-	        	swal({
-		      		  title: "银行卡未绑定，不能交易。",
-		      		  icon: "error",
-		      		  button: "确定",
-		      	});
-	  			return false;
-	        }else{
-	        	window.location.href = "traderSellJD?"+id+"&mr";
-	        }
-	      },
-	    error: function (XMLHttpRequest, textStatus, errorThrown) {
-	    	console.log("没有账号信息2222");
-	    	swal({
-	      		  title: "身份不合法，不能交易。",
 	      		  icon: "error",
 	      		  button: "确定",
 	      	});
