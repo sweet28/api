@@ -280,4 +280,14 @@
 		is_delete = 0 and
 		bak1 = #{bak1,jdbcType=VARCHAR}
 	</select>
+	
+	
+	<!-- 查询支付账户信息 -->
+	<select id="selectZh" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from bank_card
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER} 
+		and is_delete = 0 
+	</select>
 </mapper>

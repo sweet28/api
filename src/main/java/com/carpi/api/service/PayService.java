@@ -13,4 +13,7 @@ public interface PayService {
 	
 	//查询支付宝或者微信
 	public JsonResult selectPay(BankCard bankCard);
+
+	//查询支付账户信息
+	public JsonResult selectZh(Integer fensUserId);
 }

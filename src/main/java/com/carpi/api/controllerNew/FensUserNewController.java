@@ -26,6 +26,7 @@ import com.carpi.api.pojo.FensComputingPower;
 import com.carpi.api.pojo.FensTeam;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.service.FensUserService;
+import com.carpi.api.service.JiaoYiService;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
@@ -38,6 +39,9 @@ public class FensUserNewController {
 
 	@Autowired
 	private TokenService tokenService;
+	
+	@Autowired
+	private JiaoYiService jiaoYiService;
 
 	// 注册
 	@RequestMapping(value = "/zc", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -293,25 +297,32 @@ public class FensUserNewController {
 						return JsonResult.ok();
 					} else {
 						return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
-						
+
 					}
 				}
 			}
 		}
 
 	}
-	
-	//待审核
+
+	// 待审核
 	@RequestMapping(value = "/dsh", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult selectDSH(HttpServletRequest request, HttpServletResponse response) {
 		String id = request.getParameter("uid");
-		
-		if(id != null){
+
+		if (id != null) {
 			return fensUserService.selectDSH(Integer.parseInt(id));
-		}else{
+		} else {
 			return JsonResult.build(500, "请重新登录");
 		}
+	}
+
+	// 粉丝交易量(当天)
+	@RequestMapping(value = "/jyl", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult JYLsum(HttpServletRequest request, HttpServletResponse response) {
+		return jiaoYiService.JYLsum();
 	}
 
 }

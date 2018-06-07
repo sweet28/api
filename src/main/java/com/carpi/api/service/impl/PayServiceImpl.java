@@ -72,4 +72,14 @@ public class PayServiceImpl implements PayService {
 			}
 		}
 	}
+
+	//查询支付账户信息
+	@Override
+	public JsonResult selectZh(Integer fensUserId) {
+		BankCard bankCard = bankCardMapper.selectZh(fensUserId);
+		if (StringUtils.isEmpty(bankCard)) {
+			return JsonResult.build(500, "无信息");
+		}
+		return JsonResult.ok(bankCard);
+	}
 }

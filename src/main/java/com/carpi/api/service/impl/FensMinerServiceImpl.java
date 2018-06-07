@@ -402,7 +402,8 @@ public class FensMinerServiceImpl implements FensMinerService {
 					System.out.println("nowzsy:" + nowZSY + "---yhdSY:" + yhdSY);
 
 					if (kySY < 1) {
-						return JsonResult.build(500, "收益少于1个CPA时，不能转入钱包。");
+//						return JsonResult.build(500, "收益少于1个CPA时，不能转入钱包。");
+						continue;
 					}
 
 					// 解冻收益需要给领导人分红,同时更新矿机、钱包数据

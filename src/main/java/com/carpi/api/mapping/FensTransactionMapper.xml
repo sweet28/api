@@ -458,11 +458,23 @@
 	</select>
 
 	<!-- 待审核 -->
-	<select id="selectDSH" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+	<select id="selectDSH" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
 		select
 		<include refid="Base_Column_List" />
 		from fens_transaction
 		where is_delete=0 and trader_state = 4
-		and trader_id = #{fensUserId,jdbcType=INTEGER}
+		and
+		trader_id = #{fensUserId,jdbcType=INTEGER}
+	</select>
+
+	<!-- 粉丝交易量(当天) -->
+	<select id="JYLsum" resultType="java.lang.Integer">
+		select 
+		count(id) as sum
+		from fens_transaction
+		where create_date &gt;= date(now())
+		and create_date &lt; DATE_ADD(date(now()),INTERVAL 1 DAY) 
+		and is_delete = 0  and trader_state = 3
 	</select>
 </mapper>
