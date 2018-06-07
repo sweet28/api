@@ -402,4 +402,11 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		}
 		return JsonResult.build(500, "不存在此订单");
 	}
+
+	//粉丝交易量(当天)
+	@Override
+	public JsonResult JYLsum() {
+		int sum = fensTransactionMapper.JYLsum();
+		return JsonResult.ok(sum);
+	}
 }

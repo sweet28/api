@@ -16,7 +16,10 @@ public interface JiaoYiService {
 
 	// 买单人已付款（卖单）
 	public JsonResult sellDanYiFu(FensTransaction fensTransaction);
-	
+
 	// 查询订单（买单，卖单）（根据手机号）
 	public JsonResult selectjl(String phone, Integer traderType);
+
+	// 粉丝交易量(当天)
+	JsonResult JYLsum();
 }
