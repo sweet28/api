@@ -71,8 +71,8 @@ function sb(){
 			 "img" : imgUrl
 		 },
 		 success:function(data){
-			 if(data.data == 200){
-				 alert("提交成功");
+			 if(data.status == 200){
+			   alert("提交成功");
 			 }else{
 				 alert("提交失败");
 			 }

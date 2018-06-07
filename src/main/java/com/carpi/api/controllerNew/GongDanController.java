@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.arttraining.commons.util.JsonResult;
+import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.pojo.GongDan;
 import com.carpi.api.service.GongDanService;
 import com.github.pagehelper.PageInfo;
@@ -39,6 +40,7 @@ public class GongDanController {
 		gongDan.setType(Integer.valueOf(type));
 		gongDan.setProblem(problem);
 		gongDan.setImg(img);
+		gongDan.setCreateDate(TimeUtil.getTimeStamp());
 		return gongDanService.addGongdan(gongDan);
 	}
 
