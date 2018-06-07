@@ -45,6 +45,7 @@
 				<div class="text">
 					<p><a href="">CA1型</a> <span>价格：10CPA</span></p>
 					<p>产量/小时：0.0305555556</p>
+					<p>产币总量：11CPA</p>
 					<p>运行周期：360小时</p>
 				</div>
 				<div class="more">
@@ -58,6 +59,7 @@
 				<div class="text">
 					<p><a href="">CA2型</a> <span>价格：100CPA</span></p>
 					<p>产量/小时：0.319444444</p>
+					<p>产币总量：115CPA</p>
 					<p>运行周期：360小时</p>
 				</div>
 				<div class="more">
@@ -71,6 +73,7 @@
 				<div class="text">
 					<p><a href="">CA3型</a> <span>价格：1000CPA</span></p>
 					<p>产量/小时：3.19444444</p>
+					<p>产币总量：1150CPA</p>
 					<p>运行周期：360小时</p>
 				</div>
 				<div class="more">
@@ -85,6 +88,7 @@
 				<div class="text">
 					<p><a href="">CA4型</a> <span>价格：5000CPA</span></p>
 					<p>产量/小时：16.6666667</p>
+					<p>产币总量：6000CPA</p>
 					<p>运行周期：360小时</p>
 				</div>
 				<div class="more">
@@ -107,6 +111,7 @@
 				<div class="text">
 					<p><a href="">CB1型</a> <span>价格：5CPA</span></p>
 					<p>产量/小时：0.0152777778</p>
+					<p>产币总量：5.5CPA</p>
 					<p>运行周期：360小时</p>
 				</div>
 				<div class="more">
@@ -120,6 +125,7 @@
 				<div class="text">
 					<p><a href="">CB2型</a> <span>价格：50CPA</span></p>
 					<p>产量/15：0.152777778</p>
+					<p>产币总量：55CPA</p>
 					<p>运行周期：360小时</p>
 				</div>
 				<div class="more">
@@ -133,6 +139,7 @@
 				<div class="text">
 					<p><a href="">CB3型</a> <span>价格：500CPA</span></p>
 					<p>产量/小时：1.52777778</p>
+					<p>产币总量：550CPA</p>
 					<p>运行周期：360小时</p>
 				</div>
 				<div class="more">

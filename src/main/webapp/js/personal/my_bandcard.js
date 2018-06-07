@@ -103,7 +103,7 @@ function addCard(){
 		if (inputValue === false) return false;      
 		if (inputValue === "") {     
 			swal.showInputError("请输入!");     
-			return false   
+			return false;
 		}
 		yinhang = inputValue;
 		
@@ -118,7 +118,7 @@ function addCard(){
 			if (inputValue === false) return false;      
 			if (inputValue === "") {     
 				swal.showInputError("请输入!");     
-				return false   
+				return false;
 			}
 			cardId = inputValue;
 			swal({   

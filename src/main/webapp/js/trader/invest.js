@@ -336,8 +336,7 @@
    });
 })();
 
-function buyCPA(){
-	var type = "mr";
+function buyCPA(trader_type){
 	var sec = localStorage.getItem("sec");
 	if(sec!='1'){
 		swal({
@@ -372,23 +371,13 @@ function buyCPA(){
 
 	        	//交易状态   0代表挂单中；1代表成交
 	        	var trader_state = 0;
-	        	//交易类型   1代表买方  2代表卖方
-	        	var trader_type = 0;
+	        	//交易类型   1代表买  2代表卖
 	        	//交易人id
 	        	var trader_id = localStorage.getItem("uid");
 	        	//交易CPA数
 	        	var trader_count = $("#cpanum").val();
 	        	//委托价格(美元)
 	        	var entrust_price = $("#cpadj").val();
-	        	
-	        	if(type == "mc"){
-	        		trader_type = 2;
-	        	}
-	        	
-	        	
-	        	if(type == "mr"){
-	        		trader_type = 1;
-	        	}
 	        	
 	        	if(trader_count==null || trader_count==""){
 	        		swal({
@@ -416,54 +405,6 @@ function buyCPA(){
 	        		return false;
 	        	}
 	        	
-	        	if(trader_type == 2){
-	        		
-	        		var flag = 0;
-	        		$.ajax({
-	        		    type: "post",
-	        		    url: getAPIURL() + "wallet/list",
-	        		    dataType: "json",
-	        		    data: {
-	        		    	"fensUserId":localStorage.getItem("uid")
-	        		    },
-	        		    success: function (data) {
-	        		    	var dd = data.data;
-	        		    	if(data.status==200){
-	        		    		//可用余额
-	        		    		var yue = dd.ableCpa;
-	        		    		if(yue < 1 ){
-	        		    			swal({
-	        				      		  title: "账户钱包CPA余额不足。",
-	        				      		  icon: "error",
-	        				      		  button: "确定",
-	        				      	});
-	        		    			return false;
-	        		    		}
-	        		    		if(trader_count > yue){
-	        		    			swal({
-	        				      		  title: "账户钱包CPA余额不足。",
-	        				      		  icon: "error",
-	        				      		  button: "确定",
-	        				      	});
-	        		    			return false;
-	        		    		}
-	        		    		flag = 1;
-	        		    	}else{
-	        		    		  return false;
-	        		    	}
-	        		    },
-	        		    error: function (XMLHttpRequest, textStatus, errorThrown) {
-	        		    	swal({
-	  				      		  title: "账户钱包CPA余额不足。",
-	  				      		  icon: "error",
-	  				      		  button: "确定",
-	  				      	});
-	        		    	flag = 0;
-	        	  			return false;
-	        		    }
-	        	    });
-	        	}
-	        	
 	        	if(entrust_price==null || entrust_price==""){
 	        		swal({
 			      		  title: "请输入交易单价。",
@@ -472,6 +413,9 @@ function buyCPA(){
 			      	});
 	        		return false;
 	        	}
+	        	
+	        	console.log("-------------------mm:"+trader_type);
+	        	
 	      	    var flag = checkLogin();
 	      	    var tmp = getTimestamp();
 	      	    var rad = getRandom();
@@ -495,8 +439,7 @@ function buyCPA(){
 	        	      success: function (data) {
 	        	        if (data.status==200) {
 	        	        	
-	        	        	if(type == "mc"){
-	        	        		trader_type = 2;
+	        	        	if(trader_type == 2){
 	        	        		swal({
 			        	          	  title: '挂单成功,待审核通过后同步至交易中心。',
 			        	          	  type: 'success',
@@ -517,10 +460,9 @@ function buyCPA(){
 	        	        	}
 	        	        	
 	        	        	
-	        	        	if(type == "mr"){
-	        	        		trader_type = 1;
+	        	        	if(trader_type == 1){
 	        	        		swal({
-			        	          	  title: '挂单成功,待审核通过后同步至交易中心。',
+			        	          	  title: '挂单成功。',
 			        	          	  type: 'success',
 			        	          	  showCancelButton: true,
 			        	          	  confirmButtonText: "确定", 
@@ -621,7 +563,7 @@ function csCPA(id,count){
 	        	    		//可用余额
 	        	    		var yue = dd.ableCpa;
 	        	    		if(yue*0.8 >= count){
-	        	    			window.location.href = "../page/my_invest.html?"+id+"&cs";
+	        	    			window.location.href = "traderBuyJD?"+id+"&cs";
 	        	    		}else{
 	        	    			swal({
 	        			      		  title: "账户钱包CPA余额不足。",
@@ -695,7 +637,7 @@ function mrCPA(id,count){
 		      	});
 	  			return false;
 	        }else{
-	        	window.location.href = "../page/my_invest.html?"+id+"&mr";
+	        	window.location.href = "traderSellJD?"+id+"&mr";
 	        }
 	      },
 	    error: function (XMLHttpRequest, textStatus, errorThrown) {

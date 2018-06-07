@@ -57,6 +57,36 @@ public class PageController {
 		return "trader/traderCenterSell";
 	}
 	
+	@RequestMapping("/traderBuyJD")
+	public String traderBuyJD() {
+		return "trader/traderBuyJD";
+	}
+	
+	@RequestMapping("/traderBuyFK")
+	public String traderBuyFK() {
+		return "trader/traderBuyFK";
+	}
+	
+	@RequestMapping("/traderBuySK")
+	public String traderBuySK() {
+		return "trader/traderBuySK";
+	}
+	
+	@RequestMapping("/traderSellJD")
+	public String traderSellJD() {
+		return "trader/traderSellJD";
+	}
+	
+	@RequestMapping("/traderSellFK")
+	public String traderSellFK() {
+		return "trader/traderSellFK";
+	}
+	
+	@RequestMapping("/traderSellSK")
+	public String traderSellSK() {
+		return "trader/traderSellSK";
+	}
+	
 	@RequestMapping("/traderMyGD")
 	public String traderMyGD() {
 		return "trader/traderMyGD";
@@ -145,6 +175,11 @@ public class PageController {
 	@RequestMapping("/myWorkOrder")
 	public String myWorkOrder() {
 		return "personal/myWorkOrder";
+	}
+	
+	@RequestMapping("/myWorkOrderList")
+	public String myWorkOrderList() {
+		return "personal/myWorkOrderList";
 	}
 	
 }

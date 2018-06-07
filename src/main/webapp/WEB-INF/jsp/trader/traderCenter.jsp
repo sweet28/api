@@ -51,7 +51,7 @@
 			<input type="number" name="" placeholder="请输入交易单价" id="cpadj">
 		</div>
 		<div class="col-xs-6 buy_btn">
-			<a href="javascript:buyCPA();">买入</a>
+			<a href="javascript:buyCPA(1);">买入</a>
 		</div>
 	</div>
 	<div class="cl"></div>
