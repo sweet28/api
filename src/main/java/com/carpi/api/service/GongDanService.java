@@ -10,5 +10,5 @@ public interface GongDanService {
 	public JsonResult addGongdan(GongDan gongDan);
 	
 	//查询历史工单
-	public PageInfo<GongDan> selectGondan(Integer pageNum,Integer pageSize,Integer type);
+	public PageInfo<GongDan> selectGondan(Integer pageNum,Integer pageSize);
 }

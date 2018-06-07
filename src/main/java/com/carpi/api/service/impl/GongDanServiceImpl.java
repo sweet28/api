@@ -40,9 +40,9 @@ public class GongDanServiceImpl implements GongDanService{
 
 	//查询历史工单
 	@Override
-	public PageInfo<GongDan> selectGondan(Integer pageNum,Integer pageSize,Integer type) {
+	public PageInfo<GongDan> selectGondan(Integer pageNum,Integer pageSize) {
 		PageHelper.startPage(pageNum, pageSize);
-		List<GongDan> list = gongDanMapper.selectList(type);
+		List<GongDan> list = gongDanMapper.selectList(null);
 		PageInfo<GongDan> pageInfo = new PageInfo<>(list);
 		return pageInfo;
 	}

@@ -50,10 +50,10 @@ public class GongDanController {
 		String pageNum = request.getParameter("pg");
 		// 条数
 		String pageSize = request.getParameter("ts");
-		// 问题类型
-		String type = request.getParameter("tp");
-
-		return gongDanService.selectGondan(Integer.valueOf(pageNum), Integer.valueOf(pageSize), Integer.valueOf(type));
+//		// 问题类型
+//		String type = request.getParameter("tp");
+		
+		return gongDanService.selectGondan(Integer.valueOf(pageNum), Integer.valueOf(pageSize));
 	}
 
 }

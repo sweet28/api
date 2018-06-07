@@ -24,8 +24,8 @@
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>
 	<div class="work_list">
-		<a href="" class="on"><span>提交工单</span></a>
-		<a href=""><span>工单列表</span></a>
+		<a href="<%=path%>/cpa/myWorkOrder" class="on"><span>提交工单</span></a>
+		<a href="<%=path%>/cpa/myWorkOrderList"><span>工单列表</span></a>
 	</div>
 	<div class="cl"></div>
 	<form action="">
@@ -37,15 +37,15 @@
 			<select id="typecpa">
 			    <option value="mr">交易</option>
 			    <option value="mc">矿机</option>
-			    <option value="mc">其他</option>
+			    <option value="mt">其他</option>
 			</select>
 			<!-- <span><input type="radio" name="p" id="p1"><label for="p1">购买</label></span>
 			<span><input type="radio" name="p" id="p2"><label for="p2">提现</label></span>
 			<span><input type="radio" name="p" id="p3"><label for="p3">其他</label></span> -->
 		</div>
 		<div class="row phash">
-			<span>交易ID</span><span class="hui">(hash)</span><span class="huang">*</span>
-			<input type="text" placeholder="请从发币方获取交易ID">
+			<!-- <span>交易ID</span><span class="hui">(hash)</span><span class="huang">*</span>
+			<input type="text" placeholder="请从发币方获取交易ID"> -->
 		</div>
 	</div>
 	<div class="problems">
@@ -53,16 +53,20 @@
 			<span>问题描述</span><span>*</span>
 		</div>
 		<div class="row">
-			<textarea name="" id="" placeholder="请具体且准确的描述您的问题，这有助于我们更高效的帮助您！"></textarea>
+			<textarea name="" id = "conent" placeholder="请具体且准确的描述您的问题，这有助于我们更高效的帮助您！"></textarea>
 		</div>
-		<div class="row pros">
+		<!-- <div class="row pros">
 			<span>问题截图</span><span>（选填）</span>
-		</div>
-		<div class="row files">
+		</div> -->
+		<form name="form0" id="form0"  enctype="multipart/form-data">  
+		      <input type="file" accept="image/*"name="file0" id="file0"/><br>
+		      <img src="" id="img0" style="width:10%;">
+	    </form>
+		<!-- <div class="row files">
 			<input type="file" name="pic" id="fpic" accept="image/gif" /><label for="fpic"></label>
-		</div>
+		</div> -->
 		<div class="row">
-			<input type="submit" class="msub" value="提交">
+			<input type="submit" onclick="sb();" class="msub" value="提交">
 		</div>
 	</div>
 	</form>
@@ -86,4 +90,5 @@
 		</ul>
 	</div>
 </body>
+<script src="<%=path%>/js/personal/gon_dan.js" type="text/javascript" charset="utf-8"></script>
 </html>

@@ -16,6 +16,7 @@
 <script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.js"></script>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path%>/js/personal/gon_dan_list.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 	<header>
@@ -24,18 +25,16 @@
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>
 	<div class="work_list">
-		<a href=""><span>提交工单</span></a>
-		<a href="" class="on"><span>工单列表</span></a>
+		<a href="<%=path%>/cpa/myWorkOrder"><span>提交工单</span></a>
+		<a href="<%=path%>/cpa/myWorkOrderList" class="on"><span>工单列表</span></a>
 	</div>
 	<div class="cl"></div>
 	<div class="wlist">
 		<ul>
-			<li>
-				<div class="title">
-					<span>交易ID</span>
-					<span>（hash）</span>
-					<span>*</span>
-					<span>请从发币方获取交易ID</span>
+			<li id = "liebiao">
+				<!-- <div class="title">
+					<span>交易类型</span>
+					<span>：</span>
 				</div>
 				<div class="desc">
 					<span>问题描述</span>
@@ -43,22 +42,7 @@
 				</div>
 				<div class="text">
 					<textarea name="" id="" readonly="readonly" placeholder="请具体且准确的描述您的问题，这有助于我们更高效的帮助您！"></textarea>
-				</div>
-			</li>
-			<li>
-				<div class="title">
-					<span>交易ID</span>
-					<span>（hash）</span>
-					<span>*</span>
-					<span>请从发币方获取交易ID</span>
-				</div>
-				<div class="desc">
-					<span>问题描述</span>
-					<span>*</span>
-				</div>
-				<div class="text">
-					<textarea name="" id="" readonly="readonly" placeholder="请具体且准确的描述您的问题，这有助于我们更高效的帮助您！"></textarea>
-				</div>
+				</div> -->
 			</li>
 		</ul>
 	</div>
@@ -74,4 +58,5 @@
 		</ul>
 	</div>
 </body>
+
 </html>
