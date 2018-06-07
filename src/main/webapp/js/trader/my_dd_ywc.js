@@ -44,17 +44,16 @@
               	}
               	
               	var ahref;
-          		ahref = "<a style='font-weight:bold;color: #fff;' href='../page/my_invest2.html?"+list[i].id+"'></a>";
+          		ahref = "<a style='font-weight:bold;color: #fff;' href='traderDetail?"+list[i].id+"'>详情</a>";
               	
           		var totalPriceUSA = list[i].traderCount * list[i].entrustPrice;
-
-  			    txt1 += "<li>" +
-  			    			"<p>类型：" + mm + "单</p>" +
-	  			    		"<span>订单号："+ (list[i].orderNumber) +"</span>" +
-	  			    		"<p>数目价格：" + list[i].traderCount + "CPA*" + list[i].entrustPrice + "$=" + totalPriceUSA + "$</p>" +
-	  			    		"<span>总计人民币：" + totalPriceUSA * 6.5 + "元</span>" +
-	  			    		"<span style='float:right;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;'>" + ahref +"</span>" +
-  			    		"</li>&nbsp;&nbsp;";
+          		txt1 += "<li>" +
+			    			"<p>类型：" + mm + "单</p>" +
+				    		"<span>订单号："+ (list[i].orderNumber) +"</span>" +
+				    		"<p>数目价格：" + list[i].traderCount + "CPA*" + list[i].entrustPrice + "$=" + totalPriceUSA + "$</p>" +
+				    		"<span>总计人民币：" + totalPriceUSA * 6.5 + "元</span>" +
+				    		"<span style='float:right;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;'>" + ahref +"</span>" +
+			    		"</li>&nbsp;&nbsp;";
               }
               $('#a_miner').html(txt1);
           }

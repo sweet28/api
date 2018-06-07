@@ -62,7 +62,9 @@ function Gift() {
         		
         		var runHours = rundate*24;
         		
-        		html += "<ul>" + (index+1) +
+        		var chanbi = content.minerComputingPower * runHours/360;
+        		
+        		html += 
         					"<li>" +
 	        					"<div class='img'>" +
 	        						"<img src='"+getAPIURL()+"/imagenew/miner2.gif' style='max-width: 88%;'>" +
@@ -71,12 +73,14 @@ function Gift() {
 									"<a href=''>"+ xh +"</a>" +
 									"<p>运行时长：<b>"+runHours+"</b></p>" +
 									"<p>算力：<b>"+content.minerComputingPower+"</b></p>" +
+									"<p>产币：<b>"+ chanbi +"</b></p>" +
+									"<p>已入矿池：<b>" + (chanbi - content.totalRevenue) + "</b></p>" +
+									"<p>已入钱包：<b>" + content.totalRevenue + "</b></p>"
 								"</div>" +
 								"<div class='look'>" +
 									"<a href='#'>"+runs+"</a>" +
 								"</div>" +
-							"</li>" +
-						"</ul>";
+							"</li>";
 			});
         	
         	$("#a_miner").html(html);
@@ -86,6 +90,8 @@ function Gift() {
       }
     });
   }
+  
+  setInterval(comptime,5000);
 
   (function () {
     _$gift = $("#a_miner");

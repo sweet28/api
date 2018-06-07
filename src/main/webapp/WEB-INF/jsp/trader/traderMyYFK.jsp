@@ -53,5 +53,5 @@
 		</ul>
 	</div>
 </body>
-<script src="<%=path%>/js/trader/my_dd_dsk.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path%>/js/trader/my_dd_yfk.js" type="text/javascript" charset="utf-8"></script>
 </html>

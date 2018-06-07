@@ -107,6 +107,8 @@ function Gift() {
       }
     });
   }
+  
+  setInterval(comptime,5000);
 
   (function () {
     _$gift = $("#a_miner");

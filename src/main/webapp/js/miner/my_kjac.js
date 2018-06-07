@@ -85,8 +85,6 @@ $.ajax({
         			syz = 0 ;
         		}
         		
-//			    html += "<tr><td class='first'>"+(index+1)+"</td><td>"+xh+"</td><td>"+syz+"</td><td>"+conte+"</td></tr>";
-			    
         		html += "<ul>" + (index+1) +
 							"<li>" +
 								"<div class='img'>" +
@@ -112,6 +110,8 @@ $.ajax({
       }
     });
 }
+
+setInterval(comptime,5000);
 
 (function () {
     _$gift = $("#a_miner");
@@ -169,6 +169,116 @@ function jiedong(kjid,kjjb){
 	        	      dataType: "json",
 	        	      data: {
 	        	    	  "id":kjid,
+	        		        "tmp":tmp,
+	        		        "rad":rad,
+	        		        "tom":ton,
+	        		        "token":commingSoon1(str)
+	        	      },
+	        	      success: function (data) {
+	        	        if (data.status==200) {
+	        	        	swal({
+		        	          	  title: '转入钱包成功。',
+		        	          	  type: 'success',
+		        	          	  showCancelButton: true,
+		        	          	  confirmButtonText: "确定", 
+		        	          	  cancelButtonText: "取消",
+		        	          	  closeOnConfirm: true, 
+		        	          	  closeOnCancel: true
+		        	          	}).then(function(isConfirm) {
+		        	          	  if (isConfirm === true) {
+		        	          		  window.location.href = "myMinerKC";
+		        	          	  } else if (isConfirm === false) {
+		        	          	   
+		        	          	  } else {
+		        	          	    // Esc, close button or outside click
+		        	          	    // isConfirm is undefined
+		        	          	  }
+	        	          	});
+	        	        	$(".zrbutton").show();
+	        	        } else{
+	        	        	swal({
+		        	          	  title: data.msg,
+		        	          	  type: 'error',
+		        	          	  showCancelButton: true,
+		        	          	  confirmButtonText: "确定", 
+		        	          	  cancelButtonText: "取消",
+		        	          	  closeOnConfirm: true, 
+		        	          	  closeOnCancel: true
+		        	          	}).then(function(isConfirm) {
+		        	          	  if (isConfirm === true) {
+		        	          		  window.location.href = "myMinerKC";
+		        	          	  } else if (isConfirm === false) {
+		        	          		  window.location.href = "myMinerKC";
+		        	          	  } else {
+		        	          		  window.location.href = "myMinerKC";
+		        	          	  }
+	        	          	});
+	        	        	$(".zrbutton").show();
+	        	        }
+	        	      },
+	        	      headers: {
+	        	        "Authorization": "Bearer " + getTOKEN()
+	        	      }
+	            });
+	        }
+	      },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+	    	swal({
+	      		  title: "银行卡或身份证未认证，不能转账交易。",
+	      		  icon: "error",
+	      		  button: "确定",
+	      	});
+	    	$(".zrbutton").show();
+  			return false;
+	    }
+    });
+}
+
+
+function jiedongAll(){
+	$(".zrbutton").hide();
+	
+	var sec = localStorage.getItem("sec");
+	if(sec!='1'){
+		swal({
+    		  title: "未认证用户不能收益转账。",
+    		  icon: "error",
+    		  button: "确定",
+    	});
+		$(".zrbutton").show();
+		return false;
+	}
+	$.ajax({
+		type: "post",
+	      url: getAPIURL() + "bank/list",
+	      dataType: "json",
+	      data: {
+	    	  "fensUserId":localStorage.getItem("uid"),
+	    	  "pageSize":100,
+	    	  "pageNum":0
+	      },
+	      success: function (data) {
+	        var list = data.list;;
+	        if (list.length <= 0) {
+	        	swal({
+		      		  title: "银行卡未绑定不能转账收益。",
+		      		  icon: "error",
+		      		  button: "确定",
+		      	});
+	        	$(".zrbutton").show();
+	  			return false;
+	        }else{
+	        	var flag = checkLogin();
+	        	var tmp = getTimestamp();
+	        	var rad = getRandom();
+	        	var ton = getTom();
+	        	var str = "uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton;
+	        	$.ajax({
+	        	      type: "post",
+	        	      url: getAPIURL() + "user/miner/minerjd2",
+	        	      dataType: "json",
+	        	      data: {
+	        	    	  "uid":localStorage.getItem("uid"),
 	        		        "tmp":tmp,
 	        		        "rad":rad,
 	        		        "tom":ton,

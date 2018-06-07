@@ -29,24 +29,10 @@
 		</a>
 	</header>
 	<div class="line"></div>
-	<div class="row myshop"  id="a_miner">
-		<%-- <ul>
-			<li>
-				<div class="img">
-					<img src="<%=path%>/images/p1.jpg">
-				</div>
-				<div class="text">
-					<a href="">CA1型</a>
-					<p>运行时长：<b>1440小时</b></p>
-<!-- 					<p>产量/小时：0.00......</p> -->
-					<!-- <p>矿机编号：H4256655</p> -->
-					<p>矿机状态：<b>正在运行</b></p>
-				</div>
-				<div class="look">
-					<a href="">查看</a>
-				</div>
-			</li>
-		</ul> --%>
+	<div class="row myshop">
+		<ul id="a_miner">
+			
+		</ul>
 	</div>	
 	<div class="cl"></div>
 	<div class="space"></div>

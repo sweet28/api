@@ -51,14 +51,24 @@ function Gift() {
 		  	        			runs="冻结";
 		  	        		}
 		  	        		
-		  	        		if(xh==1){
-		  	        			xh="CA1";
-		  	        		}else if(xh==2){
-		  	        			xh="CA2";
-		  	        		}else if(xh==3){
-		  	        			xh="CA3";
-		  	        		}else if(xh==4){
-		  	        			xh="CA4";
+		  	        		if(content.minerType==1){
+			  	        		if(xh==1){
+			  	        			xh="CA1";
+			  	        		}else if(xh==2){
+			  	        			xh="CA2";
+			  	        		}else if(xh==3){
+			  	        			xh="CA3";
+			  	        		}else if(xh==4){
+			  	        			xh="CA4";
+			  	        		}
+		  	        		}else if(content.minerType==2){
+		  	        			if(xh==1){
+			  	        			xh="CB1";
+			  	        		}else if(xh==2){
+			  	        			xh="CB2";
+			  	        		}else if(xh==3){
+			  	        			xh="CB3";
+			  	        		}
 		  	        		}
 		  	        		
 		  	        		var nowDate = Date.parse(new Date());
