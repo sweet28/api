@@ -234,8 +234,8 @@
 		from gong_dan
 		<where>
 		   is_delete = 0
-		   <if test="type != null">
-			   and type = #{type,jdbcType=INTEGER},
+		   <if test="fensUserId != null">
+				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
 			</if>
 		</where>
 	</select>

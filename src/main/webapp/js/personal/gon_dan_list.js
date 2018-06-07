@@ -5,11 +5,10 @@
 		 dataType: "json",
 		 data:{
 			 "pg":0,
-			 "ts":100
+			 "ts":100,
+			 "uid":localStorage.getItem("uid")
 		 },
 		 success:function(data){
-			 console.log("11111------"+data.list);
-			 console.log("22222-----"+data.list);
 			 var list = data.list;
 				 var html = "";
 				 for(var i = 0;i<list.length; i++){

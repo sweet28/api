@@ -2,6 +2,8 @@ package com.carpi.api.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.carpi.api.pojo.GongDan;
 
 public interface GongDanMapper {
@@ -18,5 +20,5 @@ public interface GongDanMapper {
     int updateByPrimaryKey(GongDan record);
     
     //查询历史工单
-    List<GongDan> selectList(Integer type);
+    List<GongDan> selectList(@Param("fensUserId") Integer fensUserId);
 }
