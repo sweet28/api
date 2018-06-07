@@ -134,7 +134,6 @@ public class BankCardNewController {
 		bankCard.setCreateDate(TimeUtil.getTimeStamp());
 		// bankCard.setBak2(bak2);
 		// bankCard.setName(bak3);
-		
 
 		return payService.aliPay(bankCard);
 	}
@@ -164,5 +163,14 @@ public class BankCardNewController {
 		bankCard.setBak1(bak1);
 
 		return payService.selectPay(bankCard);
+	}
+
+	// 查询支付账户信息
+	@RequestMapping(value = "/zh", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult selectZh(HttpServletRequest request, HttpServletResponse response) {
+		// 粉丝id
+		String fensUserId = request.getParameter("uid");
+		return payService.selectZh(Integer.valueOf(fensUserId));
 	}
 }

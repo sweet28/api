@@ -28,4 +28,6 @@ public interface BankCardMapper {
     //查询支付宝或者微信
     BankCard selectPay(BankCard bankCard);
     
+    //查询支付账户信息
+    BankCard selectZh(@Param("fensUserId") Integer fensUserId);
 }
