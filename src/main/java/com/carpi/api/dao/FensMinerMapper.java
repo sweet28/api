@@ -22,6 +22,9 @@ public interface FensMinerMapper {
 	// 根据粉丝id查询矿机
 	List<FensMiner> selectMiner(Integer fensUserId);
 
+	// 根据粉丝id查询运行矿机
+	List<FensMiner> selectMiner2(Integer fensUserId);
+
 	// 根据粉丝id查询A矿机
 	List<FensMiner> selectAMiner(Integer fensUserId);
 

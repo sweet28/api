@@ -24,7 +24,7 @@ public class FensMinerNewController {
 
 	// 根据粉丝id查询矿机
 	@RequestMapping(value = "/minerList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody   
+	@ResponseBody
 	public JsonResult minerList2(HttpServletRequest request, HttpServletResponse response) {
 		String fensUserId = request.getParameter("uid");
 		if (StringUtils.isEmpty(fensUserId)) {
@@ -128,6 +128,17 @@ public class FensMinerNewController {
 		FensMiner miner = new FensMiner();
 		miner.setId(Integer.valueOf(id));
 		return fensMinerService.thawABMiner(miner);
+	}
+
+	// 解冻
+	@RequestMapping(value = "/minerjd2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult minerJD2(HttpServletRequest request, HttpServletResponse response) {
+		// id
+		String id = request.getParameter("uid");
+		FensMiner miner = new FensMiner();
+		miner.setFensUserId(Integer.valueOf(id));
+		return fensMinerService.thawABMiner2(miner);
 	}
 
 	// 粉丝算力和（亲友团算力和）

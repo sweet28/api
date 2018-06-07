@@ -385,6 +385,14 @@
 		and is_delete = 0
 	</select>
 
+	<!--根据粉丝id查询运行中的矿机 -->
+	<select id="selectMiner2" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
+		and is_delete = 0 and bak2 = "0"
+	</select>
 	<!--根据粉丝id查询待审核矿机价值 -->
 	<select id="selectEranMiner" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
@@ -582,7 +590,7 @@
 		and is_delete = 0
 	</select>
 
-	<!-- 粉丝算力列表  -->
+	<!-- 粉丝算力列表 -->
 	<select id="suanLiList" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		select
