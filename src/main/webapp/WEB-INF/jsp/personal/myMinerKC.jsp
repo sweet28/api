@@ -29,7 +29,11 @@
 			<span id="uname"></span>
 		</a>
 	</header>
-	<div class="line"></div>
+	<div class="line">
+		<div class='look' style="text-align:right;">
+			<a class='zrbutton' href='javascript:jiedongAll();'>一键转入钱包</a>
+		</div>
+	</div>
 	<div class="row myshop"  id="a_miner">
 		<%-- <ul>
 			<li>

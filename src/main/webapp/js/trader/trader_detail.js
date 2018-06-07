@@ -106,7 +106,7 @@ function Gift() {
 		    			    success: function (data) {
 		    			    	mjsj = data.phone;
 		    			    	if(ddState!='4'){
-		    			    		$("#mjsj").html(mjsj);
+		    			    		$("#mjsj").html("手机:"+mjsj);
 		    			    	}
 		    			    },
 		    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -146,7 +146,7 @@ function Gift() {
 		    			    success: function (data) {
 		    			    	mjsj = data.phone;
 		    			    	if(ddState!='4'){
-		    			    		$("#mjsj").html(mjsj);
+		    			    		$("#mjsj").html("手机:"+mjsj);
 		    			    	}
 		    			    },
 		    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -187,12 +187,25 @@ function Gift() {
 		    		        if (list.length <= 0) {
 		    		        	console.log("没有账号信息");
 		    		        } else {
+		    		        	console.log(list);
 		    		        	$.each( list, function(index, content){
 		    		        		var runs = content.isApply;
-		    		        		if(runs==0){
-		    		        			runs="未使用";
-		    		        		}else if(runs==1){
-		    		        			runs="使用中";
+		    		        		if(content.bak1==1){
+		    		        			if(ddState!='4'){
+			    		        			$("#mjxm").html("姓名:"+content.name);
+			    		        			$("#alipayID").html("账号:"+content.cardNumber);
+		    		        			}
+		    		        		}else if(content.bak1==2){
+		    		        			if(ddState!='4'){
+			    		        			$("#mjxm").html("姓名:"+content.name);
+			    		        			$("#weixinID").html("账号:"+content.cardNumber);
+		    		        			}
+		    		        		}else if(content.bak1==3){
+		    		        			if(ddState!='4'){
+			    		        			$("#mjxm").html("姓名:"+content.name);
+			    		        			$("#imtokenID").html("账号:"+content.cardNumber);
+		    		        			}
+		    		        		}else{
 		    		        			if(ddState!='4'){
 			    		        			$("#mjxm").html("姓名:"+content.name);
 			    		        			$("#bank").html("账号类型:"+content.bank);

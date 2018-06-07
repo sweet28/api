@@ -67,10 +67,18 @@
 				<span style="color:#E91E63;font-weight:bold;">卖家信息：</span>
 				<p id="mjxm"></p>
 				<span id="mjsj"></span>
+				<p id="bankAttr"></p>
+				<p style="color:#E91E63;font-weight:bold;">银行卡信息</p>
+				<span id=""></span>
 				<p id="bank"></p>
 				<span id="bankCard"></span>
 				<p id="bankDetail"></p>
-				<span id="bankAttr"></span>
+				<span style="color:#E91E63;font-weight:bold;">支付宝信息</span>
+				<p id="alipayID">无</p>
+				<span style="color:#E91E63;font-weight:bold;">微信信息</span>
+				<p id="weixinID">无</p>
+				<span style="color:#E91E63;font-weight:bold;">imtoken eth地址</span>
+				<p id="imtokenID">无</p>
 			</li>
 		</ul>
 		<p style="color:gray;">******</p>
