@@ -338,6 +338,89 @@
    });
 })();
 
+function searchTrader(type){
+	var phoneValue = $("#searchPhone").val();
+	
+	if(phoneValue==null || phoneValue==""){
+		swal({
+	  		  title: "请输入查询账号。",
+	  		  icon: "error",
+	  		  button: "确定",
+	  	});
+		return false;
+	}else{
+		$.ajax({
+		      type: "post",
+		      url: getAPIURL() + "kuangjy/jy/phone",
+		      dataType: "json",
+		      data:{
+		    	  "sh": phoneValue,
+	        	  "tp": type
+		      },
+		      success: function (data) {
+		    	  console.log(data);
+		    	  if(data.status==200){
+		    		  var list = data.data;
+			            if (list.length <= 0) {
+			              var txtsNULL ="<p class='nothing'>无查询的订单</p>";
+			              $('#gift').html(txtsNULL);
+			            } 
+			            else {
+			              var txt1='';
+			              for (var i = 0; i < list.length; i++) {
+			              	var cpatype ;
+			                	var mm;
+			                	
+			                	if(list[i].traderType==2){
+			                		cpatype = "售卖中";
+			                		mm="卖";
+			                	}
+			                	if(list[i].traderType==1){
+			                		cpatype = "买入中";
+			                		mm="买"
+			                	}
+			                	
+			                	var ahref = "";
+			                	if(type==1){
+			                		//ahref = "<a href='javascript:csCPA("+list[i].id+","+list[i].traderCount+");'>出售</a>";
+			                		ahref = "<a href='javascript:csCPA("+list[i].id+","+list[i].traderCount+");'>出售</a>";
+			                	}
+			                	if(type==2){
+			                		//ahref = "<a href='javascript:mrCPA("+list[i].id+","+list[i].traderCount+");'>买入</a>";
+			                		ahref = "<a href='javascript:mrCPA("+list[i].id+","+list[i].traderCount+");'>买入</a>";
+			                	}
+			                	
+			                	var totalPrice = "";
+			                	totalPrice = list[i].traderCount * list[i].entrustPrice;
+			                	
+			    			    txt1 += "<li>" +
+			    			    			"<span class='us1 on'>"+mm+(list[i].id)+"</span>" +
+			    			    			"<span class='us2'>"+list[i].traderCount+"</span>" +
+			    			    			"<span class='us3'>"+list[i].entrustPrice+"</span>" +
+			    			    			"<span class='us4' style='width:15%;word-break:normal;display:block;white-space:pre-wrap;overflow:hidden;color:#0066CC;'>"+totalPrice+"</span>" +
+			    			    			"<span class='us5'>"+ ahref +"</span>" +
+						    			"</li>";
+			                  
+			              }
+			              $('#gift').html(txt1);
+			            }
+		    	  }else{
+		    		  var txtsNULL ="<p class='nothing'>无查询的订单</p>";
+		              $('#gift').html(txtsNULL);
+		    	  }
+	          },
+	          error: function(XMLHttpRequest, textStatus, errorThrown){
+	            //var txtsNULL ="<p class='nothing'>暂无记录</p>";
+	            //_$indexlist.append(txtsNULL);
+	            //alert('出错了！');
+	          }
+		      ,headers: {
+		        "Authorization": "Bearer " + getTOKEN()
+		      }
+	    });
+	}
+}
+
 function buyCPA(trader_type){
 	var sec = localStorage.getItem("sec");
 	if(sec!='1'){

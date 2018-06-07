@@ -36,8 +36,8 @@
 	<div class="cl"></div>
 	<div class="deal">
 		<div class="deal_text">
-			<p>今日最高价：<span style="color:red;" id="zgj"></span></p>
-			<p>今日最低价：<span style="color:green;" id="zdj"></span></p>
+			<p>今日最高价($)：<span style="color:red;" id="zgj"></span></p>
+			<p>今日最低价($)：<span style="color:green;" id="zdj"></span></p>
 			<!-- <b>$:<span id="jye">10.00</span></b> -->
 		</div>
 		<div id="container" style="height: 260%;"></div>
@@ -68,8 +68,8 @@
 	</div>
 	<div class="user_list">
 		<div class="searchBox">
-			<input type="text" class="sea" value="" placeholder="买家账号检索">
-			<input type="submit" class="subbtn" value="检索">
+			<input type="text" id="searchPhone" class="sea" value="" placeholder="买家账号检索">
+			<input type="submit" class="subbtn" value="检索" onclick="searchTrader(1);">
 		</div>
 		<ul id="gift">
 			<!-- <li>
