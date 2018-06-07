@@ -45,7 +45,6 @@
 		</ul>
 	</div>
 	
-	<div class="line"></div>
 	<div class="space"></div>
 	<div class="menu">
 		<ul>

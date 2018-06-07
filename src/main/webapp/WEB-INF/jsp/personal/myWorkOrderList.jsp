@@ -47,9 +47,9 @@
 		</ul>
 	</div>
 	
-	<div class="line"></div>
+<!-- 	<div class="line"></div>
 	<div class="space"></div>
-	<div class="menu">
+ -->	<div class="menu">
 		<ul>
 			<li class="col-xs-3"><a href="<%=path%>/cpa/minerHouse"><img style="width:40%;height:auto;" src="<%=path%>/imagenew/shangchengweixuanzhong.png" alt=""><p>矿机商城</p></a></li>
 			<li class="col-xs-3"><a href="<%=path%>/cpa/myMiner"><img style="width:40%;height:auto;" src="<%=path%>/imagenew/kuangjiweixuanzhong.png" alt=""><p>我的矿机</p></a></li>
