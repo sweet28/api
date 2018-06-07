@@ -21,7 +21,7 @@
 <body>
 	<header>
 		<span>我的工单</span>
-		<a href="#" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
+		<a href="javascript:history.go(-1)" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>
 	<div class="work_list">

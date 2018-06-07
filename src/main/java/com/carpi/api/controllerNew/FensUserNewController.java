@@ -167,7 +167,7 @@ public class FensUserNewController {
 		// 旧交易密码
 		String oldCapitalPwd = request.getParameter("old_jymm");
 		// 新交易密码
-		String newCapitalPwd = request.getParameter("new _jymm");
+		String newCapitalPwd = request.getParameter("new_jymm");
 		// 粉丝id
 		String fensUserId = request.getParameter("uid");
 

@@ -182,4 +182,9 @@ public class PageController {
 		return "personal/myWorkOrderList";
 	}
 	
+	@RequestMapping("/anquan")
+	public String anquan() {
+		return "personal/anquan";
+	}
+	
 }

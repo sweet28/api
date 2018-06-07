@@ -91,7 +91,7 @@ function Safechange(hash) {
         type: "POST",
         url: getAPIURL() + "fenuser/updatePwd",
         data: {
-        	fensUserId:uid,
+        	uid:uid,
         	newPwd:newPwd,
         	OldPwd:oldPwd
         },

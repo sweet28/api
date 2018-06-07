@@ -354,7 +354,7 @@ public class FensUserServiceImpl implements FensUserService {
 		fensUser.setId(fensUserId);
 		// 根据旧密码查询用户
 		FensUser fensUser2 = fensUserMapper.selectOldPwd(fensUser);
-		if (fensUser2 == null) {
+		if (StringUtils.isEmpty(fensUser2)) {
 			return JsonResult.build(500, "原登入密码错误，请重新出入");
 		}
 
@@ -364,7 +364,7 @@ public class FensUserServiceImpl implements FensUserService {
 		fensUser3.setId(fensUserId);
 		int result = fensUserMapper.updateByPrimaryKeySelective(fensUser3);
 		if (result != 1) {
-			return JsonResult.build(500, "修改密码错误");
+			return JsonResult.build(500, "修改密码失败");
 		}
 		return JsonResult.ok();
 	}
@@ -381,7 +381,7 @@ public class FensUserServiceImpl implements FensUserService {
 			fensUser2.setId(fensUser.getId());
 			int result = fensUserMapper.updateByPrimaryKeySelective(fensUser2);
 			if (result != 1) {
-				return JsonResult.build(500, "设置交易密码错误");
+				return JsonResult.build(500, "设置交易密码失败");
 			}
 		}
 		return JsonResult.ok();
@@ -410,7 +410,7 @@ public class FensUserServiceImpl implements FensUserService {
 		fensUser3.setId(fensUserId);
 		int result = fensUserMapper.updateByPrimaryKeySelective(fensUser3);
 		if (result != 1) {
-			return JsonResult.build(500, "修改密码错误");
+			return JsonResult.build(500, "修改密码失败");
 		}
 		return JsonResult.ok();
 	}
