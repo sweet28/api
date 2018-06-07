@@ -29,5 +29,5 @@ public interface BankCardMapper {
     BankCard selectPay(BankCard bankCard);
     
     //查询支付账户信息
-    BankCard selectZh(@Param("fensUserId") Integer fensUserId);
+    List<BankCard> selectZh(@Param("fensUserId") Integer fensUserId);
 }

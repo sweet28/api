@@ -175,37 +175,40 @@ function Gift() {
 		    		
 		    		$.ajax({
 		    		      type: "post",
-		    		      url: getAPIURL() + "bank/list",
+		    		      url: getAPIURL() + "fs/bank/zh",
 		    		      dataType: "json",
 		    		      data: {
-		    		    	  "fensUserId":userid,
-		    		    	  "pageSize":100,
-		    		    	  "pageNum":0
+		    		    	  "uid":userid
 		    		      },
 		    		      success: function (data) {
-		    		        var list = data.list;
+		    		        var list = data.data;
 		    		        if (list.length <= 0) {
 		    		        	console.log("没有账号信息");
 		    		        } else {
 		    		        	console.log(list);
 		    		        	$.each( list, function(index, content){
 		    		        		var runs = content.isApply;
+	    		        			console.log(content.bak1+"-1");
 		    		        		if(content.bak1==1){
+		    		        			console.log(content.bak1+"-2");
 		    		        			if(ddState!='4'){
 			    		        			$("#mjxm").html("姓名:"+content.name);
 			    		        			$("#alipayID").html("账号:"+content.cardNumber);
 		    		        			}
 		    		        		}else if(content.bak1==2){
+		    		        			console.log(content.bak1+"-3");
 		    		        			if(ddState!='4'){
 			    		        			$("#mjxm").html("姓名:"+content.name);
 			    		        			$("#weixinID").html("账号:"+content.cardNumber);
 		    		        			}
 		    		        		}else if(content.bak1==3){
+		    		        			console.log(content.bak1+"-4");
 		    		        			if(ddState!='4'){
 			    		        			$("#mjxm").html("姓名:"+content.name);
 			    		        			$("#imtokenID").html("账号:"+content.cardNumber);
 		    		        			}
 		    		        		}else{
+		    		        			console.log(content.bak1+"-5");
 		    		        			if(ddState!='4'){
 			    		        			$("#mjxm").html("姓名:"+content.name);
 			    		        			$("#bank").html("账号类型:"+content.bank);
