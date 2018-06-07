@@ -35,6 +35,8 @@
 				<!-- <div class="title">
 					<span>交易类型</span>
 					<span>：</span>
+					<span>单号</span>
+					<span>：</span>
 				</div>
 				<div class="desc">
 					<span>问题描述</span>
@@ -43,6 +45,24 @@
 				<div class="text">
 					<textarea name="" id="" readonly="readonly" placeholder="请具体且准确的描述您的问题，这有助于我们更高效的帮助您！"></textarea>
 				</div> -->
+			</li>
+		</ul>
+		
+		<ul>
+			<li id = "liebiao2">
+				 <div class="title">
+					<span>交易类型</span>
+					<span>：</span>
+					<span>单号</span>
+					<span>：</span>
+				</div>
+				<div class="desc">
+					<span>问题描述</span>
+					<span>*</span>
+				</div>
+				<div class="text">
+					<textarea name="" id="" readonly="readonly" placeholder="请具体且准确的描述您的问题，这有助于我们更高效的帮助您！"></textarea>
+				</div> 
 			</li>
 		</ul>
 	</div>

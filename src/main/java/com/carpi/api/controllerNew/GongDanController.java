@@ -40,6 +40,7 @@ public class GongDanController {
 		gongDan.setType(Integer.valueOf(type));
 		gongDan.setProblem(problem);
 		gongDan.setImg(img);
+		gongDan.setBak1("1");
 		gongDan.setCreateDate(TimeUtil.getTimeStamp());
 		return gongDanService.addGongdan(gongDan);
 	}
@@ -52,12 +53,13 @@ public class GongDanController {
 		String pageNum = request.getParameter("pg");
 		// 条数
 		String pageSize = request.getParameter("ts");
-		//粉丝id
+		// 粉丝id
 		String fensUserId = request.getParameter("uid");
-//		// 问题类型
-//		String type = request.getParameter("tp");
-		
-		return gongDanService.selectGondan(Integer.valueOf(pageNum), Integer.valueOf(pageSize),Integer.valueOf(fensUserId));
+		// // 问题类型
+		// String type = request.getParameter("tp");
+
+		return gongDanService.selectGondan(Integer.valueOf(pageNum), Integer.valueOf(pageSize),
+				Integer.valueOf(fensUserId));
 	}
 
 }
