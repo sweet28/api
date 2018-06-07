@@ -3,7 +3,7 @@
 	var flag = checkLogin();
   
     var phone = Number(getPhone());
-    var yqURL = "http://cpa.artforyou.cn:8088/api/reg.jsp?yqurl=";
+    var yqURL = "http://cpa.artforyou.cn:8089/api/reg.jsp?yqurl=";//"http://cpa.artforyou.cn:8089/api/reg.jsp?yqurl=";
   
     if(phone!=null){
     	$("#yaoqing_url").html(yqURL + phone.toString(8));

@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -52,6 +53,7 @@ import com.carpi.api.pojo.FensWallet;
 import com.carpi.api.service.FensUserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.github.pagehelper.util.StringUtil;
 
 @Service
 public class FensUserServiceImpl implements FensUserService {
@@ -144,7 +146,7 @@ public class FensUserServiceImpl implements FensUserService {
 						MD5.encodeString(fensUser.getPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
 				FensUser fensUser2 = new FensUser();
 				FensUser selectReferee = new FensUser();
-				if (fensUser.getRefereePhone() != null && fensUser.getRefereePhone() != "") {
+				if (!StringUtils.isEmpty(fensUser.getRefereePhone())) {
 					// 查询是否存在该邀请人
 					selectReferee = fensUserMapper.selectReferee(fensUser.getRefereePhone());
 					if (selectReferee == null) {

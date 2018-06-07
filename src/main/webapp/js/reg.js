@@ -397,6 +397,7 @@ function getObjectURL(file) {
 				return false;
 			} else {
 				$("#modal").show();
+				console.log("--------------------------------------------------------------------------------:::"+recommend_p.val());
 				$.ajax({
 					type : "post",
 					url : getAPIURL() + "user/fens/zc",
