@@ -11,10 +11,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=path%>/css/mobile.css">
+<link rel="stylesheet" type="text/css" href="<%=path%>/sweetalert/css/sweetalert.css">
 <script src="<%=path%>/lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.js"></script>
+<%-- <script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.js"></script> --%>
+<script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.min.js"></script>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="<%=path%>/lib/js/echarts.min.js"></script>
 <script src="<%=path%>/js/trader/invest.js" type="text/javascript" charset="utf-8"></script>

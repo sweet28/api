@@ -31,7 +31,7 @@
 	<form action="">
 	<div class="problem">
 		<div class="row phash">
-			<span>单价($)</span><span class="hui"></span><span class="huang">*</span>
+			<span>单价（$）</span><span class="hui"></span><span class="huang">*</span>
 			<input type="text" placeholder="" id="cpaprice" disabled="disabled">
 		</div>
 		<div class="row phash">
@@ -44,12 +44,12 @@
 		</div>
 	</div>
 	<div class="problems">
-		<div class="row pros">
+		<!-- <div class="row pros">
 			<span>上传身份证</span><span class="huang">*</span>
 		</div>
 		<div class="row files">
 			<input type="file" name="pic" id="fpic" accept="image/gif" /><label for="fpic"></label>
-		</div>
+		</div> -->
 		<div class="row">
 			<input type="submit" class="msub" value="出售" onclick="cpaNextChuShou();">
 		</div>

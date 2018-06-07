@@ -300,9 +300,11 @@
                   	
                   	var ahref = "";
                   	if(_type==1){
+                  		//ahref = "<a href='javascript:csCPA("+list[i].id+","+list[i].traderCount+");'>出售</a>";
                   		ahref = "<a href='javascript:csCPA("+list[i].id+","+list[i].traderCount+");'>出售</a>";
                   	}
                   	if(_type==2){
+                  		//ahref = "<a href='javascript:mrCPA("+list[i].id+","+list[i].traderCount+");'>买入</a>";
                   		ahref = "<a href='javascript:mrCPA("+list[i].id+","+list[i].traderCount+");'>买入</a>";
                   	}
                   	if(_type==9){
@@ -448,17 +450,17 @@ function buyCPA(trader_type){
 			        	          	  cancelButtonText: "取消",
 			        	          	  closeOnConfirm: true, 
 			        	          	  closeOnCancel: true
-			        	          	}).then(function(isConfirm) {
-			        	          	  if (isConfirm === true) {
-			        	          		  window.location.href = "traderCenter";
-			        	          	  } else if (isConfirm === false) {
-			        	          		  window.location.href = "traderCenter";
-			        	          	  } else {
-			        	          		  window.location.href = "traderCenter";
-			        	          	  }
-		        	          	});
+		        	        		},
+		        	        		function(isConfirm){ 
+		        	        		  if (isConfirm) { 
+		        	        		    //swal("删除！", "你的虚拟文件已经被删除。","success"); 
+		        	        		    window.location.href = "traderCenter";
+		        	        		  } else { 
+		        	        		    //swal("取消！", "你的虚拟文件是安全的:)","error"); 
+		        	        		    window.location.href = "traderCenter";
+		        	        		  } 
+	        	        		});
 	        	        	}
-	        	        	
 	        	        	
 	        	        	if(trader_type == 1){
 	        	        		swal({
@@ -469,15 +471,16 @@ function buyCPA(trader_type){
 			        	          	  cancelButtonText: "取消",
 			        	          	  closeOnConfirm: true, 
 			        	          	  closeOnCancel: true
-			        	          	}).then(function(isConfirm) {
-			        	          	  if (isConfirm === true) {
-			        	          		  window.location.href = "traderCenter";
-			        	          	  } else if (isConfirm === false) {
-			        	          		  window.location.href = "traderCenter";
-			        	          	  } else {
-			        	          		  window.location.href = "traderCenter";
-			        	          	  }
-		        	          	});
+		        	        		},
+		        	        		function(isConfirm){ 
+		        	        		  if (isConfirm) { 
+		        	        		    //swal("删除！", "你的虚拟文件已经被删除。","success"); 
+		        	        		    window.location.href = "traderCenter";
+		        	        		  } else { 
+		        	        		    //swal("取消！", "你的虚拟文件是安全的:)","error"); 
+		        	        		    window.location.href = "traderCenter";
+		        	        		  } 
+	        	        		});
 	        	        	}
 	        	          
 	        	        } else {
@@ -563,7 +566,81 @@ function csCPA(id,count){
 	        	    		//可用余额
 	        	    		var yue = dd.ableCpa;
 	        	    		if(yue*0.8 >= count){
-	        	    			window.location.href = "traderBuyJD?"+id+"&cs";
+	        	    			
+	        	    			swal({   
+	        	    				title: "请输入交易密码",   
+	        	    				type: "input",   
+	        	    				showCancelButton: true,   
+	        	    				closeOnConfirm: false,   
+	        	    				animation: "slide-from-top",   
+	        	    				inputPlaceholder: "请输入交易密码！" 
+	        	    			}, function(inputValue){   
+	        	    				if (inputValue === false) return false;      
+	        	    				if (inputValue === "") {     
+	        	    					swal.showInputError("请输入!");     
+	        	    					return false   
+	        	    				}
+	        	    				
+	        	    				var tmp = getTimestamp();
+	        	    			    var rad = getRandom();
+	        	    			    var ton = getTom();
+	        	    			    var str = "id="+id+"uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton;
+	        	    				
+	        	    			    $.ajax({
+	        	    				      type: "post",
+	        	    				      url: getAPIURL() + "kuangjy/jy/buyDanJieDan",
+	        	    				      dataType: "json",
+	        	    				      data:{
+	        	    				    	  "id":id,
+	        	    				    	  "uid":localStorage.getItem("uid"),
+	        	    				    	  "tmp":tmp,
+	        	    				          "rad":rad,
+	        	    				          "tom":ton,
+	        	    				          "token":commingSoon1(str)
+	        	    				      },
+	        	    				      success: function (data) {
+	        	    				    	  console.log("--------------111---------"+data);
+	        	    				        if (data.status==200) {
+	        	    				        	swal({
+	        	    					          	  title: '交易提交成功，待系统扫描CPA资产合法性通过后，进行交易。',
+	        	    					          	  type: 'success',
+	        	    					          	  showCancelButton: true,
+	        	    					          	  confirmButtonText: "确定", 
+	        	    					          	  cancelButtonText: "取消",
+	        	    					          	  closeOnConfirm: true, 
+	        	    					          	  closeOnCancel: true
+	        	    					          	},function(isConfirm) {
+	        	    					          	  if (isConfirm === true) {
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          	  } else if (isConfirm === false) {
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          	  } else {
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          	  }
+	        	    				          	});
+	        	    				        } else {
+	        	    				        	swal({
+	        	    					          	  title: data.msg,
+	        	    					          	  type: 'error',
+	        	    					          	  showCancelButton: true,
+	        	    					          	  confirmButtonText: "确定", 
+	        	    					          	  cancelButtonText: "取消",
+	        	    					          	  closeOnConfirm: true, 
+	        	    					          	  closeOnCancel: true
+	        	    					          	},function(isConfirm) {
+	        	    					          	  if (isConfirm === true) {
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          	  } else if (isConfirm === false) {
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          	  } else {
+	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenter";
+	        	    					          	  }
+	        	    				          	});
+	        	    				        }
+	        	    				      }
+	        	    				});
+	        	    			});
+	        	    			
 	        	    		}else{
 	        	    			swal({
 	        			      		  title: "账户钱包CPA余额不足。",
@@ -604,6 +681,93 @@ function csCPA(id,count){
 	    }
     });
 }
+
+//function csCPA(id,count){
+//	var sec = localStorage.getItem("sec");
+//	if(sec!='1'){
+//		swal({
+//    		  title: "未认证用户不能交易。",
+//    		  icon: "error",
+//    		  button: "确定",
+//    	});
+//		return false;
+//	}
+//	
+//	$.ajax({
+//		type: "post",
+//	      url: getAPIURL() + "bank/list",
+//	      dataType: "json",
+//	      data: {
+//	    	  "fensUserId":localStorage.getItem("uid"),
+//	    	  "pageSize":100,
+//	    	  "pageNum":0
+//	      },
+//	      success: function (data) {
+//	        var list = data.list;
+//	        if (list.length <= 0) {
+//	        	console.log("没有账号信息");
+//	        	swal({
+//		      		  title: "银行卡未绑定不能交易挂单。",
+//		      		  icon: "error",
+//		      		  button: "确定",
+//		      	});
+//	  			return false;
+//	        }else{
+//	        	
+//	        	$.ajax({
+//	        	    type: "post",
+//	        	    url: getAPIURL() + "wallet/list",
+//	        	    dataType: "json",
+//	        	    data: {
+//	        	    	"fensUserId":localStorage.getItem("uid")
+//	        	    },
+//	        	    success: function (data) {
+//	        	    	var dd = data.data;
+//	        	    	if(data.status==200){
+//	        	    		//可用余额
+//	        	    		var yue = dd.ableCpa;
+//	        	    		if(yue*0.8 >= count){
+//	        	    			window.location.href = "traderBuyJD?"+id+"&cs";
+//	        	    		}else{
+//	        	    			swal({
+//	        			      		  title: "账户钱包CPA余额不足。",
+//	        			      		  icon: "error",
+//	        			      		  button: "确定",
+//	        			      	});
+//	        	    			return false;
+//	        	    		}
+//	        	    	}else{
+//	        	    		swal({
+//	      			      		  title: "账户钱包CPA余额不足。",
+//	      			      		  icon: "error",
+//	      			      		  button: "确定",
+//	      			      	});
+//	            		    return false;
+//	        	    	}
+//	        	    },
+//	        	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+//	        	    	swal({
+//	  			      		  title: "账户钱包CPA余额不足。",
+//	  			      		  icon: "error",
+//	  			      		  button: "确定",
+//	  			      	});
+//	        	    	flag = 0;
+//	          			return false;
+//	        	    }
+//	            });
+//	        }
+//	      },
+//	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+//	    	console.log("没有账号信息2222");
+//	    	swal({
+//	      		  title: "身份不合法，不能挂单交易。",
+//	      		  icon: "error",
+//	      		  button: "确定",
+//	      	});
+//  			return false;
+//	    }
+//    });
+//}
 
 function mrCPA(id,count){
 	var sec = localStorage.getItem("sec");
