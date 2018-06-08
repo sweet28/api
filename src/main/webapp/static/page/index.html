@@ -2,173 +2,120 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="UTF-8">
+    <title>消息</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
     <meta name="format-detection" content="telephone=no, email=no"/>
-    <meta name="Keywords" content="car,车派,cpc">
-    <meta name="description" content=""/>
-    <title>carπ.车派.cpa</title>
-    <link rel="stylesheet" href="../css/common.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
+    <link rel="stylesheet" href="../css/common.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css?v=1.2.2"/>
+    <link rel="stylesheet" href="../css/personalCenter.css?v=1.2.2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../lib/css/dropload.css"/>
     <link rel="stylesheet" href="../lib/css/layer.css" type="text/css">
-    <link rel="stylesheet" type="text/css" href="../lib/css/weui.min.css">
-    <link rel="stylesheet" type="text/css" href="../lib/css/jquery-weui.css">
-    <link rel="stylesheet" type="text/css" href="../css/bankpublic.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/wealth.css">
-    <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../lib/js/jquery.base64.js"></script>
-    <script src="../lib/js/jquery-2.1.4.min.js"></script>
-    <script src="../lib/js/layer.js"></script>
-    <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../js/loading.js"></script>
+    <style type="text/css">
+        .header{
+            background:#f46054;
+        }
+        .container>section:first-of-type{
+            top: 1.92rem;
+        }
+        .tbgg{
+            position: relative;
+        }
+        .tbgg:after{
+            content: "";
+            position: absolute;
+            height: 0.34rem;
+            border-left: 1px solid #dedede;
+            right: 0;
+            top: 0.23rem;
+        }
+        .wrapper1{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+        .wrapper{
+            width: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+        .notification_list{
+            overflow: hidden;
+        }
+        .list{
+            background: #fff;
+            height: 90%;
+        }
+        .returntop{
+            position: fixed;
+            z-index: 99999;
+            width: 0.78rem;
+            right: 0.3rem;
+            bottom: 1.4rem;
+        }
+        .notification_list .to_detail {
+            width: 0.2rem;
+            position: absolute;
+            right: 0.3rem;
+            top: 0.35rem;
+        }
+        .mescroll-downwarp .downwarp-tip{
+            margin-top: 30px;
+        }
+        .nodata{
+            text-align: center;
+        }
+        .nodata img{width: 2.42rem;height:1.7rem;margin-top: 45%;}
+        .nodata p{line-height: 0.6rem;}
+    </style>
+    <link rel="stylesheet" type="text/css" href="../lib/css/mescroll.min.css"/>
 </head>
-<body style="position: relative;overflow: hidden;background: #f2f2f0;">
+<body class="notificationPage">
 <div class="wrap">
-    <section class="container index">
-        <!--0807 v1.2 star-->
-        <header class="header" style="background-color: #fd8147;">
-            <a href="notification.html"><i class="icon" id="homeNews"></i></a>
-            <span style="color:#fff">车派.CPA</span>
-            <a href="javascript:;" onclick="clickMe()"><i class="icon"></i></a>
-        </header>
-        <!--0807 v1.2 end-->
-        <section style="height: 100%;overflow: auto;">
-            <div id="slide" class="slide index-slide">
-                <!-- 轮播图片数量可自行增减 -->
-				<div class="img"><a href="#"><img src="../img/login_bg3.png"/></a></div>
+        <section class="list publiclist_wrap">
+            <div id="mescroll1" class="mescroll">
+                <ul class="public_list">
+                <br><br><br>
+                	<p style="font-size:20px;">通告</p><br>
+                	<p style="font-size:14px;">致CPA所有会员：大家好！</p><br>
+					<p style="font-size:14px;">2018月6月9日关网一天，进行数据迁移。</p><br>
+					<p style="font-size:14px;">9月10日car.π2.0正式上线，新版上线后，新增“我的工单”，所有会员遇到问题可以在自已的后台提交工单，进行问题反馈。遇到有争议的问题，找自己的推荐人提供证据，逐级反馈。非团队领导人提交，后台将不予处理。感谢您的理解与支持！</p><br>
+                	<p style="font-size:14px;"> 2018年6月8日</p><br><br><br><br><br>
+                </ul>
+                <ul class="public_list">
+                	<p style="font-size:20px;">Notice</p><br>
+                	<p style="font-size:14px;">To all CPA participants: Hello everyone!</p><br>
+					<p style="font-size:14px;">On June 9, 2018, one day off the network, data migration. On September 10, car.π2.0 was formally launched. After the new version went online, “My Work Order” was added. All members who had encountered problems could submit their work orders in the background to answer questions. Encounter controversial issues, find their own recommender to provide evidence, step by step feedback. Non-team leader submissions will not be processed in the background. Thank you for your understanding and support!</p><br>
+                	<p style="font-size:14px;">June 8, 2018</p><br>
+                </ul>
             </div>
-            <!--0807 v1.2 star-->
-            <ul class="sub_nav clearfix">
-                <li><a href="my_kj.html"><img src="../img/ptsja.png"><span>我的矿机</span></a></li>
-                <li><a href="javascript:;" id="myfens"><img src="../img/ewma.png"><span>粉丝团</span></a></li>
-                <li id="newer"><a href="noviceRaiders.html"><img src="../img/xsgla.png"><span>新手攻略</span></a></li>
-                <li id="shoppingMall"><a href="javascript:commingSoon();"><img src="../img/jfsca.png"><span>CPA商城</span></a></li>
-            </ul>
-            <!--0807 v1.2 end-->
-            
-            <section class="" style="padding-bottom: 0.5rem;background: #fff" id="">
-                <div class="newer">
-                    <div class="newer_title">CPA资料</div>
-                    <ul class="text_wrap clearfix" id="">
-                        <li><span class="Period"></span><span style="color:blue;"><a href="cpa_wpaper.html">CPA白皮书</a></span></li>
-                        <li><span class="Amount red"></span><span><a href="cpa_miniwpaper.html">CPA介绍</a></span></li>
-                        <li><span class="Amount red"></span><span><a href="cpa_yxgz.html">CPA挖矿规则</a></span></li>
-                        <li><span class="EachAmount"></span><span><a href="cpa_wygg.html">CPA五月活动公告</a></span></li>
-                    </ul>
-                </div>
-            </section>
-            <p style="color:white;">&nbsp;</p>
-            <!--新手部分-->
-            <section class="newer_list" style="padding-bottom: 0.5rem;background: #fff" id="newer_list">
-                <div class="newer">
-                    <div class="newer_title">CPA钱包</div>
-                    <!-- <div class="row-bot">
-                        <div class="center-shadow">
-                            <div class="carousel-container">
-                                <div id="carousel" class="carousel">
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-                    <ul class="text_wrap clearfix" id="textDesc">
-                        <li><span class="Period">CPA锁定:</span><span id="lockcpa">0.00000</span></li>
-                        <li><span class="Amount red">CPA可用:</span><span id="ablecpa">0.00000</span></li>
-                        <li><span class="EachAmount">CPA总数:</span><span id="totalcpa">0.00000</span></li>
-                    </ul>
-                </div>
-            </section>
-            
-            <p style="color:white;">&nbsp;</p>
-            <!--新手部分-->
-            <section class="newer_list" style="padding-bottom: 0.5rem;background: #fff" id="newer_list">
-                <div class="newer">
-                    <div class="newer_title">CPA交易</div>
-                    <!-- <div class='content-padded link_card'> -->
-                    	<p style="font-size:14px;color:red;text-align:center;">开放交易时间：11:00至18:00</p>
-                    	<p style="font-size:14px;color:red;text-align:center;">交易原则：订单需要审核卖家CPA资产通过后，进行交易。</p>
-                    	<br>
-                    	<p style="font-size:13px;color:blue;text-align:center;">交易会扣除卖方20%手续费。核算公式如下：</p>
-                    	<p style="font-size:13px;color:blue;text-align:center;">实际扣除数量=卖出数量  + 手续费</p>
-                    	<p style="font-size:13px;color:blue;text-align:center;">手续费=实际扣除数量*0.2</p>
-                    	<p style="font-size:13px;color:blue;text-align:center;">CPA卖出数量=实际扣除数量 - 手续费</p>
-                    	<p style="font-size:13px;color:blue;text-align:center;">总金额=CPA卖出数量*交易单价</p>
-					    <div class="recharge">
-					        <div class="weui_cells weui_cells_form">
-					            <div class="weui_cells_title">交易类型</div>
-					            <div class="weui_cell">
-				                    <select id="typecpa">
-									  <option value="mr">买入</option>
-									  <option value="mc">卖出</option>
-									</select>
-					            </div>
-					            <div class="clear hasBorder"></div>
-					            <div class="weui_cells_title">交易数量(cpa)</div>
-					            <div class="weui_cell">
-					                <div class="weui_cell_bd weui_cell_primary">
-					                    <input class="weui_input" type="number" placeholder="请输入交易数量" id="cpanum">
-					                </div>
-					            </div>
-					            <div class="clear hasBorder"></div>
-					            <div class="weui_cells_title">交易单价($)</div>
-					            <div class="weui_cell">
-					                <div class="weui_cell_bd weui_cell_primary">
-					                    <input class="weui_input" type="number" placeholder="请输入交易单价" id="cpadj">
-					                </div>
-					            </div>
-					            <div class="clear hasBorder"></div>
-					            <div class="newer_detail">
-	                        		<a class="invest_btn" id="cpamai">提交交易</a>
-	                    		</div>
-					        </div>
-					    </div>
-					<!-- </div> -->
-                </div>
-                <p class="slogan"><i class="icon"></i></p>
-            </section>
         </section>
-        <!--	页面底部部分-->
-        <ul class="footer">
-            <li class="footer-item">
-                <a href="index.html" class="">
-                    <i class="icon icon_index active"></i>
-                    <p class="icon_title" style="color: #f23029">首页</p>
-                </a>
-            </li>
-            <li class="footer-item">
-                <a href="invest.html" class="">
-                    <i class="icon icon_invest"></i>
-                    <p class="icon_title">交易中心</p>
-                </a>
-            </li>
-            <li class="footer-item">
-                <a href="invest_kj.html" class="">
-                    <i class="icon icon_activity"></i>
-                    <p class="icon_title">矿机商城</p>
-                </a>
-            </li>
-            <li class="footer-item">
-                <a href="personal.html" class="">
-                    <i class="icon icon_my"></i>
-                    <p class="icon_title">我的</p>
-                </a>
-            </li>
-        </ul>
-    </section>
-</div>
-<!--占屏广告-->
-<div class="modal advertisementModal" id="advertisementModal" style="display:none;">
-    <div class="advertisement">
-        <a href="javascript:;" class="closeAdvertisementModal" onclick="$('#advertisementModal').hide();"></a>
-        <a href="javascript:;" id="advertisementUrl"><img src="" style="display: block;width: 100%;" onerror="$('#advertisementModal').hide();"></a>
-    </div>
+        <section class="notification_list list" id="notification_list" style="display: none;">
+            <div id="mescroll" class="mescroll">
+                <ul id="notice_list">
+                
+                	
+                    <!-- <li class="">
+                         <label class="clearfix">
+                             <span class="checkbox_btn ">
+                                 <span></span>
+                                 <input type="checkbox"/>
+                             </span>
+                             <span class="desc_wrap ">
+                                 <span class="title">光彩玖玖平台</span>
+                                 <span class="sub_title">投资奖励回款</span>
+                             </span>
+                             <time>2017-03-15 12:27:50</time>
+                         </label>
+                     </li>-->
+                </ul>
+            </div>
+            <div class="nodata">
+                <p>暂无最新消息哦~</p>
+            </div>
+        </section>
 </div>
 </body>
-<!--小能 start-->
-<script src="../js/indexHeader.js"></script>
-<script type="text/javascript" src="http://dl.ntalker.com/js/xn6/ntkfstat.js?siteid=kf_9092" charset="utf-8"></script>
-<!--小能 end-->
-<!--插件-->
-<script src="../js/jquery.featureCarousel.js" type="text/javascript" charset="utf-8"></script>
-<!--index-->
-<script src="../js/index.js?v=1.2.2"></script>
 </html>

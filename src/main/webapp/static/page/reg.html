@@ -3,169 +3,119 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>快速注册</title>
+    <title>消息</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
     <meta name="format-detection" content="telephone=no, email=no"/>
-    <link rel="stylesheet" href="../css/common.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/index.css"/>
-    <link rel="stylesheet" type="text/css" href="../lib/css/layer.css"/>
-    <script src="../lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
-    <script src="../js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
-    <!-- <script src="http://c.dun.163yun.com/js/c.js"></script> --><!-- 验证码组件js -->
-    <style>
-		/* div.file {
-			display: inline-block;
-			width: 100px;
-			height: 20px;
-			line-height: 20px;
-			position: relative;
-			overflow: hidden;
-			color: red
-		}
-		
-		div.file input {
-			position: absolute;
-			left: 0px;
-			top: 0px;
-			zoom: 1;
-			filter: alpha(opacity = 0);
-			opacity: 0;
-			font-size: 20px;
-			margin-left: -240px
-		} */
-		
-		.upload {
-			padding: 4px 10px;
-			height: 40px;
-			line-height: 20px;
-			position: relative;
-			border: 1px solid #999;
-			text-decoration: none;
-			color: #fff;
-			background-color:#ffa08b;
-		}
-		
-		.change {
-			position: absolute;
-			overflow: hidden;
-			right: 0;
-			top: 0;
-			opacity: 0;
-		}
-	</style>
-</head>
-<body class="">
-<div class="login_bg">
-    <img src="../img/login_bg.png">
-    <div>
-        <div class="register_title" style="display:none;">
-            <a href="javascript:location.href='index.html'">
-                <i class="icon"></i>
-            </a>
-            <a class="login_btn" href="login.html?z">登录</a>
-        </div>
-        <div class="register_content">
-            <div class="register_part2">
-                <div class="item">
-                    <input type="number" id="phonenum" placeholder="手机号码" oninput="if(value.length>11)value=value.slice(0,11)"
-                           onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"/>
-                </div>
-                <form name="form0" id="form0"  enctype="multipart/form-data">  
-				    <!-- 这里特别说一下这个 multiple="multiple" 添加上这个之后可以一次选择多个文件进行上传，是 html5 的新属性-->  
-				    <div class="upload"><span style="font-size:18px;text-align:center;">点击此处上传身份证正面图片(小于2M)</span><input class="change" type="file" accept="image/*"name="file0" id="file0"/><br><img src="" id="img0" style="width:30%;"></div>
-			    </form>
-            	<div class="item">
-                    <input type="text" id="uname" placeholder="姓名" oninput="if(value.length>11)value=value.slice(0,11)" disabled="disabled"/>
-                           <!-- onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"/> -->
-                </div>
-                <div class="item">
-                    <input type="text" id="cardnum" placeholder="身份证号" oninput="if(value.length>11)value=value.slice(0,18)" disabled="disabled"/>
-                           <!-- onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"/> -->
-                </div>
-                <div class="item">
-                    <input type="password" id="password" placeholder="密码6-20位字母数字组合" maxlength="20"/>
-                    <img class="icon_eye" src="../img/bkj.png"/>
-                </div>
-                <div class="item">
-                    <input type="text" id="valicode" placeholder="短信验证码" maxlength="6"
-                           onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')"/>
-                    <span class="get_code" id="get_valicode">获取验证码</span>
-                </div>
-				<div class="item">
-					<input class="" id="recommend_p" type="text" maxlength="20" placeholder="邀请人手机号（选填）"
-						 oninput="recommendFn($(this).val())"/>
-					<div class="recommendMessage"><span></span><span id="recommendName"></span></div>
-                </div>
-                <div style="text-align: center;" id="captcha_div"></div>
-                
-                <!-- <div class="referenceWrap">
-                    <div style="display: none" class="referenceTitle" id="referenceTitle"><img src="../img/inviteperson.png">邀请人账号</div>
-                    <div style="display: none">
-                        <input class="recommend_input" id="recommend_p" type="text" maxlength="20" placeholder="邀请人账号（选填）"
-                               oninput="recommendFn($(this).val())"/>
-                        <div class="recommendMessage"><span></span><span id="recommendName"></span></div>
-                    </div>
-
-                </div> -->
-                <a href="javascript:;" class="register_btn disabled" style="text-align: center"
-                   id="register_btn">注册</a>
-                <!-- <input type="button" class="register_btn disabled" disabled id="register_btn" value="立即注册"> -->
-
-				<!-- <div class="xieyi">
-                    <input type="checkbox" checked class="if_agree" id="if_agree"/><label for="if_agree">我同意</label>
-                    <span class="xieyiname">注册账户表示您同意<a href="service_protol.html">《注册协议》</a></span>
-                </div> -->
-                
-                <!-- <div class="xieyi">
-                    <input type="checkbox" checked class="if_agree" id="if_agree"/><label for="if_agree">我同意</label>
-                    <span class="xieyiname"><p style="font-size:16px;color:red;">公告通知：</p>注册入口暂时关闭。
-                    <a href="#">感谢您的支持与理解。</a></span>
-                </div> -->
-            </div>
-            <div class="register_part3" style="display: none;">
-                <p class="user"></p>
-                <a href="realName_authentication.html#reg" class="wcrz">去完成认证</a>
-                <a href="index.html" class="xqgg">先去逛逛</a>
-            </div>
-        </div>
-    </div>
-    <div class="modal" id="modal"  style="display: none;">
-        <img src="../img/loading.svg" class="loadingImg" >
-    </div>
-</div>
-
-</body>
-
-
-<script src="../lib/js/layer.js" type="text/javascript" charset="utf-8"></script>
-<!--头部-->
-<script src="../lib/js/RainbowBridge.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript">
-    setTitle(".register_title", {'title': '快速注册'});
-    function recommendFn(val) {
-        if (val.length) {
-            $.ajax({
-                type: "GET",
-                url: getAPIURL() + "Register/checkPromotion",
-                dataType: "json",
-                contentType: "application/json",
-                data:{
-                    account:val
-                },
-                success:function (data) {
-                    if(data.rtn==1){
-                        if(data.Message!=""&&data.Message!=null){
-                            $("#recommendName").html("您的邀请人是: &nbsp;&nbsp;"+data.Message)
-                        }
-                    }
-                    else if(data.rtn==-1){
-                        $("#recommendName").html("")
-                    }
-                }
-            })
+    <link rel="stylesheet" href="../css/common.css" type="text/css"/>
+    <link rel="stylesheet" type="text/css" href="../css/index.css?v=1.2.2"/>
+    <link rel="stylesheet" href="../css/personalCenter.css?v=1.2.2" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../lib/css/dropload.css"/>
+    <link rel="stylesheet" href="../lib/css/layer.css" type="text/css">
+    <style type="text/css">
+        .header{
+            background:#f46054;
         }
-    }
-</script>
-<script src="../js/reg.js?v=1.2.2" type="text/javascript" charset="utf-8"></script>
+        .container>section:first-of-type{
+            top: 1.92rem;
+        }
+        .tbgg{
+            position: relative;
+        }
+        .tbgg:after{
+            content: "";
+            position: absolute;
+            height: 0.34rem;
+            border-left: 1px solid #dedede;
+            right: 0;
+            top: 0.23rem;
+        }
+        .wrapper1{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+        .wrapper{
+            width: 100%;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+        }
+        .notification_list{
+            overflow: hidden;
+        }
+        .list{
+            background: #fff;
+            height: 90%;
+        }
+        .returntop{
+            position: fixed;
+            z-index: 99999;
+            width: 0.78rem;
+            right: 0.3rem;
+            bottom: 1.4rem;
+        }
+        .notification_list .to_detail {
+            width: 0.2rem;
+            position: absolute;
+            right: 0.3rem;
+            top: 0.35rem;
+        }
+        .mescroll-downwarp .downwarp-tip{
+            margin-top: 30px;
+        }
+        .nodata{
+            text-align: center;
+        }
+        .nodata img{width: 2.42rem;height:1.7rem;margin-top: 45%;}
+        .nodata p{line-height: 0.6rem;}
+    </style>
+    <link rel="stylesheet" type="text/css" href="../lib/css/mescroll.min.css"/>
+</head>
+<body class="notificationPage">
+<div class="wrap">
+        <section class="list publiclist_wrap">
+            <div id="mescroll1" class="mescroll">
+                <ul class="public_list">
+                <br><br><br>
+                	<p style="font-size:20px;">通告</p><br>
+                	<p style="font-size:14px;">致CPA所有会员：大家好！</p><br>
+					<p style="font-size:14px;">2018月6月9日关网一天，进行数据迁移。</p><br>
+					<p style="font-size:14px;">9月10日car.π2.0正式上线，新版上线后，新增“我的工单”，所有会员遇到问题可以在自已的后台提交工单，进行问题反馈。遇到有争议的问题，找自己的推荐人提供证据，逐级反馈。非团队领导人提交，后台将不予处理。感谢您的理解与支持！</p><br>
+                	<p style="font-size:14px;"> 2018年6月8日</p><br><br><br><br><br>
+                </ul>
+                <ul class="public_list">
+                	<p style="font-size:20px;">Notice</p><br>
+                	<p style="font-size:14px;">To all CPA participants: Hello everyone!</p><br>
+					<p style="font-size:14px;">On June 9, 2018, one day off the network, data migration. On September 10, car.π2.0 was formally launched. After the new version went online, “My Work Order” was added. All members who had encountered problems could submit their work orders in the background to answer questions. Encounter controversial issues, find their own recommender to provide evidence, step by step feedback. Non-team leader submissions will not be processed in the background. Thank you for your understanding and support!</p><br>
+                	<p style="font-size:14px;">June 8, 2018</p><br>
+                </ul>
+            </div>
+        </section>
+        <section class="notification_list list" id="notification_list" style="display: none;">
+            <div id="mescroll" class="mescroll">
+                <ul id="notice_list">
+                
+                	
+                    <!-- <li class="">
+                         <label class="clearfix">
+                             <span class="checkbox_btn ">
+                                 <span></span>
+                                 <input type="checkbox"/>
+                             </span>
+                             <span class="desc_wrap ">
+                                 <span class="title">光彩玖玖平台</span>
+                                 <span class="sub_title">投资奖励回款</span>
+                             </span>
+                             <time>2017-03-15 12:27:50</time>
+                         </label>
+                     </li>-->
+                </ul>
+            </div>
+            <div class="nodata">
+                <p>暂无最新消息哦~</p>
+            </div>
+        </section>
+</div>
+</body>
 </html>
