@@ -451,7 +451,7 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		System.out.println("------alllockcpa::::" + allBlockCPA + "------cpa:" + cpa + "-------count:" + count
 				+ "-----ablecpa:" + fw.getAbleCpa());
 
-		if ((fw.getAbleCpa() - cpa * 1.25) >= count * 1.25) {
+		if ((fw.getAbleCpa() - cpa * 1.2) >= count * 1.2) {
 			return true;
 		}
 

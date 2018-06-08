@@ -380,7 +380,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		System.out.println("------alllockcpa::::" + allBlockCPA + "------cpa:" + cpa + "-------count:" + count
 				+ "-----ablecpa:");
 
-		if ((fw.getAbleCpa() - cpa * 1.25) >= count * 1.25) {
+		if ((fw.getAbleCpa() - cpa * 1.2) >= count * 1.2) {
 			return true;
 		}
 

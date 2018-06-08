@@ -115,11 +115,23 @@ public class FensMinerServiceImpl implements FensMinerService {
 		// 根据粉丝Id查询该粉丝对应的矿池信息
 		FensMiner miner = fensMinerMapper.selectByPrimaryKey(miner1.getId());
 
+		FensUser fensUser1 = fensUserMapper.selectByPrimaryKey(miner1.getFensUserId());
+		// 判断是否存在该接单人
+		if (fensUser1 == null) {
+			return JsonResult.build(500, "交易失败，不存在此人");
+		}
+		
 		FensUser fensUser = fensUserMapper.selectByPrimaryKey(miner.getFensUserId());
 		// 判断是否存在该接单人
 		if (fensUser == null) {
 			return JsonResult.build(500, "交易失败，不存在此人");
 		}
+		
+		// 判断是否存是操作的自己的
+		if (fensUser.getId() != fensUser1.getId()) {
+			return JsonResult.build(500, "操作人不合法，你已经进入可以名单。");
+		}
+		
 
 		// 查询身份证是否认证
 		if (Integer.valueOf(fensUser.getAttachment()) != 1) {
@@ -199,11 +211,16 @@ public class FensMinerServiceImpl implements FensMinerService {
 						syyz = 550;
 					}
 				}
-
+				/*
+				 * 矿机本身收益
+				 */
+				//运行至当前产生的价值
 				nowZSY = rundate * (syyz / 15);
 				Double yhdSY, kySY;
 
+				//已经提取的收益
 				yhdSY = miner.getTotalRevenue();
+				//可提取收益
 				kySY = (nowZSY - yhdSY) * beishu;
 
 				System.out.println("nowzsy:" + nowZSY + "---yhdSY:" + yhdSY);
@@ -211,10 +228,27 @@ public class FensMinerServiceImpl implements FensMinerService {
 				if (kySY < 1 && rundate < 15) {
 					return JsonResult.build(500, "收益少于1个CPA时，不能转入钱包。");
 				}
+				
+				/*
+				 * 叠加收益相关
+				 */
+				Double djSY = 0.00;//叠加收益
+				Double djSL = 0.00;//叠加算力
+				
+				if(!miner.getDiejia().isEmpty()){
+					djSL = Double.valueOf(miner.getDiejia());
+				}
+				
+				if(miner.getMinerComputingPower() > 0){
+					djSY = (djSL/miner.getMinerComputingPower()) * (syyz/15) * rundate;
+				}
+				
 
-				// 解冻收益需要给领导人分红,同时更新矿机、钱包数据
+				/*
+				 *  解冻收益需要给领导人分红,同时更新矿机、钱包数据
+				 */
 				FensMiner fm = new FensMiner();
-				fm.setTotalRevenue(kySY + yhdSY);
+				fm.setTotalRevenue(kySY + yhdSY + djSY);
 				fm.setId(miner.getId());
 				fm.setFensUserId(miner.getFensUserId());
 				fm.setAttachment(dd.toString());
@@ -234,13 +268,13 @@ public class FensMinerServiceImpl implements FensMinerService {
 				}
 
 				// 钱包添加cpa
-				Double ablecpa = fensWallet.getAbleCpa() + kySY;
+				Double ablecpa = fensWallet.getAbleCpa() + kySY + djSY;
 				// 到账时间
 				Date date2 = TimeUtil.getTimeStamp();
 				FensWallet wallet2 = new FensWallet();
 				// 钱包可用余额增加
 				wallet2.setAbleCpa(ablecpa);
-				wallet2.setCpaCount(fensWallet.getCpaCount() + kySY);
+				wallet2.setCpaCount(fensWallet.getCpaCount() + kySY + djSY);
 				wallet2.setId(fensWallet.getId());
 				// 更新钱包可用cpa
 				int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
@@ -308,10 +342,24 @@ public class FensMinerServiceImpl implements FensMinerService {
 	@Override
 	public JsonResult thawABMiner2(FensMiner miner1) {
 		
-		FensUser fensUser = fensUserMapper.selectByPrimaryKey(miner1.getFensUserId());
+		// 根据粉丝Id查询该粉丝对应的矿池信息
+		FensMiner miner2 = fensMinerMapper.selectByPrimaryKey(miner1.getId());
+
+		FensUser fensUser1 = fensUserMapper.selectByPrimaryKey(miner1.getFensUserId());
+		// 判断是否存在该接单人
+		if (fensUser1 == null) {
+			return JsonResult.build(500, "交易失败，不存在此人");
+		}
+		
+		FensUser fensUser = fensUserMapper.selectByPrimaryKey(miner2.getFensUserId());
 		// 判断是否存在该接单人
 		if (fensUser == null) {
 			return JsonResult.build(500, "交易失败，不存在此人");
+		}
+		
+		// 判断是否存是操作的自己的
+		if (fensUser.getId() != fensUser1.getId()) {
+			return JsonResult.build(500, "操作人不合法，你已经进入可以名单。");
 		}
 
 		// 查询身份证是否认证
@@ -396,21 +444,44 @@ public class FensMinerServiceImpl implements FensMinerService {
 						}
 					}
 
+					/*
+					 * 矿机本身收益
+					 */
+					//运行至当前产生的价值
 					nowZSY = rundate * (syyz / 15);
 					Double yhdSY, kySY;
 
+					//已经提取的收益
 					yhdSY = miner.getTotalRevenue();
+					//可提取收益
 					kySY = (nowZSY - yhdSY) * beishu;
 
 					System.out.println("nowzsy:" + nowZSY + "---yhdSY:" + yhdSY);
 
 					if (kySY < 1 && rundate < 15) {
-						continue;
+						return JsonResult.build(500, "收益少于1个CPA时，不能转入钱包。");
 					}
+					
+					/*
+					 * 叠加收益相关
+					 */
+					Double djSY = 0.00;//叠加收益
+					Double djSL = 0.00;//叠加算力
+					
+					if(!miner.getDiejia().isEmpty()){
+						djSL = Double.valueOf(miner.getDiejia());
+					}
+					
+					if(miner.getMinerComputingPower() > 0){
+						djSY = (djSL/miner.getMinerComputingPower()) * (syyz/15) * rundate;
+					}
+					
 
-					// 解冻收益需要给领导人分红,同时更新矿机、钱包数据
+					/*
+					 *  解冻收益需要给领导人分红,同时更新矿机、钱包数据
+					 */
 					FensMiner fm = new FensMiner();
-					fm.setTotalRevenue(kySY + yhdSY);
+					fm.setTotalRevenue(kySY + yhdSY + djSY);
 					fm.setId(miner.getId());
 					fm.setFensUserId(miner.getFensUserId());
 					fm.setAttachment(dd.toString());
@@ -430,13 +501,13 @@ public class FensMinerServiceImpl implements FensMinerService {
 					}
 
 					// 钱包添加cpa
-					Double ablecpa = fensWallet.getAbleCpa() + kySY;
+					Double ablecpa = fensWallet.getAbleCpa() + kySY + djSY;
 					// 到账时间
 					Date date2 = TimeUtil.getTimeStamp();
 					FensWallet wallet2 = new FensWallet();
 					// 钱包可用余额增加
 					wallet2.setAbleCpa(ablecpa);
-					wallet2.setCpaCount(fensWallet.getCpaCount() + kySY);
+					wallet2.setCpaCount(fensWallet.getCpaCount() + kySY + djSY);
 					wallet2.setId(fensWallet.getId());
 					// 更新钱包可用cpa
 					int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
@@ -736,10 +807,9 @@ public class FensMinerServiceImpl implements FensMinerService {
 		return JsonResult.build(500, "无数据");
 	}
 
-	//直推粉丝信息（每个人的算力，直推人数）
 	@Override
 	public JsonResult selectFens(String phone) {
-		fensUserMapper.selectAllUser(phone);
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

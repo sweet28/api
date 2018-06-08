@@ -324,11 +324,11 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 			cpa = (double) allBlockCPA.get("sum");
 		}
 
-		System.out.println("------alllockcpa::::"+allBlockCPA+"------cpa:"+cpa+"-------count:"+count+"-----ablecpa:"+fw.getAbleCpa()+"---panduan:::"+((fw.getAbleCpa()-cpa*1.25) >= count));
+		System.out.println("------alllockcpa::::"+allBlockCPA+"------cpa:"+cpa+"-------count:"+count+"-----ablecpa:"+fw.getAbleCpa()+"---panduan:::"+((fw.getAbleCpa()-cpa*1.2) >= count));
 		
-		System.out.println("---cha:"+(fw.getAbleCpa()-cpa*1.25));
+		System.out.println("---cha:"+(fw.getAbleCpa()-cpa*1.2));
 		
-		if((fw.getAbleCpa()-cpa*1.25) >= count){
+		if((fw.getAbleCpa()-cpa*1.2) >= count){
 			return true;
 		}
 		
