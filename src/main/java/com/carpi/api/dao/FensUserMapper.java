@@ -31,6 +31,9 @@ public interface FensUserMapper {
 	// 粉丝团列表
 	List<FensUser> selectAllUser(String phone);
 
+	// <!--直推人数 -->
+	int selectAllSum(String phone);
+
 	// 根据身份证号查询数量
 	List<FensUser> selectICDNum(String bak2);
 
@@ -39,9 +42,9 @@ public interface FensUserMapper {
 
 	// 根据旧密码查询用户
 	FensUser selectOldPwd(FensUser fensUser);
-	
+
 	Integer selectRefereeYXC(String refereePhone);
-	
-	//校验资金密码
-	FensUser selectzjPwd(@Param("fensUserId")String fensUserId,@Param("capitalPwd")String capitalPwd);
+
+	// 校验资金密码
+	FensUser selectzjPwd(@Param("fensUserId") String fensUserId, @Param("capitalPwd") String capitalPwd);
 }

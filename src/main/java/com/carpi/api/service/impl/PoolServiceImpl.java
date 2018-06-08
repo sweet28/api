@@ -1,7 +1,11 @@
 package com.carpi.api.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.enterprise.inject.New;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +14,14 @@ import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.APoolMapper;
+import com.carpi.api.dao.AminerMapper;
 import com.carpi.api.dao.BPoolMapper;
+import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensWalletMapper;
 import com.carpi.api.pojo.APool;
+import com.carpi.api.pojo.Aminer;
 import com.carpi.api.pojo.BPool;
+import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.pojo.FensWallet;
 import com.carpi.api.pojo.FoneyRecord;
 import com.carpi.api.service.FensWalletService;
@@ -34,6 +42,12 @@ public class PoolServiceImpl implements PoolService {
 
 	@Autowired
 	private FensWalletService fensWalletService;
+
+	@Autowired
+	private FensMinerMapper fensMinerMapper;
+	
+	@Autowired
+	private AminerMapper aminerMapper;
 
 	// a矿池列表
 	@Override
@@ -62,12 +76,13 @@ public class PoolServiceImpl implements PoolService {
 		if (list != null && list.size() > 0) {
 			// 钱包的可用余额增加相应数目的cpa
 			// 根据粉丝Id查询该粉丝对应钱包信息
-			/*List<FensWallet> walletsList = fensWalletMapper.selectAll(aPool.getFensUserId());
-			// 钱包为空，请创建
-			if (walletsList == null && walletsList.size() == 0) {
-				return JsonResult.build(500, "请先创建钱包");
-			}*/
-			
+			/*
+			 * List<FensWallet> walletsList =
+			 * fensWalletMapper.selectAll(aPool.getFensUserId()); // 钱包为空，请创建 if
+			 * (walletsList == null && walletsList.size() == 0) { return
+			 * JsonResult.build(500, "请先创建钱包"); }
+			 */
+
 			FensWallet fensWallet = fensWalletMapper.selectAll(aPool.getFensUserId());
 			if (fensWallet == null) {
 				return JsonResult.build(500, "钱包不存在");
@@ -92,7 +107,7 @@ public class PoolServiceImpl implements PoolService {
 			}
 
 			// 钱包添加cpa
-//			FensWallet wallet = walletsList.get(0);
+			// FensWallet wallet = walletsList.get(0);
 			Double ablecpa = fensWallet.getAbleCpa() + aPool.getCpaCount();
 			// 到账时间
 			Date date2 = TimeUtil.getTimeStamp();
@@ -129,11 +144,12 @@ public class PoolServiceImpl implements PoolService {
 		if (list != null && list.size() > 0) {
 			// 钱包的可用余额增加相应数目的cpa
 			// 根据粉丝Id查询该粉丝对应钱包信息
-			/*List<FensWallet> walletsList = fensWalletMapper.selectAll(bPool.getFensUserId());
-			// 钱包为空，请创建
-			if (walletsList == null && walletsList.size() == 0) {
-				return JsonResult.build(500, "请先创建钱包");
-			}*/
+			/*
+			 * List<FensWallet> walletsList =
+			 * fensWalletMapper.selectAll(bPool.getFensUserId()); // 钱包为空，请创建 if
+			 * (walletsList == null && walletsList.size() == 0) { return
+			 * JsonResult.build(500, "请先创建钱包"); }
+			 */
 
 			FensWallet fensWallet = fensWalletMapper.selectAll(bPool.getFensUserId());
 			if (fensWallet == null) {
@@ -158,7 +174,7 @@ public class PoolServiceImpl implements PoolService {
 			}
 
 			// 钱包添加cpa
-//			FensWallet wallet = walletsList.get(0);
+			// FensWallet wallet = walletsList.get(0);
 			Double ablecpa = fensWallet.getAbleCpa() + bPool.getCpaCount();
 			// 到账时间
 			Date date2 = TimeUtil.getTimeStamp();
@@ -186,4 +202,83 @@ public class PoolServiceImpl implements PoolService {
 		return JsonResult.build(500, "不存在矿池信息");
 	}
 
+	// 矿池锁定的币购买矿机
+	@Override
+	public JsonResult suoDingBuy(Integer fensUserId,Integer id) {
+		// 根据粉丝id查询所拥有的矿机信息
+		List<FensMiner> list = fensMinerMapper.selectMiner3(fensUserId);
+		if (list.isEmpty()) {
+			return JsonResult.build(500, "无矿机信息");
+		}
+//		Double zongshouyi = null;
+		Double suoding = null;
+        // 遍历信息
+		for (FensMiner fensMiner : list) {
+           Map<String, Double> map= check(fensMiner);
+//           zongshouyi = map.get("nowZSY") + zongshouyi;
+           suoding = map.get("kySY") + suoding;
+           System.out.println("-------已锁定cpa--------:"+suoding);
+		}
+		//判断是否能购买矿机
+	
+//        if () {
+//			
+//		}
+		System.out.println("----+++++++++++---已锁定cpa--------:"+suoding);
+		return null;
+	}
+
+	// 可用收益（提取的币）
+	public Map<String, Double> check(FensMiner miner2) {
+		Date dd = TimeUtil.getTimeStamp();
+		// 根据粉丝Id查询该粉丝对应的矿池信息
+		FensMiner miner = fensMinerMapper.selectByPrimaryKey(miner2.getId());
+		double rundate = dd.getTime() - miner.getCreateDate().getTime();
+		rundate = rundate / (1000 * 60 * 60 * 24);
+
+		if (rundate >= 15) {
+			rundate = 15;
+		}
+
+		System.out.println(rundate + "---" + rundate + "------");
+
+		double nowZSY;
+		double syyz = 0;
+
+		if (miner.getMinerType() == 1) {
+			if (Integer.parseInt(miner.getBak1()) == 1) {
+				syyz = 11;
+			} else if (Integer.parseInt(miner.getBak1()) == 2) {
+				syyz = 115;
+			} else if (Integer.parseInt(miner.getBak1()) == 3) {
+				syyz = 1150;
+			} else if (Integer.parseInt(miner.getBak1()) == 4) {
+				syyz = 6000;
+			}
+		} else if (miner.getMinerType() == 2) {
+
+			if (Integer.parseInt(miner.getBak1()) == 1) {
+				syyz = 5.5;
+			} else if (Integer.parseInt(miner.getBak1()) == 2) {
+				syyz = 55;
+			} else if (Integer.parseInt(miner.getBak1()) == 3) {
+				syyz = 550;
+			}
+		}
+
+		
+		//当前产生的总收益
+		nowZSY = rundate * (syyz / 15);
+		Double yhdSY, kySY;
+		//已提取的币
+		yhdSY = miner.getTotalRevenue();
+		//可用收益(锁定的币)
+		kySY = nowZSY - yhdSY;
+		
+		Map<String, Double> map = new HashMap<>();
+		map.put("nowZSY", nowZSY);
+		map.put("yhdSY", yhdSY);
+		map.put("kySY", kySY);
+		return map;
+	}
 }

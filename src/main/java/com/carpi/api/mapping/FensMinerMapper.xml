@@ -384,6 +384,15 @@
 		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
 		and is_delete = 0
 	</select>
+	
+	<!--根据粉丝id查询矿机 -->
+	<select id="selectMiner3" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
+		and is_delete in (0,3)
+	</select>
 
 	<!--根据粉丝id查询运行中的矿机 -->
 	<select id="selectMiner2" parameterType="java.lang.Integer"

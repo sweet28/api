@@ -3,6 +3,7 @@ package com.carpi.api.service;
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.APool;
 import com.carpi.api.pojo.BPool;
+import com.carpi.api.pojo.FensMiner;
 import com.github.pagehelper.PageInfo;
 
 public interface PoolService {
@@ -18,4 +19,7 @@ public interface PoolService {
 	
 	//解冻(B)
 	public JsonResult thawBMiner(BPool bPool);
+	
+	//矿池锁定的币购买矿机
+	public JsonResult suoDingBuy(Integer fensUserId,Integer id);
 }

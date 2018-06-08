@@ -317,6 +317,18 @@
 			</if>
 		</where>
 	</select>
+	
+	<!--直推人数 -->
+	<select id="selectAllSum" parameterType="java.lang.Integer">
+		select
+		count(id)
+		from fens_user
+		<where>
+			<if test="_parameter != null">
+				referee_phone = #{phone,jdbcType=VARCHAR} and is_delete=0
+			</if>
+		</where>
+	</select>
 
 	<!--列表 -->
 	<select id="selectICDNum" resultMap="BaseResultMap">
