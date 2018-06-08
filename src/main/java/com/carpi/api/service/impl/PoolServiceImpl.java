@@ -1,5 +1,6 @@
 package com.carpi.api.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -16,11 +17,13 @@ import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.APoolMapper;
 import com.carpi.api.dao.AminerMapper;
 import com.carpi.api.dao.BPoolMapper;
+import com.carpi.api.dao.BminerMapper;
 import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensWalletMapper;
 import com.carpi.api.pojo.APool;
 import com.carpi.api.pojo.Aminer;
 import com.carpi.api.pojo.BPool;
+import com.carpi.api.pojo.Bminer;
 import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.pojo.FensWallet;
 import com.carpi.api.pojo.FoneyRecord;
@@ -45,9 +48,12 @@ public class PoolServiceImpl implements PoolService {
 
 	@Autowired
 	private FensMinerMapper fensMinerMapper;
-	
+
 	@Autowired
 	private AminerMapper aminerMapper;
+
+	@Autowired
+	private BminerMapper bminerMapper;
 
 	// a矿池列表
 	@Override
@@ -204,28 +210,136 @@ public class PoolServiceImpl implements PoolService {
 
 	// 矿池锁定的币购买矿机
 	@Override
-	public JsonResult suoDingBuy(Integer fensUserId,Integer id) {
+	public JsonResult suoDingBuy(Integer fensUserId, Integer id, Integer type) {
+		if (fensUserId == null) {
+			return JsonResult.build(500, "请重新登录");
+		}
+		if (id == null) {
+			return JsonResult.build(500, "请选择矿机");
+		}
+		if (type == null) {
+			return JsonResult.build(500, "请选择矿机2");
+		}
 		// 根据粉丝id查询所拥有的矿机信息
 		List<FensMiner> list = fensMinerMapper.selectMiner3(fensUserId);
 		if (list.isEmpty()) {
 			return JsonResult.build(500, "无矿机信息");
 		}
-//		Double zongshouyi = null;
-		Double suoding = null;
-        // 遍历信息
+		// Double zongshouyi = null;
+		Double suodingall = null;
+		// 遍历信息
+		Map<String, String> map2 = new HashMap<>();
+
+		List<Map<String, String>> list2 = new ArrayList<>();
+
 		for (FensMiner fensMiner : list) {
-           Map<String, Double> map= check(fensMiner);
-//           zongshouyi = map.get("nowZSY") + zongshouyi;
-           suoding = map.get("kySY") + suoding;
-           System.out.println("-------已锁定cpa--------:"+suoding);
+			// 获取锁定收益信息
+			Map<String, Double> map = check(fensMiner);
+			// zongshouyi = map.get("nowZSY") + zongshouyi;
+			suodingall = map.get("kySY") + suodingall;
+			System.out.println("-------已锁定cpa--------:" + suodingall);
+			map2.put("ytqSY", map.get("yhdSY").toString());
+			map2.put("id", fensMiner.getId().toString());
+			list2.add(map2);
 		}
-		//判断是否能购买矿机
-	
-//        if () {
-//			
-//		}
-		System.out.println("----+++++++++++---已锁定cpa--------:"+suoding);
-		return null;
+		System.out.println("----+++++++++++---已锁定cpa--------:" + suodingall);
+		// 判断是否能购买矿机
+		if (type == 1) {
+			Aminer aminer = aminerMapper.selectByPrimaryKey(id);
+			if (suodingall >= aminer.getPrice()) {
+				// 购买矿机
+				FensMiner fensMiner = new FensMiner();
+				fensMiner.setFensUserId(fensUserId);
+				// 几星矿机
+				fensMiner.setBak1(String.valueOf(aminer.getType()));
+				// A矿机
+				fensMiner.setMinerType(1);
+				fensMiner.setMinerId(aminer.getId());
+				fensMiner.setMinerComputingPower(aminer.getComputingPower());
+				fensMiner.setCreateDate(TimeUtil.getTimeStamp());
+				fensMiner.setIsDelete(2);// 购买矿机需要审核cpa合法性
+				fensMiner.setBeyong1(String.valueOf(aminer.getPrice()));
+				int result = fensMinerMapper.insertSelective(fensMiner);
+				if (result != 1) {
+					return JsonResult.build(500, "购买矿机失败");
+				}
+				// 扣cpa
+				// double suoding2 = suoding - aminer.getPrice();
+				double suoding2 = aminer.getPrice() * 2 - suodingall;
+				FensMiner fensMiner2 = new FensMiner();
+				if (suoding2 > 0) {
+					for (Map<String, String> map3 : list2) {
+						// 获取锁定收益信息
+						Map<String, Double> map = check(fensMiner);
+						// 返还多余的cpa
+						// double ytqSY2 = Double.valueOf(map3.get("ytqSY")) - suoding2;
+
+						// 需要填补的cpa
+						double ytqSY2 = suoding2 - Double.valueOf(map.get("kySY"));
+						fensMiner2.setId(Integer.valueOf(map3.get("id")));
+						// 矿机当前的总收益
+						Double dqZSY = map.get("nowZSY");
+
+						if (ytqSY2 > dqZSY) {
+							// 添加大值
+							fensMiner2.setTotalRevenue(dqZSY);
+							// 减去添加的值
+							ytqSY2 = ytqSY2 - dqZSY;
+						} else if (ytqSY2 < dqZSY && ytqSY2 > 0) { // 剩余最后的cpa,直接全部添加到该矿机
+							fensMiner2.setTotalRevenue(ytqSY2);
+						}
+						int status = fensMinerMapper.updateByPrimaryKeySelective(fensMiner2);
+						if (status != 1) {
+							return JsonResult.build(500, "返还失败");
+						}
+						// 释放差值
+						// if (ytqSY2<0) {
+						// fensMiner2.setId(Integer.valueOf(map3.get("id")));
+						// fensMiner2.setTotalRevenue(Double.valueOf(0));
+						// int status = fensMinerMapper.updateByPrimaryKeySelective(fensMiner2);
+						// if (status != 1) {
+						// // return JsonResult.build(500, "剩余cpa更新");
+						// continue;
+						// }
+						// suoding2 = suoding2 + ytqSY2;
+						// }else if (ytqSY2 >= 0) {
+						// fensMiner2.setId(Integer.valueOf(map3.get("id")));
+						// fensMiner2.setTotalRevenue(ytqSY2);
+						// fensMinerMapper.updateByPrimaryKeySelective(fensMiner2);
+						// break;
+						// }
+					}
+					// //扣除矿机费用
+					// for(Map<String, String> map3 : list2) {
+					// Double.valueOf(map3.get("ytqSY"))
+					// }
+
+				} else if (suoding2 == 0) {
+					return JsonResult.build(500, "系统错误");
+				}
+			}
+			return JsonResult.build(500, "可用冻结cpa不足");
+		} else if (type == 2) {
+			Bminer bminer = bminerMapper.selectByPrimaryKey(id);
+			// 粉丝矿机表添加数据
+			FensMiner fensMiner = new FensMiner();
+			fensMiner.setFensUserId(bminer.getFensUserId());
+			// 几星矿机
+			fensMiner.setBak1(String.valueOf(bminer.getType()));
+			// B矿机
+			fensMiner.setMinerType(2);
+			fensMiner.setMinerId(bminer.getId());
+			fensMiner.setMinerComputingPower(bminer.getComputingPower());
+			fensMiner.setCreateDate(TimeUtil.getTimeStamp());
+			fensMiner.setIsDelete(2);// 购买矿机需要审核cpa合法性
+			fensMiner.setBeyong1(String.valueOf(bminer.getPrice()));
+			int result2 = fensMinerMapper.insertSelective(fensMiner);
+			if (result2 != 1) {
+				return JsonResult.build(500, "购买矿机失败");
+			}
+			return JsonResult.ok();
+		}
+		return JsonResult.build(500, "系统错误");
 	}
 
 	// 可用收益（提取的币）
@@ -266,15 +380,14 @@ public class PoolServiceImpl implements PoolService {
 			}
 		}
 
-		
-		//当前产生的总收益
+		// 当前产生的总收益
 		nowZSY = rundate * (syyz / 15);
 		Double yhdSY, kySY;
-		//已提取的币
+		// 已提取的币
 		yhdSY = miner.getTotalRevenue();
-		//可用收益(锁定的币)
+		// 可用收益(锁定的币)
 		kySY = nowZSY - yhdSY;
-		
+
 		Map<String, Double> map = new HashMap<>();
 		map.put("nowZSY", nowZSY);
 		map.put("yhdSY", yhdSY);

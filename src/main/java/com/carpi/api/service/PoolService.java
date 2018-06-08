@@ -21,5 +21,5 @@ public interface PoolService {
 	public JsonResult thawBMiner(BPool bPool);
 	
 	//矿池锁定的币购买矿机
-	public JsonResult suoDingBuy(Integer fensUserId,Integer id);
+	public JsonResult suoDingBuy(Integer fensUserId,Integer id,Integer type);
 }
