@@ -34,6 +34,8 @@ function Gift() {
         	$.each( list, function(index, content){
         		var runs = content.bak2;
         		var xh = content.bak1;
+var syyz;
+        		
         		if(runs==0){
         			runs="运行中";
         		}else if(runs==1){
@@ -44,10 +46,13 @@ function Gift() {
         		
         		if(xh==1){
         			xh="CB1";
+        			syyz = 5.5;
         		}else if(xh==2){
         			xh="CB2";
+        			syyz = 55;
         		}else if(xh==3){
         			xh="CB3";
+        			syyz = 550;
         		}
         		
         		var nowDate = Date.parse(new Date());
@@ -58,27 +63,40 @@ function Gift() {
         			rundate=15;
         		}
         		
-        		var runHours = rundate*24;
+        		var suanli = content.minerComputingPower;
+        		var diejia = 0;
         		
-        		var chanbi = content.minerComputingPower * runHours/360;
+        		if(content.diejia != null){
+        			diejia = content.diejia;
+        			suanli += Number(diejia);
+        		}
+        		
+        		var runHours = (rundate*24).toFixed(5);
+        		
+        		var chanbi = ((rundate*syyz/15)).toFixed(5);
+        		
+        		var kuangchibi = 0;
+        		if((chanbi - content.totalRevenue) > 0 ){
+        			kuangchibi = (chanbi - content.totalRevenue);
+        		}
         		
         		html += 
-					"<li>" +
-    					"<div class='img'>" +
-    						"<img src='"+getAPIURL()+"/imagenew/miner1.gif' style='max-width: 88%;'>" +
-						"</div>" +
-						"<div class='text'>" +
-							"<a href=''>"+ xh +"</a>" +
-							"<p>运行时长：<b>"+runHours+"</b></p>" +
-							"<p>算力：<b>"+content.minerComputingPower+"</b></p>" +
-							"<p>产币：<b>"+ chanbi +"</b></p>" +
-							"<p>已入矿池：<b>" + (chanbi - content.totalRevenue) + "</b></p>" +
-							"<p>已入钱包：<b>" + content.totalRevenue + "</b></p>"
-						"</div>" +
-						"<div class='look'>" +
-							"<a href='#'>"+runs+"</a>" +
-						"</div>" +
-					"</li>";
+    					"<li>" +
+        					"<div class='img'>" +
+        						"<img src='"+getAPIURL()+"/imagenew/miner1.gif' style='max-width: 88%;'>" +
+							"</div>" +
+							"<div class='text'>" +
+								"<a href=''>"+ xh +"</a>" +
+								"<p>运行时长：<b>"+runHours+"</b></p>" +
+								"<p>算力：<b>"+suanli.toFixed(5)+"</b></p>" +
+								"<p>产币：<b>"+ chanbi +"</b></p>" +
+								"<p>已入矿池：<b>" + (chanbi - content.totalRevenue).toFixed(5) + "</b></p>" +
+								"<p>已入钱包：<b>" + content.totalRevenue.toFixed(5) + "</b></p>"
+							"</div>" +
+							"<div class='look'>" +
+								"<a href='#'>"+runs+"</a>" +
+							"</div>" +
+						"</li>";
         		
         	});
         	

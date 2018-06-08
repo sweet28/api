@@ -64,8 +64,16 @@ function Gift() {
         			rundate = 15;
         		}
         		
+        		var suanli = content.minerComputingPower;
+        		var diejia = 0;
+        		
+        		if(content.diejia != null){
+        			diejia = content.diejia;
+        			suanli += Number(diejia);
+        		}
+        		
         		var sy;
-        		sy = rundate * (syyz /15);
+        		sy = rundate * (syyz/15) + (diejia/content.minerComputingPower) * (syyz/15);
         		
         		var runHours = rundate*24;
         		
@@ -89,8 +97,8 @@ function Gift() {
 								"</div>" +
 								"<div class='text'>" +
 									"<a href=''>"+ xh +"</a>" +
-									"<p>运行时长：<b>"+runHours+"</b></p>" +
-									"<p>可用收益：<b>"+syz+"</b></p>" +
+									"<p>运行时长：<b>"+runHours.toFixed(5)+"</b></p>" +
+									"<p>可用收益：<b>"+syz.toFixed(5)+"</b></p>" +
 									"<p>算力：<b>"+content.minerComputingPower+"</b></p>" +
 								"</div>" +
 								"<div class='look'>" +

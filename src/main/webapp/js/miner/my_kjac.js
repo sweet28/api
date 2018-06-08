@@ -67,8 +67,16 @@ $.ajax({
         			rundate = 15;
         		}
         		
+        		var suanli = content.minerComputingPower;
+        		var diejia = 0;
+        		
+        		if(content.diejia != null){
+        			diejia = content.diejia;
+        			suanli += Number(diejia);
+        		}
+        		
         		var sy;
-        		sy = rundate * (syyz /15);
+        		sy = rundate * (syyz/15) + (diejia/content.minerComputingPower) * (syyz/15);
         		
         		var runHours = rundate*24;
         		
@@ -85,6 +93,7 @@ $.ajax({
         			syz = 0 ;
         		}
         		
+        		
         		html += "<ul>" + (index+1) +
 							"<li>" +
 								"<div class='img'>" +
@@ -92,9 +101,9 @@ $.ajax({
 								"</div>" +
 								"<div class='text'>" +
 									"<a href=''>"+ xh +"</a>" +
-									"<p>运行时长：<b>"+runHours+"</b></p>" +
-									"<p>可用收益：<b>"+syz+"</b></p>" +
-									"<p>算力：<b>"+content.minerComputingPower+"</b></p>" +
+									"<p>运行时长：<b>"+runHours.toFixed(5)+"</b></p>" +
+									"<p>可用收益：<b>"+syz.toFixed(5)+"</b></p>" +
+									"<p>算力：<b>"+suanli+"</b></p>" +
 								"</div>" +
 								"<div class='look'>" +
 									conte +

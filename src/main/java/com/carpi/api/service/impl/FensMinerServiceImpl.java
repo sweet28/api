@@ -117,21 +117,10 @@ public class FensMinerServiceImpl implements FensMinerService {
 		// 根据粉丝Id查询该粉丝对应的矿池信息
 		FensMiner miner = fensMinerMapper.selectByPrimaryKey(miner1.getId());
 
-		FensUser fensUser1 = fensUserMapper.selectByPrimaryKey(miner1.getFensUserId());
-		// 判断是否存在该接单人
-		if (fensUser1 == null) {
-			return JsonResult.build(500, "交易失败，不存在此人");
-		}
-
 		FensUser fensUser = fensUserMapper.selectByPrimaryKey(miner.getFensUserId());
 		// 判断是否存在该接单人
 		if (fensUser == null) {
 			return JsonResult.build(500, "交易失败，不存在此人");
-		}
-
-		// 判断是否存是操作的自己的
-		if (fensUser.getId() != fensUser1.getId()) {
-			return JsonResult.build(500, "操作人不合法，你已经进入可以名单。");
 		}
 
 		// 查询身份证是否认证
@@ -235,8 +224,8 @@ public class FensMinerServiceImpl implements FensMinerService {
 				 */
 				Double djSY = 0.00;// 叠加收益
 				Double djSL = 0.00;// 叠加算力
-
-				if (!miner.getDiejia().isEmpty()) {
+				System.out.println(")))))))))))))))))))):"+miner.getDiejia());
+				if (miner.getDiejia() != null) {
 					djSL = Double.valueOf(miner.getDiejia());
 				}
 
@@ -342,24 +331,10 @@ public class FensMinerServiceImpl implements FensMinerService {
 	@Override
 	public JsonResult thawABMiner2(FensMiner miner1) {
 
-		// 根据粉丝Id查询该粉丝对应的矿池信息
-		FensMiner miner2 = fensMinerMapper.selectByPrimaryKey(miner1.getId());
-
-		FensUser fensUser1 = fensUserMapper.selectByPrimaryKey(miner1.getFensUserId());
-		// 判断是否存在该接单人
-		if (fensUser1 == null) {
-			return JsonResult.build(500, "交易失败，不存在此人");
-		}
-
-		FensUser fensUser = fensUserMapper.selectByPrimaryKey(miner2.getFensUserId());
+		FensUser fensUser = fensUserMapper.selectByPrimaryKey(miner1.getFensUserId());
 		// 判断是否存在该接单人
 		if (fensUser == null) {
 			return JsonResult.build(500, "交易失败，不存在此人");
-		}
-
-		// 判断是否存是操作的自己的
-		if (fensUser.getId() != fensUser1.getId()) {
-			return JsonResult.build(500, "操作人不合法，你已经进入可以名单。");
 		}
 
 		// 查询身份证是否认证
