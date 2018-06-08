@@ -735,4 +735,11 @@ public class FensMinerServiceImpl implements FensMinerService {
 		}
 		return JsonResult.build(500, "无数据");
 	}
+
+	//直推粉丝信息（每个人的算力，直推人数）
+	@Override
+	public JsonResult selectFens(String phone) {
+		fensUserMapper.selectAllUser(phone);
+		return null;
+	}
 }

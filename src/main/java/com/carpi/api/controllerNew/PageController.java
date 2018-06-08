@@ -197,4 +197,8 @@ public class PageController {
 		return "personal/news";
 	}
 
+	@RequestMapping("/newsDetail")
+	public String newsDetail() {
+		return "personal/newsDetail";
+	}
 }

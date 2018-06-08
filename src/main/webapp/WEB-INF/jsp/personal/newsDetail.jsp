@@ -30,17 +30,16 @@
 <!-- 	</div> -->
 	<div class="wlist">
 		<ul>
-			<li id = "liebiao">
-			 <div class="title">
-					<span>新闻公告</span>
-					<span>：</span>
-				</div>
+			<li id = "liebiao2">
+			 <div class="title" style="text-align:center;">
+					<span style="color:red;font-size: 22px;">新闻公告</span>
+			 </div>
 				<div class="desc">
 					<span>时间</span>
-					<span></span>
+					<span>：</span>
 				</div>
-				<div class="text">
-					<textarea name="" id="" readonly="readonly" placeholder="请具体且准确的描述您的问题，这有助于我们更高效的帮助您！"></textarea>
+				<div class="gonggao" style = "height: 428px;">
+					<textarea class="gonggao" readonly="readonly"></textarea>
 				</div> 
 			</li>
 		</ul>
@@ -56,5 +55,5 @@
 		</ul>
 	</div>
 </body>
-<script src="<%=path%>/js/personal/new.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path%>/js/personal/new_detail.js" type="text/javascript" charset="utf-8"></script>
 </html>

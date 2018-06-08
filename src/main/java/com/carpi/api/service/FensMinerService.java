@@ -57,5 +57,8 @@ public interface FensMinerService {
 
 	// 粉丝算力列表（个人）
 	public JsonResult geRenList(Integer fensUserId);
+	
+	//直推粉丝信息（每个人的算力，直推人数）
+	public JsonResult selectFens(String phone);
 
 }

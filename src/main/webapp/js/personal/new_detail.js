@@ -1,32 +1,29 @@
-var id;
 (function(){
+	var test = window.location.search;
+	test = test.substr(test.length-1,1)
 	$.ajax({
 		 type: "post",
-		 url: getAPIURL() + "/news/list",
+		 url: getAPIURL() + "/news/"+test,
 		 dataType: "json",
-		 data:{
-			 "pg":0,
-			 "ts":100
-		 },
 		 success:function(data){
-			 var list = data.list;
+			  if(data.status == 200){
+				 var news = data.data;
 				 var html = "";
-				 
-				 for(var i = 0;i<list.length; i++){
-					 var time1 = list[i].createDate;
-						 
-					 time1 = new Date().format("yyyy-MM-dd hh:mm:ss");
-					 html += "<div class='title'>"+
-						         "<span>新闻公告</span>" +
-						         "<span>：</span>&nbsp;&nbsp;&nbsp;" +
-					             "<div class='desc'>" +
-						         "<span>时间："+time1+"</span><a style='font-weight:bold;color: red;margin-left: 35%;' href='newsDetail?"+list[i].id+"'>详情查看</a>" +
-					             "</div>" + 
-					             "<div class='text'>"+
-						         "<textarea readonly='readonly' placeholder='请具体且准确的描述您的问题，这有助于我们更高效的帮助您！'>"+list[i].conent+"</textarea>"+
-					             "</div>"
-				 }
-				 $("#liebiao").html(html);
+				 var time1 = news.createDate;
+				 time1 = new Date().format("yyyy-MM-dd hh:mm:ss");
+				 html += " <div class='title' style='text-align:center;'>"+
+					         "<span style='color:red;font-size: 22px;'>新闻公告</span>" +
+					         "</div>" +
+				             "<div class='desc'>" +
+					         "<span>时间："+time1+"</span>" +
+				             "</div>" + 
+				             "<div class='gonggao' style = 'height: 428px;'>"+
+					         "<textarea class='gonggao' readonly='readonly'>"+news.conent+"</textarea>"+
+				             "</div>"
+			     $("#liebiao2").html(html);
+			  }
+			  
+				
 			 
 		 }
 	});
