@@ -132,7 +132,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 		}
 
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(300);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -208,7 +208,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 
 				System.out.println("nowzsy:" + nowZSY + "---yhdSY:" + yhdSY);
 
-				if (kySY < 1) {
+				if (kySY < 1 && rundate < 15) {
 					return JsonResult.build(500, "收益少于1个CPA时，不能转入钱包。");
 				}
 
@@ -218,6 +218,9 @@ public class FensMinerServiceImpl implements FensMinerService {
 				fm.setId(miner.getId());
 				fm.setFensUserId(miner.getFensUserId());
 				fm.setAttachment(dd.toString());
+				if (rundate >= 15) {
+					fm.setIsDelete(30);//30：标记运行结束且提币结束
+				}
 
 				int result = fensMinerMapper.updateByPrimaryKeySelective(fm);
 
@@ -246,7 +249,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 				}
 
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -278,7 +281,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 				}
 
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(300);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -322,7 +325,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 		}
 
 		try {
-			Thread.sleep(3000);
+			Thread.sleep(300);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -401,8 +404,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 
 					System.out.println("nowzsy:" + nowZSY + "---yhdSY:" + yhdSY);
 
-					if (kySY < 1) {
-//						return JsonResult.build(500, "收益少于1个CPA时，不能转入钱包。");
+					if (kySY < 1 && rundate < 15) {
 						continue;
 					}
 
@@ -412,6 +414,9 @@ public class FensMinerServiceImpl implements FensMinerService {
 					fm.setId(miner.getId());
 					fm.setFensUserId(miner.getFensUserId());
 					fm.setAttachment(dd.toString());
+					if (rundate >= 15) {
+						fm.setIsDelete(30);//30：标记运行结束且提币结束
+					}
 
 					int result = fensMinerMapper.updateByPrimaryKeySelective(fm);
 
@@ -440,7 +445,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 					}
 
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(300);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -472,7 +477,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 					}
 
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(300);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -575,6 +580,8 @@ public class FensMinerServiceImpl implements FensMinerService {
 		fensMiner.setFensUserId(fensUserId);
 		fensMiner.setIsDelete(0);
 		fensMiner.setCreateDate(TimeUtil.getTimeStamp());
+		fensMiner.setIsUserGoumai("1");
+		
 		int result = fensMinerMapper.updateyxc(fensMiner);
 		if (result != 1) {
 			return JsonResult.build(500, "转入失败");
