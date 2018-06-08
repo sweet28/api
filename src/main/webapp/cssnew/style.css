@@ -1,0 +1,331 @@
+/*
+**************************
+(C)2015-2018 wrp560.com
+update: 2018-5-26 19:25:34
+person: Wrp
+**************************
+*/
+
+/*通用样式*/
+body{font-family:"微软雅黑"; font-size: 12px; max-width: 1080px; background: #ffffff;}
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td,p{margin:0;padding:0;}
+img{border:0; max-width:100%;}ul,li{list-style-type:none;}
+.cl{clear:both;}
+.row{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+}
+.fl{ float: left; }
+.fr{ float: right; }
+.pd{ padding: 0 10px; }
+.pr{ position: relative; }
+img{ max-width: 100%; }
+
+/*头部通用*/
+header{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+	position: relative;
+}
+.searchBox{
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 40px 30px;
+}
+.search{
+	width: 100%;
+	height: 3em;
+	background: rgba(255,255,255,0.4);
+	text-align: center;
+}
+.sea{
+	display: inline-block;
+}
+.search input.index_btn{
+	width: 3em;
+	height: 3em;
+	border: none;
+	background: url(../images/sea.png) center no-repeat;
+	background-size: 50%;
+	float: left;
+}
+.search input.index_txt{
+	height: 3em;
+	float: left;
+	background: none;
+	border: none;
+	width: 3em;
+	outline: none;
+	color: #ffffff;
+}
+input::-webkit-input-placeholder{
+	color:#ffffff;
+}
+input::-moz-placeholder{
+	color:#ffffff;
+}
+input:-moz-placeholder{
+	color:#ffffff;
+}
+input:-ms-input-placeholder{
+	color:#ffffff;
+}
+.line1{
+	width: 100%;
+	height: 1em;
+	background: #f1f0f6;
+	float: left;
+	clear: both;
+	overflow: hidden;
+}
+
+
+/*底部通用快捷导航*/
+.space{
+	height: 6em;
+	clear: both;
+	overflow: hidden;
+}
+.menu{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	background: #0c1531;
+	width: 100%;
+	height: 5.5em;
+	max-width: 1080px;
+}
+.menu ul li{
+	width: 20%;
+	float: left;
+	text-align: center;
+	padding: 5px 0;
+}
+.menu ul li a{
+	color: #ffffff;
+	font-size: 14px;
+	line-height: 30px;
+}
+.menu ul li img{
+	width: 100%;
+}
+
+/*购买首页*/
+nav{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+	padding:10px 5px 0;
+}
+nav ul li{
+	width: 25%;
+	float: left;
+	overflow: hidden;
+	text-align: center;
+	padding: 5px;
+}
+nav ul li a{
+	color: #32425c;
+	font-family: '迷你简综艺';
+	font-size: 16px;
+}
+nav ul li a img{
+	max-width: 65%;
+}
+.news{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+	background: #0c1531 url(../images/news.jpg) 10px no-repeat;
+	background-size: auto 50px;
+	padding: 10px;
+}
+.news ul{
+	width: 60%;
+	float: right;
+}
+.news ul li{
+	width: 100%;
+	float: left;
+	line-height: 22px;
+}
+.news ul li a{
+	color: #fff;
+}
+
+.coupon{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+	margin-top: 10px;
+}
+.coupon ul li{
+	width: 100%;
+	float: left;
+	padding: 10px;
+	border-bottom: 5px solid #f1f0f6;
+}
+.coupon ul li .img{
+	width: 25%;
+	float: left;
+}
+.coupon ul li .txt{
+	width: 45%;
+	float: left;
+	padding: 0 10px;
+}
+.coupon ul li .txt .title{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+	line-height: 25px;
+}
+.coupon ul li .txt .title a{
+	font-size: 16px;
+	color: #0c1531;
+	font-family: '迷你简综艺';
+}
+.coupon ul li .txt .desc{
+	color: #0c1531;
+	font-size: 14px;
+	line-height: 2em;
+	padding-top: 5px;
+	width: 100%;
+	float: left;
+}
+.coupon ul li .price{
+	width: 30%;
+	float: left;
+	overflow: hidden;
+	text-align: right;
+	color: #697280;
+}
+.coupon ul li .price p{
+	line-height: 40px;
+	padding-bottom: 10px;
+}
+.coupon ul li .price a{
+	display: inline-block;
+	line-height: 30px;
+	color: #ffffff;
+	background: #fcbd10;
+	padding: 0 5px;
+	border-radius: 5px;
+}
+.coupon ul li .ping{
+	line-height: 30px;
+	margin-top: 10px;
+}
+.coupon ul li .ping span{
+	color: #0c1531;
+	float: left;
+	display: inline-block;
+	padding: 0 10px;
+}
+.coupon ul li .ping span+span{
+	border: 1px solid #0c1531;
+	border-radius: 5px;
+	margin-right: 10px;
+}
+
+
+/*新闻列表*/
+.newsList{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+	padding: 0 10px 20px;
+}
+.newsList ul li{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+	margin-top: 10px;
+	border-bottom: 1px dashed #9e9e9e;
+}
+.newsList ul li .title{
+	line-height: 25px;
+}
+.newsList ul li .title a{
+	color: #0c1531;
+	font-size: 16px;
+	float: left;
+}
+.newsList ul li .title span{
+	color: #7d7d7d;
+	float: right;
+}
+.newsList ul li .desc{
+	color: #7d7d7d;
+	line-height: 20px;
+}
+
+/*新闻内页*/
+.newsConts{
+	width: 100%;
+	float: left;
+	overflow: hidden;
+	padding: 10px;
+}
+.newsConts .title{
+	color: #fcbd10;
+	font-size: 16px;
+	text-align: center;
+	line-height: 3em;
+}
+.newsConts .content{
+	line-height: 2em;
+	color: #7d7d7d;
+}
+
+
+
+
+
+
+
+
+
+.line{
+	height: 20px;
+	clear: both;
+	background: #f1f0f6;
+}
+@media screen and (min-width: 360px) {
+    .menu{
+    	height: auto;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
