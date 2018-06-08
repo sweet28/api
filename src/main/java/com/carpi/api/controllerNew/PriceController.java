@@ -14,7 +14,7 @@ import com.carpi.api.service.PriceService;
 
 @Controller
 @RequestMapping("/jb")
-public class PriceServiceController {
+public class PriceController {
 
 	@Autowired
 	private PriceService priceService;

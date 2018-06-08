@@ -237,6 +237,7 @@
 		   <if test="fensUserId != null">
 				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
 			</if>
+			order by create_date desc
 		</where>
 	</select>
 </mapper>

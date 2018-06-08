@@ -1,5 +1,7 @@
 package com.carpi.api.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -76,10 +78,10 @@ public class PayServiceImpl implements PayService {
 	//查询支付账户信息
 	@Override
 	public JsonResult selectZh(Integer fensUserId) {
-		BankCard bankCard = bankCardMapper.selectZh(fensUserId);
-		if (StringUtils.isEmpty(bankCard)) {
+		List<BankCard> list = bankCardMapper.selectZh(fensUserId);
+		if (list.isEmpty()) {
 			return JsonResult.build(500, "无信息");
 		}
-		return JsonResult.ok(bankCard);
+		return JsonResult.ok(list);
 	}
 }
