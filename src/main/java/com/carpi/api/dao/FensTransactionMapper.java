@@ -44,6 +44,6 @@ public interface FensTransactionMapper {
 	List<FensTransaction> selectDSH(Integer fensUserId);
 	
 	//粉丝交易量(当天)
-	int JYLsum();
+	Double JYLsum();
 	
 }

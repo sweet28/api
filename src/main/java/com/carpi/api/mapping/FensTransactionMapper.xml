@@ -469,8 +469,9 @@
 	</select>
 
 	<!-- 粉丝交易量(当天) -->
-	<select id="JYLsum" resultType="java.lang.Integer">
+	<select id="JYLsum" resultType="java.lang.Double">
 		select 
+		sum(trader_count) as trader_count
 		count(id) as sum
 		from fens_transaction
 		where create_date &gt;= date(now())

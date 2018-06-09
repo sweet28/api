@@ -406,7 +406,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 	//粉丝交易量(当天)
 	@Override
 	public JsonResult JYLsum() {
-		int sum = fensTransactionMapper.JYLsum();
+		Double sum = fensTransactionMapper.JYLsum();
 		return JsonResult.ok(sum);
 	}
 }
