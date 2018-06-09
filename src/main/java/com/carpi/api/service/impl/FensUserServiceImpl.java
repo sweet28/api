@@ -371,22 +371,43 @@ public class FensUserServiceImpl implements FensUserService {
 	}
 
 	// 交易密码
-	@Override
-	public JsonResult jiaoYi(FensUser fensUser) {
-		// 根据手机号码
-		FensUser user = fensUserMapper.selectRegister(fensUser);
-		if (user.getCapitalPwd() == null) {
-			FensUser fensUser2 = new FensUser();
-			fensUser2.setCapitalPwd(MD5.encodeString(
-					MD5.encodeString(fensUser.getCapitalPwd() + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
-			fensUser2.setId(fensUser.getId());
-			int result = fensUserMapper.updateByPrimaryKeySelective(fensUser2);
-			if (result != 1) {
-				return JsonResult.build(500, "设置交易密码失败");
+		@Override
+		public JsonResult jiaoYi(FensUser fensUser, String code) {
+			SMSCheckCode smsCheckCode = new SMSCheckCode();
+			smsCheckCode.setMobile(fensUser.getPhone());
+			smsCheckCode.setCheckCode(code);
+
+			SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);// .selectOneSmsInfo(smsCheckCode);
+			if (smsCCode != null) {
+				long expireTime = smsCCode.getExpireTime().getTime();
+				long nowTime = new Date().getTime();
+				long expireSeconds = TimeUtil.diffSeconds(expireTime, nowTime);
+				if (expireSeconds < 0) {
+					return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
+				} else {
+					// 根据手机号码
+					FensUser user = fensUserMapper.selectRegister(fensUser);
+					if (user.getCapitalPwd() == null) {
+						FensUser fensUser2 = new FensUser();
+						fensUser2.setCapitalPwd(
+								MD5.encodeString(MD5.encodeString(fensUser.getCapitalPwd() + ConfigUtil.MD5_PWD_STR)
+										+ ConfigUtil.MD5_PWD_STR));
+						fensUser2.setId(fensUser.getId());
+						int result = fensUserMapper.updateByPrimaryKeySelective(fensUser2);
+						smsCCode.setIsUsed(1);
+						smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+						smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+						if (result != 1) {
+							return JsonResult.build(500, "设置交易密码失败");
+						}
+						smsCCode.setIsUsed(2);
+						int staus = smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+					}
+				}
 			}
+			return JsonResult.ok();
+
 		}
-		return JsonResult.ok();
-	}
 
 	// 修改交易密码
 	@Override

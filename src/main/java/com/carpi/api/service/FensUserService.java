@@ -21,7 +21,7 @@ public interface FensUserService {
 	public JsonResult login(FensUser fensUser);
 
 	// 登入（手机号验证码）
-	public JsonResult login2(String phone,String code, String code_type);
+	public JsonResult login2(String phone, String code, String code_type);
 
 	// 忘记密码
 	public JsonResult forgetPwd(FensUser fensUser, String code_type, String code);
@@ -30,7 +30,7 @@ public interface FensUserService {
 	public JsonResult updatePwd(String OldPwd, String newPwd, Integer fensUserId);
 
 	// 交易密码
-	public JsonResult jiaoYi(FensUser fensUser);
+	public JsonResult jiaoYi(FensUser fensUser, String code);
 
 	// 修改交易密码
 	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId);
@@ -66,8 +66,8 @@ public interface FensUserService {
 	public PageInfo<FensUser> selectAllUser(Integer page, Integer num, String phone, String type);
 
 	FensUser info(FensUser fensUser);
-	
-	//待审核
+
+	// 待审核
 	public JsonResult selectDSH(Integer uid);
 
 	List<FensUser> selectListFens(String phone);
@@ -75,4 +75,4 @@ public interface FensUserService {
 	PageInfo<FensUser> selectListQINYOU(String phone);
 
 	JSONObject selectListFens2(String phone);
- }
+}
