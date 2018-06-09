@@ -45,7 +45,7 @@ public class PayServiceImpl implements PayService {
 		if (mima == null) {
 			return JsonResult.build(500, "系统错误");
 		}
-		FensUser fensUser = fensUserMapper.selectzjPwd(fensUserId, mima);
+		FensUser fensUser = fensUserMapper.selectzjPwd(Integer.valueOf(fensUserId), mima);
 		if (fensUser != null) {
 			return JsonResult.ok();
 		}

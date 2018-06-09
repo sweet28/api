@@ -41,7 +41,7 @@ public class FensUserNewController {
 
 	@Autowired
 	private TokenService tokenService;
-	
+
 	@Autowired
 	private JiaoYiService jiaoYiService;
 
@@ -150,23 +150,34 @@ public class FensUserNewController {
 	}
 
 	// 设置交易密码
-		@RequestMapping(value = "/szjymm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-		@ResponseBody
-		public JsonResult jiaoYi(HttpServletRequest request, HttpServletResponse response) {
-			// 交易密码
-			String capitalPwd = request.getParameter("old_jymm");
-			// 粉丝id
-			String id = request.getParameter("uid");
-			// 手机验证码
-			String code = request.getParameter("code");
-			// 手机号码
-			String phone = request.getParameter("sh");
-			FensUser fensUser = new FensUser();
-			fensUser.setId(Integer.valueOf(id));
-			fensUser.setPhone(phone);
-			fensUser.setCapitalPwd(capitalPwd);
-			return fensUserService.jiaoYi(fensUser, code);
-		}
+	@RequestMapping(value = "/szjymm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult jiaoYi(HttpServletRequest request, HttpServletResponse response) {
+		// 交易密码
+		String capitalPwd = request.getParameter("old_jymm");
+		// 粉丝id
+		String id = request.getParameter("uid");
+		// 手机验证码
+		String code = request.getParameter("code");
+		// 手机号码
+		String phone = request.getParameter("sh");
+		FensUser fensUser = new FensUser();
+		fensUser.setId(Integer.valueOf(id));
+		fensUser.setPhone(phone);
+		fensUser.setCapitalPwd(capitalPwd);
+		return fensUserService.jiaoYi(fensUser, code);
+	}
+	
+	//校验交易密码
+	@RequestMapping(value = "/jiaoyan", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult zijin(HttpServletRequest request, HttpServletResponse response) {
+		// 交易密码
+		String capitalPwd = request.getParameter("old_jymm");
+		// 粉丝id
+		String id = request.getParameter("uid");
+		return fensUserService.zijin(Integer.valueOf(id), capitalPwd);
+	}
 
 	// 修改交易密码
 	@RequestMapping(value = "/xgjymm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -253,44 +264,47 @@ public class FensUserNewController {
 		return fensUserService.selectSum(Integer.valueOf(fensUserId));
 	}
 
-//	// 粉丝团列表2
-//	@RequestMapping(value = "/list2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-//	@ResponseBody
-//	public PageInfo<FensUser> slectAllUser(HttpServletRequest request, HttpServletResponse response) {
-//		// 当前页
-//		String page = request.getParameter("pg");
-//		// 每页多少条
-//		String num = request.getParameter("ts");
-//		// 手机号码
-//		String phone = request.getParameter("sh");
-//		// type传all查询所有
-//		String type = request.getParameter("tp");
-//
-//		return fensUserService.selectAllUser(Integer.valueOf(page), Integer.valueOf(num), phone, type);
-//	}
-	
+	// // 粉丝团列表2
+	// @RequestMapping(value = "/list2", method = RequestMethod.POST, produces =
+	// "application/json;charset=UTF-8")
+	// @ResponseBody
+	// public PageInfo<FensUser> slectAllUser(HttpServletRequest request,
+	// HttpServletResponse response) {
+	// // 当前页
+	// String page = request.getParameter("pg");
+	// // 每页多少条
+	// String num = request.getParameter("ts");
+	// // 手机号码
+	// String phone = request.getParameter("sh");
+	// // type传all查询所有
+	// String type = request.getParameter("tp");
+	//
+	// return fensUserService.selectAllUser(Integer.valueOf(page),
+	// Integer.valueOf(num), phone, type);
+	// }
+
 	// 粉丝团列表
 	@RequestMapping(value = "/listFens", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public List<FensUser> slectListFens(HttpServletRequest request, HttpServletResponse response) {
 		// 手机号码
 		String phone = request.getParameter("sh");
-		System.out.println("controller:"+phone);
+		System.out.println("controller:" + phone);
 
 		return fensUserService.selectListFens(phone);
 	}
-	
+
 	// 粉丝团列表
 	@RequestMapping(value = "/listFens2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JSONObject slectListFens2(HttpServletRequest request, HttpServletResponse response) {
 		// 手机号码
 		String phone = request.getParameter("sh");
-		System.out.println("controller:"+phone);
+		System.out.println("controller:" + phone);
 
 		return fensUserService.selectListFens2(phone);
 	}
-	
+
 	// 亲友团列表
 	@RequestMapping(value = "/listQINYOU", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody

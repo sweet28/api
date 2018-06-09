@@ -49,5 +49,5 @@ public interface FensUserMapper {
 	Integer selectRefereeYXC(String refereePhone);
 
 	// 校验资金密码
-	FensUser selectzjPwd(@Param("fensUserId") String fensUserId, @Param("capitalPwd") String capitalPwd);
+	FensUser selectzjPwd(@Param("fensUserId") Integer fensUserId, @Param("capitalPwd") String capitalPwd);
 }

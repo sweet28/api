@@ -31,6 +31,9 @@ public interface FensUserService {
 
 	// 交易密码
 	public JsonResult jiaoYi(FensUser fensUser, String code);
+	
+	// 校验交易密码
+	JsonResult zijin(Integer fensUserId,String zjMiMa);
 
 	// 修改交易密码
 	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId);
@@ -40,7 +43,7 @@ public interface FensUserService {
 
 	// 修改信息
 	public JsonResult updateInfo2(FensUser fensUser);
-
+	
 	// 粉丝团列表
 	public PageInfo<FensTeam> selectAll(Integer page, Integer num, Integer fensUserId, String type);
 
