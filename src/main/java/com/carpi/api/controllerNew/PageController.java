@@ -201,4 +201,9 @@ public class PageController {
 	public String newsDetail() {
 		return "personal/newsDetail";
 	}
+	
+	@RequestMapping("/main")
+	public String main() {
+		return "main";
+	}
 }

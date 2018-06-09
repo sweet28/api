@@ -6,8 +6,8 @@ person: Wrp
 **************************
 */
 
-/*通用样式*/
-body{font-family:"微软雅黑"; font-size: 12px; max-width: 1080px; background: #ffffff;}
+/*閫氱敤鏍峰紡*/
+body{font-family:"寰蒋闆呴粦"; font-size: 12px; max-width: 1080px; background: #ffffff;}
 html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td,p{margin:0;padding:0;}
 img{border:0; max-width:100%;}ul,li{list-style-type:none;}
 .cl{clear:both;}
@@ -22,7 +22,7 @@ img{border:0; max-width:100%;}ul,li{list-style-type:none;}
 .pr{ position: relative; }
 img{ max-width: 100%; }
 
-/*头部通用*/
+/*澶撮儴閫氱敤*/
 header{
 	width: 100%;
 	float: left;
@@ -30,12 +30,12 @@ header{
 	position: relative;
 }
 .searchBox{
-	width: 100%;
+	/*width: 100%;
 	overflow: hidden;
 	position: absolute;
 	top: 0;
 	left: 0;
-	padding: 40px 30px;
+	padding: 40px 30px;*/
 }
 .search{
 	width: 100%;
@@ -50,7 +50,7 @@ header{
 	width: 3em;
 	height: 3em;
 	border: none;
-	background: url(../images/sea.png) center no-repeat;
+	background: url(../imagenew/sea.png) center no-repeat;
 	background-size: 50%;
 	float: left;
 }
@@ -85,7 +85,7 @@ input:-ms-input-placeholder{
 }
 
 
-/*底部通用快捷导航*/
+/*搴曢儴閫氱敤蹇嵎瀵艰埅*/
 .space{
 	height: 6em;
 	clear: both;
@@ -115,7 +115,7 @@ input:-ms-input-placeholder{
 	width: 100%;
 }
 
-/*购买首页*/
+/*璐拱棣栭〉*/
 nav{
 	width: 100%;
 	float: left;
@@ -131,7 +131,7 @@ nav ul li{
 }
 nav ul li a{
 	color: #32425c;
-	font-family: '迷你简综艺';
+	font-family: '杩蜂綘绠�缁艰壓';
 	font-size: 16px;
 }
 nav ul li a img{
@@ -141,7 +141,7 @@ nav ul li a img{
 	width: 100%;
 	float: left;
 	overflow: hidden;
-	background: #0c1531 url(../images/news.jpg) 10px no-repeat;
+	background: #0c1531 url(../imagenew/news.jpg) 10px no-repeat;
 	background-size: auto 50px;
 	padding: 10px;
 }
@@ -188,7 +188,7 @@ nav ul li a img{
 .coupon ul li .txt .title a{
 	font-size: 16px;
 	color: #0c1531;
-	font-family: '迷你简综艺';
+	font-family: '杩蜂綘绠�缁艰壓';
 }
 .coupon ul li .txt .desc{
 	color: #0c1531;
@@ -234,7 +234,7 @@ nav ul li a img{
 }
 
 
-/*新闻列表*/
+/*鏂伴椈鍒楄〃*/
 .newsList{
 	width: 100%;
 	float: left;
@@ -265,7 +265,7 @@ nav ul li a img{
 	line-height: 20px;
 }
 
-/*新闻内页*/
+/*鏂伴椈鍐呴〉*/
 .newsConts{
 	width: 100%;
 	float: left;

@@ -68,7 +68,7 @@
         	  closeOnCancel: true
         	}).then(function(isConfirm) {
         	  if (isConfirm === true) {
-        		  window.location.href = "cpa/personal";
+        		  window.location.href = "cpa/main";
         	  } else if (isConfirm === false) {
         	   
         	  } else {
