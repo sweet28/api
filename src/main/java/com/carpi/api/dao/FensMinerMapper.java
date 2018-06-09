@@ -80,5 +80,8 @@ public interface FensMinerMapper {
 
 	// 粉丝矿机的总价值
 	Double kjJz(@Param("phone") String phone);
+	
+	// 查询所有运行矿机
+	List<FensMiner> allMinerList();
 
 }

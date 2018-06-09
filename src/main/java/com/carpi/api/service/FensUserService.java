@@ -2,6 +2,7 @@ package com.carpi.api.service;
 
 import java.util.List;
 
+import com.alibaba.fastjson.JSONObject;
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.FensAuthentication;
 import com.carpi.api.pojo.FensComputingPower;
@@ -29,7 +30,7 @@ public interface FensUserService {
 	public JsonResult updatePwd(String OldPwd, String newPwd, Integer fensUserId);
 
 	// 交易密码
-	public JsonResult jiaoYi(FensUser fensUser,String code);
+	public JsonResult jiaoYi(FensUser fensUser);
 
 	// 修改交易密码
 	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId);
@@ -72,4 +73,6 @@ public interface FensUserService {
 	List<FensUser> selectListFens(String phone);
 
 	PageInfo<FensUser> selectListQINYOU(String phone);
+
+	JSONObject selectListFens2(String phone);
  }

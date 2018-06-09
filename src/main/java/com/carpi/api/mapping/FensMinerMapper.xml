@@ -741,4 +741,12 @@
 		and
 		is_delete = 0
 	</select>
+	
+	<!-- 查询全部矿机列表 -->
+	<select id="allMinerList" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_miner
+		where is_delete = 0
+	</select>
 </mapper>

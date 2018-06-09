@@ -7,18 +7,15 @@ function Gift() {
   function comptime() {
     $.ajax({
       type: "post",
-      url: getAPIURL() + "user/fens/listFens",
+      url: getAPIURL() + "user/fens/listFens2",
       dataType: "json",
       data: {
     	  "sh": localStorage.getItem("phone")
       },
       success: function (data) {
-    	  console.log(data.length);
-    	  if(data.length > 0){
-    		  $("#fenstuan").html(data.length);
-    	  }else{
-    		  $("#fenstuan").html(0);
-    	  }
+    	  console.log(data);
+		  $("#fenstuan").html(data.fensList);
+		  $("#fenssl").html(data.fensuanli);
       },error:function(){
     	  console.log(333);
       }, headers: {

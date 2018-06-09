@@ -26,7 +26,7 @@
     
     $.ajax({
       type: "POST",
-      url: getAPIURL() + "/user/fens/dl",
+      url: getAPIURL() + "user/fens/dl",
       dataType: "json",
       //contentType: "application/json",
       data:{
