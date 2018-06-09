@@ -270,10 +270,11 @@ public class PoolServiceImpl implements PoolService {
 				if (suoding2 > 0) {
 					for (Map<String, String> map3 : list2) {
 						// 获取锁定收益信息
-						Map<String, Double> map = check(fensMiner);
+						FensMiner fensMiner3 = fensMinerMapper
+								.selectByPrimaryKey(Integer.valueOf(map3.get("id").toString()));
+						Map<String, Double> map = check(fensMiner3);
 						// 返还多余的cpa
 						// double ytqSY2 = Double.valueOf(map3.get("ytqSY")) - suoding2;
-
 						// 需要填补的cpa
 						double ytqSY2 = suoding2 - Double.valueOf(map.get("kySY"));
 						fensMiner2.setId(Integer.valueOf(map3.get("id")));
@@ -321,25 +322,83 @@ public class PoolServiceImpl implements PoolService {
 			return JsonResult.build(500, "可用冻结cpa不足");
 		} else if (type == 2) {
 			Bminer bminer = bminerMapper.selectByPrimaryKey(id);
-			// 粉丝矿机表添加数据
-			FensMiner fensMiner = new FensMiner();
-			fensMiner.setFensUserId(bminer.getFensUserId());
-			// 几星矿机
-			fensMiner.setBak1(String.valueOf(bminer.getType()));
-			// B矿机
-			fensMiner.setMinerType(2);
-			fensMiner.setMinerId(bminer.getId());
-			fensMiner.setMinerComputingPower(bminer.getComputingPower());
-			fensMiner.setCreateDate(TimeUtil.getTimeStamp());
-			fensMiner.setIsDelete(2);// 购买矿机需要审核cpa合法性
-			fensMiner.setBeyong1(String.valueOf(bminer.getPrice()));
-			int result2 = fensMinerMapper.insertSelective(fensMiner);
-			if (result2 != 1) {
-				return JsonResult.build(500, "购买矿机失败");
+			if (suodingall >= bminer.getPrice()) {
+				// 粉丝矿机表添加数据
+				FensMiner fensMiner = new FensMiner();
+				fensMiner.setFensUserId(bminer.getFensUserId());
+				// 几星矿机
+				fensMiner.setBak1(String.valueOf(bminer.getType()));
+				// B矿机
+				fensMiner.setMinerType(2);
+				fensMiner.setMinerId(bminer.getId());
+				fensMiner.setMinerComputingPower(bminer.getComputingPower());
+				fensMiner.setCreateDate(TimeUtil.getTimeStamp());
+				fensMiner.setIsDelete(2);// 购买矿机需要审核cpa合法性
+				fensMiner.setBeyong1(String.valueOf(bminer.getPrice()));
+				int result2 = fensMinerMapper.insertSelective(fensMiner);
+				if (result2 != 1) {
+					return JsonResult.build(500, "购买矿机失败");
+				}
+			// 扣cpa
+			// double suoding2 = suoding - aminer.getPrice();
+			double suoding2 = bminer.getPrice() * 2 - suodingall;
+			FensMiner fensMiner2 = new FensMiner();
+			if (suoding2 > 0) {
+				for (Map<String, String> map3 : list2) {
+					FensMiner fensMiner3 = fensMinerMapper
+							.selectByPrimaryKey(Integer.valueOf(map3.get("id").toString()));
+					// 获取锁定收益信息
+					Map<String, Double> map = check(fensMiner3);
+					// 返还多余的cpa
+					// double ytqSY2 = Double.valueOf(map3.get("ytqSY")) - suoding2;
+
+					// 需要填补的cpa
+					double ytqSY2 = suoding2 - Double.valueOf(map.get("kySY"));
+					fensMiner2.setId(Integer.valueOf(map3.get("id")));
+					// 矿机当前的总收益
+					Double dqZSY = map.get("nowZSY");
+
+					if (ytqSY2 > dqZSY) {
+						// 添加大值
+						fensMiner2.setTotalRevenue(dqZSY);
+						// 减去添加的值
+						ytqSY2 = ytqSY2 - dqZSY;
+					} else if (ytqSY2 < dqZSY && ytqSY2 > 0) { // 剩余最后的cpa,直接全部添加到该矿机
+						fensMiner2.setTotalRevenue(ytqSY2);
+					}
+					int status = fensMinerMapper.updateByPrimaryKeySelective(fensMiner2);
+					if (status != 1) {
+						return JsonResult.build(500, "返还失败");
+					}
+					// 释放差值
+					// if (ytqSY2<0) {
+					// fensMiner2.setId(Integer.valueOf(map3.get("id")));
+					// fensMiner2.setTotalRevenue(Double.valueOf(0));
+					// int status = fensMinerMapper.updateByPrimaryKeySelective(fensMiner2);
+					// if (status != 1) {
+					// // return JsonResult.build(500, "剩余cpa更新");
+					// continue;
+					// }
+					// suoding2 = suoding2 + ytqSY2;
+					// }else if (ytqSY2 >= 0) {
+					// fensMiner2.setId(Integer.valueOf(map3.get("id")));
+					// fensMiner2.setTotalRevenue(ytqSY2);
+					// fensMinerMapper.updateByPrimaryKeySelective(fensMiner2);
+					// break;
+					// }
+				}
+				// //扣除矿机费用
+				// for(Map<String, String> map3 : list2) {
+				// Double.valueOf(map3.get("ytqSY"))
+				// }
+
+			} else if (suoding2 == 0) {
+				return JsonResult.build(500, "系统错误");
 			}
-			return JsonResult.ok();
 		}
-		return JsonResult.build(500, "系统错误");
+		return JsonResult.build(500, "可用冻结cpa不足");
+		}
+		return JsonResult.build(500, "请选择矿机类型 ");
 	}
 
 	// 可用收益（提取的币）
