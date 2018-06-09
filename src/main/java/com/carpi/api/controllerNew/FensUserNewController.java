@@ -150,21 +150,23 @@ public class FensUserNewController {
 	}
 
 	// 设置交易密码
-	@RequestMapping(value = "/szjymm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public JsonResult jiaoYi(HttpServletRequest request, HttpServletResponse response) {
-		// 交易密码
-		String capitalPwd = request.getParameter("old_jymm");
-		// 粉丝id
-		String id = request.getParameter("uid");
-		// 手机号码
-		String phone = request.getParameter("sh");
-		FensUser fensUser = new FensUser();
-		fensUser.setId(Integer.valueOf(id));
-		fensUser.setPhone(phone);
-		fensUser.setCapitalPwd(capitalPwd);
-		return fensUserService.jiaoYi(fensUser);
-	}
+		@RequestMapping(value = "/szjymm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public JsonResult jiaoYi(HttpServletRequest request, HttpServletResponse response) {
+			// 交易密码
+			String capitalPwd = request.getParameter("old_jymm");
+			// 粉丝id
+			String id = request.getParameter("uid");
+			// 手机验证码
+			String code = request.getParameter("code");
+			// 手机号码
+			String phone = request.getParameter("sh");
+			FensUser fensUser = new FensUser();
+			fensUser.setId(Integer.valueOf(id));
+			fensUser.setPhone(phone);
+			fensUser.setCapitalPwd(capitalPwd);
+			return fensUserService.jiaoYi(fensUser, code);
+		}
 
 	// 修改交易密码
 	@RequestMapping(value = "/xgjymm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
