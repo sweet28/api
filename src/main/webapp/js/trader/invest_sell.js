@@ -664,6 +664,9 @@ function mrCPA(id,count){
 	        	    					return false   
 	        	    				}
 	        	    				
+	        	    				
+	        	    				//校验
+	        	    				
 	        	    				var tmp = getTimestamp();
 	        	    			    var rad = getRandom();
 	        	    			    var ton = getTom();

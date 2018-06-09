@@ -47,10 +47,28 @@ function Gift() {
 	      }
 	    });
   }
+  
+  function fensTuan(){
+	  $.ajax({
+	      type: "post",
+	      url: getAPIURL() + "user/fens/listFens2",
+	      dataType: "json",
+	      data: {
+	    	  "sh": localStorage.getItem("phone")
+	      },
+	      success: function (data) {
+			  $("#fenstuan").html(data.fensList);
+	      },error:function(){
+	      }, headers: {
+	        "Authorization": "Bearer " + getTOKEN()
+	      }
+	    });
+  }
 
   (function () {
     _$gift = $("#gift");
     comptime();
+    fensTuan();
   })();
 }
 var gift;
