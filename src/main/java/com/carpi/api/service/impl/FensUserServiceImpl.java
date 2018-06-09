@@ -749,12 +749,18 @@ public class FensUserServiceImpl implements FensUserService {
 	// 粉丝团列表
 	@Override
 	public List<FensUser> selectListFens(String phone) {
-		List<FensUser> list = fensUserMapper.selectAllUser(phone);
+		List<FensUser> list = fensUserMapper.selectAllUserNoTJ();
+		
+		System.out.println("-----all list:"+list.size());
+		
 		PageInfo<FensUser> pageInfo = new PageInfo<>(list);
-
+		
+		System.out.println("service:"+phone);
+		
 		List<FensUser> listParentRecord = new ArrayList<FensUser>();
-		getTreeChildRecord(listParentRecord, phone);
-		pageInfo.setPages(listParentRecord.size());
+		getTreeChildRecord(listParentRecord, phone, list);
+		
+		System.out.println(listParentRecord.size()+"----end-------");
 
 		return listParentRecord;
 	}
@@ -781,27 +787,37 @@ public class FensUserServiceImpl implements FensUserService {
 			}
 		}
 		return listParentRecord;
+	}
+	
+	/**
+	 * 说明方法描述：递归查询子节点
+	 * 
+	 * @param listParentRecord
+	 *            粉丝团集合
+	 * @param parentUuid
+	 *            父节点id
+	 * @return
+	 */
 
-		// // 遍历tmpList，找出所有的根节点和非根节点
-		// if (childList != null && childList.size() > 0) {
-		// for (FensUser record : childList) {
-		// // 对比找出父节点
-		// if (record.getPhone().equals(parentUuid)) {
-		// listParentRecord.add(record);
-		// } else {
-		// listNotParentRecord.add(record);
-		// }
-		//
-		// }
-		// }
-		// // 查询子节点
-		// if (listParentRecord.size() > 0) {
-		// for (FensUser record : listParentRecord) {
-		// // 递归查询子节点
-		// getTreeChildRecord(listNotParentRecord, record.getPhone());
-		// }
-		// }
-		// return listParentRecord;
+	private List<FensUser> getTreeChildRecord(List<FensUser> listParentRecord, String parentUuid, List<FensUser> allList) {
+		// 遍历tmpList，找出所有的根节点和非根节点
+		if (allList.size() > 0) {
+			for (int i = 0; i < allList.size(); i++) {
+				
+				String refereePhone = allList.get(i).getRefereePhone();
+				
+				if(refereePhone != null && parentUuid != null){
+					
+					if(allList.get(i).getRefereePhone().equals(parentUuid)){
+						
+						listParentRecord.add(allList.get(i));
+						getTreeChildRecord(listParentRecord, allList.get(i).getPhone(), allList);
+						
+					}
+				}
+			}
+		}
+		return listParentRecord;
 	}
 
 	@Override

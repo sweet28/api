@@ -13,7 +13,12 @@ function Gift() {
     	  "sh": localStorage.getItem("phone")
       },
       success: function (data) {
-    	  console.log("000:"+data);
+    	  console.log(data.length);
+    	  if(data.length > 0){
+    		  $("#fenstuan").html(data.length);
+    	  }else{
+    		  $("#fenstuan").html(0);
+    	  }
       },error:function(){
     	  console.log(333);
       }, headers: {

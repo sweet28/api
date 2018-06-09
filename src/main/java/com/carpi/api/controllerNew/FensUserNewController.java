@@ -272,6 +272,7 @@ public class FensUserNewController {
 	public List<FensUser> slectListFens(HttpServletRequest request, HttpServletResponse response) {
 		// 手机号码
 		String phone = request.getParameter("sh");
+		System.out.println("controller:"+phone);
 
 		return fensUserService.selectListFens(phone);
 	}

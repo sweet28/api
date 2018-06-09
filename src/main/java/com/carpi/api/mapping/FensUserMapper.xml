@@ -259,6 +259,13 @@
 		capital_pwd = #{capitalPwd,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
+	
+	<!-- 无条件查询所有真实用户 -->
+	<select id="selectAllUserNoTJ" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_user where is_delete = 0 and attachment = '1' and referee_phone is not null and referee_phone !=''
+	</select>
 
 	<select id="selectRegister" parameterType="com.carpi.api.pojo.FensUser"
 		resultType="com.carpi.api.pojo.FensUser">
@@ -313,7 +320,7 @@
 		from fens_user
 		<where>
 			<if test="_parameter != null">
-				referee_phone = #{phone,jdbcType=VARCHAR} and is_delete=0
+				referee_phone = #{phone,jdbcType=VARCHAR} and is_delete=0 and attachment='1' 
 			</if>
 		</where>
 	</select>
@@ -325,7 +332,7 @@
 		from fens_user
 		<where>
 			<if test="_parameter != null">
-				referee_phone = #{phone,jdbcType=VARCHAR} and is_delete=0
+				referee_phone = #{phone,jdbcType=VARCHAR} and is_delete=0 and attachment='1' 
 			</if>
 		</where>
 	</select>

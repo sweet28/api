@@ -27,6 +27,9 @@ public interface FensUserMapper {
 
 	// 更新密码
 	int updatePwd(FensUser fensUser);
+	
+	// 所有用户列表
+	List<FensUser> selectAllUserNoTJ();
 
 	// 粉丝团列表
 	List<FensUser> selectAllUser(String phone);
