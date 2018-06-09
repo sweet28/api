@@ -25,7 +25,6 @@ function Gift() {
 	$(function () {
 		tradeId = window.location.search.substring(1);
 		
-		console.log(tradeId);
 		$.ajax({
 		    type: "post",
 		    url: getAPIURL() + "miner/record/detail",
@@ -34,9 +33,7 @@ function Gift() {
 		    	"id":tradeId
 		    },
 		    success: function (data) {
-		    	console.log(data);
 		    	if(data.id == tradeId){
-		    		console.log(222);
 		    		ddNum = data.orderNumber;
 		    		ddTime =data.createDate;
 		    		price = data.entrustPrice;
@@ -63,7 +60,7 @@ function Gift() {
 		    		}
 		    		
 		    		$("#ddNum").html("订单号:"+ddNum);
-		    		$("#createTime").html("订单生成时间:"+ddTime);
+		    		$("#createTime").html("订单生成时间:"+fmtDate(ddTime));
 		    		$("#pricecpa").html("单价:"+"$"+price);
 		    		$("#cpaCount").html("CPA数量:"+totalCount);
 		    		$("#syTime").html(syTime);
@@ -72,21 +69,16 @@ function Gift() {
 		    		$("#modifypassword_btn").hide();
 		    		$("#modifypassword_btn2").hide();
 		    		
-		    		console.log(ddState+"<-state---type->"+ddType+"---反反复复付---fid->"+fensID+"---tid->"+uid+"----nowID"+localStorage.getItem("uid"));
 		    		if(ddState==1 && ddType==2 && localStorage.getItem("uid")==fensID){
-		    			console.log(1);
 		    			$("#modifypassword_btn").show();
 		    		}
 		    		if(ddState==1 && ddType==1 && localStorage.getItem("uid")==uid){
-		    			console.log(2);
 		    			$("#modifypassword_btn").show();
 		    		}
 		    		if(ddState==2 && ddType==2 && localStorage.getItem("uid")==uid){
-		    			console.log(3);
 		    			$("#modifypassword_btn2").show();
 		    		}
 		    		if(ddState==2 && ddType==1 && localStorage.getItem("uid")==fensID){
-		    			console.log(4);
 		    			$("#modifypassword_btn2").show();
 		    		}
 		    		
@@ -183,32 +175,25 @@ function Gift() {
 		    		      success: function (data) {
 		    		        var list = data.data;
 		    		        if (list.length <= 0) {
-		    		        	console.log("没有账号信息");
 		    		        } else {
-		    		        	console.log(list);
 		    		        	$.each( list, function(index, content){
 		    		        		var runs = content.isApply;
-	    		        			console.log(content.bak1+"-1");
 		    		        		if(content.bak1==1){
-		    		        			console.log(content.bak1+"-2");
 		    		        			if(ddState!='4'){
 			    		        			$("#mjxm").html("姓名:"+content.name);
 			    		        			$("#alipayID").html("账号:"+content.cardNumber);
 		    		        			}
 		    		        		}else if(content.bak1==2){
-		    		        			console.log(content.bak1+"-3");
 		    		        			if(ddState!='4'){
 			    		        			$("#mjxm").html("姓名:"+content.name);
 			    		        			$("#weixinID").html("账号:"+content.cardNumber);
 		    		        			}
 		    		        		}else if(content.bak1==3){
-		    		        			console.log(content.bak1+"-4");
 		    		        			if(ddState!='4'){
 			    		        			$("#mjxm").html("姓名:"+content.name);
 			    		        			$("#imtokenID").html("账号:"+content.cardNumber);
 		    		        			}
 		    		        		}else{
-		    		        			console.log(content.bak1+"-5");
 		    		        			if(ddState!='4'){
 			    		        			$("#mjxm").html("姓名:"+content.name);
 			    		        			$("#bank").html("账号类型:"+content.bank);
@@ -337,7 +322,6 @@ function submitYSK(){
     var ton = getTom();
     var str = "id="+tradeId+"uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton; 
 	if(localStorage.getItem("uid")==userid){
-		console.log(999);
 		$.ajax({
 		    type: "post",
 		    url: getAPIURL() + "kuangjy/jy/RecordCJ",

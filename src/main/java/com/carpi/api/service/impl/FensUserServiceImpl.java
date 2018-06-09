@@ -735,6 +735,29 @@ public class FensUserServiceImpl implements FensUserService {
 
 		return pageInfo;
 	}
+	
+	
+	// 亲友团列表
+	@Override
+	public PageInfo<FensUser> selectListQINYOU( String phone) {
+		List<FensUser> list = fensUserMapper.selectAllUser(phone);
+		PageInfo<FensUser> pageInfo = new PageInfo<>(list);
+
+		return pageInfo;
+	}
+	
+	// 粉丝团列表
+	@Override
+	public List<FensUser> selectListFens(String phone) {
+		List<FensUser> list = fensUserMapper.selectAllUser(phone);
+		PageInfo<FensUser> pageInfo = new PageInfo<>(list);
+
+		List<FensUser> listParentRecord = new ArrayList<FensUser>();
+		getTreeChildRecord(listParentRecord, phone);
+		pageInfo.setPages(listParentRecord.size());
+
+		return listParentRecord;
+	}
 
 	/**
 	 * 说明方法描述：递归查询子节点

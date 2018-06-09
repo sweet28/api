@@ -68,4 +68,8 @@ public interface FensUserService {
 	
 	//待审核
 	public JsonResult selectDSH(Integer uid);
+
+	List<FensUser> selectListFens(String phone);
+
+	PageInfo<FensUser> selectListQINYOU(String phone);
  }

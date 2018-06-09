@@ -2,6 +2,7 @@ package com.carpi.api.controllerNew;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -249,20 +250,40 @@ public class FensUserNewController {
 		return fensUserService.selectSum(Integer.valueOf(fensUserId));
 	}
 
-	// 粉丝团列表2
-	@RequestMapping(value = "/list2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	// 粉丝团列表2
+//	@RequestMapping(value = "/list2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	@ResponseBody
+//	public PageInfo<FensUser> slectAllUser(HttpServletRequest request, HttpServletResponse response) {
+//		// 当前页
+//		String page = request.getParameter("pg");
+//		// 每页多少条
+//		String num = request.getParameter("ts");
+//		// 手机号码
+//		String phone = request.getParameter("sh");
+//		// type传all查询所有
+//		String type = request.getParameter("tp");
+//
+//		return fensUserService.selectAllUser(Integer.valueOf(page), Integer.valueOf(num), phone, type);
+//	}
+	
+	// 粉丝团列表
+	@RequestMapping(value = "/listFens", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public PageInfo<FensUser> slectAllUser(HttpServletRequest request, HttpServletResponse response) {
-		// 当前页
-		String page = request.getParameter("pg");
-		// 每页多少条
-		String num = request.getParameter("ts");
+	public List<FensUser> slectListFens(HttpServletRequest request, HttpServletResponse response) {
 		// 手机号码
 		String phone = request.getParameter("sh");
-		// type传all查询所有
-		String type = request.getParameter("tp");
 
-		return fensUserService.selectAllUser(Integer.valueOf(page), Integer.valueOf(num), phone, type);
+		return fensUserService.selectListFens(phone);
+	}
+	
+	// 亲友团列表
+	@RequestMapping(value = "/listQINYOU", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public PageInfo<FensUser> slectListQINYOU(HttpServletRequest request, HttpServletResponse response) {
+		// 手机号码
+		String phone = request.getParameter("sh");
+
+		return fensUserService.selectListQINYOU(phone);
 	}
 
 	// 安全退出

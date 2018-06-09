@@ -8,7 +8,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>我的订单</title>
+<title>我的收益</title>
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/style.css">
 <link rel="stylesheet" href="<%=path%>/cssnew/style.css">
@@ -17,7 +17,6 @@
 <script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.js"></script>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
-<script src="<%=path%>/js/trader/my_dd_check.js" type="text/javascript" charset="utf-8"></script>
 
 <style>
 	body{ background: #f1f0f6; }
@@ -25,23 +24,25 @@
 </head>
 <body>
 	<header>
-		<span>我的订单</span>
+		<span>我的收益</span>
 		<a href="<%=path%>/cpa/personal" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>
 	<div class="cl"></div>
 	<div class="order">
 		<ul>
-			<li><a href="<%=path%>/cpa/traderMyGD"><img src="<%=path%>/images/o1.jpg" alt=""><p>发起中</p></a></li>
-			<li><a href="<%=path%>/cpa/traderMyDFK"><img src="<%=path%>/images/o2.jpg" alt=""><p>待付款</p></a></li>
-			<li><a href="<%=path%>/cpa/traderMyYFK"><img src="<%=path%>/images/o3.jpg" alt=""><p>待确认收款</p></a></li>
-			<li><a href="<%=path%>/cpa/traderMyDone"><img src="<%=path%>/images/o4.jpg" alt=""><p>交易完成</p></a></li>
-			<li><a href="<%=path%>/cpa/traderMyCheck"><img src="<%=path%>/images/o5.jpg" alt=""><p style="color:red;font-weight:bold;">交易审核</p></a></li>
+			<li><a href="<%=path%>/cpa/myEarnings"><img src="<%=path%>/images/niu.png" alt=""><p>个人算力</p></a></li>
+			<li><a href="<%=path%>/cpa/myEarnings2"><img src="<%=path%>/images/ma.png" alt=""><p>直推算力</a></li>
+			<li><a href="<%=path%>/cpa/myEarnings3"><img src="<%=path%>/images/long.png" alt=""><p>直推收益</p></a></li>
+			<li><a href="<%=path%>/cpa/myEarnings4"><img src="<%=path%>/images/ma.png" alt=""><p style="color:red;font-weight:bold;">粉丝算力</p></a></li>
+			<li><a href="#"><img src="<%=path%>/images/niu.png" alt=""><p>其他</p></a></li>
 		</ul>
 	</div>
-	<div class="cl"></div>
+	<div class="cl">
+	</div>
 	<div class="order_list">
-		<ul id = "a_miner">
+		&nbsp;&nbsp;亲友团(人数)：<span id="qytuan"></span>&nbsp;&nbsp;粉丝团(人数)：<span id="fenstuan"></span>&nbsp;&nbsp;粉丝团(算力)：<span id="fenssl"></span>
+		<ul id = "gift">
 		</ul>
 	</div>
 	
@@ -56,4 +57,5 @@
 		</ul>
 	</div>
 </body>
+<script src="<%=path%>/js/personal/my_earning4.js" type="text/javascript" charset="utf-8"></script>
 </html>
