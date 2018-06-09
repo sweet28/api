@@ -152,7 +152,7 @@ function addAliPay(){
     var newPwd;
     var newpp;
     var code;
-	dx();
+	
 	swal({   
 		title: "原交易密码",   
 		type: "input",   
@@ -163,6 +163,7 @@ function addAliPay(){
 	}, function(inputValue){   
 		if (inputValue === false) return false;      
 		oldPwd = inputValue;
+		dx();
 		swal({   
 			title: "新交易密码",   
 			type: "input",   
@@ -196,28 +197,13 @@ function addAliPay(){
 	        	}
 	        }
 	        swal({   
-				title: "请输入短信验证码",   
+				title: "确认新交易密码",     
 				type: "input",   
 				showCancelButton: true,   
 				closeOnConfirm: false,   
 				animation: "slide-from-top",   
-				inputPlaceholder: "请输入短信验证码" 
+				inputPlaceholder: "确认新交易密码"  
 			},function(inputValue){   
-				if (inputValue === false) return false;      
-				if (inputValue === "") {     
-					swal.showInputError("请输入!");     
-					return false   
-				}
-				code = inputValue;
-				
-			swal({   
-				title: "确认新交易密码",   
-				type: "input",   
-				showCancelButton: true,   
-				closeOnConfirm: false,   
-				animation: "slide-from-top",   
-				inputPlaceholder: "确认新交易密码" 
-			}, function(inputValue){   
 				if (inputValue === false) return false;      
 				if (inputValue === "") {     
 					swal.showInputError("请输入!");     
@@ -228,6 +214,22 @@ function addAliPay(){
 					swal.showInputError("确认密码与新密码不一致！");     
 					return false;   
 				}
+				
+				
+			swal({   
+				title: "请输入短信验证码",   
+				type: "input",   
+				showCancelButton: true,   
+				closeOnConfirm: false,   
+				animation: "slide-from-top",   
+				inputPlaceholder: "请输入短信验证码" 
+			}, function(inputValue){   
+				if (inputValue === false) return false;      
+				if (inputValue === "") {     
+					swal.showInputError("请输入!");     
+					return false   
+				}
+				code = inputValue;
 				
 				var tmp = getTimestamp();
 			    var rad = getRandom();

@@ -38,7 +38,7 @@
 						         "<span>工单号:"+list[i].id+"</span></div>" +
 					             "<div class='desc'>" +
 						         "<span>问题表述：</span><span>"+chuli+"</span>" +
-					             "<a style='font-weight:bold;color: red;margin-left: 53%;' href='fang_kui?"+list[i].id+"'>详情查看</a></div>" + 
+//					             "<a style='font-weight:bold;color: red;margin-left: 53%;' href='fang_kui?"+list[i].id+"'>详情查看</a></div>" + 
 					             "<div class='text'>"+
 						         "<textarea readonly='readonly' placeholder='请具体且准确的描述您的问题，这有助于我们更高效的帮助您！'>"+list[i].problem+"</textarea>"+
 					             "</div>"
