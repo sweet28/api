@@ -206,4 +206,9 @@ public class PageController {
 	public String main() {
 		return "main";
 	}
+	
+	@RequestMapping("/fang_kui")
+	public String fang_kui() {
+		return "personal/fang_kui";
+	}
 }

@@ -1,9 +1,14 @@
 (function(){
-	var test = window.location.search;
-	test = test.substr(test.length-1,1)
+//	var test = window.location.search;
+//	test = test.substr(test.length-1,1)
+	var url = location.search; //获取url中"?"符后的字串 
+	var theRequest = new Object(); 
+	if (url.indexOf("?") != -1) { 
+		var str = url.substr(1); 
+	}
 	$.ajax({
 		 type: "post",
-		 url: getAPIURL() + "/news/"+test,
+		 url: getAPIURL() + "news/"+str,
 		 dataType: "json",
 		 success:function(data){
 			  if(data.status == 200){

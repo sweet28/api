@@ -11,11 +11,13 @@
 <title>支付管理</title>
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/style.css">
+<link rel="stylesheet" href="<%=path%>/cssnew/style.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/sweetalert/css/sweetalert.css">
 <script src="<%=path%>/lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.min.js"></script>
+<%-- <script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.js"></script> --%>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
 
 <style>
@@ -47,7 +49,7 @@
 				<p id=""></p>
 				<span id=""></span>
 				<p id=""></p>
-				<span style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;font-size: 18px;'>
+				<span style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 32%;height: 30px;text-align: center;line-height: 30px;font-size: 18px;'>
 					<a style="color:#fff;" href="javascript:addCard();">修改</a>
 				</span>
 			</li>
@@ -58,8 +60,8 @@
 				<span style="color:#E91E63;font-weight:bold;font-size: 18px;">修改/添加交易密码</span>
 				<p id=""></p>
 				<span id=""></span>
-				<span style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;font-size: 18px;'>
-					<a style="color:#fff;" href="javascript:addAliPay();">修改</a>
+				<span id="get_valicode" style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 32%;height: 30px;text-align: center;line-height: 30px;font-size: 18px;'>
+					<a style="color:#fff;" href="javascript:addAliPay();">获取验证码</a>
 				</span>
 			</li>
 		</ul>

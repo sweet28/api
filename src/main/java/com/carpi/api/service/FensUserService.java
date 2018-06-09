@@ -29,7 +29,7 @@ public interface FensUserService {
 	public JsonResult updatePwd(String OldPwd, String newPwd, Integer fensUserId);
 
 	// 交易密码
-	public JsonResult jiaoYi(FensUser fensUser);
+	public JsonResult jiaoYi(FensUser fensUser,String code);
 
 	// 修改交易密码
 	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId);

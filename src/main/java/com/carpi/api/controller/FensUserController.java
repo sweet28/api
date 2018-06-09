@@ -55,12 +55,12 @@ public class FensUserController {
 		return fensUserService.updatePwd(OldPwd, newPwd, fensUserId);
 	}
 
-	// 设置交易密码
-	@RequestMapping(value = "/jiaoYi", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public JsonResult jiaoYi(FensUser fensUser) {
-		return fensUserService.jiaoYi(fensUser);
-	}
+//	// 设置交易密码
+//	@RequestMapping(value = "/jiaoYi", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	@ResponseBody
+//	public JsonResult jiaoYi(FensUser fensUser) {
+//		return fensUserService.jiaoYi(fensUser);
+//	}
 
 	// 修改交易密码
 	@RequestMapping(value = "/updateJiaoYi", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

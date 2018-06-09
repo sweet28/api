@@ -434,7 +434,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 					System.out.println("nowzsy:" + nowZSY + "---yhdSY:" + yhdSY);
 
 					if (kySY < 1 && rundate < 15) {
-						return JsonResult.build(500, "收益少于1个CPA时，不能转入钱包。");
+						JsonResult.build(500, "收益少于1个CPA时，不能转入钱包。");
 					}
 
 					/*
@@ -443,7 +443,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 					Double djSY = 0.00;// 叠加收益
 					Double djSL = 0.00;// 叠加算力
 
-					if (!miner.getDiejia().isEmpty()) {
+					if (miner.getDiejia() != null) {
 						djSL = Double.valueOf(miner.getDiejia());
 					}
 

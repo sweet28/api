@@ -105,6 +105,45 @@ function addCard(){
 	});
 }
 
+function dx(){
+	$.ajax({
+		type : "POST",
+		url : getAPIURL() + "sms/code/send",
+		dataType : "json",
+		data : {
+			"mobile" : localStorage.getItem("phone")
+		},
+		success:function(data){
+			if (data.status == "200") {
+//				swal({ 
+//					  title: "验证码发送成功！", 
+//					  //text: "2秒后自动关闭。", 
+//					  timer: 2000, 
+//					  showConfirmButton: false 
+//				});
+				var time = 120;
+				cutdownFlag = false;
+				var timer = setInterval(function() {
+//					$(".get_code");
+					$("#get_valicode").html(time + "s后重新获取");
+					time--;
+					if (time < 0) {
+						clearInterval(timer);
+						cutdownFlag = true;
+						$("#get_valicode").html("重新获取");
+					}
+				}, 1000);
+			} else {
+				swal({
+		      		  title: data.error_msg,
+		      		  icon: "error",
+		      		  button: "确定",
+	      	    });
+				return false;
+			}
+		}
+	});
+}
 
 function addAliPay(){
 //	var oldPwd = $("#txtOldPwd").val();
@@ -112,14 +151,15 @@ function addAliPay(){
 	var oldPwd;
     var newPwd;
     var newpp;
-	
+    var code;
+	dx();
 	swal({   
 		title: "原交易密码",   
 		type: "input",   
 		showCancelButton: true,   
 		closeOnConfirm: false,   
 		animation: "slide-from-top",   
-		inputPlaceholder: "如未设置则不需要填写" 
+		inputPlaceholder: "请输入原交易密码如未设置则不需填写" 
 	}, function(inputValue){   
 		if (inputValue === false) return false;      
 		oldPwd = inputValue;
@@ -155,6 +195,21 @@ function addAliPay(){
 			        return false;
 	        	}
 	        }
+	        swal({   
+				title: "请输入短信验证码",   
+				type: "input",   
+				showCancelButton: true,   
+				closeOnConfirm: false,   
+				animation: "slide-from-top",   
+				inputPlaceholder: "请输入短信验证码" 
+			},function(inputValue){   
+				if (inputValue === false) return false;      
+				if (inputValue === "") {     
+					swal.showInputError("请输入!");     
+					return false   
+				}
+				code = inputValue;
+				
 			swal({   
 				title: "确认新交易密码",   
 				type: "input",   
@@ -186,6 +241,7 @@ function addAliPay(){
 				    	  "uid":localStorage.getItem("uid"),
 				    	  "old_jymm":oldPwd,
 				    	  "new_jymm":newPwd,
+				    	  "code":code,
 				    	  "tmp":tmp,
 				          "rad":rad,
 				          "tom":ton,
@@ -202,6 +258,7 @@ function addAliPay(){
 				        "Authorization": "Bearer " + getTOKEN()
 				      }
 				    });
+			   });
 			});
 		});
 		

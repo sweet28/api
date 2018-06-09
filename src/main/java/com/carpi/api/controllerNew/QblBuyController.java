@@ -35,7 +35,7 @@ public class QblBuyController {
 		return qblBuyService.buyqbl(quanBaoLiRecord);
 	}
 
-	// 购买券宝理商品券(一型矿机数量)
+	// 购买券宝理商品券(2型矿机数量)
 	@RequestMapping(value = "/ex", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult buyqbl2(HttpServletRequest request, HttpServletResponse response) {
@@ -51,7 +51,7 @@ public class QblBuyController {
 		return qblBuyService.buyqbl2(quanBaoLiRecord);
 	}
 
-	// 购买券宝理商品券(一型矿机数量)
+	// 购买券宝理商品券(3型矿机数量)
 	@RequestMapping(value = "/sx", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult buyqbl3(HttpServletRequest request, HttpServletResponse response) {

@@ -41,7 +41,7 @@
 					<span></span>
 				</div>
 				<div class="text">
-					<textarea name="" id="" readonly="readonly" placeholder="请具体且准确的描述您的问题，这有助于我们更高效的帮助您！"></textarea>
+					<textarea name="" id="" readonly="readonly" placeholder="新闻公告"></textarea>
 				</div> 
 			</li>
 		</ul>
