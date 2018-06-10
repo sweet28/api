@@ -336,6 +336,33 @@
 	      }
       });
    });
+  
+  
+  $(function(){
+	  $.ajax({
+	      type: "post",
+	      url: getAPIURL() + "user/fens/jyl",
+	      dataType: "json",
+	      data: {},
+	      success: function (data) {
+	    	  console.log(data);
+	    	  if(data.status==200){
+	    		  if(data.data!=null){
+	    			  $("#jye").html(data.data*1.2);
+	    		  }else{
+	    			  $("#jye").html(0);
+	    		  }
+	    	  }else{
+	    		  $("#jye").html(0);
+	    	  }
+			  
+	      },error:function(){
+	      }, headers: {
+	        "Authorization": "Bearer " + getTOKEN()
+	      }
+	    });
+  });
+  
 })();
 
 function searchTrader(type){
@@ -664,67 +691,89 @@ function mrCPA(id,count){
 	        	    					return false   
 	        	    				}
 	        	    				
-	        	    				
-	        	    				//校验
-	        	    				
 	        	    				var tmp = getTimestamp();
 	        	    			    var rad = getRandom();
 	        	    			    var ton = getTom();
 	        	    			    var str = "id="+id+"uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton;
-	        	    				
+	        	    			    
 	        	    			    $.ajax({
 	        	    				      type: "post",
-	        	    				      url: getAPIURL() + "kuangjy/jy/sellDanJieDan",
+	        	    				      url: getAPIURL() + "user/fens/jiaoyan",
 	        	    				      dataType: "json",
-	        	    				      data:{
-	        	    				    	  "id":id,
-	        	    				    	  "uid":localStorage.getItem("uid"),
-	        	    				    	  "tmp":tmp,
-	        	    				          "rad":rad,
-	        	    				          "tom":ton,
-	        	    				          "token":commingSoon1(str)
+	        	    				      data: {
+	        	    				    	  "uid": localStorage.getItem("uid"),
+	        	    				    	  "old_jymm":inputValue
 	        	    				      },
 	        	    				      success: function (data) {
-	        	    				    	  console.log("--------------111---------"+data);
-	        	    				        if (data.status==200) {
-	        	    				        	swal({
-	        	    					          	  title: '交易提交成功，待系统扫描CPA资产合法性通过后，进行交易。',
-	        	    					          	  type: 'success',
-	        	    					          	  showCancelButton: true,
-	        	    					          	  confirmButtonText: "确定", 
-	        	    					          	  cancelButtonText: "取消",
-	        	    					          	  closeOnConfirm: true, 
-	        	    					          	  closeOnCancel: true
-	        	    					          	},function(isConfirm) {
-	        	    					          	  if (isConfirm === true) {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
-	        	    					          	  } else if (isConfirm === false) {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
-	        	    					          	  } else {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
-	        	    					          	  }
-	        	    				          	});
-	        	    				        } else {
-	        	    				        	swal({
-	        	    					          	  title: data.msg,
-	        	    					          	  type: 'error',
-	        	    					          	  showCancelButton: true,
-	        	    					          	  confirmButtonText: "确定", 
-	        	    					          	  cancelButtonText: "取消",
-	        	    					          	  closeOnConfirm: true, 
-	        	    					          	  closeOnCancel: true
-	        	    					          	},function(isConfirm) {
-	        	    					          	  if (isConfirm === true) {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
-	        	    					          	  } else if (isConfirm === false) {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
-	        	    					          	  } else {
-	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
-	        	    					          	  }
-	        	    				          	});
-	        	    				        }
+	        	    						  
+	        	    						  if(data.status == 200){
+	        	    							  $.ajax({
+	        	        	    				      type: "post",
+	        	        	    				      url: getAPIURL() + "kuangjy/jy/sellDanJieDan",
+	        	        	    				      dataType: "json",
+	        	        	    				      data:{
+	        	        	    				    	  "id":id,
+	        	        	    				    	  "uid":localStorage.getItem("uid"),
+	        	        	    				    	  "tmp":tmp,
+	        	        	    				          "rad":rad,
+	        	        	    				          "tom":ton,
+	        	        	    				          "token":commingSoon1(str)
+	        	        	    				      },
+	        	        	    				      success: function (data) {
+	        	        	    				    	  console.log("--------------111---------"+data);
+	        	        	    				        if (data.status==200) {
+	        	        	    				        	swal({
+	        	        	    					          	  title: '交易提交成功，待系统扫描CPA资产合法性通过后，进行交易。',
+	        	        	    					          	  type: 'success',
+	        	        	    					          	  showCancelButton: true,
+	        	        	    					          	  confirmButtonText: "确定", 
+	        	        	    					          	  cancelButtonText: "取消",
+	        	        	    					          	  closeOnConfirm: true, 
+	        	        	    					          	  closeOnCancel: true
+	        	        	    					          	},function(isConfirm) {
+	        	        	    					          	  if (isConfirm === true) {
+	        	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
+	        	        	    					          	  } else if (isConfirm === false) {
+	        	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
+	        	        	    					          	  } else {
+	        	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
+	        	        	    					          	  }
+	        	        	    				          	});
+	        	        	    				        } else {
+	        	        	    				        	swal({
+	        	        	    					          	  title: data.msg,
+	        	        	    					          	  type: 'error',
+	        	        	    					          	  showCancelButton: true,
+	        	        	    					          	  confirmButtonText: "确定", 
+	        	        	    					          	  cancelButtonText: "取消",
+	        	        	    					          	  closeOnConfirm: true, 
+	        	        	    					          	  closeOnCancel: true
+	        	        	    					          	},function(isConfirm) {
+	        	        	    					          	  if (isConfirm === true) {
+	        	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
+	        	        	    					          	  } else if (isConfirm === false) {
+	        	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
+	        	        	    					          	  } else {
+	        	        	    					          		  window.location.href = getAPIURL()+"cpa/traderCenterSell";
+	        	        	    					          	  }
+	        	        	    				          	});
+	        	        	    				        }
+	        	        	    				      }
+	        	        	    				});
+	        	    						  }else{
+	        	    							  swal({
+	        		        			      		  title: data.msg,
+	        		        			      		  icon: "error",
+	        		        			      		  button: "确定",
+	        		        			      	});
+	        	    						  }
+	        	    						  
+	        	    				      },error:function(){
+	        	    				      }, headers: {
+	        	    				        "Authorization": "Bearer " + getTOKEN()
 	        	    				      }
-	        	    				});
+	        	    			    });
+	        	    				
 	        	    			});
 	        	    			
 	        	    		}else{

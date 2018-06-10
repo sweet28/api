@@ -38,7 +38,7 @@
 		<div class="deal_text">
 			<p>今日最高价($)：<span style="color:red;" id="zgj"></span></p>
 			<p>今日最低价($)：<span style="color:green;" id="zdj"></span></p>
-			<!-- <b>$:<span id="jye">10.00</span></b> -->
+			<b>CPA:<span id="jye"></span></b>
 		</div>
 		<div id="container" style="height: 260%;"></div>
 		<div class="deal_button">

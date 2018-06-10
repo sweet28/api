@@ -3,20 +3,22 @@ function Gift() {
   var uid = localStorage.getItem("uid");
   
   var flag = checkLogin();
+  
+  console.log("------:ph::"+localStorage.getItem("phone"));
 
   function comptime() {
     $.ajax({
       type: "post",
-      url: getAPIURL() + "fenuser/list2",
+      url: getAPIURL() + "user/fens/listQINYOU",
       dataType: "json",
       data: {
-    	  "type":"all",
-    	  "phone": localStorage.getItem("phone")
+    	  "sh": localStorage.getItem("phone")
       },
       success: function (data) {
+    	  console.log(data);
         var list = data.list;
         if (list.length <= 0) {
-        	$("#myf_num").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;亲友团："+data.size+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;粉丝团：0");
+        	$("#qytuan").html(data.size);
         	
         } else {
         	var html;
@@ -37,7 +39,7 @@ function Gift() {
       }
     });
   }
-
+//13919358705
   (function () {
     _$gift = $("#gift");
     comptime();

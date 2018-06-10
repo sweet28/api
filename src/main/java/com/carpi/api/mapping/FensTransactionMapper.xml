@@ -472,7 +472,6 @@
 	<select id="JYLsum" resultType="java.lang.Double">
 		select 
 		sum(trader_count) as trader_count
-		count(id) as sum
 		from fens_transaction
 		where create_date &gt;= date(now())
 		and create_date &lt; DATE_ADD(date(now()),INTERVAL 1 DAY) 

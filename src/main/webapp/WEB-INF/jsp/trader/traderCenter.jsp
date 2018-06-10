@@ -20,7 +20,6 @@
 <script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.min.js"></script>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="<%=path%>/lib/js/echarts.min.js"></script>
-<script src="<%=path%>/js/trader/invest.js" type="text/javascript" charset="utf-8"></script>
 
 <style>
 	body{ background: #f1f0f6; }
@@ -39,7 +38,7 @@
 		<div class="deal_text">
 			<p>今日最高价($)：<span style="color:red;" id="zgj"></span></p>
 			<p>今日最低价($)：<span style="color:green;" id="zdj"></span></p>
-			<!-- <b>$:<span id="jye">10.00</span></b> -->
+			<b>CPA:<span id="jye"></span></b>
 		</div>
 		<div id="container" style="height: 260%;"></div>
 		<div class="deal_button">
@@ -94,4 +93,5 @@
 		</ul>
 	</div>
 </body>
+<script src="<%=path%>/js/trader/invest.js" type="text/javascript" charset="utf-8"></script>
 </html>

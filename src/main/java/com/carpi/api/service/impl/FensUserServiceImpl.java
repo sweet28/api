@@ -449,6 +449,17 @@ public class FensUserServiceImpl implements FensUserService {
 		
 		zjMiMa = MD5.encodeString(MD5.encodeString(zjMiMa + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
 		FensUser fensUser = fensUserMapper.selectzjPwd(fensUserId, zjMiMa);
+		
+		FensUser fu = fensUserMapper.selectByPrimaryKey(fensUserId);
+		
+		if(StringUtils.isEmpty(fu.getCapitalPwd())){
+			return JsonResult.build(500, "请前往安全中心设置交易密码");
+		}
+		
+		if (StringUtils.isEmpty(fensUser)) {
+			return JsonResult.build(500, "密码错误，请重试");
+		}
+		
 		if (StringUtils.isEmpty(fensUser)) {
 			return JsonResult.build(500, "密码错误，请重试");
 		}
