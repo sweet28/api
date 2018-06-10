@@ -50,4 +50,6 @@ public interface FensUserMapper {
 
 	// 校验资金密码
 	FensUser selectzjPwd(@Param("fensUserId") Integer fensUserId, @Param("capitalPwd") String capitalPwd);
+
+	FensUser selectRegJuneFF(Integer id);
 }

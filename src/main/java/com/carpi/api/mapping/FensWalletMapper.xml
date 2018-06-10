@@ -278,4 +278,5 @@
 		where fens_user_id = #{fensUserId,jdbcType=INTEGER} 
 		and is_delete = 0
 	</select>
+	
 </mapper>

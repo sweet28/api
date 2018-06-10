@@ -389,4 +389,15 @@
 		</where>
 	</select>
 	
+	<!-- 根据手机号查询用户是否是6月之后注册的 -->
+	<select id="selectRegJuneFF" parameterType="com.carpi.api.pojo.FensUser"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_user
+		<where>
+			id = #{id,jdbcType=INTEGER} and is_delete = 0 and create_time >= "2018-06-01 00:00:00" order by create_time asc
+		</where>
+	</select>
+	
 </mapper>

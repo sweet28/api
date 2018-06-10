@@ -33,6 +33,7 @@ import com.arttraining.commons.util.TokenUtil;
 import com.arttraining.commons.util.pay.IpRequestUtil;
 import com.carpi.api.dao.APoolMapper;
 import com.carpi.api.dao.BPoolMapper;
+import com.carpi.api.dao.BankCardMapper;
 import com.carpi.api.dao.FensAuthenticationMapper;
 import com.carpi.api.dao.FensComputingPowerMapper;
 import com.carpi.api.dao.FensLoginStateMapper;
@@ -43,6 +44,7 @@ import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.dao.FensWalletMapper;
 import com.carpi.api.pojo.APool;
 import com.carpi.api.pojo.BPool;
+import com.carpi.api.pojo.BankCard;
 import com.carpi.api.pojo.FensAuthentication;
 import com.carpi.api.pojo.FensComputingPower;
 import com.carpi.api.pojo.FensLoginState;
@@ -94,6 +96,9 @@ public class FensUserServiceImpl implements FensUserService {
 
 	@Autowired
 	private FensTransactionMapper fensTransactionMapper;
+
+	@Autowired
+	private BankCardMapper bankcardMapper;
 
 	// 注册
 	@Override
@@ -436,8 +441,8 @@ public class FensUserServiceImpl implements FensUserService {
 		}
 		return JsonResult.ok();
 	}
-	
-	//校验交易密码  
+
+	// 校验交易密码
 	@Override
 	public JsonResult zijin(Integer fensUserId, String zjMiMa) {
 		if (StringUtils.isEmpty(zjMiMa)) {
@@ -446,20 +451,20 @@ public class FensUserServiceImpl implements FensUserService {
 		if (StringUtils.isEmpty(fensUserId)) {
 			return JsonResult.build(500, "请重新登入");
 		}
-		
+
 		zjMiMa = MD5.encodeString(MD5.encodeString(zjMiMa + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
 		FensUser fensUser = fensUserMapper.selectzjPwd(fensUserId, zjMiMa);
-		
+
 		FensUser fu = fensUserMapper.selectByPrimaryKey(fensUserId);
-		
-		if(StringUtils.isEmpty(fu.getCapitalPwd())){
+
+		if (StringUtils.isEmpty(fu.getCapitalPwd())) {
 			return JsonResult.build(500, "请前往安全中心设置交易密码");
 		}
-		
+
 		if (StringUtils.isEmpty(fensUser)) {
 			return JsonResult.build(500, "密码错误，请重试");
 		}
-		
+
 		if (StringUtils.isEmpty(fensUser)) {
 			return JsonResult.build(500, "密码错误，请重试");
 		}
@@ -885,40 +890,6 @@ public class FensUserServiceImpl implements FensUserService {
 		return listParentRecord;
 	}
 
-	/**
-	 * 说明方法描述：递归查询子节点
-	 * 
-	 * @param listParentRecord
-	 *            粉丝团集合
-	 * @param parentUuid
-	 *            父节点id
-	 * @return
-	 */
-
-	private List<FensUser> getTreeChildRecord(List<FensUser> listParentRecord, List<Integer> listminer,
-			String parentUuid, List<FensUser> allList) {
-		// 遍历tmpList，找出所有的根节点和非根节点
-		if (allList.size() > 0) {
-			for (int i = 0; i < allList.size(); i++) {
-
-				String refereePhone = allList.get(i).getRefereePhone();
-
-				if (refereePhone != null && parentUuid != null) {
-
-					if (allList.get(i).getRefereePhone().equals(parentUuid)) {
-
-						listParentRecord.add(allList.get(i));
-						listminer.add(allList.get(i).getId());
-
-						getTreeChildRecord(listParentRecord, listminer, allList.get(i).getPhone(), allList);
-
-					}
-				}
-			}
-		}
-		return listParentRecord;
-	}
-
 	@Override
 	public JsonResult updateInfo(FensUser fensUser) {
 
@@ -965,6 +936,294 @@ public class FensUserServiceImpl implements FensUserService {
 			return JsonResult.ok(list);
 		}
 		return JsonResult.build(500, "无审核订单");
+	}
+
+	/**
+	 * 说明方法描述：递归查询子节点
+	 * 
+	 * @param listParentRecord
+	 *            粉丝团集合
+	 * @param parentUuid
+	 *            父节点id
+	 * @return
+	 */
+
+	private List<FensUser> getTreeChildRecord(List<FensUser> listParentRecord, List<Integer> listminer,
+			String parentUuid, List<FensUser> allList) {
+		// 遍历tmpList，找出所有的根节点和非根节点
+		if (allList.size() > 0) {
+			for (int i = 0; i < allList.size(); i++) {
+
+				String refereePhone = allList.get(i).getRefereePhone();
+
+				if (refereePhone != null && parentUuid != null) {
+
+					if (allList.get(i).getRefereePhone().equals(parentUuid)) {
+
+						listParentRecord.add(allList.get(i));
+						listminer.add(allList.get(i).getId());
+
+						getTreeChildRecord(listParentRecord, listminer, allList.get(i).getPhone(), allList);
+
+					}
+				}
+			}
+		}
+		return listParentRecord;
+	}
+
+	// 会员审计
+	@Override
+	public JsonResult checkFens(Integer id, String phone) {
+
+		JSONObject jsonCheckReg = checkReg(id);
+		JSONObject jsonCheckPayStatus = checkPayStatus(id);
+		JSONObject jsonCheckTrader = checkCPATrader(id);
+		JSONObject jsonCheckPayAuth = checkPayAuth(id);
+		JSONObject jsonCheckJuneActivity = checkJuneActivity(id);
+		
+		
+		return null;
+	}
+
+	/**
+	 * 检查非法注册情况（只统计6月份的：开放注册时间为：6--24点）
+	 * 
+	 * @param phone
+	 * @return
+	 */
+	private JSONObject checkReg(Integer id) {
+
+		JSONObject jo = new JSONObject();
+
+		FensUser fUser = fensUserMapper.selectRegJuneFF(id);
+		Date regDate = fUser.getCreateDate();
+
+		int regHours = regDate.getHours();
+		int isRegHF = 0;// 0:合法；1：不合法
+		if ((regHours >= 6 && regHours <= 24)) {
+			isRegHF = 0;
+		} else {
+			isRegHF = 1;
+		}
+
+		jo.put("regDate", regDate);
+		jo.put("isRegHF", isRegHF);
+
+		return jo;
+	}
+
+	/**
+	 * 检查支付绑定状态 最早交易时间早于最早支付绑定时间则非法
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private JSONObject checkPayStatus(Integer id) {
+
+		JSONObject jo = new JSONObject();
+
+		FensTransaction fensTransaction = fensTransactionMapper.selectByPrimaryKeyDESC(id);
+		BankCard bankCard = bankcardMapper.selectAll(id).get(0);
+
+		int isJYHF = 0;
+		int isBindingPay = 0;
+		Date date = null;
+
+		if (bankCard == null && fensTransaction != null) {
+			isJYHF = 1;
+		}
+
+		if (bankCard != null && fensTransaction != null) {
+			long chazhi = TimeUtil.diffSeconds(bankCard.getCreateDate().getTime(),
+					fensTransaction.getCreateDate().getTime());
+			if (chazhi < 0) {
+				isJYHF = 1;
+			}
+		}
+
+		if (bankCard != null) {
+			isBindingPay = 1;
+			date = bankCard.getCreateDate();
+		}
+
+		jo.put("isJYHF", isJYHF);
+		jo.put("isBindingPay", isBindingPay);
+		jo.put("bindingDate", date);
+
+		return jo;
+	}
+
+	/**
+	 * 检查粉丝团成员向领导人出售cpa人数的比例 一种：在指定范围内交易比例超过10%--20%则非法 另外一种：交易的订单 超过粉丝团成员的一定比例
+	 * 
+	 * @param id
+	 * @return 总订单量
+	 */
+	private JSONObject checkFensTraderStatus(Integer id) {
+
+		JSONObject jo = new JSONObject();
+
+		return jo;
+	}
+
+	/**
+	 * 
+	 * 检查粉丝cpa交易情况
+	 * 
+	 * @param id
+	 * @return 总订单量
+	 */
+	private JSONObject checkCPATrader(Integer id) {
+
+		JSONObject jo = new JSONObject();
+
+		// 查询买单总数量
+		int buyCount = fensTransactionMapper.selectBuyCount(id);
+
+		// 查询买单cap总数量
+		Double buyCpaCount = fensTransactionMapper.selectBuyCpaCount(id);
+
+		// 查询卖单总数量
+		int sellCount = fensTransactionMapper.selectSellCount(id);
+
+		// 查询卖单cpa总数量
+		Double sellCpaCount = fensTransactionMapper.selectSellCpaCount(id);
+
+		jo.put("buyCount", buyCount);
+		jo.put("buyCpaCount", buyCpaCount);
+		jo.put("sellCount", sellCount);
+		jo.put("sellCpaCount", sellCpaCount);
+
+		return jo;
+	}
+
+	/**
+	 * 
+	 * 检查粉丝cpa登录情况
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private JSONObject checkFensLogin(Integer id) {
+
+		JSONObject jo = new JSONObject();
+
+		return jo;
+	}
+
+	/**
+	 * 
+	 * 检查粉丝6月份活动情况
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private JSONObject checkJuneActivity(Integer id) {
+		Integer liu_zhi_tui = 0;
+
+		JSONObject jo = new JSONObject();
+		FensUser fensUser = fensUserMapper.selectByPrimaryKey(id);
+		if (!StringUtils.isEmpty(fensUser)) {
+			if (!StringUtils.isEmpty(fensUser.getCreater())) {
+				liu_zhi_tui = Integer.valueOf(fensUser.getCreater());
+			}
+		}
+		jo.put("liu_zhi_tui", liu_zhi_tui);
+		return jo;
+	}
+
+	/**
+	 * 
+	 * 检查粉丝钱包情况
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private JSONObject checkCPAWallet(Integer id) {
+
+		JSONObject jsonObject = new JSONObject();
+		//可用cpa
+		Double ableCpa = 0.00;
+		//锁定cpa
+		Double lockCpa = 0.00;
+		//总cpa
+		Double zongCpa = 0.00;
+		
+		FensWallet fensWallet = fensWalletMapper.selectAll(id);
+		if (!StringUtils.isEmpty(fensWallet)) {
+			ableCpa = fensWallet.getAbleCpa();
+			lockCpa = fensWallet.getLockCpa();
+			zongCpa = fensWallet.getCpaCount();
+		}
+        
+		jsonObject.put("ableCpa", ableCpa);
+		jsonObject.put("lockCpa", lockCpa);
+		jsonObject.put("zongCpa", zongCpa);
+		
+		return jsonObject;
+	}
+
+	/**
+	 * 
+	 * 检查粉丝直推及粉丝团情况
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private JSONObject checkFensTeam(String phone) {
+		List<FensUser> list = fensUserMapper.selectAllUser(phone);
+		JSONObject jo = new JSONObject();
+		jo.put("list", list.size());
+		return jo;
+	}
+
+	/**
+	 * 
+	 * 检查粉丝支付、认证情况
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private JSONObject checkPayAuth(Integer id) {
+
+		JSONObject jo = new JSONObject();
+		Integer renzheng = 0;
+		
+		FensUser fensUser = fensUserMapper.selectByPrimaryKey(id);
+
+		if (!StringUtils.isEmpty(fensUser)) {
+			if (!StringUtils.isEmpty(fensUser.getAttachment())) {
+				renzheng = Integer.valueOf(fensUser.getAttachment());
+			}
+		}
+		jo.put("renzheng", renzheng);
+		return jo;
+	}
+
+	/**
+	 * 
+	 * 检查粉丝矿机情况
+	 * 
+	 * @param id
+	 * @return
+	 */
+	private JSONObject checkMiner(Integer id) {
+
+		JSONObject jo = new JSONObject();
+		
+		//矿机总量
+		int minerSum = fensMinerMapper.minerSum(id);
+		//矿机的总价格
+		Double minerPrice = fensMinerMapper.minerPrice(id);
+		//矿机的提取收益
+		Double minerEarn = fensMinerMapper.minerEarn(id);
+		
+		jo.put("minerSum", minerSum);
+		jo.put("minerPrice", minerPrice);
+		jo.put("minerEarn", minerEarn);
+		
+		return jo;
 	}
 
 }

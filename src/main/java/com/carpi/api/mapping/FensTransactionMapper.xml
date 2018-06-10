@@ -477,4 +477,45 @@
 		and create_date &lt; DATE_ADD(date(now()),INTERVAL 1 DAY) 
 		and is_delete = 0  and trader_state = 3
 	</select>
+	
+	<select id="selectByPrimaryKeyDESC" resultMap="BaseResultMap"
+		parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from fens_transaction
+		where (fens_user_id = #{fensUserId,jdbcType=INTEGER} or trader_id = #{fensUserId,jdbcType=INTEGER} ) and create_time >="2018-05-14 00:00:00" order by create_time desc
+	</select>
+	
+	<!-- 查询买单总数量 -->
+	<select id="selectBuyCount" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select
+		sum(id)
+		from fens_transaction
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and trader_state = 3 and trader_type = 1 and is_delete = 0
+	</select>
+	
+	<!-- 查询买单cap总数量 -->
+	<select id="selectBuyCpaCount" resultType="java.lang.Double" parameterType="java.lang.Integer">
+		select
+		sum(trader_count)
+		from fens_transaction
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and trader_state = 3 and trader_type = 1 and is_delete = 0
+	</select>
+	
+	<!-- 查询卖单总数量 -->
+	<select id="selectSellCount" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+		select
+		sum(id)
+		from fens_transaction
+		where trader_id = #{traderId,jdbcType=INTEGER} and trader_state = 3 and trader_type = 2 and is_delete = 0
+	</select>
+	
+	<!-- 查询卖单cpa总数量 -->
+	<select id="selectSellCpaCount" resultType="java.lang.Double" parameterType="java.lang.Integer">
+		select
+		sum(trader_count)
+		from fens_transaction
+		where trader_id = #{traderId,jdbcType=INTEGER} and trader_state = 3 and trader_type = 2 and is_delete = 0
+	</select>
+	
 </mapper>

@@ -375,7 +375,7 @@
 		#{beyong5,jdbcType=VARCHAR}
 		where id = #{id,jdbcType=INTEGER}
 	</update>
-	
+
 	<update id="updateFen"
 		parameterType="com.carpi.api.pojo.FensMiner">
 		update fens_miner
@@ -465,7 +465,7 @@
 		from fens_miner where fens_user_id = #{fensUserId,jdbcType=INTEGER}
 		and is_delete = 0
 	</select>
-	
+
 	<!--根据粉丝id查询矿机 -->
 	<select id="selectMiner3" parameterType="java.lang.Integer"
 		resultMap="BaseResultMap">
@@ -741,12 +741,45 @@
 		and
 		is_delete = 0
 	</select>
-	
+
 	<!-- 查询全部矿机列表 -->
 	<select id="allMinerList" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from fens_miner
 		where is_delete = 0
+	</select>
+
+	<!-- 矿机总量 -->
+	<select id="minerSum" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(id)
+		from fens_miner
+		where fens_user_id =
+		#{fensUserId,jdbcType=INTEGER}
+		and is_delete != 1
+	</select>
+
+	<!--矿机的总价格 -->
+	<select id="minerPrice" resultType="java.lang.Integer"
+		parameterType="java.lang.Double">
+		select
+		sum(beyong1)
+		from fens_miner
+		where fens_user_id =
+		#{fensUserId,jdbcType=INTEGER}
+		and is_delete != 1
+	</select>
+	
+	<!--矿机的提取收益 -->
+	<select id="minerEarn" resultType="java.lang.Integer"
+		parameterType="java.lang.Double">
+		select
+		sum(total_revenue)
+		from fens_miner
+		where fens_user_id =
+		#{fensUserId,jdbcType=INTEGER}
+		and is_delete != 1
 	</select>
 </mapper>

@@ -78,4 +78,6 @@ public interface FensUserService {
 	PageInfo<FensUser> selectListQINYOU(String phone);
 
 	JSONObject selectListFens2(String phone);
+	
+	JsonResult checkFens(Integer id, String phone);
 }

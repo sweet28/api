@@ -18,8 +18,8 @@ public interface FensMinerMapper {
 	int updateByPrimaryKeySelective(FensMiner record);
 
 	int updateByPrimaryKey(FensMiner record);
-	
-	//根据粉丝id修改
+
+	// 根据粉丝id修改
 	int updateFen(FensMiner record);
 
 	// 根据粉丝id查询矿机
@@ -80,8 +80,17 @@ public interface FensMinerMapper {
 
 	// 粉丝矿机的总价值
 	Double kjJz(@Param("phone") String phone);
-	
+
 	// 查询所有运行矿机
 	List<FensMiner> allMinerList();
+
+	// 矿机总量
+	int minerSum(Integer fensUserId);
+	
+	// 矿机的总价格
+	Double minerPrice(Integer fensUserId);
+	
+	// 矿机的提取收益
+	Double minerEarn(Integer fensUserId);
 
 }

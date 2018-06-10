@@ -45,5 +45,19 @@ public interface FensTransactionMapper {
 	
 	//粉丝交易量(当天)
 	Double JYLsum();
+
+	FensTransaction selectByPrimaryKeyDESC(Integer fensUserId);
+	
+	//查询买单总数量 
+	int selectBuyCount(@Param("fensUserId") Integer fensUserId);
+	
+	//查询买单cap总数量
+	Double selectBuyCpaCount(@Param("fensUserId") Integer fensUserId);
+	
+	//查询卖单总数量 
+	int selectSellCount(@Param("traderId") Integer traderId);
+	
+	//查询卖单cpa总数量 
+	Double selectSellCpaCount(@Param("traderId") Integer traderId);
 	
 }

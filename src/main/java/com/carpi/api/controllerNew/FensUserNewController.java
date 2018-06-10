@@ -374,5 +374,24 @@ public class FensUserNewController {
 	public JsonResult JYLsum(HttpServletRequest request, HttpServletResponse response) {
 		return jiaoYiService.JYLsum();
 	}
+	
+	// 粉丝交易量(当天)
+	@RequestMapping(value = "/checkFens", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult checkFens(HttpServletRequest request, HttpServletResponse response) {
+		
+		String id = request.getParameter("uid");
+		String phone = request.getParameter("phone");
+		
+		if(id == null) {
+			return JsonResult.build(500, "会员ID为空");
+		}
+		
+		if(phone == null) {
+			return JsonResult.build(500, "手机号为空");
+		}
+		
+		return fensUserService.checkFens(Integer.valueOf(id), phone);
+	}
 
 }
