@@ -48,7 +48,7 @@
 			<li><a href="<%=path%>/cpa/news" class="m11"><span>系统公告</span></a></li>
 			<li><a href="<%=path%>/cpa/myWorkOrder" class="m10"><span>我的工单</span></a></li>
 			<!-- <li><a href="" class="m12"><span>联系我们</span></a></li> -->
-			<!-- <li><a href="" class="m7"><span>APP下载</span></a></li> -->
+			<li><a href="<%=path%>/cpa/myABKC" class="m7"><span>我的库存</span></a></li>
 		</ul>
 	</div>
 	<div class="space"></div>

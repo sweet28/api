@@ -79,10 +79,10 @@
 					</div>
 					<div class="txt">
 						<div class="title">
-							<a href="">券保理1星券(14天)</a>
+							<a href="">券保理1星券(21天)</a>
 						</div>
 						<div class="desc">
-							<p>锁仓周期：<span style="color:#ff5722;font-weight:bold;">14天</span></p>
+							<p>锁仓周期：<span style="color:#ff5722;font-weight:bold;">21天</span></p>
 							<p>预计收益率：<span style="color:#ff5722;font-weight:bold;">40%</span></p>
 						</div>
 					</div>

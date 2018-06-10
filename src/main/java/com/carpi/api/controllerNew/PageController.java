@@ -211,4 +211,9 @@ public class PageController {
 	public String fang_kui() {
 		return "personal/fang_kui";
 	}
+	
+	@RequestMapping("/myABKC")
+	public String myABMKC() {
+		return "personal/myABKC";
+	}
 }
