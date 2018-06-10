@@ -141,7 +141,9 @@ public class FensMinerServiceImpl implements FensMinerService {
 		}
 
 		if (miner != null) {
+			//当前时间
 			Date dd = TimeUtil.getTimeStamp();
+			//最近一次获取收益时间
 			String sqDT = miner.getAttachment();
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -150,33 +152,46 @@ public class FensMinerServiceImpl implements FensMinerService {
 				sqDT = sdf.format(miner.getCreateDate());
 			}
 
-			// String nowDT = dd.toString();
-
+			//格式化最近一次获取收益时间
 			Date sqDD = TimeUtil.strToDateDayByFormat(sqDT);
 
 			System.out.println("sqDT:::" + sqDT + "-------sqDD::" + sqDD.toString() + "--sqDT.gettime:::"
 					+ sqDD.getTime() + "------dd2string:::" + dd.toString() + "------dd.getTIme:" + dd.getTime());
 
+			/*
+			 * 比对当前时间与最近一次获取收益时间，获取时间差值，
+			 * 用来计算矿机上次收取收益后至今的产值
+			 */
 			long a = TimeUtil.isOverTime(dd, sqDD);
 			System.out.println("-------chazhi::::" + a);
 			double b = a / (60 * 60 * 24);
 			System.out.println("-------chazhi::bbb:" + b);
 
+			/*
+			 * 若自上次提取后超过24小时，可进行提取收益
+			 */
 			if (b >= 1) {
-				// long nowDate = Date.parse(dd.toString());
-				double rundate = dd.getTime() - miner.getCreateDate().getTime();
-				rundate = rundate / (1000 * 60 * 60 * 24);
+				double rundate = dd.getTime() - miner.getCreateDate().getTime();//矿机总的运行时间
+				rundate = rundate / (1000 * 60 * 60 * 24);//转化成天数
 
+				/*
+				 * 总运行时间若超过15天生命周期则设定为15
+				 */
 				if (rundate >= 15) {
 					rundate = 15;
 				}
 
 				System.out.println(rundate + "---" + rundate + "------");
 
-				double nowZSY;
-				double syyz = 0;
-				double beishu = 1;
+				double nowZSY;//当前总的产值
+				double syyz = 0;//矿机的总产量
+				double beishu = 1;//提取收益的倍数比例，默认可全部提取收益
 
+				/*
+				 * AB两个类型库矿机总产量及提取倍数比例不同。
+				 * CA1型矿机不限制，可完全提取
+				 * B型矿机统一是0.2.
+				 */
 				if (miner.getMinerType() == 1) {
 					if (Integer.parseInt(miner.getBak1()) == 1) {
 						syyz = 11;
@@ -206,7 +221,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 				 */
 				// 运行至当前产生的价值
 				nowZSY = rundate * (syyz / 15);
-				Double yhdSY, kySY;
+				Double yhdSY, kySY;//已提取的收益与本身算力下可提取的收益
 
 				// 已经提取的收益
 				yhdSY = miner.getTotalRevenue();
@@ -216,7 +231,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 				 */
 				Double djSY = 0.00;// 叠加收益
 				Double djSL = 0.00;// 叠加算力
-				System.out.println(")))))))))))))))))))):"+miner.getDiejia());
+				System.out.println(")))))))))))叠加))))))))):"+miner.getDiejia());
 				if (miner.getDiejia() != null) {
 					djSL = Double.valueOf(miner.getDiejia());
 				}
@@ -229,7 +244,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 				 * 判断当矿机运行周期是否结束，来觉得提取倍数比例的数值，影响提币----需要考虑叠加算力的部分。
 				 * 1、未结束：按正常提取比例提取
 				 * 2、已结束，且可提取大于等于1：按正常提取比例走
-				 * 3、已结束，且可提取小于1：一次性提取完
+				 * 3、已结束，且可提取小于1：一次性提取完，不考虑倍数比例
 				 */
 				if (rundate >= 15) {
 					if ((nowZSY + djSY - yhdSY) < 1) {
@@ -237,11 +252,14 @@ public class FensMinerServiceImpl implements FensMinerService {
 					} 
 				} 
 				
-				// 可提取收益
-				kySY = (nowZSY + djSY - yhdSY) * beishu;
+				// 可提取收益（不带倍数比例的）
+				kySY = (nowZSY + djSY - yhdSY);
 
 				System.out.println("nowzsy:" + nowZSY + "---yhdSY:" + yhdSY);
 
+				/*
+				 * 若在矿机生命周期内，可提取收益小于1，则不能提取收益
+				 */
 				if (kySY < 1 && rundate < 15) {
 					return JsonResult.build(500, "收益少于1个CPA时，不能转入钱包。");
 				}
@@ -250,15 +268,16 @@ public class FensMinerServiceImpl implements FensMinerService {
 				 * 解冻收益需要给领导人分红,同时更新矿机、钱包数据
 				 */
 				FensMiner fm = new FensMiner();
-				fm.setTotalRevenue(kySY + yhdSY);
+				fm.setTotalRevenue(kySY * beishu + yhdSY);//收益实际提取时需要乘以倍数比例
 				fm.setId(miner.getId());
 				fm.setFensUserId(miner.getFensUserId());
 				fm.setAttachment(dd.toString());
 				
 				/*
-				 * 若倍数为1且运行周期结束，说明该矿机本次提币结束后运行结束且提币结束，对矿机做好标记
+				 * 若倍数为1（需要考虑CA1型矿机倍数一直是1的情况，所以加上收益判断<1）且运行周期结束，
+				 * 说明该矿机本次提币结束后运行结束且提币结束，对矿机做好标记
 				 */
-				if (beishu == 1 && rundate >= 15) {
+				if (beishu == 1 && rundate >= 15 && (nowZSY + djSY - yhdSY) < 1) {
 					fm.setIsDelete(30);// 30：标记运行结束且提币结束
 				}
 
@@ -273,14 +292,14 @@ public class FensMinerServiceImpl implements FensMinerService {
 					return JsonResult.build(500, "钱包不存在");
 				}
 
-				// 钱包添加cpa
-				Double ablecpa = fensWallet.getAbleCpa() + kySY;
+				// 钱包添加cpa，****记得乘以倍数*****
+				Double ablecpa = fensWallet.getAbleCpa() + kySY * beishu;
 				// 到账时间
 				Date date2 = TimeUtil.getTimeStamp();
 				FensWallet wallet2 = new FensWallet();
 				// 钱包可用余额增加
 				wallet2.setAbleCpa(ablecpa);
-				wallet2.setCpaCount(fensWallet.getCpaCount() + kySY);
+				wallet2.setCpaCount(fensWallet.getCpaCount() + kySY * beishu);
 				wallet2.setId(fensWallet.getId());
 				// 更新钱包可用cpa
 				int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
@@ -309,12 +328,12 @@ public class FensMinerServiceImpl implements FensMinerService {
 							FensWallet ldrWallet = fensWalletMapper.selectAll(jsrUser.getId());
 
 							// 钱包添加cpa
-							Double ablecpa2 = ldrWallet.getAbleCpa() + (kySY - djSY) * 0.01;
+							Double ablecpa2 = ldrWallet.getAbleCpa() + (kySY - djSY) * beishu * 0.01;
 							// 到账时间
 							FensWallet ldrWallet2 = new FensWallet();
 							// 钱包可用余额增加
 							ldrWallet2.setAbleCpa(ablecpa2);
-							ldrWallet2.setCpaCount(ldrWallet.getCpaCount() + (kySY - djSY) * 0.01);
+							ldrWallet2.setCpaCount(ldrWallet.getCpaCount() + (kySY - djSY) * beishu * 0.01);
 							ldrWallet2.setId(ldrWallet.getId());
 							// 更新钱包可用cpa
 							int result3 = fensWalletMapper.updateByPrimaryKeySelective(ldrWallet2);
@@ -336,7 +355,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 				FoneyRecord moneyRecord = new FoneyRecord();
 				moneyRecord.setFensUserId(miner.getFensUserId());
 				// 交易金额
-				moneyRecord.setPayment(kySY);
+				moneyRecord.setPayment(kySY * beishu);
 				moneyRecord.setReceiveDate(date2);
 				moneyRecord.setSendDate(date2);
 				// 转账类型1 代表接收 2代表转出
@@ -380,7 +399,9 @@ public class FensMinerServiceImpl implements FensMinerService {
 		List<FensMiner> list2 = fensMinerMapper.selectMiner2(miner1.getFensUserId());
 		for (FensMiner miner : list2) {
 			if (!StringUtils.isEmpty(miner)) {
+				//当前时间
 				Date dd = TimeUtil.getTimeStamp();
+				//最近一次获取收益时间
 				String sqDT = miner.getAttachment();
 
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -389,33 +410,46 @@ public class FensMinerServiceImpl implements FensMinerService {
 					sqDT = sdf.format(miner.getCreateDate());
 				}
 
-				// String nowDT = dd.toString();
-
+				//格式化最近一次获取收益时间
 				Date sqDD = TimeUtil.strToDateDayByFormat(sqDT);
 
 				System.out.println("sqDT:::" + sqDT + "-------sqDD::" + sqDD.toString() + "--sqDT.gettime:::"
 						+ sqDD.getTime() + "------dd2string:::" + dd.toString() + "------dd.getTIme:" + dd.getTime());
 
+				/*
+				 * 比对当前时间与最近一次获取收益时间，获取时间差值，
+				 * 用来计算矿机上次收取收益后至今的产值
+				 */
 				long a = TimeUtil.isOverTime(dd, sqDD);
 				System.out.println("-------chazhi::::" + a);
 				double b = a / (60 * 60 * 24);
 				System.out.println("-------chazhi::bbb:" + b);
 
+				/*
+				 * 若自上次提取后超过24小时，可进行提取收益
+				 */
 				if (b >= 1) {
-					// long nowDate = Date.parse(dd.toString());
-					double rundate = dd.getTime() - miner.getCreateDate().getTime();
-					rundate = rundate / (1000 * 60 * 60 * 24);
+					double rundate = dd.getTime() - miner.getCreateDate().getTime();//矿机总的运行时间
+					rundate = rundate / (1000 * 60 * 60 * 24);//转化成天数
 
+					/*
+					 * 总运行时间若超过15天生命周期则设定为15
+					 */
 					if (rundate >= 15) {
 						rundate = 15;
 					}
 
 					System.out.println(rundate + "---" + rundate + "------");
 
-					double nowZSY;
-					double syyz = 0;
-					double beishu = 1;
+					double nowZSY;//当前总的产值
+					double syyz = 0;//矿机的总产量
+					double beishu = 1;//提取收益的倍数比例，默认可全部提取收益
 
+					/*
+					 * AB两个类型库矿机总产量及提取倍数比例不同。
+					 * CA1型矿机不限制，可完全提取
+					 * B型矿机统一是0.2.
+					 */
 					if (miner.getMinerType() == 1) {
 						if (Integer.parseInt(miner.getBak1()) == 1) {
 							syyz = 11;
@@ -446,7 +480,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 					 */
 					// 运行至当前产生的价值
 					nowZSY = rundate * (syyz / 15);
-					Double yhdSY, kySY;
+					Double yhdSY, kySY;//已提取的收益与本身算力下可提取的收益
 
 					// 已经提取的收益
 					yhdSY = miner.getTotalRevenue();
@@ -456,7 +490,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 					 */
 					Double djSY = 0.00;// 叠加收益
 					Double djSL = 0.00;// 叠加算力
-					System.out.println(")))))))))))))))))))):"+miner.getDiejia());
+					System.out.println(")))))))))))叠加))))))))):"+miner.getDiejia());
 					if (miner.getDiejia() != null) {
 						djSL = Double.valueOf(miner.getDiejia());
 					}
@@ -469,7 +503,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 					 * 判断当矿机运行周期是否结束，来觉得提取倍数比例的数值，影响提币----需要考虑叠加算力的部分。
 					 * 1、未结束：按正常提取比例提取
 					 * 2、已结束，且可提取大于等于1：按正常提取比例走
-					 * 3、已结束，且可提取小于1：一次性提取完
+					 * 3、已结束，且可提取小于1：一次性提取完，不考虑倍数比例
 					 */
 					if (rundate >= 15) {
 						if ((nowZSY + djSY - yhdSY) < 1) {
@@ -477,9 +511,14 @@ public class FensMinerServiceImpl implements FensMinerService {
 						} 
 					} 
 					
-					// 可提取收益
-					kySY = (nowZSY + djSY - yhdSY) * beishu;
-					//收益小于1跳出本次循环
+					// 可提取收益（不带倍数比例的）
+					kySY = (nowZSY + djSY - yhdSY);
+
+					System.out.println("nowzsy:" + nowZSY + "---yhdSY:" + yhdSY);
+
+					/*
+					 * 若在矿机生命周期内，可提取收益小于1，则不能提取收益
+					 */
 					if (kySY < 1 && rundate < 15) {
 						continue;
 					}
@@ -488,15 +527,16 @@ public class FensMinerServiceImpl implements FensMinerService {
 					 * 解冻收益需要给领导人分红,同时更新矿机、钱包数据
 					 */
 					FensMiner fm = new FensMiner();
-					fm.setTotalRevenue(kySY + yhdSY);
+					fm.setTotalRevenue(kySY * beishu + yhdSY);//收益实际提取时需要乘以倍数比例
 					fm.setId(miner.getId());
 					fm.setFensUserId(miner.getFensUserId());
 					fm.setAttachment(dd.toString());
 					
 					/*
-					 * 若倍数为1且运行周期结束，说明该矿机本次提币结束后运行结束且提币结束，对矿机做好标记
+					 * 若倍数为1（需要考虑CA1型矿机倍数一直是1的情况，所以加上收益判断<1）且运行周期结束，
+					 * 说明该矿机本次提币结束后运行结束且提币结束，对矿机做好标记
 					 */
-					if (beishu == 1 && rundate >= 15) {
+					if (beishu == 1 && rundate >= 15 && (nowZSY + djSY - yhdSY) < 1) {
 						fm.setIsDelete(30);// 30：标记运行结束且提币结束
 					}
 
@@ -512,13 +552,13 @@ public class FensMinerServiceImpl implements FensMinerService {
 					}
 
 					// 钱包添加cpa
-					Double ablecpa = fensWallet.getAbleCpa() + kySY;
+					Double ablecpa = fensWallet.getAbleCpa() + kySY * beishu;
 					// 到账时间
 					Date date2 = TimeUtil.getTimeStamp();
 					FensWallet wallet2 = new FensWallet();
 					// 钱包可用余额增加
 					wallet2.setAbleCpa(ablecpa);
-					wallet2.setCpaCount(fensWallet.getCpaCount() + kySY);
+					wallet2.setCpaCount(fensWallet.getCpaCount() + kySY * beishu);
 					wallet2.setId(fensWallet.getId());
 					// 更新钱包可用cpa
 					int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
@@ -535,7 +575,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 
 					FensUser fuser = fensUserMapper.selectByPrimaryKey(miner.getFensUserId());
 					/*
-					 * 只有A型矿机给领导人分红
+					 * 只有A型矿机给领导人分红,且叠加算力产出的CPA不计入分红
 					 */
 					if(miner.getMinerType() == 1) {
 						if (fuser != null) {
@@ -547,12 +587,12 @@ public class FensMinerServiceImpl implements FensMinerService {
 								FensWallet ldrWallet = fensWalletMapper.selectAll(jsrUser.getId());
 
 								// 钱包添加cpa
-								Double ablecpa2 = ldrWallet.getAbleCpa() + (kySY - djSY) * 0.01;
+								Double ablecpa2 = ldrWallet.getAbleCpa() + (kySY - djSY) * beishu * 0.01;
 								// 到账时间
 								FensWallet ldrWallet2 = new FensWallet();
 								// 钱包可用余额增加
 								ldrWallet2.setAbleCpa(ablecpa2);
-								ldrWallet2.setCpaCount(ldrWallet.getCpaCount() + (kySY - djSY) * 0.01);
+								ldrWallet2.setCpaCount(ldrWallet.getCpaCount() + (kySY - djSY) * beishu * 0.01);
 								ldrWallet2.setId(ldrWallet.getId());
 								// 更新钱包可用cpa
 								int result3 = fensWalletMapper.updateByPrimaryKeySelective(ldrWallet2);
@@ -574,7 +614,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 					FoneyRecord moneyRecord = new FoneyRecord();
 					moneyRecord.setFensUserId(miner.getFensUserId());
 					// 交易金额
-					moneyRecord.setPayment(kySY);
+					moneyRecord.setPayment(kySY * beishu);
 					moneyRecord.setReceiveDate(date2);
 					moneyRecord.setSendDate(date2);
 					// 转账类型1 代表接收 2代表转出
