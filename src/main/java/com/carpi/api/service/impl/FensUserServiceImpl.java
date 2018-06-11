@@ -1,6 +1,9 @@
 package com.carpi.api.service.impl;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -832,6 +835,126 @@ public class FensUserServiceImpl implements FensUserService {
 
 		return listParentRecord;
 	}
+	
+	// 粉丝等级判断、查询接口
+	@Override
+	public JSONObject selectFensUserGrade(String phone, Integer uid) {
+		JSONObject jr = new JSONObject();
+		int gradeFlag = 0;//会员等级标记，初始默认为无等级
+		
+		List<FensUser> list = fensUserMapper.selectAllUserNoTJ();//全部有效用户列表
+		List<FensMiner> mlist = fensMinerMapper.allMinerList();//全部矿机列表
+		
+		FensUser fm = fensUserMapper.selectByPrimaryKey(uid);
+		
+		/*
+		 * A、普通节点：1、直推粉丝10+；2、粉丝团用户500+；3、自己及粉丝团CA2矿机3+；4、自己及粉丝团算力12+
+		 * B、高级节点：1、粉丝团用户3000+；2、算力80+；3、粉丝普通节点2+；4、CA3矿机5+；
+		 * C、超级节点：1、粉丝用户10000+；2、算力300G+；3、粉丝高级节点3+；4、粉丝及自己CA4矿机5+
+		 */
+		
+		////普通节点--start
+		Integer AFensNum = 0;//直推粉丝数初始化
+		Integer AFensTeamNum = 0;//粉丝团用户初始化
+		Integer AMinerCA2Num = 0;//粉丝团及自己CA2矿机初始化
+		Integer AMinerCA3Num = 0;//粉丝团及自己CA3矿机初始化
+		Integer AMinerCA4Num = 0;//粉丝团及自己CA4矿机初始化
+		double APCPower = 0.00;//自己及粉丝团算力初始化
+		
+		//1直推粉丝列表
+		List<FensUser> ztlist = fensUserMapper.selectAllUser(phone);
+		AFensNum = ztlist.size();
+		/*
+		 * 2 粉丝团用户获取
+		 */
+		List<FensUser> listParentRecord = new ArrayList<FensUser>();//粉丝团用户列表
+		List<Integer> listminer = new ArrayList<Integer>();//粉丝团用户ID集合
+		getTreeChildRecord(listParentRecord, listminer, phone, list);//递归获取粉丝团列表
+		
+		AFensTeamNum = listParentRecord.size();
+
+		System.out.println(listParentRecord.size() + "--fens grade--end--");
+
+		/*
+		 * 3、4粉丝团算力计算、矿机核算
+		 */
+		if (listParentRecord.size() > 0) {
+
+			if (mlist.size() > 0) {
+				for (int i = 0; i < mlist.size(); i++) {
+					if (listminer.contains(mlist.get(i).getFensUserId())) {
+						System.out.println(mlist.get(i).getFensUserId());
+						APCPower += mlist.get(i).getMinerComputingPower();
+						if(mlist.get(i).getMinerType()==1 && mlist.get(i).getBak1().equals("2") && mlist.get(i).getIsDelete()==0){
+							AMinerCA2Num = AMinerCA2Num + 1;
+						}
+						
+						if(mlist.get(i).getMinerType()==1 && mlist.get(i).getBak1().equals("3") && mlist.get(i).getIsDelete()==0){
+							AMinerCA3Num = AMinerCA3Num + 1;
+						}
+						
+						if(mlist.get(i).getMinerType()==1 && mlist.get(i).getBak1().equals("4") && mlist.get(i).getIsDelete()==0){
+							AMinerCA4Num = AMinerCA4Num + 1;
+						}
+					}
+				}
+			}
+		}
+		
+		System.out.println(listParentRecord.size());
+		
+		// A、普通节点：1、直推粉丝10+；2、粉丝团用户500+；3、自己及粉丝团CA2矿机3+；4、自己及粉丝团算力12+
+		if(AFensNum >= 10 && AFensTeamNum >= 500 && AMinerCA2Num >= 3 && APCPower >= 12){
+			gradeFlag = 1;
+		}
+		////普通节点--end
+		
+		////中级节点--start
+		//B、高级节点：1、粉丝团用户3000+；2、算力80+；3、粉丝普通节点2+；4、CA3矿机5+；
+		if(gradeFlag == 1){
+			if(AFensTeamNum >= 3000 && AMinerCA3Num >= 5 && APCPower >= 80){
+				gradeFlag = 2;
+			}
+		}
+		////中级节点--end
+		
+		////高级节点--start
+		//C、超级节点：1、粉丝用户10000+；2、算力300G+；3、粉丝高级节点3+；4、粉丝及自己CA4矿机5+；
+		if(gradeFlag == 2){
+			if(AFensTeamNum >= 10000 && AMinerCA4Num >= 5 && APCPower >= 300){
+				gradeFlag = 3;
+			}
+		}
+		
+
+		
+//		jr.put("fensList", listParentRecord.size());
+//		jr.put("fensuanli", Asuanli);
+		
+		Format f = new SimpleDateFormat("yyyy-MM-dd");
+		int n = 28;
+		if(gradeFlag == 1){
+			n = 70;
+		}
+		if(gradeFlag == 2){
+			n = 130;
+		}
+		
+        Calendar c = Calendar.getInstance();  
+        c.setTime(fm.getCreateDate());  
+        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天  
+   
+//        Date tomorrow = c.getTime();  
+//        System.out.println("明天是:" + f.format(tomorrow)); 
+		
+		jr.put("grade", gradeFlag);
+		jr.put("suanli", APCPower);
+		jr.put("fensteamNum", AFensTeamNum);
+		jr.put("endTime", f.format(c.getTime()));
+		
+
+		return jr;
+	}
 
 	// 粉丝团列表2
 	@Override
@@ -937,7 +1060,7 @@ public class FensUserServiceImpl implements FensUserService {
 		}
 		return JsonResult.build(500, "无审核订单");
 	}
-
+	
 	/**
 	 * 说明方法描述：递归查询子节点
 	 * 
@@ -950,6 +1073,7 @@ public class FensUserServiceImpl implements FensUserService {
 
 	private List<FensUser> getTreeChildRecord(List<FensUser> listParentRecord, List<Integer> listminer,
 			String parentUuid, List<FensUser> allList) {
+		System.out.println("parentID:"+parentUuid);
 		// 遍历tmpList，找出所有的根节点和非根节点
 		if (allList.size() > 0) {
 			for (int i = 0; i < allList.size(); i++) {

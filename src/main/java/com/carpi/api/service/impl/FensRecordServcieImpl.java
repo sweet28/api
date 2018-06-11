@@ -224,8 +224,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				fensTransaction
 						.setMoneyCount(fensTransaction.getEntrustPrice() * 6.5 * fensTransaction.getTraderCount());
 
-				double zgPrice = 0.3;
-				double zdPrice = 0.17;
+				double zgPrice = 0.31;
+				double zdPrice = 0.18;
 				if (price > zgPrice) {
 					return JsonResult.build(500, "今日最高单价：" + zgPrice + "美元");
 				}
@@ -404,13 +404,13 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				
 				if (isCPAEnough(cbrID, fensTransaction2.getId(), fensTransaction2.getTraderCount())) {
 
-					if (tradeWallet.getAbleCpa() >= (fensTransaction2.getTraderCount() / 0.8)) {
+					if (tradeWallet.getAbleCpa() >= (fensTransaction2.getTraderCount() * 1.2)) {
 						FensWallet tradeWallet2 = new FensWallet();
 						FensWallet fensWallet2 = new FensWallet();
 	
 						tradeWallet2.setId(tradeWallet.getId());
-						tradeWallet2.setAbleCpa(tradeWallet.getAbleCpa() - (fensTransaction2.getTraderCount() / 0.8));
-						tradeWallet2.setCpaCount(tradeWallet.getCpaCount() - (fensTransaction2.getTraderCount() / 0.8));
+						tradeWallet2.setAbleCpa(tradeWallet.getAbleCpa() - (fensTransaction2.getTraderCount() * 1.2));
+						tradeWallet2.setCpaCount(tradeWallet.getCpaCount() - (fensTransaction2.getTraderCount() * 1.2));
 	
 						fensWallet2.setId(fensWallet.getId());
 						fensWallet2.setAbleCpa(fensWallet.getAbleCpa() + fensTransaction2.getTraderCount());

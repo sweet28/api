@@ -553,9 +553,9 @@
 		from fens_miner
 		<where>
 			fens_user_id = #{fensUserId,jdbcType=INTEGER} and miner_type =
-			#{minerType,jdbcType=INTEGER} and is_delete not in(5)
+			#{minerType,jdbcType=INTEGER} and is_delete not in(1,5)
 			<if test=" isDelete != null">
-				and is_delete not in (1,3)
+				and is_delete not in (3,30)
 			</if>
 		</where>
 	</select>

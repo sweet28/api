@@ -23,23 +23,49 @@
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript"
 	charset="utf-8"></script>
 <%-- <script src="<%=path%>/js/personal/gon_dan_list.js" type="text/javascript" charset="utf-8"></script> --%>
+<style type=text/css>
+.chat {
+	width: 500px;
+	height: 500px;
+	margin: 0 auto;
+	padding: 20px 20px;
+	background: #cdb79e;
+}
+
+.chat1 {
+	border: 0px solid #303030;
+	border-radius: 10px; /*向div元素添加圆角边框，数值定义圆角的形状*/
+	box-sizing: border-box; /*允许以特定的方式定义匹配某个区域的特定元素*/
+	float: left;
+	clear: both;
+	margin-bottom: 9px;
+	padding: 4px 22px;
+	background: #fff8dc;
+	position: relative;
+	width: auto;
+}
+
+.chat2 {
+	background: #aeeeee;
+	float: right;
+}
+</style>
 </head>
 <body>
-	<header> 
-		<span>工单反馈详情</span> 
-		<a href="javascript:history.go(-1)" class="history"><img src="<%=path%>/images/go.png" alt=""></a> 
-		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a> 
-	</header>
+	<header> <span>工单反馈详情</span> <a
+		href="javascript:history.go(-1)" class="history"><img
+		src="<%=path%>/images/go.png" alt=""></a> <a href="#" class="share"><img
+		src="<%=path%>/images/share.png" alt=""></a> </header>
 	<div class="cl"></div>
 	<div class="wlist">
 		<ul>
 			<li id="liebiao" style="margin-top: 6px;">
 				<div class="title">
-					<span>交易类型</span id="leixing"> <span>：交易&nbsp;&nbsp;&nbsp;</span><span>单号</span> <span id="danhao">：88</span>
+					<span>交易类型</span id="leixing"> <span>：交易&nbsp;&nbsp;&nbsp;</span><span>单号</span>
+					<span id="danhao">：88</span>
 				</div>
 				<div class="desc">
-					<span>问题描述</span> <span>*</span>
-					<span style = "margin-left: 26%;">时间：</span>
+					<span>问题描述</span> <span>*</span> <span style="margin-left: 26%;">时间：</span>
 					<span id="time">2019-06-26</span>
 				</div>
 				<div class="text">
@@ -52,32 +78,92 @@
 
 	<div class="wlist">
 		<ul>
-			<li id="liebiao2" style = "margin-top: 6px;">
+			<li id="liebiao2" style="margin-top: 6px;">
 				<div class="desc">
 					<span>反馈详情描述：</span>
 				</div>
-				<div class="gonggao" style = "height: 225px;">
-					<div id = "lie1">
-					   <div style="float:right" style="width:100px">1111111111111111 &nbsp;&nbsp;<img src="<%=path%>/image/yonghu.png" style = "width: 30px;height: 30px;"/>
-					   </div><br/><br/>
-					   <div style="float:left" style="width:100px"><img src="<%=path%>/image/kefu.png" style = "width: 30px;height: 30px;"/>&nbsp;&nbsp;1111111111111111</div><br/>
-					    <div style="float:right" style="width:100px">1111111111111111 &nbsp;&nbsp;<img src="<%=path%>/image/yonghu.png" style = "width: 30px;height: 30px;"/>
-					   </div><br/><br/>
-					   <div style="float:left" style="width:100px"><img src="<%=path%>/image/kefu.png" style = "width: 30px;height: 30px;"/>&nbsp;&nbsp;1111111111111111</div><br/>
-					    <div style="float:right" style="width:100px">1111111111111111 &nbsp;&nbsp;<img src="<%=path%>/image/yonghu.png" style = "width: 30px;height: 30px;"/>
-					   </div><br/><br/>
-					   <div style="float:left" style="width:100px"><img src="<%=path%>/image/kefu.png" style = "width: 30px;height: 30px;"/>&nbsp;&nbsp;1111111111111111</div><br/>
-					    <div style="float:right" style="width:100px">1111111111111111 &nbsp;&nbsp;<img src="<%=path%>/image/yonghu.png" style = "width: 30px;height: 30px;"/>
-					   </div><br/><br/>
-					   <div style="float:left" style="width:100px"><img src="<%=path%>/image/kefu.png" style = "width: 30px;height: 30px;"/>&nbsp;&nbsp;1111111111111111</div><br/>
+				<div class="gonggao" style="height: 225px;">
+					<div id="lie1">
+					  <div>
+<%-- 					    <img  style="float: right;width:30px;height:30px;" src="<%=path%>/image/yonghu.png"/> --%>
+						<div class='chat1 chat2' style="float:right;width:160px;" >
+							1111111111111111
+						</div>
+					 </div><br />
+					 
+					 <div>
+<%-- 						<img  style="float: right;width:30px;height:30px;" src="<%=path%>/image/yonghu.png"/> --%>
+						<div class='chat1 chat2' style="float:right;width:160px;" >
+							222222222222
+						</div>
+					</div><br />
+						
+					<div>
+<%-- 						<img  style="float: right;width:30px;height:30px;" src="<%=path%>/image/yonghu.png"/> --%>
+						<div class='chat1 chat2' style="float:right;width:160px;" >
+							33333333333333
+						</div>
+					</div><br />
+						
+					<div>
+<%-- 						<img  style="float: right;width:30px;height:30px;" src="<%=path%>/image/yonghu.png"/> --%>
+						<div class='chat1 chat2' style="float:right;width:160px;" >
+							44444444444444
+						</div>
 					</div>
-				</div> 
-				<div class="gonggao" style = "height: 50px;">
-				    <textarea name="" id="jianyi" style = "width: 100%;"
+<%-- 				     	<img  style="float: right;width:30px;height:30px;" src="<%=path%>/image/yonghu.png"/> --%>
+<!-- 						<div class='chat1 chat2' style="float:right;width:160px;margin-right: 13%;margin-top: -9%;" > -->
+<!-- 							1111111111111111 -->
+<!-- 						</div> -->
+<!-- 					    <br /> -->
+<!-- 						<div class='chat1' style="float:left;width:160px;margin-left: 10%;"> -->
+<!-- 							1111111111111111 -->
+<!-- 						</div>  -->
+<%-- 						<img style="float:left;width:30px;height:30px;margin-left:-59%;" src="<%=path%>/image/kefu.png"/> --%>
+<!-- 						<br /> -->
+<!-- 						<div class='chat1 chat2' style="float: right" style="width:100px;margin-right: 10%;"> -->
+<!-- 							1111111111111111 &nbsp;&nbsp;<img -->
+<%-- 								src="<%=path%>/image/yonghu.png" --%>
+<!-- 								style="width: 30px; height: 30px;" /> -->
+<!-- 						</div> -->
+<!-- 						<br /> <br /> -->
+<!-- 						<div class='chat1' style="float: left" style="width:100px;margin-right: 10%;"> -->
+<%-- 							<img src="<%=path%>/image/kefu.png" --%>
+<!-- 								style="width: 30px; height: 30px;" />&nbsp;&nbsp;1111111111111111 -->
+<!-- 						</div> -->
+<!-- 						<br /> -->
+<!-- 						<div class='chat1 chat2' style="float: right" style="width:100px;margin-right: 10%;"> -->
+<!-- 							1111111111111111 &nbsp;&nbsp;<img -->
+<%-- 								src="<%=path%>/image/yonghu.png" --%>
+<!-- 								style="width: 30px; height: 30px;" /> -->
+<!-- 						</div> -->
+<!-- 						<br /> <br /> -->
+<!-- 						<div class='chat1' style="float: left" style="width:100px;margin-right: 10%;"> -->
+<%-- 							<img src="<%=path%>/image/kefu.png" --%>
+<!-- 								style="width: 30px; height: 30px;" />&nbsp;&nbsp;1111111111111111 -->
+<!-- 						</div> -->
+<!-- 						<br /> -->
+<!-- 						<div class='chat1 chat2' style="float: right" style="width:100px;margin-right: 10%;"> -->
+<!-- 							1111111111111111 &nbsp;&nbsp;<img -->
+<%-- 								src="<%=path%>/image/yonghu.png" --%>
+<!-- 								style="width: 30px; height: 30px;" /> -->
+<!-- 						</div> -->
+<!-- 						<br /> <br /> -->
+<!-- 						<div class='chat1' style="float: left" style="width:100px;margin-right: 10%;"> -->
+<%-- 							<img src="<%=path%>/image/kefu.png" --%>
+<!-- 								style="width: 30px; height: 30px;" />&nbsp;&nbsp;1111111111111111 -->
+<!-- 						</div> -->
+<!-- 						<br /> -->
+					</div>
+				</div>
+				<div class="gonggao" style="height: 50px;">
+					<textarea name="" id="jianyi" style="width: 100%;;margin-right: 10%;"
 						placeholder="请具体且准确的描述您的问题，这有助于我们更高效的帮助您！"></textarea>
 				</div>
-				<div style = "text-align: center;margin-top: 7px;">
-					<input type="button" id="register_btn" value="提交" onclick="tijiao();" class="login" style = "width:100%;height: 32px;" />
+				<div style="text-align: center; margin-top: 7px;">
+					<input type="button" id="register_btn" value="提交"
+						onclick="tijiao();" class="login"
+						style="width: 100%; height: 32px;" />
 				</div>
 			</li>
 		</ul>
@@ -106,5 +192,6 @@
 		</ul>
 	</div>
 </body>
-<script src="<%=path%>/js/personal/fang_kui.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path%>/js/personal/fang_kui.js" type="text/javascript"
+	charset="utf-8"></script>
 </html>

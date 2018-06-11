@@ -84,9 +84,9 @@ function shua(){
 					 var fasong = list[i].type;
 					 //发送
 					 if(fasong == 1){
-						 html += "<div style='float:right;max-width:50%;'>"+list[i].fankuiConent+"&nbsp;&nbsp;<img src='"+getAPIURL()+"image/yonghu.png' style = 'width: 30px;height: 30px;'/></div><br/>";
+						 html += "<div class='chat1 chat2' style='float:right;width:160px'>"+list[i].fankuiConent+"</div><br/>";
 					 }else if(fasong == 2){//接受
-						 html += "<div style='float:left;max-width:50%;'><img src='"+getAPIURL()+"image/kefu.png' style = 'width: 30px;height: 30px;'/>&nbsp;&nbsp;"+list[i].fankuiConent+"</div><br/>";
+						 html += "<div class='chat1'>"+list[i].fankuiConent+"</div><br/>";
 					 }
 				 }
 			 }else{

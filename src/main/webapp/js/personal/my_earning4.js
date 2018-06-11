@@ -2,6 +2,9 @@ function Gift() {
   var self = this, _$gift;
   var uid = localStorage.getItem("uid");
   
+  $("#jibie").html("加载中…");
+  $("#shijian").html("计算中…");
+  
   var flag = checkLogin();
   console.log(100);
   function comptime() {

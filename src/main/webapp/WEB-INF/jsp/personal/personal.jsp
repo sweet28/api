@@ -30,7 +30,21 @@
 		</a>
 	</header>
 	<div class="row default">
-		<p><a href="javascript:Logout();">安全退出</a><img alt="" src="<%=path%>/imagenew/grade0.png"><span class="fr">CPA总额:<span id="returnIn_num"></span><span id="returnIn_dec" class="num_deci"></span></span></p>
+		<p><a href="javascript:Logout();">安全退出</a>
+			<%-- <img alt="" src="<%=path%>/imagenew/grade0.png"> --%>
+			
+			<span class="fr">
+				<!-- CPA总额:
+				<span id="returnIn_num">
+				</span>
+				<span id="returnIn_dec" class="num_deci">
+				</span> -->
+				<span>粉丝级别：<span id="grade" class="waitNum_dec"></span></span>
+				<span>下一级别截止时间：<span id="endTime" class="waitNum_dec"></span></span>
+			</span>
+		</p>
+		<p>有效粉丝团数:<span id="fensteamNum"></span><span id="" class="waitNum_dec"></span></p>
+		<p>粉丝团算力:<span id="suanli"></span><span id="" class="waitNum_dec"></span></p>
 		<p>可用CPA:<span id="balance_num"></span><span id="balance_dec" class="num_deci"></span></p>
 		<p>冻结CPA:<span id="waitNum_num"></span><span id="waitNum_dec" class="num_deci"></span></p>
 	</div>	
@@ -62,7 +76,5 @@
 		</ul>
 	</div>
 </body>
-
 <script src="<%=path%>/js/personal/personal.js" type="text/javascript" charset="utf-8"></script>
-
 </html>

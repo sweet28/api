@@ -134,7 +134,8 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		fm2.setMinerType(2);
 		
 
-		int acount = fensMinerMapper.selectUserMiner(fm1);
+//		int acount = fensMinerMapper.selectUserMiner(fm1);
+		int acount = fensMinerMapper.selectASum(aminer.getFensUserId());
 		int bcount = fensMinerMapper.selectUserMiner(fm2);
 		
 		try {

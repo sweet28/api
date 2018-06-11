@@ -73,6 +73,43 @@
 
     }
   });
+  
+//  function comptime() {
+  console.log(9999999);
+    $.ajax({
+	      type: "post",
+	      url: getAPIURL() + "user/fens/selectFensUserGrade",
+	      dataType: "json",
+	      data: {
+	    	  "sh": localStorage.getItem("phone"),
+	    	  "uid": localStorage.getItem("uid")
+	      },
+	      success: function (data) {
+	    	  console.log(data);
+			  $("#suanli").html(data.suanli);
+			  //$("#grade").html(data.grade);
+			  if(data.grade==0){
+				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade0.png">');
+			  }
+			  else if(data.grade==1){
+				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade1.png">');
+			  }
+			  else if(data.grade==2){
+				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade2.png">');
+			  }
+			  else if(data.grade==3){
+				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade3.png">');
+			  }
+			  
+			  $("#fensteamNum").html(data.fensteamNum);
+			  $("#endTime").html(data.endTime);
+	      },error:function(){
+	    	  console.log(333);
+	      }, headers: {
+	        "Authorization": "Bearer " + getTOKEN()
+	      }
+    });
+//	  }
 
 })();
 

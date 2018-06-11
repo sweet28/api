@@ -80,4 +80,6 @@ public interface FensUserService {
 	JSONObject selectListFens2(String phone);
 	
 	JsonResult checkFens(Integer id, String phone);
+
+	JSONObject selectFensUserGrade(String phone, Integer uid);
 }

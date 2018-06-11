@@ -284,15 +284,15 @@ public class FensUserNewController {
 	// }
 
 	// 粉丝团列表
-	@RequestMapping(value = "/listFens", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public List<FensUser> slectListFens(HttpServletRequest request, HttpServletResponse response) {
-		// 手机号码
-		String phone = request.getParameter("sh");
-		System.out.println("controller:" + phone);
-
-		return fensUserService.selectListFens(phone);
-	}
+//	@RequestMapping(value = "/listFens", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	@ResponseBody
+//	public List<FensUser> slectListFens(HttpServletRequest request, HttpServletResponse response) {
+//		// 手机号码
+//		String phone = request.getParameter("sh");
+//		System.out.println("controller:" + phone);
+//
+//		return fensUserService.selectListFens(phone);
+//	}
 
 	// 粉丝团列表
 	@RequestMapping(value = "/listFens2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -313,6 +313,18 @@ public class FensUserNewController {
 		String phone = request.getParameter("sh");
 
 		return fensUserService.selectListQINYOU(phone);
+	}
+	
+	// 粉丝团列表
+	@RequestMapping(value = "/selectFensUserGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JSONObject selectFensUserGrade(HttpServletRequest request, HttpServletResponse response) {
+		// 手机号码
+		String phone = request.getParameter("sh");
+		String uid = request.getParameter("uid");
+		System.out.println("controller:" + phone);
+
+		return fensUserService.selectFensUserGrade(phone, Integer.valueOf(uid));
 	}
 
 	// 安全退出

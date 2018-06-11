@@ -1,12 +1,24 @@
 function agoumai(type,grade){
 	$(".more").hide();
 	
+//	if(grade==3){
+//		swal({
+//			  title: "操作完成!",
+//			  text: "条件审核，排队购买!",
+//			  icon: "success",
+//			  button: "确定",
+//		});
+//		return false;
+//	}
+	
 	var sec = localStorage.getItem("sec");
 	if(sec!='1'){
-		layer.open({
-	          content: '未认证用户不能交易。'
-	          , btn: '确定'
-	      });
+		swal({
+			  title: "操作完成!",
+			  text: "未认证用户不能交易!",
+			  icon: "success",
+			  button: "确定",
+		});
 		return false;
 	}
 	
