@@ -15,7 +15,7 @@ var id;
 				 for(var i = 0;i<list.length; i++){
 					 var time1 = list[i].createDate;
 						 
-					 time1 = new Date().format("yyyy-MM-dd hh:mm:ss");
+					 time1 = time1.format("yyyy-MM-dd hh:mm:ss");
 					 html += "<div class='title'>"+
 						         "<span>新闻公告</span>" +
 						         "<span>：</span>&nbsp;&nbsp;&nbsp;" +

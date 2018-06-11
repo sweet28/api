@@ -11,6 +11,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=path%>/cssnew/style.css">
+<script src="<%=path%>/lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path%>/lib/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.js"></script>
+<script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
 	<header>
@@ -63,7 +68,7 @@
 					</div>
 					<div class="price">
 						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
-						<a href="#">标价(￥)：200.00</a>
+						<a href="javascript:tangkuan();">标价(￥)：200.00</a>
 					</div>
 				</div>
 				<div class="row ping">
@@ -136,4 +141,5 @@
 		</ul>
 	</div>
 </body>
+<script type="text/javascript" src="<%=path%>/js/main.js"></script>
 </html>

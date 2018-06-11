@@ -42,7 +42,7 @@ public class QblBuyServiceImpl implements QblBuyService {
 		if (sum < 2) {
 			return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买");
 		}
-		if (!check()) {
+		if (!check(quanBaoLiRecord.getFensUserId())) {
 			return JsonResult.build(500, "您今天已经购买过券保理 ，请明天再来");
 		}
 		return insert(quanBaoLiRecord);
@@ -56,7 +56,7 @@ public class QblBuyServiceImpl implements QblBuyService {
 		if (sum2 < 1) {
 			return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买 ");
 		}
-		if (!check()) {
+		if (!check(quanBaoLiRecord.getFensUserId())) {
 			return JsonResult.build(500, "您今天已经购买过券保理 ，请明天再来");
 		}
 		return insert(quanBaoLiRecord);
@@ -70,16 +70,16 @@ public class QblBuyServiceImpl implements QblBuyService {
 		if (sum3 < 1) {
 			return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买 ");
 		}
-		if (!check()) {
-			return JsonResult.build(500, "您今天已经购买过券保理 ，请明天再来");
+		if (!check(quanBaoLiRecord.getFensUserId())) {
+			return JsonResult.build(500, "您今天已经购买 ，请明天再来");
 		}
 		return insert(quanBaoLiRecord);
 	}
 
 	// 没人每天只能购买一张券
-	public boolean check() {
-		List<QuanBaoLiRecord> list = quanBaoLiRecordMapper.check();
-		if (list.size() > 0) {
+	public boolean check(Integer fensUserId) {
+		List<QuanBaoLiRecord> list = quanBaoLiRecordMapper.check(fensUserId);
+		if (!list.isEmpty()) {
 			return false;
 		}
 		return true;
@@ -89,7 +89,7 @@ public class QblBuyServiceImpl implements QblBuyService {
 	public JsonResult insert(QuanBaoLiRecord quanBaoLiRecord) {
 
 		if (StringUtils.isEmpty(quanBaoLiRecord.getFensUserId())) {
-			return JsonResult.build(500, "系统错误");
+			return JsonResult.build(500, "请检查网络是否畅通");
 		}
 		if (StringUtils.isEmpty(quanBaoLiRecord.getQuanId())) {
 			return JsonResult.build(500, "不存在此订单");

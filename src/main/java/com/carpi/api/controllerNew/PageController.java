@@ -216,4 +216,9 @@ public class PageController {
 	public String myABMKC() {
 		return "personal/myABKC";
 	}
+	
+	@RequestMapping("/quanbl")
+	public String quanbl() {
+		return "personal/quanbl";
+	}
 }

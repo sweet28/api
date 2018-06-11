@@ -23,6 +23,6 @@ public interface QuanBaoLiRecordMapper {
     List<QuanBaoLiRecord> selectList(@Param("fensUserId") Integer fensUserId,@Param("orderType") Integer orderType);
     
     //没人每天只能购买一张券
-    List<QuanBaoLiRecord> check();
+    List<QuanBaoLiRecord> check(@Param("fensUserId") Integer fensUserId);
     
 }

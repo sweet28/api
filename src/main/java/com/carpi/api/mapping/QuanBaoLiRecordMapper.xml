@@ -462,9 +462,10 @@
 	<select id="check" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from price
+		from quan_bao_li_record
 		where create_date &gt;= date(now())
 		and create_date &lt;
-		DATE_ADD(date(now()),INTERVAL 1 DAY) and is_delete = 0 and order_type in (1,2,8)
+		DATE_ADD(date(now()),INTERVAL 1 DAY) and is_delete = 0 
+		and fens_user_id = #{fensUserId,jdbcType=INTEGER}
 	</select>
 </mapper>

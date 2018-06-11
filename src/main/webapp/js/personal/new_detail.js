@@ -15,7 +15,7 @@
 				 var news = data.data;
 				 var html = "";
 				 var time1 = news.createDate;
-				 time1 = new Date().format("yyyy-MM-dd hh:mm:ss");
+				 time1 = time1.format("yyyy-MM-dd hh:mm:ss");
 				 html += " <div class='title' style='text-align:center;'>"+
 					         "<span style='color:red;font-size: 22px;'>新闻公告</span>" +
 					         "</div>" +
