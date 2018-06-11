@@ -11,10 +11,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=path%>/cssnew/style.css">
+<link rel="stylesheet" type="text/css" href="<%=path%>/sweetalert/css/sweetalert.css">
 <script src="<%=path%>/lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.js"></script>
+<script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.min.js"></script>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
 </head>
 <body>
@@ -68,7 +69,7 @@
 					</div>
 					<div class="price">
 						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
-						<a href="javascript:tangkuan();">标价(￥)：200.00</a>
+						<a href="javascript:tangkuan(1);">标价(￥)：200.00</a>
 					</div>
 				</div>
 				<div class="row ping">
@@ -93,7 +94,7 @@
 					</div>
 					<div class="price">
 						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
-						<a href="#">标价(￥)：200.00</a>
+						<a href="javascript:tangkuan(2);">标价(￥)：200.00</a>
 					</div>
 				</div>
 				<div class="row ping">
@@ -118,7 +119,7 @@
 					</div>
 					<div class="price">
 						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
-						<a href="#">标价(￥)：500.00</a>
+						<a href="javascript:tangkuan(3);">标价(￥)：500.00</a>
 					</div>
 				</div>
 				<div class="row ping">
