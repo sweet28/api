@@ -1,48 +1,44 @@
 var uid = localStorage.getItem("uid");
-
-function tangkuan(){
+var url;
+function tangkuan(num){
+	if(num == 1){
+		url = "mq/yx";
+	}else if(num == 2){
+		url = "mq/yx"
+	}else if(num == 3){
+		url = "mq/sx"
+	}
 	swal({
 		title : '是否确定购买',
 		type : 'success',
 		showCancelButton : true,
 		confirmButtonText : "确定",
 		cancelButtonText : "取消",
-		closeOnConfirm : true,
-		closeOnCancel : true
-	}).then(function(isConfirm) {
-		if (isConfirm === false) return false;
+		closeOnConfirm : false,
+		closeOnCancel : true,
 		
-		var id = 1;
+//		showCancelButton: true,   
+//		closeOnConfirm: false,   
+//		animation: "slide-from-top",
+	},function(isConfirm) {
+		if (isConfirm === false) return false;
 		$.ajax({
 			type : "post",
-			url : getAPIURL() + "mq/yx",
+			url : getAPIURL() + url,
 			dataType : "json",
 			data : {
 				"uid" : uid,
-				"id" : id
+				"id" : num
 			},
 			success:function(data){
 				if(data.status == 200){
-					swal({
-						title : "认购成功，等待确认订单",
-						icon : "success",
-						button : "确定",
-					});
+					swal("认购成功，等待确认订单", "");
 				}else{
-					swal({
-						title : data.msg,
-						icon : "error",
-						button : "确定",
-					});
-					return false;
+					swal(data.msg, "");
 				}
 			},
 			error:function(data){
-				swal({
-					title : "请检查网络是否畅通",
-					icon : "error",
-					button : "确定",
-				});
+				swal("请检查网络是否畅通", "");
 				return false;
 			}
 		});
