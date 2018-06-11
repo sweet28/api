@@ -83,6 +83,12 @@ function Gift() {
         			kuangchibi = (chanbi - content.totalRevenue);
         		}
         		
+        		var sec = localStorage.getItem("sec");
+        		var conte = "实名审核后可叠加";
+        		if(sec == "1"){
+        			conte = "<a style='color:#fcbd10;' href='javascript:addPower("+content.id+");'>转入钱包</a>";
+            	}
+        		
         		html += 
         					"<li>" +
 	        					"<div class='img'>" +
@@ -94,11 +100,12 @@ function Gift() {
 									"<p>算力：<b>"+suanli.toFixed(5)+"</b></p>" +
 									"<p>产币：<b>"+ chanbi +"</b></p>" +
 									"<p>已入矿池：<b>" + kuangchibi.toFixed(5) + "</b></p>" +
-									"<p>已入钱包：<b>" + content.totalRevenue.toFixed(5) + "</b></p>"
+									"<p>已入钱包：<b>" + content.totalRevenue.toFixed(5) + "</b></p>"+
+									"<p>" + conte + "</p>"
 								"</div>" +
-								"<div class='look'>" +
-									"<a href='#'>"+runs+"</a>" +
-								"</div>" +
+//								"<div class='look'>" +
+//									"<a href='#'>"+runs+"</a>" +
+//								"</div>" +
 							"</li>";
 			});
         	
@@ -110,8 +117,7 @@ function Gift() {
     });
   }
   
-  setInterval(comptime,5000);
-
+  //setInterval(comptime,5000);
   (function () {
     _$gift = $("#a_miner");
     $("#uname").html("欢迎，"+localStorage.getItem("name"));
@@ -122,3 +128,70 @@ var gift;
 $(function () {
   gift = new Gift();
 });
+
+function addPower(minerId){
+	console.log("-----------------------"+minerId);
+	var uid = localStorage.getItem("uid");
+	
+	$.ajax({
+	      type: "post",
+	      url: getAPIURL() + "user/miner/slh",
+	      dataType: "json",
+	      data: {
+	    	  "sh": localStorage.getItem("phone")
+	      },
+	      success: function (data) {
+	    	  if(data.status == 200){
+	    		  var suanli = data.data*0.05;
+	    		  if(suanli > 0){
+	    			  console.log(suanli);
+	    			  
+	    			  $.ajax({
+	    			      type: "post",
+	    			      url: getAPIURL() + "user/miner/kjdj",
+	    			      dataType: "json",
+	    			      data: {
+	    			    	  "uid": localStorage.getItem("uid"),
+	    			    	  "djsl":suanli,
+	    			    	  "id":minerId
+	    			      },
+	    			      success: function (data) {
+	    			    	  console.log(data);
+	    			    	  if(data.status == 200){
+	    			    		  swal({
+	    			    			  title: "操作成功",
+	    			    			  icon: "success",
+	    			    			  button: "确定",
+	    			    		  });
+	    			    	  }else{
+	    			    		  swal({
+	    			    			  title: data.msg,
+	    			    			  icon: "error",
+	    			    			  button: "确定",
+	    			    		  });
+	    			    	  }
+	    			    	  
+	    			      }, headers: {
+	    			        "Authorization": "Bearer " + getTOKEN()
+	    			      }
+	    			  });
+	    		  }else{
+	    			  swal({
+	    				  title: "直推算力为0，不能叠加",
+	    				  icon: "error",
+	    				  button: "确定",
+	    			});
+	    		  }
+	    	  }else{
+	    		  swal({
+	    			  title: data.msg,
+	    			  icon: "error",
+	    			  button: "确定",
+	    		});
+	    	  }
+	    	  
+	      }, headers: {
+	        "Authorization": "Bearer " + getTOKEN()
+	      }
+	  });
+}

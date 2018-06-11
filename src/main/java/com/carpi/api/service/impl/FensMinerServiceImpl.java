@@ -814,6 +814,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 		}
 
 		FensMiner fensMiner = new FensMiner();
+		fensMiner.setId(id);
 		fensMiner.setDiejia(String.valueOf(diejia));
 		fensMiner.setFensUserId(fensUserId);
 		fensMiner.setIsUseSuanli("1");
