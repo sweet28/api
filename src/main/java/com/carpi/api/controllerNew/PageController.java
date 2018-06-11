@@ -221,4 +221,24 @@ public class PageController {
 	public String quanbl() {
 		return "personal/quanbl";
 	}
+	
+	@RequestMapping("/knowledge")
+	public String knowledge() {
+		return "sys/knowledge";
+	}
+	
+	@RequestMapping("/whitePaper")
+	public String whitePaper() {
+		return "sys/whitePaper";
+	}
+	
+	@RequestMapping("/cpaIntro")
+	public String cpaIntro() {
+		return "sys/cpaIntro";
+	}
+	
+	@RequestMapping("/minerRule")
+	public String minerRule() {
+		return "sys/minerRule";
+	}
 }

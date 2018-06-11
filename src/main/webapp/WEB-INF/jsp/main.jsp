@@ -35,7 +35,7 @@
 		<ul>
 			<li><a href="<%=path%>/cpa/personal"><img src="<%=path%>/imagenew/n1.jpg" alt=""><p>个人中心</p></a></li>
 			<li><a href="<%=path%>/cpa/news"><img src="<%=path%>/imagenew/n2.jpg" alt=""><p>新闻公告</p></a></li>
-			<%-- <li><a href="#"><img src="<%=path%>/imagenew/n3.jpg" alt=""><p>黑名单</p></a></li> --%>
+			<li><a href="<%=path%>/cpa/knowledge"><img src="<%=path%>/imagenew/n3.jpg" alt=""><p>资料库</p></a></li>
 			<li><a href="<%=path%>/cpa/myFens"><img src="<%=path%>/imagenew/n4.jpg" alt=""><p>粉丝团</p></a></li>
 			<li><a href="<%=path%>/cpa/myEarnings"><img src="<%=path%>/imagenew/n5.jpg" alt=""><p>收益</p></a></li>
 			<li><a href="#"><img src="<%=path%>/imagenew/n6.jpg" alt=""><p>券保理</p></a></li>
@@ -142,5 +142,4 @@
 		</ul>
 	</div>
 </body>
-<script type="text/javascript" src="<%=path%>/js/main.js"></script>
 </html>

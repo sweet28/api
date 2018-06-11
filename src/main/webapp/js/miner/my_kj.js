@@ -86,7 +86,7 @@ function Gift() {
         		var sec = localStorage.getItem("sec");
         		var conte = "实名审核后可叠加";
         		if(sec == "1"){
-        			conte = "<a style='color:#fcbd10;' href='javascript:addPower("+content.id+");'>转入钱包</a>";
+        			conte = "<a style='color:#fcbd10;' href='javascript:addPower("+content.id+");'>点击叠加算力</a>";
             	}
         		
         		html += 
