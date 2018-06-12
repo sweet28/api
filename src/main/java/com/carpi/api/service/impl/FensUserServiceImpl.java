@@ -1085,7 +1085,9 @@ public class FensUserServiceImpl implements FensUserService {
 					if (allList.get(i).getRefereePhone().equals(parentUuid)) {
 
 						listParentRecord.add(allList.get(i));
-						listminer.add(allList.get(i).getId());
+						if(allList.get(i).getIsDelete() == 0){//正常用户才计算算力
+							listminer.add(allList.get(i).getId());
+						}
 
 						getTreeChildRecord(listParentRecord, listminer, allList.get(i).getPhone(), allList);
 
