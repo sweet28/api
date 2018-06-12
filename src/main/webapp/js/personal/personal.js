@@ -102,7 +102,11 @@
 			  }
 			  
 			  $("#fensteamNum").html(data.fensteamNum);
-			  $("#endTime").html(data.endTime);
+			  if(data.isGradeCan == 'yes'){
+				  $("#endTime").html(data.endTime);
+			  }else{
+				  $("#endTime").html("在规定时间内无法冲击任何等级");
+			  }
 	      },error:function(){
 	    	  console.log(333);
 	      }, headers: {
