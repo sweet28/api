@@ -41,15 +41,12 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 
 	// 券宝理个人订单
 	@Override
-	public JsonResult selectOne(Integer fensUserId, Integer orderType) {
+	public JsonResult selectOne(Integer fensUserId) {
 		if (fensUserId == null) {
-			return JsonResult.build(500, "系统错误");
+			return JsonResult.build(500, "请重新登入");
 		}
-		if (orderType == null) {
-			return JsonResult.build(500, "系统错误2");
-		}
-		List<QuanBaoLiRecord> list = quanBaoLiRecordMapper.selectList(fensUserId, orderType);
-		if (list.size() > 0) {
+		List<QuanBaoLiRecord> list = quanBaoLiRecordMapper.selectList(fensUserId);
+		if (!list.isEmpty()) {
 			return JsonResult.ok(list);
 		} else {
 			return JsonResult.build(500, "无订单信息");
@@ -70,9 +67,9 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		}
 	    //查询打款信息(根据券id)
 		QuanDakuanRecord quanDakuanRecord = quanDakuanRecordMapper.selectQuan(quanBaoLiRecord.getId());
-		if (StringUtils.isEmpty(quanDakuanRecord)) {
-			 return JsonResult.build(500, "无打款信息");
-		}
+//		if (StringUtils.isEmpty(quanDakuanRecord)) {
+//			 return JsonResult.build(500, "无打款信息");
+//		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("ddxx", quanBaoLiRecord);
 		map.put("dkxx", quanDakuanRecord);

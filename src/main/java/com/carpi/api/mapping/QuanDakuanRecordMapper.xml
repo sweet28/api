@@ -311,7 +311,7 @@
 		<where>
 		    is_delete = 0
 			<if test="quanId != null">
-				quan_id = #{quanId,jdbcType=INTEGER},
+				and quan_id = #{quanId,jdbcType=INTEGER}
 			</if>
 		</where>
 	</select>

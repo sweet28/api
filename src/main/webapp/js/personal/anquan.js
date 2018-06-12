@@ -163,6 +163,7 @@ function addAliPay(){
 	}, function(inputValue){   
 		if (inputValue === false) return false;      
 		oldPwd = inputValue;
+		console.log("111:"+oldPwd);
 		dx();
 		swal({   
 			title: "新交易密码",   
@@ -178,6 +179,7 @@ function addAliPay(){
 				return false;
 			}
 			newPwd = inputValue;
+			console.log("22222:"+newPwd);
 			var pwdStr = newPwd.split(" ");
 			if (pwdStr.length != 1) {
 				swal.showInputError("密码长度在6-20个字符之间，不能有空格！");  
@@ -196,6 +198,7 @@ function addAliPay(){
 			        return false;
 	        	}
 	        }
+	        
 	        swal({   
 				title: "确认新交易密码",     
 				type: "input",   

@@ -21,6 +21,8 @@
 					 }
 					 if(chuli == 2){
 						 chuli = "已处理";
+					 }if(chuli == 3){
+						 chuli = "不给予处理";
 					 }
 					 if(leixin == 1){
 						 leixin = "交易"

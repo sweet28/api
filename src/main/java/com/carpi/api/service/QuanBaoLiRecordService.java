@@ -8,7 +8,7 @@ public interface QuanBaoLiRecordService {
 	public JsonResult selectList();
 	
 	//券宝理个人订单
-	public JsonResult selectOne(Integer fensUserId,Integer orderType);
+	public JsonResult selectOne(Integer fensUserId);
 	
 	//查询券详情
 	public JsonResult xiangQing(Integer id);

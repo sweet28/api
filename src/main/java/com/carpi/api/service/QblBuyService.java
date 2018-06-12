@@ -5,13 +5,19 @@ import com.carpi.api.pojo.QuanBaoLiRecord;
 
 public interface QblBuyService {
 
-	// 购买券宝理商品券(一型矿机数量)
+	// 券保理1星券(7天)
 	public JsonResult buyqbl(QuanBaoLiRecord quanBaoLiRecord);
 
-	// 购买券宝理商品券(二型矿机数量)
+	// 券保理1星券(21天)
 	public JsonResult buyqbl2(QuanBaoLiRecord quanBaoLiRecord);
 
-	// 购买券宝理商品券(三型矿机数量)
+	// 券保理2星券(15天)
 	public JsonResult buyqbl3(QuanBaoLiRecord quanBaoLiRecord);
+	
+	// 券保理3星券(10天)
+	public JsonResult buyqbl4(QuanBaoLiRecord quanBaoLiRecord);
+	
+	//券的总数量
+	public JsonResult count(Integer id);
 
 }

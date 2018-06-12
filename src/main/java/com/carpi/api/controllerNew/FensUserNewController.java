@@ -167,8 +167,8 @@ public class FensUserNewController {
 		fensUser.setCapitalPwd(capitalPwd);
 		return fensUserService.jiaoYi(fensUser, code);
 	}
-	
-	//校验交易密码
+
+	// 校验交易密码
 	@RequestMapping(value = "/jiaoyan", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult zijin(HttpServletRequest request, HttpServletResponse response) {
@@ -189,8 +189,12 @@ public class FensUserNewController {
 		String newCapitalPwd = request.getParameter("new_jymm");
 		// 粉丝id
 		String fensUserId = request.getParameter("uid");
+		// 手机验证码
+		String code = request.getParameter("code");
+		// 手机
+		String phone = request.getParameter("sh");
 
-		return fensUserService.updateJiaoYi(oldCapitalPwd, newCapitalPwd, Integer.valueOf(fensUserId));
+		return fensUserService.updateJiaoYi(oldCapitalPwd, newCapitalPwd, Integer.valueOf(fensUserId), code, phone);
 	}
 
 	// 修改信息
@@ -284,15 +288,17 @@ public class FensUserNewController {
 	// }
 
 	// 粉丝团列表
-//	@RequestMapping(value = "/listFens", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-//	@ResponseBody
-//	public List<FensUser> slectListFens(HttpServletRequest request, HttpServletResponse response) {
-//		// 手机号码
-//		String phone = request.getParameter("sh");
-//		System.out.println("controller:" + phone);
-//
-//		return fensUserService.selectListFens(phone);
-//	}
+	// @RequestMapping(value = "/listFens", method = RequestMethod.POST, produces =
+	// "application/json;charset=UTF-8")
+	// @ResponseBody
+	// public List<FensUser> slectListFens(HttpServletRequest request,
+	// HttpServletResponse response) {
+	// // 手机号码
+	// String phone = request.getParameter("sh");
+	// System.out.println("controller:" + phone);
+	//
+	// return fensUserService.selectListFens(phone);
+	// }
 
 	// 粉丝团列表
 	@RequestMapping(value = "/listFens2", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -314,7 +320,7 @@ public class FensUserNewController {
 
 		return fensUserService.selectListQINYOU(phone);
 	}
-	
+
 	// 粉丝团列表
 	@RequestMapping(value = "/selectFensUserGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -386,23 +392,23 @@ public class FensUserNewController {
 	public JsonResult JYLsum(HttpServletRequest request, HttpServletResponse response) {
 		return jiaoYiService.JYLsum();
 	}
-	
+
 	// 粉丝交易量(当天)
 	@RequestMapping(value = "/checkFens", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult checkFens(HttpServletRequest request, HttpServletResponse response) {
-		
+
 		String id = request.getParameter("uid");
 		String phone = request.getParameter("phone");
-		
-		if(id == null) {
+
+		if (id == null) {
 			return JsonResult.build(500, "会员ID为空");
 		}
-		
-		if(phone == null) {
+
+		if (phone == null) {
 			return JsonResult.build(500, "手机号为空");
 		}
-		
+
 		return fensUserService.checkFens(Integer.valueOf(id), phone);
 	}
 

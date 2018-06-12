@@ -87,28 +87,28 @@
 					  <div>
 <%-- 					    <img  style="float: right;width:30px;height:30px;" src="<%=path%>/image/yonghu.png"/> --%>
 						<div class='chat1 chat2' style="float:right;width:160px;" >
-							1111111111111111
+<!-- 							1111111111111111 -->
 						</div>
 					 </div><br />
 					 
 					 <div>
 <%-- 						<img  style="float: right;width:30px;height:30px;" src="<%=path%>/image/yonghu.png"/> --%>
 						<div class='chat1 chat2' style="float:right;width:160px;" >
-							222222222222
+<!-- 							222222222222 -->
 						</div>
 					</div><br />
 						
 					<div>
 <%-- 						<img  style="float: right;width:30px;height:30px;" src="<%=path%>/image/yonghu.png"/> --%>
 						<div class='chat1 chat2' style="float:right;width:160px;" >
-							33333333333333
+<!-- 							33333333333333 -->
 						</div>
 					</div><br />
 						
 					<div>
 <%-- 						<img  style="float: right;width:30px;height:30px;" src="<%=path%>/image/yonghu.png"/> --%>
 						<div class='chat1 chat2' style="float:right;width:160px;" >
-							44444444444444
+<!-- 							44444444444444 -->
 						</div>
 					</div>
 <%-- 				     	<img  style="float: right;width:30px;height:30px;" src="<%=path%>/image/yonghu.png"/> --%>

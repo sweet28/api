@@ -241,4 +241,9 @@ public class PageController {
 	public String minerRule() {
 		return "sys/minerRule";
 	}
+	
+	@RequestMapping("/quan_detail")
+	public String quan_detail() {
+		return "sys/quan_detail";
+	}
 }

@@ -62,12 +62,12 @@ public class FensUserController {
 //		return fensUserService.jiaoYi(fensUser);
 //	}
 
-	// 修改交易密码
-	@RequestMapping(value = "/updateJiaoYi", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId) {
-		return fensUserService.updateJiaoYi(oldCapitalPwd, newCapitalPwd, fensUserId);
-	}
+//	// 修改交易密码
+//	@RequestMapping(value = "/updateJiaoYi", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	@ResponseBody
+//	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId) {
+//		return fensUserService.updateJiaoYi(oldCapitalPwd, newCapitalPwd, fensUserId);
+//	}
 
 	// 修改信息
 	@RequestMapping(value = "/updateInfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

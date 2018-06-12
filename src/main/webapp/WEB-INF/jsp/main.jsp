@@ -61,6 +61,7 @@
 					<div class="txt">
 						<div class="title">
 							<a href="">券保理1星券(7天)</a>
+							<span style="font-size:16px;color:red">天使一期</span>
 						</div>
 						<div class="desc">
 							<p>锁仓周期：<span style="color:#ff5722;font-weight:bold;">7天</span></p>
@@ -75,7 +76,8 @@
 				<div class="row ping">
 					<span></span>
 					<span>持有两台CA1矿机可购买一张</span>
-					<span>稳步收益</span>
+<!-- 					<span>稳步收益</span> -->
+					<span>剩余数量：<b id="yxing">112</b>张</span>
 				</div>
 			</li>
 			<li>
@@ -86,6 +88,7 @@
 					<div class="txt">
 						<div class="title">
 							<a href="">券保理1星券(21天)</a>
+							<span style="font-size:16px;color:red">天使一期</span>
 						</div>
 						<div class="desc">
 							<p>锁仓周期：<span style="color:#ff5722;font-weight:bold;">21天</span></p>
@@ -94,13 +97,13 @@
 					</div>
 					<div class="price">
 						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
-						<a href="javascript:tangkuan(2);">标价(￥)：200.00</a>
+						<a href="javascript:tangkuan(2);">标价(￥)：200</a>
 					</div>
 				</div>
 				<div class="row ping">
 					<span></span>
 					<span>持有两台CA1矿机可购买一张</span>
-					<span>稳步收益</span>
+					<span>剩余数量：<b id="exing">112</b>张</span>
 				</div>
 			</li>
 			<li>
@@ -111,6 +114,7 @@
 					<div class="txt">
 						<div class="title">
 							<a href="">券保理2星券(15天)</a>
+							<span style="font-size:16px;color:red">天使一期</span>
 						</div>
 						<div class="desc">
 							<p>锁仓周期：<span style="color:#ff5722;font-weight:bold;">15天</span></p>
@@ -119,13 +123,40 @@
 					</div>
 					<div class="price">
 						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
-						<a href="javascript:tangkuan(3);">标价(￥)：500.00</a>
+						<a href="javascript:tangkuan(3);">标价(￥)：500</a>
 					</div>
 				</div>
 				<div class="row ping">
 					<span></span>
 					<span>持有一台CA2矿机可购买一张</span>
-					<span>稳步收益</span>
+					<span>剩余数量：<b id="sxing">112</b>张</span>
+				</div>
+			</li>
+			
+			<li>
+				<div class="row">
+					<div class="img">
+						<img src="<%=path%>/imagenew/pic1.png" alt="">
+					</div>
+					<div class="txt">
+						<div class="title">
+							<a href="">券保理3星券(10天)</a>
+							<span style="font-size:16px;color:red">天使一期</span>
+						</div>
+						<div class="desc">
+							<p>锁仓周期：<span style="color:#ff5722;font-weight:bold;">10天</span></p>
+							<p>预计收益率：<span style="color:#ff5722;font-weight:bold;">30%</span></p>
+						</div>
+					</div>
+					<div class="price">
+						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
+						<a href="javascript:tangkuan(3);">标价(￥)：1000</a>
+					</div>
+				</div>
+				<div class="row ping">
+					<span></span>
+					<span>持有一台CA2矿机可购买一张</span>
+					<span>剩余数量：<b id="ssxing">112</b>张</span>
 				</div>
 			</li>
 		</ul>
@@ -142,4 +173,5 @@
 		</ul>
 	</div>
 </body>
+<script src="<%=path%>/js/main.js" type="text/javascript" charset="utf-8"></script>
 </html>

@@ -420,30 +420,76 @@ public class FensUserServiceImpl implements FensUserService {
 
 	// 修改交易密码
 	@Override
-	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId) {
-		FensUser fensUser = new FensUser();
-		if ("".equals(oldCapitalPwd) || oldCapitalPwd == null) {
-			fensUser.setCapitalPwd(null);
-		} else {
-			fensUser.setCapitalPwd(MD5
-					.encodeString(MD5.encodeString(oldCapitalPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
+	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId, String code,
+			String phone) {
+		SMSCheckCode smsCheckCode = new SMSCheckCode();
+		smsCheckCode.setMobile(phone);
+		smsCheckCode.setCheckCode(code);
+
+		SMSCheckCode smsCCode = smsCheckCodeDao.selectByMobileAndType(smsCheckCode);
+		if (smsCCode != null) {
+			long expireTime = smsCCode.getExpireTime().getTime();
+			long nowTime = new Date().getTime();
+			long expireSeconds = TimeUtil.diffSeconds(expireTime, nowTime);
+			if (expireSeconds < 0) {
+				return JsonResult.build(20048, ErrorCodeConfigUtil.ERROR_MSG_ZH_20048);
+			} else {
+				FensUser fensUser = new FensUser();
+				if (StringUtils.isEmpty(oldCapitalPwd)) {
+					fensUser.setCapitalPwd(null);
+				} else {
+					fensUser.setCapitalPwd(MD5.encodeString(
+							MD5.encodeString(oldCapitalPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
+				}
+				fensUser.setId(fensUserId);
+				FensUser fensUser4 = fensUserMapper.selectByPrimaryKey(fensUserId);
+				if (!StringUtils.isEmpty(fensUser4)) {
+					if (StringUtils.isEmpty(fensUser4.getCapitalPwd())) {
+						FensUser fensUser3 = new FensUser();
+						// 新密码
+						fensUser3.setCapitalPwd(MD5.encodeString(
+								MD5.encodeString(newCapitalPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
+						fensUser3.setId(fensUserId);
+						int result = fensUserMapper.updateByPrimaryKeySelective(fensUser3);
+						if (result != 1) {
+							smsCCode.setIsUsed(1);
+							smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+							smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+							return JsonResult.build(500, "修改密码失败");
+						}
+						smsCCode.setIsUsed(2);
+						int staus = smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+						return JsonResult.ok();
+					} else if (!StringUtils.isEmpty(fensUser4.getCapitalPwd())) {
+						// 根据旧密码查询用户
+						FensUser fensUser2 = fensUserMapper.selectOldCapitalPwd(fensUser);
+						if (fensUser2 == null) {
+							return JsonResult.build(500, "原交易密码错误，请重新出入");
+						}
+						FensUser fensUser3 = new FensUser();
+						// 新密码
+						fensUser3.setCapitalPwd(MD5.encodeString(
+								MD5.encodeString(newCapitalPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
+						fensUser3.setId(fensUserId);
+						int result = fensUserMapper.updateByPrimaryKeySelective(fensUser3);
+						if (result != 1) {
+							smsCCode.setIsUsed(1);
+							smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+							smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+							return JsonResult.build(500, "修改密码失败");
+						}
+						smsCCode.setIsUsed(2);
+						int staus = smsCheckCodeDao.updateByPrimaryKeySelective(smsCCode);
+						return JsonResult.ok();
+					} else {
+						return JsonResult.build(500, "不存在该用户");
+					}
+				} else {
+					return JsonResult.build(500, "不是本人操作,请重新登入");
+				}
+			}
 		}
-		fensUser.setId(fensUserId);
-		// 根据旧密码查询用户
-		FensUser fensUser2 = fensUserMapper.selectOldCapitalPwd(fensUser);
-		if (fensUser2 == null) {
-			return JsonResult.build(500, "原交易密码错误，请重新出入");
-		}
-		FensUser fensUser3 = new FensUser();
-		// 新密码
-		fensUser3.setCapitalPwd(
-				MD5.encodeString(MD5.encodeString(newCapitalPwd + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR));
-		fensUser3.setId(fensUserId);
-		int result = fensUserMapper.updateByPrimaryKeySelective(fensUser3);
-		if (result != 1) {
-			return JsonResult.build(500, "修改密码失败");
-		}
-		return JsonResult.ok();
+		return JsonResult.build(500, "验证码错误");
 	}
 
 	// 校验交易密码
@@ -836,42 +882,42 @@ public class FensUserServiceImpl implements FensUserService {
 
 		return listParentRecord;
 	}
-	
+
 	// 粉丝等级判断、查询接口
 	@Override
 	public JSONObject selectFensUserGrade(String phone, Integer uid) {
 		JSONObject jr = new JSONObject();
-		int gradeFlag = 0;//会员等级标记，初始默认为无等级
-		
-		List<FensUser> list = fensUserMapper.selectAllUserNoTJ();//全部有效用户列表
-		List<FensMiner> mlist = fensMinerMapper.allMinerList();//全部矿机列表
-		
+		int gradeFlag = 0;// 会员等级标记，初始默认为无等级
+
+		List<FensUser> list = fensUserMapper.selectAllUserNoTJ();// 全部有效用户列表
+		List<FensMiner> mlist = fensMinerMapper.allMinerList();// 全部矿机列表
+
 		FensUser fm = fensUserMapper.selectByPrimaryKey(uid);
-		
+
 		/*
 		 * A、普通节点：1、直推粉丝10+；2、粉丝团用户500+；3、自己及粉丝团CA2矿机3+；4、自己及粉丝团算力12+
 		 * B、高级节点：1、粉丝团用户3000+；2、算力80+；3、粉丝普通节点2+；4、CA3矿机5+；
 		 * C、超级节点：1、粉丝用户10000+；2、算力300G+；3、粉丝高级节点3+；4、粉丝及自己CA4矿机5+
 		 */
-		
-		////普通节点--start
-		Integer AFensNum = 0;//直推粉丝数初始化
-		Integer AFensTeamNum = 0;//粉丝团用户初始化
-		Integer AMinerCA2Num = 0;//粉丝团及自己CA2矿机初始化
-		Integer AMinerCA3Num = 0;//粉丝团及自己CA3矿机初始化
-		Integer AMinerCA4Num = 0;//粉丝团及自己CA4矿机初始化
-		double APCPower = 0.00;//自己及粉丝团算力初始化
-		
-		//1直推粉丝列表
+
+		//// 普通节点--start
+		Integer AFensNum = 0;// 直推粉丝数初始化
+		Integer AFensTeamNum = 0;// 粉丝团用户初始化
+		Integer AMinerCA2Num = 0;// 粉丝团及自己CA2矿机初始化
+		Integer AMinerCA3Num = 0;// 粉丝团及自己CA3矿机初始化
+		Integer AMinerCA4Num = 0;// 粉丝团及自己CA4矿机初始化
+		double APCPower = 0.00;// 自己及粉丝团算力初始化
+
+		// 1直推粉丝列表
 		List<FensUser> ztlist = fensUserMapper.selectAllUser(phone);
 		AFensNum = ztlist.size();
 		/*
 		 * 2 粉丝团用户获取
 		 */
-		List<FensUser> listParentRecord = new ArrayList<FensUser>();//粉丝团用户列表
-		List<Integer> listminer = new ArrayList<Integer>();//粉丝团用户ID集合
-		getTreeChildRecord(listParentRecord, listminer, phone, list);//递归获取粉丝团列表
-		
+		List<FensUser> listParentRecord = new ArrayList<FensUser>();// 粉丝团用户列表
+		List<Integer> listminer = new ArrayList<Integer>();// 粉丝团用户ID集合
+		getTreeChildRecord(listParentRecord, listminer, phone, list);// 递归获取粉丝团列表
+
 		AFensTeamNum = listParentRecord.size();
 
 		System.out.println(listParentRecord.size() + "--fens grade--end--");
@@ -886,64 +932,67 @@ public class FensUserServiceImpl implements FensUserService {
 					if (listminer.contains(mlist.get(i).getFensUserId())) {
 						System.out.println(mlist.get(i).getFensUserId());
 						APCPower += mlist.get(i).getMinerComputingPower();
-						if(mlist.get(i).getMinerType()==1 && mlist.get(i).getBak1().equals("2") && mlist.get(i).getIsDelete()==0){
+						if (mlist.get(i).getMinerType() == 1 && mlist.get(i).getBak1().equals("2")
+								&& mlist.get(i).getIsDelete() == 0) {
 							AMinerCA2Num = AMinerCA2Num + 1;
 						}
-						
-						if(mlist.get(i).getMinerType()==1 && mlist.get(i).getBak1().equals("3") && mlist.get(i).getIsDelete()==0){
+
+						if (mlist.get(i).getMinerType() == 1 && mlist.get(i).getBak1().equals("3")
+								&& mlist.get(i).getIsDelete() == 0) {
 							AMinerCA3Num = AMinerCA3Num + 1;
 						}
-						
-						if(mlist.get(i).getMinerType()==1 && mlist.get(i).getBak1().equals("4") && mlist.get(i).getIsDelete()==0){
+
+						if (mlist.get(i).getMinerType() == 1 && mlist.get(i).getBak1().equals("4")
+								&& mlist.get(i).getIsDelete() == 0) {
 							AMinerCA4Num = AMinerCA4Num + 1;
 						}
 					}
 				}
 			}
 		}
-		
+
 		System.out.println(listParentRecord.size());
-		
+
 		// A、普通节点：1、直推粉丝10+；2、粉丝团用户500+；3、自己及粉丝团CA2矿机3+；4、自己及粉丝团算力12+
-		if(AFensNum >= 10 && AFensTeamNum >= 500 && AMinerCA2Num >= 3 && APCPower >= 12){
+		if (AFensNum >= 10 && AFensTeamNum >= 500 && AMinerCA2Num >= 3 && APCPower >= 12) {
 			gradeFlag = 1;
 		}
-		////普通节点--end
-		
-		////中级节点--start
-		//B、高级节点：1、粉丝团用户3000+；2、算力80+；3、粉丝普通节点2+；4、CA3矿机5+；
-		if(gradeFlag == 1){
-			if(AFensTeamNum >= 3000 && AMinerCA3Num >= 5 && APCPower >= 80){
+		//// 普通节点--end
+
+		//// 中级节点--start
+		// B、高级节点：1、粉丝团用户3000+；2、算力80+；3、粉丝普通节点2+；4、CA3矿机5+；
+		if (gradeFlag == 1) {
+			if (AFensTeamNum >= 3000 && AMinerCA3Num >= 5 && APCPower >= 80) {
 				gradeFlag = 2;
 			}
 		}
-		////中级节点--end
-		
-		////高级节点--start
-		//C、超级节点：1、粉丝用户10000+；2、算力300G+；3、粉丝高级节点3+；4、粉丝及自己CA4矿机5+；
-		if(gradeFlag == 2){
-			if(AFensTeamNum >= 10000 && AMinerCA4Num >= 5 && APCPower >= 300){
+		//// 中级节点--end
+
+		//// 高级节点--start
+		// C、超级节点：1、粉丝用户10000+；2、算力300G+；3、粉丝高级节点3+；4、粉丝及自己CA4矿机5+；
+		if (gradeFlag == 2) {
+			if (AFensTeamNum >= 10000 && AMinerCA4Num >= 5 && APCPower >= 300) {
 				gradeFlag = 3;
 			}
 		}
-		
-        String isGradeCan = "yes";
-		
-		Date returnDate = null;
-        Date dt = new Date();
 
-        Format f = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar c = Calendar.getInstance();  
-		
+		String isGradeCan = "yes";
+
+		Date returnDate = null;
+		Date dt = new Date();
+
+		Format f = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+
 		int n = 28;
-		if(gradeFlag == 0){
-			c.setTime(fm.getCreateDate());  
-	        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天  
-	        
-	        if(c.getTime().getTime() >= dt.getTime()){
-	        	isGradeCan = "yes";
-	        	returnDate = fm.getCreateDate();
-	        }else{
+		if (gradeFlag == 0) {
+			c.setTime(fm.getCreateDate());
+			c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
+
+			if (c.getTime().getTime() >= dt.getTime()) {
+				isGradeCan = "yes";
+				returnDate = fm.getCreateDate();
+			} else {
 				n = 70;
 				c.setTime(fm.getCreateDate());
 				c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
@@ -962,55 +1011,55 @@ public class FensUserServiceImpl implements FensUserService {
 					} else {
 						isGradeCan = "no";
 					}
-	    		}
-	        }
+				}
+			}
 		}
-		
-		//冲击一个级别时间不够则到下一个级别
-		if(gradeFlag == 1){
+
+		// 冲击一个级别时间不够则到下一个级别
+		if (gradeFlag == 1) {
 			n = 70;
-			c.setTime(fm.getCreateDate());  
-	        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天  
-	        
-	        if(c.getTime().getTime() >= dt.getTime()){
-	        	isGradeCan = "yes";
-	        	returnDate = fm.getCreateDate();
-	        }else{
-	        	n = 130;
-	        	c.setTime(fm.getCreateDate());  
-		        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天  
-		        
-		        if(c.getTime().getTime() >= dt.getTime()){
-		        	isGradeCan = "yes";
-		        	returnDate = fm.getCreateDate();
-		        }else{
-		        	isGradeCan = "no";
-		        }
-	        }
+			c.setTime(fm.getCreateDate());
+			c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
+
+			if (c.getTime().getTime() >= dt.getTime()) {
+				isGradeCan = "yes";
+				returnDate = fm.getCreateDate();
+			} else {
+				n = 130;
+				c.setTime(fm.getCreateDate());
+				c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
+
+				if (c.getTime().getTime() >= dt.getTime()) {
+					isGradeCan = "yes";
+					returnDate = fm.getCreateDate();
+				} else {
+					isGradeCan = "no";
+				}
+			}
 		}
-		
-		if(gradeFlag == 2){
+
+		if (gradeFlag == 2) {
 			n = 130;
-			c.setTime(fm.getCreateDate());  
-	        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天  
-	        
-	        if(c.getTime().getTime() >= dt.getTime()){
-	        	isGradeCan = "yes";
-	        	returnDate = fm.getCreateDate();
-	        }else{
-	        	isGradeCan = "no";
-	        }
+			c.setTime(fm.getCreateDate());
+			c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
+
+			if (c.getTime().getTime() >= dt.getTime()) {
+				isGradeCan = "yes";
+				returnDate = fm.getCreateDate();
+			} else {
+				isGradeCan = "no";
+			}
 		}
-		if(returnDate!=null){
-			c.setTime(returnDate);  
-	        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
+		if (returnDate != null) {
+			c.setTime(returnDate);
+			c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
 			jr.put("endTime", f.format(c.getTime()));
 		}
-          
-//        Date tomorrow = c.getTime();  
-//        System.out.println("明天是:" + f.format(tomorrow)); 
-		
+
+		// Date tomorrow = c.getTime();
+		// System.out.println("明天是:" + f.format(tomorrow));
+
 		jr.put("grade", gradeFlag);
 		jr.put("suanli", APCPower);
 		jr.put("fensteamNum", AFensTeamNum);
@@ -1123,7 +1172,7 @@ public class FensUserServiceImpl implements FensUserService {
 		}
 		return JsonResult.build(500, "无审核订单");
 	}
-	
+
 	/**
 	 * 说明方法描述：递归查询子节点
 	 * 
@@ -1136,7 +1185,7 @@ public class FensUserServiceImpl implements FensUserService {
 
 	private List<FensUser> getTreeChildRecord(List<FensUser> listParentRecord, List<Integer> listminer,
 			String parentUuid, List<FensUser> allList) {
-		System.out.println("parentID:"+parentUuid);
+		System.out.println("parentID:" + parentUuid);
 		// 遍历tmpList，找出所有的根节点和非根节点
 		if (allList.size() > 0) {
 			for (int i = 0; i < allList.size(); i++) {
@@ -1148,7 +1197,7 @@ public class FensUserServiceImpl implements FensUserService {
 					if (allList.get(i).getRefereePhone().equals(parentUuid)) {
 
 						listParentRecord.add(allList.get(i));
-						if(allList.get(i).getIsDelete() == 0){//正常用户才计算算力
+						if (allList.get(i).getIsDelete() == 0) {// 正常用户才计算算力
 							listminer.add(allList.get(i).getId());
 						}
 
@@ -1170,8 +1219,7 @@ public class FensUserServiceImpl implements FensUserService {
 		JSONObject jsonCheckTrader = checkCPATrader(id);
 		JSONObject jsonCheckPayAuth = checkPayAuth(id);
 		JSONObject jsonCheckJuneActivity = checkJuneActivity(id);
-		
-		
+
 		return null;
 	}
 
@@ -1332,24 +1380,24 @@ public class FensUserServiceImpl implements FensUserService {
 	private JSONObject checkCPAWallet(Integer id) {
 
 		JSONObject jsonObject = new JSONObject();
-		//可用cpa
+		// 可用cpa
 		Double ableCpa = 0.00;
-		//锁定cpa
+		// 锁定cpa
 		Double lockCpa = 0.00;
-		//总cpa
+		// 总cpa
 		Double zongCpa = 0.00;
-		
+
 		FensWallet fensWallet = fensWalletMapper.selectAll(id);
 		if (!StringUtils.isEmpty(fensWallet)) {
 			ableCpa = fensWallet.getAbleCpa();
 			lockCpa = fensWallet.getLockCpa();
 			zongCpa = fensWallet.getCpaCount();
 		}
-        
+
 		jsonObject.put("ableCpa", ableCpa);
 		jsonObject.put("lockCpa", lockCpa);
 		jsonObject.put("zongCpa", zongCpa);
-		
+
 		return jsonObject;
 	}
 
@@ -1378,7 +1426,7 @@ public class FensUserServiceImpl implements FensUserService {
 
 		JSONObject jo = new JSONObject();
 		Integer renzheng = 0;
-		
+
 		FensUser fensUser = fensUserMapper.selectByPrimaryKey(id);
 
 		if (!StringUtils.isEmpty(fensUser)) {
@@ -1400,18 +1448,18 @@ public class FensUserServiceImpl implements FensUserService {
 	private JSONObject checkMiner(Integer id) {
 
 		JSONObject jo = new JSONObject();
-		
-		//矿机总量
+
+		// 矿机总量
 		int minerSum = fensMinerMapper.minerSum(id);
-		//矿机的总价格
+		// 矿机的总价格
 		Double minerPrice = fensMinerMapper.minerPrice(id);
-		//矿机的提取收益
+		// 矿机的提取收益
 		Double minerEarn = fensMinerMapper.minerEarn(id);
-		
+
 		jo.put("minerSum", minerSum);
 		jo.put("minerPrice", minerPrice);
 		jo.put("minerEarn", minerEarn);
-		
+
 		return jo;
 	}
 

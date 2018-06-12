@@ -36,7 +36,7 @@ public interface FensUserService {
 	JsonResult zijin(Integer fensUserId,String zjMiMa);
 
 	// 修改交易密码
-	public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId);
+		public JsonResult updateJiaoYi(String oldCapitalPwd, String newCapitalPwd, Integer fensUserId,String code,String phone);
 
 	// 修改信息
 	public JsonResult updateInfo(FensUser fensUser);

@@ -19,7 +19,7 @@ var type;
 				 var gd = data.data;
 				 var html = "";
 				 var time1 = gd.createDate;
-				 time1 = new Date().format("yyyy-MM-dd hh:mm:ss");
+				 time1 = fmtDate(time1);
 				 $("#leixing").html(gd.type);
 				 $("#danhao").html(gd.id);
 				 $("#time").html(time1);
@@ -53,9 +53,9 @@ function tijiao(){
 		 },
 		 success:function(data){
 			 if(data.status == 200){
-				 alert("提交成功");
 				 shua();
-				 
+				 alert("提交成功");
+				 window.location.reload(); 
 			 }else{
 				 alert(data.msg);
 			 }
@@ -76,24 +76,27 @@ function shua(){
 			 "gd_id":str,
 		 },
 		 success:function(data){
-			 var list = data.data;
-			 console.log(list);
-			 var html = "";
-			 if(list != null){
-				 for(var i = 0;i<list.length; i++){
-					 var fasong = list[i].type;
-					 //发送
-					 if(fasong == 1){
-						 html += "<div class='chat1 chat2' style='float:right;width:160px'>"+list[i].fankuiConent+"</div><br/>";
-					 }else if(fasong == 2){//接受
-						 html += "<div class='chat1'>"+list[i].fankuiConent+"</div><br/>";
+			 if(data.status == 200){
+				 var list = data.data;
+				 var html = "";
+				 if(list != null){
+					 for(var i = 0;i<list.length; i++){
+						 var fasong = list[i].type;
+						 //发送
+						 if(fasong == 1){
+							 html += "<div class='chat1 chat2' style='float:right;width:160px'>"+list[i].fankuiConent+"</div><br/>";
+						 }else if(fasong == 2){//接受
+							 html += "<div class='chat1'>"+list[i].fankuiConent+"</div><br/>";
+						 }
 					 }
+				 }else{
+//					 alert(data.msg);
 				 }
+				 $("#lie1").html(html);
 			 }else{
-//				 alert(data.msg);
+				 $("#lie1").html("");
 			 }
 			
-			 $("#lie1").html(html);
 		 },
 		 error:function(){
 			 alert("系统错误");
