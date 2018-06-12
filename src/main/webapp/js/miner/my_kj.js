@@ -13,6 +13,7 @@ function Gift() {
 		var rad = getRandom();
 		var ton = getTom();
 		var str = "uid="+uid+"pg="+page+"ts="+row+"tmp="+tmp+"rad="+rad+"tom="+ton;
+		console.log("------------------------phone:"+localStorage.getItem("phone"));
     $.ajax({
       type: "post",
       url: getAPIURL() + "user/miner/kuA",
@@ -117,7 +118,7 @@ function Gift() {
     });
   }
   
-  //setInterval(comptime,5000);
+  setInterval(comptime,5000);
   (function () {
     _$gift = $("#a_miner");
     $("#uname").html("欢迎，"+localStorage.getItem("name"));
@@ -143,6 +144,7 @@ function addPower(minerId){
 	      success: function (data) {
 	    	  if(data.status == 200){
 	    		  var suanli = data.data*0.05;
+	    		  console.log(suanli+"----------------");
 	    		  if(suanli > 0){
 	    			  console.log(suanli);
 	    			  
@@ -153,6 +155,7 @@ function addPower(minerId){
 	    			      data: {
 	    			    	  "uid": localStorage.getItem("uid"),
 	    			    	  "djsl":suanli,
+	    				      "phone":localStorage.getItem("phone"),
 	    			    	  "id":minerId
 	    			      },
 	    			      success: function (data) {

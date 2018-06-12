@@ -9,7 +9,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>提交工单</title>
+<title>新闻公告</title>
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/style.css">
 <link rel="stylesheet" href="<%=path%>/cssnew/style.css">
@@ -21,7 +21,7 @@
 </head>
 <body>
 	<header>
-		<span>系统公告</span>
+		<span>新闻公告</span>
 		<a href="javascript:history.go(-1)" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>

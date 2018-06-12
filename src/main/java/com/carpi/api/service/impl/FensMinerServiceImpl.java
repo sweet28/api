@@ -816,7 +816,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 		}
 		
 		FensMiner fensMiner2 = fensMinerMapper.selectByPrimaryKey(id);
-		if (fensMiner2.getFensUserId() != fensUserId) {
+		if (!fensMiner2.getFensUserId().equals(fensUserId)) {
 			return JsonResult.build(500, "不是本人操作，请重新登入");
 		}
 		
