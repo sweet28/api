@@ -60,6 +60,7 @@ import com.carpi.api.service.FensUserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.util.StringUtil;
+import com.mysql.fabric.xmlrpc.base.Data;
 
 @Service
 public class FensUserServiceImpl implements FensUserService {
@@ -926,32 +927,94 @@ public class FensUserServiceImpl implements FensUserService {
 			}
 		}
 		
+        String isGradeCan = "yes";
+		
+		Date returnDate = null;
+        Date dt = new Date();
 
+        Format f = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();  
 		
-//		jr.put("fensList", listParentRecord.size());
-//		jr.put("fensuanli", Asuanli);
-		
-		Format f = new SimpleDateFormat("yyyy-MM-dd");
 		int n = 28;
+		if(gradeFlag == 0){
+			c.setTime(fm.getCreateDate());  
+	        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天  
+	        
+	        if(c.getTime().getTime() >= dt.getTime()){
+	        	isGradeCan = "yes";
+	        	returnDate = fm.getCreateDate();
+	        }else{
+				n = 70;
+				c.setTime(fm.getCreateDate());
+				c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
+
+				if (c.getTime().getTime() >= dt.getTime()) {
+					isGradeCan = "yes";
+					returnDate = fm.getCreateDate();
+				} else {
+					n = 130;
+					c.setTime(fm.getCreateDate());
+					c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
+
+					if (c.getTime().getTime() >= dt.getTime()) {
+						isGradeCan = "yes";
+						returnDate = fm.getCreateDate();
+					} else {
+						isGradeCan = "no";
+					}
+	    		}
+	        }
+		}
+		
+		//冲击一个级别时间不够则到下一个级别
 		if(gradeFlag == 1){
 			n = 70;
-		}
-		if(gradeFlag == 2){
-			n = 130;
+			c.setTime(fm.getCreateDate());  
+	        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天  
+	        
+	        if(c.getTime().getTime() >= dt.getTime()){
+	        	isGradeCan = "yes";
+	        	returnDate = fm.getCreateDate();
+	        }else{
+	        	n = 130;
+	        	c.setTime(fm.getCreateDate());  
+		        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天  
+		        
+		        if(c.getTime().getTime() >= dt.getTime()){
+		        	isGradeCan = "yes";
+		        	returnDate = fm.getCreateDate();
+		        }else{
+		        	isGradeCan = "no";
+		        }
+	        }
 		}
 		
-        Calendar c = Calendar.getInstance();  
-        c.setTime(fm.getCreateDate());  
-        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天  
-   
+		if(gradeFlag == 2){
+			n = 130;
+			c.setTime(fm.getCreateDate());  
+	        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天  
+	        
+	        if(c.getTime().getTime() >= dt.getTime()){
+	        	isGradeCan = "yes";
+	        	returnDate = fm.getCreateDate();
+	        }else{
+	        	isGradeCan = "no";
+	        }
+		}
+		if(returnDate!=null){
+			c.setTime(returnDate);  
+	        c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
+
+			jr.put("endTime", f.format(c.getTime()));
+		}
+          
 //        Date tomorrow = c.getTime();  
 //        System.out.println("明天是:" + f.format(tomorrow)); 
 		
 		jr.put("grade", gradeFlag);
 		jr.put("suanli", APCPower);
 		jr.put("fensteamNum", AFensTeamNum);
-		jr.put("endTime", f.format(c.getTime()));
-		
+		jr.put("isGradeCan", isGradeCan);
 
 		return jr;
 	}
