@@ -47,7 +47,7 @@ public interface FensMinerService {
 	public JsonResult shouYiHe(String phone);
 
 	// 算力叠加到矿机
-	public JsonResult kuanJiSuanLiHe(Double diejia, Integer fensUserId, Integer id);
+	public JsonResult kuanJiSuanLiHe(Double diejia, Integer fensUserId, Integer id, String phone);
 
 	// 收益提取接口
 	public JsonResult syTiQu(Integer id, String phone, Integer fensUserId);

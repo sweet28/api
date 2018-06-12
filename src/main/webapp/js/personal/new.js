@@ -15,9 +15,15 @@ var id;
 				 for(var i = 0;i<list.length; i++){
 					 var time1 = list[i].createDate;
 						 
-					 time1 = time1.format("yyyy-MM-dd hh:mm:ss");
+					 //time1 = time1.format("yyyy-MM-dd hh:mm:ss");
+					 time1 = fmtDate(time1);
+					 var title = "CPA公告";
+					 if(list[i].bak1 != null){
+						 title = list[i].bak1;
+					 }
+					 
 					 html += "<div class='title'>"+
-						         "<span>新闻公告</span>" +
+						         "<span>"+title+"</span>" +
 						         "<span>：</span>&nbsp;&nbsp;&nbsp;" +
 					             "<div class='desc'>" +
 						         "<span>时间："+time1+"</span><a style='font-weight:bold;color: red;margin-left: 35%;' href='newsDetail?"+list[i].id+"'>详情查看</a>" +

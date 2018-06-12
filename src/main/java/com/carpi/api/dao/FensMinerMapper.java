@@ -21,6 +21,9 @@ public interface FensMinerMapper {
 
 	// 根据粉丝id修改
 	int updateFen(FensMiner record);
+	
+	// 根据领导人电话，设置其直推粉丝购买的矿机算力已被使用
+	int updateIsUseDIEJIA(String phone);
 
 	// 根据粉丝id查询矿机
 	List<FensMiner> selectMiner(Integer fensUserId);

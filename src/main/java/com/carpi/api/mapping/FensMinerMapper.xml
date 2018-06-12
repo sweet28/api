@@ -667,6 +667,17 @@
 		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 10
 		and id = #{id,jdbcType=INTEGER}
 	</update>
+	
+	<!-- 设置直推粉丝算力已被领导人使用 -->
+	<update id="updateIsUseDIEJIA" parameterType="java.lang.String">
+		update fens_miner
+		set is_use_suanli = '1' 
+		where fens_user_id in (select id from fens_user where referee_phone =
+		#{phone,jdbcType=VARCHAR} and is_delete = 0 and attachment='1')
+		and is_use_suanli is null
+		and is_user_goumai is null
+		and is_delete = 0
+	</update>
 
 	<!-- 粉丝算力和（亲友团算力和） -->
 	<select id="selectSuanLiHe" resultType="java.lang.Double">
@@ -674,7 +685,7 @@
 		sum(miner_computing_power) as miner_computing_power
 		from fens_miner
 		where fens_user_id in (select id from fens_user where referee_phone =
-		#{phone,jdbcType=VARCHAR} and is_delete = 0)
+		#{phone,jdbcType=VARCHAR} and is_delete = 0 and attachment='1')
 		and is_use_suanli is null
 		and is_user_goumai is null
 		and is_delete = 0
@@ -688,7 +699,7 @@
 		from fens_miner
 		where fens_user_id in (select id from fens_user where
 		referee_phone =
-		#{phone,jdbcType=VARCHAR} and is_delete = 0)
+		#{phone,jdbcType=VARCHAR} and is_delete = 0 and attachment='1')
 		and
 		is_use_suanli is null
 		and is_user_goumai is null

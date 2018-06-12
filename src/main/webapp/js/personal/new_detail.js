@@ -15,9 +15,16 @@
 				 var news = data.data;
 				 var html = "";
 				 var time1 = news.createDate;
-				 time1 = time1.format("yyyy-MM-dd hh:mm:ss");
+				//time1 = time1.format("yyyy-MM-dd hh:mm:ss");
+				 time1 = fmtDate(time1);
+				 
+				 var title = "CPA公告";
+				 if(news.bak1 != null){
+					 title = news.bak1;
+				 }
+				 
 				 html += " <div class='title' style='text-align:center;'>"+
-					         "<span style='color:red;font-size: 22px;'>新闻公告</span>" +
+					         "<span style='color:red;font-size: 22px;'>"+title+"</span>" +
 					         "</div>" +
 				             "<div class='desc'>" +
 					         "<span>时间："+time1+"</span>" +

@@ -807,22 +807,41 @@ public class FensMinerServiceImpl implements FensMinerService {
 
 	// 算力叠加到矿机
 	@Override
-	public JsonResult kuanJiSuanLiHe(Double diejia, Integer fensUserId, Integer id) {
+	public JsonResult kuanJiSuanLiHe(Double diejia, Integer fensUserId, Integer id, String phone) {
+		
+		Double sum = fensMinerMapper.selectSuanLiHe(phone) * 0.05;
+		
+		if(sum < 0 ){
+			return JsonResult.build(500, "算力大于0才可叠加");
+		}
+		
 		FensMiner fensMiner2 = fensMinerMapper.selectByPrimaryKey(id);
 		if (fensMiner2.getFensUserId() != fensUserId) {
 			return JsonResult.build(500, "不是本人操作，请重新登入");
 		}
+		
+		double addPower = diejia;
+		if(fensMiner2.getDiejia()!=null){
+			addPower += Double.valueOf(fensMiner2.getDiejia());
+		}
 
 		FensMiner fensMiner = new FensMiner();
 		fensMiner.setId(id);
-		fensMiner.setDiejia(String.valueOf(diejia));
-		fensMiner.setFensUserId(fensUserId);
-		fensMiner.setIsUseSuanli("1");
-		int result = fensMinerMapper.updateByPrimaryKeySelective(fensMiner);
-		if (result != 1) {
-			return JsonResult.build(500, "添加算力失败");
+		fensMiner.setDiejia(String.valueOf(addPower));
+		// fensMiner.setFensUserId(fensUserId);
+		// fensMiner.setIsUseSuanli("1");//////波波你个坑，这个地方不能设置，设置是否使用了算力是设置到直推粉丝那里去，你个坑坑坑
+
+		int result = fensMinerMapper.updateIsUseDIEJIA(phone);
+		// if(result == 1){
+		int result2 = fensMinerMapper.updateByPrimaryKeySelective(fensMiner);
+		if (result2 != 1) {
+			return JsonResult.build(500, "叠加算力失败");
+		} else {
+			return JsonResult.ok();
 		}
-		return JsonResult.ok();
+		// }else{
+		// return JsonResult.build(500, "叠加算力失败");
+		// }
 	}
 
 	// 收益提取接口

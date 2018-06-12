@@ -199,6 +199,8 @@ public class FensMinerNewController {
 		String fensUserId = request.getParameter("uid");
 		// 矿机id
 		String id = request.getParameter("id");
+		// 矿机id
+		String phone = request.getParameter("phone");
 
 		if (StringUtils.isEmpty(diejia)) {
 
@@ -212,8 +214,13 @@ public class FensMinerNewController {
 
 			return JsonResult.build(500, "请重新登入");
 		}
+		if (StringUtils.isEmpty(phone)) {
+
+			return JsonResult.build(500, "请重新登入");
+		}
+		
 		return fensMinerService.kuanJiSuanLiHe(Double.valueOf(diejia), Integer.valueOf(fensUserId),
-				Integer.valueOf(id));
+				Integer.valueOf(id), phone);
 	}
 
 	// 收益提取接口
