@@ -59,7 +59,6 @@ var str;
 
 function sk(){
 //	var flag = checkLogin();
-	alert(111111111111);
 	var tmp = getTimestamp();
 	var rad = getRandom();
 	var ton = getTom();
@@ -90,9 +89,9 @@ function sk(){
 	    			},
 	    			function(isConfirm){ 
 	    			  if (isConfirm) { 
-	    				  window.location.href = "quan_detail2";
+	    				  window.location.href = "quan_detail2?"+str;
 	    			  } else { 
-	    				  window.location.href = "quan_detail2";
+	    				  window.location.href = "quan_detail2?"+str;
 	    			  } 
 	    	    });
 	    	}else{

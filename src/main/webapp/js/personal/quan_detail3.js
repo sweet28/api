@@ -1,9 +1,10 @@
 var uid = localStorage.getItem("uid");
+var str;
 (function(){
 	var url = location.search; //获取url中"?"符后的字串 
 	var theRequest = new Object(); 
 	if (url.indexOf("?") != -1) { 
-		var str = url.substr(1); 
+		str = url.substr(1); 
 	}
 	$.ajax({
 	     type: "post",
@@ -48,7 +49,7 @@ var uid = localStorage.getItem("uid");
 		 url: getAPIURL() + "quan/chuchang",
 		 dataType: "json",
 		 data:{
-			 "uid":uid,
+			 "id":str,
 			 "type":20,
 			 "dakuantype":2
 		 },
