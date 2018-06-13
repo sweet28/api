@@ -41,6 +41,10 @@ public class QuanDakuanRecord {
 
     private Integer type;
 
+    private Date dakuanDate;
+
+    private Date shoukuanDate;
+
     public Integer getId() {
         return id;
     }
@@ -191,5 +195,21 @@ public class QuanDakuanRecord {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public Date getDakuanDate() {
+        return dakuanDate;
+    }
+
+    public void setDakuanDate(Date dakuanDate) {
+        this.dakuanDate = dakuanDate;
+    }
+
+    public Date getShoukuanDate() {
+        return shoukuanDate;
+    }
+
+    public void setShoukuanDate(Date shoukuanDate) {
+        this.shoukuanDate = shoukuanDate;
     }
 }

@@ -62,19 +62,17 @@
 		</div>
 	</div>
 	<div class="cl"></div>
-	<div class="cy_list">
-		<div class="row title">
-			规则
-		</div>
-		<ul>
-			<li><span class="fl">购买1星券（7天）需持有两台CA1矿机才够资格购买</span></li>
-			<li><span class="fl">购买1星券（21天）需持有两台CA1矿机才够资格购买</span></li>
-			<li><span class="fl">购买2星券（15天）需持有一台CA2矿机才够资格购买</span></li>
-<!-- 			<li><span class="fl">购买3星券（15天）需持有一台CA2矿机才够资格购买</span></li> -->
+	<div class="order_list">
+		<ul id="a_miner">
+<!-- 			<li style="margin-top: 18px;"> -->
+<!-- 				<p>类型：</p> <span>订单号：</span> -->
+<!-- 				<p>收益比例：</p> <span>出局额度：￥</span><span -->
+<!-- 				style='float: right; background: #E91E63; display: inline-block; width: 20%; height: 30px; text-align: center; line-height: 30px;'> -->
+<!-- 					<a style='font-weight: bold; color: #fff;' href=''>详情</a> -->
+<!-- 			</span> -->
+<!-- 			</li> -->
 		</ul>
 	</div>
-
-
 	
 	<div class="space"></div>
 	<div class="menu">
@@ -87,5 +85,5 @@
 		</ul>
 	</div>
 </body>
-<script type="text/javascript" src="<%=path%>/js/personal/quan_detail.js"></script>
+<script type="text/javascript" src="<%=path%>/js/personal/quan_detail2.js"></script>
 </html>

@@ -20,12 +20,15 @@ public interface QuanBaoLiRecordMapper {
 	int updateByPrimaryKey(QuanBaoLiRecord record);
 
 	// 券宝理个人订单查询
-	List<QuanBaoLiRecord> selectList(@Param("fensUserId") Integer fensUserId);
+	List<QuanBaoLiRecord> selectList(QuanBaoLiRecord record);
 
 	// 查询还在进行中的券 
 	int selectsum(@Param("fensUserId") Integer fensUserId,@Param("quanId") Integer quanId);
 
 	// 没人每天只能购买一张券
 	List<QuanBaoLiRecord> check(@Param("fensUserId") Integer fensUserId);
+	
+	//根据粉丝Id查询券信息
+	QuanBaoLiRecord selectById(@Param("id") Integer id,@Param("orderType") Integer orderType);
 
 }

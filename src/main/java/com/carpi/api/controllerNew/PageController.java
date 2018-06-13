@@ -219,7 +219,7 @@ public class PageController {
 	
 	@RequestMapping("/quanbl")
 	public String quanbl() {
-		return "personal/quanbl";
+		return "quanbaoli/quanbl";
 	}
 	
 	@RequestMapping("/knowledge")
@@ -244,6 +244,51 @@ public class PageController {
 	
 	@RequestMapping("/quan_detail")
 	public String quan_detail() {
-		return "sys/quan_detail";
+		return "quanbaoli/quan_detail";
+	}
+	
+	@RequestMapping("/quan_detail2")
+	public String quan_detail2() {
+		return "quanbaoli/quan_detail2";
+	}
+	
+	@RequestMapping("/quan_detail3")
+	public String quan_detail3() {
+		return "quanbaoli/quan_detail3";
+	}
+	
+	@RequestMapping("/quan_list")
+	public String quan_list() {
+		return "quanbaoli/quan_list";
+	}
+	
+	@RequestMapping("/quan_SK")
+	public String quan_SK() {
+		return "quanbaoli/quan_SK";
+	}
+	
+	@RequestMapping("/quan_FKXQ")
+	public String quan_FKXQ() {
+		return "quanbaoli/quan_FKXQ";
+	}
+	
+	@RequestMapping("/quan_DSK")
+	public String quan_DSK() {
+		return "quanbaoli/quan_DSK";
+	}
+	
+	@RequestMapping("/quan_DSK_XQ")
+	public String quan_DSK_XQ() {
+		return "quanbaoli/quan_DSK_XQ";
+	}
+	
+	@RequestMapping("/quanbl2")
+	public String quanbl2() {
+		return "quanbaoli/quanbl2";
+	}
+	
+	@RequestMapping("/quanbl3")
+	public String quanbl3() {
+		return "quanbaoli/quanbl3";
 	}
 }

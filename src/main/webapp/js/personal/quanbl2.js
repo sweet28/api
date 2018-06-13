@@ -6,6 +6,7 @@
 		dataType : "json",
 		data : {
 			"uid" : uid,
+			"type":2
 		},
 		success:function(data){
 			var html = "";
@@ -16,7 +17,7 @@
 					if(type == 1){
 						type = "待匹配";
 					}else if(type == 2){
-						type = "购买待打款";
+						type = "购买待付款";
 					}else if(type == 3){
 						type = "收益进行中";
 					}else if(type == 4){
@@ -24,14 +25,14 @@
 					}else if(type == 5){
 						type = "提取带匹配";
 					}else if(type == 6){
-						type = "提取匹配待打款";
+						type = "提取匹配待付款";
 					}else if(type == 7){
 						type = "收益完成";
 					}else if(type == 8){
-						type = "提取待收款（买家已打款）";
+						type = "提取待收款（买家已付款）";
 					}
 					
-					html += "<li><a href='quan_detail?"+list[i].id+"'><div class='couponBox'><div class='title'><div class='tit'><span>"+list[i].name+"</span></div>" +
+					html += "<li><a href='quan_detail2?"+list[i].id+"'><div class='couponBox'><div class='title'><div class='tit'><span>"+list[i].name+"</span></div>" +
 							"<div class='end'><span>"+type+"</span></div></div><div class='desc'><div class='cd cd1'><b>"+list[i].earnProportion*100+"%</b>" +
 							"<p>预计周期收益率</p></div><div class='cd cd2'><b>"+list[i].day+"天</b><p>周期</p></div></div></div></a></li>";
 				}

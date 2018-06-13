@@ -448,33 +448,55 @@
 	</update>
 
 	<!-- 券宝理个人订单查询 -->
-	<select id="selectList" resultMap="BaseResultMap">
+	<select id="selectList" parameterType="com.carpi.api.pojo.QuanBaoLiRecord" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from quan_bao_li_record
-		where fens_user_id =
-		#{fensUserId,jdbcType=INTEGER}
-		and is_delete = 0 order by create_date desc
+		<where>
+		     is_delete = 0
+		    <if test="fensUserId != null">
+				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+			</if>
+		    <if test="orderType != null">
+				and order_type = #{orderType,jdbcType=INTEGER}
+			</if>
+			order by create_date desc
+		</where>
 	</select>
-	
+
 	<!-- 查询还在进行中的券 -->
 	<select id="selectsum" resultType="java.lang.Integer">
 		select
 		count(id)
-		from quan_bao_li_record
+		from
+		quan_bao_li_record
 		where fens_user_id =
 		#{fensUserId,jdbcType=INTEGER}
-		and is_delete = 0 and order_type != 7 and quan_id = #{quanId,jdbcType=INTEGER} order by create_date desc
+		and is_delete = 0 and order_type != 7 and quan_id =
+		#{quanId,jdbcType=INTEGER} order by create_date desc
 	</select>
 
-	<!-- 没人每天只能购买一张券      order_type = 8 待审核 -->
+	<!-- 没人每天只能购买一张券 order_type = 8 待审核 -->
 	<select id="check" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
 		from quan_bao_li_record
 		where create_date &gt;= date(now())
-		and create_date &lt;
-		DATE_ADD(date(now()),INTERVAL 1 DAY) and is_delete = 0 
-		and fens_user_id = #{fensUserId,jdbcType=INTEGER} 
+		and
+		create_date &lt;
+		DATE_ADD(date(now()),INTERVAL 1 DAY) and is_delete = 0
+		and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+	</select>
+
+	<!-- 根据粉丝Id查询券信息 order_type 1：购买待匹配 2：购买待打款 3：收益进行中（已打款） 4：周期结束 5：提取带匹配 
+		6：提取匹配待打款 7：收益完成 -->
+	<select id="selectById" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_bao_li_record
+		where id =
+		#{id,jdbcType=INTEGER}
+		and is_delete =
+		0 and order_type = #{orderType,jdbcType=INTEGER}
 	</select>
 </mapper>
