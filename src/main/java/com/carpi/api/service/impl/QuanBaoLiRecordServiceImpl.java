@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.BankCardMapper;
@@ -62,6 +63,39 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		} else {
 			return JsonResult.build(500, "无订单信息");
 		}
+	}
+	
+	// 券宝理积分信息汇总
+	@Override
+	public JsonResult couponGiftInfo(Integer fensUserId, String phone) {
+		
+		//查询1星券7天的
+		List<QuanBaoLiRecord> list1 = quanBaoLiRecordMapper.selectCouponGiftInfo(fensUserId,1,phone);
+		//查询1星券7天的
+		List<QuanBaoLiRecord> list2 = quanBaoLiRecordMapper.selectCouponGiftInfo(fensUserId,2,phone);
+		//查询1星券7天的
+		List<QuanBaoLiRecord> list3 = quanBaoLiRecordMapper.selectCouponGiftInfo(fensUserId,3,phone);
+		//查询1星券7天的
+		List<QuanBaoLiRecord> list4 = quanBaoLiRecordMapper.selectCouponGiftInfo(fensUserId,4,phone);
+		
+		Double couponTotalValue = 0.00;
+		couponTotalValue =  quanBaoLiRecordMapper.selectCouponGiftTotalValue(fensUserId, phone);
+		
+		double couponTenValue = 0.00;
+		if(couponTotalValue != null){
+			couponTenValue = couponTotalValue * 0.1;
+		};
+		
+		JSONObject jo = new JSONObject();
+		jo.put("one7", list1.size());
+		jo.put("one21", list2.size());
+		jo.put("two15", list3.size());
+		jo.put("three10", list4.size());
+		jo.put("couponTotalScore", couponTenValue);
+		jo.put("couponYiyongScore", 0);
+		
+		
+		return JsonResult.ok(jo);
 	}
 
 	// 查询券详情

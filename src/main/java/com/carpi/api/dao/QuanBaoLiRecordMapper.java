@@ -31,4 +31,8 @@ public interface QuanBaoLiRecordMapper {
 	//根据粉丝Id查询券信息
 	QuanBaoLiRecord selectById(@Param("id") Integer id,@Param("orderType") Integer orderType);
 
+	List<QuanBaoLiRecord> selectCouponGiftInfo(@Param("fensUserId") Integer fensUserId,@Param("quanId") Integer quanId,@Param("refereePhone")String refereePhone);
+
+	Double selectCouponGiftTotalValue(@Param("fensUserId") Integer fensUserId, @Param("refereePhone")String refereePhone);
+
 }

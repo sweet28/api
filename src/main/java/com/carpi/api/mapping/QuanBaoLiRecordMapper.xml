@@ -487,6 +487,27 @@
 		DATE_ADD(date(now()),INTERVAL 1 DAY) and is_delete = 0
 		and fens_user_id = #{fensUserId,jdbcType=INTEGER}
 	</select>
+	
+	<!-- 查询领导人券积分信息 -->
+	<select id="selectCouponGiftInfo" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_bao_li_record
+		where create_date &lt;= (select create_date from quan_bao_li_record where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 0 order by create_date  limit 1) 
+		and is_delete = 0
+		and fens_user_id in (select id from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR} and is_delete=0 and attachment='1') and quan_id = #{quanId,jdbcType=INTEGER}
+	</select>
+	
+	<!-- 直推粉丝的券总价值 -->
+	<select id="selectCouponGiftTotalValue" resultType="java.lang.Double">
+		select
+		sum(position) as
+		position
+		from quan_bao_li_record
+		where create_date &lt;= (select create_date from quan_bao_li_record where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 0 order by create_date  limit 1) 
+		and is_delete = 0
+		and fens_user_id in (select id from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR} and is_delete=0 and attachment='1')
+	</select>
 
 	<!-- 根据粉丝Id查询券信息 order_type 1：购买待匹配 2：购买待打款 3：收益进行中（已打款） 4：周期结束 5：提取带匹配 
 		6：提取匹配待打款 7：收益完成 -->

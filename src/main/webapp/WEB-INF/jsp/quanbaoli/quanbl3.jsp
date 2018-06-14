@@ -19,43 +19,22 @@
 </head>
 <body>
 	<header>
-		<span>券保理</span>
+		<span>券保理--待收款</span>
 		<a href="<%=path%>/cpa/personal" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>
 	<div class="cl"></div>
 	<div class="order">
 		<ul>
+			<li><a href="<%=path%>/cpa/couponGift"><img src="<%=path%>/images/o4.jpg" alt=""><p>我的券保理</p></a></li>
 			<li><a href="<%=path%>/cpa/quanbl"><img src="<%=path%>/images/o1.jpg" alt=""><p>我的券保理</p></a></li>
 			<li><a href="<%=path%>/cpa/quanbl2"><img src="<%=path%>/images/o3.jpg" alt=""><p>我的待付款</p></a></li>
-			<li><a href="<%=path%>/cpa/quanbl3"><img src="<%=path%>/images/o4.jpg" alt=""><p>我的待收款</p></a></li>
+			<li><a href="<%=path%>/cpa/quanbl3"><img src="<%=path%>/imagenew/pic1.png" alt=""><p>我的待收款</p></a></li>
 		</ul>
 	</div>
 	<div class="cl"></div>
 	<div class="coupon">
 		<ul id = "lieb">
-<!-- 			<li> -->
-<!-- 				<div class="couponBox"> -->
-<!-- 					<div class="title"> -->
-<!-- 						<div class="tit"> -->
-<!-- 							<span></span> -->
-<!-- 						</div> -->
-<!-- 						<div class="end"> -->
-<!-- 							<span></span> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 					<div class="desc"> -->
-<!-- 						<div class="cd cd1"> -->
-<!-- 							<b></b> -->
-<!-- 							<p>预计周期收益率</p> -->
-<!-- 						</div> -->
-<!-- 						<div class="cd cd2"> -->
-<!-- 							<b></b> -->
-<!-- 							<p>周期</p> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</li> -->
 		</ul>
 	</div>
 	

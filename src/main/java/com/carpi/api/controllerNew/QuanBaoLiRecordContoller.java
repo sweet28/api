@@ -51,6 +51,22 @@ public class QuanBaoLiRecordContoller {
 		quanBaoLiRecord.setOrderType(Integer.valueOf(type));
 		return quanBaoLiRecordService.selectOne(quanBaoLiRecord);
 	}
+	
+	// 券宝理领导人券积分信息汇总
+	@RequestMapping(value = "/couponGiftInfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult couponGiftInfo(HttpServletRequest request, HttpServletResponse response) {
+		// 粉丝id
+		String fensUserId = request.getParameter("uid");
+		if (fensUserId == null) {
+			return JsonResult.build(500, "请重新登入");
+		}
+		String phone = request.getParameter("phone");
+		if (phone == null) {
+			return JsonResult.build(500, "请重新登入");
+		}
+		return quanBaoLiRecordService.couponGiftInfo(Integer.valueOf(fensUserId),phone);
+	}
 
 	// 查询券详情
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

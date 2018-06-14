@@ -253,6 +253,11 @@ public class PageController {
 	}
 	
 	
+	@RequestMapping("/couponGift")
+	public String couponGift() {
+		return "quanbaoli/couponGift";
+	}
+	
 	@RequestMapping("/quan_detail")
 	public String quan_detail() {
 		return "quanbaoli/quan_detail";

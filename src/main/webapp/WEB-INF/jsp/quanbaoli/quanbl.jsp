@@ -19,14 +19,15 @@
 </head>
 <body>
 	<header>
-		<span>券保理列表</span>
+		<span>券保理--列表</span>
 		<a href="<%=path%>/cpa/personal" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>
 	<div class="cl"></div>
 	<div class="order">
 		<ul>
-			<li><a href="<%=path%>/cpa/quanbl"><img src="<%=path%>/images/o1.jpg" alt=""><p>我的券保理</p></a></li>
+			<li><a href="<%=path%>/cpa/couponGift"><img src="<%=path%>/images/o1.jpg" alt=""><p>我的券积分</p></a></li>
+			<li><a href="<%=path%>/cpa/quanbl"><img src="<%=path%>/imagenew/pic1.png" alt=""><p>我的券保理</p></a></li>
 			<li><a href="<%=path%>/cpa/quanbl2"><img src="<%=path%>/images/o3.jpg" alt=""><p>我的待付款</p></a></li>
 			<li><a href="<%=path%>/cpa/quanbl3"><img src="<%=path%>/images/o4.jpg" alt=""><p>我的待收款</p></a></li>
 		</ul>

@@ -25,4 +25,6 @@ public interface QuanBaoLiRecordService {
 
 	// 券保理卖家收款
 	JsonResult shouk(Integer pipeiId);
+
+	JsonResult couponGiftInfo(Integer fensUserId, String phone);
 }
