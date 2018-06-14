@@ -318,7 +318,7 @@ function daysBetween(DateOne,DateTwo){
 	return Math.abs(cha);
 }
 
-var cpaURL = "http://cpa.artforyou.cn:8088/";//"http://cpa.artforyou.cn/";//"http://cpa.artforyou.cn/";
+var cpaURL = "http://localhost:8080/";//"http://cpa.artforyou.cn/";//"http://cpa.artforyou.cn/";
 
 
 
