@@ -22,4 +22,9 @@ public interface FensEarnMapper {
     //粉丝收益列表
     List<FensEarn> selectFensEarn(@Param("fensUserId") Integer fensUserId);
     
+    //粉丝是否获取昨天全球交易量收益列表
+    List<FensEarn> selectIsGiftFensEarn(@Param("fensUserId") Integer fensUserId);
+    
+    //粉丝全球交易量收益列表
+    List<FensEarn> selectGradeGiftFensEarn(@Param("fensUserId") Integer fensUserId);
 }

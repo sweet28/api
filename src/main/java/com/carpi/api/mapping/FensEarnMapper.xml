@@ -261,4 +261,21 @@
 			</if>
 		</where>
 	</select>
+	
+	<!--粉丝收益列表 -->
+	<select id="selectGradeGiftFensEarn" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_earn
+		where is_delete = 0 and earn_type in (41,42,43)  and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+	</select>
+	
+	<!--粉丝是否获取昨天全球交易量收益列表 -->
+	<select id="selectIsGiftFensEarn" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_earn where
+			is_delete = 0 and earn_type in (41,42,43) and (TO_DAYS(NOW()) - TO_DAYS(create_date) = 0) 
+			and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+	</select>
 </mapper>

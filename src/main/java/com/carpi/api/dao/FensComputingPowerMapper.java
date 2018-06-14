@@ -22,6 +22,9 @@ public interface FensComputingPowerMapper {
     //粉丝算力明细
     List<FensComputingPower> selectAll(@Param("fensUserId")Integer fensUserId);
     
+    //粉丝节点算力奖励查询
+    List<FensComputingPower> selectFensGradePower(FensComputingPower record);
+    
     //粉丝算力求和
     Double sum(@Param("fensUserId")Integer fensUserId);
     

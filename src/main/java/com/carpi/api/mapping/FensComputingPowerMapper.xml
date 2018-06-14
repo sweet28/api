@@ -216,4 +216,21 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- 粉丝节点奖励 -->
+	<select id="selectFensGradePower" parameterType="com.carpi.api.pojo.FensComputingPower" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fen_computing_power
+		<where>
+			is_delete = 0
+			<if test="fensUserId != null">
+				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+			</if>
+			<if test="type != null">
+				and type = #{type,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+	
 </mapper>

@@ -67,6 +67,10 @@ function tangkuan(num){
 	}else if(num == 4){
 		url = "mq/sxx"
 	}
+	
+	
+//	swal("通知", "马上上线，请留意今天的通知");
+	
 	swal({
 		title : '是否确定购买',
 		type : 'success',
@@ -76,9 +80,10 @@ function tangkuan(num){
 		closeOnConfirm : false,
 		closeOnCancel : true,
 		
-//		showCancelButton: true,   
-//		closeOnConfirm: false,   
-//		animation: "slide-from-top",
+
+	// showCancelButton: true,
+	// closeOnConfirm: false,
+	// animation: "slide-from-top",
 	},function(isConfirm) {
 		if (isConfirm === false) return false;
 		$.ajax({

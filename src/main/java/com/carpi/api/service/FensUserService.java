@@ -82,4 +82,8 @@ public interface FensUserService {
 	JsonResult checkFens(Integer id, String phone);
 
 	JSONObject selectFensUserGrade(String phone, Integer uid);
+
+	public JsonResult selectGradePowerGift(Integer valueOf);
+
+	public JsonResult selectGradeEran(Integer valueOf);
 }

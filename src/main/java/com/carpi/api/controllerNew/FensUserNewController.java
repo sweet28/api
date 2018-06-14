@@ -393,7 +393,7 @@ public class FensUserNewController {
 		return jiaoYiService.JYLsum();
 	}
 
-	// 粉丝交易量(当天)
+	// 校验粉丝
 	@RequestMapping(value = "/checkFens", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult checkFens(HttpServletRequest request, HttpServletResponse response) {
@@ -411,5 +411,33 @@ public class FensUserNewController {
 
 		return fensUserService.checkFens(Integer.valueOf(id), phone);
 	}
+	
+	// 获取粉丝节点算力奖励列表
+	@RequestMapping(value = "/selectGradePowerGift", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult selectGradePowerGift(HttpServletRequest request, HttpServletResponse response) {
+
+		String id = request.getParameter("uid");
+
+		if (id == null) {
+			return JsonResult.build(500, "会员ID为空,请重新登录");
+		}
+
+		return fensUserService.selectGradePowerGift(Integer.valueOf(id));
+	}
+	
+	// 获取粉丝节点算力奖励列表
+		@RequestMapping(value = "/selectGradeEran", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public JsonResult selectGradeEran(HttpServletRequest request, HttpServletResponse response) {
+
+			String id = request.getParameter("uid");
+
+			if (id == null) {
+				return JsonResult.build(500, "会员ID为空,请重新登录");
+			}
+
+			return fensUserService.selectGradeEran(Integer.valueOf(id));
+		}
 
 }

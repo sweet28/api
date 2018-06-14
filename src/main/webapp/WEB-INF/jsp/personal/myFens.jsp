@@ -29,13 +29,18 @@
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>
 	<div class="cl"></div>
-	<div class="order">
+	<div class="order_list">
 		<ul>
-			<li><a href="#"><img src="<%=path%>/images/niu.png" alt=""><p style="color:red;font-weight:bold;"></p></a></li>
-			<li><a href="#"><img src="<%=path%>/images/ma.png" alt=""><p>亲友团:<span id="qytuan"></span></p></a></li>
-			<li><a href="#"><img src="<%=path%>/images/long.png" alt=""><p></p></a></li>
-			<li><a href="#"><img src="<%=path%>/images/ma.png" alt=""><p>粉丝团:<span id="fenstuan"></span></p></a></li>
-			<li><a href="#"><img src="<%=path%>/images/niu.png" alt=""><p></p></a></li>
+			<li>
+				<div class='text'>
+					<p>亲友团人数(人):<b id="qytuan"></b></p>
+					<p>粉丝团人数(人):<b id="fenstuan"></b></p>
+					<p>粉丝团算力(G):<b id="fenssl"></b></p>
+				</div>
+				<div class='look'>
+					<a href='#'></a>
+				</div>
+			</li>
 		</ul>
 	</div>
 	<div class="cl"></div>

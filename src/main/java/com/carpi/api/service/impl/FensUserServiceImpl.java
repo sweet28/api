@@ -39,6 +39,7 @@ import com.carpi.api.dao.BPoolMapper;
 import com.carpi.api.dao.BankCardMapper;
 import com.carpi.api.dao.FensAuthenticationMapper;
 import com.carpi.api.dao.FensComputingPowerMapper;
+import com.carpi.api.dao.FensEarnMapper;
 import com.carpi.api.dao.FensLoginStateMapper;
 import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensTeamMapper;
@@ -50,6 +51,7 @@ import com.carpi.api.pojo.BPool;
 import com.carpi.api.pojo.BankCard;
 import com.carpi.api.pojo.FensAuthentication;
 import com.carpi.api.pojo.FensComputingPower;
+import com.carpi.api.pojo.FensEarn;
 import com.carpi.api.pojo.FensLoginState;
 import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.pojo.FensTeam;
@@ -103,6 +105,9 @@ public class FensUserServiceImpl implements FensUserService {
 
 	@Autowired
 	private BankCardMapper bankcardMapper;
+	
+	@Autowired
+	private FensEarnMapper fensEarnMapper;
 
 	// 注册
 	@Override
@@ -889,7 +894,22 @@ public class FensUserServiceImpl implements FensUserService {
 		JSONObject jr = new JSONObject();
 		int gradeFlag = 0;// 会员等级标记，初始默认为无等级
 
-		List<FensUser> list = fensUserMapper.selectAllUserNoTJ();// 全部有效用户列表
+		List<FensUser> list = fensUserMapper.selectAllUserNoTJ();// 全部用户列表
+		List<FensUser> realList = new ArrayList<FensUser>();//全部用户 去重电话列表
+		List<String> realListOnlyPhone = new ArrayList<String>();//全部用户 去重电话列表只留电话
+		
+		System.out.println("------one size:"+list.size());
+		
+		for(int i = 0; i < list.size(); i++){
+			if(!realListOnlyPhone.contains(list.get(i).getPhone())){
+				realList.add(list.get(i));
+				realListOnlyPhone.add(list.get(i).getPhone());
+			}
+		}
+
+		System.out.println("------two size:"+realList.size());
+		System.out.println("------two size:"+realListOnlyPhone.size());
+		
 		List<FensMiner> mlist = fensMinerMapper.allMinerList();// 全部矿机列表
 
 		FensUser fm = fensUserMapper.selectByPrimaryKey(uid);
@@ -916,7 +936,7 @@ public class FensUserServiceImpl implements FensUserService {
 		 */
 		List<FensUser> listParentRecord = new ArrayList<FensUser>();// 粉丝团用户列表
 		List<Integer> listminer = new ArrayList<Integer>();// 粉丝团用户ID集合
-		getTreeChildRecord(listParentRecord, listminer, phone, list);// 递归获取粉丝团列表
+		getTreeChildRecord(listParentRecord, listminer, phone, realList);// 递归获取粉丝团列表
 
 		AFensTeamNum = listParentRecord.size();
 
@@ -975,22 +995,26 @@ public class FensUserServiceImpl implements FensUserService {
 				gradeFlag = 3;
 			}
 		}
+		//// 高级节点--end
 
-		String isGradeCan = "yes";
-
-		Date returnDate = null;
+		/*
+		 * 进行下一节点冲击是否合格及截止时间判定
+		 */
+		String isGradeCan = "yes";//是否能够冲击下一等级
+		Date returnDate = null;//冲击下一等级的截止时间
 		Date dt = new Date();
-
-		Format f = new SimpleDateFormat("yyyy-MM-dd");
+		Format f = new SimpleDateFormat("yyyy-MM-dd mm:hh:ss");
 		Calendar c = Calendar.getInstance();
-
-		int n = 28;
+		int n = 28;//粉丝注册时间至冲击下一等级日期的间隔，默认为冲击普通节点
+		String nextGrade = "";
+		
 		if (gradeFlag == 0) {
 			c.setTime(fm.getCreateDate());
 			c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
 			if (c.getTime().getTime() >= dt.getTime()) {
 				isGradeCan = "yes";
+				nextGrade = "普通节点";
 				returnDate = fm.getCreateDate();
 			} else {
 				n = 70;
@@ -999,6 +1023,7 @@ public class FensUserServiceImpl implements FensUserService {
 
 				if (c.getTime().getTime() >= dt.getTime()) {
 					isGradeCan = "yes";
+					nextGrade = "高级节点";
 					returnDate = fm.getCreateDate();
 				} else {
 					n = 130;
@@ -1007,6 +1032,7 @@ public class FensUserServiceImpl implements FensUserService {
 
 					if (c.getTime().getTime() >= dt.getTime()) {
 						isGradeCan = "yes";
+						nextGrade = "超级节点";
 						returnDate = fm.getCreateDate();
 					} else {
 						isGradeCan = "no";
@@ -1015,7 +1041,9 @@ public class FensUserServiceImpl implements FensUserService {
 			}
 		}
 
-		// 冲击一个级别时间不够则到下一个级别
+		/*
+		 *  冲击一个级别时间不够则到截止到下一个级别
+		 */
 		if (gradeFlag == 1) {
 			n = 70;
 			c.setTime(fm.getCreateDate());
@@ -1023,6 +1051,7 @@ public class FensUserServiceImpl implements FensUserService {
 
 			if (c.getTime().getTime() >= dt.getTime()) {
 				isGradeCan = "yes";
+				nextGrade = "高级节点";
 				returnDate = fm.getCreateDate();
 			} else {
 				n = 130;
@@ -1031,13 +1060,13 @@ public class FensUserServiceImpl implements FensUserService {
 
 				if (c.getTime().getTime() >= dt.getTime()) {
 					isGradeCan = "yes";
+					nextGrade = "超级节点";
 					returnDate = fm.getCreateDate();
 				} else {
 					isGradeCan = "no";
 				}
 			}
 		}
-
 		if (gradeFlag == 2) {
 			n = 130;
 			c.setTime(fm.getCreateDate());
@@ -1045,6 +1074,7 @@ public class FensUserServiceImpl implements FensUserService {
 
 			if (c.getTime().getTime() >= dt.getTime()) {
 				isGradeCan = "yes";
+				nextGrade = "超级节点";
 				returnDate = fm.getCreateDate();
 			} else {
 				isGradeCan = "no";
@@ -1057,10 +1087,134 @@ public class FensUserServiceImpl implements FensUserService {
 			jr.put("endTime", f.format(c.getTime()));
 		}
 
-		// Date tomorrow = c.getTime();
-		// System.out.println("明天是:" + f.format(tomorrow));
+		
+		/**
+		 *
+		 * 将节点等级达到的，进行分红及算力奖励
+		 * 先
+		 * 
+		 **/
+		/*分红  总量按50000为基数分  普通节点50个  高级节点 10个  超级节点 2个
+		 * 
+		 * 普通节点：当天获得前一天交易cpa总量手续费30%的收益分红，
+		 * 高级节点：当天获得前一天交易cpa总量手续费20%的收益分红，
+		 * 超级节点：当天获得前一天交易cpa总量手续费10%的收益分红，
+		 * 
+		 * 算力  只赠送一次
+		 * 普通节点：初次达到获得0.055
+		 * 高级节点：初次达到获得0.55
+		 * 超级节点：初次达到获得5.5
+		 */
+		
+		//// 分红----start
+		double cpaGiftBeishu = 60;//总量按50000为基数分  普通节点50个  高级节点 10个  超级节点 2个
+		double cpaTotal = 0.00;
+		
+		////设置时间
+		Calendar c2 = Calendar.getInstance();
+		Date dt2 = new Date();
+		c2.setTime(dt2);
+		c2.add(Calendar.DAY_OF_MONTH, -1);
+		
+		Date yesterday = c2.getTime();
+		System.out.println("昨天是:" + f.format(yesterday));
+		
+		cpaTotal = fensTransactionMapper.jylYesterdaySum();//查询昨天交易量
+		if(cpaTotal > 0){
+			
+			List<FensEarn> eranList =  fensEarnMapper.selectIsGiftFensEarn(uid);
+			
+			if(eranList.size() <= 0 ){
+				Integer eranType = 0;
+				
+				if(gradeFlag == 1){
+					eranType = 41;
+					cpaGiftBeishu = 50;
+				}
+				if(gradeFlag == 2){
+					eranType = 42;
+					cpaGiftBeishu = 10;
+				}
+				if(gradeFlag == 3){
+					eranType = 43;
+					cpaGiftBeishu = 2;
+				}
 
-		jr.put("grade", gradeFlag);
+				double shijiCpa = cpaTotal*0.2/cpaGiftBeishu;
+				
+				FensEarn fEarn = new FensEarn();
+				
+				fEarn.setFensUserId(uid);
+				fEarn.setCreateDate(TimeUtil.getTimeStamp());
+				fEarn.setIsDelete(0);
+				fEarn.setEarnType(eranType);
+				fEarn.setEarnDate(TimeUtil.getTimeStamp());
+				fEarn.setEarnState(2);//收益状态 1代表不锁定  2代表锁定
+				fEarn.setEarnCount(shijiCpa);
+				
+				fensEarnMapper.insertSelective(fEarn);
+			}
+			
+		}
+		
+		//// 分红----end
+		
+		//// 算力奖励----start
+		
+		if(gradeFlag == 1){
+			FensComputingPower fcp = new FensComputingPower();
+			fcp.setType(41);//41：普通节点；42：高级节点；43：超级节点
+			fcp.setFensUserId(uid);
+			fcp.setCreateDate(TimeUtil.getTimeStamp());
+			fcp.setIsDelete(0);
+			
+			List<FensComputingPower> fcpList = fensComputingPowerMapper.selectFensGradePower(fcp);
+			if(fcpList.size() <= 0){
+				fcp.setComputingPower(0.055);
+				
+				int fcpResult = fensComputingPowerMapper.insertSelective(fcp);
+			}
+		}
+		
+		if(gradeFlag == 2){
+			FensComputingPower fcp = new FensComputingPower();
+			fcp.setType(42);//41：普通节点；42：高级节点；43：超级节点
+			fcp.setFensUserId(uid);
+			fcp.setCreateDate(TimeUtil.getTimeStamp());
+			fcp.setIsDelete(0);
+			
+			List<FensComputingPower> fcpList = fensComputingPowerMapper.selectFensGradePower(fcp);
+			if(fcpList.size() <= 0){
+				fcp.setComputingPower(0.55);
+				
+				int fcpResult = fensComputingPowerMapper.insertSelective(fcp);
+			}
+		}
+		
+		if(gradeFlag == 3){
+			FensComputingPower fcp = new FensComputingPower();
+			fcp.setType(43);//41：普通节点；42：高级节点；43：超级节点
+			fcp.setFensUserId(uid);
+			fcp.setCreateDate(TimeUtil.getTimeStamp());
+			fcp.setIsDelete(0);
+			
+			List<FensComputingPower> fcpList = fensComputingPowerMapper.selectFensGradePower(fcp);
+			if(fcpList.size() <= 0){
+				fcp.setComputingPower(5.5);
+				
+				int fcpResult = fensComputingPowerMapper.insertSelective(fcp);
+			}
+		}
+		
+		//// 算力奖励----end
+		
+		
+		
+		/*
+		 * 返回json数据结果
+		 */
+		jr.put("grade", gradeFlag);//当前等级
+		jr.put("nextgrade", nextGrade);//有希望冲击的下一等级
 		jr.put("suanli", APCPower);
 		jr.put("fensteamNum", AFensTeamNum);
 		jr.put("isGradeCan", isGradeCan);
@@ -1461,6 +1615,31 @@ public class FensUserServiceImpl implements FensUserService {
 		jo.put("minerEarn", minerEarn);
 
 		return jo;
+	}
+
+	@Override
+	public JsonResult selectGradePowerGift(Integer uid) {
+		
+		FensComputingPower fcp = new FensComputingPower();
+		fcp.setFensUserId(uid);
+		
+		List<FensComputingPower> list = fensComputingPowerMapper.selectFensGradePower(fcp);
+		if(list.size() > 0){
+			return JsonResult.ok(list);
+		}
+		
+		return JsonResult.build(500, "暂无数据");
+	}
+
+	@Override
+	public JsonResult selectGradeEran(Integer uid) {
+		
+		List<FensEarn> list = fensEarnMapper.selectGradeGiftFensEarn(uid);
+		if(list.size() > 0){
+			return JsonResult.ok(list);
+		}
+		
+		return JsonResult.build(500, "暂无数据");
 	}
 
 }

@@ -78,6 +78,22 @@
 		</property>
 	</bean>
 	
+	<!-- SpringMvc 限流之 RateLimiter start -->
+	<bean id="requestLimitInterceptor" class="com.carpi.filter.RequestLimitInterceptor">
+        <property name="globalRateLimiter" value="100" />
+        <property name="urlProperties">
+            <props>
+                <prop key="/creditcloud/test">100</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--拦截器配置-->
+    <mvc:interceptors>
+        <ref bean="requestLimitInterceptor" />
+    </mvc:interceptors>
+	<!-- SpringMvc 限流之 RateLimiter end -->
+	
 	<!-- 全局异常处理 coffee add 1123-->
 <!--     <bean id="exceptionHandler" class="com.arttraining.commons.util.DefaultExceptionHandler" /> -->
         

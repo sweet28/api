@@ -39,6 +39,9 @@ function Gift() {
 							   "</ul>";
 	  				});
 	  	        	$("#qytuan").html(list.length);
+	  	        	
+	  	        	localStorage.setItem("qinyouteamnum",list.length);
+	  	        	
 	  	        	$("#gift").html(html);
 	  	        }
 	    	  
@@ -49,7 +52,7 @@ function Gift() {
   }
   
   function fensTuan(){
-	  $.ajax({
+	  /*$.ajax({
 	      type: "post",
 	      url: getAPIURL() + "user/fens/listFens2",
 	      dataType: "json",
@@ -58,13 +61,17 @@ function Gift() {
 	      },
 	      success: function (data) {
 			  $("#fenstuan").html(data.fensList);
+			  $("#fenssl").html(data.fensuanli);
 	      },error:function(){
 	      }, headers: {
 	        "Authorization": "Bearer " + getTOKEN()
 	      }
-	    });
+	    });*/
+	  console.log("hello cpa");
+	  $("#fenstuan").html(localStorage.getItem("fensteamnum"));
+	  $("#fenssl").html(localStorage.getItem("fensteampower"));
   }
-
+  
   (function () {
     _$gift = $("#gift");
     comptime();

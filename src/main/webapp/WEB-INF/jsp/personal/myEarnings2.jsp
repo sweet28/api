@@ -34,7 +34,7 @@
 			<li><a href="<%=path%>/cpa/myEarnings"><img src="<%=path%>/images/niu.png" alt=""><p>个人算力</p></a></li>
 			<li><a href="<%=path%>/cpa/myEarnings2"><img src="<%=path%>/images/ma.png" alt=""><p style="color:red;font-weight:bold;">直推算力</p></a></li>
 			<li><a href="<%=path%>/cpa/myEarnings3"><img src="<%=path%>/images/long.png" alt=""><p>直推收益</p></a></li>
-			<li><a href="<%=path%>/cpa/myEarnings4"><img src="<%=path%>/images/ma.png" alt=""><p>粉丝算力</p></a></li>
+			<li><a href="<%=path%>/cpa/myEarnings4"><img src="<%=path%>/images/ma.png" alt=""><p>节点收益</p></a></li>
 			<li><a href="#"><img src="<%=path%>/images/niu.png" alt=""><p>其他</p></a></li>
 		</ul>
 	</div>

@@ -76,6 +76,35 @@
   
 //  function comptime() {
   console.log(9999999);
+  
+    if(localStorage.getItem("fensteampower")!=null){
+		$("#suanli").html(localStorage.getItem("fensteampower"));
+	}
+	if(localStorage.getItem("fensteamnum")!=null){
+		$("#fensteamNum").html(localStorage.getItem("fensteamnum"));
+	}
+	if(localStorage.getItem("gradNum")!=null){
+		  var grade2 = localStorage.getItem("gradNum");
+	  	  if(grade2==0){
+	  		  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade0.png">'+localStorage.getItem("fensgrade"));
+	  	  }
+	  	  else if(grade2==1){
+	  		  grade2 = "普通节点";
+	  		  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade1.png">'+localStorage.getItem("fensgrade"));
+	  	  }
+	  	  else if(grade2==2){
+	  		  grade2 = "高级节点";
+	  		  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade2.png">'+localStorage.getItem("fensgrade"));
+	  	  }
+	  	  else if(grade2==3){
+	  		  grade2 = "超级节点";
+	  		  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade3.png">'+localStorage.getItem("fensgrade"));
+	  	  }
+	}
+	if(localStorage.getItem("endTime")!=null){
+		$("#endTime").html(localStorage.getItem("endTime"));
+	}
+  
     $.ajax({
 	      type: "post",
 	      url: getAPIURL() + "user/fens/selectFensUserGrade",
@@ -88,32 +117,56 @@
 	    	  console.log(data);
 			  $("#suanli").html(data.suanli);
 			  //$("#grade").html(data.grade);
+			  var grade = "精英粉丝";
+			  var gradNum = data.grade;
 			  if(data.grade==0){
-				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade0.png">');
+				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade0.png">'+grade);
 			  }
 			  else if(data.grade==1){
-				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade1.png">');
+				  grade = "普通节点";
+				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade1.png">'+grade);
 			  }
 			  else if(data.grade==2){
-				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade2.png">');
+				  grade = "高级节点";
+				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade2.png">'+grade);
 			  }
 			  else if(data.grade==3){
-				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade3.png">');
+				  grade = "超级节点";
+				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade3.png">'+grade);
 			  }
 			  
 			  $("#fensteamNum").html(data.fensteamNum);
+			  var endTime;
 			  if(data.isGradeCan == 'yes'){
-				  $("#endTime").html(data.endTime);
+				  endTime = "冲击<"+data.nextgrade+">截止时间:"+data.endTime;
+				  $("#endTime").html(endTime);
 			  }else{
-				  $("#endTime").html("在规定时间内无法冲击任何等级");
+				  endTime = "在规定时间内无法冲击任何等级";
+				  $("#endTime").html(endTime);
 			  }
+			  
+			  localStorage.setItem("fensteampower",data.suanli);
+			  localStorage.setItem("fensteamnum",data.fensteamNum);
+			  localStorage.setItem("fensgrade",grade);
+			  localStorage.setItem("endTime",endTime);
+			  localStorage.setItem("gradNum",gradNum);
+			  
 	      },error:function(){
 	    	  console.log(333);
 	      }, headers: {
 	        "Authorization": "Bearer " + getTOKEN()
 	      }
     });
-//	  }
+    
+//    $("#grade").html("节点区块同步升级");
+//    $("#grade").html("节点区块同步升级");
+//    $("#suanli").html("节点区块同步升级");
+//	$("#endTime").html("节点区块同步升级");
+//	
+//	localStorage.setItem("fensteampower","节点区块同步升级");
+//    localStorage.setItem("fensteamnum","节点区块同步升级");
+//    localStorage.setItem("fensgrade","节点区块同步升级");
+//    localStorage.setItem("endTime","节点区块同步升级");
 
 })();
 

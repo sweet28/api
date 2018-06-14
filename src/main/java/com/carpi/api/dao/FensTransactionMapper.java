@@ -45,6 +45,8 @@ public interface FensTransactionMapper {
 	
 	//粉丝交易量(当天)
 	Double JYLsum();
+	
+	Double jylYesterdaySum();
 
 	FensTransaction selectByPrimaryKeyDESC(Integer fensUserId);
 	

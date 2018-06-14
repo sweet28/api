@@ -478,6 +478,15 @@
 		and is_delete = 0  and trader_state = 3
 	</select>
 	
+	<!-- 粉丝交易量(昨天天) -->
+	<select id="jylYesterdaySum" resultType="java.lang.Double">
+		select 
+		sum(trader_count) as trader_count
+		from fens_transaction
+		where (TO_DAYS(NOW()) - TO_DAYS(create_date) = 1)
+		and is_delete = 0  and trader_state = 3
+	</select>
+	
 	<select id="selectByPrimaryKeyDESC" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select

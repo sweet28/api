@@ -9,73 +9,102 @@ function Gift() {
   console.log(100);
   function comptime() {
     $.ajax({
-      type: "post",
-      url: getAPIURL() + "user/fens/listFens2",
-      dataType: "json",
-      data: {
-    	  "sh": localStorage.getItem("phone")
-      },
-      success: function (data) {
-    	  console.log(data);
-		  $("#fenstuan").html(data.fensList);
-		  $("#fenssl").html(data.fensuanli);
-      },error:function(){
-    	  console.log(333);
-      }, headers: {
-        "Authorization": "Bearer " + getTOKEN()
-      }
-    });
-  }
-  console.log(111);
-  
-  function kuangjiList() {
-	    $.ajax({
 	      type: "post",
-	      url: getAPIURL() + "user/fens/listQINYOU",
+	      url: getAPIURL() + "user/fens/selectGradePowerGift",
 	      dataType: "json",
 	      data: {
-	    	  "sh": localStorage.getItem("phone")
+	    	  "uid": localStorage.getItem("uid")
 	      },
 	      success: function (data) {
-			    var list = data.list;
-	  	        if (list.length <= 0) {
-	  	        	$("#qytuan").html(0);
-	  	        	$("#gift").html("暂无数据");
-	  	        } else {
-	  	        	var html = "";
-	  	        	$.each( list, function(index, content){
-	  	        		var inph = content.phone;
-	  	        		inph = inph.substring(0, 3) + "****" + inph.substring(7, 11);
-	  	        		
-	  	        		var nm = content.name;
-	  	        		nm = "***"+nm.substring(1);
-	  				    //html += "<tr><td class='first'>"+(index+1)+"</td><td>"+nm+"</td><td>"+inph+"</td></tr>";
-	  				    html += "<ul>" + (index+1) +
-			    					"<li>" +
-										"<div class='text'>" +
-											"<p>名称：<b>"+nm+"</b></p>" +
-											"<p>号码：<b>"+inph+"</b></p>" +
-										"</div>" +
-										"<div class='look'>" +
-											"<a href='#'></a>" +
-										"</div>" +
-									"</li>" +
-							   "</ul>";
-	  				});
-	  	        	$("#qytuan").html(list.length);
-	  	        	$("#gift").html(html);
-	  	        }
+	    	  console.log(data);
 	    	  
+	    	  if(data.status == 200){
+	    		  var list = data.data;
+	    		  var html = "";
+	    		  $.each( list, function(index, fcp){
+	    			  var giftType = "节点奖励:";
+	    			  
+	    			  if(fcp.type == 41){
+	    				  var giftType = "普通节点奖励:";
+	    			  }
+					  if(fcp.type == 42){
+						  var giftType = "高级节点奖励:";
+					  }
+					  if(fcp.type == 43){
+						  var giftType = "超级节点奖励:";
+					  }
+					  
+	    			  html += "<p>"+giftType+"<b>"+fcp.computingPower+"</b></p>";
+	    		  });
+	    		  
+	    		  $("#fcpgift").html(html);
+	    	  }else{
+	    		  $("#fcpgift").html(data.msg);
+	    	  }
+	      },error:function(){
+	    	  console.log(333);
 	      }, headers: {
 	        "Authorization": "Bearer " + getTOKEN()
 	      }
+    });
+	  console.log("hello cpa");
+	  $("#fenstuan").html(localStorage.getItem("fensteamnum"));
+	  $("#fenssl").html(localStorage.getItem("fensteampower"));
+	  $("#fensgrade").html(localStorage.getItem("fensgrade"));
+  }
+  console.log(111);
+  
+  function earnGift() {
+	    $.ajax({
+		      type: "post",
+		      url: getAPIURL() + "user/fens/selectGradeEran",
+		      dataType: "json",
+		      data: {
+		    	  "uid": localStorage.getItem("uid")
+		      },
+		      success: function (data) {
+		    	  console.log(data);
+		    	  
+		    	  if(data.status == 200){
+		    		  var list = data.data;
+		    		  var html = "";
+		    		  $.each( list, function(index, feran){
+		    			  var giftType = "节点收益分红:";
+		    			  
+		    			  if(feran.type == 41){
+		    				  var giftType = "普通节点收益分红:";
+		    			  }
+						  if(feran.type == 42){
+							  var giftType = "高级节点收益分红:";
+						  }
+						  if(feran.type == 43){
+							  var giftType = "超级节点收益分红:";
+						  }
+						  
+		    			  html += "<p>"+giftType+"<b>"+feran.earnCount+"</b>--获取时间:"+fmtDate(feran.earnDate)+"</p>";
+		    		  });
+		    		  
+		    		  $("#earngift").html(html);
+		    	  }else{
+		    		  $("#earngift").html(data.msg);
+		    	  }
+		      },error:function(){
+		    	  console.log(333);
+		      }, headers: {
+		        "Authorization": "Bearer " + getTOKEN()
+		      }
 	    });
+		  console.log("hello cpa");
+		  $("#fenstuan").html(localStorage.getItem("fensteamnum"));
+		  $("#fenssl").html(localStorage.getItem("fensteampower"));
+		  $("#fensgrade").html(localStorage.getItem("fensgrade"));
 	  }
 
   (function () {
     _$gift = $("#gift");
     comptime();
-    kuangjiList();
+    earnGift();
+    
   })();
 }
 var gift;

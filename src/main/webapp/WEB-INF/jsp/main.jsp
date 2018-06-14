@@ -38,7 +38,7 @@
 			<li><a href="<%=path%>/cpa/knowledge"><img src="<%=path%>/imagenew/n3.jpg" alt=""><p>资料库</p></a></li>
 			<li><a href="<%=path%>/cpa/myFens"><img src="<%=path%>/imagenew/n4.jpg" alt=""><p>粉丝团</p></a></li>
 			<li><a href="<%=path%>/cpa/myEarnings"><img src="<%=path%>/imagenew/n5.jpg" alt=""><p>收益</p></a></li>
-			<li><a href="#"><img src="<%=path%>/imagenew/n6.jpg" alt=""><p>券保理</p></a></li>
+			<li><a href="<%=path%>/cpa/quanbl"><img src="<%=path%>/imagenew/n6.jpg" alt=""><p>券保理</p></a></li>
 			<%-- <li><a href="#"><img src="<%=path%>/imagenew/n7.jpg" alt=""><p>奖励名单</p></a></li> --%>
 			<li><a href="<%=path%>/cpa/myWorkOrder"><img src="<%=path%>/imagenew/n8.jpg" alt=""><p>工单反馈</p></a></li>
 		</ul>
@@ -57,6 +57,7 @@
 				<div class="row">
 					<div class="img">
 						<img src="<%=path%>/imagenew/pic1.png" alt="">
+						<p>总数:<span style="color:#ff5722;font-weight:bold;">9999</span></p>
 					</div>
 					<div class="txt">
 						<div class="title">
@@ -69,21 +70,22 @@
 						</div>
 					</div>
 					<div class="price">
-						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
-						<a href="javascript:tangkuan(1);">标价(￥)：200.00</a>
+						<p style="color:#ff5722;font-weight:bold;">火热发布</p>
+						<a href="javascript:tangkuan(1);">标价(￥)：200</a>
 					</div>
 				</div>
 				<div class="row ping">
 					<span></span>
 					<span>持有两台CA1矿机可购买一张</span>
 <!-- 					<span>稳步收益</span> -->
-					<span>剩余数量：<b id="yxing">112</b>张</span>
+					<span>剩余数量：<b id="yxing" style="color:#ff5722;"></b>张</span>
 				</div>
 			</li>
 			<li>
 				<div class="row">
 					<div class="img">
 						<img src="<%=path%>/imagenew/pic1.png" alt="">
+						<p>总数:<span style="color:#ff5722;font-weight:bold;">6666</span></p>
 					</div>
 					<div class="txt">
 						<div class="title">
@@ -96,20 +98,21 @@
 						</div>
 					</div>
 					<div class="price">
-						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
+						<p style="color:#ff5722;font-weight:bold;">火热发布</p>
 						<a href="javascript:tangkuan(2);">标价(￥)：200</a>
 					</div>
 				</div>
 				<div class="row ping">
 					<span></span>
 					<span>持有两台CA1矿机可购买一张</span>
-					<span>剩余数量：<b id="exing">112</b>张</span>
+					<span>剩余数量：<b id="exing" style="color:#ff5722;"></b>张</span>
 				</div>
 			</li>
 			<li>
 				<div class="row">
 					<div class="img">
 						<img src="<%=path%>/imagenew/pic1.png" alt="">
+						<p>总数:<span style="color:#ff5722;font-weight:bold;">3333</span></p>
 					</div>
 					<div class="txt">
 						<div class="title">
@@ -122,14 +125,14 @@
 						</div>
 					</div>
 					<div class="price">
-						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
+						<p style="color:#ff5722;font-weight:bold;">火热发布</p>
 						<a href="javascript:tangkuan(3);">标价(￥)：500</a>
 					</div>
 				</div>
 				<div class="row ping">
 					<span></span>
 					<span>持有一台CA2矿机可购买一张</span>
-					<span>剩余数量：<b id="sxing">112</b>张</span>
+					<span>剩余数量：<b id="sxing" style="color:#ff5722;"></b>张</span>
 				</div>
 			</li>
 			
@@ -137,6 +140,7 @@
 				<div class="row">
 					<div class="img">
 						<img src="<%=path%>/imagenew/pic1.png" alt="">
+						<p>总数:<span style="color:#ff5722;font-weight:bold;">1111</span></p>
 					</div>
 					<div class="txt">
 						<div class="title">
@@ -149,14 +153,14 @@
 						</div>
 					</div>
 					<div class="price">
-						<p style="color:#ff5722;font-weight:bold;">近期上线</p>
-						<a href="javascript:tangkuan(3);">标价(￥)：1000</a>
+						<p style="color:#ff5722;font-weight:bold;">火热发布</p>
+						<a href="javascript:tangkuan(4);">标价(￥)：1000</a>
 					</div>
 				</div>
 				<div class="row ping">
 					<span></span>
-					<span>持有一台CA2矿机可购买一张</span>
-					<span>剩余数量：<b id="ssxing">112</b>张</span>
+					<span>持有一台CA3矿机可购买一张</span>
+					<span>剩余数量：<b id="ssxing" style="color:#ff5722;"></b>张</span>
 				</div>
 			</li>
 		</ul>

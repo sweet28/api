@@ -154,7 +154,7 @@ function getObjectURL(file) {
 			// 姓名验证
 			if (uname.val() == "") {
 				swal({
-		      		  title: "请上传身份证图片！",
+		      		  title: "未识别到身份证，请上传身份证图片！",
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
@@ -162,7 +162,7 @@ function getObjectURL(file) {
 			}
 			if (uname.length != 1) {
 				swal({
-		      		  title: "请上传身份证图片！",
+		      		  title: "未识别到身份证，请上传身份证图片！",
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
@@ -172,7 +172,7 @@ function getObjectURL(file) {
 			// 身份证号做验证
 			if (cardnum.val() == "") {
 				swal({
-		      		  title: "请上传身份证图片！",
+		      		  title: "未识别到身份证，请上传身份证图片！",
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
@@ -180,7 +180,7 @@ function getObjectURL(file) {
 			}
 			if (cardnum.length != 1) {
 				swal({
-		      		  title: "请上传身份证图片！",
+		      		  title: "未识别到身份证，请上传身份证图片！",
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
@@ -188,7 +188,7 @@ function getObjectURL(file) {
 			}
 			if (!pattern.test(cardnum.val())) {
 				swal({
-		      		  title: "请上传身份证图片！",
+		      		  title: "未识别到身份证，请上传身份证图片！",
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
@@ -290,6 +290,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			if (phone_arr.length != 1) {
@@ -298,6 +299,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			if (!reg1.test(phonenum.val())) {
@@ -306,48 +308,54 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			// 姓名验证
 			if (uname.val() == "") {
 				swal({
-		      		  title: "请上传身份证图片",
+		      		  title: "未识别到身份证，请上传身份证图片",
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			if (uname.length != 1) {
 				swal({
-		      		  title: "请上传身份证图片",
+		      		  title: "未识别到身份证，请上传身份证图片",
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			// 身份证号做验证
 			if (cardnum.val() == "") {
 				swal({
-		      		  title: "请上传身份证图片",
+		      		  title: "未识别到身份证，请上传身份证图片",
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			if (cardnum.length != 1) {
 				swal({
-		      		  title: "请上传身份证图片",
+		      		  title: "未识别到身份证，请上传身份证图片",
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			if (!pattern.test(cardnum.val())) {
 				swal({
-		      		  title: "请上传身份证图片",
+		      		  title: "未识别到身份证，请上传身份证图片",
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			// 密码验证
@@ -357,6 +365,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			if (password_arr.length != 1) {
@@ -365,6 +374,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			// 0630修改注册手机号正则
@@ -374,6 +384,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			if (valicode.val().trim() == "") {
@@ -382,6 +393,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			}
 			var codeReg = /^[A-Za-z0-9]*$/;
@@ -394,6 +406,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
+				$("#register_btn").show();
 				return false;
 			} else {
 				$("#modal").show();
@@ -435,6 +448,7 @@ function getObjectURL(file) {
 					        		  location.href = 'index.jsp';
 					        	  }
 				        	}); 
+							$("#register_btn").show();
 							
 						} else {
 							$("#modal").hide();
@@ -443,11 +457,13 @@ function getObjectURL(file) {
 					      		  icon: "error",
 					      		  button: "确定",
 				      	    });
+							$("#register_btn").show();
 							return false;
 						}
 					},
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
 						$("#modal").hide();
+						$("#register_btn").show();
 						if (XMLHttpRequest.status == 400) {
 							var obj = JSON.parse(XMLHttpRequest.responseText);
 							swal({
@@ -467,6 +483,7 @@ function getObjectURL(file) {
 	});
 	// 注册按钮
 	$("#register_btn").click(function() {
+		$("register_btn").hide();
 		reg(3);
 	});
 	// 切换密码的可见状态

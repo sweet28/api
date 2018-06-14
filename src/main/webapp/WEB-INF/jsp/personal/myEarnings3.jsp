@@ -34,14 +34,14 @@
 			<li><a href="<%=path%>/cpa/myEarnings"><img src="<%=path%>/images/niu.png" alt=""><p>个人算力</p></a></li>
 			<li><a href="<%=path%>/cpa/myEarnings2"><img src="<%=path%>/images/ma.png" alt=""><p>直推算力</a></li>
 			<li><a href="<%=path%>/cpa/myEarnings3"><img src="<%=path%>/images/long.png" alt=""><p style="color:red;font-weight:bold;">直推收益</p></a></li>
-			<li><a href="<%=path%>/cpa/myEarnings4"><img src="<%=path%>/images/ma.png" alt=""><p>粉丝算力</p></a></li>
+			<li><a href="<%=path%>/cpa/myEarnings4"><img src="<%=path%>/images/ma.png" alt=""><p>节点收益</p></a></li>
 			<li><a href="#"><img src="<%=path%>/images/niu.png" alt=""><p>其他</p></a></li>
 		</ul>
 	</div>
 	<div class="cl">
 	</div>
 	<div class="order_list">
-		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收益(CPA)：<span id="qytuan"></span>
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新获得收益(CPA)：<span id="qytuan"></span>
 		<ul id = "gift">
 		</ul>
 	</div>

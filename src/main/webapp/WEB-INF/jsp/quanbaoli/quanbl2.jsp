@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>代金券</title>
+<title>券保理</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=path%>/css/style.css">
