@@ -10,7 +10,6 @@ function click(){
 			"mobile":phone
 		},
 		success:function(data){
-			alert("111111");
 			console.log(data);
 		},
 		error:function(){
