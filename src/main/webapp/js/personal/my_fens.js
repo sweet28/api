@@ -21,7 +21,7 @@ function Gift() {
 	  	        	var html = "";
 	  	        	$.each( list, function(index, content){
 	  	        		var inph = content.phone;
-	  	        		inph = inph.substring(0, 3) + "****" + inph.substring(7, 11);
+	  	        		//inph = inph.substring(0, 3) + "****" + inph.substring(7, 11);
 	  	        		
 	  	        		var nm = content.name;
 	  	        		nm = "***"+nm.substring(1);

@@ -96,7 +96,7 @@ function tangkuan(num){
 			},
 			success:function(data){
 				if(data.status == 200){
-					swal("认购成功，等待确认订单", "");
+					swal("认购成功，等待匹配订单", "");
 					if(num == 1){
 						$("#yxing").html(data.data);
 					}else if(num == 2){

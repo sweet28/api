@@ -29,7 +29,7 @@
 	<div class="newsConts">
 		<div class="row title">CPA介绍</div>
 		<div class="row content">
-			<section class="coupon_list" >
+		<section class="coupon_list" >
         	<img alt="" src="<%=path%>/static/html/ppt/1.jpg" style="width:100%;">
         	<img alt="" src="<%=path%>/static/html/ppt/2.jpg" style="width:100%;">
         	<img alt="" src="<%=path%>/static/html/ppt/3.jpg" style="width:100%;">

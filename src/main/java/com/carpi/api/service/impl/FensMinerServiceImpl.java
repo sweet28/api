@@ -184,7 +184,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 				System.out.println(rundate + "---" + rundate + "------");
 
 				double nowZSY;//当前总的产值
-				double syyz = 0;//矿机的总产量
+				double syyz = 0;//矿机的总产量  盐值::::::::后面需要叠加上叠加算力的收入<----这句很重要
 				double beishu = 1;//提取收益的倍数比例，默认可全部提取收益
 
 				/*
@@ -216,8 +216,29 @@ public class FensMinerServiceImpl implements FensMinerService {
 						syyz = 550;
 					}
 				}
+				
 				/*
-				 * 矿机本身收益
+				 * 叠加收益相关
+				 */
+				Double djyz = 0.00;// 叠加产值  盐值
+				Double djSL = 0.00;// 叠加算力
+				System.out.println(")))))))))))叠加))))))))):"+miner.getDiejia());
+				if (miner.getDiejia() != null) {
+					djSL = Double.valueOf(miner.getDiejia());
+				}
+
+				if (miner.getMinerComputingPower() > 0) {
+					djyz = (djSL / miner.getMinerComputingPower()) * syyz;
+				}
+				
+				/**
+				 * 这里修改的很重要,将矿机的产值提升到叠加之后的
+				 */
+				syyz += djyz;
+				
+				
+				/*
+				 * 矿机本身收益+叠加收益之后的收益
 				 */
 				// 运行至当前产生的价值
 				nowZSY = rundate * (syyz / 15);
@@ -226,19 +247,6 @@ public class FensMinerServiceImpl implements FensMinerService {
 				// 已经提取的收益
 				yhdSY = miner.getTotalRevenue();
 				
-				/*
-				 * 叠加收益相关
-				 */
-				Double djSY = 0.00;// 叠加收益
-				Double djSL = 0.00;// 叠加算力
-				System.out.println(")))))))))))叠加))))))))):"+miner.getDiejia());
-				if (miner.getDiejia() != null) {
-					djSL = Double.valueOf(miner.getDiejia());
-				}
-
-				if (miner.getMinerComputingPower() > 0) {
-					djSY = (djSL / miner.getMinerComputingPower()) * (syyz / 15) * rundate;
-				}
 				
 				/*
 				 * 判断当矿机运行周期是否结束，来觉得提取倍数比例的数值，影响提币----需要考虑叠加算力的部分。
@@ -247,13 +255,13 @@ public class FensMinerServiceImpl implements FensMinerService {
 				 * 3、已结束，且可提取小于1：一次性提取完，不考虑倍数比例
 				 */
 				if (rundate >= 15) {
-					if ((nowZSY + djSY - yhdSY) < 1) {
+					if ((nowZSY - yhdSY) < 1) {
 						beishu = 1;
 					} 
 				} 
 				
 				// 可提取收益（不带倍数比例的）
-				kySY = (nowZSY + djSY - yhdSY);
+				kySY = (nowZSY - yhdSY);
 
 				System.out.println("nowzsy:" + nowZSY + "---yhdSY:" + yhdSY);
 
@@ -277,7 +285,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 				 * 若倍数为1（需要考虑CA1型矿机倍数一直是1的情况，所以加上收益判断<1）且运行周期结束，
 				 * 说明该矿机本次提币结束后运行结束且提币结束，对矿机做好标记
 				 */
-				if (beishu == 1 && rundate >= 15 && (nowZSY + djSY - yhdSY) < 1) {
+				if (beishu == 1 && rundate >= 15 && (nowZSY - yhdSY) < 1) {
 					fm.setIsDelete(30);// 30：标记运行结束且提币结束
 				}
 
@@ -328,12 +336,12 @@ public class FensMinerServiceImpl implements FensMinerService {
 							FensWallet ldrWallet = fensWalletMapper.selectAll(jsrUser.getId());
 
 							// 钱包添加cpa
-							Double ablecpa2 = ldrWallet.getAbleCpa() + (kySY - djSY) * beishu * 0.01;
+							Double ablecpa2 = ldrWallet.getAbleCpa() + (kySY - (djSL / miner.getMinerComputingPower()) * syyz * rundate / 15) * beishu * 0.01;
 							// 到账时间
 							FensWallet ldrWallet2 = new FensWallet();
 							// 钱包可用余额增加
 							ldrWallet2.setAbleCpa(ablecpa2);
-							ldrWallet2.setCpaCount(ldrWallet.getCpaCount() + (kySY - djSY) * beishu * 0.01);
+							ldrWallet2.setCpaCount(ldrWallet.getCpaCount() + (kySY - (djSL / miner.getMinerComputingPower()) * syyz * rundate / 15) * beishu * 0.01);
 							ldrWallet2.setId(ldrWallet.getId());
 							// 更新钱包可用cpa
 							int result3 = fensWalletMapper.updateByPrimaryKeySelective(ldrWallet2);
@@ -476,7 +484,27 @@ public class FensMinerServiceImpl implements FensMinerService {
 					}
 
 					/*
-					 * 矿机本身收益
+					 * 叠加收益相关
+					 */
+					Double djyz = 0.00;// 叠加产值  盐值
+					Double djSL = 0.00;// 叠加算力
+					System.out.println(")))))))))))叠加))))))))):"+miner.getDiejia());
+					if (miner.getDiejia() != null) {
+						djSL = Double.valueOf(miner.getDiejia());
+					}
+
+					if (miner.getMinerComputingPower() > 0) {
+						djyz = (djSL / miner.getMinerComputingPower()) * syyz;
+					}
+					
+					/**
+					 * 这里修改的很重要,将矿机的产值提升到叠加之后的
+					 */
+					syyz += djyz;
+					
+					
+					/*
+					 * 矿机本身收益+叠加收益之后的收益
 					 */
 					// 运行至当前产生的价值
 					nowZSY = rundate * (syyz / 15);
@@ -485,19 +513,6 @@ public class FensMinerServiceImpl implements FensMinerService {
 					// 已经提取的收益
 					yhdSY = miner.getTotalRevenue();
 					
-					/*
-					 * 叠加收益相关
-					 */
-					Double djSY = 0.00;// 叠加收益
-					Double djSL = 0.00;// 叠加算力
-					System.out.println(")))))))))))叠加))))))))):"+miner.getDiejia());
-					if (miner.getDiejia() != null) {
-						djSL = Double.valueOf(miner.getDiejia());
-					}
-
-					if (miner.getMinerComputingPower() > 0) {
-						djSY = (djSL / miner.getMinerComputingPower()) * (syyz / 15) * rundate;
-					}
 					
 					/*
 					 * 判断当矿机运行周期是否结束，来觉得提取倍数比例的数值，影响提币----需要考虑叠加算力的部分。
@@ -506,13 +521,13 @@ public class FensMinerServiceImpl implements FensMinerService {
 					 * 3、已结束，且可提取小于1：一次性提取完，不考虑倍数比例
 					 */
 					if (rundate >= 15) {
-						if ((nowZSY + djSY - yhdSY) < 1) {
+						if ((nowZSY - yhdSY) < 1) {
 							beishu = 1;
 						} 
 					} 
 					
 					// 可提取收益（不带倍数比例的）
-					kySY = (nowZSY + djSY - yhdSY);
+					kySY = (nowZSY - yhdSY);
 
 					System.out.println("nowzsy:" + nowZSY + "---yhdSY:" + yhdSY);
 
@@ -536,7 +551,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 					 * 若倍数为1（需要考虑CA1型矿机倍数一直是1的情况，所以加上收益判断<1）且运行周期结束，
 					 * 说明该矿机本次提币结束后运行结束且提币结束，对矿机做好标记
 					 */
-					if (beishu == 1 && rundate >= 15 && (nowZSY + djSY - yhdSY) < 1) {
+					if (beishu == 1 && rundate >= 15 && (nowZSY - yhdSY) < 1) {
 						fm.setIsDelete(30);// 30：标记运行结束且提币结束
 					}
 
@@ -587,12 +602,12 @@ public class FensMinerServiceImpl implements FensMinerService {
 								FensWallet ldrWallet = fensWalletMapper.selectAll(jsrUser.getId());
 
 								// 钱包添加cpa
-								Double ablecpa2 = ldrWallet.getAbleCpa() + (kySY - djSY) * beishu * 0.01;
+								Double ablecpa2 = ldrWallet.getAbleCpa() + (kySY - (djSL / miner.getMinerComputingPower()) * syyz * rundate / 15) * beishu * 0.01;
 								// 到账时间
 								FensWallet ldrWallet2 = new FensWallet();
 								// 钱包可用余额增加
 								ldrWallet2.setAbleCpa(ablecpa2);
-								ldrWallet2.setCpaCount(ldrWallet.getCpaCount() + (kySY - djSY) * beishu * 0.01);
+								ldrWallet2.setCpaCount(ldrWallet.getCpaCount() + (kySY - (djSL / miner.getMinerComputingPower()) * syyz * rundate / 15) * beishu * 0.01);
 								ldrWallet2.setId(ldrWallet.getId());
 								// 更新钱包可用cpa
 								int result3 = fensWalletMapper.updateByPrimaryKeySelective(ldrWallet2);

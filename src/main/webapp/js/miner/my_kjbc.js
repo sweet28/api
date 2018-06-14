@@ -72,8 +72,9 @@ function Gift() {
         			suanli += Number(diejia);
         		}
         		
+        		syyz += diejia/content.minerComputingPower*syyz;
         		var sy;
-        		sy = rundate * (syyz/15) + (diejia/content.minerComputingPower) * (syyz/15);
+        		sy = rundate * (syyz/15);
         		
         		var runHours = rundate*24;
         		

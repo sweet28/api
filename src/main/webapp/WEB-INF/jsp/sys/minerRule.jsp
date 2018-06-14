@@ -8,11 +8,8 @@
 <head>
     <meta charset="UTF-8">
     <title>挖矿(游戏)规则</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
-    <meta name="format-detection" content="telephone=no, email=no"/>
-    <link rel="stylesheet" href="<%=path%>/static/css/common.css" type="text/css"/>
-    <link rel="stylesheet" type="text/css" href="<%=path%>/static/css/index.css"/>
-    <link rel="stylesheet" href="<%=path%>/static/css/personalCenter.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="<%=path%>/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%=path%>/cssnew/style.css">
 </head>
 <body>
 <div class="wrap coupon_page">
@@ -27,10 +24,21 @@
             </a>
         </header>
         <section class="coupon_list" >
-        	<img alt="" src="<%=path%>/static/html/cpa_miner.jpg" style="width:100%;">
+        	<img alt="" src="http://www.artforyou.cn/images/cpa_miner.png" style="width:100%;">
         </section>
     </section>
 </div>
+<div class="line1"></div>
+	<div class="space"></div>
+	<div class="menu">
+		<ul>
+			<li><a href="<%=path%>/cpa/main"><img src="<%=path%>/imagenew/menu5_on.png" alt=""><p>首页</p></a></li>
+			<li><a href="<%=path%>/cpa/minerHouse"><img src="<%=path%>/imagenew/menu1.png" alt=""><p>矿机商城</p></a></li>
+			<li><a href="<%=path%>/cpa/traderCenter"><img src="<%=path%>/imagenew/menu3.png" alt=""><p>交易中心</p></a></li>
+			<li><a href="<%=path%>/cpa/myMiner"><img src="<%=path%>/imagenew/menu2.png" alt=""><p>我的矿机</p></a></li>
+			<li><a href="<%=path%>/cpa/personal"><img src="<%=path%>/imagenew/menu4.png" alt=""><p>个人中心</p></a></li>
+		</ul>
+	</div>
 </body>
 
 </html>

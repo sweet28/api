@@ -38,7 +38,23 @@
 			<li>
 				<div class="row title">
 					<a href="<%=path%>/cpa/couponFactoring">券保理--车派种子用户招募计划</a>
-					<span>2018-05-10</span>
+					<span>2018-06-14</span>
+				</div>
+				<div class="row desc">
+				</div>
+			</li>
+			<li>
+				<div class="row title">
+					<a href="<%=path%>/cpa/minerRule">CPA挖矿规则</a>
+					<span>2018-05-13</span>
+				</div>
+				<div class="row desc">
+				</div>
+			</li>
+			<li>
+				<div class="row title">
+					<a href="<%=path%>/cpa/activitiesMay">CPA5月活动</a>
+					<span>2018-05-13</span>
 				</div>
 				<div class="row desc">
 				</div>

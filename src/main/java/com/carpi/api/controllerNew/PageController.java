@@ -242,6 +242,17 @@ public class PageController {
 		return "sys/minerRule";
 	}
 	
+	@RequestMapping("/couponFactoring")
+	public String couponFactoring() {
+		return "sys/couponFactoring";
+	}
+	
+	@RequestMapping("/activitiesMay")
+	public String activitiesMay() {
+		return "sys/activitiesMay";
+	}
+	
+	
 	@RequestMapping("/quan_detail")
 	public String quan_detail() {
 		return "quanbaoli/quan_detail";
