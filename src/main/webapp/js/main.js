@@ -58,6 +58,12 @@ var url;
 
 
 function tangkuan(num){
+	
+	$("#hid1").hide();
+	$("#hid2").hide();
+	$("#hid3").hide();
+	$("#hid4").hide();
+	
 	if(num == 1){
 		url = "mq/yx";
 	}else if(num == 2){
@@ -67,7 +73,6 @@ function tangkuan(num){
 	}else if(num == 4){
 		url = "mq/sxx"
 	}
-	
 	
 //	swal("通知", "马上上线，请留意今天的通知");
 	
@@ -106,12 +111,24 @@ function tangkuan(num){
 					}else if(num == 4){
 						$("#ssxing").html(data.data);
 					}
+					$("#hid1").show();
+					$("#hid2").show();
+					$("#hid3").show();
+					$("#hid4").show();
 				}else{
 					swal(data.msg, "");
+					$("#hid1").show();
+					$("#hid2").show();
+					$("#hid3").show();
+					$("#hid4").show();
 				}
 			},
 			error:function(data){
 				swal("请检查网络是否畅通", "");
+				$("#hid1").show();
+				$("#hid2").show();
+				$("#hid3").show();
+				$("#hid4").show();
 				return false;
 			}
 		});

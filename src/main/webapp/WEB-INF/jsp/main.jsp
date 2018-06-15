@@ -71,7 +71,7 @@
 					</div>
 					<div class="price">
 						<p style="color:#ff5722;font-weight:bold;">火热发布</p>
-						<a href="javascript:tangkuan(1);">标价(￥)：200</a>
+						<a id="hid1" href="javascript:tangkuan(1);">标价(￥)：200</a>
 					</div>
 				</div>
 				<div class="row ping">
@@ -99,7 +99,7 @@
 					</div>
 					<div class="price">
 						<p style="color:#ff5722;font-weight:bold;">火热发布</p>
-						<a href="javascript:tangkuan(2);">标价(￥)：200</a>
+						<a id="hid2" href="javascript:tangkuan(2);">标价(￥)：200</a>
 					</div>
 				</div>
 				<div class="row ping">
@@ -126,7 +126,7 @@
 					</div>
 					<div class="price">
 						<p style="color:#ff5722;font-weight:bold;">火热发布</p>
-						<a href="javascript:tangkuan(3);">标价(￥)：500</a>
+						<a id="hid3" href="javascript:tangkuan(3);">标价(￥)：500</a>
 					</div>
 				</div>
 				<div class="row ping">
@@ -154,7 +154,7 @@
 					</div>
 					<div class="price">
 						<p style="color:#ff5722;font-weight:bold;">火热发布</p>
-						<a href="javascript:tangkuan(4);">标价(￥)：1000</a>
+						<a id="hid4" href="javascript:tangkuan(4);">标价(￥)：1000</a>
 					</div>
 				</div>
 				<div class="row ping">
