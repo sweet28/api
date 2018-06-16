@@ -211,4 +211,7 @@ public class ConfigUtil {
 											+"xUIpV8QDVPwtr/0sKqLoFs5WcnGeA9kyXOoNoq/uLOlOqEdkPQ5bNQSssV5UTa2wdzbSH/LEzBFY";
 	public static int CPA_JY_START_TIME = 0;  //11
 	public static int CPA_JY_END_TIME = 24;  //18
+	
+	public static int CPA_QBL_START_TIME = 0;  //9
+	public static int CPA_QBL_END_TIME = 21;   //21
 }

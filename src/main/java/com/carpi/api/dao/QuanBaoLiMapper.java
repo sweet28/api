@@ -19,4 +19,5 @@ public interface QuanBaoLiMapper {
     
     //券宝理列表
     List<QuanBaoLi> selectList();
+
 }

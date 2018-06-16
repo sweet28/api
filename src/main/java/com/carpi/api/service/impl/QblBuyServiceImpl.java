@@ -1,5 +1,6 @@
 package com.carpi.api.service.impl;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.aspectj.weaver.ast.Var;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.FensMinerMapper;
@@ -36,6 +38,11 @@ public class QblBuyServiceImpl implements QblBuyService {
 	// 券保理1星券(7天)
 	@Override
 	public JsonResult buyqbl(QuanBaoLiRecord quanBaoLiRecord) {
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
+			return JsonResult.build(500, "每天开放购买时间为：12:00至21:00.");
+		}
 		/*
 		 * 两台一型可以购买一型券一张《就是两台一张券，4台两张卷》 一个二型可以购买二型券一张《1:1》 一个三型可以购买三型券一张《1:1》
 		 */
@@ -52,6 +59,9 @@ public class QblBuyServiceImpl implements QblBuyService {
 		}
 		// 查询券的总数量
 		QuanBaoLi quanBaoLi3 = quanBaoLiDao.selectByPrimaryKey(quanBaoLiRecord.getQuanId());
+		if ("1".equals(quanBaoLi3.getBak3())) {
+			return JsonResult.build(500, "该券今日已售完");
+		}
 		if (Integer.valueOf(quanBaoLi3.getBak2()) <= 0) {
 			return JsonResult.build(500, "该券已售完");
 		}
@@ -61,6 +71,11 @@ public class QblBuyServiceImpl implements QblBuyService {
 	// 券保理1星券(21天)
 	@Override
 	public JsonResult buyqbl2(QuanBaoLiRecord quanBaoLiRecord) {
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
+			return JsonResult.build(500, "每天开放购买时间为：12:00至21:00.");
+		}
 		// 二型矿机数量
 		int sum = fensMinerDao.selectSum("1", quanBaoLiRecord.getFensUserId());
 		// 券保理1星券(21天)数量
@@ -74,6 +89,9 @@ public class QblBuyServiceImpl implements QblBuyService {
 		}
 		// 查询券的总数量
 		QuanBaoLi quanBaoLi3 = quanBaoLiDao.selectByPrimaryKey(quanBaoLiRecord.getQuanId());
+		if ("1".equals(quanBaoLi3.getBak3())) {
+			return JsonResult.build(500, "该券今日已售完");
+		}
 		if (Integer.valueOf(quanBaoLi3.getBak2()) <= 0) {
 			return JsonResult.build(500, "该券已售完");
 		}
@@ -83,6 +101,11 @@ public class QblBuyServiceImpl implements QblBuyService {
 	// 券保理2星券(15天)
 	@Override
 	public JsonResult buyqbl3(QuanBaoLiRecord quanBaoLiRecord) {
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
+			return JsonResult.build(500, "每天开放购买时间为：12:00至21:00.");
+		}
 		// 三型矿机数量
 		int sum = fensMinerDao.selectSum("2", quanBaoLiRecord.getFensUserId());
 		// 券保理2星券(15天)数量
@@ -96,6 +119,9 @@ public class QblBuyServiceImpl implements QblBuyService {
 		}
 		// 查询券的总数量
 		QuanBaoLi quanBaoLi3 = quanBaoLiDao.selectByPrimaryKey(quanBaoLiRecord.getQuanId());
+		if ("1".equals(quanBaoLi3.getBak3())) {
+			return JsonResult.build(500, "该券今日已售完");
+		}
 		if (Integer.valueOf(quanBaoLi3.getBak2()) <= 0) {
 			return JsonResult.build(500, "该券已售完");
 		}
@@ -105,6 +131,11 @@ public class QblBuyServiceImpl implements QblBuyService {
 	// 券保理3星券(10天)
 	@Override
 	public JsonResult buyqbl4(QuanBaoLiRecord quanBaoLiRecord) {
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
+			return JsonResult.build(500, "每天开放购买时间为：9:00至21:00.");
+		}
 		// 三型矿机数量
 		int sum = fensMinerDao.selectSum("3", quanBaoLiRecord.getFensUserId());
 		// 券保理3星券(10天)数量
@@ -118,6 +149,9 @@ public class QblBuyServiceImpl implements QblBuyService {
 		}
 		// 查询券的总数量
 		QuanBaoLi quanBaoLi3 = quanBaoLiDao.selectByPrimaryKey(quanBaoLiRecord.getQuanId());
+		if ("1".equals(quanBaoLi3.getBak3())) {
+			return JsonResult.build(500, "该券今日已售完");
+		}
 		if (Integer.valueOf(quanBaoLi3.getBak2()) <= 0) {
 			return JsonResult.build(500, "该券已售完");
 		}
@@ -175,6 +209,9 @@ public class QblBuyServiceImpl implements QblBuyService {
 		}
 		// 查询券的总数量
 		QuanBaoLi quanBaoLi2 = quanBaoLiDao.selectByPrimaryKey(quanBaoLiRecord.getQuanId());
+		if ("1".equals(quanBaoLi2.getBak3())) {
+			return JsonResult.build(500, "该券今日已售完");
+		}
 		Integer bak2 = Integer.valueOf(quanBaoLi2.getBak2());
 		if (bak2 == 0) {
 			return JsonResult.build(500, "该券已售完");
