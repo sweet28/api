@@ -35,4 +35,8 @@ public interface QuanBaoLiRecordMapper {
 
 	Double selectCouponGiftTotalValue(@Param("fensUserId") Integer fensUserId, @Param("refereePhone")String refereePhone);
 
+	List<QuanBaoLiRecord> selectCouponRealGiftInfo(@Param("fensUserId") Integer fensUserId,@Param("quanId") Integer quanId,@Param("refereePhone")String refereePhone);
+
+	Double selectCouponGiftRealTotalValue(@Param("fensUserId") Integer fensUserId, @Param("refereePhone")String refereePhone);
+
 }

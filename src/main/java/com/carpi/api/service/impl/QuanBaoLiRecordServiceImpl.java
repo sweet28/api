@@ -71,20 +71,38 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		
 		//查询1星券7天的
 		List<QuanBaoLiRecord> list1 = quanBaoLiRecordMapper.selectCouponGiftInfo(fensUserId,1,phone);
-		//查询1星券7天的
+		//查询1星券21天的
 		List<QuanBaoLiRecord> list2 = quanBaoLiRecordMapper.selectCouponGiftInfo(fensUserId,2,phone);
-		//查询1星券7天的
+		//查询2星券15天的
 		List<QuanBaoLiRecord> list3 = quanBaoLiRecordMapper.selectCouponGiftInfo(fensUserId,3,phone);
-		//查询1星券7天的
+		//查询3星券10天的
 		List<QuanBaoLiRecord> list4 = quanBaoLiRecordMapper.selectCouponGiftInfo(fensUserId,4,phone);
+		
+		
+		//查询1星券7天的实际购买张数
+		List<QuanBaoLiRecord> listReal1 = quanBaoLiRecordMapper.selectCouponRealGiftInfo(fensUserId,1,phone);
+		//查询1星券21天的实际购买张数
+		List<QuanBaoLiRecord> listReal2 = quanBaoLiRecordMapper.selectCouponRealGiftInfo(fensUserId,2,phone);
+		//查询2星券15天的实际购买张数
+		List<QuanBaoLiRecord> listReal3 = quanBaoLiRecordMapper.selectCouponRealGiftInfo(fensUserId,3,phone);
+		//查询3星券10天的实际购买张数
+		List<QuanBaoLiRecord> listReal4 = quanBaoLiRecordMapper.selectCouponRealGiftInfo(fensUserId,4,phone);
 		
 		Double couponTotalValue = 0.00;
 		couponTotalValue =  quanBaoLiRecordMapper.selectCouponGiftTotalValue(fensUserId, phone);
-		
 		double couponTenValue = 0.00;
 		if(couponTotalValue != null){
 			couponTenValue = couponTotalValue * 0.1;
-		};
+		}
+		
+		Double couponRealTotalValue = 0.00;
+		couponRealTotalValue =  quanBaoLiRecordMapper.selectCouponGiftRealTotalValue(fensUserId, phone);
+		
+		double couponRealTenValue = 0.00;
+		if(couponRealTotalValue != null){
+			couponRealTenValue = couponRealTotalValue * 0.1;
+		}
+		
 		
 		JSONObject jo = new JSONObject();
 		jo.put("one7", list1.size());
@@ -92,6 +110,12 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		jo.put("two15", list3.size());
 		jo.put("three10", list4.size());
 		jo.put("couponTotalScore", couponTenValue);
+		jo.put("one7Real", listReal1.size());
+		jo.put("one21Real", listReal2.size());
+		jo.put("two15Real", listReal3.size());
+		jo.put("three10Real", listReal4.size());
+		jo.put("couponTotalScoreReal", couponRealTenValue);
+		
 		jo.put("couponYiyongScore", 0);
 		
 		

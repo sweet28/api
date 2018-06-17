@@ -29,17 +29,15 @@
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>
 	<div class="cl"></div>
-	<div class="order">
-		<ul>
-			<li><a href="#"><img src="<%=path%>/images/niu.png" alt=""><p style="color:red;font-weight:bold;"></p></a></li>
-			<li><a href="#"><img src="<%=path%>/images/ma.png" alt=""><p><span></span></p></a></li>
-			<li><a href="#"><img src="<%=path%>/images/long.png" alt=""><p></p></a></li>
-			<li><a href="#"><img src="<%=path%>/images/ma.png" alt=""><p><span></span></p></a></li>
-			<li><a href="#"><img src="<%=path%>/images/niu.png" alt=""><p></p></a></li>
-		</ul>
-	</div>
-	<div class="cl"></div>
 	<div class="order_list">
+		<ul>
+			<li>
+				<span style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;'>
+					<a style="color:#fff;" href="javascript:kucunSX();">刷新库存</a>
+				</span>
+			</li>
+		</ul>
+		<p style="color:#f1f0f6;">******</p>
 		<ul id = "abminer">
 		</ul>
 	</div>

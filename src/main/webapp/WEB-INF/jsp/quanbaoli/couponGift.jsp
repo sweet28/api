@@ -43,7 +43,7 @@
 		<ul>
 			<li><span style="color:red;font-weight:bold;">积分规则</span>
 				<div class='text'>
-					<p><b>1、获取规则:</b>用户本人认筹券保理；<b style="color:red;">本人认筹时间起始</b>，比其<b style="color:red;">晚认筹</b>的直推粉丝每认筹一份券保理，用户本人获得直推粉丝所认筹券保理价值<b style="color:#E91E63;">10%</b>的券积分。</p>
+					<p><b>1、获取规则:</b>用户本人认筹券保理；<b style="color:red;">本人认筹时间起始</b>，比其<b style="color:red;">晚认筹</b>的直推粉丝每认筹成功一份券保理，用户本人获得直推粉丝所认筹券保理价值<b style="color:#E91E63;">10%</b>的券积分。</p>
 					<p><b>2、提现规则:</b>券积分为<b style="color:#E91E63;">200</b>的倍数方可提现。</p>
 					<p><b>3、其他规则:</b>券积分与人民币兑换比例为<b style="color:#E91E63;">1:1</b>。</p>
 				</div>
@@ -53,10 +53,11 @@
 		<ul>
 			<li>
 				<span style="color:#E91E63;font-weight:bold;">券积分信息</span>
-				<p>券积分总数:<b id="couponTotalScore">0</b></p>
+				<p>券积分预计入账总数:<b id="couponTotalScore">0</b></p>
+				<p>券积分成功入账总数:<b id="couponTotalScoreReal"></b></p>
 				<p>已提现总数:<b id="couponYiyongScore">0</b></p>
 				<span style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;'>
-					<a style="color:#fff;" href="javascript:;">提现</a>
+					<a style="color:#fff;" href="javascript:toMoney();">提现</a>
 				</span>
 			</li>
 		</ul>
@@ -64,10 +65,10 @@
 		<ul>
 			<li>
 				<span style="color:#E91E63;font-weight:bold;">直推粉丝认筹券保理信息</span>
-				<p>1星券(7天)认筹总份数:<b id="one7">0</b></p>
-				<p>1星券(21天)认筹总份数:<b id="one21">0</b></p>
-				<p>2星券(15天)认筹总份数:<b id="two15">0</b></p>
-				<p>3星券(10天)认筹总份数:<b id="three10">0</b></p>
+				<p>1星券(7天)认筹总份数:<b id="one7">0</b>&nbsp;&nbsp;&nbsp;&nbsp;认筹成功总份数:<b id="one7Real"></b></p>
+				<p>1星券(21天)认筹总份数:<b id="one21">0</b>&nbsp;&nbsp;&nbsp;&nbsp;认筹成功总份数:<b id="one21Real"></b></p>
+				<p>2星券(15天)认筹总份数:<b id="two15">0</b>&nbsp;&nbsp;&nbsp;&nbsp;认筹成功总份数:<b id="two15Real"></b></p>
+				<p>3星券(10天)认筹总份数:<b id="three10">0</b>&nbsp;&nbsp;&nbsp;&nbsp;认筹成功总份数:<b id="three10Real"></b></p>
 			</li>
 		</ul>
 	</div>

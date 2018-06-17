@@ -57,7 +57,7 @@
 		<div class="row input-user-index">
 			<input id="recommend_p" type="text" placeholder="邀请人手机号码(需要通过邀请链接)" disabled="disabled"/>
 		</div>
-		<div class="row input-sub-index">
+		<div class="row input-sub-index" id="regClassbtn">
 			<input type="button" id="register_btn" value="注册" class="login" style = "width:66%" />
 		</div>
 	</div>

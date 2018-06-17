@@ -27,6 +27,7 @@ var str;
 	    			    	mjsj = data.phone;
 	    			    	console.log(mjsj);
 	    			    	$("#mrsj3").html(mjsj);
+	    			    	$("#mrxm3").html("姓名："+data.name);
 	    			    },
 	    			    error: function (XMLHttpRequest, textStatus, errorThrown) {
 	    			    }

@@ -51,7 +51,7 @@ $("#file0").change(function() {
 					}
 				},
 				error : function(data) {
-					alert.log("请输入jpg和png和jpeg格式图片");
+					alert.log("请上传jpg和png和jpeg格式图片");
 				}
 			});
 		} else {
@@ -268,6 +268,7 @@ function getObjectURL(file) {
 		}
 		// 第三步
 		if (step == 3) {
+			$("#regClassbtn").hide();
 			var startTime = 6;
 			var endTime = 24;
 			var myDate = new Date();
@@ -290,7 +291,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			if (phone_arr.length != 1) {
@@ -299,7 +300,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			if (!reg1.test(phonenum.val())) {
@@ -308,7 +309,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			// 姓名验证
@@ -318,7 +319,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			if (uname.length != 1) {
@@ -327,7 +328,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			// 身份证号做验证
@@ -337,7 +338,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			if (cardnum.length != 1) {
@@ -346,7 +347,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			if (!pattern.test(cardnum.val())) {
@@ -355,7 +356,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			// 密码验证
@@ -365,7 +366,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			if (password_arr.length != 1) {
@@ -374,7 +375,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			// 0630修改注册手机号正则
@@ -384,7 +385,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			if (valicode.val().trim() == "") {
@@ -393,7 +394,7 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			}
 			var codeReg = /^[A-Za-z0-9]*$/;
@@ -406,10 +407,11 @@ function getObjectURL(file) {
 		      		  icon: "error",
 		      		  button: "确定",
 	      	    });
-				$("#register_btn").show();
+				$("#regClassbtn").show();
 				return false;
 			} else {
 				$("#modal").show();
+				$("#regClassbtn").hide();
 				console.log("--------------------------------------------------------------------------------:::"+recommend_p.val());
 				$.ajax({
 					type : "post",
@@ -430,6 +432,7 @@ function getObjectURL(file) {
 					},
 					success : function(data) {
 						if (data.status == "200") {
+							$("#regClassbtn").hide();
 							$("#modal").hide();
 							swal({
 					        	  title: '注册成功',
@@ -448,22 +451,23 @@ function getObjectURL(file) {
 					        		  location.href = 'index.jsp';
 					        	  }
 				        	}); 
-							$("#register_btn").show();
+							$("#regClassbtn").show();
 							
 						} else {
 							$("#modal").hide();
+							$("#regClassbtn").hide();
 							swal({
 					      		  title: data.msg,
 					      		  icon: "error",
 					      		  button: "确定",
 				      	    });
-							$("#register_btn").show();
+							$("#regClassbtn").show();
 							return false;
 						}
 					},
 					error : function(XMLHttpRequest, textStatus, errorThrown) {
 						$("#modal").hide();
-						$("#register_btn").show();
+						$("#regClassbtn").show();
 						if (XMLHttpRequest.status == 400) {
 							var obj = JSON.parse(XMLHttpRequest.responseText);
 							swal({
@@ -483,7 +487,7 @@ function getObjectURL(file) {
 	});
 	// 注册按钮
 	$("#register_btn").click(function() {
-		$("register_btn").hide();
+		$("#regClassbtn").hide();
 		reg(3);
 	});
 	// 切换密码的可见状态

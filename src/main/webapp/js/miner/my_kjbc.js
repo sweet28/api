@@ -99,7 +99,7 @@ function Gift() {
 								"<div class='text'>" +
 									"<a href=''>"+ xh +"</a>" +
 									"<p>运行时长：<b>"+runHours.toFixed(5)+"</b></p>" +
-									"<p>可用收益：<b>"+syz.toFixed(5)+"</b></p>" +
+									"<p>可转入钱包收益：<b>"+syz.toFixed(5)+"</b></p>" +
 									"<p>算力：<b>"+content.minerComputingPower+"</b></p>" +
 								"</div>" +
 								"<div class='look'>" +

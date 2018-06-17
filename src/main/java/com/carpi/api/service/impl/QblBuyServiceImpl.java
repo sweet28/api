@@ -41,7 +41,7 @@ public class QblBuyServiceImpl implements QblBuyService {
 		Calendar calendar = Calendar.getInstance();
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
-			return JsonResult.build(500, "每天开放购买时间为：12:00至21:00.");
+			return JsonResult.build(500, "每天开放购买时间为："+ConfigUtil.CPA_QBL_START_TIME+"点至"+ConfigUtil.CPA_QBL_END_TIME+"点.");
 		}
 		/*
 		 * 两台一型可以购买一型券一张《就是两台一张券，4台两张卷》 一个二型可以购买二型券一张《1:1》 一个三型可以购买三型券一张《1:1》
@@ -74,7 +74,7 @@ public class QblBuyServiceImpl implements QblBuyService {
 		Calendar calendar = Calendar.getInstance();
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
-			return JsonResult.build(500, "每天开放购买时间为：12:00至21:00.");
+			return JsonResult.build(500, "每天开放购买时间为："+ConfigUtil.CPA_QBL_START_TIME+"点至"+ConfigUtil.CPA_QBL_END_TIME+"点.");
 		}
 		// 二型矿机数量
 		int sum = fensMinerDao.selectSum("1", quanBaoLiRecord.getFensUserId());
@@ -104,7 +104,7 @@ public class QblBuyServiceImpl implements QblBuyService {
 		Calendar calendar = Calendar.getInstance();
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
-			return JsonResult.build(500, "每天开放购买时间为：12:00至21:00.");
+			return JsonResult.build(500, "每天开放购买时间为："+ConfigUtil.CPA_QBL_START_TIME+"点至"+ConfigUtil.CPA_QBL_END_TIME+"点.");
 		}
 		// 三型矿机数量
 		int sum = fensMinerDao.selectSum("2", quanBaoLiRecord.getFensUserId());
@@ -134,7 +134,7 @@ public class QblBuyServiceImpl implements QblBuyService {
 		Calendar calendar = Calendar.getInstance();
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
-			return JsonResult.build(500, "每天开放购买时间为：9:00至21:00.");
+			return JsonResult.build(500, "每天开放购买时间为："+ConfigUtil.CPA_QBL_START_TIME+"点至"+ConfigUtil.CPA_QBL_END_TIME+"点.");
 		}
 		// 三型矿机数量
 		int sum = fensMinerDao.selectSum("3", quanBaoLiRecord.getFensUserId());

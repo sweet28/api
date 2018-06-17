@@ -190,13 +190,13 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		}
 
 		if (fensTransaction.getTraderCount() == null) {
-			return JsonResult.build(500, "新增失败");
-		} else if (fensTransaction.getTraderCount() < 1) {
-			return JsonResult.build(500, "新增失败");
+			return JsonResult.build(500, "交易数量不能为空");
+		} else if (fensTransaction.getTraderCount() < 10) {
+			return JsonResult.build(500, "交易数量不能小于10");
 		}
 
 		if (fensTransaction.getEntrustPrice() == null) {
-			return JsonResult.build(500, "新增失败");
+			return JsonResult.build(500, "交易单价不能为空");
 		}
 
 		if (fensTransaction.getTraderType() == null) {
@@ -224,8 +224,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				fensTransaction
 						.setMoneyCount(fensTransaction.getEntrustPrice() * 6.5 * fensTransaction.getTraderCount());
 
-				double zgPrice = 0.36;
-				double zdPrice = 0.23;
+				double zgPrice = 0.40;
+				double zdPrice = 0.27;
 				if (price > zgPrice) {
 					return JsonResult.build(500, "今日最高单价：" + zgPrice + "美元");
 				}

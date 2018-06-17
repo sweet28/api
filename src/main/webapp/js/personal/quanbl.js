@@ -31,7 +31,7 @@
 						type = "提取待收款（买家已打款）";
 					}
 					
-					html += "<li><a href='quan_detail?"+list[i].id+"'><div class='couponBox'><div class='title'><div class='tit'><span>"+list[i].name+"</span></div>" +
+					html += "<li><a href='quan_detail2?"+list[i].id+"'><div class='couponBox'><div class='title'><div class='tit'><span>"+list[i].name+"</span></div>" +
 							"<div class='end'><span>"+type+"</span></div></div><div class='desc'><div class='cd cd1'><b>"+list[i].earnProportion*100+"%</b>" +
 							"<p>预计周期收益率</p></div><div class='cd cd2'><b>"+list[i].day+"天</b><p>周期</p></div></div></div></a></li>";
 				}

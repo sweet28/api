@@ -138,3 +138,25 @@ function zhuanru(kid,type){
 	    }
 	});
 }
+
+
+function kucunSX(){
+	$.ajax({
+		type: "post",
+	      url: getAPIURL() + "kuangjy/jy/shuaxinyxc",
+	      dataType: "json",
+	      data: {
+	    	  "uid":localStorage.getItem("uid")
+	      },
+	      success: function (data) {
+	        if (data.status == 200) {
+	        	window.location.href = "myABKC";
+	        }else{
+	        	window.location.href = "myABKC";
+	        }
+	      },
+	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+			return false;
+	    }
+	});
+}

@@ -63,6 +63,7 @@ $.ajax({
         		var rundate = nowDate - content.createDate;
         		rundate = rundate/(1000*60*60*24);
         		
+        		console.log(rundate+"ooooooooooo");
         		if(rundate >= 15){
         			rundate = 15;
         		}
@@ -89,7 +90,7 @@ $.ajax({
             		conte = "认证审核未通过";
             	}
         		
-        		var syz = (syyz-content.totalRevenue);
+        		var syz = (sy-content.totalRevenue);
         		if(syz < 0){
         			syz = 0 ;
         		}
@@ -103,7 +104,7 @@ $.ajax({
 								"<div class='text'>" +
 									"<a href=''>"+ xh +"</a>" +
 									"<p>运行时长：<b>"+runHours.toFixed(5)+"</b></p>" +
-									"<p>可用收益：<b>"+syz.toFixed(5)+"</b></p>" +
+									"<p>可转入钱包收益：<b>"+syz.toFixed(5)+"</b></p>" +
 									"<p>算力：<b>"+suanli+"</b></p>" +
 								"</div>" +
 								"<div class='look'>" +

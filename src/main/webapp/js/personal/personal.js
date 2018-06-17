@@ -105,68 +105,68 @@
 		$("#endTime").html(localStorage.getItem("endTime"));
 	}
   
-    $.ajax({
-	      type: "post",
-	      url: getAPIURL() + "user/fens/selectFensUserGrade",
-	      dataType: "json",
-	      data: {
-	    	  "sh": localStorage.getItem("phone"),
-	    	  "uid": localStorage.getItem("uid")
-	      },
-	      success: function (data) {
-	    	  console.log(data);
-			  $("#suanli").html(data.suanli);
-			  //$("#grade").html(data.grade);
-			  var grade = "精英粉丝";
-			  var gradNum = data.grade;
-			  if(data.grade==0){
-				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade0.png">'+grade);
-			  }
-			  else if(data.grade==1){
-				  grade = "普通节点";
-				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade1.png">'+grade);
-			  }
-			  else if(data.grade==2){
-				  grade = "高级节点";
-				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade2.png">'+grade);
-			  }
-			  else if(data.grade==3){
-				  grade = "超级节点";
-				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade3.png">'+grade);
-			  }
-			  
-			  $("#fensteamNum").html(data.fensteamNum);
-			  var endTime;
-			  if(data.isGradeCan == 'yes'){
-				  endTime = "冲击<"+data.nextgrade+">截止时间:"+data.endTime;
-				  $("#endTime").html(endTime);
-			  }else{
-				  endTime = "在规定时间内无法冲击任何等级";
-				  $("#endTime").html(endTime);
-			  }
-			  
-			  localStorage.setItem("fensteampower",data.suanli);
-			  localStorage.setItem("fensteamnum",data.fensteamNum);
-			  localStorage.setItem("fensgrade",grade);
-			  localStorage.setItem("endTime",endTime);
-			  localStorage.setItem("gradNum",gradNum);
-			  
-	      },error:function(){
-	    	  console.log(333);
-	      }, headers: {
-	        "Authorization": "Bearer " + getTOKEN()
-	      }
-    });
+//    $.ajax({
+//	      type: "post",
+//	      url: getAPIURL() + "user/fens/selectFensUserGrade",
+//	      dataType: "json",
+//	      data: {
+//	    	  "sh": localStorage.getItem("phone"),
+//	    	  "uid": localStorage.getItem("uid")
+//	      },
+//	      success: function (data) {
+//	    	  console.log(data);
+//			  $("#suanli").html(data.suanli);
+//			  //$("#grade").html(data.grade);
+//			  var grade = "精英粉丝";
+//			  var gradNum = data.grade;
+//			  if(data.grade==0){
+//				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade0.png">'+grade);
+//			  }
+//			  else if(data.grade==1){
+//				  grade = "普通节点";
+//				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade1.png">'+grade);
+//			  }
+//			  else if(data.grade==2){
+//				  grade = "高级节点";
+//				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade2.png">'+grade);
+//			  }
+//			  else if(data.grade==3){
+//				  grade = "超级节点";
+//				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade3.png">'+grade);
+//			  }
+//			  
+//			  $("#fensteamNum").html(data.fensteamNum);
+//			  var endTime;
+//			  if(data.isGradeCan == 'yes'){
+//				  endTime = "冲击<"+data.nextgrade+">截止时间:"+data.endTime;
+//				  $("#endTime").html(endTime);
+//			  }else{
+//				  endTime = "在规定时间内无法冲击任何等级";
+//				  $("#endTime").html(endTime);
+//			  }
+//			  
+//			  localStorage.setItem("fensteampower",data.suanli);
+//			  localStorage.setItem("fensteamnum",data.fensteamNum);
+//			  localStorage.setItem("fensgrade",grade);
+//			  localStorage.setItem("endTime",endTime);
+//			  localStorage.setItem("gradNum",gradNum);
+//			  
+//	      },error:function(){
+//	    	  console.log(333);
+//	      }, headers: {
+//	        "Authorization": "Bearer " + getTOKEN()
+//	      }
+//    });
     
-//    $("#grade").html("节点区块同步升级");
-//    $("#grade").html("节点区块同步升级");
-//    $("#suanli").html("节点区块同步升级");
-//	$("#endTime").html("节点区块同步升级");
-//	
-//	localStorage.setItem("fensteampower","节点区块同步升级");
-//    localStorage.setItem("fensteamnum","节点区块同步升级");
-//    localStorage.setItem("fensgrade","节点区块同步升级");
-//    localStorage.setItem("endTime","节点区块同步升级");
+    $("#grade").html("节点奖励核对");
+    $("#grade").html("节点奖励核对");
+    $("#suanli").html("节点奖励核对");
+	$("#endTime").html("节点奖励核对");
+	
+	localStorage.setItem("fensteampower","节点奖励核对");
+    localStorage.setItem("fensteamnum","节点奖励核对");
+    localStorage.setItem("fensgrade","节点奖励核对");
+    localStorage.setItem("endTime","节点奖励核对");
 
 })();
 

@@ -1339,28 +1339,28 @@ public class FensUserServiceImpl implements FensUserService {
 
 	private List<FensUser> getTreeChildRecord(List<FensUser> listParentRecord, List<Integer> listminer,
 			String parentUuid, List<FensUser> allList) {
-		System.out.println("parentID:" + parentUuid);
-		// 遍历tmpList，找出所有的根节点和非根节点
-		if (allList.size() > 0) {
-			for (int i = 0; i < allList.size(); i++) {
-
-				String refereePhone = allList.get(i).getRefereePhone();
-
-				if (refereePhone != null && parentUuid != null) {
-
-					if (allList.get(i).getRefereePhone().equals(parentUuid)) {
-
-						listParentRecord.add(allList.get(i));
-						if (allList.get(i).getIsDelete() == 0) {// 正常用户才计算算力
-							listminer.add(allList.get(i).getId());
-						}
-
-						getTreeChildRecord(listParentRecord, listminer, allList.get(i).getPhone(), allList);
-
-					}
-				}
-			}
-		}
+//		System.out.println("parentID:" + parentUuid);
+//		// 遍历tmpList，找出所有的根节点和非根节点
+//		if (allList.size() > 0) {
+//			for (int i = 0; i < allList.size(); i++) {
+//
+//				String refereePhone = allList.get(i).getRefereePhone();
+//
+//				if (refereePhone != null && parentUuid != null) {
+//
+//					if (allList.get(i).getRefereePhone().equals(parentUuid)) {
+//
+//						listParentRecord.add(allList.get(i));
+//						if (allList.get(i).getIsDelete() == 0) {// 正常用户才计算算力
+//							listminer.add(allList.get(i).getId());
+//						}
+//
+//						getTreeChildRecord(listParentRecord, listminer, allList.get(i).getPhone(), allList);
+//
+//					}
+//				}
+//			}
+//		}
 		return listParentRecord;
 	}
 

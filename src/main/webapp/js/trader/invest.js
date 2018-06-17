@@ -501,18 +501,18 @@ function buyCPA(trader_type){
 			      	});
 	        		return false;
 	        	}
-	        	if(trader_count<1){
+	        	if(trader_count<10){
 	        		swal({
-			      		  title: "交易数量不能小于1。",
+			      		  title: "交易数量不能小于10。",
 			      		  icon: "error",
 			      		  button: "确定",
 			      	});
 	        		return false;
 	        	}
 	        	
-	        	if(trader_count > 100){
+	        	if(trader_count > 500){
 	        		swal({
-			      		  title: "交易数量不能大于100。",
+			      		  title: "交易数量不能大于500。",
 			      		  icon: "error",
 			      		  button: "确定",
 			      	});

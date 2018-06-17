@@ -56,6 +56,14 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			return JsonResult.build(500, "不能自己交易自己的订单");
 		}
 		
+		if(fensTransaction3.getTraderCount()==null ){
+			return JsonResult.build(500, "交易数量不能为空");
+		}
+		
+		if(fensTransaction3.getTraderCount() < 10 ){
+			return JsonResult.build(500, "交易数量不能小于10");
+		}
+		
 		try {
 			Thread.sleep(300);
 		} catch (Exception e) {
@@ -240,6 +248,14 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		
 		if(fensTransaction3.getTraderId().equals(fensTransaction.getFensUserId())){
 			return JsonResult.build(500, "不能自己交易自己的订单");
+		}
+		
+		if(fensTransaction3.getTraderCount()==null ){
+			return JsonResult.build(500, "交易数量不能为空");
+		}
+		
+		if(fensTransaction3.getTraderCount() < 10 ){
+			return JsonResult.build(500, "交易数量不能小于10");
 		}
 		
 		try {

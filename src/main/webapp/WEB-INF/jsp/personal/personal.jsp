@@ -59,7 +59,7 @@
 			<li><a href="<%=path%>/cpa/myInvite" class="m6"><span>邀请链接</span></a></li>
 			<%-- <li><a href="<%=path%>/cpa/myInfo" class="m8"><span>个人资料</span></a></li> --%>
 			<li><a href="<%=path%>/cpa/myPay" class="m3"><span>支付管理</span></a></li>
-			<li><a href="<%=path%>/cpa/quanbl" class="m8"><span>券&nbsp;&nbsp;保&nbsp;&nbsp;理</span></a></li>
+			<li><a href="<%=path%>/cpa/couponGift" class="m8"><span>券&nbsp;&nbsp;保&nbsp;&nbsp;理</span></a></li>
 			<li><a href="<%=path%>/cpa/anquan" class="m9"><span>安全中心</span></a></li>
 			<li><a href="<%=path%>/cpa/news" class="m11"><span>系统公告</span></a></li>
 			<li><a href="<%=path%>/cpa/myWorkOrder" class="m10"><span>我的工单</span></a></li>
