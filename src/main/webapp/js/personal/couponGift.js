@@ -25,7 +25,7 @@ function Gift() {
 		    	  $("#two15").html(data.data.two15);
 		    	  $("#three10").html(data.data.three10);
 		    	  
-		    	  $("#couponTotalScoreReal").html(data.data.couponTotalScore);
+		    	  $("#couponTotalScoreReal").html(data.data.couponTotalScoreReal);
 		    	  $("#one7Real").html(data.data.one7);
 		    	  $("#one21Real").html(data.data.one21);
 		    	  $("#two15Real").html(data.data.two15);
@@ -50,6 +50,7 @@ $(function () {
 });
 
 function toMoney(){
+	$("#tixian").hide();
 	var couponScoreReal = $("#couponTotalScoreReal").html();
 	console.log(couponScoreReal);
 	
@@ -57,10 +58,40 @@ function toMoney(){
 		
 	}
 	if(couponScoreReal >= 200){
-		swal({
-			  title: "券积分提现账单对接中，即将对接到，请耐心等待，感谢",
-			  icon: "info",
-			  button: "确定",
-		  });
+		$.ajax({
+			  type: "post",
+		      url: getAPIURL() + "quan/tiqu",
+		      dataType: "json",
+		      data: {
+		    	  "uid": localStorage.getItem("uid")
+		      },
+		      success:function(data){
+		    	  if(data.status == 200){
+		    		  swal({
+		    			  title: "等待官方审核",
+		    			  icon: "info",
+		    			  button: "确定",
+		    		  });
+		    		  $("#tixian").show();
+		    		  $("#couponYiyongScore").html(data.data);
+		    	  }else{
+		    		  swal({
+		    			  title: data.msg,
+		    			  icon: "error",
+		    			  button: "确定",
+		    		  });
+		    	  }
+		    	  $("#tixian").show();
+		      },
+		      error:function(){
+		    	  swal({
+	    			  title: "提取人数过多，请稍后重试",
+	    			  icon: "error",
+	    			  button: "确定",
+	    		  });
+		    	  $("#tixian").show();
+		      }
+		});
+		
 	}
 }

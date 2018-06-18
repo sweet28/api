@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.QuanBaoLiRecord;
-import com.carpi.api.pojo.QuanDakuanRecord;
 import com.carpi.api.service.QuanBaoLiRecordService;
+import com.carpi.api.service.TiQuService;
 
 @Controller
 @RequestMapping("/quan")
@@ -23,6 +23,9 @@ public class QuanBaoLiRecordContoller {
 
 	@Autowired
 	private QuanBaoLiRecordService quanBaoLiRecordService;
+	
+	@Autowired
+	private TiQuService tiQuService;
 
 	// 券宝理列表
 	@RequestMapping(value = "/list", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -102,5 +105,11 @@ public class QuanBaoLiRecordContoller {
 	@ResponseBody
 	public JsonResult shouk(@RequestParam("pipeiId") Integer pipeiId) {
 		return quanBaoLiRecordService.shouk(pipeiId);
+	}
+	
+	@RequestMapping(value = "/tiqu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult tiqu(@RequestParam("uid") Integer fensUserId) {
+		return tiQuService.addQuanJiFen(fensUserId);
 	}
 }

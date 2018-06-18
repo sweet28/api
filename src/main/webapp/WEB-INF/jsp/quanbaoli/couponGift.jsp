@@ -56,7 +56,7 @@
 				<p>券积分预计入账总数:<b id="couponTotalScore">0</b></p>
 				<p>券积分成功入账总数:<b id="couponTotalScoreReal"></b></p>
 				<p>已提现总数:<b id="couponYiyongScore">0</b></p>
-				<span style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;'>
+				<span id="tixian" style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;'>
 					<a style="color:#fff;" href="javascript:toMoney();">提现</a>
 				</span>
 			</li>

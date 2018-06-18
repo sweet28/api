@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.carpi.api.dao.TiquJineMapper" >
+  <resultMap id="BaseResultMap" type="com.carpi.api.pojo.TiquJine" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="bak1" property="bak1" jdbcType="VARCHAR" />
+    <result column="bak2" property="bak2" jdbcType="VARCHAR" />
+    <result column="bak3" property="bak3" jdbcType="VARCHAR" />
+    <result column="bak4" property="bak4" jdbcType="VARCHAR" />
+    <result column="bak5" property="bak5" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="creater" property="creater" jdbcType="VARCHAR" />
+    <result column="delete_date" property="deleteDate" jdbcType="TIMESTAMP" />
+    <result column="tixian_jiner" property="tixianJiner" jdbcType="DOUBLE" />
+    <result column="fens_user_id" property="fensUserId" jdbcType="INTEGER" />
+    <result column="tiqu_date" property="tiquDate" jdbcType="TIMESTAMP" />
+    <result column="tiqu_name" property="tiquName" jdbcType="VARCHAR" />
+    <result column="tiqu_type" property="tiquType" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, bak1, bak2, bak3, bak4, bak5, is_delete, create_date, creater, delete_date, tixian_jiner, 
+    fens_user_id, tiqu_date, tiqu_name, tiqu_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tiqu_jine
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tiqu_jine
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.carpi.api.pojo.TiquJine" >
+    insert into tiqu_jine (id, bak1, bak2, 
+      bak3, bak4, bak5, is_delete, 
+      create_date, creater, delete_date, 
+      tixian_jiner, fens_user_id, tiqu_date, 
+      tiqu_name, tiqu_type)
+    values (#{id,jdbcType=INTEGER}, #{bak1,jdbcType=VARCHAR}, #{bak2,jdbcType=VARCHAR}, 
+      #{bak3,jdbcType=VARCHAR}, #{bak4,jdbcType=VARCHAR}, #{bak5,jdbcType=VARCHAR}, #{isDelete,jdbcType=INTEGER}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{creater,jdbcType=VARCHAR}, #{deleteDate,jdbcType=TIMESTAMP}, 
+      #{tixianJiner,jdbcType=DOUBLE}, #{fensUserId,jdbcType=INTEGER}, #{tiquDate,jdbcType=TIMESTAMP}, 
+      #{tiquName,jdbcType=VARCHAR}, #{tiquType,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.carpi.api.pojo.TiquJine" >
+    insert into tiqu_jine
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bak1 != null" >
+        bak1,
+      </if>
+      <if test="bak2 != null" >
+        bak2,
+      </if>
+      <if test="bak3 != null" >
+        bak3,
+      </if>
+      <if test="bak4 != null" >
+        bak4,
+      </if>
+      <if test="bak5 != null" >
+        bak5,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="creater != null" >
+        creater,
+      </if>
+      <if test="deleteDate != null" >
+        delete_date,
+      </if>
+      <if test="tixianJiner != null" >
+        tixian_jiner,
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id,
+      </if>
+      <if test="tiquDate != null" >
+        tiqu_date,
+      </if>
+      <if test="tiquName != null" >
+        tiqu_name,
+      </if>
+      <if test="tiquType != null" >
+        tiqu_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="bak1 != null" >
+        #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null" >
+        #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null" >
+        #{bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tixianJiner != null" >
+        #{tixianJiner,jdbcType=DOUBLE},
+      </if>
+      <if test="fensUserId != null" >
+        #{fensUserId,jdbcType=INTEGER},
+      </if>
+      <if test="tiquDate != null" >
+        #{tiquDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tiquName != null" >
+        #{tiquName,jdbcType=VARCHAR},
+      </if>
+      <if test="tiquType != null" >
+        #{tiquType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.carpi.api.pojo.TiquJine" >
+    update tiqu_jine
+    <set >
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="bak4 != null" >
+        bak4 = #{bak4,jdbcType=VARCHAR},
+      </if>
+      <if test="bak5 != null" >
+        bak5 = #{bak5,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tixianJiner != null" >
+        tixian_jiner = #{tixianJiner,jdbcType=DOUBLE},
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id = #{fensUserId,jdbcType=INTEGER},
+      </if>
+      <if test="tiquDate != null" >
+        tiqu_date = #{tiquDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tiquName != null" >
+        tiqu_name = #{tiquName,jdbcType=VARCHAR},
+      </if>
+      <if test="tiquType != null" >
+        tiqu_type = #{tiquType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.carpi.api.pojo.TiquJine" >
+    update tiqu_jine
+    set bak1 = #{bak1,jdbcType=VARCHAR},
+      bak2 = #{bak2,jdbcType=VARCHAR},
+      bak3 = #{bak3,jdbcType=VARCHAR},
+      bak4 = #{bak4,jdbcType=VARCHAR},
+      bak5 = #{bak5,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      creater = #{creater,jdbcType=VARCHAR},
+      delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      tixian_jiner = #{tixianJiner,jdbcType=DOUBLE},
+      fens_user_id = #{fensUserId,jdbcType=INTEGER},
+      tiqu_date = #{tiquDate,jdbcType=TIMESTAMP},
+      tiqu_name = #{tiquName,jdbcType=VARCHAR},
+      tiqu_type = #{tiquType,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

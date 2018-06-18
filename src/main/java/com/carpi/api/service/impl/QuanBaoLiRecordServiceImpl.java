@@ -19,6 +19,7 @@ import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.dao.QuanBaoLiMapper;
 import com.carpi.api.dao.QuanBaoLiRecordMapper;
 import com.carpi.api.dao.QuanDakuanRecordMapper;
+import com.carpi.api.dao.TiQuMapper;
 import com.carpi.api.pojo.BankCard;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.pojo.QuanBaoLi;
@@ -43,6 +44,9 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 
 	@Autowired
 	private BankCardMapper bankCardDao;
+	
+	@Autowired
+	private TiQuMapper tiQuDao;
 
 	// 券宝理列表
 	@Override
@@ -78,7 +82,11 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		//查询3星券10天的
 		List<QuanBaoLiRecord> list4 = quanBaoLiRecordMapper.selectCouponGiftInfo(fensUserId,4,phone);
 		
-		
+		//查询已经提取过积分
+		Double money = tiQuDao.selectMoney(fensUserId);
+		if (money == null) {
+			money = 0.0;
+		}
 		//查询1星券7天的实际购买张数
 		List<QuanBaoLiRecord> listReal1 = quanBaoLiRecordMapper.selectCouponRealGiftInfo(fensUserId,1,phone);
 		//查询1星券21天的实际购买张数
@@ -116,7 +124,7 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		jo.put("three10Real", listReal4.size());
 		jo.put("couponTotalScoreReal", couponRealTenValue);
 		
-		jo.put("couponYiyongScore", 0);
+		jo.put("couponYiyongScore", money);
 		
 		
 		return JsonResult.ok(jo);
