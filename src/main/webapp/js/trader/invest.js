@@ -274,7 +274,7 @@
 	    	  "traderState": 0,
           	  "traderType": _type,
           	  "page": 0,
-          	  "row": 10000,
+          	  "row": 500,
           	  "traderId": localStorage.getItem("uid")
 	      },
 	      success: function (data) {
