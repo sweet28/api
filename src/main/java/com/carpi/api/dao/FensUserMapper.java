@@ -30,6 +30,8 @@ public interface FensUserMapper {
 	
 	// 所有用户列表
 	List<FensUser> selectAllUserNoTJ();
+	
+	List<FensUser> selectAllUserESPTdel();
 
 	// 粉丝团列表
 	List<FensUser> selectAllUser(String phone);

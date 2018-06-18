@@ -261,11 +261,11 @@
 	</update>
 	
 	<!-- 无条件查询所有真实用户 -->
-	<!--历史版本使用的 <select id="selectAllUserNoTJ" resultMap="BaseResultMap">
+	<select id="selectAllUserESPTdel" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from fens_user where is_delete = 0 and attachment = '1' and referee_phone is not null and referee_phone !=''
-	</select> -->
+		from fens_user where is_delete = 0 and attachment = '1'
+	</select>
 	<!-- <select id="selectAllUserNoTJ" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" /> , COUNT(DISTINCT phone) 
