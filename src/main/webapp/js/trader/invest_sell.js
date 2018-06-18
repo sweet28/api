@@ -348,7 +348,7 @@
 	    	  console.log(data);
 	    	  if(data.status==200){
 	    		  if(data.data!=null){
-	    			  $("#jye").html(data.data*1.2);
+	    			  $("#jye").html(data.data);
 	    		  }else{
 	    			  $("#jye").html(0);
 	    		  }
