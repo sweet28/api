@@ -49,11 +49,11 @@
 	<div class="cl"></div>
 	<div class="row buyin">
 		<div class="col-xs-6 buy_input">
-			<input type="number" name="" 
+			<b>交易数量:</b><input type="number" name="" 
 			 onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" 
 			 onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-			 placeholder="请输入交易数量" class="num" id="cpanum">
-			<input type="number" name="" placeholder="请输入交易单价" id="cpadj">
+			 placeholder="请输入交易数量" class="num" id="cpanum"/>
+			<b>交易单价:</b><input type="number" name="" placeholder="请输入交易单价" id="cpadj"/>
 		</div>
 		<div class="col-xs-6 buy_btn">
 			<a href="javascript:buyCPA(2);">出售</a>
