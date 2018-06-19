@@ -19,6 +19,10 @@ public interface FensEarnMapper {
 
     int updateByPrimaryKey(FensEarn record);
     
+    int updateByFensUserID(@Param("fensUserId") Integer fensUserId);
+    
+    Double selectGradeGiftFensEarnLockSum(@Param("fensUserId") Integer fensUserId);
+    
     //粉丝收益列表
     List<FensEarn> selectFensEarn(@Param("fensUserId") Integer fensUserId);
     

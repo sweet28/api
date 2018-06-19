@@ -288,7 +288,7 @@
 		<where>
 		    is_delete = 0
 			<if test="quanId != null">
-				and quan_id = #{quanId,jdbcType=INTEGER}
+				and quan_id = #{quanId,jdbcType=INTEGER} and type is null 
 			</if>
 		</where>
 	</select>
@@ -299,10 +299,34 @@
 		<include refid="Base_Column_List" />
 		from quan_dakuan_record
 		<where>
-		    is_delete = 0 and dakuan_type = #{dakuanType,jdbcType=INTEGER}
+		    is_delete = 0 and dakuan_type = #{dakuanType,jdbcType=INTEGER} and type is null 
 			<if test="quanId != null">
 				and quan_id = #{quanId,jdbcType=INTEGER}
 			</if>
 		</where>
+	</select>
+	
+	<!-- 根据券id查询打款记录表中的信息（主要是打款人id） dakuan_type = 1待打款-->
+   <select id="selectlistCouponGiftbyType" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_dakuan_record
+		<where>
+		    is_delete = 0 and type = '2' 
+			<if test="quanId != null">
+				and quan_id = #{quanId,jdbcType=INTEGER}
+			</if>
+			<if test="dakuanType != null">
+				and dakuan_type = #{dakuanType,jdbcType=INTEGER}
+			</if>
+		</where>
+	</select>
+	
+	 <!-- 根据券积分id查询打款记录表中的信息-->
+   <select id="selectlistCouponGift" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_dakuan_record
+		where is_delete = 0 and quan_id = #{giftId,jdbcType=INTEGER} and type = '2'
 	</select>
 </mapper>

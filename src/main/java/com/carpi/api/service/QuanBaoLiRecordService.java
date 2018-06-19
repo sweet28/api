@@ -27,4 +27,12 @@ public interface QuanBaoLiRecordService {
 	JsonResult shouk(Integer pipeiId);
 
 	JsonResult couponGiftInfo(Integer fensUserId, String phone);
+
+	public JsonResult couponGiftList(Integer valueOf, String phone);
+
+	public JsonResult couponGiftListInfo(Integer valueOf);
+
+	JsonResult shoukuanCoupon(Integer pipeiId, Integer type);
+
+	public JsonResult fukCoupon(Integer pipeiId, Integer type);
 }

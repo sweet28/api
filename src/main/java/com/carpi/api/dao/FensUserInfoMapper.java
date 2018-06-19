@@ -10,8 +10,16 @@ public interface FensUserInfoMapper {
     int insertSelective(FensUserInfo record);
 
     FensUserInfo selectByPrimaryKey(Integer id);
+    
+    FensUserInfo selectByFensUserId(Integer fensUserId);
 
     int updateByPrimaryKeySelective(FensUserInfo record);
+    
+    int updateByPrimaryKeySelectiveByFensUserId(FensUserInfo record);
 
     int updateByPrimaryKey(FensUserInfo record);
+    
+    int selectTotalChildFensOne(Integer fensUserId);
+
+    int selectTotalChildFensTwo(Integer fensUserId);
 }

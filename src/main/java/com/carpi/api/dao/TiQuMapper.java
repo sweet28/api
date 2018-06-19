@@ -1,5 +1,7 @@
 package com.carpi.api.dao;
 
+import java.util.List;
+
 import com.carpi.api.pojo.TiQu;
 
 public interface TiQuMapper {
@@ -19,5 +21,7 @@ public interface TiQuMapper {
     Double selectMoney(Integer fensUserId);
     
     //防止多次点击
-    TiQu selectTiQu(Integer fensUserId);
+    Integer selectTiQu(Integer fensUserId);
+    
+    List<TiQu> selectTiQuListByUid(Integer fensUserId);
 }

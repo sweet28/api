@@ -270,6 +270,32 @@
 		where is_delete = 0 and earn_type in (41,42,43)  and fens_user_id = #{fensUserId,jdbcType=INTEGER}
 	</select>
 	
+	<!--粉丝收益分红之和 -->
+	<select id="selectGradeGiftFensEarnLockSum" parameterType="java.lang.Integer"
+			resultType="java.lang.Double">
+		select
+		sum(earn_count)
+		from fens_earn
+		where is_delete = 0 and earn_type in (41,42,43)  and fens_user_id = #{fensUserId,jdbcType=INTEGER} and earn_state = 2
+	</select>
+	
+	<!-- <select id="selectAllSum" parameterType="java.lang.Integer">
+		select
+		count(id)
+		from fens_user
+		<where>
+			<if test="_parameter != null">
+				referee_phone = #{phone,jdbcType=VARCHAR} and is_delete=0 and attachment='1' 
+			</if>
+		</where>
+	</select> -->
+	
+	<update id="updateByFensUserID" parameterType="java.lang.Integer">
+		update fens_earn
+		set earn_state = 1
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER}
+	</update>
+	
 	<!--粉丝是否获取昨天全球交易量收益列表 -->
 	<select id="selectIsGiftFensEarn" resultMap="BaseResultMap">
 		select

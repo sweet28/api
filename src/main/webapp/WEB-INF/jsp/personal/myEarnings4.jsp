@@ -74,6 +74,9 @@
 	<div class="order_list">
 		<ul>
 			<li><span style="color:red;">节点全球交易分红记录</span>
+				<span id="tiquCoupon" style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;'>
+					<a style="color:#fff;" href="javascript:addGiftCoupon();">提取</a>
+				</span>
 				<div class='text' id="earngift">
 					<p><b></b></p>
 				</div>

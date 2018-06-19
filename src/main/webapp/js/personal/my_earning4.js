@@ -69,7 +69,7 @@ function Gift() {
 		    		  var list = data.data;
 		    		  var html = "";
 		    		  $.each( list, function(index, feran){
-		    			  var giftType = "节点收益分红:";
+		    			  var giftType = "分红:";
 		    			  
 		    			  if(feran.type == 41){
 		    				  var giftType = "普通节点收益分红:";
@@ -81,7 +81,12 @@ function Gift() {
 							  var giftType = "超级节点收益分红:";
 						  }
 						  
-		    			  html += "<p>"+giftType+"<b>"+feran.earnCount+"</b>--获取时间:"+fmtDate(feran.earnDate)+"</p>";
+						  var state = "未提取";
+						  if(feran.earnState == 1){
+							  state = "已提取";
+						  }
+						  
+		    			  html += "<p>"+giftType+"<b>"+feran.earnCount+"</b>-获取时间:"+fmtDate(feran.earnDate)+"--" + state + "</p>";
 		    		  });
 		    		  
 		    		  $("#earngift").html(html);
@@ -111,3 +116,34 @@ var gift;
 $(function () {
   gift = new Gift();
 });
+
+function addGiftCoupon(){
+	console.log("gift coupon");
+	$("#tiquCoupon").hide();
+	
+	$.ajax({
+	      type: "post",
+	      url: getAPIURL() + "user/fens/addEarnGift",
+	      dataType: "json",
+	      data: {
+	    	  "uid": localStorage.getItem("uid")
+	      },
+	      success: function (data) {
+	    	  console.log(data);
+	    	  
+	    	  if(data.status == 200){
+	    		  alert("提取成功");
+	    		  $("#tiquCoupon").show();
+	    	  }else{
+	    		  alert(data.msg);
+	    		  $("#tiquCoupon").show();
+	    	  }
+	      },error:function(){
+	    	  console.log(333);
+	    	  $("#tiquCoupon").show();
+	      }, headers: {
+	        "Authorization": "Bearer " + getTOKEN()
+	      }
+	});
+}
+

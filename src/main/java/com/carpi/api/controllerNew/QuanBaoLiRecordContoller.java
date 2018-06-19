@@ -70,6 +70,34 @@ public class QuanBaoLiRecordContoller {
 		}
 		return quanBaoLiRecordService.couponGiftInfo(Integer.valueOf(fensUserId),phone);
 	}
+	
+	// 券宝理领导人券积分信息汇总
+	@RequestMapping(value = "/couponGiftList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult couponGiftList(HttpServletRequest request, HttpServletResponse response) {
+		// 粉丝id
+		String fensUserId = request.getParameter("uid");
+		if (fensUserId == null) {
+			return JsonResult.build(500, "请重新登入");
+		}
+		String phone = request.getParameter("phone");
+		if (phone == null) {
+			return JsonResult.build(500, "请重新登入");
+		}
+		return quanBaoLiRecordService.couponGiftList(Integer.valueOf(fensUserId),phone);
+	}
+	
+	// 券宝理领导人券积分信息汇总
+	@RequestMapping(value = "/couponGiftListInfo", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult couponGiftListInfo(HttpServletRequest request, HttpServletResponse response) {
+		// 粉丝id
+		String id = request.getParameter("id");
+		if (id == null) {
+			return JsonResult.build(500, "请重新登入");
+		}
+		return quanBaoLiRecordService.couponGiftListInfo(Integer.valueOf(id));
+	}
 
 	// 查询券详情
 	@RequestMapping(value = "/{id}", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -93,7 +121,7 @@ public class QuanBaoLiRecordContoller {
 		return quanBaoLiRecordService.pipeixiangQing(id);
 	}
 
-	// 券保理买家付款
+	// 券保理/积分买家付款
 	@RequestMapping(value = "/fuk", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult fuk(@RequestParam("pipeiId") Integer pipeiId) {
@@ -105,6 +133,20 @@ public class QuanBaoLiRecordContoller {
 	@ResponseBody
 	public JsonResult shouk(@RequestParam("pipeiId") Integer pipeiId) {
 		return quanBaoLiRecordService.shouk(pipeiId);
+	}
+	
+	// 券保理/积分买家付款
+	@RequestMapping(value = "/fukCoupon", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult fukCoupon(@RequestParam("pipeiId") Integer pipeiId) {
+		return quanBaoLiRecordService.fukCoupon(pipeiId, 1);
+	}
+	
+	// 券积分卖家收款
+	@RequestMapping(value = "/shoukCoupon", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult shoukuanCoupon(@RequestParam("pipeiId") Integer pipeiId) {
+		return quanBaoLiRecordService.shoukuanCoupon(pipeiId, 2);
 	}
 	
 	@RequestMapping(value = "/tiqu", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

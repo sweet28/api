@@ -249,16 +249,25 @@
 		sum(tixian_jiner)
 		from tiqu
 		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 0
-		and tiqu_type = 3
+		and tiqu_type = 4
 	</select>
 	
 	<!--防止多次点击 -->
-	<select id="selectTiQu" resultType="java.lang.Double"
+	<select id="selectTiQu" resultType="java.lang.Integer"
+		parameterType="java.lang.Integer">
+		select
+		count(id) 
+		from tiqu
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 0
+		and tiqu_type in (1,2,3)
+	</select>
+	
+	<select id="selectTiQuListByUid" resultMap="BaseResultMap"
 		parameterType="java.lang.Integer">
 		select
 		<include refid="Base_Column_List" />
 		from tiqu
 		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 0
-		and tiqu_type = 1
 	</select>
+	
 </mapper>

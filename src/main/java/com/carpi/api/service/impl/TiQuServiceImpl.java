@@ -51,6 +51,12 @@ public class TiQuServiceImpl implements TiQuService {
 		}
 		
 		//防止多次点击
+		Integer isCunzai = tiQuDao.selectTiQu(fensUserId);
+		if(isCunzai != null){
+			if(isCunzai > 0){
+				return JsonResult.build(500, "有积分提取未完成的订单，请完成后再进行新的提取");
+			}
+		}
 		
 		// 提现积分
 		Double couponRealTotalValue = quanBaoLiRecordMapper.selectCouponGiftRealTotalValue(fensUserId,

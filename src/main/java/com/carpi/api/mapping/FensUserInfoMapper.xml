@@ -280,4 +280,96 @@
       profit_bonus = #{profitBonus,jdbcType=DOUBLE}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+  <update id="updateByPrimaryKeySelectiveByFensUserId" parameterType="com.carpi.api.pojo.FensUserInfo" >
+    update fens_user_info
+    <set >
+      <if test="bak1 != null" >
+        bak1 = #{bak1,jdbcType=VARCHAR},
+      </if>
+      <if test="bak2 != null" >
+        bak2 = #{bak2,jdbcType=VARCHAR},
+      </if>
+      <if test="bak3 != null" >
+        bak3 = #{bak3,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creater != null" >
+        creater = #{creater,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteDate != null" >
+        delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attachment != null" >
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="fensUserId != null" >
+        fens_user_id = #{fensUserId,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=VARCHAR},
+      </if>
+      <if test="titlePic != null" >
+        title_pic = #{titlePic,jdbcType=VARCHAR},
+      </if>
+      <if test="fensCount != null" >
+        fens_count = #{fensCount,jdbcType=BIGINT},
+      </if>
+      <if test="fensComputingPower != null" >
+        fens_computing_power = #{fensComputingPower,jdbcType=DOUBLE},
+      </if>
+      <if test="fensEarningPower != null" >
+        fens_earning_power = #{fensEarningPower,jdbcType=DOUBLE},
+      </if>
+      <if test="minerComputingPower != null" >
+        miner_computing_power = #{minerComputingPower,jdbcType=DOUBLE},
+      </if>
+      <if test="fensGrade != null" >
+        fens_grade = #{fensGrade,jdbcType=INTEGER},
+      </if>
+      <if test="profitBonus != null" >
+        profit_bonus = #{profitBonus,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where fens_user_id = #{fensUserId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByFensUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from fens_user_info
+    where fens_user_id = #{fensUserId,jdbcType=INTEGER}
+  </select>
+  
+  	<!--粉丝求和1 -->
+	<select id="selectTotalChildFensOne" parameterType="java.lang.Integer"
+			resultType="java.lang.Integer">
+		select
+		count(id)
+		from fens_user_info
+		where is_delete = 0 and fens_user_id = #{fensUserId,jdbcType=INTEGER} and fens_grade = 1
+	</select>
+	<!--粉丝求和2 -->
+	<select id="selectTotalChildFensTwo" parameterType="java.lang.Integer"
+			resultType="java.lang.Integer">
+		select
+		count(id)
+		from fens_user_info
+		where is_delete = 0 and fens_user_id = #{fensUserId,jdbcType=INTEGER} and fens_grade = 2
+	</select>
+	
 </mapper>

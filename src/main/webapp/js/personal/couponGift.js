@@ -17,7 +17,7 @@ function Gift() {
 		    	  "phone": localStorage.getItem("phone")
 		      },
 		      success: function (data) {
-
+		    	  console.log(data.data);
 		    	  $("#couponTotalScore").html(data.data.couponTotalScore);
 		    	  $("#couponYiyongScore").html(data.data.couponYiyongScore);
 		    	  $("#one7").html(data.data.one7);
@@ -26,10 +26,12 @@ function Gift() {
 		    	  $("#three10").html(data.data.three10);
 		    	  
 		    	  $("#couponTotalScoreReal").html(data.data.couponTotalScoreReal);
-		    	  $("#one7Real").html(data.data.one7);
-		    	  $("#one21Real").html(data.data.one21);
-		    	  $("#two15Real").html(data.data.two15);
-		    	  $("#three10Real").html(data.data.three10);
+		    	  $("#one7Real").html(data.data.one7Real);
+		    	  $("#one21Real").html(data.data.one21Real);
+		    	  $("#two15Real").html(data.data.two15Real);
+		    	  $("#three10Real").html(data.data.three10Real);
+		    	  
+		    	  $("#couponYiyongScore").html(data.data.couponYiyongScore);
 		    	  
 		      },error:function(){
 		    	  console.log(333);
@@ -68,7 +70,7 @@ function toMoney(){
 		      success:function(data){
 		    	  if(data.status == 200){
 		    		  swal({
-		    			  title: "等待官方审核",
+		    			  title: "等待提取匹配",
 		    			  icon: "info",
 		    			  button: "确定",
 		    		  });

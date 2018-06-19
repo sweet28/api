@@ -7,39 +7,64 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>券保理</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="<%=path%>/css/bootstrap.min.css">
-<link rel="stylesheet" href="<%=path%>/css/style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>券保理详情</title>
+<link rel="stylesheet" type="text/css" href="<%=path%>/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="<%=path%>/css/style.css">
 <link rel="stylesheet" href="<%=path%>/cssnew/style.css">
 <script src="<%=path%>/lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+<style>
+	body{ background: #f1f0f6; }
+</style>
 </head>
 <body>
 	<header>
-		<span>券保理--待收款</span>
-		<a href="<%=path%>/cpa/personal" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
+		<span>券积分提取详情</span>
+		<a href="<%=path%>/cpa/couponScoreList" class="history"><img src="<%=path%>/images/go.png" alt=""></a>
 		<a href="#" class="share"><img src="<%=path%>/images/share.png" alt=""></a>
 	</header>
 	<div class="cl"></div>
-	<div class="order">
-		<ul>
-			<li><a href="<%=path%>/cpa/couponGift"><img src="<%=path%>/images/o4.jpg" alt=""><p>我的券保理</p></a></li>
-			<li><a href="<%=path%>/cpa/couponScoreList"><img src="<%=path%>/images/o4.jpg" alt=""><p>券积分提取</p></a></li>
-			<li><a href="<%=path%>/cpa/quanbl"><img src="<%=path%>/images/o1.jpg" alt=""><p>我的券保理</p></a></li>
-			<li><a href="<%=path%>/cpa/quanbl2"><img src="<%=path%>/images/o3.jpg" alt=""><p>我的待付款</p></a></li>
-			<li><a href="<%=path%>/cpa/quanbl3"><img src="<%=path%>/imagenew/pic1.png" alt=""><p>我的待收款</p></a></li>
-		</ul>
+	<div class="buy_detail">
+		<div class="row title" id = "name">
+		</div>
+		<div class="row desc">
+			<div class="bdc bdc1">
+				<b id = "sybil"></b>
+				<p>提取人</p>
+			</div>
+			<div class="bdc bdc2">
+				<b id = "day"></b>
+				<p>提取额度</p>
+			</div>
+		</div>
+	</div>
+	<div class="cycle">
+		<div class="row title">
+		</div>
+		<div class="cycle_list">
+		</div>
 	</div>
 	<div class="cl"></div>
-	<div class="coupon">
-		<ul id = "lieb">
-		</ul>
+	<div class="order_list">
+ 		<ul id="a_miner">
+ 			<!-- <li style="margin-top: 18px;">
+ 				<p>状态：待打款</p>
+				<span>订单号：1003834109555900416</span>
+ 				<p>打款人：</p>
+ 				<span
+ 				style='float: right; background: #E91E63; display: inline-block; width: 20%; height: 30px; text-align: center; line-height: 30px;'>
+ 					<a style='font-weight: bold; color: #fff;' href='traderDetail?5550'>详情</a>
+ 				</span>
+ 			</li> -->
+ 		</ul>
 	</div>
 	
-	<div class="line"></div>
+	<div class="order_list">
+	</div>
+	
 	<div class="space"></div>
 	<div class="menu">
 		<ul>
@@ -51,5 +76,5 @@
 		</ul>
 	</div>
 </body>
-<script type="text/javascript" src="<%=path%>/js/personal/quanbl3.js"></script>
+<script type="text/javascript" src="<%=path%>/js/personal/couponScoreDetail.js"></script>
 </html>

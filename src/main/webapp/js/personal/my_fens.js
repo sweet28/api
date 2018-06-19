@@ -4,7 +4,7 @@ function Gift() {
   
   var flag = checkLogin();
 
-  function comptime() {
+  /*function comptime() {
 	  $.ajax({
 	      type: "post",
 	      url: getAPIURL() + "user/fens/listQINYOU",
@@ -31,6 +31,58 @@ function Gift() {
 										"<div class='text'>" +
 											"<p>名称：<b>"+nm+"</b></p>" +
 											"<p>号码：<b>"+inph+"</b></p>" +
+										"</div>" +
+										"<div class='look'>" +
+											"<a href='#'></a>" +
+										"</div>" +
+									"</li>" +
+							   "</ul>";
+	  				});
+	  	        	$("#qytuan").html(list.length);
+	  	        	
+	  	        	localStorage.setItem("qinyouteamnum",list.length);
+	  	        	
+	  	        	$("#gift").html(html);
+	  	        }
+	    	  
+	      }, headers: {
+	        "Authorization": "Bearer " + getTOKEN()
+	      }
+	    });
+  }*/
+  
+  function comptime() {
+	  $.ajax({
+	      type: "post",
+	      url: getAPIURL() + "user/fens/listQINYOUJson",
+	      dataType: "json",
+	      data: {
+	    	  "sh": localStorage.getItem("phone")
+	      },
+	      success: function (data) {
+	    	  console.log("000000000000000000000666666000000000000000");
+	    	  console.log(data.data+"----------------------");
+			    var list = data.data;
+	  	        if (list.length <= 0) {
+	  	        	$("#qytuan").html(0);
+	  	        	$("#gift").html("暂无数据");
+	  	        } else {
+	  	        	var html = "";
+	  	        	$.each( list, function(index, content){
+	  	        		var inph = content.fensPhone;
+	  	        		//inph = inph.substring(0, 3) + "****" + inph.substring(7, 11);
+	  	        		
+	  	        		var nm = content.fensName;
+	  	        		nm = "***"+nm.substring(1);
+	  				    //html += "<tr><td class='first'>"+(index+1)+"</td><td>"+nm+"</td><td>"+inph+"</td></tr>";
+	  				    html += "<ul>" + (index+1) +
+			    					"<li>" +
+										"<div class='text'>" +
+											"<p>名称：<b>"+nm+"</b></p>" +
+											"<p>号码：<b>"+inph+"</b></p>" +
+											"<p>级别：<b>"+content.fensGrade+"</b></p>" +
+											"<p>粉丝团人数：<b>"+content.fensTeamNum+"</b></p>" +
+											"<p>粉丝团算力：<b>"+content.fensTeamPower+"</b></p>" +
 										"</div>" +
 										"<div class='look'>" +
 											"<a href='#'></a>" +

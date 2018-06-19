@@ -173,7 +173,17 @@ public class FensMinerServiceImpl implements FensMinerService {
 			if (b >= 1) {
 				double rundate = dd.getTime() - miner.getCreateDate().getTime();//矿机总的运行时间
 				rundate = rundate / (1000 * 60 * 60 * 24);//转化成天数
+				
+				/**
+				 * 用于判定不同类型的矿机
+				 */
+				double realRunday = rundate;
+				int minerType = 0;
+				int minerGrade = 0;
 
+				minerType = miner.getMinerType();
+				minerGrade = Integer.parseInt(miner.getBak1());
+				
 				/*
 				 * 总运行时间若超过15天生命周期则设定为15
 				 */
@@ -257,7 +267,36 @@ public class FensMinerServiceImpl implements FensMinerService {
 				if (rundate >= 15) {
 					if ((nowZSY - yhdSY) < 1) {
 						beishu = 1;
-					} 
+					}
+					
+					/*
+					 * ca2/3/4  cb按照20天、25天、35天取币结束分别计算
+					 */
+					if(minerType == 1){
+						if(minerGrade == 2){
+							if(realRunday >= 20){
+								beishu = 1;
+							}
+						}
+						if(minerGrade == 3){
+							if(realRunday >= 25){
+								beishu = 1;
+							}
+						}
+						if(minerGrade == 4){
+							if(realRunday >= 35){
+								beishu = 1;
+							}
+						}
+						
+					}
+					
+					if(minerType == 2){
+						if(realRunday >= 20){
+							beishu = 1;
+						}
+						
+					}
 				} 
 				
 				// 可提取收益（不带倍数比例的）
@@ -444,6 +483,16 @@ public class FensMinerServiceImpl implements FensMinerService {
 					double rundate = dd.getTime() - miner.getCreateDate().getTime();//矿机总的运行时间
 					rundate = rundate / (1000 * 60 * 60 * 24);//转化成天数
 
+					/**
+					 * 用于判定不同类型的矿机
+					 */
+					double realRunday = rundate;
+					int minerType = 0;
+					int minerGrade = 0;
+
+					minerType = miner.getMinerType();
+					minerGrade = Integer.parseInt(miner.getBak1());
+					
 					/*
 					 * 总运行时间若超过15天生命周期则设定为15
 					 */
@@ -527,8 +576,38 @@ public class FensMinerServiceImpl implements FensMinerService {
 					if (rundate >= 15) {
 						if ((nowZSY - yhdSY) < 1) {
 							beishu = 1;
-						} 
+						}
+						
+						/*
+						 * ca2/3/4  cb按照20天、25天、35天取币结束分别计算
+						 */
+						if(minerType == 1){
+							if(minerGrade == 2){
+								if(realRunday >= 20){
+									beishu = 1;
+								}
+							}
+							if(minerGrade == 3){
+								if(realRunday >= 25){
+									beishu = 1;
+								}
+							}
+							if(minerGrade == 4){
+								if(realRunday >= 35){
+									beishu = 1;
+								}
+							}
+							
+						}
+						
+						if(minerType == 2){
+							if(realRunday >= 20){
+								beishu = 1;
+							}
+							
+						}
 					} 
+					
 					
 					// 可提取收益（不带倍数比例的）
 					kySY = (nowZSY - yhdSY);

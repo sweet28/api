@@ -307,4 +307,20 @@ public class PageController {
 	public String quanbl3() {
 		return "quanbaoli/quanbl3";
 	}
+	
+	@RequestMapping("/couponScoreList")
+	public String couponScoreList() {
+		return "quanbaoli/couponScoreList";
+	}
+	
+	@RequestMapping("/couponScoreDetail")
+	public String couponScoreDetail() {
+		return "quanbaoli/couponScoreDetail";
+	}
+	
+	@RequestMapping("/couponOrderDetailInfo")
+	public String couponOrderDetailInfo() {
+		return "quanbaoli/couponOrderDetailInfo";
+	}
+	
 }

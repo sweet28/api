@@ -86,4 +86,14 @@ public interface FensUserService {
 	public JsonResult selectGradePowerGift(Integer valueOf);
 
 	public JsonResult selectGradeEran(Integer valueOf);
+
+	public JSONObject getFensUserGrade(String phone, Integer valueOf);
+
+	public JsonResult addGradePowerGift(Integer valueOf);
+
+	public JsonResult addEarnGift(Integer valueOf);
+
+	public JSONObject getFensUserGradeLittle(String phone, Integer valueOf);
+
+	JsonResult selectListQINYOUJson(String phone);
 }

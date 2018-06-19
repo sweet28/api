@@ -25,6 +25,7 @@ import com.carpi.api.pojo.FensUser;
 import com.carpi.api.pojo.QuanBaoLi;
 import com.carpi.api.pojo.QuanBaoLiRecord;
 import com.carpi.api.pojo.QuanDakuanRecord;
+import com.carpi.api.pojo.TiQu;
 import com.carpi.api.service.QuanBaoLiRecordService;
 
 @Service
@@ -239,7 +240,104 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		if (reult != 1) {
 			return JsonResult.build(500, "收款失败");
 		}
+		
+		if(reult == 1){
+			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlist(pipeiId, 2);
+		}
+		
 		return JsonResult.ok();
+	}
+	
+	//券保理卖家收款
+	@Override
+	public JsonResult shoukuanCoupon(Integer pipeiId, Integer type) {
+		if(StringUtils.isEmpty(pipeiId)) {
+			return JsonResult.build(500, "请选择打款信息");
+		}
+		QuanDakuanRecord quanDakuanRecord = new QuanDakuanRecord();
+		//已确认收款
+		quanDakuanRecord .setDakuanType(3);
+		quanDakuanRecord.setId(pipeiId);
+		quanDakuanRecord.setShoukuanDate(TimeUtil.getTimeStamp());
+		int reult = quanDakuanRecordMapper.updateByPrimaryKeySelective(quanDakuanRecord);
+		if (reult != 1) {
+			return JsonResult.build(500, "收款失败");
+		}
+		
+		if(reult == 1){
+			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponGiftbyType(pipeiId,type);
+			
+			if(qdkrList.size() <= 0){
+				QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
+				TiQu tiQu = new TiQu();
+				tiQu.setId(qdkRecord.getQuanId());
+				tiQu.setTiquType(4);
+				
+				tiQuDao.updateByPrimaryKeySelective(tiQu);
+			}
+		}
+		
+		return JsonResult.ok();
+	}
+	
+	//券保理买家付款
+	@Override
+	public JsonResult fukCoupon(Integer pipeiId, Integer type) {
+		if(StringUtils.isEmpty(pipeiId)) {
+			return JsonResult.build(500, "请选择打款信息");
+		}
+		QuanDakuanRecord quanDakuanRecord = new QuanDakuanRecord();
+		//已确认付款
+		quanDakuanRecord .setDakuanType(2);
+		quanDakuanRecord.setId(pipeiId);
+		quanDakuanRecord.setShoukuanDate(TimeUtil.getTimeStamp());
+		int reult = quanDakuanRecordMapper.updateByPrimaryKeySelective(quanDakuanRecord);
+		if (reult != 1) {
+			return JsonResult.build(500, "付款失败");
+		}
+		
+		if(reult == 1){
+			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponGiftbyType(pipeiId,type);
+			
+			if(qdkrList.size() <= 0){
+				QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
+				TiQu tiQu = new TiQu();
+				tiQu.setId(qdkRecord.getQuanId());
+				tiQu.setTiquType(3);
+				
+				tiQuDao.updateByPrimaryKeySelective(tiQu);
+			}
+		}
+		
+		return JsonResult.ok();
+	}
+
+	@Override
+	public JsonResult couponGiftList(Integer uid, String phone) {
+		List<TiQu> list = tiQuDao.selectTiQuListByUid(uid);
+
+		if (list.size() <= 0) {
+			return JsonResult.build(500, "暂无记录");
+		}
+		
+		return JsonResult.ok(list);
+	}
+
+	@Override
+	public JsonResult couponGiftListInfo(Integer id) {
+		TiQu tiQu = tiQuDao.selectByPrimaryKey(id);
+
+		if (tiQu == null) {
+			return JsonResult.build(500, "暂无记录");
+		}
+		
+		List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponGift(id);
+		
+		Map<String,Object> map = new HashMap<>();
+		map.put("tiquInfo", tiQu);
+		map.put("orderList", qdkrList);
+		
+		return JsonResult.ok(map);
 	}
 
 }
