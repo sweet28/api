@@ -1168,8 +1168,12 @@ public class FensUserServiceImpl implements FensUserService {
         		 * 若更新时，不更新等级
         		 * 插入时，插入等级
         		 */
-        		fuInfo.setFensGrade(gradeFlag);// 节点等级
-        		fensUserInfoMapper.insertSelective(fuInfo);
+        		if(fensUserInfoMapper.selectByFensUserId(allList.get(j).getId()) == null){
+	        		fuInfo.setFensGrade(gradeFlag);// 节点等级
+	        		fensUserInfoMapper.insertSelective(fuInfo);
+        		}else{
+        			fensUserInfoMapper.updateByPrimaryKeySelectiveByFensUserId(fuInfo);
+        		}
         		
         		System.out.println("--------------------:"+j);
         		

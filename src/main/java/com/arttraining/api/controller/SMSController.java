@@ -81,7 +81,7 @@ public class SMSController {
 				long nowTime = new Date().getTime();
 				long diffSeconds = TimeUtil.diffSeconds(nowTime, createTime);
 				System.out.println("createTime:"+createTime+"-nowTime:"+nowTime+"-diffSeconds:"+diffSeconds);
-				if(diffSeconds < 60){
+				if(diffSeconds < 180){
 					System.out.println("时间间隔太小，老弟你刷短信纳是吧，果断拒绝你");
 //					errorCode = "20046";
 //					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20046;

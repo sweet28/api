@@ -14,6 +14,21 @@
     arr1.push(num1);
     return arr1;
   }
+  
+//  $.ajax({
+//	    type: "post",
+//	    url: getAPIURL() + "user/fens/selectFensUserGrade",
+//	    dataType: "json",
+//	    data: {
+//	    	"sh": localStorage.getItem("phone"),
+//	    	 "uid": localStorage.getItem("uid")
+//	    },
+//	    success: function (data) {
+//	    },
+//	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+//
+//	    }
+//	  });
 
   //	先判断是否登录
   var flag = checkLogin();

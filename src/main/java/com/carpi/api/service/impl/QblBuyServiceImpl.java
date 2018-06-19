@@ -50,8 +50,8 @@ public class QblBuyServiceImpl implements QblBuyService {
 		int sum = fensMinerDao.selectSum("1", quanBaoLiRecord.getFensUserId());
 		// 券保理1星券(7天)数量
 		int sum2 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 1);
-		int sum3 = sum - sum2 * 2;
-		if (sum3 < 2) {
+		int sum3 = sum - sum2 * 1;
+		if (sum3 < 1) {
 			return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买");
 		}
 		if (!check(quanBaoLiRecord.getFensUserId())) {
@@ -80,8 +80,8 @@ public class QblBuyServiceImpl implements QblBuyService {
 		int sum = fensMinerDao.selectSum("1", quanBaoLiRecord.getFensUserId());
 		// 券保理1星券(21天)数量
 		int sum2 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 2);
-		int sum3 = sum - sum2 * 2;
-		if (sum3 < 2) {
+		int sum3 = sum - sum2 * 1;
+		if (sum3 < 1) {
 			return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买 ");
 		}
 		if (!check(quanBaoLiRecord.getFensUserId())) {
