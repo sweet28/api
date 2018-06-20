@@ -267,7 +267,7 @@
 		select
 		<include refid="Base_Column_List" />
 		from fens_earn
-		where is_delete = 0 and earn_type in (41,42,43)  and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+		where is_delete = 0 and earn_type in (41,42,43)  and fens_user_id = #{fensUserId,jdbcType=INTEGER} order by create_date desc
 	</select>
 	
 	<!--粉丝收益分红之和 -->
