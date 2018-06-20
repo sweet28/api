@@ -353,9 +353,12 @@ public class FensMinerServiceImpl implements FensMinerService {
 				wallet2.setCpaCount(fensWallet.getCpaCount() + kySY * beishu);
 				wallet2.setId(fensWallet.getId());
 				// 更新钱包可用cpa
-				int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
-				if (result2 != 1) {
-					ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + miner.getFensUserId());
+				
+				if(kySY > 0){
+					int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
+					if (result2 != 1) {
+						ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + miner.getFensUserId());
+					}
 				}
 
 				try {
@@ -387,9 +390,12 @@ public class FensMinerServiceImpl implements FensMinerService {
 							ldrWallet2.setCpaCount(ldrWallet.getCpaCount() + (kySY - (djSL / miner.getMinerComputingPower()) * syyz * rundate / 15) * beishu * 0.01);
 							ldrWallet2.setId(ldrWallet.getId());
 							// 更新钱包可用cpa
-							int result3 = fensWalletMapper.updateByPrimaryKeySelective(ldrWallet2);
-							if (result3 != 1) {
-								ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + miner.getFensUserId());
+							
+							if((kySY - (djSL / miner.getMinerComputingPower()) * syyz * rundate / 15) > 0){
+								int result3 = fensWalletMapper.updateByPrimaryKeySelective(ldrWallet2);
+								if (result3 != 1) {
+									ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + miner.getFensUserId());
+								}
 							}
 						}
 					}
@@ -663,9 +669,11 @@ public class FensMinerServiceImpl implements FensMinerService {
 					wallet2.setCpaCount(fensWallet.getCpaCount() + kySY * beishu);
 					wallet2.setId(fensWallet.getId());
 					// 更新钱包可用cpa
-					int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
-					if (result2 != 1) {
-						ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + miner.getFensUserId());
+					if(kySY > 0){
+						int result2 = fensWalletMapper.updateByPrimaryKeySelective(wallet2);
+						if (result2 != 1) {
+							ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + miner.getFensUserId());
+						}
 					}
 
 					try {
@@ -697,9 +705,11 @@ public class FensMinerServiceImpl implements FensMinerService {
 								ldrWallet2.setCpaCount(ldrWallet.getCpaCount() + (kySY - (djSL / miner.getMinerComputingPower()) * syyz * rundate / 15) * beishu * 0.01);
 								ldrWallet2.setId(ldrWallet.getId());
 								// 更新钱包可用cpa
-								int result3 = fensWalletMapper.updateByPrimaryKeySelective(ldrWallet2);
-								if (result3 != 1) {
-									ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + miner.getFensUserId());
+								if((kySY - (djSL / miner.getMinerComputingPower()) * syyz * rundate / 15) > 0){
+									int result3 = fensWalletMapper.updateByPrimaryKeySelective(ldrWallet2);
+									if (result3 != 1) {
+										ServerLog.getLogger().warn("更新钱包可用失败，粉丝id：" + miner.getFensUserId());
+									}
 								}
 							}
 						}
