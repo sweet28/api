@@ -40,19 +40,17 @@
 		      <img src="" id="img0" style="width:10%;">
 	    </form>
 	    <div class="row input-name-index">
-			<input type="text" id="uname" placeholder="姓名" oninput="if(value.length>11)value=value.slice(0,11)"/>
-			<!-- <input type="text" id="uname" placeholder="姓名" oninput="if(value.length>11)value=value.slice(0,11)" disabled="disabled"/> -->
+			<input type="text" id="uname" placeholder="姓名" oninput="if(value.length>11)value=value.slice(0,11)" disabled="disabled"/>
 		</div>
 		<div class="row input-card-index">
-			<input type="text" id="cardnum" placeholder="身份证号" oninput="if(value.length>11)value=value.slice(0,18)"/>
-			<!-- <input type="text" id="cardnum" placeholder="身份证号" oninput="if(value.length>11)value=value.slice(0,18)" disabled="disabled"/> -->
+			<input type="text" id="cardnum" placeholder="身份证号" oninput="if(value.length>11)value=value.slice(0,18)" disabled="disabled"/>
 		</div>
 		<div class="row pr input-pass-index">
 			<input type="password" id="password" placeholder="密码6-20位字母数字组合" maxlength="20">
 		</div>
-			<img src="captcha" onclick="this.src='captcha?d='+new Date()*1"/>
 		<div class="row pr input-pass-index">
-			<input type="text" id="captcha" name="captcha" maxlength="4" />  
+			<input type="text" id="captcha" placeholder="请输入右侧图片验证码" name="captcha" style="width:75%;" maxlength="8" />  
+			<img src="captcha/getCaptchaCode" onclick="captcha/getCaptchaCode?d='+new Date()*1"/>
 		</div>
 		<div class="row pr input-pass-index">
 			<input type="text" id="valicode" placeholder="短信验证码" maxlength="6"

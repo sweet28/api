@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,11 +22,17 @@ import com.arttraining.api.service.impl.SMSService;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.DaYuServiceUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.IDCardUtil;
 import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.PhoneUtil;
 import com.arttraining.commons.util.Random;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
+import com.carpi.api.dao.FensAuthenticationMapper;
+import com.carpi.api.dao.FensUserMapper;
+import com.carpi.api.pojo.FensAuthentication;
+import com.carpi.api.pojo.FensUser;
+import com.google.code.kaptcha.Constants;
 import com.google.gson.Gson;
 import com.octo.captcha.service.CaptchaServiceException;
 import com.octo.captcha.service.image.ImageCaptchaService;
@@ -44,65 +51,96 @@ public class SMSController {
 	@Autowired
     private ImageCaptchaService imageCaptchaService;
 	
+	@Autowired
+	private FensUserMapper fensUserMapper;
+	
+	@Autowired
+	private FensAuthenticationMapper fensAuthenticationMapper;
+	
 	@RequestMapping(value = "/code/send", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody JsonResult yanzhengma(HttpServletRequest request, HttpServletResponse response) throws ClientException{
-		Boolean isResponseCorrect =Boolean.FALSE;
 		
-		String captchaId = request.getSession().getId();
+		HttpSession session = request.getSession();
+		
+		Boolean isResponseCorrect =Boolean.FALSE;
         String captcha = request.getParameter("captcha");
+		String generateCode = (String) session.getAttribute(Constants.KAPTCHA_SESSION_KEY);
+		String phone = request.getParameter("sh");
+		String idCardNum = request.getParameter("sf_cd");
+		
+		if(generateCode == null){
+			return JsonResult.build(500, "请点击图片验证码刷新，并重新填写验证码");
+		}
+		
+		if(generateCode.equals("----")){
+			return JsonResult.build(500, "请点击图片验证码刷新，并重新填写验证码");
+		}
+		
+		if(captcha == null){
+			return JsonResult.build(500, "请填写正确的图片验证码");
+		}
+		
+		if (phone == null) {
+			return JsonResult.build(500, "请填写手机号");
+		}
+
+		if (idCardNum == null) {
+			return JsonResult.build(500, "请检查身份证是否正确");
+		}
         
-        imageCaptchaService.getChallengeForID(captchaId);
-        String code3 = imageCaptchaService.getQuestionForID(captchaId);
+        isResponseCorrect = generateCode.equals(captcha);
         
-        System.out.println(imageCaptchaService.getChallengeForID(captchaId));
-        
-        isResponseCorrect = imageCaptchaService.validateResponseForID(captchaId, captcha);
+        // 查询该手机号是否注册过
+        FensUser fu = new FensUser();
+        fu.setPhone(phone);
+		FensUser user = fensUserMapper.selectRegister(fu);
+		if (user != null) {
+			return JsonResult.build(20024, ErrorCodeConfigUtil.ERROR_MSG_ZH_20024);
+		}
+		
+		boolean isIdcard = IDCardUtil.isIDCard(idCardNum);
+		if (isIdcard == false) {
+			return JsonResult.build(500, "请检查身份证是否正确");
+		}
+
+		// 校验身份证号码是否被绑定
+		FensAuthentication cardInfo = fensAuthenticationMapper.selectCardInfo(idCardNum);
+		if (cardInfo != null) {
+			return JsonResult.build(500, "该身份证已被绑定，如需进一步操作，请联系管理员");
+		}
+		
         if (isResponseCorrect) {
+        	session.setAttribute(Constants.KAPTCHA_SESSION_KEY, "----");
 			String mobile = "";
 			
 			mobile = request.getParameter("mobile");
-			ServerLog.getLogger().warn("mobile:"+ mobile);
 			if(mobile == null){
-				
-				System.out.println("进入验证码发送：空"+TimeUtil.getTimeStamp());
 				return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
 				
 			} else if (mobile.equals("")) {
-				
-				System.out.println("进入验证码发送:手机号-type空"+TimeUtil.getTimeStamp());
 				return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
 				
 			} else if(PhoneUtil.isMobile(mobile)){
-				
-				System.out.println("2222===");
 				
 				SMSCheckCode smsCCode = null;
 				smsCCode = new SMSCheckCode();
 				SMSCheckCode smsCheckCode = new SMSCheckCode();
 				smsCheckCode.setMobile(mobile);
 				
-				System.out.println("333===");
-				
 				smsCCode = this.smsService.getSMSCheckCode(smsCheckCode);
 				
-				System.out.println("444===");
-				
 				if(smsCCode != null){
-					
-					System.out.println("进入验证码发送：验证码存在"+TimeUtil.getTimeStamp());
 					
 					long expireTime = smsCCode.getExpireTime().getTime();
 					long createTime = smsCCode.getCreateTime().getTime();
 					long nowTime = new Date().getTime();
 					long diffSeconds = TimeUtil.diffSeconds(nowTime, createTime);
 					System.out.println("createTime:"+createTime+"-nowTime:"+nowTime+"-diffSeconds:"+diffSeconds);
-					if(diffSeconds < 180){
+					if(diffSeconds < 120){
 						System.out.println("时间间隔太小，老弟你刷短信纳是吧，果断拒绝你");
 						return JsonResult.build(20046, ErrorCodeConfigUtil.ERROR_MSG_ZH_20046);
 					}else{
 						JSONObject jo = DaYuServiceUtil.sendSms(mobile);
-						
-						System.out.println("进入验证码发送：最新发送"+TimeUtil.getTimeStamp());
 						
 						if(jo.getBoolean(ConfigUtil.PARAMETER_ERROR_CODE)){
 							smsCCode.setIsUsed(1);//设置短信已使用，发送新短信
@@ -122,8 +160,6 @@ public class SMSController {
 							
 						}else{
 							//发送失败
-							System.out.println("进入验证码发送：失败"+TimeUtil.getTimeStamp());
-							
 							smsCCode.setIsUsed(1);//设置短信已使用，发送新短信
 							smsCCode.setUsingTime(TimeUtil.getTimeStamp());
 							this.smsService.update(smsCCode);
@@ -134,11 +170,8 @@ public class SMSController {
 				}else{
 					//发送验证码
 					JSONObject jo = DaYuServiceUtil.sendSms(mobile);
-					System.out.println("进入验证码发送：最新发送"+TimeUtil.getTimeStamp());
 					
 					if(jo.getBoolean(ConfigUtil.PARAMETER_ERROR_CODE)){
-						
-						System.out.println("发送成功并"+TimeUtil.getTimeStamp());
 						
 						String smsCode = jo.getString(ConfigUtil.PARAMETER_ERROR_MSG);
 						
@@ -152,8 +185,6 @@ public class SMSController {
 						
 						return JsonResult.ok();
 					}else{
-						System.out.println("进入验证码发送：发送失败2"+TimeUtil.getTimeStamp());
-						
 						return JsonResult.build(20047, ErrorCodeConfigUtil.ERROR_MSG_ZH_20047);
 					}
 				}

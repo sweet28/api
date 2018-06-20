@@ -72,7 +72,7 @@ public class ErrorCodeConfigUtil {
 
 	public static String ERROR_MSG_ZH_20044 = "请输入正确的手机号码";
 	public static String ERROR_MSG_ZH_20045 = "邀请码为空，请输入邀请码";
-	public static String ERROR_MSG_ZH_20046 = "验证码发送间隔为60s，请稍后发送";
+	public static String ERROR_MSG_ZH_20046 = "验证码发送间隔为120s，请稍后发送";
 	public static String ERROR_MSG_ZH_20047 = "验证码发送失败，请检查手机号码通信是否畅通，并重新发送";
 	public static String ERROR_MSG_ZH_20048 = "验证码失效，请重新发送验证码";
 	public static String ERROR_MSG_ZH_20049 = "验证码不正确，请重新输入";

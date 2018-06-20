@@ -116,17 +116,17 @@ function getObjectURL(file) {
 			var myDate = new Date();
 			var nowTime = myDate.getHours();
 
-//			if (!(nowTime <= endTime && nowTime >= startTime)) {
-//				swal({
-//		      		  title: "开放注册时间为每天" + startTime + "点至" + endTime
-//						+ "点，请您在注册时间内注册。",
-//		      		  icon: "info",
-//		      		  button: "确定",
-//	      	    });
-//
-//				return false;
-//			}
-			// 手机号做验证
+			if (!(nowTime <= endTime && nowTime >= startTime)) {
+				swal({
+		      		  title: "开放注册时间为每天" + startTime + "点至" + endTime
+						+ "点，请您在注册时间内注册。",
+		      		  icon: "info",
+		      		  button: "确定",
+	      	    });
+
+				return false;
+			}
+			 //手机号做验证
 			if (phonenum.val() == "") {
 				swal({
 		      		  title: "请输入手机号码",
@@ -228,7 +228,10 @@ function getObjectURL(file) {
 						dataType : "json",
 						data : {
 							"mobile" : phonenum.val(),
-							"captcha": $("#captcha").val()
+							"captcha": $("#captcha").val(),
+							"sh" : phonenum.val(),
+							"sf_cd" : cardnum.val()
+							
 						},
 						success : function(data) {
 							if (data.status == "200") {

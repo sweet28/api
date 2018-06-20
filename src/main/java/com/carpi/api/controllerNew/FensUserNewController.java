@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -65,6 +66,10 @@ public class FensUserNewController {
 		String name = request.getParameter("xn");
 		// 用户身份证图片
 		String img = request.getParameter("img");
+		
+		if(StringUtils.isEmpty(img)){
+			return JsonResult.build(500, "上传的身份证图片有误，请重新上传");
+		}
 
 		FensUser fensUser = new FensUser();
 		fensUser.setPhone(phone);

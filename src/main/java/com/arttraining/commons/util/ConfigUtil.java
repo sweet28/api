@@ -212,6 +212,6 @@ public class ConfigUtil {
 	public static int CPA_JY_START_TIME = 11;  //11
 	public static int CPA_JY_END_TIME = 18;  //18
 	
-	public static int CPA_QBL_START_TIME = 0;  //9
+	public static int CPA_QBL_START_TIME = 11;  //9
 	public static int CPA_QBL_END_TIME = 21;   //21
 }
