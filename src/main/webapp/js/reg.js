@@ -116,16 +116,16 @@ function getObjectURL(file) {
 			var myDate = new Date();
 			var nowTime = myDate.getHours();
 
-			if (!(nowTime <= endTime && nowTime >= startTime)) {
-				swal({
-		      		  title: "开放注册时间为每天" + startTime + "点至" + endTime
-						+ "点，请您在注册时间内注册。",
-		      		  icon: "info",
-		      		  button: "确定",
-	      	    });
-
-				return false;
-			}
+//			if (!(nowTime <= endTime && nowTime >= startTime)) {
+//				swal({
+//		      		  title: "开放注册时间为每天" + startTime + "点至" + endTime
+//						+ "点，请您在注册时间内注册。",
+//		      		  icon: "info",
+//		      		  button: "确定",
+//	      	    });
+//
+//				return false;
+//			}
 			// 手机号做验证
 			if (phonenum.val() == "") {
 				swal({
@@ -227,7 +227,8 @@ function getObjectURL(file) {
 						url : getAPIURL() + "sms/code/send",
 						dataType : "json",
 						data : {
-							"mobile" : phonenum.val()
+							"mobile" : phonenum.val(),
+							"captcha": $("#captcha").val()
 						},
 						success : function(data) {
 							if (data.status == "200") {
@@ -251,7 +252,7 @@ function getObjectURL(file) {
 								}, 1000);
 							} else {
 								swal({
-						      		  title: data.error_msg,
+						      		  title: data.msg,
 						      		  icon: "error",
 						      		  button: "确定",
 					      	    });

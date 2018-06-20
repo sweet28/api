@@ -108,7 +108,7 @@ function addCard(){
 function dx(){
 	$.ajax({
 		type : "POST",
-		url : getAPIURL() + "sms/code/send",
+		url : getAPIURL() + "sms/news/info/delete",
 		dataType : "json",
 		data : {
 			"mobile" : localStorage.getItem("phone")

@@ -89,8 +89,6 @@
     }
   });
   
-//  function comptime() {
-  console.log(9999999);
   
     if(localStorage.getItem("fensteampower")!=null){
 		$("#suanli").html(localStorage.getItem("fensteampower"));
@@ -153,8 +151,6 @@
 	      },
 	      success: function (data) {
 	    	  console.log(data);
-//			  $("#suanli").html(data.suanli);
-			  //$("#grade").html(data.grade);
 			  var grade = "精英粉丝";
 			  var gradNum = data.grade;
 			  if(data.grade==0){
@@ -173,7 +169,6 @@
 				  $("#grade").html('<img alt="" src="'+getAPIURL()+'/imagenew/grade3.png">'+grade);
 			  }
 			  
-//			  $("#fensteamNum").html(data.fensteamNum);
 			  var endTime;
 			  if(data.isGradeCan == 'yes'){
 				  endTime = "冲击<"+data.nextgrade+">截止时间:"+data.endTime;
@@ -182,9 +177,6 @@
 				  endTime = "在规定时间内无法冲击任何等级";
 				  $("#endTime").html(endTime);
 			  }
-			  
-//			  localStorage.setItem("fensteampower",data.suanli);
-//			  localStorage.setItem("fensteamnum",data.fensteamNum);
 			  localStorage.setItem("fensgrade",grade);
 			  localStorage.setItem("endTime",endTime);
 			  localStorage.setItem("gradNum",gradNum);
@@ -205,6 +197,5 @@
 //    localStorage.setItem("fensteamnum","区块数据今天全球同步完成");
 //    localStorage.setItem("fensgrade","区块数据今天全球同步完成");
 //    localStorage.setItem("endTime","区块数据今天全球同步完成");
-
 })();
 

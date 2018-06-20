@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +27,8 @@ import com.arttraining.commons.util.Random;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.google.gson.Gson;
+import com.octo.captcha.service.CaptchaServiceException;
+import com.octo.captcha.service.image.ImageCaptchaService;
 //import com.taobao.api.ApiException;
 //import com.taobao.api.DefaultTaobaoClient;
 //import com.taobao.api.TaobaoClient;
@@ -38,8 +41,134 @@ public class SMSController {
 	@Resource
 	private SMSService smsService;
 	
+	@Autowired
+    private ImageCaptchaService imageCaptchaService;
+	
 	@RequestMapping(value = "/code/send", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody JsonResult yanzhengma(HttpServletRequest request, HttpServletResponse response) throws ClientException{
+		Boolean isResponseCorrect =Boolean.FALSE;
+		
+		String captchaId = request.getSession().getId();
+        String captcha = request.getParameter("captcha");
+        
+        imageCaptchaService.getChallengeForID(captchaId);
+        String code3 = imageCaptchaService.getQuestionForID(captchaId);
+        
+        System.out.println(imageCaptchaService.getChallengeForID(captchaId));
+        
+        isResponseCorrect = imageCaptchaService.validateResponseForID(captchaId, captcha);
+        if (isResponseCorrect) {
+			String mobile = "";
+			
+			mobile = request.getParameter("mobile");
+			ServerLog.getLogger().warn("mobile:"+ mobile);
+			if(mobile == null){
+				
+				System.out.println("进入验证码发送：空"+TimeUtil.getTimeStamp());
+				return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
+				
+			} else if (mobile.equals("")) {
+				
+				System.out.println("进入验证码发送:手机号-type空"+TimeUtil.getTimeStamp());
+				return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
+				
+			} else if(PhoneUtil.isMobile(mobile)){
+				
+				System.out.println("2222===");
+				
+				SMSCheckCode smsCCode = null;
+				smsCCode = new SMSCheckCode();
+				SMSCheckCode smsCheckCode = new SMSCheckCode();
+				smsCheckCode.setMobile(mobile);
+				
+				System.out.println("333===");
+				
+				smsCCode = this.smsService.getSMSCheckCode(smsCheckCode);
+				
+				System.out.println("444===");
+				
+				if(smsCCode != null){
+					
+					System.out.println("进入验证码发送：验证码存在"+TimeUtil.getTimeStamp());
+					
+					long expireTime = smsCCode.getExpireTime().getTime();
+					long createTime = smsCCode.getCreateTime().getTime();
+					long nowTime = new Date().getTime();
+					long diffSeconds = TimeUtil.diffSeconds(nowTime, createTime);
+					System.out.println("createTime:"+createTime+"-nowTime:"+nowTime+"-diffSeconds:"+diffSeconds);
+					if(diffSeconds < 180){
+						System.out.println("时间间隔太小，老弟你刷短信纳是吧，果断拒绝你");
+						return JsonResult.build(20046, ErrorCodeConfigUtil.ERROR_MSG_ZH_20046);
+					}else{
+						JSONObject jo = DaYuServiceUtil.sendSms(mobile);
+						
+						System.out.println("进入验证码发送：最新发送"+TimeUtil.getTimeStamp());
+						
+						if(jo.getBoolean(ConfigUtil.PARAMETER_ERROR_CODE)){
+							smsCCode.setIsUsed(1);//设置短信已使用，发送新短信
+							smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+							this.smsService.update(smsCCode);
+							
+							String smsCode = jo.getString(ConfigUtil.PARAMETER_ERROR_MSG);
+							SMSCheckCode newSms = new SMSCheckCode();
+							newSms.setMobile(mobile);
+							newSms.setCheckCode(smsCode);
+							newSms.setCreateTime(TimeUtil.getTimeStamp());
+							newSms.setIsUsed(0);
+							newSms.setExpireTime(TimeUtil.getTimeByMinute(ConfigUtil.ALIDAYU_SMS_EXPIRE_TIME));
+							this.smsService.insert(newSms);
+							
+							JsonResult.ok();
+							
+						}else{
+							//发送失败
+							System.out.println("进入验证码发送：失败"+TimeUtil.getTimeStamp());
+							
+							smsCCode.setIsUsed(1);//设置短信已使用，发送新短信
+							smsCCode.setUsingTime(TimeUtil.getTimeStamp());
+							this.smsService.update(smsCCode);
+							return JsonResult.build(20047,ErrorCodeConfigUtil.ERROR_MSG_ZH_20047);
+						}
+					}
+					
+				}else{
+					//发送验证码
+					JSONObject jo = DaYuServiceUtil.sendSms(mobile);
+					System.out.println("进入验证码发送：最新发送"+TimeUtil.getTimeStamp());
+					
+					if(jo.getBoolean(ConfigUtil.PARAMETER_ERROR_CODE)){
+						
+						System.out.println("发送成功并"+TimeUtil.getTimeStamp());
+						
+						String smsCode = jo.getString(ConfigUtil.PARAMETER_ERROR_MSG);
+						
+						SMSCheckCode newSms = new SMSCheckCode();
+						newSms.setMobile(mobile);
+						newSms.setCheckCode(smsCode);
+						newSms.setCreateTime(TimeUtil.getTimeStamp());
+						newSms.setIsUsed(0);
+						newSms.setExpireTime(TimeUtil.getTimeByMinute(ConfigUtil.ALIDAYU_SMS_EXPIRE_TIME));
+						this.smsService.insert(newSms);
+						
+						return JsonResult.ok();
+					}else{
+						System.out.println("进入验证码发送：发送失败2"+TimeUtil.getTimeStamp());
+						
+						return JsonResult.build(20047, ErrorCodeConfigUtil.ERROR_MSG_ZH_20047);
+					}
+				}
+			}else{
+				return JsonResult.build(20044, ErrorCodeConfigUtil.ERROR_MSG_ZH_20044);
+			}
+			
+			return JsonResult.ok();
+		}else{
+			return JsonResult.build(500, "请输入正确的图片校验码");
+		}
+	}
+	
+	@RequestMapping(value = "/news/info/delete", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	public @ResponseBody JsonResult smsCodeSend(HttpServletRequest request, HttpServletResponse response) throws ClientException{
 //		SimpleReBean simReBean = new SimpleReBean();
 //		Gson gson = new Gson();
 		String mobile = "";
@@ -180,15 +309,9 @@ public class SMSController {
 			}
 		}else{
 			System.out.println("1111111=====");
-//			errorCode = "20044";
-//			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20044;
 			return JsonResult.build(20044, ErrorCodeConfigUtil.ERROR_MSG_ZH_20044);
 		}
 		
-//		simReBean.setError_code(errorCode);
-//		simReBean.setError_msg(errorMsg);
-//		ServerLog.getLogger().warn(gson.toJson(simReBean));
-//		return gson.toJson(simReBean);
 		return JsonResult.ok();
 	}
 

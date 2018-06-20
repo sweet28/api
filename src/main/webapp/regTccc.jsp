@@ -34,25 +34,14 @@
 			<input placeholder="请输入手机号码" type="number" id="phonenum" oninput="if(value.length>11)value=value.slice(0,11)"
                            onkeyup="value = value.replace(/[^\d{2}\.]/g, '').replace(/(\.\d{2}).*/g, '$1')">
 		</div>
-		<form name="form0" id="form0"  enctype="multipart/form-data">  
-		      <span style="font-size:18px;text-align:center;color:red">点击此处上传身份证正面图片(小于2M)</span>
-		      <input type="file" accept="image/*"name="file0" id="file0" placeholder="点击此处上传身份证正面图片(小于2M)"/><br>
-		      <img src="" id="img0" style="width:10%;">
-	    </form>
 	    <div class="row input-name-index">
 			<input type="text" id="uname" placeholder="姓名" oninput="if(value.length>11)value=value.slice(0,11)"/>
-			<!-- <input type="text" id="uname" placeholder="姓名" oninput="if(value.length>11)value=value.slice(0,11)" disabled="disabled"/> -->
 		</div>
 		<div class="row input-card-index">
 			<input type="text" id="cardnum" placeholder="身份证号" oninput="if(value.length>11)value=value.slice(0,18)"/>
-			<!-- <input type="text" id="cardnum" placeholder="身份证号" oninput="if(value.length>11)value=value.slice(0,18)" disabled="disabled"/> -->
 		</div>
 		<div class="row pr input-pass-index">
 			<input type="password" id="password" placeholder="密码6-20位字母数字组合" maxlength="20">
-		</div>
-			<img src="captcha" onclick="this.src='captcha?d='+new Date()*1"/>
-		<div class="row pr input-pass-index">
-			<input type="text" id="captcha" name="captcha" maxlength="4" />  
 		</div>
 		<div class="row pr input-pass-index">
 			<input type="text" id="valicode" placeholder="短信验证码" maxlength="6"
@@ -63,7 +52,7 @@
 		<div class="row input-user-index">
 			<input id="recommend_p" type="text" placeholder="邀请人手机号码(需要通过邀请链接)" disabled="disabled"/>
 		</div>
-		<div class="row input-sub-index" id="regClassbtn">
+		<div class="row input-sub-index">
 			<input type="button" id="register_btn" value="注册" class="login" style = "width:66%" />
 		</div>
 	</div>
