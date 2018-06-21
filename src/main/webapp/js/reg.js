@@ -507,3 +507,7 @@ function getObjectURL(file) {
 
 	});
 })();
+
+function changePic(){
+	$("#changeCaptcha").attr("src",getAPIURL() + "captcha/getCaptchaCode");
+}

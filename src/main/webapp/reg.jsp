@@ -50,7 +50,7 @@
 		</div>
 		<div class="row pr input-pass-index">
 			<input type="text" id="captcha" placeholder="请输入右侧图片验证码" name="captcha" style="width:75%;" maxlength="8" />  
-			<img src="captcha/getCaptchaCode" onclick="captcha/getCaptchaCode?d='+new Date()*1"/>
+			<img id="changeCaptcha" src="captcha/getCaptchaCode" onclick="changePic();"/>
 		</div>
 		<div class="row pr input-pass-index">
 			<input type="text" id="valicode" placeholder="短信验证码" maxlength="6"
