@@ -34,7 +34,12 @@ function Gift() {
 						  var giftType = "超级节点奖励:";
 					  }
 					  
-	    			  html += "<p>"+giftType+"<b>"+fcp.computingPower+"</b></p>";
+					  var useFlag = "未使用";
+					  if(fcp.bak1 == 1){
+						  useFlag = "已使用";
+					  }
+					  
+	    			  html += "<p>"+giftType+"<b>"+fcp.computingPower+"</b>--" + useFlag + "</p>";
 	    		  });
 	    		  
 	    		  $("#fcpgift").html(html);
