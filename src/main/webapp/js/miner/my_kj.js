@@ -13,7 +13,6 @@ function Gift() {
 		var rad = getRandom();
 		var ton = getTom();
 		var str = "uid="+uid+"pg="+page+"ts="+row+"tmp="+tmp+"rad="+rad+"tom="+ton;
-		console.log("------------------------phone:"+localStorage.getItem("phone"));
     $.ajax({
       type: "post",
       url: getAPIURL() + "user/miner/kuA",
@@ -90,8 +89,11 @@ function Gift() {
         		
         		var sec = localStorage.getItem("sec");
         		var conte = "实名审核后可叠加";
+        		var conte2 = "实名审核后可叠加";
+        		
         		if(sec == "1"){
-        			conte = "<a style='color:#fcbd10;' class='addpcpower' href='javascript:addPower("+content.id+");'>点击叠加算力</a>";
+        			conte = "<a style='color:#fcbd10;' class='addpcpower' href='javascript:addPower("+content.id+");'>叠加直推算力</a>";
+        			conte2 = "<a style='color:#fc105a;' class='addpcpower' href='javascript:addGradePower();'>叠加节点算力</a>";
             	}
         		
         		html += 
@@ -106,7 +108,8 @@ function Gift() {
 									"<p>产币总量：<b>" + syyz.toFixed(5) + "</b></p>" +
 									"<p>已产币：<b>"+ chanbi +"</b></p>" +
 									"<p>已提取：<b>" + content.totalRevenue.toFixed(5) + "</b></p>"+
-									"<p>" + conte + "</p>"
+									"<p>" + conte + "</p>"+
+									"<p>" + conte2 + "</p>"
 								"</div>" +
 							"</li>";
 			});
@@ -119,7 +122,7 @@ function Gift() {
     });
   }
   
-  setInterval(comptime,5000);
+//  setInterval(comptime,5000);
   (function () {
     _$gift = $("#a_miner");
     $("#uname").html("欢迎，"+localStorage.getItem("name"));
@@ -130,6 +133,32 @@ var gift;
 $(function () {
   gift = new Gift();
 });
+
+function addGradePower(){
+	console.log("-----------------");
+	
+	swal({ 
+		  title: "确定叠加吗？", 
+		  text: '<form><input type="radio" name="sex" value="male" checked>Male<br><input type="radio" name="sex" value="female">Female</form> ', 
+		  type: "info",
+		  showCancelButton: true, 
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "确定叠加！", 
+		  cancelButtonText: "取消叠加！",
+		  html:true,
+		  closeOnConfirm: false, 
+		  closeOnCancel: false	
+		},
+		function(isConfirm){ 
+		  if (isConfirm) { 
+		    swal("叠加！", "叠加完成",
+		"success"); 
+		  } else { 
+		    swal("取消！", "取消叠加完成",
+		"error"); 
+		  } 
+	});
+}
 
 function addPower(minerId){
 	console.log("-----------------------"+minerId);
