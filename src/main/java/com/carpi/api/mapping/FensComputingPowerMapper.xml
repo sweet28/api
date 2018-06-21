@@ -233,4 +233,12 @@
 		</where>
 	</select>
 	
+	<!-- 粉丝节点奖励 -->
+	<select id="selectFensGradePowerAble" parameterType="com.carpi.api.pojo.FensComputingPower" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fen_computing_power
+		where is_delete = 0 and fens_user_id = #{fensUserId,jdbcType=INTEGER} and type = #{type,jdbcType=INTEGER} and bak1 = ""
+	</select>
+	
 </mapper>

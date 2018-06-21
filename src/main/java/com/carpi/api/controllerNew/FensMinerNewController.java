@@ -222,6 +222,39 @@ public class FensMinerNewController {
 		return fensMinerService.kuanJiSuanLiHe(Double.valueOf(diejia), Integer.valueOf(fensUserId),
 				Integer.valueOf(id), phone);
 	}
+	
+	// 算力叠加到矿机
+	@RequestMapping(value = "/kjaddGP", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult kjaddGP(HttpServletRequest request, HttpServletResponse response) {
+		// 粉丝id
+		String fensUserId = request.getParameter("uid");
+		// 算力类型id
+		String powerType = request.getParameter("powerType");
+		// 用户手机号
+		String phone = request.getParameter("phone");
+		// 矿机id
+		String id = request.getParameter("id");
+
+		if (StringUtils.isEmpty(powerType)) {
+
+			return JsonResult.build(500, "请重新登入");
+		}
+		if (StringUtils.isEmpty(fensUserId)) {
+
+			return JsonResult.build(500, "请重新登入");
+		}
+		if (StringUtils.isEmpty(phone)) {
+
+			return JsonResult.build(500, "请重新登入");
+		}
+		if (StringUtils.isEmpty(id)) {
+
+			return JsonResult.build(500, "请重新登入");
+		}
+		
+		return fensMinerService.kjaddGP(Integer.valueOf(fensUserId), Integer.valueOf(powerType), phone, Integer.valueOf(id));
+	}
 
 	// 收益提取接口
 	@RequestMapping(value = "/sytq", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

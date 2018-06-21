@@ -93,7 +93,7 @@ function Gift() {
         		
         		if(sec == "1"){
         			conte = "<a style='color:#fcbd10;' class='addpcpower' href='javascript:addPower("+content.id+");'>叠加直推算力</a>";
-        			conte2 = "<a style='color:#fc105a;' class='addpcpower' href='javascript:addGradePower();'>叠加节点算力</a>";
+        			conte2 = "<a style='color:#fc105a;' class='addpcpower' href='javascript:addGradePower("+content.id+");'>叠加节点算力</a>";
             	}
         		
         		html += 
@@ -122,7 +122,7 @@ function Gift() {
     });
   }
   
-//  setInterval(comptime,5000);
+   setInterval(comptime,5000);
   (function () {
     _$gift = $("#a_miner");
     $("#uname").html("欢迎，"+localStorage.getItem("name"));
@@ -134,34 +134,83 @@ $(function () {
   gift = new Gift();
 });
 
-function addGradePower(){
+function addGradePower(minerId){
 	console.log("-----------------");
-	
-	swal({ 
-		  title: "确定叠加吗？", 
-		  text: '<form><input type="radio" name="sex" value="male" checked>Male<br><input type="radio" name="sex" value="female">Female</form> ', 
-		  type: "info",
-		  showCancelButton: true, 
-		  confirmButtonColor: "#DD6B55",
-		  confirmButtonText: "确定叠加！", 
-		  cancelButtonText: "取消叠加！",
-		  html:true,
-		  closeOnConfirm: false, 
-		  closeOnCancel: false	
-		},
-		function(isConfirm){ 
-		  if (isConfirm) { 
-		    swal("叠加！", "叠加完成",
-		"success"); 
-		  } else { 
-		    swal("取消！", "取消叠加完成",
-		"error"); 
-		  } 
+	$('body').dialogbox({
+		type:"normal",title:"叠加节点算力",
+		buttons:[{
+			Text:"确定",
+			ClickToClose:true,
+			callback:function (dialog){
+				var id1 = $(dialog).find("input[name='companyRdoID']:checked").val();
+                returnData = {
+                    "ID": id1,
+                    "ShowText": $(dialog).find("#companyShowText" + id1).val()
+                };
+                
+                $.ajax({
+          	      type: "post",
+          	      url: getAPIURL() + "user/miner/kjaddGP",
+          	      dataType: "json",
+          	      data: {
+          	    	  "phone": localStorage.getItem("phone"),
+          	    	  "powerType": id1,
+          	    	  "uid": localStorage.getItem("uid"),
+			    	  "id":minerId
+          	      },
+          	      success: function (data) {
+          	    	  if(data.status == 200){
+	      	    			swal({
+	    	    				  title: "操作成功",
+	    	    				  icon: "success",
+	    	    				  button: "确定",
+	    	    			  });
+          	    	  }else{
+          	    		  swal({
+          	    			  title: data.msg,
+          	    			  icon: "error",
+          	    			  button: "确定",
+          	    		});
+          	    	  }
+          	    	  
+          	      }, headers: {
+          	        "Authorization": "Bearer " + getTOKEN()
+          	      }
+          	  });
+                
+                
+			}
+		}],
+		message:"<div id='companySelectFotmTable' style='display:table;width:100%;'>" +
+					"<div id='comapnyRowId1' style='display:table-row;'>" +
+						"<div style='display:table-cell;'>" +
+							"<input type='radio' name='companyRdoID' id='companyRdoID1' value='1' checked='true'>" +
+						"</div>" +
+						"<div style='display:table-cell;'>" +
+							"<label for='companyRdoID1'>普通节点奖励算力</label>" +
+						"</div>" +
+					"</div>" +
+					"<div id='comapnyRowId2' style='display:table-row;'>" +
+						"<div style='display:table-cell;'>" +
+							"<input type='radio' name='companyRdoID' id='companyRdoID2' value='2'>" +
+						"</div>" +
+						"<div style='display:table-cell;'>" +
+							"<label for='companyRdoID2'>高级节点奖励算力</label>" +
+						"</div>" + 
+					"</div>" +
+					"<div id='comapnyRowId3' style='display:table-row;'>" +
+						"<div style='display:table-cell;'>" +
+							"<input type='radio' name='companyRdoID' id='companyRdoID3' value='3'>" +
+						"</div>" +
+						"<div style='display:table-cell;'>" +
+							"<label for='companyRdoID3'>超级节点奖励算力</label>" +
+						"</div>" +
+					"</div>" +
+				"</div>"
 	});
 }
 
 function addPower(minerId){
-	console.log("-----------------------"+minerId);
 	var uid = localStorage.getItem("uid");
 	$(".addpcpower").hide();
 	$.ajax({
@@ -174,7 +223,6 @@ function addPower(minerId){
 	      success: function (data) {
 	    	  if(data.status == 200){
 	    		  var suanli = data.data*0.05;
-	    		  console.log(suanli+"----------------");
 	    		  if(suanli > 0){
 	    			  console.log(suanli);
 	    			  

@@ -61,4 +61,6 @@ public interface FensMinerService {
 	//直推粉丝信息（每个人的算力，直推人数）
 	public JsonResult selectFens(String phone);
 
+	public JsonResult kjaddGP(Integer fensUserId, Integer powerType, String phone, Integer minerId);
+
 }

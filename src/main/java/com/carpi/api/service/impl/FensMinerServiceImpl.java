@@ -15,11 +15,13 @@ import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.ServerLog;
 import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.BankCardMapper;
+import com.carpi.api.dao.FensComputingPowerMapper;
 import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.dao.FensWalletMapper;
 import com.carpi.api.dao.FoneyRecordMapper;
 import com.carpi.api.pojo.BankCard;
+import com.carpi.api.pojo.FensComputingPower;
 import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.pojo.FensWallet;
@@ -44,6 +46,9 @@ public class FensMinerServiceImpl implements FensMinerService {
 	private BankCardMapper bankCardMapper;
 	@Autowired
 	private FoneyRecordMapper foneyRecordMapper;
+	
+	@Autowired
+	private FensComputingPowerMapper fensComputingPowerMapper;
 
 	// 根据粉丝id查询矿机
 	@Override
@@ -928,6 +933,10 @@ public class FensMinerServiceImpl implements FensMinerService {
 			return JsonResult.build(500, "算力大于0才可叠加");
 		}
 		
+		if(sum != diejia ){
+			return JsonResult.build(500, "您的算力有变化，请刷新页面重新叠加");
+		}
+		
 		FensMiner fensMiner2 = fensMinerMapper.selectByPrimaryKey(id);
 		if (!fensMiner2.getFensUserId().equals(fensUserId)) {
 			return JsonResult.build(500, "不是本人操作，请重新登入");
@@ -945,16 +954,86 @@ public class FensMinerServiceImpl implements FensMinerService {
 		// fensMiner.setIsUseSuanli("1");//////波波你个坑，这个地方不能设置，设置是否使用了算力是设置到直推粉丝那里去，你个坑坑坑
 
 		int result = fensMinerMapper.updateIsUseDIEJIA(phone);
-		// if(result == 1){
-		int result2 = fensMinerMapper.updateByPrimaryKeySelective(fensMiner);
-		if (result2 != 1) {
-			return JsonResult.build(500, "叠加算力失败");
+		if (result == 1) {
+			int result2 = fensMinerMapper.updateByPrimaryKeySelective(fensMiner);
+			if (result2 != 1) {
+				return JsonResult.build(500, "叠加算力失败");
+			} else {
+				return JsonResult.ok();
+			}
 		} else {
-			return JsonResult.ok();
+			return JsonResult.build(500, "叠加算力失败");
 		}
-		// }else{
-		// return JsonResult.build(500, "叠加算力失败");
-		// }
+	}
+	
+	@Override
+	public JsonResult kjaddGP(Integer fensUserId, Integer powerType, String phone, Integer minerId) {
+		
+		Integer type = 0;
+		
+		if(powerType == 1){
+			type = 41;
+		}
+		
+		if(powerType == 2){
+			type = 42;
+		}
+		
+		if(powerType == 2){
+			type = 42;
+		}
+		
+		FensComputingPower fcp = fensComputingPowerMapper.selectFensGradePowerAble(fensUserId, type);
+		if(fcp == null){
+			return JsonResult.build(500, "无可用节点奖励算力叠加");
+		}
+		
+		FensMiner fm = fensMinerMapper.selectByPrimaryKey(minerId);
+		if (!fm.getFensUserId().equals(fensUserId)) {
+			return JsonResult.build(500, "不是本人操作，请重新登入");
+		}
+		
+		FensUser fensUser = fensUserMapper.selectByPrimaryKey(fm.getFensUserId());
+		// 判断是否存在该接单人
+		if (fensUser == null) {
+			return JsonResult.build(500, "交易失败，不存在此人");
+		}
+
+		// 查询身份证是否认证
+		if (Integer.valueOf(fensUser.getAttachment()) != 1) {
+			return JsonResult.build(500, "身份证未认证");
+		}
+		// 银行卡
+		List<BankCard> list = bankCardMapper.selectAll(fm.getFensUserId());
+		if (list.size() <= 0) {
+			return JsonResult.build(500, "请绑定银行卡");
+		}
+		
+		double addPower = fcp.getComputingPower();
+		if(fm.getDiejia()!=null){
+			addPower += Double.valueOf(fm.getDiejia());
+		}
+
+		FensMiner fensMiner = new FensMiner();
+		fensMiner.setId(fm.getId());
+		fensMiner.setDiejia(String.valueOf(addPower));
+
+		FensComputingPower fcp2 = new FensComputingPower();
+		fcp2.setId(fcp.getId());
+		fcp2.setBak1(1+"");
+		fcp2.setDeleteDate(TimeUtil.getTimeStamp());
+		
+		int result = fensComputingPowerMapper.updateByPrimaryKeySelective(fcp2);
+		if (result == 1) {
+			int result2 = fensMinerMapper.updateByPrimaryKeySelective(fensMiner);
+			if (result2 != 1) {
+				return JsonResult.build(500, "叠加算力失败");
+			} else {
+				return JsonResult.ok();
+			}
+		} else {
+			return JsonResult.build(500, "叠加算力失败");
+		}
 	}
 
 	// 收益提取接口
@@ -1015,4 +1094,5 @@ public class FensMinerServiceImpl implements FensMinerService {
 		}
 		return JsonResult.ok(list2);
 	}
+
 }
