@@ -323,4 +323,14 @@ public class PageController {
 		return "quanbaoli/couponOrderDetailInfo";
 	}
 	
+	@RequestMapping("/quanOrderDetail")
+	public String quanOrderDetail() {
+		return "quanbaoli/quanOrderDetail";
+	}
+	
+	@RequestMapping("/quanOrderDetailInfo")
+	public String quanOrderDetailInfo() {
+		return "quanbaoli/quanOrderDetailInfo";
+	}
+	
 }

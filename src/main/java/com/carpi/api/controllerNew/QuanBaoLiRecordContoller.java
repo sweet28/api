@@ -37,7 +37,7 @@ public class QuanBaoLiRecordContoller {
 	// 券宝理个人订单
 	@RequestMapping(value = "/dd", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public JsonResult selectOne(HttpServletRequest request, HttpServletResponse response) {
+	public JsonResult selectCouponMy(HttpServletRequest request, HttpServletResponse response) {
 		// 粉丝id
 		String fensUserId = request.getParameter("uid");
 		if (fensUserId == null) {
@@ -52,7 +52,43 @@ public class QuanBaoLiRecordContoller {
 		}
 		quanBaoLiRecord.setFensUserId(Integer.valueOf(fensUserId));
 		quanBaoLiRecord.setOrderType(Integer.valueOf(type));
+		
 		return quanBaoLiRecordService.selectOne(quanBaoLiRecord);
+	}
+	
+	// 券宝理个人订单
+	@RequestMapping(value = "/dfk", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult selectCouponDFK(HttpServletRequest request, HttpServletResponse response) {
+		// 粉丝id
+		String fensUserId = request.getParameter("uid");
+		if (fensUserId == null) {
+			return JsonResult.build(500, "请重新登入");
+		}
+//			QuanBaoLiRecord quanBaoLiRecord = new QuanBaoLiRecord();
+//			// 类型
+//			String type = request.getParameter("type");
+//			if (StringUtils.isEmpty(type)) {
+//				quanBaoLiRecord.setFensUserId(Integer.valueOf(fensUserId));
+//				return quanBaoLiRecordService.selectOne(quanBaoLiRecord);
+//			}
+//			quanBaoLiRecord.setFensUserId(Integer.valueOf(fensUserId));
+//			quanBaoLiRecord.setOrderType(Integer.valueOf(type));
+		
+		return quanBaoLiRecordService.selectCouponDFK(Integer.valueOf(fensUserId));
+	}
+	
+	// 券宝理个人订单
+	@RequestMapping(value = "/dsk", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult selectCouponDSK(HttpServletRequest request, HttpServletResponse response) {
+		// 粉丝id
+		String fensUserId = request.getParameter("uid");
+		if (fensUserId == null) {
+			return JsonResult.build(500, "请重新登入");
+		}
+		
+		return quanBaoLiRecordService.selectCouponDSK(Integer.valueOf(fensUserId));
 	}
 	
 	// 券宝理领导人券积分信息汇总
@@ -112,6 +148,13 @@ public class QuanBaoLiRecordContoller {
 	public JsonResult quanChuChang(@RequestParam("id") Integer id, @RequestParam("type") Integer type,
 			@RequestParam("dakuantype") Integer dakuantype) {
 		return quanBaoLiRecordService.quanChuChang(id, type, dakuantype);
+	}
+	
+	// 券保理出场
+	@RequestMapping(value = "/couponOrderList", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult couponOrderList(@RequestParam("id") Integer id) {
+		return quanBaoLiRecordService.couponOrderList(id);
 	}
 
 	// 根据id查询匹配订单信息

@@ -224,8 +224,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				fensTransaction
 						.setMoneyCount(fensTransaction.getEntrustPrice() * 6.5 * fensTransaction.getTraderCount());
 
-				double zgPrice = 0.43;
-				double zdPrice = 0.30;
+				double zgPrice = 0.46;
+				double zdPrice = 0.33;
 				if (price > zgPrice) {
 					return JsonResult.build(500, "今日最高单价：" + zgPrice + "美元");
 				}

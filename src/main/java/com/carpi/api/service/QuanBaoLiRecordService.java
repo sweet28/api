@@ -35,4 +35,10 @@ public interface QuanBaoLiRecordService {
 	JsonResult shoukuanCoupon(Integer pipeiId, Integer type);
 
 	public JsonResult fukCoupon(Integer pipeiId, Integer type);
+
+	public JsonResult selectCouponDFK(Integer valueOf);
+
+	public JsonResult selectCouponDSK(Integer valueOf);
+
+	public JsonResult couponOrderList(Integer id);
 }

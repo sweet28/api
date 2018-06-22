@@ -2,7 +2,7 @@
 	var uid = localStorage.getItem("uid");
 	$.ajax({
 		type : "post",
-		url : getAPIURL() + "quan/dd",
+		url : getAPIURL() + "quan/dsk",
 		dataType : "json",
 		data : {
 			"uid" : uid,
@@ -13,30 +13,34 @@
 			var list = data.data;
 			if(data.status == 200){
 				for(var i = 0; i<list.length; i++){
-					var type = list[i].orderType;
-					if(type == 1){
-						type = "待匹配";
-					}else if(type == 2){
-						type = "购买待付款";
-					}else if(type == 3){
-						type = "收益进行中";
-					}else if(type == 4){
-						type = "周期结束";
-					}else if(type == 5){
-						type = "提取带匹配";
-					}else if(type == 6){
-						type = "提取匹配待打款";
-					}else if(type == 7){
-						type = "收益完成";
-					}else if(type == 8){
-						type = "提取待收款（买家已付款）";
-					}else if(type == 20){
-						type = "购买待收款";
-					}
-					
-					html += "<li><a href='quan_detail3?"+list[i].id+"'><div class='couponBox'><div class='title'><div class='tit'><span>"+list[i].name+"</span></div>" +
-							"<div class='end'><span>"+type+"</span></div></div><div class='desc'><div class='cd cd1'><b>"+list[i].earnProportion*100+"%</b>" +
-							"<p>预计周期收益率</p></div><div class='cd cd2'><b>"+list[i].day+"天</b><p>周期</p></div></div></div></a></li>";
+					 var dkType = list[i].dakuanType;
+					 var dkTypeStr = "";
+					 if(dkType == 1){
+						 dkTypeStr = "待打款";
+					 }
+					 if(dkType == 2){
+						 dkTypeStr = "待收款";
+					 }
+					 if(dkType == 3){
+						 dkTypeStr = "已完成";
+					 }
+					 
+					 var recordType = "<b style='color:red;'>券保理订单</b>";
+					 var content = "<a style='font-weight: bold; color: #fff;' href='couponOrderDetailInfo?" + list[i].id + "'>详情</a>";
+					 if(list[i].type == 2){
+						 recordType = "<b style='color:blue;'>券积分订单</b>";
+						 content = "<a style='font-weight: bold; color: #fff;' href='quanOrderDetailInfo?" + list[i].id + "'>详情</a>";
+					 }
+					 
+					 html += "<li style='margin-top: 18px;'>" +
+			 					"<span>类型：" + recordType + "</span>" +
+					 			"<p>状态：" + dkTypeStr + "</p>" +
+					 			"<span>订单号：" + list[i].bak2 + "</span>" +
+					 			/*"<p>打款人：" + list[i].daName +"</p>" +*/
+					 			"<span style='float: right; background: #E91E63; display: inline-block; width: 20%; height: 30px; text-align: center; line-height: 30px;'>" +
+					 				content +
+				 				"</span>" +
+			 				"</li>";
 				}
 				$("#lieb").html(html);
 			}else{

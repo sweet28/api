@@ -329,4 +329,28 @@
 		from quan_dakuan_record
 		where is_delete = 0 and quan_id = #{giftId,jdbcType=INTEGER} and type = '2'
 	</select>
+	
+	<!-- 根据券保理id查询打款记录表中的信息-->
+   <select id="selectlistCouponOrder" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_dakuan_record
+		where is_delete = 0 and quan_id = #{quanId,jdbcType=INTEGER} and type is null
+	</select>
+	
+	<select id="selectDFKlistByFensUserId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_dakuan_record
+		where is_delete = 0 and dakuang_id = #{dakuangId,jdbcType=INTEGER} and dakuan_type = 1
+	</select>
+	
+	<select id="selectDSKlistByFensUserId" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_dakuan_record
+		where is_delete = 0 and shoukuan_id = #{shoukuanId,jdbcType=INTEGER} and dakuan_type = 2
+	</select>
+	
+	
 </mapper>

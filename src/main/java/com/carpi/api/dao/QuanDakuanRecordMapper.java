@@ -30,4 +30,13 @@ public interface QuanDakuanRecordMapper {
 	
 	// 根据券积分id查询打款订单记录表信息
 	List<QuanDakuanRecord> selectlistCouponGift(@Param("giftId") Integer giftId);
+	
+	// 根据券积分id查询打款订单记录表信息
+	List<QuanDakuanRecord> selectlistCouponOrder(@Param("quanId") Integer quanId);
+	
+	// 根据用户id查询待打款订单记录表信息
+	List<QuanDakuanRecord> selectDFKlistByFensUserId(@Param("dakuangId") Integer dakuangId);
+	
+	// 根据用户id查询待打款订单记录表信息
+	List<QuanDakuanRecord> selectDSKlistByFensUserId(@Param("shoukuanId") Integer shoukuanId);
 }

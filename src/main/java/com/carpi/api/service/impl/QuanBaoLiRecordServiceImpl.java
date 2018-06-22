@@ -222,6 +222,31 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		if (reult != 1) {
 			return JsonResult.build(500, "打款失败");
 		}
+		
+		if(reult == 1){
+
+			QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
+			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlist(qdkRecord.getQuanId(), 1);
+			/*
+			 * 如果券下有多个订单，判断是否都完成当前操作，若完成，则将券变成下一个状态
+			 */
+			if(qdkrList.size() <= 0){
+				//判断当前券的状态
+				//是在入局阶段还是出局阶段，状态不同
+				QuanBaoLiRecord qbr = quanBaoLiRecordMapper.selectByPrimaryKey(qdkRecord.getQuanId());
+				QuanBaoLiRecord qbr2 = new QuanBaoLiRecord();
+				
+				qbr2.setId(qbr.getId());
+				if(qbr.getOrderType() == 2){
+					qbr2.setOrderType(20);
+				}
+				if(qbr.getOrderType() == 6){
+					qbr2.setOrderType(8);
+				}
+				quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbr2);
+			}
+		}
+		
 		return JsonResult.ok();
 	}
 
@@ -242,7 +267,24 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		}
 		
 		if(reult == 1){
-			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlist(pipeiId, 2);
+			QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
+			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlist(qdkRecord.getQuanId(), 2);
+			
+			if(qdkrList.size() <= 0){
+				//判断当前券的状态
+				//是在入局阶段还是出局阶段，状态不同
+				QuanBaoLiRecord qbr = quanBaoLiRecordMapper.selectByPrimaryKey(qdkRecord.getQuanId());
+				QuanBaoLiRecord qbr2 = new QuanBaoLiRecord();
+				
+				qbr2.setId(qbr.getId());
+				if(qbr.getOrderType() == 20){
+					qbr2.setOrderType(3);
+				}
+				if(qbr.getOrderType() == 8){
+					qbr2.setOrderType(80);
+				}
+				quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbr2);
+			}
 		}
 		
 		return JsonResult.ok();
@@ -265,10 +307,10 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		}
 		
 		if(reult == 1){
-			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponGiftbyType(pipeiId,type);
+			QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
+			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponGiftbyType(qdkRecord.getQuanId(),type);
 			
 			if(qdkrList.size() <= 0){
-				QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
 				TiQu tiQu = new TiQu();
 				tiQu.setId(qdkRecord.getQuanId());
 				tiQu.setTiquType(4);
@@ -297,10 +339,10 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		}
 		
 		if(reult == 1){
-			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponGiftbyType(pipeiId,type);
+			QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
+			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponGiftbyType(qdkRecord.getQuanId(),type);
 			
 			if(qdkrList.size() <= 0){
-				QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
 				TiQu tiQu = new TiQu();
 				tiQu.setId(qdkRecord.getQuanId());
 				tiQu.setTiquType(3);
@@ -338,6 +380,42 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		map.put("orderList", qdkrList);
 		
 		return JsonResult.ok(map);
+	}
+
+	@Override
+	public JsonResult selectCouponDFK(Integer fensUserId) {
+		// TODO Auto-generated method stub
+		List<QuanDakuanRecord> qdkList = quanDakuanRecordMapper.selectDFKlistByFensUserId(fensUserId);
+		if(qdkList.size() > 0){
+			return JsonResult.ok(qdkList);
+		}else{
+			return JsonResult.build(500, "暂无数据");
+		}
+		
+	}
+
+	@Override
+	public JsonResult selectCouponDSK(Integer fensUserId) {
+		// TODO Auto-generated method stub
+		List<QuanDakuanRecord> qdkList = quanDakuanRecordMapper.selectDSKlistByFensUserId(fensUserId);
+		if(qdkList.size() > 0){
+			return JsonResult.ok(qdkList);
+		}else{
+			return JsonResult.build(500, "暂无数据");
+		}
+	}
+
+	@Override
+	public JsonResult couponOrderList(Integer id) {
+		
+		List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponOrder(id);
+		
+		if (qdkrList.size() > 0) {
+			return JsonResult.ok(qdkrList);
+		}else{
+			return JsonResult.build(500, "暂无记录");
+		}
+		
 	}
 
 }

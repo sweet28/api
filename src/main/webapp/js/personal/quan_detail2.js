@@ -17,8 +17,6 @@ var str;
 			 console.log(data);
 			 if(data.status == 200){
 				 var quan = data.data.ddxx;
-				 console.log(quan);
-				 console.log(quan.earnProportion*100+"%");
 				 $("#name").html(quan.name);
 				 $("#sybil").html(quan.earnProportion*100+"%");
 				 $("#day").html(quan.day+"天");
@@ -46,7 +44,7 @@ var str;
 	
 	$.ajax({
 		 type: "post",
-		 url: getAPIURL() + "quan/chuchang",
+		 url: getAPIURL() + "quan/couponOrderList",
 		 dataType: "json",
 		 data:{
 			 "id":str,
@@ -54,61 +52,35 @@ var str;
 			 "dakuantype":1
 		 },
 		 success:function(data){
-			 console.log(data);
+			 console.log("::::::"+data.data);
 			 var list = data.data
 			 if(data.status == 200){
 				 var html="";
 				 for(var i=0;i<list.length;i++){
-					 var shouyi = list[i].quan.earnProportion;
-					 var orderType = list[i].pip.dakuanType
-					 if(orderType == 1){
-						 order = "待付款";
-					 }else if(orderType == 2){
-						 order = "已付款待确认";
-					 }else if(orderType == 3){
-						 order = "已确认收款";
+					 var dkType = list[i].dakuanType;
+					 var dkTypeStr = "";
+					 if(dkType == 1){
+						 dkTypeStr = "待打款";
 					 }
-					 html += "<li style='margin-top: 18px;'><p>状态："+ order+"</p> <span>订单号："+list[i].quan.orderNumber+"</span><p>收益比例："
-					 + shouyi*100+"%</p><span>出局额度：￥："+list[i].quan.outPrice+"</span><span style='float: right; background: #E91E63; display: inline-block; width: 20%; height: 30px; text-align: center; line-height: 30px;'><a style='font-weight: bold; color: #fff;' href='quan_FKXQ?"+list[i].id+"'>详情</a>";
+					 if(dkType == 2){
+						 dkTypeStr = "待收款";
+					 }
+					 if(dkType == 3){
+						 dkTypeStr = "已完成";
+					 }
+					 
+					 html += "<li style='margin-top: 18px;'>" +
+					 			"<p>状态：" + dkTypeStr + "</p>" +
+					 			"<span>订单号：" + list[i].bak2 + "</span>" +
+					 			"<span style='float: right; background: #E91E63; display: inline-block; width: 20%; height: 30px; text-align: center; line-height: 30px;'>" +
+					 				"<a style='font-weight: bold; color: #fff;' href='quanOrderDetailInfo?" + list[i].id + "'>详情</a>" +
+				 				"</span>" +
+			 				"</li>";
 				 }
 				 $("#a_miner").html(html);
 			 }
 			 
 		 }
 	});
-	
-	$.ajax({
-		 type: "post",
-		 url: getAPIURL() + "quan/chuchang",
-		 dataType: "json",
-		 data:{
-			 "id":str,
-			 "type":2,
-			 "dakuantype":2
-		 },
-		 success:function(data){
-			 console.log(data);
-			 var list = data.data
-			 if(data.status == 200){
-				 var html="";
-				 for(var i=0;i<list.length;i++){
-					 var shouyi = list[i].quan.earnProportion;
-					 var orderType = list[i].pip.dakuanType
-					 if(orderType == 1){
-						 order = "待付款";
-					 }else if(orderType == 2){
-						 order = "已付款待确认";
-					 }else if(orderType == 3){
-						 order = "已确认收款";
-					 }
-					 html += "<li style='margin-top: 18px;'><p>状态："+ order+"</p> <span>订单号："+list[i].quan.orderNumber+"</span><p>收益比例："
-					 + shouyi*100+"%</p><span>出局额度：￥："+list[i].quan.outPrice+"</span><span style='float: right; background: #E91E63; display: inline-block; width: 20%; height: 30px; text-align: center; line-height: 30px;'><a style='font-weight: bold; color: #fff;' href='quan_FKXQ?"+list[i].id+"'>详情</a>";
-				 }
-				 $("#a_miner").html(html);
-			 }
-			 
-		 }
-	});
-	
 	
 })();

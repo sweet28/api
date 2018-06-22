@@ -17,6 +17,8 @@
 						type = "待匹配";
 					}else if(type == 2){
 						type = "购买待打款";
+					}else if(type == 20){
+						type = "购买待收款";
 					}else if(type == 3){
 						type = "收益进行中";
 					}else if(type == 4){
@@ -29,6 +31,8 @@
 						type = "收益完成";
 					}else if(type == 8){
 						type = "提取待收款（买家已打款）";
+					}else if(type == 80){
+						type = "出局完成";
 					}
 					
 					html += "<li><a href='quan_detail2?"+list[i].id+"'><div class='couponBox'><div class='title'><div class='tit'><span>"+list[i].name+"</span></div>" +

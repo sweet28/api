@@ -933,7 +933,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 			return JsonResult.build(500, "算力大于0才可叠加");
 		}
 		
-		if(sum != diejia ){
+		if(sum < diejia ){
 			return JsonResult.build(500, "您的算力有变化，请刷新页面重新叠加");
 		}
 		
@@ -954,7 +954,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 		// fensMiner.setIsUseSuanli("1");//////波波你个坑，这个地方不能设置，设置是否使用了算力是设置到直推粉丝那里去，你个坑坑坑
 
 		int result = fensMinerMapper.updateIsUseDIEJIA(phone);
-		if (result == 1) {
+		if (result >= 1) {
 			int result2 = fensMinerMapper.updateByPrimaryKeySelective(fensMiner);
 			if (result2 != 1) {
 				return JsonResult.build(500, "叠加算力失败");
