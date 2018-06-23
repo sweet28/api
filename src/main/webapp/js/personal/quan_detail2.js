@@ -14,7 +14,6 @@ var str;
 			 "id":str
 		 },
 		 success:function(data){
-			 console.log(data);
 			 if(data.status == 200){
 				 var quan = data.data.ddxx;
 				 $("#name").html(quan.name);
@@ -52,7 +51,6 @@ var str;
 			 "dakuantype":1
 		 },
 		 success:function(data){
-			 console.log("::::::"+data.data);
 			 var list = data.data
 			 if(data.status == 200){
 				 var html="";
@@ -68,8 +66,19 @@ var str;
 					 if(dkType == 3){
 						 dkTypeStr = "已完成";
 					 }
+					 console.log(list[i].bak3);
+					 console.log(list[i]);
+					 
+					 var otype = "<b style='color:blue;'>券保理进场订单</b>";
+					 if(list[i].bak3 == '2'){
+						 if(list[i].bak4==str){
+							 otype = "<b style='color:red;'>出局订单</b>";
+						 }
+					 }
+					 
 					 
 					 html += "<li style='margin-top: 18px;'>" +
+			 					"<span>订单类型：" + otype + "</span>" +
 					 			"<p>状态：" + dkTypeStr + "</p>" +
 					 			"<span>订单号：" + list[i].bak2 + "</span>" +
 					 			"<span style='float: right; background: #E91E63; display: inline-block; width: 20%; height: 30px; text-align: center; line-height: 30px;'>" +
@@ -84,3 +93,35 @@ var str;
 	});
 	
 })();
+
+function quanOut(){
+	
+	$.ajax({
+		 type: "post",
+		 url: getAPIURL() + "quan/quanOut",
+		 dataType: "json",
+		 data:{
+			 "id":str,
+			 "uid":localStorage.getItem("uid")
+		 },
+		 success:function(data){
+			 var list = data.data
+			 if(data.status == 200){
+				 swal({
+					  title: "提示",
+					  text:"操作完成",
+					  icon: "success",
+					  button: "确定",
+				  });
+			 }else{
+				 swal({
+					  title: "提示",
+					  text: data.msg,
+					  icon: "error",
+					  button: "确定",
+				  });
+			 }
+			 
+		 }
+	});
+}

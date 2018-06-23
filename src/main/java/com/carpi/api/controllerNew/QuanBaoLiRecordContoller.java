@@ -197,4 +197,11 @@ public class QuanBaoLiRecordContoller {
 	public JsonResult tiqu(@RequestParam("uid") Integer fensUserId) {
 		return tiQuService.addQuanJiFen(fensUserId);
 	}
+	
+	@RequestMapping(value = "/quanOut", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult quanOut(@RequestParam("id") Integer quanId, @RequestParam("uid") Integer fensUserId) {
+		return quanBaoLiRecordService.quanOut(quanId,fensUserId);
+	}
+	
 }

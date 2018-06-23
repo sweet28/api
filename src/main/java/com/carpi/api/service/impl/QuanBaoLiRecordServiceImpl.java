@@ -1,6 +1,9 @@
 package com.carpi.api.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.fastjson.JSONObject;
+import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.BankCardMapper;
@@ -226,27 +230,71 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		if(reult == 1){
 
 			QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
-			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlist(qdkRecord.getQuanId(), 1);
-			/*
-			 * 如果券下有多个订单，判断是否都完成当前操作，若完成，则将券变成下一个状态
-			 */
-			if(qdkrList.size() <= 0){
-				//判断当前券的状态
-				//是在入局阶段还是出局阶段，状态不同
-				QuanBaoLiRecord qbr = quanBaoLiRecordMapper.selectByPrimaryKey(qdkRecord.getQuanId());
-				QuanBaoLiRecord qbr2 = new QuanBaoLiRecord();
+			
+			/**
+			 * 优先判断是否为出局订单，若为出局订单，则需要同时关照进场的券和出场的券
+			 **/
+			//如果为出场+进场券
+			if(qdkRecord.getBak4() != null){
 				
-				qbr2.setId(qbr.getId());
-				if(qbr.getOrderType() == 2){
-					qbr2.setOrderType(20);
+				String outQuanID = qdkRecord.getBak4();//出场券ID
+				Integer inQuanID = qdkRecord.getQuanId();//进场券ID
+				
+				//进行出场券下订单完成情况的判断
+				List<QuanDakuanRecord> outDKList = quanDakuanRecordMapper.selectOutQuanlist(outQuanID, 1);
+				if(outDKList.size() <= 0 ){
+					QuanBaoLiRecord qbr = quanBaoLiRecordMapper.selectByPrimaryKey(Integer.valueOf(outQuanID));
+					QuanBaoLiRecord qbr2 = new QuanBaoLiRecord();
+					
+					qbr2.setId(qbr.getId());
+					// if(qbr.getOrderType() == 2){
+					// qbr2.setOrderType(20);
+					// }
+					if(qbr.getOrderType() == 6){
+						qbr2.setOrderType(8);
+					}
+					quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbr2);
 				}
-				if(qbr.getOrderType() == 6){
-					qbr2.setOrderType(8);
+				
+				//进行进场券下订单完成情况的判断
+				List<QuanDakuanRecord> inDKList = quanDakuanRecordMapper.selectlist(inQuanID, 1);
+				if(inDKList.size() <= 0){
+					QuanBaoLiRecord qbr = quanBaoLiRecordMapper.selectByPrimaryKey(inQuanID);
+					QuanBaoLiRecord qbr2 = new QuanBaoLiRecord();
+					
+					qbr2.setId(qbr.getId());
+					if (qbr.getOrderType() == 2) {
+						qbr2.setOrderType(20);
+					}
+					// if(qbr.getOrderType() == 6){
+					// qbr2.setOrderType(8);
+					// }
+					quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbr2);
 				}
-				quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbr2);
+				
+			}else{
+				//否则为纯进场券
+				List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlist(qdkRecord.getQuanId(), 1);
+				/*
+				 * 如果券下有多个订单，判断是否都完成当前操作，若完成，则将券变成下一个状态
+				 */
+				if(qdkrList.size() <= 0){
+					//判断当前券的状态
+					//是在入局阶段还是出局阶段，状态不同
+					QuanBaoLiRecord qbr = quanBaoLiRecordMapper.selectByPrimaryKey(qdkRecord.getQuanId());
+					QuanBaoLiRecord qbr2 = new QuanBaoLiRecord();
+					
+					qbr2.setId(qbr.getId());
+					if(qbr.getOrderType() == 2){
+						qbr2.setOrderType(20);
+					}
+					if(qbr.getOrderType() == 6){
+						qbr2.setOrderType(8);
+					}
+					quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbr2);
+				}
 			}
 		}
-		
 		return JsonResult.ok();
 	}
 
@@ -268,22 +316,87 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		
 		if(reult == 1){
 			QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
-			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlist(qdkRecord.getQuanId(), 2);
-			
-			if(qdkrList.size() <= 0){
-				//判断当前券的状态
-				//是在入局阶段还是出局阶段，状态不同
-				QuanBaoLiRecord qbr = quanBaoLiRecordMapper.selectByPrimaryKey(qdkRecord.getQuanId());
-				QuanBaoLiRecord qbr2 = new QuanBaoLiRecord();
+			/**
+			 * 优先判断是否为出局订单，若为出局订单，则需要同时关照进场的券和出场的券
+			 **/
+			//如果为出场+进场券
+			if(qdkRecord.getBak4() != null){
 				
-				qbr2.setId(qbr.getId());
-				if(qbr.getOrderType() == 20){
-					qbr2.setOrderType(3);
+				String outQuanID = qdkRecord.getBak4();//出场券ID
+				Integer inQuanID = qdkRecord.getQuanId();//进场券ID
+				
+				//进行出场券下订单完成情况的判断
+				List<QuanDakuanRecord> outDKList = quanDakuanRecordMapper.selectOutQuanlist(outQuanID, 1);
+				List<QuanDakuanRecord> outDKList2 = quanDakuanRecordMapper.selectOutQuanlist(outQuanID, 2);
+				if(outDKList.size() <= 0 && outDKList2.size() <= 0){
+					QuanBaoLiRecord qbr = quanBaoLiRecordMapper.selectByPrimaryKey(Integer.valueOf(outQuanID));
+					QuanBaoLiRecord qbr2 = new QuanBaoLiRecord();
+					
+					qbr2.setId(qbr.getId());
+					if(qbr.getOrderType() == 8){
+						qbr2.setOrderType(80);
+					}
+					quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbr2);
 				}
-				if(qbr.getOrderType() == 8){
-					qbr2.setOrderType(80);
+				
+				//进行进场券下订单完成情况的判断
+				List<QuanDakuanRecord> inDKList = quanDakuanRecordMapper.selectlist(inQuanID, 1);
+				List<QuanDakuanRecord> inDKList2 = quanDakuanRecordMapper.selectlist(inQuanID, 2);
+				if(inDKList.size() <= 0 && inDKList2.size() <= 0){
+					QuanBaoLiRecord qbr = quanBaoLiRecordMapper.selectByPrimaryKey(inQuanID);
+					QuanBaoLiRecord qbr2 = new QuanBaoLiRecord();
+					
+					qbr2.setId(qbr.getId());
+					if (qbr.getOrderType() == 20) {
+						
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						Date startDate = new Date();
+
+						Calendar calendar = Calendar.getInstance();
+						calendar.setTime(startDate);
+						calendar.add(Calendar.DAY_OF_MONTH, qbr.getDay());
+
+						Date endDate = calendar.getTime();
+
+						qbr2.setOrderType(3);
+						qbr2.setInterestDate(startDate);
+						qbr2.setExpiryTime(endDate);
+					}
+					
+					quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbr2);
 				}
-				quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbr2);
+				
+			}else{
+				List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlist(qdkRecord.getQuanId(), 2);
+				
+				if(qdkrList.size() <= 0){
+					//判断当前券的状态
+					//是在入局阶段还是出局阶段，状态不同
+					QuanBaoLiRecord qbr = quanBaoLiRecordMapper.selectByPrimaryKey(qdkRecord.getQuanId());
+					QuanBaoLiRecord qbr2 = new QuanBaoLiRecord();
+					
+					qbr2.setId(qbr.getId());
+					if(qbr.getOrderType() == 20){
+						qbr2.setOrderType(3);
+						
+						SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+						Date startDate = new Date();
+
+						Calendar calendar = Calendar.getInstance();
+						calendar.setTime(startDate);
+						calendar.add(Calendar.DAY_OF_MONTH, qbr.getDay());
+
+						Date endDate = calendar.getTime();
+						
+						qbr2.setInterestDate(startDate);
+						qbr2.setExpiryTime(endDate);
+					}
+					if(qbr.getOrderType() == 8){
+						qbr2.setOrderType(80);
+					}
+					
+					quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbr2);
+				}
 			}
 		}
 		
@@ -408,7 +521,7 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 	@Override
 	public JsonResult couponOrderList(Integer id) {
 		
-		List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponOrder(id);
+		List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponOrder(id,id+"");
 		
 		if (qdkrList.size() > 0) {
 			return JsonResult.ok(qdkrList);
@@ -418,4 +531,62 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		
 	}
 
+	@Override
+	public JsonResult quanOut(Integer quanId, Integer fensUserId) {
+		
+		Calendar calendar = Calendar.getInstance();
+		int hour = calendar.get(Calendar.HOUR_OF_DAY);
+		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
+			return JsonResult.build(500, "每天开放购买时间为："+ConfigUtil.CPA_QBL_START_TIME+"点至"+ConfigUtil.CPA_QBL_END_TIME+"点.");
+		}
+		
+		FensUser fus = fensUserDao.selectByPrimaryKey(fensUserId);
+		if (fus == null) {
+			return JsonResult.build(500, "非法用户");
+		}
+		// 查询身份证是否认证
+		if (Integer.valueOf(fus.getAttachment()) != 1) {
+			return JsonResult.build(500, "身份证未认证");
+		}
+		// 银行卡
+		List<BankCard> list = bankCardDao.selectAll(fus.getId());
+		if (list.size() <= 0) {
+			return JsonResult.build(500, "请绑定银行卡");
+		}
+		
+		QuanBaoLiRecord quanbaoli = quanBaoLiRecordMapper.selectByPrimaryKey(quanId);
+
+		if (quanbaoli.getFensUserId().equals(fensUserId)) {
+			
+			if(quanbaoli.getOrderType() == 3 || quanbaoli.getOrderType() == 4){
+				Date endTime = quanbaoli.getExpiryTime();
+				// 当前时间
+				Date dd = TimeUtil.getTimeStamp();
+				long a = TimeUtil.isOverTime(dd, endTime);
+				double b = a / (60 * 60 * 24);
+
+				if (b >= 1) {
+					QuanBaoLiRecord qbl = new QuanBaoLiRecord();
+					qbl.setId(quanId);
+					qbl.setOrderType(5);
+
+					int result = quanBaoLiRecordMapper.updateByPrimaryKeySelective(qbl);
+
+					if (result == 1) {
+						return JsonResult.ok();
+					} else {
+						return JsonResult.build(500, "申请失败，请稍后重试");
+					}
+				} else {
+					return JsonResult.build(500, "还未到出局时间");
+				}
+			}else{
+				return JsonResult.build(500, "不能进行该操作");
+			}
+
+		} else {
+			return JsonResult.build(500, "申请失败，不能操作他人券保理");
+		}
+
+	}
 }

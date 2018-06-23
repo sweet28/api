@@ -41,4 +41,6 @@ public interface QuanBaoLiRecordService {
 	public JsonResult selectCouponDSK(Integer valueOf);
 
 	public JsonResult couponOrderList(Integer id);
+
+	public JsonResult quanOut(Integer quanId, Integer fensUserId);
 }

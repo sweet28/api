@@ -12,9 +12,11 @@
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/css/style.css">
 <link rel="stylesheet" href="<%=path%>/cssnew/style.css">
+<link rel="stylesheet" type="text/css" href="<%=path%>/sweetalert/css/sweetalert.css">
 <script src="<%=path%>/lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.min.js"></script>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
 <style>
 	body{ background: #f1f0f6; }
@@ -52,6 +54,11 @@
 	<div class="cycle">
 		<div class="row title">
 			周期
+		</div>
+		<div class='end'>
+			<span style='float: right; background: #fcbd10; display: inline-block; width: 20%; height: 30px; text-align: center; line-height: 30px;'>
+				<a style='font-weight: bold; color: #fff;' href='javascript:quanOut();'>申请出局</a> 
+			</span>
 		</div>
 		<div class="cycle_list">
 			<ul>

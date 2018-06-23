@@ -20,11 +20,11 @@
 					}else if(type == 20){
 						type = "购买待收款";
 					}else if(type == 3){
-						type = "收益进行中";
+						type = "正常";
 					}else if(type == 4){
 						type = "周期结束";
 					}else if(type == 5){
-						type = "提取带匹配";
+						type = "提取待匹配";
 					}else if(type == 6){
 						type = "提取匹配待打款";
 					}else if(type == 7){
