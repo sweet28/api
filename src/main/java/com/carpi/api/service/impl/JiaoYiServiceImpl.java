@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.JsonResult;
@@ -130,6 +131,11 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		if (fensTransaction.getTraderId() == null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
+		
+		if(StringUtils.isEmpty(fensTransaction.getBak1())){
+			return JsonResult.build(500, "请上传打款截图");
+		}
+		
 		// 查询是否是本人操作
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 		
@@ -179,6 +185,8 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			FensTransaction fensTransaction2 = new FensTransaction();
 			fensTransaction2.setTraderState(2);
 			fensTransaction2.setId(fensTransaction.getId());
+			fensTransaction2.setBak1(fensTransaction.getBak1());
+			
 			int result = fensTransactionMapper.updateByPrimaryKeySelective(fensTransaction2);
 			if (result != 1) {
 				return JsonResult.build(500, "交易失败，请联系管理员");
@@ -323,6 +331,11 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		if (fensTransaction.getFensUserId() == null || fensTransaction.getId() == null) {
 			return JsonResult.build(500, "交易失败");
 		}
+		
+		if(StringUtils.isEmpty(fensTransaction.getBak1())){
+			return JsonResult.build(500, "请上传打款截图");
+		}
+		
 		// 查询是否是本人操作
 		FensTransaction fensTransaction3 = fensTransactionMapper.selectByPrimaryKey(fensTransaction.getId());
 		
@@ -344,9 +357,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
             if (fensid != fensid2) {
 				return JsonResult.build(500, "交易异常");
 			}
-//            if (fensTransaction3.getFensUserId() != fensTransaction.getFensUserId()) {
-//				return JsonResult.build(500, "交易异常");
-//			}
+            
 			FensUser fensUser = fensUserMapper.selectByPrimaryKey(fensTransaction3.getFensUserId());
 			FensUser fensUser2 = fensUserMapper.selectByPrimaryKey(fensTransaction3.getTraderId());
 			// 判断是否存在该接单人
@@ -372,13 +383,15 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			FensTransaction fensTransaction2 = new FensTransaction();
 			fensTransaction2.setTraderState(2);
 			fensTransaction2.setId(fensTransaction.getId());
+			fensTransaction2.setBak1(fensTransaction.getBak1());
+			
 			int result = fensTransactionMapper.updateByPrimaryKeySelective(fensTransaction2);
 			if (result != 1) {
 				return JsonResult.build(500, "交易失败，请联系管理员");
 			}
 			return JsonResult.ok();
 		} else {
-			return JsonResult.build(500, "该订单不是代付款状态");
+			return JsonResult.build(500, "该订单不是待付款状态");
 		}
 	}
 

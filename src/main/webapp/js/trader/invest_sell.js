@@ -672,10 +672,11 @@ function mrCPA(id,count){
 	        	    },
 	        	    success: function (data) {
 	        	    	var dd = data.data;
+	        	    	console.log(data);
 	        	    	if(data.status==200){
 	        	    		//可用余额
 	        	    		var yue = dd.ableCpa;
-	        	    		if(yue*0.8 >= count){
+//	        	    		if(yue*0.8 >= count){
 	        	    			
 	        	    			swal({   
 	        	    				title: "请输入交易密码",   
@@ -776,14 +777,14 @@ function mrCPA(id,count){
 	        	    				
 	        	    			});
 	        	    			
-	        	    		}else{
-	        	    			swal({
-	        			      		  title: "账户钱包CPA余额不足。",
-	        			      		  icon: "error",
-	        			      		  button: "确定",
-	        			      	});
-	        	    			return false;
-	        	    		}
+//	        	    		}else{
+//	        	    			swal({
+//	        			      		  title: "账户钱包CPA余额不足。",
+//	        			      		  icon: "error",
+//	        			      		  button: "确定",
+//	        			      	});
+//	        	    			return false;
+//	        	    		}
 	        	    	}else{
 	        	    		swal({
 	      			      		  title: "账户钱包CPA余额不足。",

@@ -212,14 +212,19 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 
 	// 券保理买家付款
 	@Override
-	public JsonResult fuk(Integer pipeiId) {
+	public JsonResult fuk(Integer pipeiId, String yfkUrl) {
 		if(StringUtils.isEmpty(pipeiId)) {
 			return JsonResult.build(500, "请选择打款信息");
 		}
+		if(StringUtils.isEmpty(yfkUrl)){
+			return JsonResult.build(500, "请上传打款截图");
+		}
+		
 		QuanDakuanRecord quanDakuanRecord = new QuanDakuanRecord();
 		//2：已打款待收款（待确认)
 		quanDakuanRecord.setDakuanType(2); 
 		quanDakuanRecord.setId(pipeiId);
+		quanDakuanRecord.setDakuanImg(yfkUrl);
 		//打款时间
 		quanDakuanRecord.setDakuanDate(TimeUtil.getTimeStamp());
 		int reult = quanDakuanRecordMapper.updateByPrimaryKeySelective(quanDakuanRecord);
@@ -588,5 +593,11 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 			return JsonResult.build(500, "申请失败，不能操作他人券保理");
 		}
 
+	}
+
+	@Override
+	public JsonResult fuk(Integer pipeiId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -21,7 +21,7 @@ public interface QuanBaoLiRecordService {
 	JsonResult quanChuChang(Integer id,Integer type,Integer dakuantype);
 	
 	//券保理买家付款
-	JsonResult fuk(Integer pipeiId);
+	JsonResult fuk(Integer pipeiId, String yfkUrl);
 
 	// 券保理卖家收款
 	JsonResult shouk(Integer pipeiId);
@@ -43,4 +43,6 @@ public interface QuanBaoLiRecordService {
 	public JsonResult couponOrderList(Integer id);
 
 	public JsonResult quanOut(Integer quanId, Integer fensUserId);
+
+	public JsonResult fuk(Integer pipeiId);
 }

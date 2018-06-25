@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -213,9 +214,23 @@ public class MinerRecordNewController {
 		String traderId = request.getParameter("uid");
 		// 当前订单id
 		String id = request.getParameter("id");
+		String yfkurl = request.getParameter("yfkurl");
+		
+		if(StringUtils.isEmpty(id)){
+			return JsonResult.build(500, "交易拥堵，请稍后重试");
+		}
+		if (StringUtils.isEmpty(traderId)) {
+			return JsonResult.build(500, "请重新登录");
+		}
+		if (StringUtils.isEmpty(yfkurl)) {
+			return JsonResult.build(500, "请上传打款截图");
+		}
+		
 		FensTransaction fensTransaction = new FensTransaction();
 		fensTransaction.setTraderId(Integer.valueOf(traderId));
 		fensTransaction.setId(Integer.valueOf(id));
+		fensTransaction.setBak1(yfkurl);
+		
 		return jiaoYiService.buyDanYiFu(fensTransaction);
 	}
 
@@ -241,9 +256,24 @@ public class MinerRecordNewController {
 		String fensUserId = request.getParameter("uid");
 		// 当前订单id
 		String id = request.getParameter("id");
+		
+		String yfkurl = request.getParameter("yfkurl");
+		
+		if(StringUtils.isEmpty(id)){
+			return JsonResult.build(500, "交易拥堵，请稍后重试");
+		}
+		if (StringUtils.isEmpty(fensUserId)) {
+			return JsonResult.build(500, "请重新登录");
+		}
+		if (StringUtils.isEmpty(yfkurl)) {
+			return JsonResult.build(500, "请上传打款截图");
+		}
+		
 		FensTransaction fensTransaction = new FensTransaction();
 		fensTransaction.setFensUserId(Integer.valueOf(fensUserId));
 		fensTransaction.setId(Integer.valueOf(id));
+		fensTransaction.setBak1(yfkurl);
+		
 		return jiaoYiService.sellDanYiFu(fensTransaction);
 	}
 

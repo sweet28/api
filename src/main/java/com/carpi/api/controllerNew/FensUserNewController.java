@@ -337,17 +337,17 @@ public class FensUserNewController {
 		}
 
 	// 粉丝团列表old
-	@RequestMapping(value = "/selectFensUserGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-	@ResponseBody
-	public JSONObject selectFensUserGrade(HttpServletRequest request, HttpServletResponse response) {
-		// 手机号码
-		String phone = request.getParameter("sh");
-		String uid = request.getParameter("uid");
-		System.out.println("controller:" + phone);
-
-		return fensUserService.selectFensUserGrade(phone, Integer.valueOf(uid));
-	}
-	
+//	@RequestMapping(value = "/selectFensUserGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	@ResponseBody
+//	public JSONObject selectFensUserGrade(HttpServletRequest request, HttpServletResponse response) {
+//		// 手机号码
+//		String phone = request.getParameter("sh");
+//		String uid = request.getParameter("uid");
+//		System.out.println("controller:" + phone);
+//
+//		return fensUserService.selectFensUserGrade(phone, Integer.valueOf(uid));
+//	}
+//	
 	// 粉丝团列表
 	@RequestMapping(value = "/getFensUserGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody

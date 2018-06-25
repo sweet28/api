@@ -164,11 +164,29 @@ public class QuanBaoLiRecordContoller {
 		return quanBaoLiRecordService.pipeixiangQing(id);
 	}
 
-	// 券保理/积分买家付款
-	@RequestMapping(value = "/fuk", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	// 券保理/积分买家付款
+//	@RequestMapping(value = "/fuk", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//	@ResponseBody
+//	public JsonResult fuk(@RequestParam("pipeiId") Integer pipeiId) {
+//		return quanBaoLiRecordService.fuk(pipeiId);
+//	}
+	
+	// 券保理出场
+	@RequestMapping(value = "/fukByimg", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public JsonResult fuk(@RequestParam("pipeiId") Integer pipeiId) {
-		return quanBaoLiRecordService.fuk(pipeiId);
+	public JsonResult buyDanYiFu(HttpServletRequest request, HttpServletResponse response) {
+		// 当前订单id
+		String id = request.getParameter("pipeiId");
+		String yfkurl = request.getParameter("yfkurl");
+		
+		if(StringUtils.isEmpty(id)){
+			return JsonResult.build(500, "交易拥堵，请稍后重试");
+		}
+		if (StringUtils.isEmpty(yfkurl)) {
+			return JsonResult.build(500, "请上传打款截图");
+		}
+		
+		return quanBaoLiRecordService.fuk(Integer.valueOf(id), yfkurl);
 	}
 
 	// 券保理卖家收款

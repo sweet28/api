@@ -19,6 +19,7 @@ var tradeId;
 var uid;
 var fensID;
 var type;
+var yfkUrl;
 
 function Gift() {
 	
@@ -65,15 +66,20 @@ function Gift() {
 		    		$("#cpaCount").html("CPA数量:"+totalCount);
 		    		$("#syTime").html(syTime);
 		    		$("#totalPrice").html("总价:"+"￥"+totalPrice);
+		    		
+		    		$("#yfkUrl").attr("src", data.bak1);
 
 		    		$("#modifypassword_btn").hide();
 		    		$("#modifypassword_btn2").hide();
+		    		$("#form0").hide(); 
 		    		
 		    		if(ddState==1 && ddType==2 && localStorage.getItem("uid")==fensID){
 		    			$("#modifypassword_btn").show();
+		    			$("#form0").show();
 		    		}
 		    		if(ddState==1 && ddType==1 && localStorage.getItem("uid")==uid){
 		    			$("#modifypassword_btn").show();
+		    			$("#form0").show();
 		    		}
 		    		if(ddState==2 && ddType==2 && localStorage.getItem("uid")==uid){
 		    			$("#modifypassword_btn2").show();
@@ -255,57 +261,71 @@ function submitYFK(){
     var rad = getRandom();
     var ton = getTom();
     var str = "id="+tradeId+"uid="+localStorage.getItem("uid")+"tmp="+tmp+"rad="+rad+"tom="+ton; 
-	$.ajax({
-	    type: "post",
-	    url: getAPIURL() + "kuangjy/jy/"+methodName,
-	    dataType: "json",
-	    data: {
-	    	"id":tradeId,
-	    	"uid":localStorage.getItem("uid"),
-	    	  "tmp":tmp,
-	          "rad":rad,
-	          "tom":ton,
-	          "token":commingSoon1(str)
-	    },
-	    success: function (data) {
-	    	if(data.status==200){
-	    		ddState = data.traderState;
-	    		swal({ 
-	    			  title: "成功", 
-	    			  text: "提交成功，待卖家确认！", 
-	    			  type: "success",
-	    			  showCancelButton: true, 
-	    			  confirmButtonColor: "#DD6B55",
-	    			  confirmButtonText: "确定", 
-	    			  cancelButtonText: "取消",
-	    			  closeOnConfirm: false, 
-	    			  closeOnCancel: false	
-	    			},
-	    			function(isConfirm){ 
-	    			  if (isConfirm) { 
-	    				  window.location.href = "traderDetail?"+tradeId;
-	    			  } else { 
-	    				  window.location.href = "traderDetail?"+tradeId;
-	    			  } 
-	    	    });
-	    	}else{
-	    		swal({
-		  			  title: data.msg,
-		  			  icon: "error",
-		  			  button: "确定",
-		  		});
-			    return false;
-	    	}
-	    },
-	    error: function (XMLHttpRequest, textStatus, errorThrown) {
-	    	swal({
-	  			  title: "交易拥堵，请稍后重新交易。1",
-	  			  icon: "error",
-	  			  button: "确定",
-	  		});
-		    return false;
-	    }
-	});
+    
+    console.log(methodName);
+    
+    if(yfkUrl==null || yfkUrl ==""){
+    	swal({
+			  title: "提示",
+			  icon: "error",
+			  text: "请上传打款截图！",
+			  button: "确定",
+		});
+	    return false;
+    }else{
+    	$.ajax({
+    	    type: "post",
+    	    url: getAPIURL() + "kuangjy/jy/"+methodName,
+    	    dataType: "json",
+    	    data: {
+    	    	"id":tradeId,
+    	    	"uid":localStorage.getItem("uid"),
+    	    	  "tmp":tmp,
+    	          "rad":rad,
+    	          "tom":ton,
+    	          "token":commingSoon1(str),
+    	          "yfkurl":yfkUrl
+    	    },
+    	    success: function (data) {
+    	    	if(data.status==200){
+    	    		ddState = data.traderState;
+    	    		swal({ 
+    	    			  title: "成功", 
+    	    			  text: "提交成功，待卖家确认！", 
+    	    			  type: "success",
+    	    			  showCancelButton: true, 
+    	    			  confirmButtonColor: "#DD6B55",
+    	    			  confirmButtonText: "确定", 
+    	    			  cancelButtonText: "取消",
+    	    			  closeOnConfirm: false, 
+    	    			  closeOnCancel: false	
+    	    			},
+    	    			function(isConfirm){ 
+    	    			  if (isConfirm) { 
+    	    				  window.location.href = "traderDetail?"+tradeId;
+    	    			  } else { 
+    	    				  window.location.href = "traderDetail?"+tradeId;
+    	    			  } 
+    	    	    });
+    	    	}else{
+    	    		swal({
+    		  			  title: data.msg,
+    		  			  icon: "error",
+    		  			  button: "确定",
+    		  		});
+    			    return false;
+    	    	}
+    	    },
+    	    error: function (XMLHttpRequest, textStatus, errorThrown) {
+    	    	swal({
+    	  			  title: "交易拥堵，请稍后重新交易。1",
+    	  			  icon: "error",
+    	  			  button: "确定",
+    	  		});
+    		    return false;
+    	    }
+    	});
+    }
 }
 
 function submitYSK(){
@@ -385,3 +405,59 @@ function submitYSK(){
 	}
 }
 
+$("#file0").change(function() {
+
+	var objUrl = getObjectURL(this.files[0]);
+	if (objUrl) {
+		var files = $("#file0").get(0).files[0]; // 获取file控件中的内容
+
+		if (files.size < 1024 * 1024 * 2) {
+			// 在这里修改图片的地址属性
+			$("#img0").attr("src", objUrl);
+
+			var fd = new FormData();
+			fd.append("errPic", files);
+			var url = getAPIURL() + "pic/upload2";
+			$.ajax({
+				type : "POST",
+				contentType : false, // 必须false才会避开jQuery对 formdata 的默认处理 ,
+				// XMLHttpRequest会对 formdata 进行正确的处理
+				processData : false, // 必须false才会自动加上正确的Content-Type
+				url : url,
+				data : fd,
+				dataType : "json",
+				success : function(data) {
+					if (data.error == 0) {
+						console.log(data.url);
+						yfkUrl = data.url;
+					}else{
+						swal({
+				      		  title: data.message,
+				      		  icon: "error",
+				      		  button: "确定",
+			      	    });
+					}
+				},
+				error : function(data) {
+					alert.log("请上传jpg和png和jpeg格式图片");
+				}
+			});
+		} else {
+			alert("上传图片不能超过2M，请重新上传.");
+		}
+	}
+});
+
+//建立一個可存取到該file的url
+function getObjectURL(file) {
+	var url = null;
+	// 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+	if (window.createObjectURL != undefined) { // basic
+		url = window.createObjectURL(file);
+	} else if (window.URL != undefined) { // mozilla(firefox)
+		url = window.URL.createObjectURL(file);
+	} else if (window.webkitURL != undefined) { // webkit or chrome
+		url = window.webkitURL.createObjectURL(file);
+	}
+	return url;
+}

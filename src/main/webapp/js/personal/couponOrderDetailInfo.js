@@ -1,11 +1,15 @@
 var str;
 var shoukuanId;
 var dakuangId;
+var yfkUrl;
+
 (function(){
 
 	$("#modifypassword_btn").hide();
 	
 	$("#modifypassword_btn2").hide();
+	
+	$("#form0").hide();
 	
 	var url = location.search; //获取url中"?"符后的字串 
 	var theRequest = new Object(); 
@@ -101,6 +105,7 @@ var dakuangId;
 				   order = "买家待打款";
 				   if(dakuangId == localStorage.getItem("uid")){
 						$("#modifypassword_btn").show();
+						$("#form0").show();
 				   }
 				}else if(order == 2){
 					order = "卖家待收款";
@@ -142,7 +147,8 @@ function fk(){
 	    	"tmp":tmp,
 	        "rad":rad,
 	        "tom":ton,
-	        "token":commingSoon1(stri)
+	        "token":commingSoon1(stri),
+	        "yfkUrl":yfkUrl
 	    },
 	    success:function(data){
 	    	if(data.status==200){
@@ -246,3 +252,60 @@ Date.prototype.format = function(fmt) {
     }
    return fmt; 
 } 
+
+$("#file0").change(function() {
+
+	var objUrl = getObjectURL(this.files[0]);
+	if (objUrl) {
+		var files = $("#file0").get(0).files[0]; // 获取file控件中的内容
+
+		if (files.size < 1024 * 1024 * 2) {
+			// 在这里修改图片的地址属性
+			$("#img0").attr("src", objUrl);
+
+			var fd = new FormData();
+			fd.append("errPic", files);
+			var url = getAPIURL() + "pic/upload2";
+			$.ajax({
+				type : "POST",
+				contentType : false, // 必须false才会避开jQuery对 formdata 的默认处理 ,
+				// XMLHttpRequest会对 formdata 进行正确的处理
+				processData : false, // 必须false才会自动加上正确的Content-Type
+				url : url,
+				data : fd,
+				dataType : "json",
+				success : function(data) {
+					if (data.error == 0) {
+						console.log(data.url);
+						yfkUrl = data.url;
+					}else{
+						swal({
+				      		  title: data.message,
+				      		  icon: "error",
+				      		  button: "确定",
+			      	    });
+					}
+				},
+				error : function(data) {
+					alert.log("请上传jpg和png和jpeg格式图片");
+				}
+			});
+		} else {
+			alert("上传图片不能超过2M，请重新上传.");
+		}
+	}
+});
+
+//建立一個可存取到該file的url
+function getObjectURL(file) {
+	var url = null;
+	// 下面函数执行的效果是一样的，只是需要针对不同的浏览器执行不同的 js 函数而已
+	if (window.createObjectURL != undefined) { // basic
+		url = window.createObjectURL(file);
+	} else if (window.URL != undefined) { // mozilla(firefox)
+		url = window.URL.createObjectURL(file);
+	} else if (window.webkitURL != undefined) { // webkit or chrome
+		url = window.webkitURL.createObjectURL(file);
+	}
+	return url;
+}

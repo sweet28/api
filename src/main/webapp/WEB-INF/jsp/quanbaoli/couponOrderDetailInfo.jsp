@@ -44,6 +44,9 @@
 				<p>打款金额：<b style="color:red" id="mon3">￥：200.00</b></p>
 				<span id="syTime"></span>
 				<p id="totalPrice"></p>
+				<span><b style="color:blue;">打款截图:</b>
+					<img id="yfkUrl" alt="" src="">
+				</span>
 			</li>
 		</ul>
 		<p style="color:gray;">******</p>
@@ -78,6 +81,11 @@
 			<li>
 				<span style="color:#E91E63;font-weight:bold;">操作：</span>
 				<p id="yaoqing_url"></p>
+				<form name="form0" id="form0"  enctype="multipart/form-data">  
+				      <span style="font-size:18px;text-align:center;color:red">点击此处上传打款截图(小于2M)</span>
+				      <input type="file" accept="image/*"name="file0" id="file0" placeholder="点击此处上传身份证正面图片(小于2M)"/><br>
+				      <img src="" id="img0" style="width:10%;">
+			    </form>
 				<span></span>
 				<span id="modifypassword_btn" style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;'>
 					<a style="color:#fff;" href="javascript:fk();">我已付款</a>
