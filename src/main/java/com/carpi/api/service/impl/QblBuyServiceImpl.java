@@ -47,11 +47,17 @@ public class QblBuyServiceImpl implements QblBuyService {
 		 * 两台一型可以购买一型券一张《就是两台一张券，4台两张卷》 一个二型可以购买二型券一张《1:1》 一个三型可以购买三型券一张《1:1》
 		 */
 		// 一型矿机数量
-		int sum = fensMinerDao.selectSum("1", quanBaoLiRecord.getFensUserId());
+		int minerSum = fensMinerDao.selectSum("1", quanBaoLiRecord.getFensUserId());
 		// 券保理1星券(7天)数量
-		int sum2 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 1);
-		int sum3 = sum - sum2 * 1;
-		if (sum3 < 1) {
+		int couponSum = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 1);
+		int beishu = 2;
+		
+		if(couponSum >= 1){
+			beishu = 1;
+		}
+		
+		int sum3 = minerSum - couponSum * beishu;
+		if (sum3 < beishu) {
 			return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买");
 		}
 		if (!check(quanBaoLiRecord.getFensUserId())) {
@@ -76,14 +82,27 @@ public class QblBuyServiceImpl implements QblBuyService {
 		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
 			return JsonResult.build(500, "每天开放购买时间为："+ConfigUtil.CPA_QBL_START_TIME+"点至"+ConfigUtil.CPA_QBL_END_TIME+"点.");
 		}
-		// 二型矿机数量
-		int sum = fensMinerDao.selectSum("1", quanBaoLiRecord.getFensUserId());
+//		// 1型矿机数量
+//		int sum = fensMinerDao.selectSum("1", quanBaoLiRecord.getFensUserId());
+//		// 券保理1星券(21天)数量
+//		int sum2 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 2);
+//		int sum3 = sum - sum2 * 1;
+		
+		// 一型矿机数量
+		int minerSum = fensMinerDao.selectSum("1", quanBaoLiRecord.getFensUserId());
 		// 券保理1星券(21天)数量
-		int sum2 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 2);
-		int sum3 = sum - sum2 * 1;
-		if (sum3 < 1) {
+		int couponSum = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 2);
+		int beishu = 2;
+		
+		if(couponSum >= 1){
+			beishu = 1;
+		}
+		
+		int sum3 = minerSum - couponSum * beishu;
+		if (sum3 < beishu) {
 			return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买 ");
 		}
+		
 		if (!check(quanBaoLiRecord.getFensUserId())) {
 			return JsonResult.build(500, "您今天已经购买过券保理 ，请明天再来");
 		}
