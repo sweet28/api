@@ -240,11 +240,11 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 			 * 优先判断是否为出局订单，若为出局订单，则需要同时关照进场的券和出场的券
 			 **/
 			//如果为出场+进场券
-			if(qdkRecord.getBak4() != null){
+			if(StringUtils.isEmpty(qdkRecord.getBak4())){
 				
 				String outQuanID = qdkRecord.getBak4();//出场券ID
 				Integer inQuanID = qdkRecord.getQuanId();//进场券ID
-				
+				//////订单状态  1：购买待匹配    2：购买待打款   3：收益进行中（已打款）   4：周期结束  5：提取带匹配  6：提取匹配待打款  7：收益完成   8：提取待收款（买家已打款）20：认购待收款  80：出局
 				//进行出场券下订单完成情况的判断
 				List<QuanDakuanRecord> outDKList = quanDakuanRecordMapper.selectOutQuanlist(outQuanID, 1);
 				if(outDKList.size() <= 0 ){
@@ -325,7 +325,7 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 			 * 优先判断是否为出局订单，若为出局订单，则需要同时关照进场的券和出场的券
 			 **/
 			//如果为出场+进场券
-			if(qdkRecord.getBak4() != null){
+			if(StringUtils.isEmpty(qdkRecord.getBak4())){
 				
 				String outQuanID = qdkRecord.getBak4();//出场券ID
 				Integer inQuanID = qdkRecord.getQuanId();//进场券ID

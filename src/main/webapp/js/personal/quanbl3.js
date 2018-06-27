@@ -26,10 +26,10 @@
 					 }
 					 
 					 var recordType = "<b style='color:red;'>券保理订单</b>";
-					 var content = "<a style='font-weight: bold; color: #fff;' href='couponOrderDetailInfo?" + list[i].id + "'>详情</a>";
+					 var content = "<a style='font-weight: bold; color: #fff;' href='quanOrderDetailInfo?" + list[i].id + "'>详情</a>";
 					 if(list[i].type == 2){
 						 recordType = "<b style='color:blue;'>券积分订单</b>";
-						 content = "<a style='font-weight: bold; color: #fff;' href='quanOrderDetailInfo?" + list[i].id + "'>详情</a>";
+						 content = "<a style='font-weight: bold; color: #fff;' href='couponScoreDetailInfo?" + list[i].id + "'>详情</a>";
 					 }
 					 
 					 html += "<li style='margin-top: 18px;'>" +

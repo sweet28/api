@@ -100,6 +100,7 @@ var yfkUrl;
 	    		    });
 				$("#ddNum3").html("订单号："+quan.bak2);
 				$("#createTime3").html("订单生成时间："+new Date(quan.createDate).format("yyyy-MM-dd hh:mm:ss"));
+				$("#yfkUrl").attr("src", quan.dakuanImg);
 				var order = quan.dakuanType;
 				if(order == 1){
 				   order = "买家待打款";

@@ -42,7 +42,7 @@
 						 			"<span>订单号：" + list[i].bak2 + "</span>" +
 						 			"<p>打款人：" + list[i].daName +"</p>" +
 						 			"<span style='float: right; background: #E91E63; display: inline-block; width: 20%; height: 30px; text-align: center; line-height: 30px;'>" +
-						 				"<a style='font-weight: bold; color: #fff;' href='couponOrderDetailInfo?" + list[i].id + "'>详情</a>" +
+						 				"<a style='font-weight: bold; color: #fff;' href='couponScoreDetailInfo?" + list[i].id + "'>详情</a>" +
 					 				"</span>" +
 				 				"</li>";
 					 }

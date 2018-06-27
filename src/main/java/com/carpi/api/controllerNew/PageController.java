@@ -318,9 +318,9 @@ public class PageController {
 		return "quanbaoli/couponScoreDetail";
 	}
 	
-	@RequestMapping("/couponOrderDetailInfo")
+	@RequestMapping("/couponScoreDetailInfo")
 	public String couponOrderDetailInfo() {
-		return "quanbaoli/couponOrderDetailInfo";
+		return "quanbaoli/couponScoreDetailInfo";
 	}
 	
 	@RequestMapping("/quanOrderDetail")

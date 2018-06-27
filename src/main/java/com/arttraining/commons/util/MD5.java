@@ -99,5 +99,10 @@ public final class MD5 {
         
         String enStr11 = "41b17bcc1b6dc0ff601a68d878bb2f12";
         System.out.println(MD5.check((MD5.encodeString(str1)+ConfigUtil.MD5_PWD_STR), enStr11));
+        
+        String cpaPWD = MD5.encodeString(
+				MD5.encodeString("Cpa2018carpi" + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
+        
+        System.out.println(cpaPWD);
     }
 }
