@@ -53,7 +53,11 @@ function Gift() {
 	      }
     });
 	  console.log("hello cpa");
-	  $("#fenstuan").html(localStorage.getItem("fensteamnum"));
+	  if(localStorage.getItem("qinyouteamnum") < localStorage.getItem("fensteamnum")){	  
+		  $("#fenstuan").html(localStorage.getItem("fensteamnum"));
+	  }else{
+		  $("#fenstuan").html(localStorage.getItem("qinyouteamnum"));
+	  }
 	  $("#fenssl").html(localStorage.getItem("fensteampower"));
 	  $("#fensgrade").html(localStorage.getItem("fensgrade"));
   }

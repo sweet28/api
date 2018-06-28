@@ -180,7 +180,7 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 
 		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
-			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+			return JsonResult.build(500, "每天开放交易时间为：11:00至21:00.");
 		}
 
 		try {
@@ -224,8 +224,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				fensTransaction
 						.setMoneyCount(fensTransaction.getEntrustPrice() * 6.5 * fensTransaction.getTraderCount());
 
-				double zgPrice = 0.52;
-				double zdPrice = 0.39;
+				double zgPrice = 0.55;
+				double zdPrice = 0.42;
 				if (price > zgPrice) {
 					return JsonResult.build(500, "今日最高单价：" + zgPrice + "美元");
 				}

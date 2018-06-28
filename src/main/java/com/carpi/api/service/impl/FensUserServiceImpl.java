@@ -882,9 +882,16 @@ public class FensUserServiceImpl implements FensUserService {
 
 				jo.put("fensName", list.get(i).getName());
 				jo.put("fensPhone", list.get(i).getPhone());
-				jo.put("fensTeamPower", fui.getFensComputingPower());
-				jo.put("fensTeamNum", fui.getFensCount());
-				jo.put("fensGrade", fui.getFensGrade());
+				
+				if(fui != null){
+					jo.put("fensTeamPower", fui.getFensComputingPower());
+					jo.put("fensTeamNum", fui.getFensCount());
+					jo.put("fensGrade", fui.getFensGrade());
+				}else{
+					jo.put("fensTeamPower", 0);
+					jo.put("fensTeamNum", 0);
+					jo.put("fensGrade", 0);
+				}
 				
 				jsonList.add(jo);
 			}

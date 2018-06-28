@@ -68,13 +68,16 @@ function Gift() {
         		
         		var suanli = content.minerComputingPower;
         		var diejia = 0;
-        		
+//        		console.log(suanli+"============1");
         		if(content.diejia != null){
+//        			console.log("****************2********");
         			diejia = content.diejia;
+//        			console.log(diejia+"-----3");
         			suanli += Number(diejia);
+//        			console.log(suanli+"^^^^^^4^^^^^^^^^^");
         		}
         		
-        		syyz += diejia/content.minerComputingPower*syyz;
+        		syyz += (diejia/content.minerComputingPower)*syyz;
         		
         		var runHours = (rundate*24).toFixed(5);
         		
@@ -85,7 +88,9 @@ function Gift() {
         			kuangchibi = (chanbi - content.totalRevenue);
         		}
         		
-        		console.log("chanbi:"+chanbi+"---kuangchibi:"+kuangchibi+"---totalRevenue:"+content.totalRevenue);
+//        		console.log("chanbi:"+chanbi+"---kuangchibi:"+kuangchibi+"---totalRevenue:"+content.totalRevenue+"" +
+//        				"---syyz:"+syyz+"-----runHours:"+runHours+"---rundate:"+rundate+
+//        				"---diejia:"+diejia+"----suanli:"+suanli+"----diejia/content.minerComputingPower:"+(diejia/content.minerComputingPower));
         		
         		var sec = localStorage.getItem("sec");
         		var conte = "实名审核后可叠加";

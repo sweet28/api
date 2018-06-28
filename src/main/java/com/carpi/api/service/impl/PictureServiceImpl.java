@@ -42,7 +42,16 @@ public class PictureServiceImpl implements PictureService {
 	// 图片上传
 	@Override
 	public Map uploadPicture(MultipartFile file0) {
+
 		Map resultMap = new HashMap<>();
+		
+		if(file0 == null){
+			resultMap.put("error", 1);
+			resultMap.put("message", "图片获取失败，请重新上传图片");
+			
+			return resultMap;
+		}
+		
 		try {
 			// 生成一个新的文件名
 			// 去原始文件名

@@ -60,8 +60,6 @@ function Gift() {
 	    	  "sh": localStorage.getItem("phone")
 	      },
 	      success: function (data) {
-	    	  console.log("000000000000000000000666666000000000000000");
-	    	  console.log(data.data+"----------------------");
 			    var list = data.data;
 	  	        if (list.length <= 0) {
 	  	        	$("#qytuan").html(0);
@@ -120,7 +118,13 @@ function Gift() {
 	      }
 	    });*/
 	  console.log("hello cpa");
-	  $("#fenstuan").html(localStorage.getItem("fensteamnum"));
+
+	  if(localStorage.getItem("qinyouteamnum") < localStorage.getItem("fensteamnum")){	  
+		  $("#fenstuan").html(localStorage.getItem("fensteamnum"));
+	  }else{
+		  $("#fenstuan").html(localStorage.getItem("qinyouteamnum"));
+	  }
+	  
 	  $("#fenssl").html(localStorage.getItem("fensteampower"));
   }
   
