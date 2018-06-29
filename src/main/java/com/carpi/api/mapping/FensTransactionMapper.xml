@@ -465,7 +465,7 @@
 		from fens_transaction
 		where is_delete=0 and trader_state = 4
 		and
-		trader_id = #{fensUserId,jdbcType=INTEGER}
+		(trader_id = #{fensUserId,jdbcType=INTEGER} or fens_user_id = #{fensUserId,jdbcType=INTEGER})
 	</select>
 
 	<!-- 粉丝交易量(当天) -->

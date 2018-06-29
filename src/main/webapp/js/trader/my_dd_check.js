@@ -17,7 +17,10 @@
 	      },
         success: function (data) {
         	 var list = data.data;
-        	 console.log(data);
+          if(list == null){
+        	  var txtsNULL ="<p class='nothing'>无更多记录</p>";
+              $("#a_miner").html(txtsNULL);
+          }else
           if (list.length <= 0) {
             var txtsNULL ="<p class='nothing'>无更多记录</p>";
             $("#a_miner").html(txtsNULL);
@@ -51,7 +54,7 @@
           		
               	var totalPriceUSA = list[i].traderCount * list[i].entrustPrice;
 
-  			    txt1 += "<li>" +
+  			    txt1 += "<li>" + ( i + 1) +
   			    			"<p>类型：" + mm + "单</p>" +
 	  			    		"<span>订单号："+ (list[i].orderNumber) +"</span>" +
 	  			    		"<p>数目价格：" + list[i].traderCount + "CPA*" + list[i].entrustPrice + "$=" + totalPriceUSA + "$</p>" +

@@ -27,6 +27,8 @@
               	var cpatype ;
               	var mm;
               	
+              	console.log(list[i].traderType);
+              	
               	if(list[i].traderType==2){
               		mm="卖";
               	}
@@ -47,7 +49,7 @@
           		ahref = "<a style='font-weight:bold;color: #fff;' href='traderDetail?"+list[i].id+"'>详情</a>";
               	
           		var totalPriceUSA = list[i].traderCount * list[i].entrustPrice;
-          		txt1 += "<li>" +
+          		txt1 += "<li>" + ( i + 1) +
 			    			"<p>类型：" + mm + "单</p>" +
 				    		"<span>订单号："+ (list[i].orderNumber) +"</span>" +
 				    		"<p>数目价格：" + list[i].traderCount + "CPA*" + list[i].entrustPrice + "$=" + totalPriceUSA + "$</p>" +

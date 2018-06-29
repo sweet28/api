@@ -51,7 +51,7 @@
           		
               	var totalPriceUSA = list[i].traderCount * list[i].entrustPrice;
 
-  			    txt1 += "<li>" +
+  			    txt1 += "<li>" + ( i + 1) +
   			    			"<p>类型：" + mm + "单</p>" +
 	  			    		"<span>订单号："+ (list[i].orderNumber) +"</span>" +
 	  			    		"<p>数目价格：" + list[i].traderCount + "CPA*" + list[i].entrustPrice + "$=" + totalPriceUSA + "$</p>" +
