@@ -107,5 +107,5 @@
 		</ul>
 	</div>
 </body>
-<script src="<%=path%>/js/personal/couponOrderDetailInfo.js" type="text/javascript" charset="utf-8"></script>
+<script src="<%=path%>/js/personal/couponScoreDetailInfo.js" type="text/javascript" charset="utf-8"></script>
 </html>

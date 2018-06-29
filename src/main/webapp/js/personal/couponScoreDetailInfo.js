@@ -166,9 +166,9 @@ function fk(){
 	    			},
 	    			function(isConfirm){ 
 	    			  if (isConfirm) { 
-	    				  window.location.href = "couponOrderDetailInfo?"+str;
+	    				  window.location.href = "couponScoreDetailInfo?"+str;
 	    			  } else { 
-	    				  window.location.href = "couponOrderDetailInfo?"+str;
+	    				  window.location.href = "couponScoreDetailInfo?"+str;
 	    			  } 
 	    	    });
 	    	}else{
@@ -216,9 +216,9 @@ function shouk(){
 	    			},
 	    			function(isConfirm){ 
 	    			  if (isConfirm) { 
-	    				  window.location.href = "couponOrderDetailInfo?"+str;
+	    				  window.location.href = "couponScoreDetailInfo?"+str;
 	    			  } else { 
-	    				  window.location.href = "couponOrderDetailInfo?"+str;
+	    				  window.location.href = "couponScoreDetailInfo?"+str;
 	    			  } 
 	    	    });
 	    	}else{
