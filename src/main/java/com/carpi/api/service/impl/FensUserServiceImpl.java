@@ -1033,7 +1033,11 @@ public class FensUserServiceImpl implements FensUserService {
         				for (int i = 0; i < mlist.size(); i++) {
         					if (listminer.contains(mlist.get(i).getFensUserId())) {
         						System.out.println(mlist.get(i).getFensUserId());
-        						APCPower += mlist.get(i).getMinerComputingPower();
+        						//赠送的不计入算力
+        						if(mlist.get(i).getIsUserGoumai() == null){
+	        						APCPower += mlist.get(i).getMinerComputingPower();
+	        					}
+        						
         						if (mlist.get(i).getMinerType() == 1 && mlist.get(i).getBak1().equals("2")
         								&& mlist.get(i).getIsDelete() == 0) {
         							AMinerCA2Num = AMinerCA2Num + 1;

@@ -152,48 +152,48 @@ function getObjectURL(file) {
 				return false;
 			}
 			// 姓名验证
-			if (uname.val() == "") {
-				swal({
-		      		  title: "未识别到身份证，请上传身份证图片！",
-		      		  icon: "error",
-		      		  button: "确定",
-	      	    });
-				return false;
-			}
-			if (uname.length != 1) {
-				swal({
-		      		  title: "未识别到身份证，请上传身份证图片！",
-		      		  icon: "error",
-		      		  button: "确定",
-	      	    });
-				return false;
-			}
-
-			// 身份证号做验证
-			if (cardnum.val() == "") {
-				swal({
-		      		  title: "未识别到身份证，请上传身份证图片！",
-		      		  icon: "error",
-		      		  button: "确定",
-	      	    });
-				return false;
-			}
-			if (cardnum.length != 1) {
-				swal({
-		      		  title: "未识别到身份证，请上传身份证图片！",
-		      		  icon: "error",
-		      		  button: "确定",
-	      	    });
-				return false;
-			}
-			if (!pattern.test(cardnum.val())) {
-				swal({
-		      		  title: "未识别到身份证，请上传身份证图片！",
-		      		  icon: "error",
-		      		  button: "确定",
-	      	    });
-				return false;
-			}
+//			if (uname.val() == "") {
+//				swal({
+//		      		  title: "未识别到身份证，请上传身份证图片！",
+//		      		  icon: "error",
+//		      		  button: "确定",
+//	      	    });
+//				return false;
+//			}
+//			if (uname.length != 1) {
+//				swal({
+//		      		  title: "未识别到身份证，请上传身份证图片！",
+//		      		  icon: "error",
+//		      		  button: "确定",
+//	      	    });
+//				return false;
+//			}
+//
+//			// 身份证号做验证
+//			if (cardnum.val() == "") {
+//				swal({
+//		      		  title: "未识别到身份证，请上传身份证图片！",
+//		      		  icon: "error",
+//		      		  button: "确定",
+//	      	    });
+//				return false;
+//			}
+//			if (cardnum.length != 1) {
+//				swal({
+//		      		  title: "未识别到身份证，请上传身份证图片！",
+//		      		  icon: "error",
+//		      		  button: "确定",
+//	      	    });
+//				return false;
+//			}
+//			if (!pattern.test(cardnum.val())) {
+//				swal({
+//		      		  title: "未识别到身份证，请上传身份证图片！",
+//		      		  icon: "error",
+//		      		  button: "确定",
+//	      	    });
+//				return false;
+//			}
 			// 密码验证
 			if (password.val() == "") {
 				swal({
