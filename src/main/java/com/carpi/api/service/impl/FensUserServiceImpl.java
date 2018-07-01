@@ -148,6 +148,12 @@ public class FensUserServiceImpl implements FensUserService {
 				|| fensUser.getPwd() == "" || cardNumber == null || cardNumber == "") {
 			return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
 		}
+		
+		FensUser fu = new FensUser();
+		fu = fensUserMapper.selectIsUsePhone(fensUser.getPhone());
+		if(fu != null){
+			return JsonResult.build(500, "该手机号已经注册过");
+		}
 
 		SMSCheckCode smsCheckCode = new SMSCheckCode();
 		smsCheckCode.setMobile(fensUser.getPhone());

@@ -293,6 +293,13 @@
 		is_delete = 0
 	</select>
 	
+	<select id="selectIsUsePhone" parameterType="java.lang.String"
+		resultType="com.carpi.api.pojo.FensUser">
+		select
+		<include refid="Base_Column_List" />
+		from fens_user where phone = #{phone,jdbcType=VARCHAR}
+	</select>
+	
 	<select id="selectRefereeYXC" parameterType="java.lang.String"
 		resultType="java.lang.Integer">
 		select count(id) 

@@ -171,7 +171,7 @@ public class QuanBaoLiRecordContoller {
 //		return quanBaoLiRecordService.fuk(pipeiId);
 //	}
 	
-	// 券保理出场
+	// 券保理付款
 	@RequestMapping(value = "/fukByimg", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult buyDanYiFu(HttpServletRequest request, HttpServletResponse response) {
@@ -196,10 +196,29 @@ public class QuanBaoLiRecordContoller {
 		return quanBaoLiRecordService.shouk(pipeiId);
 	}
 	
-	// 券保理/积分买家付款
+	
+	// 券积分付款
 	@RequestMapping(value = "/fukCoupon", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public JsonResult fukCoupon(@RequestParam("pipeiId") Integer pipeiId) {
+	public JsonResult fukCoupon(HttpServletRequest request, HttpServletResponse response) {
+		// 当前订单id
+		String id = request.getParameter("pipeiId");
+		String yfkurl = request.getParameter("yfkurl");
+		
+		if(StringUtils.isEmpty(id)){
+			return JsonResult.build(500, "交易拥堵，请稍后重试");
+		}
+		if (StringUtils.isEmpty(yfkurl)) {
+			return JsonResult.build(500, "请上传打款截图");
+		}
+		
+		return quanBaoLiRecordService.fukCoupon(Integer.valueOf(id), yfkurl, 1);
+		
+	}
+	// 券积分买家付款
+	@RequestMapping(value = "/fukCoupon_old", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult fukCoupon_old(@RequestParam("pipeiId") Integer pipeiId) {
 		return quanBaoLiRecordService.fukCoupon(pipeiId, 1);
 	}
 	

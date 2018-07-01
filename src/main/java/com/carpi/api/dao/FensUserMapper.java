@@ -24,6 +24,9 @@ public interface FensUserMapper {
 
 	// 查询推荐人是否存在
 	FensUser selectReferee(String refereePhone);
+	
+	// 查询推荐人是否存在
+	FensUser selectIsUsePhone(String phone);
 
 	// 更新密码
 	int updatePwd(FensUser fensUser);

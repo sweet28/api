@@ -45,4 +45,6 @@ public interface QuanBaoLiRecordService {
 	public JsonResult quanOut(Integer quanId, Integer fensUserId);
 
 	public JsonResult fuk(Integer pipeiId);
+
+	public JsonResult fukCoupon(Integer valueOf, String yfkurl, int type);
 }

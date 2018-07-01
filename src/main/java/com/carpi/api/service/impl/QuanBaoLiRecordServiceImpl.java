@@ -440,7 +440,7 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		return JsonResult.ok();
 	}
 	
-	//券保理买家付款
+	//券积分买家付款
 	@Override
 	public JsonResult fukCoupon(Integer pipeiId, Integer type) {
 		if(StringUtils.isEmpty(pipeiId)) {
@@ -471,7 +471,41 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		
 		return JsonResult.ok();
 	}
-
+	
+	@Override
+	public JsonResult fukCoupon(Integer pipeiId, String yfkurl, int type) {
+		// TODO Auto-generated method stub
+		if(StringUtils.isEmpty(pipeiId)) {
+			return JsonResult.build(500, "请选择打款信息");
+		}
+		QuanDakuanRecord quanDakuanRecord = new QuanDakuanRecord();
+		//已确认付款
+		quanDakuanRecord .setDakuanType(2);
+		quanDakuanRecord.setId(pipeiId);
+		quanDakuanRecord.setShoukuanDate(TimeUtil.getTimeStamp());
+		quanDakuanRecord.setDakuanImg(yfkurl);
+		
+		int reult = quanDakuanRecordMapper.updateByPrimaryKeySelective(quanDakuanRecord);
+		if (reult != 1) {
+			return JsonResult.build(500, "付款失败");
+		}
+		
+		if(reult == 1){
+			QuanDakuanRecord qdkRecord = quanDakuanRecordMapper.selectByPrimaryKey(pipeiId);
+			List<QuanDakuanRecord> qdkrList = quanDakuanRecordMapper.selectlistCouponGiftbyType(qdkRecord.getQuanId(),type);
+			
+			if(qdkrList.size() <= 0){
+				TiQu tiQu = new TiQu();
+				tiQu.setId(qdkRecord.getQuanId());
+				tiQu.setTiquType(3);
+				
+				tiQuDao.updateByPrimaryKeySelective(tiQu);
+			}
+		}
+		
+		return JsonResult.ok();
+	}
+	
 	@Override
 	public JsonResult couponGiftList(Integer uid, String phone) {
 		List<TiQu> list = tiQuDao.selectTiQuListByUid(uid);
