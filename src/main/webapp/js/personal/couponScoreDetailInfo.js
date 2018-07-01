@@ -76,21 +76,21 @@ var yfkUrl;
 	    		        		var runs = content.isApply;
 	    		        		console.log(content);
 	    		        		if(content.bak1==1){
-		    		        			$("#mjxm3").html("姓名:"+content.name);
-		    		        			$("#alipayID3").html("账号:"+content.cardNumber);
+		    		        			$("#mjxm3").html("姓名："+content.name);
+		    		        			$("#alipayID3").html("账号："+content.cardNumber);
 	    		        		}else if(content.bak1==2){
-		    		        			$("#mjxm3").html("姓名:"+content.name);
-		    		        			$("#weixinID3").html("账号:"+content.cardNumber);
+		    		        			$("#mjxm3").html("姓名："+content.name);
+		    		        			$("#weixinID3").html("账号："+content.cardNumber);
 	    		        		}
 //	    		        		else if(content.bak1==3){
 //		    		        			$("#mjxm3").html("姓名:"+content.name);
 //		    		        			$("#imtokenID3").html("账号:"+content.cardNumber);
 //	    		        		}
 	    		        		else{
-		    		        			$("#mjxm3").html("姓名: "+content.name);
-		    		        			$("#bank3").html("账号类型:"+content.bank);
-		    		        			$("#bankCard3").html("账号:"+content.cardNumber);
-		    		        			$("#bankDetail3").html("补充说明/分支:"+content.openBranch);
+		    		        			$("#mjxm3").html("姓名："+content.name);
+		    		        			$("#bank3").html("账号类型："+content.bank);
+		    		        			$("#bankCard3").html("账号："+content.cardNumber);
+		    		        			$("#bankDetail3").html("补充说明/分支："+content.openBranch);
 	    		        		}
 	    					});
 	    		        }
