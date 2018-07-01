@@ -139,6 +139,8 @@ function fk(){
 	var rad = getRandom();
 	var ton = getTom();
 	var stri = "pipeiId="+str+"tmp="+tmp+"rad="+rad+"tom="+ton; 
+	
+	console.log("-------------------------------------------"+yfkUrl);
 	$.ajax({
 	    type: "post",
 	    url: getAPIURL() + "quan/fukCoupon",
@@ -149,7 +151,7 @@ function fk(){
 	        "rad":rad,
 	        "tom":ton,
 	        "token":commingSoon1(stri),
-	        "yfkUrl":yfkUrl
+	        "yfkurl":yfkUrl
 	    },
 	    success:function(data){
 	    	if(data.status==200){
