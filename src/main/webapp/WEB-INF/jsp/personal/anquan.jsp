@@ -61,7 +61,7 @@
 				<p id=""></p>
 				<span id=""></span>
 				<span id="get_valicode" style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 32%;height: 30px;text-align: center;line-height: 30px;font-size: 18px;'>
-					<a style="color:#fff;" href="javascript:addAliPay();">获取验证码</a>
+					<a style="color:#fff;" href="javascript:addAliPay();">设置/修改</a>
 				</span>
 			</li>
 		</ul>

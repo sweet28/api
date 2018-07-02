@@ -88,7 +88,7 @@ function getObjectURL(file) {
 	var yqr = window.location.search.substring(7);
 	var numb = parseInt(yqr.toString(8), 8);
 
-	var reg11 = /^(\+?86)?(1[34578]\d{9})$/;
+	var reg11 = /^(\+?86)?(1[3456789]\d{9})$/;
 
 	if (reg11.test(numb)) {
 		var phoneyq = $("#recommend_p");
@@ -105,7 +105,7 @@ function getObjectURL(file) {
 		// 第二步
 		var phone_arr = phonenum.val().split(" ");
 		var password_arr = password.val().split(" ");
-		var reg1 = /^(\+?86)?(1[34578]\d{9})$/;
+		var reg1 = /^(\+?86)?(1[3456789]\d{9})$/;
 		var reg2 = /^[\x00-\xff]{6,20}$/;
 		var pattern = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
 		// var pattern = /(^\d{15}$)|(^\d{18}$)/;

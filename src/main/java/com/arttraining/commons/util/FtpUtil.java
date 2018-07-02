@@ -13,6 +13,8 @@ import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 
+import net.coobird.thumbnailator.Thumbnails;
+
 
 public class FtpUtil {
 
@@ -32,6 +34,20 @@ public class FtpUtil {
 			String filePath, String filename, InputStream input) {
 		boolean result = false;
 		FTPClient ftp = new FTPClient();
+		
+		/**
+         * 缩略图begin
+         */
+//        try {
+////            Thumbnails.of(filePath).scale(1f).outputQuality(0.2f).outputFormat("jpg").toFile(filename);
+//        	Thumbnails.of(input).scale(1f).outputQuality(0.25f).toFile(filename);  
+//        } catch (Exception e1) {
+//            
+//        }
+        /**
+         * 缩略图end
+         */
+		
 		try {
 			int reply;
 			ftp.connect(host, port);// 连接FTP服务器

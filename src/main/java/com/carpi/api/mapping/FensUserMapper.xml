@@ -372,12 +372,9 @@
 		select
 		<include refid="Base_Column_List" />
 		from fens_user
-		<where>
+		where
 			id = #{id,jdbcType=INTEGER} and is_delete = 0
-			<if test="capitalPwd != null">
-				and capital_pwd = #{capitalPwd,jdbcType=VARCHAR}
-			</if>
-		</where>
+			and capital_pwd = #{capitalPwd,jdbcType=VARCHAR}
 	</select>
 
 	<!-- 根据旧密码查询用户 -->

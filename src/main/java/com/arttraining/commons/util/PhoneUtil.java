@@ -17,7 +17,7 @@ public class PhoneUtil {
 		Matcher m = null;
 		boolean b = false; 
 		//p = Pattern.compile("^[1][3,4,5,8][0-9]{9}$"); // 验证手机号
-		String regExp = "^((13[0-9])|(15[^4])|(18[0,1,2,3,5-9])|(17[0-8])|(147))\\d{8}$";  
+		String regExp = "^((13[0-9])|(15[^4])|(18[0,1,2,3,5-9])|(17[0-8])|(19[0-8])|(16[0-8])|(147))\\d{8}$";  
 		p = Pattern.compile(regExp);  
 		m = p.matcher(str); 
 		b = m.matches(); 

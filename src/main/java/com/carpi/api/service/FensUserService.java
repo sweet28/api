@@ -96,4 +96,6 @@ public interface FensUserService {
 	public JSONObject getFensUserGradeLittle(String phone, Integer valueOf);
 
 	JsonResult selectListQINYOUJson(String phone);
+
+	public JSONObject selectSelfGrade(String phone, Integer uid);
 }

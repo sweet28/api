@@ -29,6 +29,21 @@
 //
 //	    }
 //	  });
+  
+//	$.ajax({
+//	  type: "post",
+//	  url: getAPIURL() + "user/fens/selectSelfGrade",
+//	  dataType: "json",
+//	  data: {
+//	  	"sh": localStorage.getItem("phone"),
+//	  	 "uid": localStorage.getItem("uid")
+//	  },
+//	  success: function (data) {
+//	  },
+//	  error: function (XMLHttpRequest, textStatus, errorThrown) {
+//	
+//	  }
+//	});
 
   //	先判断是否登录
   var flag = checkLogin();

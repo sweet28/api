@@ -472,7 +472,7 @@
 		quan_bao_li_record
 		where fens_user_id =
 		#{fensUserId,jdbcType=INTEGER}
-		and is_delete = 0 and order_type != 7 and quan_id =
+		and is_delete = 0 and order_type in(1,2,20,3) and quan_id =
 		#{quanId,jdbcType=INTEGER} order by create_date desc
 	</select>
 

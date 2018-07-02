@@ -105,45 +105,45 @@ function addCard(){
 	});
 }
 
-function dx(){
-	$.ajax({
-		type : "POST",
-		url : getAPIURL() + "sms/news/info/delete",
-		dataType : "json",
-		data : {
-			"mobile" : localStorage.getItem("phone")
-		},
-		success:function(data){
-			if (data.status == "200") {
-//				swal({ 
-//					  title: "验证码发送成功！", 
-//					  //text: "2秒后自动关闭。", 
-//					  timer: 2000, 
-//					  showConfirmButton: false 
-//				});
-				var time = 120;
-				cutdownFlag = false;
-				var timer = setInterval(function() {
-//					$(".get_code");
-					$("#get_valicode").html(time + "s后重新获取");
-					time--;
-					if (time < 0) {
-						clearInterval(timer);
-						cutdownFlag = true;
-						$("#get_valicode").html("重新获取");
-					}
-				}, 1000);
-			} else {
-				swal({
-		      		  title: data.error_msg,
-		      		  icon: "error",
-		      		  button: "确定",
-	      	    });
-				return false;
-			}
-		}
-	});
-}
+//function dx(){
+//	$.ajax({
+//		type : "POST",
+//		url : getAPIURL() + "sms/news/info/delete",
+//		dataType : "json",
+//		data : {
+//			"mobile" : localStorage.getItem("phone")
+//		},
+//		success:function(data){
+//			if (data.status == "200") {
+////				swal({ 
+////					  title: "验证码发送成功！", 
+////					  //text: "2秒后自动关闭。", 
+////					  timer: 2000, 
+////					  showConfirmButton: false 
+////				});
+//				var time = 120;
+//				cutdownFlag = false;
+//				var timer = setInterval(function() {
+////					$(".get_code");
+//					$("#get_valicode").html(time + "s后重新获取");
+//					time--;
+//					if (time < 0) {
+//						clearInterval(timer);
+//						cutdownFlag = true;
+//						$("#get_valicode").html("重新获取");
+//					}
+//				}, 1000);
+//			} else {
+//				swal({
+//		      		  title: data.error_msg,
+//		      		  icon: "error",
+//		      		  button: "确定",
+//	      	    });
+//				return false;
+//			}
+//		}
+//	});
+//}
 
 function addAliPay(){
 //	var oldPwd = $("#txtOldPwd").val();
@@ -164,7 +164,7 @@ function addAliPay(){
 		if (inputValue === false) return false;      
 		oldPwd = inputValue;
 		console.log("111:"+oldPwd);
-		dx();
+//		dx();
 		swal({   
 			title: "新交易密码",   
 			type: "input",   
@@ -179,7 +179,6 @@ function addAliPay(){
 				return false;
 			}
 			newPwd = inputValue;
-			console.log("22222:"+newPwd);
 			var pwdStr = newPwd.split(" ");
 			if (pwdStr.length != 1) {
 				swal.showInputError("密码长度在6-20个字符之间，不能有空格！");  
@@ -219,20 +218,20 @@ function addAliPay(){
 				}
 				
 				
-			swal({   
-				title: "请输入短信验证码",   
-				type: "input",   
-				showCancelButton: true,   
-				closeOnConfirm: false,   
-				animation: "slide-from-top",   
-				inputPlaceholder: "请输入短信验证码" 
-			}, function(inputValue){   
-				if (inputValue === false) return false;      
-				if (inputValue === "") {     
-					swal.showInputError("请输入!");     
-					return false   
-				}
-				code = inputValue;
+//			swal({   
+//				title: "请输入短信验证码",   
+//				type: "input",   
+//				showCancelButton: true,   
+//				closeOnConfirm: false,   
+//				animation: "slide-from-top",   
+//				inputPlaceholder: "请输入短信验证码" 
+//			}, function(inputValue){   
+//				if (inputValue === false) return false;      
+//				if (inputValue === "") {     
+//					swal.showInputError("请输入!");     
+//					return false   
+//				}
+//				code = inputValue;
 				
 				var tmp = getTimestamp();
 			    var rad = getRandom();
@@ -263,7 +262,7 @@ function addAliPay(){
 				        "Authorization": "Bearer " + getTOKEN()
 				      }
 				    });
-			   });
+//			   });
 			});
 		});
 		

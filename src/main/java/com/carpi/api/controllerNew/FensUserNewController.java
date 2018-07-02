@@ -348,6 +348,18 @@ public class FensUserNewController {
 		return fensUserService.selectFensUserGrade(phone, Integer.valueOf(uid));
 	}
 	
+	// 粉丝团列表old
+	@RequestMapping(value = "/selectSelfGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JSONObject selectSelfGrade(HttpServletRequest request, HttpServletResponse response) {
+		// 手机号码
+		String phone = request.getParameter("sh");
+		String uid = request.getParameter("uid");
+		System.out.println("controller:" + phone);
+
+		return fensUserService.selectSelfGrade(phone, Integer.valueOf(uid));
+	}
+	
 	// 粉丝团列表
 	@RequestMapping(value = "/getFensUserGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
