@@ -333,4 +333,9 @@ public class PageController {
 		return "quanbaoli/quanOrderDetailInfo";
 	}
 	
+	@RequestMapping("/fensteamnum")
+	public String ft() {
+		return "fensteamnum";
+	}
+	
 }
