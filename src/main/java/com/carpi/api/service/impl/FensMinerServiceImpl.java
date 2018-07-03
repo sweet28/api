@@ -63,6 +63,15 @@ public class FensMinerServiceImpl implements FensMinerService {
 	// 根据粉丝id查询A矿机
 	@Override
 	public PageInfo<FensMiner> selectAMinner(Integer page, Integer row, Integer fensUserId) {
+		//查询之前先执行矿机周期判定更新
+		fensMinerMapper.updateMinerToDeath(fensUserId);
+		
+		try {
+			Thread.sleep(200);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+				
 		PageHelper.startPage(page, row);
 		List<FensMiner> list = fensMinerMapper.selectAMiner(fensUserId);
 		PageInfo<FensMiner> pageInfo = new PageInfo<FensMiner>(list);

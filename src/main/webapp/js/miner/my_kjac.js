@@ -102,7 +102,7 @@ $.ajax({
 									"<img src='"+getAPIURL()+"/imagenew/miner7.gif' style='max-width: 90%;'>" +
 								"</div>" +
 								"<div class='text'>" +
-									"<a href=''>"+ xh +"</a>" +
+									"<a href=''>"+ xh + "(" + fmtDate(content.createDate) + ")</a>" +
 									"<p>运行时长：<b>"+runHours.toFixed(5)+"</b></p>" +
 									"<p>可转入钱包收益：<b>"+syz.toFixed(5)+"</b></p>" +
 									"<p>算力：<b>"+suanli+"</b></p>" +

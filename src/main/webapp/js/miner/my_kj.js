@@ -102,12 +102,12 @@ function Gift() {
             	}
         		
         		html += 
-        					"<li>" +
+        					"<li>" + "<b style='color:blue;'>" + (index+1) + "</b>" +
 	        					"<div class='img'>" +
 	        						"<img src='"+getAPIURL()+"/imagenew/miner2.gif' style='max-width: 88%;'>" +
 								"</div>" +
 								"<div class='text'>" +
-									"<a href=''>"+ xh +"</a>" +
+									"<a href=''>"+ xh + "(" + fmtDate(content.createDate) + ")</a>" +
 									"<p>运行时长：<b>"+runHours+"</b></p>" +
 									"<p>总算力：<b>"+suanli.toFixed(5)+"</b></p>" +
 									"<p>产币总量：<b>" + syyz.toFixed(5) + "</b></p>" +

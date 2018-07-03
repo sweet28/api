@@ -44,7 +44,7 @@
 		<ul>
 			<li>
 				<span>邀请链接如下：</span>
-				<p id="yaoqing_url"></p>
+				<p id="yaoqing_url" style="font-size:18px;color:blue;"></p>
 				<span>点击分享按钮复制链接并分享给好友</span>
 				<span style='float:right;color:#fff;background: #E91E63;display: inline-block;width: 20%;height: 30px;text-align: center;line-height: 30px;'>
 					<a style="color:#fff;" href="javascript:copyURL();">分享</a>

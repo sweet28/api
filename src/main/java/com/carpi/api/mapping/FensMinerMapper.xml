@@ -611,7 +611,6 @@
 		</where>
 	</select>
 
-
 	<!-- 转入运行池 -->
 	<update id="updateyxc"
 		parameterType="com.carpi.api.pojo.FensMiner">
@@ -666,6 +665,14 @@
 		</set>
 		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 10
 		and id = #{id,jdbcType=INTEGER}
+	</update>
+	
+	<!-- 转入运行池 -->
+	<update id="updateMinerToDeath"
+		parameterType="com.carpi.api.pojo.FensMiner">
+		update fens_miner
+		set is_delete=3
+		where (TIMESTAMPDIFF(MINUTE,create_date,now())-21600>=0) and is_delete =0 and fens_user_id = #{fensUserId,jdbcType=INTEGER}
 	</update>
 	
 	<!-- 设置直推粉丝算力已被领导人使用 -->
