@@ -88,7 +88,9 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 		fensMiner.setMinerId(aminer2.getId());
 		fensMiner.setMinerComputingPower(aminer2.getComputingPower());
 		fensMiner.setCreateDate(TimeUtil.getTimeStamp());
-		fensMiner.setIsDelete(2);//购买矿机需要审核cpa合法性
+		
+		fensMiner.setIsDelete(0);//购买矿机需要审核cpa合法性,状态为2.改为0，直接通过
+		
 		fensMiner.setBeyong1(String.valueOf(aminer2.getPrice()));
 		int result2 = fensMinerMapper.insertSelective(fensMiner);
 		if (result2 != 1) {
@@ -290,7 +292,9 @@ public class MinerRecordServiceImpl implements MinerRecordService {
 				fensMiner.setMinerId(bminer2.getId());
 				fensMiner.setMinerComputingPower(bminer2.getComputingPower());
 				fensMiner.setCreateDate(TimeUtil.getTimeStamp());
-				fensMiner.setIsDelete(2);//购买矿机需要审核cpa合法性
+				
+				fensMiner.setIsDelete(0);//购买矿机需要审核cpa合法性,状态为2.改为0，直接通过
+				
 				fensMiner.setBeyong1(String.valueOf(bminer2.getPrice()));
 				int result2 = fensMinerMapper.insertSelective(fensMiner);
 				if (result2 != 1) {
