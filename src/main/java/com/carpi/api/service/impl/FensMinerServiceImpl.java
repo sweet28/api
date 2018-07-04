@@ -836,7 +836,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 		fensMiner.setFensUserId(fensUserId);
 		fensMiner.setIsDelete(0);
 		fensMiner.setCreateDate(TimeUtil.getTimeStamp());
-		fensMiner.setIsUserGoumai("1");
+		fensMiner.setIsUserGoumai("3");//由运行池转入
 
 		int result = fensMinerMapper.updateyxc(fensMiner);
 		if (result != 1) {

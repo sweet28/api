@@ -35,7 +35,7 @@
 				<div class='text'>
 					<p>亲友团人数(人):<b id="qytuan"></b></p>
 					<p>粉丝团人数(人):<b id="fenstuan"></b></p>
-					<p>粉丝团算力(G):<b id="fenssl"></b></p>
+					<p>个人及粉丝团算力(G):<b id="fenssl"></b></p>
 				</div>
 				<div class='look'>
 					<a href='#'></a>

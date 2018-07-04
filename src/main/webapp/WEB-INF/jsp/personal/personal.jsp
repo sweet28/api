@@ -45,7 +45,7 @@
 		<p>粉丝级别：<span id="grade" class="waitNum_dec"></span></p>
 		<p><span id="endTime" style="font-size:16px;" class="num_deci"></span></p>
 		<p>有效粉丝团数:<span id="fensteamNum"></span><span id="" class="waitNum_dec"></span></p>
-		<p>粉丝团算力:<span id="suanli"></span><span id="" class="waitNum_dec"></span></p>
+		<p>个人及粉丝团算力:<span id="suanli"></span><span id="" class="waitNum_dec"></span></p>
 		<p>可用CPA:<span id="balance_num"></span><span id="balance_dec" class="num_deci"></span></p>
 		<p>冻结CPA:<span id="waitNum_num"></span><span id="waitNum_dec" class="num_deci"></span></p>
 	</div>	
