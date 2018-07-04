@@ -162,15 +162,18 @@ public class FensMinerServiceImpl implements FensMinerService {
 
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			// 获取String类型的时间
-			if (sqDT.isEmpty()) {
+			if (StringUtils.isEmpty(sqDT)) {
 				sqDT = sdf.format(miner.getCreateDate());
 			}
 
 			//格式化最近一次获取收益时间
 			Date sqDD = TimeUtil.strToDateDayByFormat(sqDT);
 
-			System.out.println("sqDT:::" + sqDT + "-------sqDD::" + sqDD.toString() + "--sqDT.gettime:::"
-					+ sqDD.getTime() + "------dd2string:::" + dd.toString() + "------dd.getTIme:" + dd.getTime());
+			System.out.println("sqDT:::" + sqDT );
+			System.out.println("-------sqDD::" + sqDD.toString());
+			System.out.println("--sqDT.gettime:::"+ sqDD.getTime());
+			System.out.println("------dd2string:::" + dd.toString());
+			System.out.println("------dd.getTIme:" + dd.getTime());
 
 			/*
 			 * 比对当前时间与最近一次获取收益时间，获取时间差值，

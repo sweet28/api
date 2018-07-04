@@ -677,7 +677,7 @@ function csCPA(id,count){
 	        	    	if(data.status==200){
 	        	    		//可用余额
 	        	    		var yue = dd.ableCpa;
-	        	    		if(yue*0.8 >= count){
+	        	    		if(yue >= count*1.2){
 	        	    			
 	        	    			swal({   
 	        	    				title: "请输入交易密码",   
