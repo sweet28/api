@@ -169,19 +169,20 @@ public class FensMinerServiceImpl implements FensMinerService {
 			//格式化最近一次获取收益时间
 			Date sqDD = TimeUtil.strToDateDayByFormat(sqDT);
 
-			System.out.println("sqDT:::" + sqDT );
-			System.out.println("-------sqDD::" + sqDD.toString());
-			System.out.println("--sqDT.gettime:::"+ sqDD.getTime());
-			System.out.println("------dd2string:::" + dd.toString());
-			System.out.println("------dd.getTIme:" + dd.getTime());
+//			System.out.println("sqDT:::" + sqDT );
+//			System.out.println("-------sqDD::" + sqDD.toString());
+//			System.out.println("--sqDT.gettime:::"+ sqDD.getTime());
+//			System.out.println("------dd2string:::" + dd.toString());
+//			System.out.println("------dd.getTIme:" + dd.getTime());
 
 			/*
 			 * 比对当前时间与最近一次获取收益时间，获取时间差值，
 			 * 用来计算矿机上次收取收益后至今的产值
 			 */
-			long a = TimeUtil.isOverTime(dd, sqDD);
+			long a = TimeUtil.isOverDay(dd, sqDD);
 			System.out.println("-------chazhi::::" + a);
-			double b = a / (60 * 60 * 24);
+//			double b = a / (60 * 60 * 24);
+			double b = a;
 			System.out.println("-------chazhi::bbb:" + b);
 
 			/*
@@ -494,9 +495,10 @@ public class FensMinerServiceImpl implements FensMinerService {
 				 * 比对当前时间与最近一次获取收益时间，获取时间差值，
 				 * 用来计算矿机上次收取收益后至今的产值
 				 */
-				long a = TimeUtil.isOverTime(dd, sqDD);
+				long a = TimeUtil.isOverDay(dd, sqDD);
 				System.out.println("-------chazhi::::" + a);
-				double b = a / (60 * 60 * 24);
+//				double b = a / (60 * 60 * 24);
+				double b = a;
 				System.out.println("-------chazhi::bbb:" + b);
 
 				/*

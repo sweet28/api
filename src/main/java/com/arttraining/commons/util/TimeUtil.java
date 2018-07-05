@@ -62,6 +62,17 @@ public class TimeUtil {
 		return between;
 	}
 	
+	/***
+	 * 判断支付时间是否已经错过
+	 * date1--支付时间
+	 * date2--当前时间
+	 * @return
+	 */
+	public static long isOverDay(Date date1, Date date2) {
+		long  between = (date1.getDay() - date2.getDay());
+		return between;
+	}
+	
 	public static Timestamp getTimeStamp() {
 		Date date = new Date();
 		Timestamp time = new Timestamp(date.getTime());

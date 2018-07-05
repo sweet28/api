@@ -1040,23 +1040,25 @@ public class FensUserServiceImpl implements FensUserService {
         					if (listminer.contains(mlist.get(i).getFensUserId())) {
         						System.out.println(mlist.get(i).getFensUserId());
         						//注册赠送的不计入算力
-        						if(!mlist.get(i).getIsUserGoumai().equals("1")){
+        						if(mlist.get(i).getIsUserGoumai() == null){
+	        						APCPower += mlist.get(i).getMinerComputingPower();
+	        					}else if(mlist.get(i).getIsUserGoumai().equals("3")){
 	        						APCPower += mlist.get(i).getMinerComputingPower();
 	        					}
         						
         						//注册赠送的不计入
         						if (mlist.get(i).getMinerType() == 1 && mlist.get(i).getBak1().equals("2")
-        								&& mlist.get(i).getIsDelete() == 0 && (!mlist.get(i).getIsUserGoumai().equals("1"))) {
+        								&& mlist.get(i).getIsDelete() == 0 && (mlist.get(i).getIsUserGoumai() == null)) {
         							AMinerCA2Num = AMinerCA2Num + 1;
         						}
         						//注册赠送的不计入
         						if (mlist.get(i).getMinerType() == 1 && mlist.get(i).getBak1().equals("3")
-        								&& mlist.get(i).getIsDelete() == 0 && (!mlist.get(i).getIsUserGoumai().equals("1"))) {
+        								&& mlist.get(i).getIsDelete() == 0 && (mlist.get(i).getIsUserGoumai() == null)) {
         							AMinerCA3Num = AMinerCA3Num + 1;
         						}
         						//赠送的不计入
         						if (mlist.get(i).getMinerType() == 1 && mlist.get(i).getBak1().equals("4")
-        								&& mlist.get(i).getIsDelete() == 0 && (!mlist.get(i).getIsUserGoumai().equals("1"))) {
+        								&& mlist.get(i).getIsDelete() == 0 && (mlist.get(i).getIsUserGoumai() == null)) {
         							AMinerCA4Num = AMinerCA4Num + 1;
         						}
         					}

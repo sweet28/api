@@ -240,7 +240,7 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 			 * 优先判断是否为出局订单，若为出局订单，则需要同时关照进场的券和出场的券
 			 **/
 			//如果为出场+进场券
-			if(StringUtils.isEmpty(qdkRecord.getBak4())){
+			if(!StringUtils.isEmpty(qdkRecord.getBak4())){
 				
 				String outQuanID = qdkRecord.getBak4();//出场券ID
 				Integer inQuanID = qdkRecord.getQuanId();//进场券ID
@@ -325,7 +325,7 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 			 * 优先判断是否为出局订单，若为出局订单，则需要同时关照进场的券和出场的券
 			 **/
 			//如果为出场+进场券
-			if(StringUtils.isEmpty(qdkRecord.getBak4())){
+			if(!StringUtils.isEmpty(qdkRecord.getBak4())){
 				
 				String outQuanID = qdkRecord.getBak4();//出场券ID
 				Integer inQuanID = qdkRecord.getQuanId();//进场券ID
@@ -601,8 +601,9 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 				Date endTime = quanbaoli.getExpiryTime();
 				// 当前时间
 				Date dd = TimeUtil.getTimeStamp();
-				long a = TimeUtil.isOverTime(dd, endTime);
-				double b = a / (60 * 60 * 24);
+				long a = TimeUtil.isOverDay(dd, endTime);
+				//double b = a / (60 * 60 * 24);
+				double b = a;
 
 				if (b >= 1) {
 					QuanBaoLiRecord qbl = new QuanBaoLiRecord();

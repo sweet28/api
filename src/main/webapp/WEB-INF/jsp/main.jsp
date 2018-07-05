@@ -12,15 +12,42 @@
 <link rel="stylesheet" href="<%=path%>/css/bootstrap.min.css">
 <link rel="stylesheet" href="<%=path%>/cssnew/style.css">
 <link rel="stylesheet" type="text/css" href="<%=path%>/sweetalert/css/sweetalert.css">
+<link rel="stylesheet" href="<%=path%>/lib/swiper4.3.3/css/swiper.min.css">
 <script src="<%=path%>/lib/js/jquery-2.1.4.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery.base64.js" type="text/javascript" charset="utf-8"></script>
 <script src="<%=path%>/lib/js/jquery-2.1.4.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="<%=path%>/sweetalert/sweetalert.min.js"></script>
+<script src="<%=path%>/lib/swiper4.3.3/js/swiper.min.js"></script>
 <script src="<%=path%>/js/wapframwork.js" type="text/javascript" charset="utf-8"></script>
+<style>
+    .swiper-container {
+      width: 100%;
+      height: 100%;
+    }
+    .swiper-slide {
+      text-align: center;
+      font-size: 18px;
+      background: #fff;
+
+      /* Center slide text vertically */
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      -webkit-justify-content: center;
+      justify-content: center;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+    }
+  </style>
 </head>
 <body>
 	<header>
-		<img src="<%=path%>/imagenew/header.jpg" alt="">
+		<%-- <img src="<%=path%>/imagenew/header.jpg" alt="">
 		<div class="searchBox">
 			<div class="search">
 				<!-- <div class="sea">
@@ -28,8 +55,29 @@
 					<input type="text" class="index_txt" placeholder="搜索">
 				</div> -->
 			</div>
-		</div>
+		</div> --%>
+		<!-- Swiper -->
+		  <div class="swiper-container">
+		    <div class="swiper-wrapper">
+		      <div class="swiper-slide"><img src="<%=path%>/imagenew/header.jpg" alt=""></div>
+		      <div class="swiper-slide"><img alt="" src="http://www.artforyou.cn/images/cpa_may.jpg"></div>
+		      <div class="swiper-slide"><img alt="" src="http://www.artforyou.cn/images/login_bg2.png"></div>
+		    </div>
+		    <!-- Add Pagination -->
+		    <div class="swiper-pagination"></div>
+		  </div>
 	</header>
+	<!-- Initialize Swiper -->
+	  <script>
+	    var swiper = new Swiper('.swiper-container', {
+	    	autoplay:true,
+		    pagination: {
+		      el: '.swiper-pagination',
+		      //nextEl: '.swiper-button-next',
+		      //prevEl: '.swiper-button-prev',
+		    },
+	    });
+	  </script>
 	<div class="line1"></div>
 	<nav>
 		<ul>
