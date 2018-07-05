@@ -64,13 +64,20 @@ public class TimeUtil {
 	
 	/***
 	 * 判断支付时间是否已经错过
-	 * date1--支付时间
-	 * date2--当前时间
+	 * date1--减数时间
+	 * date2--被减数时间
 	 * @return
+	 * @throws ParseException 
 	 */
-	public static long isOverDay(Date date1, Date date2) {
-		long  between = (date1.getDay() - date2.getDay());
-		return between;
+	public static long isOverDay(String date1, String date2) throws ParseException {
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+        //跨年不会出现问题
+        //如果时间为：2016-03-18 11:59:59 和 2016-03-19 00:00:01的话差值为 0
+        Date fDate=sdf.parse(date1);
+        Date oDate=sdf.parse(date2);
+        long days=(fDate.getTime()-oDate.getTime())/(1000*3600*24);
+		return days;
 	}
 	
 	public static Timestamp getTimeStamp() {

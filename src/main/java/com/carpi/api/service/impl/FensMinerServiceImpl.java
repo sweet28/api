@@ -1,5 +1,6 @@
 package com.carpi.api.service.impl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -127,7 +128,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 
 	// 解冻矿机收益
 	@Override
-	public JsonResult thawABMiner(FensMiner miner1) {
+	public JsonResult thawABMiner(FensMiner miner1) throws ParseException {
 		// 根据粉丝Id查询该粉丝对应的矿池信息
 		FensMiner miner = fensMinerMapper.selectByPrimaryKey(miner1.getId());
 
@@ -179,7 +180,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 			 * 比对当前时间与最近一次获取收益时间，获取时间差值，
 			 * 用来计算矿机上次收取收益后至今的产值
 			 */
-			long a = TimeUtil.isOverDay(dd, sqDD);
+			long a = TimeUtil.isOverDay(TimeUtil.getTimeByDate(dd), TimeUtil.getTimeByDate(sqDD));
 			System.out.println("-------chazhi::::" + a);
 //			double b = a / (60 * 60 * 24);
 			double b = a;
@@ -445,7 +446,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 
 	// 解冻矿机收益(一键转入)
 	@Override
-	public JsonResult thawABMiner2(FensMiner miner1) {
+	public JsonResult thawABMiner2(FensMiner miner1) throws ParseException {
 
 		FensUser fensUser = fensUserMapper.selectByPrimaryKey(miner1.getFensUserId());
 		// 判断是否存在该接单人
@@ -495,7 +496,7 @@ public class FensMinerServiceImpl implements FensMinerService {
 				 * 比对当前时间与最近一次获取收益时间，获取时间差值，
 				 * 用来计算矿机上次收取收益后至今的产值
 				 */
-				long a = TimeUtil.isOverDay(dd, sqDD);
+				long a = TimeUtil.isOverDay(TimeUtil.getTimeByDate(dd), TimeUtil.getTimeByDate(sqDD));
 				System.out.println("-------chazhi::::" + a);
 //				double b = a / (60 * 60 * 24);
 				double b = a;

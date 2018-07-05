@@ -1,5 +1,7 @@
 package com.carpi.api.controllerNew;
 
+import java.text.ParseException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -238,7 +240,13 @@ public class QuanBaoLiRecordContoller {
 	@RequestMapping(value = "/quanOut", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult quanOut(@RequestParam("id") Integer quanId, @RequestParam("uid") Integer fensUserId) {
-		return quanBaoLiRecordService.quanOut(quanId,fensUserId);
+		try {
+			return quanBaoLiRecordService.quanOut(quanId,fensUserId);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return JsonResult.build(500, "请检查网络是否通畅");
+		}
 	}
 	
 }

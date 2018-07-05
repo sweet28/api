@@ -1,5 +1,7 @@
 package com.carpi.api.service;
 
+import java.text.ParseException;
+
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.QuanBaoLiRecord;
 
@@ -42,7 +44,7 @@ public interface QuanBaoLiRecordService {
 
 	public JsonResult couponOrderList(Integer id);
 
-	public JsonResult quanOut(Integer quanId, Integer fensUserId);
+	public JsonResult quanOut(Integer quanId, Integer fensUserId) throws ParseException;
 
 	public JsonResult fuk(Integer pipeiId);
 

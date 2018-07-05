@@ -1,5 +1,7 @@
 package com.carpi.api.controllerNew;
 
+import java.text.ParseException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -127,7 +129,13 @@ public class FensMinerNewController {
 		String id = request.getParameter("id");
 		FensMiner miner = new FensMiner();
 		miner.setId(Integer.valueOf(id));
-		return fensMinerService.thawABMiner(miner);
+		try {
+			return fensMinerService.thawABMiner(miner);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return JsonResult.build(500, "请检查网络是否畅通并重新登录操作");
+		}
 	}
 
 	// 解冻
@@ -138,7 +146,13 @@ public class FensMinerNewController {
 		String id = request.getParameter("uid");
 		FensMiner miner = new FensMiner();
 		miner.setFensUserId(Integer.valueOf(id));
-		return fensMinerService.thawABMiner2(miner);
+		try {
+			return fensMinerService.thawABMiner2(miner);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return JsonResult.build(500, "请检查网络是否畅通并重新登录操作");
+		}
 	}
 
 	// 粉丝算力和（亲友团算力和）

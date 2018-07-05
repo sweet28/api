@@ -1,5 +1,7 @@
 package com.carpi.api.service;
 
+import java.text.ParseException;
+
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.pojo.FensMiner;
 import com.github.pagehelper.PageInfo;
@@ -19,9 +21,9 @@ public interface FensMinerService {
 
 	PageInfo<FensMiner> selectBMinner(Integer page, Integer row, Integer fensUserId);
 
-	JsonResult thawABMiner(FensMiner miner);
+	JsonResult thawABMiner(FensMiner miner) throws ParseException;
 	
-	JsonResult thawABMiner2(FensMiner miner);
+	JsonResult thawABMiner2(FensMiner miner) throws ParseException;
 
 	PageInfo<FensMiner> selectAMinnerKC(Integer page, Integer row, Integer fensUserId);
 

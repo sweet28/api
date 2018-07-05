@@ -1,5 +1,6 @@
 package com.carpi.api.service.impl;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -571,7 +572,7 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 	}
 
 	@Override
-	public JsonResult quanOut(Integer quanId, Integer fensUserId) {
+	public JsonResult quanOut(Integer quanId, Integer fensUserId) throws ParseException {
 		
 		Calendar calendar = Calendar.getInstance();
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -601,7 +602,7 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 				Date endTime = quanbaoli.getExpiryTime();
 				// 当前时间
 				Date dd = TimeUtil.getTimeStamp();
-				long a = TimeUtil.isOverDay(dd, endTime);
+				long a = TimeUtil.isOverDay(TimeUtil.getTimeByDate(dd), TimeUtil.getTimeByDate(endTime));
 				//double b = a / (60 * 60 * 24);
 				double b = a;
 

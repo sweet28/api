@@ -61,7 +61,9 @@ public class PictureServiceImpl implements PictureService {
 			String newName = IDUtils.genImageName();
 			// 新的文件名
 			String namem = oldName.substring(oldName.lastIndexOf("."));// 取旧的文件名的后缀
-			if (!namem.equals(".jpg") && !namem.equals(".png") && !namem.equals(".jpeg")) {
+			if (!namem.equals(".jpg") && !namem.equals(".png") && !namem.equals(".jpeg") 
+					&& !namem.equals(".JPG")&& !namem.equals(".PNG") && !namem.equals(".JPEG")
+					&&!namem.equals(".RAW") && !namem.equals(".raw")) {
 				resultMap.put("error", 11);
 				resultMap.put("message", "仅支持jpg和png和jpeg格式图片");
 				return resultMap;
