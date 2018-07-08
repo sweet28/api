@@ -329,6 +329,7 @@ function submitYFK(){
 }
 
 function submitYSK(){
+	$("#modifypassword_btn2").hide();
 	var userid;
 	if(type==2){//1：买单；2：卖单
 		userid = uid;
@@ -383,6 +384,7 @@ function submitYSK(){
 			  			  icon: "error",
 			  			  button: "确定",
 			  		});
+		    		$("#modifypassword_btn2").show();
 				    return false;
 		    	}
 		    },

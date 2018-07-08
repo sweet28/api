@@ -1496,19 +1496,21 @@ public class FensUserServiceImpl implements FensUserService {
 					cpaGiftBeishu = 2;
 				}
 
-				double shijiCpa = cpaTotal*0.2/cpaGiftBeishu;
-				
-				FensEarn fEarn = new FensEarn();
-				
-				fEarn.setFensUserId(uid);
-				fEarn.setCreateDate(TimeUtil.getTimeStamp());
-				fEarn.setIsDelete(0);
-				fEarn.setEarnType(eranType);
-				fEarn.setEarnDate(TimeUtil.getTimeStamp());
-				fEarn.setEarnState(2);//收益状态 1代表不锁定  2代表锁定
-				fEarn.setEarnCount(shijiCpa);
-				
-				fensEarnMapper.insertSelective(fEarn);
+				if(gradeFlag > 0){
+					double shijiCpa = cpaTotal*0.2/cpaGiftBeishu;
+					
+					FensEarn fEarn = new FensEarn();
+					
+					fEarn.setFensUserId(uid);
+					fEarn.setCreateDate(TimeUtil.getTimeStamp());
+					fEarn.setIsDelete(0);
+					fEarn.setEarnType(eranType);
+					fEarn.setEarnDate(TimeUtil.getTimeStamp());
+					fEarn.setEarnState(2);//收益状态 1代表不锁定  2代表锁定
+					fEarn.setEarnCount(shijiCpa);
+					
+					fensEarnMapper.insertSelective(fEarn);
+				}
 			}
 			
 		}
@@ -1604,7 +1606,11 @@ public class FensUserServiceImpl implements FensUserService {
 		if(fuInfo != null){
 			
 			AFensTeamNum = fuInfo.getFensCount().intValue();// 粉丝团用户初始化
-			APCPower = fuInfo.getFensComputingPower() + fensMinerMapper.sum(uid);;
+			if(StringUtils.isEmpty(fensMinerMapper.sum(uid))){
+				APCPower = fuInfo.getFensComputingPower();
+			}else{
+				APCPower = fuInfo.getFensComputingPower() + fensMinerMapper.sum(uid);
+			}
 			
 			if(fuInfo.getBak1() != null){
 				AMinerCA2Num = Integer.valueOf(fuInfo.getBak1());
@@ -2144,6 +2150,7 @@ public class FensUserServiceImpl implements FensUserService {
 			//// 普通节点--start
 			int AFensNum = 0;// 直推粉丝数初始化
 			int AFensTeamNum = 0;// 粉丝团用户初始化
+			int AFensRealTeamNum = 0; // 粉丝团真实用户数
 			int AMinerCA1Num = 0;// CA1矿机初始化
 			int AMinerCA2Num = 0;// 粉丝团及自己CA2矿机初始化
 			int AMinerCA3Num = 0;// 粉丝团及自己CA3矿机初始化
@@ -2228,9 +2235,19 @@ public class FensUserServiceImpl implements FensUserService {
 						}
 					}
 				}
+				
+				
+				for(int n = 0; n < listParentRecord.size(); n++){
+					if(listParentRecord.get(n).getIsDelete()==0){
+						AFensRealTeamNum ++;
+					}
+				}
+				
 			}
 
 			System.out.println(listParentRecord.size());
+			
+			
 
 			// A、普通节点：1、直推粉丝10+；2、粉丝团用户500+；3、自己及粉丝团CA2矿机3+；4、自己及粉丝团算力12+
 			if (AFensNum >= 10 && AFensTeamNum >= 500 && AMinerCA2Num >= 3 && APCPower >= 12) {
@@ -2257,7 +2274,8 @@ public class FensUserServiceImpl implements FensUserService {
 			//// 高级节点--end
 			
 			
-			System.out.println("粉丝团数："+AFensTeamNum);
+			System.out.println("粉丝团总数："+AFensTeamNum);
+			System.out.println("粉丝团实际激活数："+AFensRealTeamNum);
 			System.out.println("复投CA1矿机数："+AMinerCA1Num);
 			System.out.println("复投CA2矿机数："+AMinerCA2Num);
 			System.out.println("复投CA3矿机数："+AMinerCA3Num);
@@ -2266,7 +2284,7 @@ public class FensUserServiceImpl implements FensUserService {
 			System.out.println("赠送CA2矿机数："+AMinerCA2Num2);
 			System.out.println("赠送CA3矿机数："+AMinerCA3Num2);
 			System.out.println("赠送CA4矿机数："+AMinerCA4Num2);
-			System.out.println("总算力："+APCPower);
+			System.out.println("总算力："+APCPower+ fensMinerMapper.sum(uid));
 			
 			
 			for(int j=0;j<listParentRecord.size();j++){
