@@ -211,7 +211,9 @@ public class ConfigUtil {
 											+"xUIpV8QDVPwtr/0sKqLoFs5WcnGeA9kyXOoNoq/uLOlOqEdkPQ5bNQSssV5UTa2wdzbSH/LEzBFY";
 	public static int CPA_JY_START_TIME = 11;  //11
 	public static int CPA_JY_END_TIME = 21;  //18
+	public static String CPA_JY_NOTICE = "每天开放交易时间为：11:00至21:00.";
 	
 	public static int CPA_QBL_START_TIME = 11;  //9
 	public static int CPA_QBL_END_TIME = 21;   //21
+	public static String CPA_QBL_NOTICE = "每天开放时间为：11:00至21:00.";
 }

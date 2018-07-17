@@ -899,6 +899,12 @@ public class FensUserServiceImpl implements FensUserService {
 					jo.put("fensGrade", 0);
 				}
 				
+				if(StringUtils.isEmpty(fensMinerMapper.sum(list.get(i).getId()))){
+					jo.put("fensSelfPower", 0);
+				}else{
+					jo.put("fensSelfPower", fensMinerMapper.sum(list.get(i).getId()));
+				}
+				
 				jsonList.add(jo);
 			}
 			

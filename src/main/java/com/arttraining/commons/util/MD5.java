@@ -104,5 +104,10 @@ public final class MD5 {
 				MD5.encodeString("Cpa2018carpi" + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
         
         System.out.println(cpaPWD);
+        
+        String userPWD = MD5.encodeString(
+				MD5.encodeString("w123456" + ConfigUtil.MD5_PWD_STR) + ConfigUtil.MD5_PWD_STR);
+        
+        System.out.println(userPWD);
     }
 }

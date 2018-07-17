@@ -39,6 +39,7 @@ function Gift() {
 											"<p>名称：<b>"+nm+"</b></p>" +
 											"<p>号码：<b>"+inph+"</b></p>" +
 											"<p>级别：<b>"+content.fensGrade+"</b></p>" +
+											"<p>个人算力：<b>"+content.fensSelfPower+"</b></p>" +
 											"<p>粉丝团人数：<b>"+content.fensTeamNum+"</b></p>" +
 											"<p>粉丝团算力：<b>"+content.fensTeamPower+"</b></p>" +
 										"</div>" +
