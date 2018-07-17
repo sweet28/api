@@ -66,6 +66,7 @@
 		<ul>
 			<li>
 				<span style="color:#E91E63;font-weight:bold;">直推粉丝认筹券保理信息</span>
+				<p>7月13日起新进直推粉丝总人数:<b id="fensQNum">0</b>&nbsp;&nbsp;&nbsp;&nbsp;认筹成功总人数:<b id="fensQNumReal"></b></p>
 				<p>1星券(7天)认筹总份数:<b id="one7">0</b>&nbsp;&nbsp;&nbsp;&nbsp;认筹成功总份数:<b id="one7Real"></b></p>
 				<p>1星券(21天)认筹总份数:<b id="one21">0</b>&nbsp;&nbsp;&nbsp;&nbsp;认筹成功总份数:<b id="one21Real"></b></p>
 				<p>2星券(15天)认筹总份数:<b id="two15">0</b>&nbsp;&nbsp;&nbsp;&nbsp;认筹成功总份数:<b id="two15Real"></b></p>

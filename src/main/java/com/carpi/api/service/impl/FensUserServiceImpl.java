@@ -987,16 +987,10 @@ public class FensUserServiceImpl implements FensUserService {
         	for(int j = 0; j < allList.size(); j++){ //第50个节点有问题
         		int gradeFlag = 0;// 会员等级标记，初始默认为无等级
 
-        		
-        		
-        		System.out.println("------one size:"+list.size());
-        		
-        		System.out.println(j+"----------------------"+allList.get(j).getPhone());
-        		
-
-        		System.out.println("------two size:"+realList.size());
-        		System.out.println("------two size:"+realListOnlyPhone.size());
-        		
+//        		System.out.println("------one size:"+list.size());
+//        		System.out.println(j+"----------------------"+allList.get(j).getPhone());
+//        		System.out.println("------two size:"+realList.size());
+//        		System.out.println("------two size:"+realListOnlyPhone.size());
 
         		FensUser fm = fensUserMapper.selectByPrimaryKey(allList.get(j).getId());
 
@@ -1095,7 +1089,7 @@ public class FensUserServiceImpl implements FensUserService {
         		/*
         		 * 进行下一节点冲击是否合格及截止时间判定
         		 */
-        		int n = 28;//粉丝注册时间至冲击下一等级日期的间隔，默认为冲击普通节点
+        		int n = 48;//粉丝注册时间至冲击下一等级日期的间隔，默认为冲击普通节点
         		String nextGrade = "";
         		
         		if (gradeFlag == 0) {
@@ -1107,7 +1101,7 @@ public class FensUserServiceImpl implements FensUserService {
         				nextGrade = "普通节点";
         				returnDate = fm.getCreateDate();
         			} else {
-        				n = 70;
+        				n = 90;
         				c.setTime(fm.getCreateDate());
         				c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
@@ -1116,7 +1110,7 @@ public class FensUserServiceImpl implements FensUserService {
         					nextGrade = "高级节点";
         					returnDate = fm.getCreateDate();
         				} else {
-        					n = 130;
+        					n = 150;
         					c.setTime(fm.getCreateDate());
         					c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
@@ -1135,7 +1129,7 @@ public class FensUserServiceImpl implements FensUserService {
         		 *  冲击一个级别时间不够则到截止到下一个级别
         		 */
         		if (gradeFlag == 1) {
-        			n = 70;
+        			n = 90;
         			c.setTime(fm.getCreateDate());
         			c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
@@ -1144,7 +1138,7 @@ public class FensUserServiceImpl implements FensUserService {
         				nextGrade = "高级节点";
         				returnDate = fm.getCreateDate();
         			} else {
-        				n = 130;
+        				n = 150;
         				c.setTime(fm.getCreateDate());
         				c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
@@ -1158,7 +1152,7 @@ public class FensUserServiceImpl implements FensUserService {
         			}
         		}
         		if (gradeFlag == 2) {
-        			n = 130;
+        			n = 150;
         			c.setTime(fm.getCreateDate());
         			c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
@@ -1300,7 +1294,7 @@ public class FensUserServiceImpl implements FensUserService {
 		Date dt = new Date();
 		Format f = new SimpleDateFormat("yyyy-MM-dd mm:hh:ss");
 		Calendar c = Calendar.getInstance();
-		int n = 28;//粉丝注册时间至冲击下一等级日期的间隔，默认为冲击普通节点
+		int n = 48;//粉丝注册时间至冲击下一等级日期的间隔，默认为冲击普通节点
 		String nextGrade = "";
 		
 		c.setTime(fm.getCreateDate());
@@ -1322,7 +1316,7 @@ public class FensUserServiceImpl implements FensUserService {
 		//// 中级节点--start
 		// B、高级节点：1、粉丝团用户3000+；2、算力80+；3、粉丝普通节点2+；4、CA3矿机5+；
 		if (gradeFlag == 1) {
-			n = 70;
+			n = 90;
 			
 			c.setTime(fm.getCreateDate());
 			c.add(Calendar.DAY_OF_MONTH, n);
@@ -1341,7 +1335,7 @@ public class FensUserServiceImpl implements FensUserService {
 		//// 高级节点--start
 		// C、超级节点：1、粉丝用户10000+；2、算力300G+；3、粉丝高级节点3+；4、粉丝及自己CA4矿机5+；
 		if (gradeFlag == 2) {
-			n = 130;
+			n = 150;
 			
 			c.setTime(fm.getCreateDate());
 			c.add(Calendar.DAY_OF_MONTH, n);
@@ -1373,7 +1367,7 @@ public class FensUserServiceImpl implements FensUserService {
 				nextGrade = "普通节点";
 				returnDate = fm.getCreateDate();
 			} else {
-				n = 70;
+				n = 90;
 				c.setTime(fm.getCreateDate());
 				c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
@@ -1382,7 +1376,7 @@ public class FensUserServiceImpl implements FensUserService {
 					nextGrade = "高级节点";
 					returnDate = fm.getCreateDate();
 				} else {
-					n = 130;
+					n = 150;
 					c.setTime(fm.getCreateDate());
 					c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
@@ -1401,7 +1395,7 @@ public class FensUserServiceImpl implements FensUserService {
 		 *  冲击一个级别时间不够则到截止到下一个级别
 		 */
 		if (gradeFlag == 1) {
-			n = 70;
+			n = 90;
 			c.setTime(fm.getCreateDate());
 			c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
@@ -1410,7 +1404,7 @@ public class FensUserServiceImpl implements FensUserService {
 				nextGrade = "高级节点";
 				returnDate = fm.getCreateDate();
 			} else {
-				n = 130;
+				n = 150;
 				c.setTime(fm.getCreateDate());
 				c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 
@@ -1424,7 +1418,7 @@ public class FensUserServiceImpl implements FensUserService {
 			}
 		}
 		if (gradeFlag == 2) {
-			n = 130;
+			n = 150;
 			c.setTime(fm.getCreateDate());
 			c.add(Calendar.DAY_OF_MONTH, n);// 注册日期+n天
 

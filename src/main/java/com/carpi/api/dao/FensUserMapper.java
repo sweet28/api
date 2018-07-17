@@ -52,6 +52,9 @@ public interface FensUserMapper {
 	FensUser selectOldPwd(FensUser fensUser);
 
 	Integer selectRefereeYXC(String refereePhone);
+	
+	// 7月-8月直推送20积分活动查询直推粉丝
+	List<FensUser> selectZTuser7yue(String refereePhone);
 
 	// 校验资金密码
 	FensUser selectzjPwd(@Param("fensUserId") Integer fensUserId, @Param("capitalPwd") String capitalPwd);

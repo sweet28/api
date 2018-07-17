@@ -40,12 +40,9 @@ public class SMSControllerNew {
 	
 	@RequestMapping(value = "/code/send", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	public @ResponseBody JsonResult yanzhengma(HttpServletRequest request, HttpServletResponse response) throws ClientException{
-//		SimpleReBean simReBean = new SimpleReBean();
-//		Gson gson = new Gson();
 		String mobile = "";
 		mobile = request.getParameter("mobile");
 		ServerLog.getLogger().warn("mobile:"+ mobile);
-		//System.out.println("进入验证码发送"+TimeUtil.getTimeStamp()+mobile+"-"+codeType);
 		if(mobile == null){
 			System.out.println("进入验证码发送：空"+TimeUtil.getTimeStamp());
 			return JsonResult.build(20032, ErrorCodeConfigUtil.ERROR_MSG_ZH_20032);
@@ -80,8 +77,6 @@ public class SMSControllerNew {
 				System.out.println("createTime:"+createTime+"-nowTime:"+nowTime+"-diffSeconds:"+diffSeconds);
 				if(diffSeconds < 60){
 					System.out.println("时间间隔太小，老弟你刷短信纳是吧，果断拒绝你");
-//					errorCode = "20046";
-//					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20046;
 					return JsonResult.build(20046, ErrorCodeConfigUtil.ERROR_MSG_ZH_20046);
 				}else{
 					JSONObject jo = DaYuServiceUtil.sendSms2(mobile);
@@ -102,15 +97,11 @@ public class SMSControllerNew {
 						newSms.setExpireTime(TimeUtil.getTimeByMinute(ConfigUtil.ALIDAYU_SMS_EXPIRE_TIME));
 						this.smsService.insert(newSms);
 						
-//						errorCode = "0";
-//						errorMsg = "ok";
 						JsonResult.ok();
 						
 					}else{
 						//发送失败
 						System.out.println("进入验证码发送：失败"+TimeUtil.getTimeStamp());
-//						errorCode = "20047";
-//						errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20047;
 						
 						
 						smsCCode.setIsUsed(1);//设置短信已使用，发送新短信
@@ -118,18 +109,6 @@ public class SMSControllerNew {
 						this.smsService.update(smsCCode);
 						return JsonResult.build(20047,ErrorCodeConfigUtil.ERROR_MSG_ZH_20047);
 						
-//						String smsCode = Random.randomCommonStr(ConfigUtil.ALIDAYU_SMS_CHECK_CODE_LENGTH);
-//						SMSCheckCode newSms = new SMSCheckCode();
-//						newSms.setMobile(mobile);
-//						newSms.setCheckCode(smsCode);
-//						newSms.setCreateTime(TimeUtil.getTimeStamp());
-//						newSms.setIsUsed(0);
-//						newSms.setRemarks(codeType);
-//						newSms.setExpireTime(TimeUtil.getTimeByMinute(ConfigUtil.ALIDAYU_SMS_EXPIRE_TIME));
-//						this.smsService.insert(newSms);
-						
-//						errorCode = "101";
-//						errorMsg = ""+smsCode;
 					}
 				}
 				
@@ -153,39 +132,17 @@ public class SMSControllerNew {
 					this.smsService.insert(newSms);
 					
 					return JsonResult.ok();
-//					errorCode = "0";
-//					errorMsg = "ok";
 				}else{
 					System.out.println("进入验证码发送：发送失败2"+TimeUtil.getTimeStamp());
-//					errorCode = "20047";
-//					errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20047;
 					
 					return JsonResult.build(20047, ErrorCodeConfigUtil.ERROR_MSG_ZH_20047);
-//					String smsCode = Random.randomCommonStr(ConfigUtil.ALIDAYU_SMS_CHECK_CODE_LENGTH);
-//					SMSCheckCode newSms = new SMSCheckCode();
-//					newSms.setMobile(mobile);
-//					newSms.setCheckCode(smsCode);
-//					newSms.setCreateTime(TimeUtil.getTimeStamp());
-//					newSms.setIsUsed(0);
-//					newSms.setRemarks(codeType);
-//					newSms.setExpireTime(TimeUtil.getTimeByMinute(ConfigUtil.ALIDAYU_SMS_EXPIRE_TIME));
-//					this.smsService.insert(newSms);
-//					
-//					errorCode = "101";
-//					errorMsg = ""+smsCode;
 				}
 			}
 		}else{
 			System.out.println("1111111=====");
-//			errorCode = "20044";
-//			errorMsg = ErrorCodeConfigUtil.ERROR_MSG_ZH_20044;
 			return JsonResult.build(20044, ErrorCodeConfigUtil.ERROR_MSG_ZH_20044);
 		}
 		
-//		simReBean.setError_code(errorCode);
-//		simReBean.setError_msg(errorMsg);
-//		ServerLog.getLogger().warn(gson.toJson(simReBean));
-//		return gson.toJson(simReBean);
 		return JsonResult.ok();
 	}
 }

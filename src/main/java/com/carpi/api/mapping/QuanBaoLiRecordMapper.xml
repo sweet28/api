@@ -541,4 +541,13 @@
 		and is_delete =
 		0 and order_type = #{orderType,jdbcType=INTEGER}
 	</select>
+	
+	<!-- 查询所有粉丝购券获得的实际积分信息（实际可收入-支付了才算） -->
+	<select id="selectCouponRealGiftInfoNoTJ" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_bao_li_record
+		where create_date &gt;='2018-07-13 06:00:00' and create_date &lt;='2018-08-15 23:59:59' 
+		and is_delete = 0 and order_type not in(1,2,20) 
+	</select>
 </mapper>

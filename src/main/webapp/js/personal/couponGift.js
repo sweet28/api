@@ -30,6 +30,9 @@ function Gift() {
 		    	  $("#one21Real").html(data.data.one21Real);
 		    	  $("#two15Real").html(data.data.two15Real);
 		    	  $("#three10Real").html(data.data.three10Real);
+
+		    	  $("#fensQNum").html(data.data.fensQNum);
+		    	  $("#fensQNumReal").html(data.data.fensQNumReal);
 		    	  
 		    	  $("#couponYiyongScore").html(data.data.couponYiyongScore);
 		    	  

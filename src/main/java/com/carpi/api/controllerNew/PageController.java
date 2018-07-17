@@ -51,6 +51,11 @@ public class PageController {
 	public String traderCenter() {
 		return "trader/traderCenter";
 	}
+	
+	@RequestMapping("/traderCenterForHYF")
+	public String traderCenterForHYF() {
+		return "trader/traderCenterForHYF";
+	}
 
 	@RequestMapping("/traderCenterSell")
 	public String traderCenterSell() {

@@ -102,11 +102,29 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		//查询3星券10天的实际购买张数
 		List<QuanBaoLiRecord> listReal4 = quanBaoLiRecordMapper.selectCouponRealGiftInfo(fensUserId,4,phone);
 		
+		/*
+		 * 7月13日-8月15日直推粉丝购券送20积分活动
+		 */
+		int fensQNum = 0;
+		int fensQNumReal = 0;
+		List<FensUser> listZTuser = fensUserDao.selectZTuser7yue(phone);
+		if(listZTuser.size() > 0 ){
+			fensQNum = listZTuser.size();
+//			List<QuanBaoLiRecord> allRealQList = quanBaoLiRecordMapper.selectCouponRealGiftInfoNoTJ();
+//			
+//			for(int j = 0; j < listZTuser.size(); j++){
+//				if(allRealQList.contains(list.get(i).getPhone())){
+//					fensQNumReal++;
+//				}
+//			}
+			
+		}
+		
 		Double couponTotalValue = 0.00;
 		couponTotalValue =  quanBaoLiRecordMapper.selectCouponGiftTotalValue(fensUserId, phone);
 		double couponTenValue = 0.00;
 		if(couponTotalValue != null){
-			couponTenValue = couponTotalValue * 0.1;
+			couponTenValue = couponTotalValue * 0.1 + fensQNum * 20;
 		}
 		
 		Double couponRealTotalValue = 0.00;
@@ -114,7 +132,7 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		
 		double couponRealTenValue = 0.00;
 		if(couponRealTotalValue != null){
-			couponRealTenValue = couponRealTotalValue * 0.1;
+			couponRealTenValue = couponRealTotalValue * 0.1 + fensQNumReal * 20;
 		}
 		
 		
@@ -129,6 +147,9 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		jo.put("two15Real", listReal3.size());
 		jo.put("three10Real", listReal4.size());
 		jo.put("couponTotalScoreReal", couponRealTenValue);
+
+		jo.put("fensQNum", fensQNum);
+		jo.put("fensQNumReal", fensQNumReal);
 		
 		jo.put("couponYiyongScore", money);
 		

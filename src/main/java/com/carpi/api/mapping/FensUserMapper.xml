@@ -410,8 +410,16 @@
 		<include refid="Base_Column_List" />
 		from fens_user
 		<where>
-			id = #{id,jdbcType=INTEGER} and is_delete = 0 and create_time >= "2018-06-01 00:00:00" order by create_time asc
+			id = #{id,jdbcType=INTEGER} and is_delete = 0 and create_time &lt;= "2018-06-01 00:00:00" order by create_time asc
 		</where>
+	</select>
+	
+	<!-- 查询7月13-8月15日注册用户 -->
+	<select id="selectZTuser7yue" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from fens_user where is_delete = 0 and attachment = '1' and referee_phone = #{refereePhone,jdbcType=VARCHAR} 
+		and create_date &gt;='2018-07-13 06:00:00' and create_date &lt;='2018-08-15 23:59:59' 
 	</select>
 	
 </mapper>

@@ -44,7 +44,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		
 		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
-			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+			return JsonResult.build(500, ConfigUtil.CPA_JY_NOTICE);
 		}
 		
 		if (fensTransaction.getFensUserId() == null || fensTransaction.getId() == null) {
@@ -125,7 +125,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		
 		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
-			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+			return JsonResult.build(500, ConfigUtil.CPA_JY_NOTICE);
 		}
 		
 		if (fensTransaction.getTraderId() == null || fensTransaction.getId() == null) {
@@ -245,7 +245,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		
 		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
-			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+			return JsonResult.build(500, ConfigUtil.CPA_JY_NOTICE);
 		}
 		
 		if (fensTransaction.getFensUserId() == null || fensTransaction.getId() == null) {
@@ -325,7 +325,7 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 		int hour = calendar.get(Calendar.HOUR_OF_DAY);
 		
 		if (!(hour >= ConfigUtil.CPA_JY_START_TIME && hour < ConfigUtil.CPA_JY_END_TIME)) {
-			return JsonResult.build(500, "每天开放交易时间为：11:00至18:00.");
+			return JsonResult.build(500, ConfigUtil.CPA_JY_NOTICE);
 		}
 		
 		if (fensTransaction.getFensUserId() == null || fensTransaction.getId() == null) {
