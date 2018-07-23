@@ -93,8 +93,8 @@
 					<p>运行周期：360小时</p>
 				</div>
 				<div class="more">
-					<!-- <a href="javascript:agoumai(1,4);">购买</a> -->
-					<a href="#">备货中</a>
+					<a href="javascript:agoumai(1,4);">购买</a>
+					<!-- <a href="#">备货中</a> -->
 				</div>
 			</li>
 		</ul>

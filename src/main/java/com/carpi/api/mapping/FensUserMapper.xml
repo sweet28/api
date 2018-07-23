@@ -274,7 +274,7 @@
 	<select id="selectAllUserNoTJ" resultMap="BaseResultMap">
 		select
 		<include refid="Base_Column_List" />
-		from fens_user where is_delete in (0,1) and attachment = '1' and referee_phone is not null and referee_phone !=''
+		from fens_user where is_delete in (0,1,10) and attachment = '1' and referee_phone is not null and referee_phone !=''
 	</select>
 
 	<select id="selectRegister" parameterType="com.carpi.api.pojo.FensUser"

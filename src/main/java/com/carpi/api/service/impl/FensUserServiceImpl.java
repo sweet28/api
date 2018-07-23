@@ -1243,7 +1243,11 @@ public class FensUserServiceImpl implements FensUserService {
 		if(fuInfo != null){
 			
 			AFensTeamNum = fuInfo.getFensCount().intValue();// 粉丝团用户初始化
-			APCPower = fuInfo.getFensComputingPower();
+			if(StringUtils.isEmpty(fensMinerMapper.sum(uid))){
+				APCPower = fuInfo.getFensComputingPower();
+			}else{
+				APCPower = fuInfo.getFensComputingPower() + fensMinerMapper.sum(uid);
+			}
 			
 			if(fuInfo.getBak1() != null){
 				AMinerCA2Num = Integer.valueOf(fuInfo.getBak1());
@@ -1474,8 +1478,10 @@ public class FensUserServiceImpl implements FensUserService {
 		
 		Date yesterday = c2.getTime();
 		System.out.println("昨天是:" + f.format(yesterday));
+		if(!StringUtils.isEmpty(fensTransactionMapper.jylYesterdaySum())){
+			cpaTotal = fensTransactionMapper.jylYesterdaySum();//查询昨天交易量
+		}
 		
-		cpaTotal = fensTransactionMapper.jylYesterdaySum();//查询昨天交易量
 		if(cpaTotal > 0){
 			
 			List<FensEarn> eranList =  fensEarnMapper.selectIsGiftFensEarn(uid);
@@ -2244,10 +2250,10 @@ public class FensUserServiceImpl implements FensUserService {
 				}
 				
 			}
-
-			System.out.println(listParentRecord.size());
 			
-			
+			if(!StringUtils.isEmpty(fensMinerMapper.sum(uid))){
+				APCPower += fensMinerMapper.sum(uid);
+			}
 
 			// A、普通节点：1、直推粉丝10+；2、粉丝团用户500+；3、自己及粉丝团CA2矿机3+；4、自己及粉丝团算力12+
 			if (AFensNum >= 10 && AFensTeamNum >= 500 && AMinerCA2Num >= 3 && APCPower >= 12) {
@@ -2274,8 +2280,35 @@ public class FensUserServiceImpl implements FensUserService {
 			//// 高级节点--end
 			
 			
+			String allExStr = "";
+			for(int j=0;j<listParentRecord.size();j++){
+				if(!listParentRecord.get(j).getAttachment().equals("1")){
+//					System.out.println(listParentRecord.get(j).getId()+"----"+listParentRecord.get(j).getName()+"-----"+listParentRecord.get(j).getPhone());
+					allExStr += "," + listParentRecord.get(j).getId();
+				}
+			}
+			String allIDStr = "";
+			for(int j=0;j<listParentRecord.size();j++){
+				if(listParentRecord.get(j).getAttachment().equals("1"))
+					allIDStr += "," + listParentRecord.get(j).getId();
+			}
+			
+			int shuahaoNum = 0;
+			String allDelStr = "";
+			for(int j=0;j<listParentRecord.size();j++){
+				if(listParentRecord.get(j).getIsDelete()==1){
+					shuahaoNum++;
+					allDelStr += "," + listParentRecord.get(j).getId();
+				}
+			}
+			
+			
+			System.out.println("---------------");
+			System.out.println("刷号ID："+allDelStr);
+			System.out.println(allIDStr);
 			System.out.println("粉丝团总数："+AFensTeamNum);
-			System.out.println("粉丝团实际激活数："+AFensRealTeamNum);
+			System.out.println("粉丝团存活数："+AFensRealTeamNum);
+			System.out.println("刷号数："+shuahaoNum);
 			System.out.println("复投CA1矿机数："+AMinerCA1Num);
 			System.out.println("复投CA2矿机数："+AMinerCA2Num);
 			System.out.println("复投CA3矿机数："+AMinerCA3Num);
@@ -2285,12 +2318,9 @@ public class FensUserServiceImpl implements FensUserService {
 			System.out.println("赠送CA3矿机数："+AMinerCA3Num2);
 			System.out.println("赠送CA4矿机数："+AMinerCA4Num2);
 			System.out.println("总算力："+APCPower+ fensMinerMapper.sum(uid));
-			
-			
-			for(int j=0;j<listParentRecord.size();j++){
-				if(!listParentRecord.get(j).getAttachment().equals("1"))
-					System.out.println(listParentRecord.get(j).getId()+"----"+listParentRecord.get(j).getName()+"-----"+listParentRecord.get(j).getPhone());
-			}
+			System.out.println(listParentRecord.size());
+			System.out.println(realList.size());
+			System.out.println(realListOnlyPhone.size());
 		}
 		
 		return null;

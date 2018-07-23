@@ -161,7 +161,15 @@ public class QblBuyServiceImpl implements QblBuyService {
 		int sum2 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 4);
 		int sum3 = sum - sum2 * 1;
 		if (sum3 < 1) {
-			return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买 ");
+			//四星矿机数量
+			int sum4 = fensMinerDao.selectSum("4", quanBaoLiRecord.getFensUserId());
+			if(sum4 > 0){
+				if(sum2 >= 15){
+					return JsonResult.build(500, "您购买券的数量已经达到上限，请出局之后再购买 ");
+				}
+			}else{
+				return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买 ");
+			}
 		}
 		if (!check(quanBaoLiRecord.getFensUserId())) {
 			return JsonResult.build(500, "您今天已经购买 ，请明天再来");
