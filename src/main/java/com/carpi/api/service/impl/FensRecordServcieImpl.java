@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.IdWorker;
@@ -212,6 +213,12 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				if (Integer.valueOf(fus.getAttachment()) != 1) {
 					return JsonResult.build(500, "身份证未认证");
 				}
+				
+				// 查询是否设置交易密码
+				if(StringUtils.isEmpty(fus.getCapitalPwd())){
+					return JsonResult.build(500, "请前往个人中心设置交易密码");
+				}
+				
 				// 银行卡
 				List<BankCard> list = bankCardMapper.selectAll(fus.getId());
 				if (list.size() <= 0) {
