@@ -297,7 +297,7 @@
 		resultType="com.carpi.api.pojo.FensUser">
 		select
 		<include refid="Base_Column_List" />
-		from fens_user where phone = #{phone,jdbcType=VARCHAR}
+		from fens_user where phone = #{phone,jdbcType=VARCHAR} and is_delete = 0
 	</select>
 	
 	<select id="selectRefereeYXC" parameterType="java.lang.String"
