@@ -29,6 +29,12 @@ public class PayServiceImpl implements PayService {
 		if (!StringUtils.isEmpty(bankCard2)) {
 			return JsonResult.build(500, "每人仅限绑定一个账号");
 		}
+		
+		//查询该支付宝或者微信是否已存在
+		BankCard bankCard3 = bankCardMapper.weChatAipay(bankCard);
+		if (!StringUtils.isEmpty(bankCard3)) {
+			return JsonResult.build(500, "该账号已被绑定");
+		}
 		int result = bankCardMapper.insertSelective(bankCard);
 		if (result == 1) {
 			return JsonResult.ok();

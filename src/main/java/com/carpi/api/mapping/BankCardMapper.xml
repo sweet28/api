@@ -281,6 +281,18 @@
 		bak1 = #{bak1,jdbcType=VARCHAR}
 	</select>
 	
+	<!--查询该支付宝或者微信是否已存在  -->
+	<select id="weChatAipay" resultMap="BaseResultMap"
+		parameterType="com.carpi.api.pojo.BankCard">
+		select
+		<include refid="Base_Column_List" />
+		from bank_card
+		where card_number =
+		#{cardNumber,jdbcType=VARCHAR} and
+		is_delete = 0 and
+		bak1 = #{bak1,jdbcType=VARCHAR}
+	</select>
+	
 	
 	<!-- 查询支付账户信息 -->
 	<select id="selectZh" resultMap="BaseResultMap">

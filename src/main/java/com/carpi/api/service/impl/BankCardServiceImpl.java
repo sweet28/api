@@ -55,9 +55,16 @@ public class BankCardServiceImpl implements BankCardService {
 	@Override
 	public JsonResult addBlank(BankCard bankCard) {
 		List<BankCard> list = bankCardMapper.selectAll(bankCard.getFensUserId());
-		if (list != null && list.size()>0) {
+		if (list != null && list.size() > 0) {
 			return JsonResult.build(500, "每人仅限绑定一张银行卡");
 		}
+
+		// 根据银行卡查询该银行卡是否被绑定
+		BankCard selectCard = bankCardMapper.selectCard(bankCard.getCardNumber());
+		if (selectCard != null) {
+			return JsonResult.build(500, "该银行卡已存在");
+		}
+		
 		int result = bankCardMapper.insertSelective(bankCard);
 		if (result != 1) {
 			return JsonResult.build(500, "添加失败");

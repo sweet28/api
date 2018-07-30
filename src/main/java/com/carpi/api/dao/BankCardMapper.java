@@ -28,6 +28,9 @@ public interface BankCardMapper {
     //查询支付宝或者微信
     BankCard selectPay(BankCard bankCard);
     
+    //查询该支付宝或者微信是否已存在
+    BankCard weChatAipay(BankCard bankCard);
+    
     //查询支付账户信息
     List<BankCard> selectZh(@Param("fensUserId") Integer fensUserId);
 }
