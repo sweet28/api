@@ -33,10 +33,20 @@ $("#file0").change(function() {
 								imgUrl : data.url,
 							},
 							success : function(data) {
-								name = data.cards[0].name;
-								cardid = data.cards[0].id_card_number;
-								$('#uname').val(name);
-								$('#cardnum').val(cardid);
+								console.log(data);
+								if(data.status==200){
+									name = data.data.name;
+									cardid = data.data.id_card_number;
+									$('#uname').val(name);
+									$('#cardnum').val(cardid);
+								}else{
+									swal({
+							      		  title: data.msg,
+							      		  icon: "error",
+							      		  button: "确定",
+						      	    });
+								}
+								
 							},
 							error : function(data) {
 								alert("系统错误");
