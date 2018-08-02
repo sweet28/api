@@ -1,6 +1,7 @@
 var name;
 var cardid;
 var cardUrl;
+var cardData;
 $("#file0").change(function() {
 
 	var objUrl = getObjectURL(this.files[0]);
@@ -33,7 +34,7 @@ $("#file0").change(function() {
 								imgUrl : data.url,
 							},
 							success : function(data) {
-								console.log(data);
+								cardData = data;
 								if(data.status==200){
 									name = data.data.name;
 									cardid = data.data.id_card_number;
@@ -442,7 +443,8 @@ function getObjectURL(file) {
 						"yan_ma" : "reg_code",
 						"yqrph" : recommend_p.val(),
 						"mn" : password.val(),
-						"img" : cardUrl
+						"img" : cardUrl,
+						"cardData" : cardData
 					},
 					success : function(data) {
 						if (data.status == "200") {

@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSONObject;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.ErrorCodeConfigUtil;
+import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.ServerLog;
 import com.carpi.api.service.FaceCardService;
 import com.carpi.api.service.PictureService;
@@ -39,7 +40,7 @@ public class PictureController {
 	//身份证识别
 	@RequestMapping(value = "/cpa/facecard", method = RequestMethod.POST,produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public String facecard(String imgUrl) throws Exception{
+	public JsonResult facecard(String imgUrl) throws Exception{
 		return faceCardService.card(imgUrl);
 	}
 	
