@@ -1,6 +1,8 @@
 package com.carpi.api.service.impl;
 
+import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import com.carpi.api.dao.QuanBaoLiRecordMapper;
 import com.carpi.api.dao.TiQuMapper;
 import com.carpi.api.dao.TiquJineMapper;
 import com.carpi.api.pojo.FensUser;
+import com.carpi.api.pojo.QuanBaoLiRecord;
 import com.carpi.api.pojo.TiQu;
 import com.carpi.api.pojo.TiquJine;
 import com.carpi.api.service.TiQuService;
@@ -59,8 +62,36 @@ public class TiQuServiceImpl implements TiQuService {
 		}
 		
 		// 提现积分
-		Double couponRealTotalValue = quanBaoLiRecordMapper.selectCouponGiftRealTotalValue(fensUserId,
-				fensUser.getPhone());
+//		Double couponRealTotalValue = quanBaoLiRecordMapper.selectCouponGiftRealTotalValue(fensUserId,
+//				fensUser.getPhone());
+		QuanBaoLiRecord qbr = new QuanBaoLiRecord();
+		qbr.setFensUserId(fensUserId);
+		qbr.setOrderType(3);
+		double couponRealTotalValue = 0.00;
+		
+		FensUser fUser = fensUserDao.selectByPrimaryKey(fensUserId);
+		
+		List<QuanBaoLiRecord> parentQBList = quanBaoLiRecordMapper.selectListGiftKTSY(qbr);
+		List<QuanBaoLiRecord> childQBList = quanBaoLiRecordMapper.selectChildrenList(fUser.getPhone());
+		if(parentQBList.size() > 0){
+			if(childQBList.size() > 0){
+				for(QuanBaoLiRecord baoli : childQBList){
+					for(QuanBaoLiRecord pbaoli : parentQBList){
+						try {
+							if(TimeUtil.isOverDay(TimeUtil.getTimeByDate(baoli.getCreateDate()), TimeUtil.getTimeByDate(pbaoli.getCreateDate())) >= 0){
+								if(TimeUtil.isOverDay(TimeUtil.getTimeByDate(baoli.getCreateDate()), TimeUtil.getTimeByDate(pbaoli.getExpiryTime())) <= 0) {
+									couponRealTotalValue += baoli.getPosition();
+									break;
+								}
+							}
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		
 		Double ketiqu = couponRealTotalValue*0.1-money;
 		// 可提现剩余的金额
 		int jifen = (int) (ketiqu % 200);

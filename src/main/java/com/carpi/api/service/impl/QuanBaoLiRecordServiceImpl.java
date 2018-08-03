@@ -148,9 +148,11 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 				for(QuanBaoLiRecord baoli : childQBList){
 					for(QuanBaoLiRecord pbaoli : parentQBList){
 						try {
-							if(TimeUtil.isOverDay(TimeUtil.getTimeByDate(pbaoli.getCreateDate()), TimeUtil.getTimeByDate(baoli.getCreateDate())) >= 0){
-								couponRealTotalValue += baoli.getPosition();
-								break;
+							if(TimeUtil.isOverDay(TimeUtil.getTimeByDate(baoli.getCreateDate()), TimeUtil.getTimeByDate(pbaoli.getCreateDate())) >= 0){
+								if(TimeUtil.isOverDay(TimeUtil.getTimeByDate(baoli.getCreateDate()), TimeUtil.getTimeByDate(pbaoli.getExpiryTime())) <= 0) {
+									couponRealTotalValue += baoli.getPosition();
+									break;
+								}
 							}
 						} catch (ParseException e) {
 							e.printStackTrace();
@@ -159,7 +161,6 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 				}
 			}
 		}
-		System.out.println(couponRealTotalValue);
 		
 		double couponRealTenValue = 0.00;
 		couponRealTenValue = couponRealTotalValue * 0.1 + fensQNumReal * 20;
