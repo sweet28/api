@@ -19,6 +19,7 @@ import com.carpi.api.dao.AminerRecordMapper;
 import com.carpi.api.dao.BankCardMapper;
 import com.carpi.api.dao.BminerMapper;
 import com.carpi.api.dao.BminerRecordMapper;
+import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensTransactionMapper;
 import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.dao.FensWalletMapper;
@@ -27,6 +28,7 @@ import com.carpi.api.pojo.AminerRecord;
 import com.carpi.api.pojo.BankCard;
 import com.carpi.api.pojo.Bminer;
 import com.carpi.api.pojo.BminerRecord;
+import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.pojo.FensTransaction;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.pojo.FensWallet;
@@ -61,6 +63,9 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 
 	@Autowired
 	private BankCardMapper bankCardMapper;
+	
+	@Autowired
+	private FensMinerMapper fensMinerMapper;
 
 	// 粉丝交易记录（可根据粉丝id查个人）
 	@Override
@@ -231,8 +236,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				fensTransaction
 						.setMoneyCount(fensTransaction.getEntrustPrice() * 6.5 * fensTransaction.getTraderCount());
 
-				double zgPrice = 0.83;
-				double zdPrice = 0.69;
+				double zgPrice = 0.94;
+				double zdPrice = 0.80;
 				if (price > zgPrice) {
 					return JsonResult.build(500, "今日最高单价：" + zgPrice + "美元");
 				}
@@ -247,7 +252,15 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				}
 
 				if (type == 2) {
+					
 					int uid = fensTransaction.getTraderId();
+					
+					List<FensMiner> fmList = fensMinerMapper.selectAMiner(uid);
+					
+					if(fmList.size() < 1){
+						return JsonResult.build(500, "为保障诚信会员利益，阻止羊毛党、死粉扰乱市场，卖cpa需要手持至少1台存活矿机！");
+					}
+					
 					FensUser fu = new FensUser();
 					fu = fensUserMapper.selectByPrimaryKey(uid);
 					FensWallet fw = new FensWallet();

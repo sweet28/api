@@ -127,14 +127,42 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 			couponTenValue = couponTotalValue * 0.1 + fensQNum * 20;
 		}
 		
-		Double couponRealTotalValue = 0.00;
-		couponRealTotalValue =  quanBaoLiRecordMapper.selectCouponGiftRealTotalValue(fensUserId, phone);
+		QuanBaoLiRecord qbr = new QuanBaoLiRecord();
+		qbr.setFensUserId(fensUserId);
+		qbr.setOrderType(3);
+		List<QuanBaoLiRecord> parentQBList = quanBaoLiRecordMapper.selectListGiftKTSY(qbr);
+		List<QuanBaoLiRecord> childQBList = quanBaoLiRecordMapper.selectChildrenList(phone);
+		
+		// Double couponRealTotalValue = 0.00;
+		// couponRealTotalValue =
+		// quanBaoLiRecordMapper.selectCouponGiftRealTotalValue(fensUserId,
+		// phone);
+		// double couponRealTenValue = 0.00;
+		// if(couponRealTotalValue != null){
+		// couponRealTenValue = couponRealTotalValue * 0.1 + fensQNumReal * 20;
+		// }
+		
+		double couponRealTotalValue = 0.00;
+		if(parentQBList.size() > 0){
+			if(childQBList.size() > 0){
+				for(QuanBaoLiRecord baoli : childQBList){
+					for(QuanBaoLiRecord pbaoli : parentQBList){
+						try {
+							if(TimeUtil.isOverDay(TimeUtil.getTimeByDate(pbaoli.getCreateDate()), TimeUtil.getTimeByDate(baoli.getCreateDate())) >= 0){
+								couponRealTotalValue += baoli.getPosition();
+								break;
+							}
+						} catch (ParseException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		System.out.println(couponRealTotalValue);
 		
 		double couponRealTenValue = 0.00;
-		if(couponRealTotalValue != null){
-			couponRealTenValue = couponRealTotalValue * 0.1 + fensQNumReal * 20;
-		}
-		
+		couponRealTenValue = couponRealTotalValue * 0.1 + fensQNumReal * 20;
 		
 		JSONObject jo = new JSONObject();
 		jo.put("one7", list1.size());

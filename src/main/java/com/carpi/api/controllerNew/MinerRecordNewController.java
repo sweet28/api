@@ -309,6 +309,7 @@ public class MinerRecordNewController {
 		Aminer aminer = new Aminer();
 		aminer.setType(Integer.valueOf(type));
 		aminer.setFensUserId(Integer.valueOf(fensUserId));
+		
 		return minerRecordService.buyAMiner(aminer);
 	}
 

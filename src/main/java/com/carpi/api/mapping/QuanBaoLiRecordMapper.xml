@@ -463,6 +463,32 @@
 			order by create_date desc
 		</where>
 	</select>
+	
+	<!-- 券宝理个人入局成功及出局总数 -->
+	<select id="selectListGiftKTSY" parameterType="com.carpi.api.pojo.QuanBaoLiRecord" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_bao_li_record
+		<where>
+		     is_delete = 0 and order_type not in(1,2,20) 
+		    <if test="fensUserId != null">
+				and fens_user_id = #{fensUserId,jdbcType=INTEGER}
+			</if>
+			order by create_date desc
+		</where>
+	</select>
+	
+	<!-- 券宝理个人入局成功及出局总数 -->
+	<select id="selectChildrenList" parameterType="com.carpi.api.pojo.QuanBaoLiRecord" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from quan_bao_li_record
+		<where>
+		     is_delete = 0 
+			and fens_user_id in (select id from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR} and is_delete=0 and attachment='1') and  order_type not in(1,2,20)
+			order by create_date desc
+		</where>
+	</select>
 
 	<!-- 查询还在进行中的券 -->
 	<select id="selectsum" resultType="java.lang.Integer">

@@ -21,6 +21,12 @@ public interface QuanBaoLiRecordMapper {
 
 	// 券宝理个人订单查询
 	List<QuanBaoLiRecord> selectList(QuanBaoLiRecord record);
+	
+	// 券宝理个人订单查询
+	List<QuanBaoLiRecord> selectListGiftKTSY(QuanBaoLiRecord record);
+	
+	// 券宝理个人订单查询
+	List<QuanBaoLiRecord> selectChildrenList(@Param("refereePhone")String refereePhone);
 
 	// 查询还在进行中的券 
 	int selectsum(@Param("fensUserId") Integer fensUserId,@Param("quanId") Integer quanId);

@@ -12,10 +12,12 @@ import org.springframework.util.StringUtils;
 import com.arttraining.commons.util.ConfigUtil;
 import com.arttraining.commons.util.JsonResult;
 import com.carpi.api.dao.BankCardMapper;
+import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensTransactionMapper;
 import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.dao.FensWalletMapper;
 import com.carpi.api.pojo.BankCard;
+import com.carpi.api.pojo.FensMiner;
 import com.carpi.api.pojo.FensTransaction;
 import com.carpi.api.pojo.FensUser;
 import com.carpi.api.pojo.FensWallet;
@@ -35,6 +37,9 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 
 	@Autowired
 	private BankCardMapper bankCardMapper;
+	
+	@Autowired
+	private FensMinerMapper fensMinerMapper;
 
 	// 接单人接单(买单)
 	@Override
@@ -79,6 +84,12 @@ public class JiaoYiServiceImpl implements JiaoYiService {
 			}
 			if (fensTransaction3.getTraderId() == null) {
 				return JsonResult.build(500, "订单异常");
+			}
+			
+			List<FensMiner> fmList = fensMinerMapper.selectAMiner(fensTransaction.getFensUserId());
+			
+			if(fmList.size() < 1){
+				return JsonResult.build(500, "为保障诚信会员利益，阻止羊毛党、死粉扰乱市场，卖cpa需要手持至少1台存活矿机！");
 			}
 			
 			FensUser fensUser = fensUserMapper.selectByPrimaryKey(fensTransaction.getFensUserId());
