@@ -501,6 +501,18 @@
 		and is_delete = 0 and order_type in(1,2,20,3) and quan_id =
 		#{quanId,jdbcType=INTEGER} order by create_date desc
 	</select>
+	
+	<!-- 查询还在收益中的券 -->
+	<select id="selectsumOnline" resultType="java.lang.Integer">
+		select
+		count(id)
+		from
+		quan_bao_li_record
+		where fens_user_id =
+		#{fensUserId,jdbcType=INTEGER}
+		and is_delete = 0 and order_type = 3 and quan_id =
+		#{quanId,jdbcType=INTEGER} order by create_date desc
+	</select>
 
 	<!-- 没人每天只能购买一张券 order_type = 8 待审核 -->
 	<select id="check" resultMap="BaseResultMap">

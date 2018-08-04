@@ -456,6 +456,81 @@
 		</set>
 		where fens_user_id = #{fensUserId,jdbcType=INTEGER}
 	</update>
+	
+	<update id="updateByFensId"
+		parameterType="com.carpi.api.pojo.FensMiner">
+		update fens_miner
+		<set>
+			<if test="bak2 != null">
+				bak2 = #{bak2,jdbcType=VARCHAR},
+			</if>
+			<if test="bak3 != null">
+				bak3 = #{bak3,jdbcType=VARCHAR},
+			</if>
+			<if test="isDelete != null">
+				is_delete = #{isDelete,jdbcType=INTEGER},
+			</if>
+			<if test="createDate != null">
+				create_date = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="creater != null">
+				creater = #{creater,jdbcType=VARCHAR},
+			</if>
+			<if test="deleteDate != null">
+				delete_date = #{deleteDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="attachment != null">
+				attachment = #{attachment,jdbcType=VARCHAR},
+			</if>
+			<if test="minerType != null">
+				miner_type = #{minerType,jdbcType=INTEGER},
+			</if>
+			<if test="minerId != null">
+				miner_id = #{minerId,jdbcType=INTEGER},
+			</if>
+			<if test="minerComputingPower != null">
+				miner_computing_power =
+				#{minerComputingPower,jdbcType=DOUBLE},
+			</if>
+			<if test="totalRevenue != null">
+				total_revenue = #{totalRevenue,jdbcType=DOUBLE},
+			</if>
+			<if test="ableEarn != null">
+				able_earn = #{ableEarn,jdbcType=DOUBLE},
+			</if>
+			<if test="lockEarn != null">
+				lock_earn = #{lockEarn,jdbcType=DOUBLE},
+			</if>
+			<if test="isUseSuanli != null">
+				is_use_suanli = #{isUseSuanli,jdbcType=VARCHAR},
+			</if>
+			<if test="isUserShouyi != null">
+				is_user_shouyi = #{isUserShouyi,jdbcType=VARCHAR},
+			</if>
+			<if test="isUserGoumai != null">
+				is_user_goumai = #{isUserGoumai,jdbcType=VARCHAR},
+			</if>
+			<if test="diejia != null">
+				diejia = #{diejia,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong1 != null">
+				beyong1 = #{beyong1,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong2 != null">
+				beyong2 = #{beyong2,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong3 != null">
+				beyong3 = #{beyong3,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong4 != null">
+				beyong4 = #{beyong4,jdbcType=VARCHAR},
+			</if>
+			<if test="beyong5 != null">
+				beyong5 = #{beyong5,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER} and bak1 = #{bak1,jdbcType=VARCHAR} and miner_type = 1 and is_delete = 0
+	</update>
 
 	<!--根据粉丝id查询矿机 -->
 	<select id="selectMiner" parameterType="java.lang.Integer"
@@ -580,6 +655,16 @@
 		where fens_user_id = #{fensUserId,jdbcType=INTEGER}
 		and is_delete
 		in(0,2) and miner_type = 1 and bak1 = #{bak1,jdbcType=VARCHAR}
+	</select>
+	
+	<!-- 查询购买矿机类型未被回收过cpa的数量 -->
+	<select id="selectSumHuishou" resultType="java.lang.Integer">
+		select
+		count(id)
+		from fens_miner
+		where fens_user_id = #{fensUserId,jdbcType=INTEGER}
+		and is_delete
+		in(0,2) and miner_type = 1 and bak1 = #{bak1,jdbcType=VARCHAR} and beyong2 != 'yes' and miner_type = 1
 	</select>
 
 	<!-- 查询矿机的算力（根据粉丝id） -->

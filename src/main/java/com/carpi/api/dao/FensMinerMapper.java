@@ -22,6 +22,9 @@ public interface FensMinerMapper {
 	// 根据粉丝id修改
 	int updateFen(FensMiner record);
 	
+	// 根据粉丝id修改2  回购用
+	int updateByFensId(FensMiner record);
+	
 	// 根据领导人电话，设置其直推粉丝购买的矿机算力已被使用
 	int updateIsUseDIEJIA(String phone);
 
@@ -56,6 +59,9 @@ public interface FensMinerMapper {
 
 	// 查询购买矿机类型的数量
 	int selectSum(@Param("bak1") String bak1, @Param("fensUserId") Integer fensUserId);
+	
+	// 查询购买矿机类型未被回收过cpa的数量
+	int selectSumHuishou(@Param("bak1") String bak1, @Param("fensUserId") Integer fensUserId);
 
 	// 查询矿机的算力（根据粉丝id）
 	Double sum(@Param("fensUserId") Integer fensUserId);

@@ -1,5 +1,6 @@
 package com.carpi.api.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,6 +24,7 @@ import com.carpi.api.dao.FensMinerMapper;
 import com.carpi.api.dao.FensTransactionMapper;
 import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.dao.FensWalletMapper;
+import com.carpi.api.dao.QuanBaoLiRecordMapper;
 import com.carpi.api.pojo.Aminer;
 import com.carpi.api.pojo.AminerRecord;
 import com.carpi.api.pojo.BankCard;
@@ -66,6 +68,9 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 	
 	@Autowired
 	private FensMinerMapper fensMinerMapper;
+	
+	@Autowired
+	private QuanBaoLiRecordMapper quanBaoLiRecordMapper;
 
 	// 粉丝交易记录（可根据粉丝id查个人）
 	@Override
@@ -238,8 +243,58 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 
 				double zgPrice = 0.94;
 				double zdPrice = 0.80;
-				if (price > zgPrice) {
-					return JsonResult.build(500, "今日最高单价：" + zgPrice + "美元");
+				//1、凡持有四星矿机的会员，可挂卖该级别矿机挖矿收益50%的CPA，以高于平台价1元（人民币）的价格被基金会回收。
+				//2、凡持有三星矿机且有三张三星在参与券保理的会员，可挂卖该级别矿机挖矿收益30%的CPA，以高于平台价1元（人民币）的价格被基金会回收。
+				//3、凡持有二星矿机的会员，且有六张二星在参与券保理的会员，可挂卖该级别矿机挖矿收益20%的CPA，以高于平台价1元（人民币）的价格被基金会回收。
+				double giftPrice = 0.00;
+				
+				int Miner4Num = 0;
+				int Miner3Num = 0;
+				int Miner2Num = 0;
+				
+				int quan3Num = 0;
+				int quan2Num = 0;
+				int flag = 0;//何种回收机制标记  0：无；4：四星回收；3：三星回收；2：二星回收
+
+				Miner4Num = fensMinerMapper.selectSumHuishou("4", fuid);
+				Miner3Num = fensMinerMapper.selectSumHuishou("3", fuid);
+				Miner2Num = fensMinerMapper.selectSumHuishou("2", fuid);
+
+				quan3Num = quanBaoLiRecordMapper.selectsumOnline(fuid, 4);
+				quan2Num = quanBaoLiRecordMapper.selectsumOnline(fuid, 3);
+				
+				double cpaCount = fensTransaction.getTraderCount();
+				
+				if(Miner4Num > 0){
+					giftPrice = 0.16;
+					flag = 4;
+					
+					if(cpaCount > 500){
+						return JsonResult.build(500, "您4星矿机不能被回收大于500个cpa");
+					}
+				}else if(Miner3Num > 0 && quan3Num >= 3){
+					giftPrice = 0.16;
+					flag = 3;
+					
+					if(cpaCount > Miner3Num * 45){
+						return JsonResult.build(500, "您"+Miner3Num+"台3星矿机不能被回收大于"+ (Miner3Num * 45) +"个cpa");
+					}
+				}else if(Miner2Num > 0 && quan2Num >= 6){
+					giftPrice = 0.16;
+					flag = 2;
+					
+					if(cpaCount > Miner2Num * 5){
+						return JsonResult.build(500, "您"+Miner2Num+"台2星矿机不能被回收大于"+ (Miner2Num * 5) +"个cpa");
+					}
+				}
+				
+				BigDecimal b1 = BigDecimal.valueOf(zgPrice);
+		        BigDecimal b2 = BigDecimal.valueOf(giftPrice);
+		        
+		        
+		        double finalzgPrice =  b1.add(b2).doubleValue();
+				if (price > finalzgPrice) {
+					return JsonResult.build(500, "最高单价：" + zgPrice + "美元");
 				}
 				if (price < zdPrice) {
 					return JsonResult.build(500, "今日最低单价：" + zdPrice + "美元");
@@ -275,10 +330,41 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 
 						fensTransaction.setTraderState(4);// 卖单需要审核后才能挂单
 
-						int result = fensTransactionMapper.insertSelective(fensTransaction);
-						fensTransaction.setId(fensTransaction.getId());
-						if (result == 1) {
-							return JsonResult.ok(fensTransaction);
+						if(flag == 0){
+							int result = fensTransactionMapper.insertSelective(fensTransaction);
+							fensTransaction.setId(fensTransaction.getId());
+							if (result == 1) {
+								return JsonResult.ok(fensTransaction);
+							}
+						}else{
+							int minerResult = 0;
+							FensMiner fm = new FensMiner();
+							fm.setFensUserId(uid);
+							fm.setBeyong2("yes");
+							
+							if(flag == 4){
+								// 标记当前4星矿机被回收过了cpa
+								fm.setBak1("4");
+								minerResult = fensMinerMapper.updateByFensId(fm);
+							}else if(flag == 3){
+								// 标记当前3星矿机被回收过了cpa
+								fm.setBak1("3");
+								minerResult = fensMinerMapper.updateByFensId(fm);
+							}else if(flag == 2){
+								// 标记当前2星矿机被回收过了cpa
+								fm.setBak1("2");
+								minerResult = fensMinerMapper.updateByFensId(fm);
+							}
+							
+							if(minerResult > 0){
+								int result = fensTransactionMapper.insertSelective(fensTransaction);
+								fensTransaction.setId(fensTransaction.getId());
+								if (result == 1) {
+									return JsonResult.ok(fensTransaction);
+								}
+							}else{
+								return JsonResult.build(500, "新增失败");
+							}
 						}
 						return JsonResult.build(500, "新增失败");
 					} else {

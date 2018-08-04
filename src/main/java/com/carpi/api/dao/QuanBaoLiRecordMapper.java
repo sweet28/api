@@ -30,6 +30,9 @@ public interface QuanBaoLiRecordMapper {
 
 	// 查询还在进行中的券 
 	int selectsum(@Param("fensUserId") Integer fensUserId,@Param("quanId") Integer quanId);
+	
+	// 查询还在收益中的券 
+	int selectsumOnline(@Param("fensUserId") Integer fensUserId,@Param("quanId") Integer quanId);
 
 	// 没人每天只能购买一张券
 	List<QuanBaoLiRecord> check(@Param("fensUserId") Integer fensUserId);

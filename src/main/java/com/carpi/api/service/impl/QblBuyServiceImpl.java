@@ -125,11 +125,14 @@ public class QblBuyServiceImpl implements QblBuyService {
 		if (!(hour >= ConfigUtil.CPA_QBL_START_TIME && hour < ConfigUtil.CPA_QBL_END_TIME)) {
 			return JsonResult.build(500, "每天开放购买时间为："+ConfigUtil.CPA_QBL_START_TIME+"点至"+ConfigUtil.CPA_QBL_END_TIME+"点.");
 		}
-		// 三型矿机数量
+		// 2型矿机数量
 		int sum = fensMinerDao.selectSum("2", quanBaoLiRecord.getFensUserId());
 		// 券保理2星券(15天)数量
 		int sum2 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 3);
-		int sum3 = sum - sum2 * 1;
+		if(sum2 >= 15){
+			return JsonResult.build(500, "您购买券的数量已经达到上限，请出局之后再购买 ");
+		}
+		int sum3 = sum * 5 - sum2 * 1;//调整为：1台2星矿机可买5张券
 		if (sum3 < 1) {
 			return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买 ");
 		}
@@ -159,7 +162,10 @@ public class QblBuyServiceImpl implements QblBuyService {
 		int sum = fensMinerDao.selectSum("3", quanBaoLiRecord.getFensUserId());
 		// 券保理3星券(10天)数量
 		int sum2 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 4);
-		int sum3 = sum - sum2 * 1;
+		if(sum2 >= 15){
+			return JsonResult.build(500, "您购买券的数量已经达到上限，请出局之后再购买 ");
+		}
+		int sum3 = sum * 3 - sum2 * 1;//调整为：1台3星矿机可买3张券
 		if (sum3 < 1) {
 			//四星矿机数量
 			int sum4 = fensMinerDao.selectSum("4", quanBaoLiRecord.getFensUserId());
