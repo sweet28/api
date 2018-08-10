@@ -485,7 +485,7 @@
 		from quan_bao_li_record
 		<where>
 		     is_delete = 0 
-			and fens_user_id in (select id from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR} and is_delete=0 and attachment='1') and  order_type not in(1,2,20)
+			and fens_user_id in (select id from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR} and attachment='1') and  order_type not in(1,2,20) and create_date &gt;='2018-08-01 00:00:00'
 			order by create_date desc
 		</where>
 	</select>
@@ -565,7 +565,7 @@
 		from quan_bao_li_record
 		where create_date &gt;= (select create_date from quan_bao_li_record where fens_user_id = #{fensUserId,jdbcType=INTEGER} and is_delete = 0 order by create_date  limit 1) 
 		and is_delete = 0
-		and fens_user_id in (select id from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR} and is_delete=0 and attachment='1') and  order_type not in(1,2,20)
+		and fens_user_id in (select id from fens_user where referee_phone = #{refereePhone,jdbcType=VARCHAR} and is_delete=0 and attachment='1') and  order_type not in(1,2,20) and create_date &lt;='2018-08-01 00:00:00'
 	</select>
 
 	<!-- 根据粉丝Id查询券信息 order_type 1：购买待匹配 2：购买待打款 3：收益进行中（已打款） 4：周期结束 5：提取带匹配 

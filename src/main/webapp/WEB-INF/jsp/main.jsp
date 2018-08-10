@@ -62,9 +62,9 @@
 		<!-- Swiper -->
 		  <div class="swiper-container">
 		    <div class="swiper-wrapper">
+		      <div class="swiper-slide"><img alt="" src="http://www.artforyou.cn/images/login_bg4.png"></div>
 		      <div class="swiper-slide"><img src="http://www.artforyou.cn/images/cpa_june.png" alt=""></div>
 		      <div class="swiper-slide"><img alt="" src="http://www.artforyou.cn/images/cpa_may.jpg"></div>
-		      <div class="swiper-slide"><img alt="" src="http://www.artforyou.cn/images/login_bg2.png"></div>
 		    </div>
 		    <!-- Add Pagination -->
 		    <div class="swiper-pagination"></div>

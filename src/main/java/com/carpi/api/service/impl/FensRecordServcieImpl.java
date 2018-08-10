@@ -241,8 +241,8 @@ public class FensRecordServcieImpl implements FensRecordServcie {
 				fensTransaction
 						.setMoneyCount(fensTransaction.getEntrustPrice() * 6.5 * fensTransaction.getTraderCount());
 
-				double zgPrice = 0.94;
-				double zdPrice = 0.80;
+				double zgPrice = 1.00;
+				double zdPrice = 0.86;
 				//1、凡持有四星矿机的会员，可挂卖该级别矿机挖矿收益50%的CPA，以高于平台价1元（人民币）的价格被基金会回收。
 				//2、凡持有三星矿机且有三张三星在参与券保理的会员，可挂卖该级别矿机挖矿收益30%的CPA，以高于平台价1元（人民币）的价格被基金会回收。
 				//3、凡持有二星矿机的会员，且有六张二星在参与券保理的会员，可挂卖该级别矿机挖矿收益20%的CPA，以高于平台价1元（人民币）的价格被基金会回收。

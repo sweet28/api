@@ -66,8 +66,8 @@ public class FensUserNewController {
 		String name = request.getParameter("xn");
 		// 用户身份证图片
 		String img = request.getParameter("img");
-		
-		if(StringUtils.isEmpty(img)){
+
+		if (StringUtils.isEmpty(img)) {
 			return JsonResult.build(500, "上传的身份证图片有误，请重新上传");
 		}
 
@@ -255,10 +255,12 @@ public class FensUserNewController {
 	// }
 
 	// 修改粉丝算力
-	// @RequestMapping(value = "/update", method = RequestMethod.POST, produces =
+	// @RequestMapping(value = "/update", method = RequestMethod.POST, produces
+	// =
 	// "application/json;charset=UTF-8")
 	// @ResponseBody
-	// public JsonResult updateComputingPower(FensComputingPower fensComputingPower)
+	// public JsonResult updateComputingPower(FensComputingPower
+	// fensComputingPower)
 	// {
 	// return fensUserService.updateComputingPower(fensComputingPower);
 	// }
@@ -293,7 +295,8 @@ public class FensUserNewController {
 	// }
 
 	// 粉丝团列表
-	// @RequestMapping(value = "/listFens", method = RequestMethod.POST, produces =
+	// @RequestMapping(value = "/listFens", method = RequestMethod.POST,
+	// produces =
 	// "application/json;charset=UTF-8")
 	// @ResponseBody
 	// public List<FensUser> slectListFens(HttpServletRequest request,
@@ -325,16 +328,16 @@ public class FensUserNewController {
 
 		return fensUserService.selectListQINYOU(phone);
 	}
-	
-	// 亲友团列表2 
-		@RequestMapping(value = "/listQINYOUJson", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-		@ResponseBody
-		public JsonResult selectListQINYOUJson(HttpServletRequest request, HttpServletResponse response) {
-			// 手机号码
-			String phone = request.getParameter("sh");
 
-			return fensUserService.selectListQINYOUJson(phone);
-		}
+	// 亲友团列表2
+	@RequestMapping(value = "/listQINYOUJson", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult selectListQINYOUJson(HttpServletRequest request, HttpServletResponse response) {
+		// 手机号码
+		String phone = request.getParameter("sh");
+
+		return fensUserService.selectListQINYOUJson(phone);
+	}
 
 	// 粉丝团列表old
 	@RequestMapping(value = "/selectFensUserGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
@@ -347,7 +350,7 @@ public class FensUserNewController {
 
 		return fensUserService.selectFensUserGrade(phone, Integer.valueOf(uid));
 	}
-	
+
 	// 粉丝团列表old
 	@RequestMapping(value = "/selectSelfGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -359,7 +362,7 @@ public class FensUserNewController {
 
 		return fensUserService.selectSelfGrade(phone, Integer.valueOf(uid));
 	}
-	
+
 	// 粉丝团列表
 	@RequestMapping(value = "/getFensUserGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -371,7 +374,7 @@ public class FensUserNewController {
 
 		return fensUserService.getFensUserGrade(phone, Integer.valueOf(uid));
 	}
-	
+
 	// 粉丝团列表 只返回算力跟人数
 	@RequestMapping(value = "/getFensUserGradeLittle", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -462,7 +465,7 @@ public class FensUserNewController {
 
 		return fensUserService.checkFens(Integer.valueOf(id), phone);
 	}
-	
+
 	// 获取粉丝节点算力奖励列表
 	@RequestMapping(value = "/selectGradePowerGift", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -476,7 +479,7 @@ public class FensUserNewController {
 
 		return fensUserService.selectGradePowerGift(Integer.valueOf(id));
 	}
-	
+
 	// 获取算力收益
 	@RequestMapping(value = "/addGradePowerGift", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -490,7 +493,7 @@ public class FensUserNewController {
 
 		return fensUserService.addGradePowerGift(Integer.valueOf(id));
 	}
-	
+
 	// 获取算力收益
 	@RequestMapping(value = "/addEarnGift", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -504,19 +507,19 @@ public class FensUserNewController {
 
 		return fensUserService.addEarnGift(Integer.valueOf(id));
 	}
-	
+
 	// 获取粉丝节点算力奖励列表
-		@RequestMapping(value = "/selectGradeEran", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-		@ResponseBody
-		public JsonResult selectGradeEran(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping(value = "/selectGradeEran", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public JsonResult selectGradeEran(HttpServletRequest request, HttpServletResponse response) {
 
-			String id = request.getParameter("uid");
+		String id = request.getParameter("uid");
 
-			if (id == null) {
-				return JsonResult.build(500, "会员ID为空,请重新登录");
-			}
-
-			return fensUserService.selectGradeEran(Integer.valueOf(id));
+		if (id == null) {
+			return JsonResult.build(500, "会员ID为空,请重新登录");
 		}
+
+		return fensUserService.selectGradeEran(Integer.valueOf(id));
+	}
 
 }

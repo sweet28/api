@@ -143,15 +143,30 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 		// }
 		
 		double couponRealTotalValue = 0.00;
+		
+		couponRealTotalValue =
+				 quanBaoLiRecordMapper.selectCouponGiftRealTotalValue(fensUserId,
+				 phone);
+		
+		String pbaoliStr = "";
+		String cbaoliStr = "";
 		if(parentQBList.size() > 0){
 			if(childQBList.size() > 0){
 				for(QuanBaoLiRecord baoli : childQBList){
 					for(QuanBaoLiRecord pbaoli : parentQBList){
 						try {
-							if(TimeUtil.isOverDay(TimeUtil.getTimeByDate(baoli.getCreateDate()), TimeUtil.getTimeByDate(pbaoli.getCreateDate())) >= 0){
-								if(TimeUtil.isOverDay(TimeUtil.getTimeByDate(baoli.getCreateDate()), TimeUtil.getTimeByDate(pbaoli.getExpiryTime())) <= 0) {
-									couponRealTotalValue += baoli.getPosition();
-									break;
+							if (TimeUtil.isOverDay(TimeUtil.getTimeByDate(baoli.getCreateDate()),
+									TimeUtil.getTimeByDate(pbaoli.getCreateDate())) >= 0) {  // 将父、子节点的开始时间调整到排队开始时间
+								if (TimeUtil.isOverDay(TimeUtil.getTimeByDate(baoli.getInterestDate()),
+										TimeUtil.getTimeByDate(pbaoli.getExpiryTime())) <= 0) {
+
+									if (pbaoli.getQuanId() >= baoli.getQuanId()) { //此语句为增加烧伤机制
+
+										couponRealTotalValue += baoli.getPosition();
+										pbaoliStr += (pbaoli.getId() + ",");
+										cbaoliStr += (baoli.getId() + ",");
+										break;
+									}
 								}
 							}
 						} catch (ParseException e) {
@@ -161,6 +176,8 @@ public class QuanBaoLiRecordServiceImpl implements QuanBaoLiRecordService {
 				}
 			}
 		}
+		System.out.println("pbaoli_id:"+pbaoliStr);
+		System.out.println("cbaoli_id:"+cbaoliStr);
 		
 		double couponRealTenValue = 0.00;
 		couponRealTenValue = couponRealTotalValue * 0.1 + fensQNumReal * 20;
