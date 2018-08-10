@@ -2,6 +2,7 @@ package com.carpi.api.service.impl;
 
 import java.util.List;
 
+import org.aspectj.weaver.ast.And;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -9,8 +10,10 @@ import org.springframework.util.StringUtils;
 import com.arttraining.commons.util.JsonResult;
 import com.arttraining.commons.util.TimeUtil;
 import com.carpi.api.dao.FangKuiMapper;
+import com.carpi.api.dao.FensUserMapper;
 import com.carpi.api.dao.GongDanMapper;
 import com.carpi.api.pojo.FangKui;
+import com.carpi.api.pojo.FensUser;
 import com.carpi.api.pojo.GongDan;
 import com.carpi.api.service.GongDanService;
 import com.github.pagehelper.PageHelper;
@@ -24,6 +27,9 @@ public class GongDanServiceImpl implements GongDanService {
 
 	@Autowired
 	private FangKuiMapper fangKuiMapper;
+	
+	@Autowired
+	private FensUserMapper fensUserMapper;
 
 	// 提交工单
 	@Override
@@ -34,10 +40,16 @@ public class GongDanServiceImpl implements GongDanService {
 		if (gongDan.getType() == null) {
 			return JsonResult.build(500, "系统错误1");
 		}
-		if (gongDan.getProblem() == null) {
+		if (gongDan.getProblem() == null || "".equals(gongDan.getProblem().trim())) {
 			return JsonResult.build(500, "请输入问题表述");
 		}
 
+		//判断是否存在该会员
+		FensUser fensUser = fensUserMapper.selectByPrimaryKey(gongDan.getFensUserId());
+		if (StringUtils.isEmpty(fensUser)) {
+			return JsonResult.build(500, "不存在该会员");
+		}
+		
 		int result = gongDanMapper.insertSelective(gongDan);
 		if (result != 1) {
 			return JsonResult.build(500, "提交失败，请联系客服");
