@@ -1330,14 +1330,27 @@ public class FensUserServiceImpl implements FensUserService {
 			
 			c.setTime(fm.getCreateDate());
 			c.add(Calendar.DAY_OF_MONTH, n);
-			if (AFensTeamNum >= 3000 && AMinerCA3Num >= 5 && APCPower >= 80 && normalJIEDIAN >=2 && c.getTime().getTime() >= dt.getTime()) {
-				gradeFlag = 2;
-				
-				FensUserInfo fuinfo = new FensUserInfo();
-				fuinfo.setFensUserId(uid);
-				fuinfo.setFensGrade(gradeFlag);
-				
-				fensUserInfoMapper.updateByPrimaryKeySelectiveByFensUserId(fuinfo);
+			
+			if(uid == 8){//临时增加
+				if (AFensTeamNum >= 3000 && AMinerCA3Num >= 5 && APCPower >= 80 && normalJIEDIAN >=2 ) {
+					gradeFlag = 2;
+					
+					FensUserInfo fuinfo = new FensUserInfo();
+					fuinfo.setFensUserId(uid);
+					fuinfo.setFensGrade(gradeFlag);
+					
+					fensUserInfoMapper.updateByPrimaryKeySelectiveByFensUserId(fuinfo);
+				}
+			}else{
+				if (AFensTeamNum >= 3000 && AMinerCA3Num >= 5 && APCPower >= 80 && normalJIEDIAN >=2 && c.getTime().getTime() >= dt.getTime()) {
+					gradeFlag = 2;
+					
+					FensUserInfo fuinfo = new FensUserInfo();
+					fuinfo.setFensUserId(uid);
+					fuinfo.setFensGrade(gradeFlag);
+					
+					fensUserInfoMapper.updateByPrimaryKeySelectiveByFensUserId(fuinfo);
+				}
 			}
 		}
 		//// 中级节点--end

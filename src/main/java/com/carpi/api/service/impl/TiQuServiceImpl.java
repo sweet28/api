@@ -75,40 +75,30 @@ public class TiQuServiceImpl implements TiQuService {
 		List<QuanBaoLiRecord> childQBList = quanBaoLiRecordMapper.selectChildrenList(fUser.getPhone());
 		
 		
-		couponRealTotalValue =
-				 quanBaoLiRecordMapper.selectCouponGiftRealTotalValue(fensUserId,
-						 fUser.getPhone());
+		if (quanBaoLiRecordMapper.selectCouponGiftRealTotalValue(fensUserId, fUser.getPhone()) != null) {
+			couponRealTotalValue = quanBaoLiRecordMapper.selectCouponGiftRealTotalValue(fensUserId, fUser.getPhone());
+		}
 		
 		String pbaoliStr = "";
 		String cbaoliStr = "";
 		if(parentQBList.size() > 0){
 			if(childQBList.size() > 0){
 				for(QuanBaoLiRecord baoli : childQBList){
-					for(QuanBaoLiRecord pbaoli : parentQBList){
-						try {
-							if (TimeUtil.isOverDay(TimeUtil.getTimeByDate(baoli.getCreateDate()),
-									TimeUtil.getTimeByDate(pbaoli.getCreateDate())) >= 0) {  // 将父、子节点的开始时间调整到排队开始时间
-								if (TimeUtil.isOverDay(TimeUtil.getTimeByDate(baoli.getInterestDate()),
-										TimeUtil.getTimeByDate(pbaoli.getExpiryTime())) <= 0) {
-
-									if (pbaoli.getQuanId() >= baoli.getQuanId()) { //此语句为增加烧伤机制
-
-										couponRealTotalValue += baoli.getPosition();
-										pbaoliStr += (pbaoli.getId() + ",");
-										cbaoliStr += (baoli.getId() + ",");
-										break;
-									}
+					for (QuanBaoLiRecord pbaoli : parentQBList) {
+						if (baoli.getCreateDate().getTime() >= pbaoli.getCreateDate().getTime()) { // 将父、子节点的开始时间调整到排队开始时间
+							if (baoli.getCreateDate().getTime() <= pbaoli.getExpiryTime().getTime()) {
+								if (pbaoli.getQuanId().intValue() >= baoli.getQuanId().intValue()) { // 此语句为增加烧伤机制
+									couponRealTotalValue += baoli.getPosition();
+									pbaoliStr += (pbaoli.getId() + ",");
+									cbaoliStr += (baoli.getId() + ",");
+									break;
 								}
 							}
-						} catch (ParseException e) {
-							e.printStackTrace();
 						}
 					}
 				}
 			}
 		}
-		System.out.println("pbaoli_id:"+pbaoliStr);
-		System.out.println("cbaoli_id:"+cbaoliStr);
 		
 		Double ketiqu = couponRealTotalValue*0.1-money;
 		// 可提现剩余的金额

@@ -340,7 +340,7 @@ public class FensUserNewController {
 	}
 
 	// 粉丝团列表old
-	@RequestMapping(value = "/selectFensUserGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/selectFensUserGrade222", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JSONObject selectFensUserGrade(HttpServletRequest request, HttpServletResponse response) {
 		// 手机号码
@@ -352,7 +352,7 @@ public class FensUserNewController {
 	}
 
 	// 粉丝团列表old
-	@RequestMapping(value = "/selectSelfGrade", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "/selectSelfGrade222", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JSONObject selectSelfGrade(HttpServletRequest request, HttpServletResponse response) {
 		// 手机号码
