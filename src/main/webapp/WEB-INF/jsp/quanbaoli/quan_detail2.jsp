@@ -31,11 +31,11 @@
 	<div class="cl"></div>
 	<div class="buy_detail">
 		<div class="row title" id = "name">
-			A型券7天
+			
 		</div>
 		<div class="row desc">
 			<div class="bdc bdc1">
-				<b id = "sybil">8.00%</b>
+				<b id = "sybil"></b>
 				<p>预计周期收益率</p>
 			</div>
 			<div class="bdc bdc2">
@@ -45,9 +45,9 @@
 		</div>
 		<div class="row quota">
 			<ul>
-				<li><b id="erdu">100</b><p>券保理额度</p></li>
-				<li><b id="shouyi">0</b><p>收益额度</p></li>
-				<li><b id="chujued">0.002</b><p>出局额度</p></li>
+				<li><b id="erdu"></b><p>券保理额度</p></li>
+				<li><b id="shouyi"></b><p>收益额度</p></li>
+				<li><b id="chujued"></b><p>出局额度</p></li>
 			</ul>
 		</div>
 	</div>

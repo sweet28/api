@@ -35,7 +35,7 @@ public class QblBuyController {
 		return qblBuyService.buyqbl(quanBaoLiRecord);
 	}
 
-	// 购买券宝理商品券(15天)
+	// 购买券宝理商品券(21天)
 	@RequestMapping(value = "/ex", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public JsonResult buyqbl2(HttpServletRequest request, HttpServletResponse response) {

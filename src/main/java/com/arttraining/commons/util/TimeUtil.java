@@ -151,4 +151,10 @@ public class TimeUtil {
 
     }
     
+    public static void main(String[] args){
+    	Date dt = strToDateByFormat("2018-09-01 00:00:00");
+    	
+    	System.out.println(dt.getTime());
+    }
+    
 }

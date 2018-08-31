@@ -37,11 +37,11 @@
 		<ul>
 			<li>
 				<span style="color:#E91E63;font-weight:bold;">基本信息：</span>
-				<p id="ddNum3">订单号：423142523</p>
-				<span id="createTime3">订单生成时间：2018-6-6 13:45:56</span>
-				<p id="pricecpa3">订单状态：代付款</p>
+				<p id="ddNum3">订单号：</p>
+				<span id="createTime3">订单生成时间：</span>
+				<p id="pricecpa3">订单状态：</p>
 				<span id="cpaCount" style="color:red">请在订单生成后24小时内付款</span>
-				<p>打款金额：<b style="color:red" id="mon3">￥：200.00</b></p>
+				<p>打款金额：<b style="color:red" id="mon3"></b></p>
 				<span id="syTime"></span>
 				<p id="totalPrice"></p>
 				<span><b style="color:blue;">打款截图:</b>

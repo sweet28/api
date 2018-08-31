@@ -56,6 +56,29 @@ public class QblBuyServiceImpl implements QblBuyService {
 			beishu = 1;
 		}
 		
+		/*
+		 * 二期券保理开始，只有新人可以买该体验券--start
+		 */
+		int couponSum2 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 2);
+		int couponSum3 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 3);
+		int couponSum4 = quanBaoLiRecordMapper.selectsum(quanBaoLiRecord.getFensUserId(), 4);
+		
+		if(couponSum >= 1){
+			return JsonResult.build(500, "您已经参与过券保理，不能购买7天体验券，请选择其他类型的券保理");
+		}
+		if(couponSum2 >= 1){
+			return JsonResult.build(500, "您已经参与过券保理，不能购买7天体验券，请选择其他类型的券保理");
+		}
+		if(couponSum3 >= 1){
+			return JsonResult.build(500, "您已经参与过券保理，不能购买7天体验券，请选择其他类型的券保理");
+		}
+		if(couponSum4 >= 1){
+			return JsonResult.build(500, "您已经参与过券保理，不能购买7天体验券，请选择其他类型的券保理");
+		}
+		/*
+		 * 二期券保理开始，只有新人可以买该体验券--end
+		 */
+		
 		int sum3 = minerSum - couponSum * beishu;
 		if (sum3 < beishu) {
 			return JsonResult.build(500, "您没有资格购买此券，请查看规则后再购买");

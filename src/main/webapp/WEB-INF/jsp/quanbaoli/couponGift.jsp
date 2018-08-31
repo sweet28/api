@@ -44,7 +44,7 @@
 		<ul>
 			<li><span style="color:red;font-weight:bold;">积分规则</span>
 				<div class='text'>
-					<p><b>1、获取规则:</b>用户本人认筹券保理；<b style="color:red;">本人认筹时间起始</b>，比其<b style="color:red;">晚认筹</b>的直推粉丝每认筹成功一份券保理，用户本人获得直推粉丝所认筹券保理价值<b style="color:#E91E63;">10%</b>的券积分。</p>
+					<p><b>1、获取规则:</b>用户本人认筹券保理；<b style="color:red;">本人认筹时间起始</b>，比其<b style="color:red;">晚认筹</b>的直推粉丝每认筹成功一份券保理，用户本人获得直推粉丝所认筹券保理价值<b style="color:#E91E63;">8%（一期券为10%）</b>的券积分。</p>
 					<p><b>2、提现规则:</b>券积分为<b style="color:#E91E63;">200</b>的倍数方可提现。</p>
 					<p><b>3、其他规则:</b>券积分与人民币兑换比例为<b style="color:#E91E63;">1:1</b>。</p>
 				</div>

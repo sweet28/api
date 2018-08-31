@@ -1,6 +1,7 @@
 package com.carpi.api.service.impl;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,8 @@ public class TiQuServiceImpl implements TiQuService {
 		QuanBaoLiRecord qbr = new QuanBaoLiRecord();
 		qbr.setFensUserId(fensUserId);
 		qbr.setOrderType(3);
-		double couponRealTotalValue = 0.00;
+		double couponRealTotalValue = 0.00;//一期券20180901之前的积分
+		double couponRealTotalValue2 = 0.00;//二期券20180901开始的积分
 		
 		FensUser fUser = fensUserDao.selectByPrimaryKey(fensUserId);
 		
@@ -81,6 +83,9 @@ public class TiQuServiceImpl implements TiQuService {
 		
 		String pbaoliStr = "";
 		String cbaoliStr = "";
+		
+		Date flagDate = TimeUtil.strToDateByFormat("2018-09-01 00:00:00");//二期券开始的时间标志
+		
 		if(parentQBList.size() > 0){
 			if(childQBList.size() > 0){
 				for(QuanBaoLiRecord baoli : childQBList){
@@ -88,10 +93,16 @@ public class TiQuServiceImpl implements TiQuService {
 						if (baoli.getCreateDate().getTime() >= pbaoli.getCreateDate().getTime()) { // 将父、子节点的开始时间调整到排队开始时间
 							if (baoli.getCreateDate().getTime() <= pbaoli.getExpiryTime().getTime()) {
 								if (pbaoli.getQuanId().intValue() >= baoli.getQuanId().intValue()) { // 此语句为增加烧伤机制
-									couponRealTotalValue += baoli.getPosition();
-									pbaoliStr += (pbaoli.getId() + ",");
-									cbaoliStr += (baoli.getId() + ",");
-									break;
+									
+									if(baoli.getCreateDate().getTime() < flagDate.getTime()){
+										couponRealTotalValue += baoli.getPosition();
+										pbaoliStr += (pbaoli.getId() + ",");
+										cbaoliStr += (baoli.getId() + ",");
+										break;
+									}else{
+										couponRealTotalValue2 += baoli.getPosition();
+										break;
+									}
 								}
 							}
 						}
@@ -100,7 +111,7 @@ public class TiQuServiceImpl implements TiQuService {
 			}
 		}
 		
-		Double ketiqu = couponRealTotalValue*0.1-money;
+		Double ketiqu = couponRealTotalValue*0.1 + couponRealTotalValue2*0.08 - money;
 		// 可提现剩余的金额
 		int jifen = (int) (ketiqu % 200);
 		//可提取积分

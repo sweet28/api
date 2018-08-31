@@ -108,12 +108,12 @@
 				<div class="row">
 					<div class="img">
 						<img src="<%=path%>/imagenew/pic1.png" alt="">
-						<p>总数:<span style="color:#ff5722;font-weight:bold;">9999</span></p>
+						<p>总数:<span style="color:#ff5722;font-weight:bold;">1000</span></p>
 					</div>
 					<div class="txt">
 						<div class="title">
 							<a href="">券保理1星券(7天)</a>
-							<span style="font-size:16px;color:red">天使一期</span>
+							<span style="font-size:16px;color:red">天使二期</span>
 						</div>
 						<div class="desc">
 							<p>锁仓周期：<span style="color:#ff5722;font-weight:bold;">7天</span></p>
@@ -136,16 +136,16 @@
 				<div class="row">
 					<div class="img">
 						<img src="<%=path%>/imagenew/pic1.png" alt="">
-						<p>总数:<span style="color:#ff5722;font-weight:bold;">6666</span></p>
+						<p>总数:<span style="color:#ff5722;font-weight:bold;">2000</span></p>
 					</div>
 					<div class="txt">
 						<div class="title">
 							<a href="">券保理1星券(21天)</a>
-							<span style="font-size:16px;color:red">天使一期</span>
+							<span style="font-size:16px;color:red">天使二期</span>
 						</div>
 						<div class="desc">
 							<p>锁仓周期：<span style="color:#ff5722;font-weight:bold;">21天</span></p>
-							<p>预计收益率：<span style="color:#ff5722;font-weight:bold;">40%</span></p>
+							<p>预计收益率：<span style="color:#ff5722;font-weight:bold;">25%</span></p>
 						</div>
 					</div>
 					<div class="price">
@@ -163,16 +163,16 @@
 				<div class="row">
 					<div class="img">
 						<img src="<%=path%>/imagenew/pic1.png" alt="">
-						<p>总数:<span style="color:#ff5722;font-weight:bold;">3333</span></p>
+						<p>总数:<span style="color:#ff5722;font-weight:bold;">5000</span></p>
 					</div>
 					<div class="txt">
 						<div class="title">
 							<a href="">券保理2星券(15天)</a>
-							<span style="font-size:16px;color:red">天使一期</span>
+							<span style="font-size:16px;color:red">天使二期</span>
 						</div>
 						<div class="desc">
 							<p>锁仓周期：<span style="color:#ff5722;font-weight:bold;">15天</span></p>
-							<p>预计收益率：<span style="color:#ff5722;font-weight:bold;">25%</span></p>
+							<p>预计收益率：<span style="color:#ff5722;font-weight:bold;">20%</span></p>
 						</div>
 					</div>
 					<div class="price">
@@ -182,7 +182,7 @@
 				</div>
 				<div class="row ping">
 					<span></span>
-					<span>持有一台CA2矿机可购买一张</span>
+					<span>持有一台CA2矿机可购买五张，15张封顶</span>
 					<span>剩余数量：<b id="sxing" style="color:#ff5722;"></b>张</span>
 				</div>
 			</li>
@@ -191,12 +191,12 @@
 				<div class="row">
 					<div class="img">
 						<img src="<%=path%>/imagenew/pic1.png" alt="">
-						<p>总数:<span style="color:#ff5722;font-weight:bold;">1111</span></p>
+						<p>总数:<span style="color:#ff5722;font-weight:bold;">2000</span></p>
 					</div>
 					<div class="txt">
 						<div class="title">
 							<a href="">券保理3星券(10天)</a>
-							<span style="font-size:16px;color:red">天使一期</span>
+							<span style="font-size:16px;color:red">天使二期</span>
 						</div>
 						<div class="desc">
 							<p>锁仓周期：<span style="color:#ff5722;font-weight:bold;">10天</span></p>
@@ -210,7 +210,7 @@
 				</div>
 				<div class="row ping">
 					<span></span>
-					<span>持有一台CA3矿机可购买一张</span>
+					<span>持有一台CA3矿机可购买三张，15张封顶</span>
 					<span>剩余数量：<b id="ssxing" style="color:#ff5722;"></b>张</span>
 				</div>
 			</li>
