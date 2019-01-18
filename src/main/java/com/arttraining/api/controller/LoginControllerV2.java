@@ -167,11 +167,11 @@ public class LoginControllerV2 {
 						//end
 						
 						//coffee add 0301 如果记录过该登录用户的积分信息 则不插入 否则进行插入
-						this.scoreService.recordUserScoreInfoByLogin(user_id, user_type);
+//						this.scoreService.recordUserScoreInfoByLogin(user_id, user_type);
 						//end
 						
 						//coffee add 0302 如果记录过该登录用户的云币信息 则不插入 否则进行插入
-						this.walletService.recordUserCloudMoneyByLogin(user_id, user_type);
+//						this.walletService.recordUserCloudMoneyByLogin(user_id, user_type);
 						//end
 					}
 				}
