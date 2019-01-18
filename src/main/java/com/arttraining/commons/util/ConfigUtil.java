@@ -43,28 +43,28 @@ public class ConfigUtil {
 	public static String CODE_TYPE_ONLINE = "online";//正式存储环境
 	//--0
 	public static String QINIU_BUCKET = "yipei-2016";// 空间名
-	public static String QINIU_BUCKET_COM_URL = "http://oflkt0ank.bkt.clouddn.com";
+	public static String QINIU_BUCKET_COM_URL = "http://yhyyipei.artforyou.cn";
 	//todo:帖子存储及访问--1
 	public static String QINIU_BUCKET_BBS = "artforyou-bbs";// 空间名
-	public static String QINIU_BUCKET_BBS_COM_URL = "http://oh0vdeauy.bkt.clouddn.com";
+	public static String QINIU_BUCKET_BBS_COM_URL = "http://yhybbs.artforyou.cn";
 	//todo:课程存储及访问--2
 	public static String QINIU_BUCKET_COURSE = "artforyou-course";// 空间名
-	public static String QINIU_BUCKET_COURSE_COM_URL = "http://oh0ucnjvb.bkt.clouddn.com";
+	public static String QINIU_BUCKET_COURSE_COM_URL = "http://yhycourse.artforyou.cn";
 	//todo:小组存储及访问--3
 	public static String QINIU_BUCKET_G_STUS = "artforyou-g-stus";// 空间名
-	public static String QINIU_BUCKET_G_STUS_COM_URL = "http://oh0vfhtgh.bkt.clouddn.com";
+	public static String QINIU_BUCKET_G_STUS_COM_URL = "http://yhygstus.artforyou.cn";
 	//todo:活动、广告等存储及访问--4
 	public static String QINIU_BUCKET_INFO = "artforyou-info";// 空间名
-	public static String QINIU_BUCKET_INFO_COM_URL = "http://oh0uyp4iw.bkt.clouddn.com";
+	public static String QINIU_BUCKET_INFO_COM_URL = "http://yhyinfo.artforyou.cn";
 	//todo:爱好者、名师、机构头像、图片存储及访问--5
 	public static String QINIU_BUCKET_STU_ORG_TEC = "artforyou-stu-org-tec";// 空间名
-	public static String QINIU_BUCKET_STU_ORG_TEC_COM_URL = "http://oh0uhvgvb.bkt.clouddn.com";
+	public static String QINIU_BUCKET_STU_ORG_TEC_COM_URL = "http://artuser.artforyou.cn";
 	//todo:作品存储及访问--6
 	public static String QINIU_BUCKET_WORKS = "artforyou-works";// 空间名
-	public static String QINIU_BUCKET_WORKS_COM_URL = "http://oh0u47h9e.bkt.clouddn.com";
+	public static String QINIU_BUCKET_WORKS_COM_URL = "http://yhywork.artforyou.cn";
 	//todo:直播存储及访问--7
 	public static String QINIU_BUCKET_LIVE = "artforyou-live";// 空间名
-	public static String QINIU_BUCKET_LIVE_COM_URL = "http://ohcetam7j.bkt.clouddn.com";
+	public static String QINIU_BUCKET_LIVE_COM_URL = "http://yhylive.artforyou.cn";
 	
 	
 	public static String PARAMETER_ERROR_CODE = "error_code";
